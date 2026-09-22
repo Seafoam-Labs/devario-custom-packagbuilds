@@ -1,0 +1,37 @@
+# Maintainer: Seafoam Labs
+
+pkgname=serd
+pkgver=0.32.10
+pkgrel=2
+pkgdesc='Lightweight C library for RDF syntax supporting reading/writing Turtle and NTriples'
+arch=('x86_64')
+url='https://drobilla.net/software/serd.html'
+license=('0BSD OR ISC' 'BSD-3-Clause' 'ISC')
+depends=('glibc')
+makedepends=('meson')
+provides=('libserd-0.so')
+source=("https://download.drobilla.net/$pkgname-$pkgver.tar.xz")
+sha256sums=('b0e93b49e52f01a049475b7886ef140407115a32d3b1e5dc5f95141c88275d1c')
+
+build() {
+  # Avoid the sphinxygen/Doxygen typedef incompatibility. Keep the prewritten
+  # serdi man page, but disable API documentation and generated HTML man pages.
+  arch-meson "$pkgname-$pkgver" build \
+    -Ddocs=disabled \
+    -Dman_html=disabled \
+    -Dtests=enabled \
+    -Dtools=enabled
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build
+  install -Dm644 "$pkgname-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" \
+    "$pkgname-$pkgver"/LICENSES/*.txt
+}

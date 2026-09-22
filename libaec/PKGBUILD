@@ -1,0 +1,37 @@
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=libaec
+pkgver=1.1.7
+pkgrel=2
+pkgdesc="Adaptive Entropy Coding library"
+arch=(x86_64)
+url="https://github.com/Deutsches-Klimarechenzentrum/libaec"
+license=(BSD-2-Clause)
+depends=(glibc)
+makedepends=(cmake)
+# Use the upstream release asset instead of the rate-limited GitLab archive.
+source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+b2sums=('18250fcb81c3609a5e871cd5020ec5cf95ccbf69170348f01da730edba17a4ceb812edb3a4da5099dfc73a996ab429802a9ede92c5a9cfc35da5273cf26b7735')
+
+build() {
+  cmake -B build -S "$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_STATIC_LIBS=OFF \
+    -DBUILD_TESTING=ON \
+    -Wno-dev
+  cmake --build build
+}
+
+check() {
+  ctest --test-dir build --output-on-failure
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" \
+    "$pkgname-$pkgver/LICENSE.txt"
+}
