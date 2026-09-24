@@ -1,0 +1,53 @@
+pkgname=libnghttp2
+pkgver=1.70.0
+pkgrel=2
+pkgdesc='HTTP/2 C library'
+arch=('x86_64')
+url='https://nghttp2.org/'
+license=('MIT')
+depends=('glibc')
+makedepends=('git' 'autoconf' 'automake' 'libtool' 'pkgconf')
+provides=('libnghttp2.so')
+
+# Match the munit gitlink in nghttp2 v1.70.0 exactly.
+_munit_commit=114805e1bab0222574b5eb3a92461ad5216647ed
+source=(
+  "nghttp2::git+https://github.com/nghttp2/nghttp2.git#tag=v${pkgver}?signed"
+  "munit::git+https://github.com/ngtcp2/munit.git#commit=${_munit_commit}"
+)
+sha256sums=(
+  '3c5fe06b4d346ae661121008a4ee6ae2824e3c5d6ca2734732709d65bdf5d836'
+  '67b52ef8f18e39e4d49e21e072cad53b561e3c47138e4a685a27f40c544c4cb6'
+)
+# Tatsuhiro Tsujikawa; primary key for the release-signing subkey.
+validpgpkeys=('F4F3B91474D1EB29889BD0EF7E8403D5D673C366')
+
+prepare() {
+  cd "${srcdir}/nghttp2"
+
+  # Only the library's test dependency is needed. Use the verified local
+  # source and prohibit fetching missing objects during submodule setup.
+  git submodule init tests/munit
+  git config submodule.tests/munit.url "${srcdir}/munit"
+  git -c protocol.file.allow=always submodule update --no-fetch tests/munit
+  autoreconf -fi
+}
+
+build() {
+  cd "${srcdir}/nghttp2"
+  ./configure --prefix=/usr --enable-lib-only --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/nghttp2"
+  make check
+}
+
+package() {
+  cd "${srcdir}/nghttp2"
+  make DESTDIR="${pkgdir}" install
+  # Upstream also installs tool documentation in library-only mode.
+  rm -r "${pkgdir}/usr/share/man" "${pkgdir}/usr/share/doc/nghttp2"
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

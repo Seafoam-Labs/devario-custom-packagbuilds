@@ -1,0 +1,41 @@
+pkgname=libassuan
+pkgver=3.0.2
+pkgrel=1
+pkgdesc='IPC library used by GnuPG and related software'
+arch=('x86_64')
+url='https://gnupg.org/software/libassuan/'
+license=('LGPL-2.1-or-later' 'GPL-3.0-or-later' 'FSFULLR')
+depends=('glibc' 'libgpg-error' 'sh')
+makedepends=('git' 'autoconf' 'automake' 'texinfo')
+provides=('libassuan.so')
+
+# Use the upstream GitHub mirror to avoid dev.gnupg.org HTTP throttling.
+source=("libassuan::git+https://github.com/gpg/libassuan.git#tag=libassuan-${pkgver}?signed")
+sha256sums=('83247852dcad5e7d6c8da071c4500d6c564ed9b4ec877796cc403283b2afba59')
+validpgpkeys=('6DAA6E64A76D2840571B4902528897B826403ADA') # Werner Koch (dist signing 2020)
+
+prepare() {
+  cd "${srcdir}/libassuan"
+  ./autogen.sh --force
+}
+
+build() {
+  cd "${srcdir}/libassuan"
+  ./configure \
+    --prefix=/usr \
+    --disable-static \
+    --enable-maintainer-mode
+  make
+}
+
+check() {
+  cd "${srcdir}/libassuan"
+  make check
+}
+
+package() {
+  cd "${srcdir}/libassuan"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING COPYING.LIB -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm644 src/libassuan.m4 "${pkgdir}/usr/share/licenses/${pkgname}/FSFULLR"
+}

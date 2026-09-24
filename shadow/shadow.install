@@ -1,0 +1,19 @@
+# Keep file-capability configuration while packaging as an unprivileged user.
+# These functions run on the installed system, not inside $pkgdir.
+_shadow_setcaps() {
+  # Never fall back to setuid/setgid when capability assignment fails.
+  chmod 0755 /usr/bin/newuidmap /usr/bin/newgidmap || return 1
+  if ! /usr/bin/setcap cap_setuid=ep /usr/bin/newuidmap cap_setgid=ep /usr/bin/newgidmap; then
+    printf '%s\n' 'shadow: could not apply mapping-helper capabilities; check filesystem support and installer CAP_SETFCAP, then reinstall shadow.' >&2
+    return 1
+  fi
+  /usr/bin/setcap -v cap_setuid=ep /usr/bin/newuidmap cap_setgid=ep /usr/bin/newgidmap || return 1
+}
+
+post_install() {
+  _shadow_setcaps
+}
+
+post_upgrade() {
+  _shadow_setcaps
+}

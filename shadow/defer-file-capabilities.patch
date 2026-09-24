@@ -1,0 +1,14 @@
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -144,10 +144,7 @@
+ 	done
+ endif
+ if ENABLE_SUBIDS
+-if FCAPS
+-	setcap cap_setuid+ep $(DESTDIR)$(ubindir)/newuidmap
+-	setcap cap_setgid+ep $(DESTDIR)$(ubindir)/newgidmap
+-endif
++# File capabilities are applied by shadow.install after package extraction.
+ 
+ bin_PROGRAMS    +=  getsubids
+ noinst_PROGRAMS +=  get_subid_owners \
