@@ -1,0 +1,45 @@
+# Maintainer: Evgeniy Alekseev <arcanis at archlinux dot org>
+# Contributor: Alex Chamberlain <alex at alexchamberlain dot co dot uk>
+# Contributor: Kars Wang <jaklsy at gmail dot com>
+
+pkgname=jq
+pkgver=1.8.2
+pkgrel=2
+pkgdesc='Command-line JSON processor'
+arch=('x86_64')
+url='https://jqlang.github.io/jq/'
+license=('MIT')
+depends=('glibc' 'oniguruma')
+makedepends=('autoconf' 'automake' 'bison' 'flex' 'git' 'libtool' 'python')
+provides=('libjq.so=1-64')
+source=("git+https://github.com/jqlang/jq.git#tag=jq-${pkgver}")
+sha512sums=('370dfd2fffe2515f52a7c5335555a15820cf8a4906395889bf474864197705705066cc32df689272b414448b8090db3c59c3a8eb18a6bc1c7f0f036b47463d51')
+
+prepare() {
+    cd "$pkgname"
+    autoreconf -fi
+}
+
+build() {
+    cd "$pkgname"
+    ./configure --prefix=/usr --disable-static
+    make
+}
+
+check() {
+    make -C "$pkgname" check
+}
+
+package() {
+    cd "$pkgname"
+    make DESTDIR="${pkgdir}" prefix=/usr install
+    _verify_soname "${pkgdir}/usr/lib/libjq.so" libjq.so.1
+    rm "${pkgdir}/usr/lib/libjq.la"
+    install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

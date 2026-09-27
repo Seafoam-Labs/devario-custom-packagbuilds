@@ -1,0 +1,29 @@
+pkgbase = enchant
+	pkgdesc = A wrapper library for generic spell checking
+	pkgver = 2.8.21
+	pkgrel = 2
+	url = https://rrthomas.github.io/enchant/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = unittestpp
+	makedepends = aspell
+	makedepends = pkgconf
+	makedepends = hspell
+	makedepends = hunspell
+	makedepends = libvoikko
+	makedepends = nuspell
+	makedepends = vala
+	depends = glib2
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	optdepends = aspell: for aspell based spell checking support
+	optdepends = hspell: for hspell based spell checking support
+	optdepends = hunspell: for hunspell based spell checking support
+	optdepends = libvoikko: for libvoikko based spell checking support
+	optdepends = nuspell: for nuspell based spell checking support
+	provides = libenchant-2.so=2-64
+	source = https://github.com/rrthomas/enchant/releases/download/v2.8.21/enchant-2.8.21.tar.gz
+	sha256sums = dd2a762697c463148a8f59867089a5ebf2dd1449d869f93764b76c12bcf8acc0
+
+pkgname = enchant
