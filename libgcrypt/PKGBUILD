@@ -1,0 +1,55 @@
+# Based on Arch Linux's libgcrypt packaging by Andreas Radke.
+pkgname=libgcrypt
+pkgver=1.12.4
+pkgrel=2
+pkgdesc='General purpose cryptographic library based on the code from GnuPG'
+arch=('x86_64')
+url='https://www.gnupg.org'
+license=('BSD-3-Clause'
+         'BSD-3-Clause OR GPL-2.0-only'
+         'GPL-2.0-or-later'
+         'LGPL-2.0-or-later'
+         'LGPL-2.1-or-later'
+         'X11'
+         'LicenseRef-scancode-public-domain'
+         'LicenseRef-OCB1')
+depends=('libgpg-error' 'glibc')
+makedepends=('autoconf' 'automake' 'libtool' 'gettext' 'texinfo')
+options=('!emptydirs')
+source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig})
+sha256sums=('d77f68f48879510e79a2f65977ccc68981781ea0923e5bdffac2a193ea3d660e'
+            'SKIP')
+
+# The detached signature contains signatures from BOTH release keys.
+# Shelly exports only validpgpkeys into its isolated root, so list both.
+validpgpkeys=('6DAA6E64A76D2840571B4902528897B826403ADA'  # Werner Koch
+              'AC8E115BF73E2D8D47FA9908E98E9B2D19C6C8BD') # Niibe Yutaka
+
+prepare() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  # Match Arch's exclusions for secure-memory tests blocked by some
+  # systemd/libseccomp chroot configurations; keep the other tests enabled.
+  sed -i -e 's/t-secmem//g' -e 's/t-sexp//g' tests/Makefile.am
+  # Preserve the release version when autoreconf runs without a Git checkout.
+  sed -i 's/beta=yes/beta=no/; s/tmp="-unknown"/tmp=""/' autogen.sh
+  autoreconf -vfi
+}
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --disable-static --disable-padlock-support
+  make
+}
+
+check() {
+  make -C "${srcdir}/${pkgname}-${pkgver}" check
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 COPYING.LIB LICENSES -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  # Match makepkg's default !libtool cleanup in Shelly's native builder.
+  rm "${pkgdir}/usr/lib/libgcrypt.la"
+}
