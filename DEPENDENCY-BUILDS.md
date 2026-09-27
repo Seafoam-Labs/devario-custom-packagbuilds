@@ -5,6 +5,10 @@ These x86_64 recipes are adapted from the corresponding
 Each directory includes its PKGBUILD, generated `.SRCINFO`, and required local
 source files. Copy whole directories to the Remora worker.
 
+For curl, GPGME, libarchive, OpenSSL, XZ, MPFR, ncurses, readline, xxHash,
+and Zstandard with explicit ABI provisions, see [the ABI build guide](ABI-BUILDS.md).
+That guide records their separate validation status and suggested build order.
+
 | Build directory | Requested packages or provisions |
 | --- | --- |
 | [gtksourceview5](gtksourceview5/PKGBUILD) | `gtksourceview5` (also produces documentation) |

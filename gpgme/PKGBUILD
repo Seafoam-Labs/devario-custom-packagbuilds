@@ -1,0 +1,75 @@
+# Adapted from Arch Linux packaging for explicit Shelly ABI provisions.
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Roman Kyrylych <roman@archlinux.org>
+# Contributor: Sarah Hay <sarah@archlinux.org>
+
+pkgname=gpgme
+pkgver=2.2.0
+pkgrel=2
+pkgdesc='C wrapper library for GnuPG'
+arch=('x86_64')
+url='https://www.gnupg.org/related_software/gpgme/'
+license=(
+  GPL-2.0-or-later
+  LGPL-2.0-or-later
+  LGPL-2.1-or-later
+  MIT)
+depends=(
+  'glibc'
+  'libassuan' 'libassuan.so'
+  'libgpg-error' #'libgpg-error.so'
+  'gnupg>=2')
+makedepends=('git' 'autoconf' 'automake' 'libtool' 'gettext' 'texinfo')
+provides=('libgpgme.so' 'libgpgme.so=45-64')
+options=('!emptydirs')
+validpgpkeys=('6DAA6E64A76D2840571B4902528897B826403ADA'  # Werner Koch (dist signing 2020)
+              'AC8E115BF73E2D8D47FA9908E98E9B2D19C6C8BD') # Niibe Yutaka (GnuPG Release Key)
+source=("git+https://github.com/gpg/gpgme.git?signed#tag=${pkgname}-${pkgver}")
+sha256sums=('bbad98ccc6af9d2140d61cd20edf77f2ffb014cf47ac089bb7291f051464c7d7')
+
+prepare() {
+  cd ${pkgname}
+
+  sed -i 's/-unknown//' autogen.sh
+  autoreconf -fi
+}
+
+build() {
+  cd ${pkgname}
+
+  ./configure \
+    --prefix=/usr \
+    --disable-fd-passing \
+    --disable-static \
+    --disable-gpgsm-test
+
+  # prevent excessive overlinking due to libtool
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+check() {
+  cd ${pkgname}
+
+  # this test fails with gnupg (FS#66572)
+  sed -i 's#"t-keylist-secret",##' tests/json/t-json.c
+
+  make check
+}
+
+package() {
+  cd ${pkgname}
+
+  make DESTDIR="${pkgdir}" install
+  _verify_soname "$pkgdir/usr/lib/libgpgme.so" libgpgme.so.45 || return 1
+  # that is not used, no?!
+  rm "${pkgdir}"/usr/lib/pkgconfig/gpgme-glib.pc
+
+  install -vDm 644 LICENSES "$pkgdir/usr/share/licenses/$pkgname/MIT.txt"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
