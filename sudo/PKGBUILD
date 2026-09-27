@@ -1,0 +1,75 @@
+# Based on Arch Linux's sudo packaging by Lukas Fleischer and contributors.
+pkgname=sudo
+_sudover=1.9.17p2
+pkgver=${_sudover/p/.p}
+pkgrel=7
+pkgdesc='Give certain users the ability to run some commands as root'
+arch=('x86_64')
+url='https://www.sudo.ws/sudo/'
+license=('custom')
+depends=('glibc' 'openssl' 'pam' 'libldap' 'zlib')
+makedepends=('gettext' 'pkgconf')
+backup=('etc/pam.d/sudo'
+        'etc/sudo.conf'
+        'etc/sudo_logsrvd.conf'
+        'etc/sudoers')
+source=("https://www.sudo.ws/sudo/dist/${pkgname}-${_sudover}.tar.gz"{,.sig}
+        sudo_logsrvd.service
+        sudo.pam)
+sha256sums=('4a38a1ab3adb1199257edc2a7c4a2bd714665eb605b04368843b06dada2cfcfb'
+            'SKIP'
+            'bd4bc2f5d85cbe14d7e7acc5008cb4fe62c38de7d42dc6876c87bfaa273c0a6e'
+            '7ec1c668c10e0f83d00e25f336872212fe04ce2c2563e1d661d34d28852f4649')
+validpgpkeys=('59D1E9CCBA2B376704FDD35BA9F4C021CEA470FB') # Todd C. Miller
+
+build() {
+  cd "${srcdir}/${pkgname}-${_sudover}"
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib \
+    --with-rundir=/run/sudo \
+    --with-vardir=/var/db/sudo \
+    --with-logfac=auth \
+    --enable-tmpfiles.d \
+    --with-pam \
+    --with-sssd \
+    --with-ldap \
+    --with-ldap-conf-file=/etc/openldap/ldap.conf \
+    --with-env-editor \
+    --with-passprompt='[sudo] password for %p: ' \
+    --with-secure-path-value=/usr/local/sbin:/usr/local/bin:/usr/bin \
+    --with-all-insults
+
+  # Preserve Arch's fix for excessive libtool overlinking.
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+check() {
+  make -C "${srcdir}/${pkgname}-${_sudover}" check
+}
+
+package() {
+  depends+=('libcrypto.so' 'libssl.so')
+  cd "${srcdir}/${pkgname}-${_sudover}"
+
+  # Shelly stages files as an unprivileged user and writes root-owned archive
+  # entries. Skip chown during staging, retaining upstream's file modes.
+  make DESTDIR="${pkgdir}" INSTALL_OWNER= install
+
+  install -Dm644 "${srcdir}/sudo_logsrvd.service" \
+    "${pkgdir}/usr/lib/systemd/system/sudo_logsrvd.service"
+  install -Dm644 "${srcdir}/sudo.pam" "${pkgdir}/etc/pam.d/sudo"
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+
+  # Package-manager backup handling replaces upstream's duplicate sudoers file.
+  rm "${pkgdir}/etc/sudoers.dist"
+  # systemd-tmpfiles creates the runtime directory.
+  rmdir "${pkgdir}/run/sudo" "${pkgdir}/run"
+
+  # Preserve the security-sensitive modes explicitly in the staging tree.
+  chmod 4755 "${pkgdir}/usr/bin/sudo"
+  chmod 0440 "${pkgdir}/etc/sudoers"
+  chmod 0750 "${pkgdir}/etc/sudoers.d"
+}

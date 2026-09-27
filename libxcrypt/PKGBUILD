@@ -1,0 +1,69 @@
+# Based on Arch Linux's libxcrypt packaging by Christian Hesse.
+pkgbase=libxcrypt
+pkgname=('libxcrypt' 'libxcrypt-compat')
+pkgver=4.5.2
+pkgrel=2
+pkgdesc='Modern library for one-way hashing of passwords'
+arch=('x86_64')
+url='https://github.com/besser82/libxcrypt/'
+license=('LGPL-2.1-or-later')
+depends=('glibc')
+makedepends=('perl')
+provides=('libcrypt.so')
+source=("${url}releases/download/v${pkgver}/${pkgbase}-${pkgver}.tar.xz"{,.asc})
+sha256sums=('71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071'
+            'SKIP')
+validpgpkeys=('678CE3FEE430311596DB8C16F52E98007594C21D') # Björn Esser
+
+prepare() {
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+
+  # glibc >= 2.43 preserves const in strchr's C23 return type. The buffer
+  # here is writable; avoid introducing const through its argument cast.
+  # https://www.linuxfromscratch.org/lfs/view/13.0-systemd/chapter08/libxcrypt.html
+  sed -i 's/strchr ((const char \*)/strchr ((char *)/' \
+    lib/crypt-sm3-yescrypt.c lib/crypt-gost-yescrypt.c
+}
+
+build() {
+  local variant
+  for variant in libxcrypt libxcrypt-compat; do
+    mkdir -p "${srcdir}/build-${variant}"
+    cd "${srcdir}/build-${variant}"
+
+    local obsolete_api=no
+    if [[ ${variant} == libxcrypt-compat ]]; then
+      obsolete_api=glibc
+    fi
+
+    # Keep compiler warnings, but do not make new toolchain warnings fatal.
+    "${srcdir}/${pkgbase}-${pkgver}/configure" \
+      --prefix=/usr \
+      --disable-static \
+      --disable-werror \
+      --enable-hashes=strong,glibc \
+      --enable-obsolete-api="${obsolete_api}" \
+      --disable-failure-tokens
+    make
+  done
+}
+
+check() {
+  make -C "${srcdir}/build-libxcrypt" check
+  make -C "${srcdir}/build-libxcrypt-compat" check
+}
+
+package_libxcrypt() {
+  make -C "${srcdir}/build-libxcrypt" DESTDIR="${pkgdir}" install
+}
+
+package_libxcrypt-compat() {
+  pkgdesc='Modern library for one-way hashing of passwords - legacy API functions'
+  depends=('libxcrypt')
+
+  make -C "${srcdir}/build-libxcrypt-compat" DESTDIR="${pkgdir}" install
+  # Only the versioned libcrypt.so.1 belongs in the compatibility package.
+  rm -r "${pkgdir}/usr/include" "${pkgdir}/usr/share" \
+    "${pkgdir}/usr/lib/pkgconfig"
+  rm -f "${pkgdir}/usr/lib/"*.so "${pkgdir}/usr/lib/"*.la
+}

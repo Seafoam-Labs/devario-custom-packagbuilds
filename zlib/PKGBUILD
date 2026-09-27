@@ -1,0 +1,90 @@
+# Based on Arch Linux's zlib packaging by David Runge and Levente Polyak.
+pkgbase=zlib
+pkgname=('zlib' 'zlib-static' 'minizip')
+epoch=1
+pkgver=1.3.2
+pkgrel=4
+pkgdesc='Compression library implementing the deflate compression method found in gzip and PKZIP'
+arch=('x86_64')
+license=('Zlib')
+url='https://www.zlib.net/'
+makedepends=('autoconf' 'automake' 'libtool' 'pkgconf')
+source=(
+  "https://github.com/madler/zlib/releases/download/v${pkgver}/${pkgbase}-${pkgver}.tar.xz"{,.asc}
+  minizip-install-ints-h.patch
+)
+# The local patch matches Arch's original checksums. GitHub's generated
+# commit patch changed its abbreviated index hashes, breaking those digests.
+sha512sums=(
+  'cf3d49fbabddc57cca99858feeca8f910e9de42a16014cddd406814d2d24ee33fee2af3805d7efbb1b04b05f55818092b000daf82502b675df65f2512c353f73'
+  'SKIP'
+  '39a4ad7f473e4c170fb91a2e14860eaa6e728e9b710185bf9dbb23b949064fe7e51e36a15ec5ea110760ca8af15f8d2450e02e1a442af66516fe3e8b2debda0d'
+)
+b2sums=(
+  'fd3a6e4c275a925f4814de487075c136e28421ea34ca7f93141781e7a414b392cd849fbf96cfcb24e825441df5f3c64be54276c0f617dc2d5c865d4ab260e83c'
+  'SKIP'
+  '489546e224668e177e1358c7bb56bf9206a292d78cdb5fbf437533d07a4dffc60984499abd17fc3c776a09da78caacc9c9b35bf20194b2d4fe8c9224d18da5d9'
+)
+validpgpkeys=('5ED46A6721D365587791E2AA783FCD8E58BCAFBA') # Mark Adler
+
+prepare() {
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+  patch -Np1 -i "${srcdir}/minizip-install-ints-h.patch"
+
+  cd contrib/minizip
+  cp Makefile Makefile.orig
+  cp ../README.contrib readme.txt
+  autoreconf -fiv
+}
+
+build() {
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+  CFLAGS+=' -ffat-lto-objects'
+  ./configure --prefix=/usr
+  make
+
+  cd contrib/minizip
+  # Compile and link against the zlib from this build, including in a clean root.
+  CPPFLAGS="${CPPFLAGS} -I${srcdir}/${pkgbase}-${pkgver}" \
+    LDFLAGS="${LDFLAGS} -L${srcdir}/${pkgbase}-${pkgver}" \
+    ./configure --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  make -C "${srcdir}/${pkgbase}-${pkgver}" test
+  make -C "${srcdir}/${pkgbase}-${pkgver}/contrib/minizip" -f Makefile.orig test
+}
+
+package_zlib() {
+  depends=('glibc')
+  provides=('libz.so')
+
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  rm "${pkgdir}/usr/lib/libz.a"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_zlib-static() {
+  pkgdesc+=' - static library'
+  depends=('glibc' 'zlib')
+  options=('staticlibs')
+
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+  install -Dm644 libz.a "${pkgdir}/usr/lib/libz.a"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_minizip() {
+  pkgdesc='Mini zip and unzip based on zlib'
+  depends=('glibc' 'zlib')
+
+  cd "${srcdir}/${pkgbase}-${pkgver}"
+  make -C contrib/minizip DESTDIR="${pkgdir}" install
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Match makepkg's default !libtool cleanup and omit temporary build paths.
+  rm "${pkgdir}/usr/lib/libminizip.la"
+  # This internal header is not part of minizip's public API (upstream PR #229).
+  rm "${pkgdir}/usr/include/minizip/crypt.h"
+}
