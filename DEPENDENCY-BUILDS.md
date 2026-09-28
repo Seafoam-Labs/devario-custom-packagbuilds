@@ -19,6 +19,15 @@ That guide records their separate validation status and suggested build order.
 | [gcc](gcc/PKGBUILD) | `libgcc`, `libstdc++`, `libgomp`, `libgfortran`, `libquadmath`, plus the matching compiler suite |
 | [dbus](dbus/PKGBUILD) | `dbus`, providing `libdbus-1.so=3-64` |
 | [glib2](glib2/PKGBUILD) | `glib2`, providing `libglib-2.0.so=0-64` (also produces development tools and documentation) |
+| [nvidia-utils](nvidia-utils/PKGBUILD) | `nvidia-utils`, providing `opengl-driver`, `vulkan-driver`, and `nvidia-libgl` |
+
+For NVIDIA's binary utilities, see the [nvidia-utils build guide](nvidia-utils/README.md)
+for separate validation results and driver integration requirements. This recipe
+produces only `nvidia-utils 615.71.09-2`; the matching `615.71.09` kernel driver
+must be supplied separately. Make `libglvnd`, `egl-wayland`, `egl-wayland2`,
+`egl-gbm`, and `egl-x11` available to the worker before building it. Coordinate
+driver publication and upgrades, including matching multilib/OpenCL packages
+where used.
 
 The library provisions are explicit because Shelly's native packager preserves
 bare `.so` provisions without adding the SONAME version. Each modified provision
@@ -68,8 +77,8 @@ recipes declare `arch=(x86_64)` and do not impose `-march=native` or a v3 baseli
 
 ## Validation
 
-All recipes pass Bash syntax checks and generate `.SRCINFO`. Seven have no
-Shelly review findings. GCC's review warns about upstream command substitutions
+The original eight recipes above pass Bash syntax checks and generate `.SRCINFO`.
+Seven have no Shelly review findings. GCC's review warns about upstream command substitutions
 and Makefile variables in its patch; those inputs were inspected and retained.
 Checksums for the included patches and scripts match the upstream recipes.
 
