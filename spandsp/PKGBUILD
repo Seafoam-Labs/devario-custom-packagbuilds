@@ -1,0 +1,32 @@
+# Based on Arch Linux's spandsp packaging by Tobias Powalowski.
+
+pkgname=spandsp
+pkgver=0.0.6
+pkgrel=5
+pkgdesc='A DSP library for telephony'
+arch=('x86_64')
+url='https://www.soft-switch.org/'
+license=('GPL')
+depends=('glibc' 'libtiff')
+
+# Fedora's lookaside cache contains the original upstream release archive.
+# The MD5 in the URL is a cache locator; verify with Arch's SHA-512 below.
+source=("https://src.fedoraproject.org/repo/pkgs/$pkgname/$pkgname-$pkgver.tar.gz/897d839516a6d4edb20397d4757a7ca3/$pkgname-$pkgver.tar.gz")
+sha512sums=('16bb215ca89a39282e832403f69bc4c98ad3fe35ab3a6eb4731ee5029a6acd9b2df243c3701de845441cbdc16c88b3cd398ef15dc3502e45d5aeca8a161917d4')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  # This release predates C23, which is the default in recent GCC versions.
+  CFLAGS="$CFLAGS -std=gnu17" ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make check
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+}
