@@ -1,0 +1,22 @@
+pkgbase = zig
+	pkgdesc = A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
+	pkgver = 0.16.0
+	pkgrel = 1
+	url = https://ziglang.org/
+	arch = x86_64
+	license = MIT
+	checkdepends = lib32-glibc
+	makedepends = cmake
+	makedepends = llvm21
+	depends = clang21
+	depends = lld21
+	depends = llvm21-libs
+	options = !lto
+	source = https://ziglang.org/download/0.16.0/zig-0.16.0.tar.xz
+	source = https://codeberg.org/ziglang/zig/commit/9df02121d0d87c17173f79d55692bed9cb65722c.patch
+	source = skip-futex2-test.patch
+	sha256sums = 43186959edc87d5c7a1be7b7d2a25efffd22ce5807c7af99067f86f99641bfdf
+	sha256sums = cc513105cd250a107fcdefa6fed1147040f3cac4d377d545617840bd830da8d3
+	sha256sums = eb30e0eb00e6ced4c99383f0658a0351f42882e303300ed1828d162d27171cd0
+
+pkgname = zig
