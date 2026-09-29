@@ -19,7 +19,7 @@ signing keys. Copy whole directories to the worker.
 | [python-build](python-build/PKGBUILD) | `1.6.0-1` | `python-build` |
 | [python-installer](python-installer/PKGBUILD) | `1.0.1-1` | `python-installer` |
 | [python-wheel](python-wheel/PKGBUILD) | `0.48.0-1` | `python-wheel` |
-| [python-setuptools](python-setuptools/PKGBUILD) | `1:84.0.0-2` | `python-setuptools` |
+| [python-setuptools](python-setuptools/PKGBUILD) | `1:84.0.0-3` | `python-setuptools` |
 | [python-psutil](python-psutil/PKGBUILD) | `7.2.2-1` | `python-psutil` |
 | [python-sphinx](python-sphinx/PKGBUILD) | `9.1.0-1` | `python-sphinx` |
 | [python-myst-parser](python-myst-parser/PKGBUILD) | `5.1.0-1` | `python-myst-parser` |
@@ -97,7 +97,7 @@ Import the supplied public keys **as the build account**, after checking the
 fingerprints listed in each recipe's README:
 
 ```sh
-for recipe in cmake llvm21 compiler-rt21 clang21 lld21 emacs libuv rhash python-setuptools; do
+for recipe in cmake llvm21 compiler-rt21 clang21 lld21 emacs libuv rhash; do
   gpg --import "$recipe"/keys/pgp/*.asc
 done
 ```
@@ -122,8 +122,9 @@ snapshot checksum is skipped; `SKIP` entries apply only to detached signature
 files that are verified against their corresponding sources.
 
 The Setuptools recipe downloaded from Arch had an incorrect Git checksum.
-The corrected recipe verifies Jason R. Coombs' signed `v84.0.0` tag and pins
-the verified archive checksum. See
+The corrected recipe pins the archive checksum previously verified against
+Jason R. Coombs' signed `v84.0.0` tag. Python recipes do not require a PGP key
+at build time. See
 [python-setuptools/README.md](python-setuptools/README.md) for the fingerprint
 and resolved commit. JsonCpp and RHash have explicit Shelly ABI provisions
 with ELF64/SONAME checks, following this repository's existing conventions.

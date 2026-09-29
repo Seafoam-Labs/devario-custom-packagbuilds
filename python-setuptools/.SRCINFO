@@ -1,7 +1,7 @@
 pkgbase = python-setuptools
 	pkgdesc = Easily download, build, install, upgrade, and uninstall Python packages
 	pkgver = 84.0.0
-	pkgrel = 2
+	pkgrel = 3
 	epoch = 1
 	url = https://pypi.org/project/setuptools/
 	arch = any
@@ -35,9 +35,8 @@ pkgbase = python-setuptools
 	depends = python-wheel
 	provides = python-distribute
 	replaces = python-distribute
-	source = git+https://github.com/pypa/setuptools.git#tag=v84.0.0?signed
+	source = git+https://github.com/pypa/setuptools.git#tag=v84.0.0
 	source = build-no-isolation.patch
-	validpgpkeys = CE380CF3044959B8F377DA03708E6CB181B4C47E
 	b2sums = 2826e1bceb5373b0b96bbf64ccf4183982e8eddb53d06cd346f81f4c5e0177f80a4ebfa281f7eec6af26f26d479b6e2a7d71d60813959086c8959e5f20cedf8f
 	b2sums = ff0caf384def8ba8aa1c7fbb29077f2bc14c42935f7f81b6c4993ebe835053207b6773865158ad3143147234b311b95033b266f9b4c34a78a67f0b7e83bb5537
 
