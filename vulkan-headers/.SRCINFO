@@ -1,0 +1,14 @@
+pkgbase = vulkan-headers
+	pkgdesc = Vulkan header files and API registry
+	pkgver = 1.4.364
+	pkgrel = 1
+	url = https://github.com/KhronosGroup/Vulkan-Headers
+	arch = any
+	license = Apache-2.0
+	license = MIT
+	makedepends = cmake
+	makedepends = ninja
+	source = vulkan-headers-1.4.364.tar.gz::https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.4.364.tar.gz
+	sha256sums = 37e00e30611375938a9437477de793e355e55d486c25ab3dfd7a1a11ab0f8f07
+
+pkgname = vulkan-headers
