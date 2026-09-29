@@ -1,5 +1,8 @@
 # Zig 0.16 for Shelly
 
+The prerequisite recipes and build order are documented in
+[the Zig build guide](../ZIG-BUILDS.md).
+
 This recipe builds `zig 0.16.0-1` for x86_64 from the
 [official release source](https://ziglang.org/download/0.16.0/release-notes.html),
 using [Arch's Zig packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/zig/-/blob/main/PKGBUILD).

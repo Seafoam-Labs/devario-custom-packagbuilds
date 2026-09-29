@@ -1,5 +1,8 @@
 # Missing dependency builds for Shelly
 
+For Zig 0.16 and its LLVM 21, CMake, GCC, and Python prerequisites, see
+[the Zig build guide](ZIG-BUILDS.md).
+
 These x86_64 recipes are adapted from the corresponding
 [Arch Linux packaging repositories](https://gitlab.archlinux.org/archlinux/packaging/packages).
 Each directory includes its PKGBUILD, generated `.SRCINFO`, and required local
