@@ -1,0 +1,26 @@
+pkgname=spirv-headers
+pkgver=1.4.363.0
+pkgrel=1
+pkgdesc='SPIR-V headers and grammar files'
+arch=('any')
+url='https://github.com/KhronosGroup/SPIRV-Headers'
+license=('MIT')
+makedepends=('cmake' 'ninja')
+# vulkan-sdk-1.4.363.0; required by SPIRV-Tools v2026.4.rc2 in DEPS.
+_commit=496543121ce6419f23d6fa5d7194ba66c36212d2
+source=("$pkgname-$_commit.tar.gz::https://codeload.github.com/KhronosGroup/SPIRV-Headers/tar.gz/$_commit")
+sha256sums=('a9bb9c48713245eacf97cc539b6f1d45405a92d8813f8b82e635f0a085ee9898')
+
+build() {
+  cmake -S "SPIRV-Headers-$_commit" -B build -G Ninja \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSPIRV_HEADERS_ENABLE_INSTALL=ON \
+    -DSPIRV_HEADERS_ENABLE_TESTS=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "SPIRV-Headers-$_commit/LICENSE" \
+    -t "$pkgdir/usr/share/licenses/$pkgname"
+}

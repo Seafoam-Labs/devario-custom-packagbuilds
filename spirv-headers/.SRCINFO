@@ -1,0 +1,13 @@
+pkgbase = spirv-headers
+	pkgdesc = SPIR-V headers and grammar files
+	pkgver = 1.4.363.0
+	pkgrel = 1
+	url = https://github.com/KhronosGroup/SPIRV-Headers
+	arch = any
+	license = MIT
+	makedepends = cmake
+	makedepends = ninja
+	source = spirv-headers-496543121ce6419f23d6fa5d7194ba66c36212d2.tar.gz::https://codeload.github.com/KhronosGroup/SPIRV-Headers/tar.gz/496543121ce6419f23d6fa5d7194ba66c36212d2
+	sha256sums = a9bb9c48713245eacf97cc539b6f1d45405a92d8813f8b82e635f0a085ee9898
+
+pkgname = spirv-headers

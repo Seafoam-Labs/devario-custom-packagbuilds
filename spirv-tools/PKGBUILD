@@ -1,0 +1,34 @@
+pkgname=spirv-tools
+pkgver=2026.4.rc2
+pkgrel=1
+pkgdesc='API and commands for processing SPIR-V modules'
+arch=('x86_64')
+url='https://github.com/KhronosGroup/SPIRV-Tools'
+license=('Apache-2.0')
+depends=('glibc' 'libgcc' 'libstdc++')
+# Keep this in sync with spirv_headers_revision in the upstream DEPS file.
+makedepends=('cmake' 'ninja' 'python' 'spirv-headers=1.4.363.0')
+# v2026.4.rc2
+_commit=ef96ed763b43b59b33b31b362f09a02b729fa1c9
+source=("$pkgname-$_commit.tar.gz::https://codeload.github.com/KhronosGroup/SPIRV-Tools/tar.gz/$_commit")
+sha256sums=('82c62146083fd558735a3171cf97cfc47903ca7d368482e87f94bd44883c0f00')
+
+build() {
+  cmake -S "SPIRV-Tools-$_commit" -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSPIRV_TOOLS_BUILD_STATIC=OFF \
+    -DSPIRV-Headers_SOURCE_DIR=/usr \
+    -DSPIRV_SKIP_TESTS=ON \
+    -DSPIRV_SKIP_EXECUTABLES=OFF \
+    -DSPIRV_WERROR=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "SPIRV-Tools-$_commit/LICENSE" \
+    -t "$pkgdir/usr/share/licenses/$pkgname"
+}

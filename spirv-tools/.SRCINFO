@@ -1,0 +1,18 @@
+pkgbase = spirv-tools
+	pkgdesc = API and commands for processing SPIR-V modules
+	pkgver = 2026.4.rc2
+	pkgrel = 1
+	url = https://github.com/KhronosGroup/SPIRV-Tools
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = python
+	makedepends = spirv-headers=1.4.363.0
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	source = spirv-tools-ef96ed763b43b59b33b31b362f09a02b729fa1c9.tar.gz::https://codeload.github.com/KhronosGroup/SPIRV-Tools/tar.gz/ef96ed763b43b59b33b31b362f09a02b729fa1c9
+	sha256sums = 82c62146083fd558735a3171cf97cfc47903ca7d368482e87f94bd44883c0f00
+
+pkgname = spirv-tools

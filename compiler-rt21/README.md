@@ -1,8 +1,23 @@
 # compiler-rt21 for Shelly
 
-Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/compiler-rt21/-/blob/main/PKGBUILD), pinned to `21.1.8-1`. Copy the whole directory to the worker, including local patches and `keys/` where present.
+Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/compiler-rt21/-/blob/main/PKGBUILD), pinned to `21.1.8-2`. Copy the whole directory to the worker, including local patches and `keys/` where present.
+
+Backports [LLVM commit 3dc4fd6dd411](https://github.com/llvm/llvm-project/commit/3dc4fd6dd41100f051a63642f449b16324389c96)
+in `prepare()` to support Linux headers that removed `linux/scc.h`. The
+checksum-pinned `remove-linux-scc.patch` removes the obsolete include and its
+two dependent structure-size definitions.
+
+Backport validation: verified the source archives and patch checksums, ran
+`prepare()` against fresh 21.1.8 sources, and compiled the patched translation
+unit for x86_64 and i386 on a host without `linux/scc.h`. Shelly's review reported
+no findings. A full isolated compiler-rt rebuild was not run for this backport.
 
 Builds both native and 32-bit compiler runtime libraries. The worker needs `lib32-gcc-libs`, supplied by the existing GCC split-package recipe, and its matching `lib32-glibc`. Upstream packaging has no `check()` hook.
+
+The [glibc recipe](../glibc/PKGBUILD) now supplies `glibc` and `lib32-glibc`
+together. Follow the [multilib build guide](../MULTILIB-BUILDS.md) to populate
+the isolated root, then run `bash check-multilib.sh` inside that root to check
+32-bit C/C++ compilation, linking, and execution before building compiler-rt.
 
 The permitted upstream signing fingerprints are:
 

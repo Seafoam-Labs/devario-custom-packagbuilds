@@ -39,3 +39,5 @@ the compiler wrappers, and Makefile variable syntax inside the Ada patch. A full
 GCC bootstrap has not been executed locally.
 
 See [the dependency build guide](../DEPENDENCY-BUILDS.md) for repository setup.
+See [the multilib build guide](../MULTILIB-BUILDS.md) for the new glibc,
+Linux API headers, and binutils recipes and the toolchain rebuild order.

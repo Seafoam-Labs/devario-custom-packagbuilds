@@ -1,0 +1,93 @@
+[
+  {
+    "directory": "autoconf",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/autoconf.git",
+    "commit": "c69f433ef07dc732887e22cd5d5a7501cd944fef"
+  },
+  {
+    "directory": "automake",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/automake.git",
+    "commit": "76389556c104e2a087c3a5e2f1cee712ff187e00"
+  },
+  {
+    "directory": "bison",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/bison.git",
+    "commit": "891a7b237b41cb44109510b25afeb85ffef71b8a"
+  },
+  {
+    "directory": "boost",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/boost.git",
+    "commit": "91a70ce6db081c4d02212c2b2128b1f10700043b"
+  },
+  {
+    "directory": "cpio",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cpio.git",
+    "commit": "a92dcfec3f9c0c8e0dae94dbd5ce8667e28fd072"
+  },
+  {
+    "directory": "debugedit",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/debugedit.git",
+    "commit": "164830daec47050be93feffb795d7fc845fa90af"
+  },
+  {
+    "directory": "fakeroot",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/fakeroot.git",
+    "commit": "6018258ff15e848b084e622eb26c6b8deae715fc"
+  },
+  {
+    "directory": "flex",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/flex.git",
+    "commit": "d81507d185287886cc2d3e8d1fc37dbb0f4bc482"
+  },
+  {
+    "directory": "gdb",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gdb.git",
+    "commit": "faf9d09a63294fec3bc46c0d131e8b5645074cab"
+  },
+  {
+    "directory": "gettext",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gettext.git",
+    "commit": "8005dbbd5fdeaa9a79cc93275283c6e0ee2f58a9"
+  },
+  {
+    "directory": "libtool",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libtool.git",
+    "commit": "15aa493fd752474832140a0e7ebfa85316c3b0a4"
+  },
+  {
+    "directory": "m4",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/m4.git",
+    "commit": "8d427e7ad898cf68d466d24663445319e50c0438"
+  },
+  {
+    "directory": "pkgconf",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pkgconf.git",
+    "commit": "6e7e1897eb1599a2dbf2dae92bb0335da540917f"
+  },
+  {
+    "directory": "source-highlight",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/source-highlight.git",
+    "commit": "43d93323c05cf3fe1d09c696776320a7bc845a42"
+  },
+  {
+    "directory": "texinfo",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/texinfo.git",
+    "commit": "9782313fb801fbb2ed9d2e748c1e37e86db40f96"
+  },
+  {
+    "directory": "which",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/which.git",
+    "commit": "571f8d0043f15de2b95214447ccc3fdc353bfa3e"
+  },
+  {
+    "directory": "gcc",
+    "source": "../gcc (existing custom recipe)",
+    "sha256": {
+      "PKGBUILD": "e91e5cb39da2e4ee34feaf1f73696559b6383b8ed6ea683f13697286b38273d2",
+      "c89": "7b09ec947f90b98315397af675369a1e3dfc527fa70013062e6e85c4be0275ab",
+      "c99": "44ea973558842f3f4bd666bdaf6e810fd7b7c7bd36b5cc4c69f93d2cd0124fc7",
+      "gcc-ada-repro.patch": "1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f",
+      "tune_branch_prediction_cost.patch": "838e14d4ef76079107a5373316598025915eaf747a10522ec9f8842125ca9a8e"
+    }
+  }
+]
