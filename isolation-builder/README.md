@@ -1,14 +1,17 @@
 # Isolation builder bootstrap packages
 
-All 31 requested package names were absent from the live `devario-core` package
-list when checked on 2026-09-29. These 17 package-base directories cover them.
+All 31 originally requested package names were absent from the live `devario-core`
+package list when checked on 2026-09-29. The original 17 package-base directories
+cover them; `dwz` and `help2man` bring the total to 19 directories and supply
+additional build dependencies for debugedit.
 The repository query was:
 <https://repo.seafoam-labs.org/api/v1/packages?repository=devario-core>.
 
 Each directory contains a PKGBUILD, generated `.SRCINFO`, and its required local
 patches, scripts, hooks, and upstream signing keys where supplied. Copy the whole
-directory to the build worker. `sources.json` records the exact Arch packaging
-commits; GCC is a standalone copy of this repository's existing custom GCC recipe,
+directory to the build worker. `sources.json` records the Arch packaging commits
+used as a base and the upstream release for the custom dwz recipe; GCC is a
+standalone copy of this repository's existing custom GCC recipe,
 including its explicit ABI provisions and SONAME checks.
 
 ## Package mapping
@@ -21,11 +24,13 @@ including its explicit ABI provisions and SONAME checks.
 | [boost](boost/PKGBUILD) | `boost-libs` |
 | [cpio](cpio/PKGBUILD) | `cpio` |
 | [debugedit](debugedit/PKGBUILD) | `debugedit` |
+| [dwz](dwz/PKGBUILD) | `dwz` |
 | [fakeroot](fakeroot/PKGBUILD) | `fakeroot` |
 | [flex](flex/PKGBUILD) | `flex` |
 | [gcc](gcc/PKGBUILD) | `gcc`, `gcc-libs`, `libasan`, `libatomic`, `libgcc`, `libgfortran`, `libgomp`, `libhwasan`, `liblsan`, `libobjc`, `libquadmath`, `libstdc++`, `libtsan`, `libubsan` |
 | [gdb](gdb/PKGBUILD) | `gdb`, `gdb-common` |
 | [gettext](gettext/PKGBUILD) | `gettext` |
+| [help2man](help2man/PKGBUILD) | `help2man` |
 | [libtool](libtool/PKGBUILD) | `libtool` |
 | [m4](m4/PKGBUILD) | `m4` |
 | [pkgconf](pkgconf/PKGBUILD) | `pkgconf` |
@@ -58,7 +63,9 @@ Useful ordering constraints once the seed environment is available:
 - Build and publish GCC with its matching runtimes together; rebuild libtool
   after changing GCC.
 - Build Boost before source-highlight, then GDB (with gdb-common), then debugedit.
-- Build cpio before debugedit.
+- Build cpio, dwz, and help2man before debugedit.
+- Help2man requires `perl-locale-gettext` and its dependencies in the build root.
+  Build and publish help2man before m4, flex, and libtool.
 - Build m4 before autoconf, and autoconf before automake. Some source preparation
   uses existing autotools/gettext, so this ordering does not remove seed needs.
 
@@ -78,6 +85,8 @@ them to satisfy dependencies of subsequent isolated builds.
 
 ## Validation
 
+The original 17-directory import was validated as follows:
+
 - All 17 PKGBUILDs pass `bash -n` and `makepkg --printsrcinfo`.
 - Generated metadata covers all 31 requested names.
 - All 14 local `source` files exist and match their declared checksums.
@@ -86,3 +95,17 @@ them to satisfy dependencies of subsequent isolated builds.
   patch text. The recipes retain those upstream constructs.
 - Full source downloads, compilation, test suites, and isolated builds have not
   been run. This is recipe validation, not a claim of successful package builds.
+
+For the added dwz and help2man recipes:
+
+- Source archives match their SHA-512 checksums and verify against the supplied
+  upstream signing keys.
+- Bash syntax, generated `.SRCINFO`, and Shelly static review pass.
+- Both `build()` and `package()` functions completed locally, installing into
+  temporary staging directories. Help2man's Perl gettext dependency was built
+  separately under `/tmp` for this check. That temporary module passed its load
+  and binding tests, but its three translation tests failed locally; translated
+  output is not validated by this check.
+- The staged help2man executable successfully generated a man page from the
+  staged dwz executable.
+- Isolated builds and the dwz upstream test suite have not been run.

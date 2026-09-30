@@ -1,0 +1,29 @@
+pkgname=dwz
+pkgver=0.17
+pkgrel=1
+pkgdesc='DWARF optimization and duplicate removal tool'
+arch=('x86_64')
+url='https://sourceware.org/dwz/'
+license=('GPL-3.0-or-later')
+depends=('glibc' 'libelf' 'xxhash')
+checkdepends=('dejagnu' 'elfutils' 'gdb')
+source=("https://sourceware.org/ftp/${pkgname}/releases/${pkgname}-${pkgver}.tar.xz"{,.asc})
+sha512sums=('e1bc7ef7e943ef192e2b1c31033c8f1fe9cf90fcb90bdde13d8a2e38c0255bb0158569a854ef818b44c889df46be7e1adc1ae9e346c1cb80e8a26b842c8ec03e'
+            'SKIP')
+validpgpkeys=('28FF4B30A88D5523A7E2CBA20376A15C6FFC11CD') # Mark J. Wielaard
+
+build() {
+  # The release archive extracts to dwz/ without a version suffix.
+  cd "$pkgname"
+  make CFLAGS="$CFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS"
+}
+
+check() {
+  cd "$pkgname"
+  make check
+}
+
+package() {
+  cd "$pkgname"
+  make DESTDIR="$pkgdir" prefix=/usr install
+}

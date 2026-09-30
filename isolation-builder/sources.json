@@ -30,6 +30,12 @@
     "commit": "164830daec47050be93feffb795d7fc845fa90af"
   },
   {
+    "directory": "dwz",
+    "url": "https://sourceware.org/ftp/dwz/releases/dwz-0.17.tar.xz",
+    "version": "0.17",
+    "sha512": "e1bc7ef7e943ef192e2b1c31033c8f1fe9cf90fcb90bdde13d8a2e38c0255bb0158569a854ef818b44c889df46be7e1adc1ae9e346c1cb80e8a26b842c8ec03e"
+  },
+  {
     "directory": "fakeroot",
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/fakeroot.git",
     "commit": "6018258ff15e848b084e622eb26c6b8deae715fc"
@@ -48,6 +54,11 @@
     "directory": "gettext",
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gettext.git",
     "commit": "8005dbbd5fdeaa9a79cc93275283c6e0ee2f58a9"
+  },
+  {
+    "directory": "help2man",
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/help2man.git",
+    "commit": "e2c0cff5c9566eb76b322950e8ad85b6dd15e9cb"
   },
   {
     "directory": "libtool",

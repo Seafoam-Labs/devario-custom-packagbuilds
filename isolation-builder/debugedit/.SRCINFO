@@ -1,12 +1,14 @@
 pkgbase = debugedit
 	pkgdesc = Tool to mangle source locations in .debug files
 	pkgver = 5.3
-	pkgrel = 2
+	pkgrel = 3
 	url = https://sourceware.org/debugedit/
 	arch = x86_64
 	license = GPL-3.0-or-later
 	license = GPL-2.0-or-later
 	license = LGPL-2.0-or-later
+	makedepends = dwz
+	makedepends = help2man
 	depends = glibc
 	depends = libelf
 	depends = xxhash
