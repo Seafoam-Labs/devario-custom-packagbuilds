@@ -1,0 +1,15 @@
+aqueous-noctalia
+calamares
+ckbcomp
+devario-alpm-runtime
+devario-aqueous-desktop
+devario-base
+devario-boot
+devario-filesystem
+devario-keyring
+nbd
+nfs-utils
+noctalia
+noctalia-greeter
+seafoam-keyring
+shelly

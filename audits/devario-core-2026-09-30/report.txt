@@ -1,0 +1,735 @@
+DEVARIO-CORE PACKAGE AVAILABILITY AUDIT
+2026-09-30T15:29:48.158477+00:00
+
+Live database snapshot: 928 core packages; 60 seafoam-labs packages.
+Community ISO: 72 explicit packages; repository checklist: 621 packages.
+Sources: https://repo.seafoam-labs.org/devario-core/x86_64/devario-core.db; https://repo.seafoam-labs.org/x86_64/seafoam-labs.db
+
+Scope: Community ISO, local default OS package recipes, builder bootstrap, and repository checklist.
+Version constraints and virtual provides checked using libalpm version comparison.
+Runtime traversal stops at unavailable packages; their unknown dependencies cannot be inferred.
+Local recipe requirements are audited separately, without pretending those packages are published.
+Build/check sections include runtime dependencies of the requested build/check tools.
+The source-rebuild section recursively includes MAKEDEPENDS and CHECKDEPENDS recorded in the DB.
+It is a broader source-rebuild inventory, not a list of packages to install in the ISO.
+Optional dependencies and Managed edition are excluded. Database declarations are not proof of
+archive availability, signature validity, ABI compatibility, or an installable transaction.
+Provider alternatives and conflicts are not solved as a package-manager transaction.
+No packages were installed or built.
+
+Important: packages/linux-cachyos-lts is absent locally although build-packages.sh names it.
+A packages/linux-devario recipe exists; it was excluded because the current ISO/build list uses CachyOS LTS.
+The kernel packages are published, but their intended local source recipe cannot be audited here.
+
+Important: spandsp is published, but advertises no libspandsp.so provision required by pipewire-audio.
+Verify the library ABI, add the correct provision, rebuild, and republish its metadata.
+seafoam-labs supplies Shelly, Noctalia, and Noctalia Greeter by name; this does not establish
+compatibility with the local pinned Devario recipes. Published Shelly requires pacman, currently
+unresolved in both repositories. The local devario-alpm-runtime recipe intends to provide it.
+
+1. Unresolved ISO requirements in devario-core (direct plus recursive runtime)
+17 distinct unresolved requirements
+
+aqueous-noctalia | required by: ISO package list
+calamares | required by: ISO package list
+ckbcomp | required by: ISO package list
+devario-alpm-runtime | required by: ISO package list
+devario-aqueous-desktop | required by: ISO package list
+devario-base | required by: ISO package list
+devario-boot | required by: ISO package list
+devario-filesystem | required by: ISO package list
+devario-keyring | required by: ISO package list
+libspandsp.so | required by: pipewire-audio:depends
+nbd | required by: ISO package list
+nfs-utils | required by: ISO package list
+noctalia | required by: ISO package list
+  Available candidate: seafoam-labs/noctalia-git=5.0.1.r5455.g24dfc26d2-1
+noctalia-greeter | required by: ISO package list
+  Available candidate: seafoam-labs/noctalia-greeter-git=1.6.0.r275.g44337ecba-1
+seafoam-keyring | required by: ISO package list
+shelly | required by: ISO package list
+  Available candidate: seafoam-labs/shelly=3.1.6-1
+tpm2-tools | required by: devario-dracut:depends; dracut-git:depends
+
+2. Unresolved ISO requirements using both configured repositories
+15 distinct unresolved requirements
+
+aqueous-noctalia | required by: ISO package list
+calamares | required by: ISO package list
+ckbcomp | required by: ISO package list
+devario-alpm-runtime | required by: ISO package list
+devario-aqueous-desktop | required by: ISO package list
+devario-base | required by: ISO package list
+devario-boot | required by: ISO package list
+devario-filesystem | required by: ISO package list
+devario-keyring | required by: ISO package list
+libspandsp.so | required by: pipewire-audio:depends
+nbd | required by: ISO package list
+nfs-utils | required by: ISO package list
+pacman | required by: shelly:depends
+seafoam-keyring | required by: ISO package list
+tpm2-tools | required by: devario-dracut:depends; dracut-git:depends
+
+3. Unresolved repository checklist requirements in devario-core
+15 distinct unresolved requirements
+
+aqueous-noctalia | required by: repository checklist
+calamares | required by: repository checklist
+ckbcomp | required by: repository checklist
+devario-alpm-runtime | required by: repository checklist
+devario-aqueous-desktop | required by: repository checklist
+devario-base | required by: repository checklist
+devario-boot | required by: repository checklist
+devario-filesystem | required by: repository checklist
+devario-keyring | required by: repository checklist
+libspandsp.so | required by: pipewire-audio:depends
+noctalia | required by: repository checklist
+  Available candidate: seafoam-labs/noctalia-git=5.0.1.r5455.g24dfc26d2-1
+noctalia-greeter | required by: repository checklist
+  Available candidate: seafoam-labs/noctalia-greeter-git=1.6.0.r275.g44337ecba-1
+seafoam-keyring | required by: repository checklist
+shelly | required by: repository checklist
+  Available candidate: seafoam-labs/shelly=3.1.6-1
+tpm2-tools | required by: devario-dracut:depends; dracut-git:depends
+
+4. Local OS recipe runtime requirements unresolved in devario-core
+17 distinct unresolved requirements
+
+aqueous-noctalia=0.4.6.r0.g001beb7-1 | required by: devario-aqueous-desktop:depends
+aqueous-session=0.4.6.r0.g001beb7-1 | required by: aqueous:depends; devario-aqueous-desktop:depends
+  Published core version: aqueous-session=0.9.1-1
+aqueous=0.4.6.r0.g001beb7-1 | required by: aqueous:depends; devario-aqueous-desktop:depends
+  Published core version: aqueous-core=0.9.1-1 [provides: aqueous=0.9.1]
+ckbcomp | required by: calamares:depends
+devario-alpm-runtime>=7.1.0.r9.g54d9411-2 | required by: shelly:depends
+devario-alpm-runtime>=7.1.0.r9.g54d9411-3 | required by: devario-base:depends
+devario-boot | required by: devario-base:depends
+devario-filesystem | required by: devario-base:depends
+devario-keyring | required by: devario-base:depends
+libalpm.so=16-64 | required by: shelly:depends
+libspandsp.so | required by: pipewire-audio:depends
+noctalia-greeter=1.0.0.r0.g4aa960d-3 | required by: devario-aqueous-desktop:depends
+noctalia=5.0.0.r0.g50f0f09-1 | required by: devario-aqueous-desktop:depends
+noctalia>=5.0.0 | required by: aqueous:depends
+seafoam-keyring | required by: devario-base:depends
+shelly | required by: devario-base:depends
+  Available candidate: seafoam-labs/shelly=3.1.6-1
+tpm2-tools | required by: devario-dracut:depends
+
+5. Local OS recipe build requirements unresolved in devario-core
+13 distinct unresolved requirements
+
+asciidoctor | required by: devario-dracut:makedepends
+bash-completion | required by: devario-dracut:makedepends
+clang | required by: aqueous:makedepends; shelly:makedepends
+extra-cmake-modules | required by: calamares:makedepends
+go-md2man | required by: shelly:makedepends
+lld | required by: aqueous:makedepends
+meson | required by: aqueous:makedepends; devario-alpm-runtime:makedepends; noctalia-greeter:makedepends; noctalia:makedepends
+ninja | required by: aqueous:makedepends; calamares:makedepends; noctalia-greeter:makedepends; noctalia:makedepends
+qt6-tools | required by: calamares:makedepends
+ripgrep | required by: shelly:makedepends
+rust | required by: devario-dracut:makedepends
+scdoc | required by: aqueous:makedepends
+stb | required by: noctalia-greeter:makedepends; noctalia:makedepends
+
+6. Local OS recipe test requirements unresolved in devario-core
+2 distinct unresolved requirements
+
+noctalia | required by: aqueous:checkdepends
+  Available candidate: seafoam-labs/noctalia-git=5.0.1.r5455.g24dfc26d2-1
+ripgrep | required by: aqueous:checkdepends
+
+7. Builder bootstrap requirements unresolved in devario-core
+2 distinct unresolved requirements
+
+base-devel | required by: build-packages-nspawn.sh bootstrap
+python-jsonschema | required by: build-packages-nspawn.sh bootstrap
+
+8. Runtime gaps across ALL published core packages (broader than OS)
+154 distinct unresolved requirements
+
+a52dec | required by: gst-plugins-ugly:depends
+aalib | required by: gst-plugins-good:depends
+cdparanoia | required by: gst-plugins-base:depends
+chafa | required by: harfbuzz-utils:depends
+chromaprint | required by: gst-plugins-bad:depends
+clang | required by: opencl-mesa:depends
+cppdap | required by: cmake:depends
+cups-filters | required by: cups:depends
+dbus-glib | required by: zen-browser-bin:depends
+dms-shell | required by: aqueous-shell-dms:depends
+  Available candidate: seafoam-labs/dms-shell=1.6.1-2
+ell | required by: bluez-mesh:depends
+faac | required by: gst-plugins-bad:depends
+faad2 | required by: gst-plugins-bad:depends
+fluidsynth | required by: gst-plugins-bad:depends
+glew | required by: harfbuzz-utils:depends
+glfw | required by: harfbuzz-utils:depends
+jsoncpp | required by: cmake:depends
+libGLEW.so | required by: harfbuzz-utils:depends
+libavtp | required by: gst-plugins-bad:depends
+libcaca | required by: gst-plugins-good:depends
+libcamera | required by: pipewire-libcamera:depends
+libcamera-base.so | required by: pipewire-libcamera:depends
+libcamera.so | required by: pipewire-libcamera:depends
+libcanberra | required by: pipewire-x11-bell:depends
+libcanberra.so | required by: pipewire-x11-bell:depends
+libchafa.so | required by: harfbuzz-utils:depends
+libclc | required by: opencl-mesa:depends
+libcrypt | required by: openldap:depends
+libdc1394 | required by: gst-plugins-bad:depends
+libdca | required by: gst-plugins-bad:depends
+libde265 | required by: gst-plugins-bad:depends
+libdex | required by: sysprof:depends
+libdv | required by: gst-plugins-good:depends
+libffado | required by: pipewire-ffado:depends
+libffado.so | required by: pipewire-ffado:depends
+libgme | required by: gst-plugins-bad:depends
+libgoa | required by: gvfs-goa:depends; gvfs-onedrive:depends
+libgphoto2 | required by: gvfs-gphoto2:depends
+libgusb | required by: colord:depends
+liblrdf | required by: gst-plugins-bad:depends
+libltc | required by: gst-plugins-bad:depends
+libmbim | required by: modemmanager:depends
+libmbim-glib.so | required by: modemmanager:depends
+libmicrodns | required by: gst-plugins-bad:depends
+libmicrohttpd | required by: debuginfod:depends
+libmicrohttpd.so | required by: debuginfod:depends
+libmpcdec | required by: gst-plugins-bad:depends
+libmpeg2 | required by: gst-plugins-ugly:depends
+libmtp | required by: gvfs-mtp:depends
+libnfs | required by: gvfs-nfs:depends
+libotf | required by: emacs-wayland:depends; emacs:depends
+libpanel | required by: sysprof:depends
+libpaper | required by: cups:depends
+libqmi | required by: modemmanager:depends
+libqmi-glib.so | required by: modemmanager:depends
+libqrtr-glib | required by: modemmanager:depends
+libroc.so | required by: pipewire-roc:depends
+libshout | required by: gst-plugins-good:depends
+libspandsp.so | required by: pipewire-audio:depends
+libsrtp | required by: gst-plugins-bad:depends
+libtree-sitter.so | required by: emacs-nox:depends; emacs-wayland:depends; emacs:depends
+libwpe | required by: gst-plugin-wpe:depends
+libyaml | required by: libblockdev-lvm:depends
+lirc | required by: pulseaudio-lirc:depends
+mjpegtools | required by: gst-plugins-bad:depends
+msgraph | required by: gvfs-onedrive:depends
+nautilus-python | required by: ghostty-nautilus:depends
+ndctl | required by: libblockdev-nvdimm:depends
+neon | required by: gst-plugins-bad:depends
+noctalia | required by: aqueous-shell-noctalia:depends
+  Available candidate: seafoam-labs/noctalia-git=5.0.1.r5455.g24dfc26d2-1
+onnxruntime | required by: gst-plugin-onnx:depends; pipewire-onnx:depends
+openal | required by: gst-plugins-bad:depends
+opencv | required by: gst-plugin-opencv:depends
+openh264 | required by: gst-plugins-bad:depends
+openmpi | required by: fftw-openmpi:depends; hdf5-openmpi:depends
+pacman | required by: archlinux-keyring:depends
+perl-locale-gettext | required by: help2man:depends
+ppp | required by: modemmanager:depends
+python-babel | required by: python-sphinx:depends
+python-colorama | required by: systemd-tests:depends
+python-commonmark | required by: gst-devtools:depends
+python-cryptography | required by: systemd-ukify:depends
+python-docutils | required by: python-sphinx:depends
+python-imagesize | required by: python-sphinx:depends
+python-jaraco.collections | required by: python-setuptools:depends
+python-jaraco.functools | required by: python-setuptools:depends
+python-jaraco.text | required by: python-setuptools:depends
+python-jinja | required by: python-sphinx:depends
+python-libevdev | required by: libinput-tools:depends
+python-lxml | required by: gst-devtools:depends
+python-mako | required by: gobject-introspection:depends
+python-markdown | required by: gobject-introspection:depends
+python-matplotlib | required by: ostra-cg:depends
+python-more-itertools | required by: python-setuptools:depends
+python-numpy | required by: python-lilv:depends
+python-packaging | required by: glib2-devel:depends; python-build:depends; python-setuptools:depends; python-sphinx:depends; python-wheel:depends; systemd-tests:depends
+python-pefile | required by: systemd-ukify:depends
+python-pexpect | required by: systemd-tests:depends
+python-platformdirs | required by: python-setuptools:depends
+python-psutil | required by: systemd-tests:depends
+python-pygments | required by: python-sphinx:depends
+python-pyproject-hooks | required by: python-build:depends
+python-pyqt5 | required by: pulseaudio-equalizer:depends
+python-pytest | required by: systemd-tests:depends
+python-pyudev | required by: libinput-tools:depends
+python-requests | required by: python-sphinx:depends
+python-roman-numerals-py | required by: python-sphinx:depends
+python-snowballstemmer | required by: python-sphinx:depends
+python-sphinx-alabaster-theme | required by: python-sphinx:depends
+python-sphinxcontrib-applehelp | required by: python-sphinx:depends
+python-sphinxcontrib-devhelp | required by: python-sphinx:depends
+python-sphinxcontrib-htmlhelp | required by: python-sphinx:depends
+python-sphinxcontrib-jsmath | required by: python-sphinx:depends
+python-sphinxcontrib-qthelp | required by: python-sphinx:depends
+python-sphinxcontrib-serializinghtml | required by: python-sphinx:depends
+python-typing_extensions | required by: gst-python:depends
+python-yaml | required by: libinput-tools:depends
+qrencode | required by: gst-plugins-bad:depends
+qt5-base | required by: gst-plugin-qmlgl:depends; polkit-qt5:depends
+qt5-declarative | required by: gst-plugin-qmlgl:depends
+qt5-wayland | required by: gst-plugin-qmlgl:depends
+qt5-x11extras | required by: gst-plugin-qmlgl:depends
+quickshell | required by: greetd-dms-greeter-bin:depends
+roc-toolkit | required by: pipewire-roc:depends
+rtkit | required by: pulseaudio:depends
+rtmpdump | required by: gst-plugins-bad:depends
+sane | required by: colord-sane:depends
+scx-scheds | required by: scx-tools-git:depends
+  Available candidate: seafoam-labs/scx-scheds-git=1.1.3.r428.g00fec1e7a-1
+shelly | required by: aqueous-welcome:depends
+  Available candidate: seafoam-labs/shelly=3.1.6-1
+smbclient>=4.12.0 | required by: gvfs-smb:depends
+soundtouch | required by: gst-plugins-bad:depends
+spirv-llvm-translator | required by: opencl-mesa:depends
+svt-hevc | required by: gst-plugin-svthevcenc:depends
+taglib | required by: gst-plugins-good:depends
+tcl | required by: sqlite-analyzer:depends; sqlite-tcl:depends
+tdb | required by: pulseaudio:depends
+tpm2-tools | required by: devario-dracut:depends; dracut-git:depends
+twolame | required by: gst-plugins-good:depends
+unixodbc | required by: openldap:depends
+usbmuxd | required by: gvfs-afc:depends
+vamp-host | required by: rubberband-vamp:depends
+vamp-plugin-sdk | required by: rubberband-vamp:depends
+wavpack | required by: gst-plugins-good:depends
+wildmidi | required by: gst-plugins-bad:depends
+wpebackend-fdo | required by: gst-plugin-wpe:depends
+wpewebkit | required by: gst-plugin-wpe2:depends; gst-plugin-wpe:depends
+wsdd | required by: gvfs-wsdd:depends
+xf86-input-libinput | required by: xorg-server:depends
+xorg-util-macros | required by: xorg-server-devel:depends
+xorg-xauth | required by: xorg-server-xvfb:depends
+zbar | required by: gst-plugins-bad:depends
+zsh | required by: git-zsh-completion:depends
+zvbi | required by: gst-plugins-bad:depends
+zxing-cpp | required by: gst-plugins-bad:depends
+
+9. Recursive source rebuild/check inventory (broader than ISO assembly)
+414 distinct unresolved requirements
+
+a52dec | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+aalib | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+add-determinism | required by: libjxl:makedepends
+amf-headers | required by: ffmpeg:makedepends
+apache | required by: libsoup3:checkdepends
+apache-ant | required by: libbluray:makedepends
+apparmor | required by: audit:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+aqueous-noctalia | required by: repository checklist
+argyllcms | required by: colord:makedepends; libcolord:makedepends
+asciidoc | required by: btrfs-progs:makedepends; ca-certificates-utils:makedepends; ca-certificates:makedepends; git:makedepends; graphite:makedepends; libjxl:makedepends; libnvme:makedepends; lv2:makedepends; nftables:makedepends; ocl-icd:makedepends; syslinux:makedepends; tinysparql:makedepends; zeromq:makedepends
+asciidoctor | required by: cryptsetup:makedepends; devario-dracut:makedepends; dracut-git:makedepends; gperftools:makedepends; shaderc:makedepends; util-linux-libs:makedepends; util-linux:makedepends
+autoconf-archive | required by: libblockdev-btrfs:makedepends; libblockdev-crypto:makedepends; libblockdev-fs:makedepends; libblockdev-loop:makedepends; libblockdev-lvm:makedepends; libblockdev-mdraid:makedepends; libblockdev-nvme:makedepends; libblockdev-part:makedepends; libblockdev-smart:makedepends; libblockdev-swap:makedepends; libblockdev:makedepends; libopenmpt:makedepends; libthai:makedepends; ncurses:makedepends; tpm2-tss:makedepends; udisks2:makedepends
+avisynthplus | required by: ffmpeg:makedepends
+bash-completion | required by: appstream:makedepends; bubblewrap:makedepends; colord:makedepends; dconf:makedepends; devario-dracut:makedepends; dracut-git:makedepends; grim:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; libcap-ng:makedepends; libcolord:makedepends; libmm-glib:makedepends; libp11-kit:makedepends; libsecret:makedepends; libxkbcommon-x11:makedepends; libxkbcommon:makedepends; modemmanager:makedepends; p11-kit:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; tinysparql:makedepends; util-linux-libs:makedepends; util-linux:makedepends
+bc | required by: binutils:checkdepends; linux-cachyos-lts-headers:makedepends; linux-cachyos-lts:makedepends
+blueprint-compiler | required by: ghostty-shell-integration:makedepends; ghostty-terminfo:makedepends; ghostty:makedepends
+bpf | required by: libnm:makedepends; networkmanager:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+calamares | required by: repository checklist
+cargo | required by: greetd-agreety:makedepends; greetd:makedepends; libimagequant:makedepends; thin-provisioning-tools:makedepends
+cargo-c | required by: libdovi:makedepends; libimagequant:makedepends; librsvg:makedepends; rav1e:makedepends
+cbindgen | required by: firefox:makedepends; mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+cdparanoia | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:depends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+chafa | required by: fastfetch:makedepends; harfbuzz:makedepends
+check | required by: kbd:makedepends; libevdev:makedepends; libinput:makedepends; libpulse:makedepends
+chromaprint | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+chrpath | required by: libldap:makedepends
+ckbcomp | required by: repository checklist
+clang | required by: aqueous-core:makedepends; aqueous-session:makedepends; ffmpeg:makedepends; firefox:makedepends; glibmm-docs:makedepends; glibmm:makedepends; glycin:makedepends; libnm:makedepends; limine:makedepends; mesa:makedepends; networkmanager:makedepends; orc:makedepends; snappy:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; thin-provisioning-tools:makedepends; v4l-utils:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+cmocka | required by: libssh:makedepends; tpm2-tss:makedepends
+codespell | required by: lv2:makedepends
+cppdap | required by: cmake:depends
+cscope | required by: automake:checkdepends
+ctags | required by: source-highlight:makedepends
+cunit | required by: libmysofa:makedepends
+cups-filters | required by: cups:depends; cups:makedepends; libcups:makedepends
+cython | required by: libimobiledevice:makedepends; libplist:makedepends; libseccomp:makedepends; python-sphinx:checkdepends; vapoursynth:makedepends
+db | required by: iproute2:makedepends
+dblatex | required by: graphite:makedepends
+ddcutil | required by: fastfetch:makedepends
+dejagnu | required by: automake:checkdepends; binutils:checkdepends; gcc-ada:checkdepends; gcc-d:checkdepends; gcc-fortran:checkdepends; gcc-go:checkdepends; gcc-libs:checkdepends; gcc:checkdepends; lib32-gcc-libs:checkdepends; libasan:checkdepends; libatomic:checkdepends; libffi:checkdepends; libgcc:checkdepends; libgccjit:checkdepends; libgfortran:checkdepends; libgo:checkdepends; libgomp:checkdepends; libgphobos:checkdepends; libhwasan:checkdepends; liblsan:checkdepends; libobjc:checkdepends; libquadmath:checkdepends; libstdc++:checkdepends; libtsan:checkdepends; libubsan:checkdepends; procps-ng:checkdepends
+devario-alpm-runtime | required by: repository checklist
+devario-aqueous-desktop | required by: repository checklist
+devario-base | required by: repository checklist
+devario-boot | required by: repository checklist
+devario-filesystem | required by: repository checklist
+devario-keyring | required by: repository checklist
+dhcpcd | required by: libnm:makedepends; networkmanager:makedepends
+directx-headers | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+dnsmasq | required by: libnm:makedepends; networkmanager:makedepends
+docbook-sgml | required by: fontconfig:makedepends; wpa_supplicant:makedepends
+docbook-utils | required by: fontconfig:makedepends; wpa_supplicant:makedepends
+docbook-xml | required by: giflib:makedepends; pam:makedepends
+docbook-xsl | required by: accountsservice:makedepends; alsa-utils:makedepends; bubblewrap:makedepends; colord:makedepends; dbus:makedepends; giflib:makedepends; gnome-keyring:makedepends; gtk-update-icon-cache:makedepends; gtk4:makedepends; gvfs:makedepends; iputils:makedepends; json-glib:makedepends; libcolord:makedepends; libnotify:makedepends; libxml2:makedepends; pam:makedepends; shadow:makedepends; shared-mime-info:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; upower:makedepends; wayland:makedepends; xdg-desktop-portal:makedepends; xdg-user-dirs:makedepends; xdg-utils:makedepends
+docbook5-xml | required by: pam:makedepends
+doxygen | required by: alsa-card-profiles:makedepends; aom:makedepends; avahi:makedepends; dav1d:makedepends; dbus:makedepends; flac:makedepends; gcc-ada:makedepends; gcc-d:makedepends; gcc-fortran:makedepends; gcc-go:makedepends; gcc-libs:makedepends; gcc:makedepends; graphite:makedepends; jack2:makedepends; jasper:makedepends; kcoreaddons:makedepends; kcrash:makedepends; ki18n:makedepends; kwidgetsaddons:makedepends; lib32-gcc-libs:makedepends; libasan:makedepends; libatomic:makedepends; libdatrie:makedepends; libei:makedepends; libepoxy:makedepends; libevent:makedepends; libgcc:makedepends; libgccjit:makedepends; libgfortran:makedepends; libgo:makedepends; libgomp:makedepends; libgphobos:makedepends; libhwasan:makedepends; libical:makedepends; libimobiledevice:makedepends; libjxl:makedepends; liblsan:makedepends; libobjc:makedepends; libopenmpt:makedepends; libpipewire:makedepends; libpulse:makedepends; libqalculate:makedepends; libquadmath:makedepends; libssh:makedepends; libstdc++:makedepends; libteam:makedepends; libthai:makedepends; libtheora:makedepends; libtsan:makedepends; libubsan:makedepends; libvips:makedepends; libwireplumber:makedepends; libxkbcommon-x11:makedepends; libxkbcommon:makedepends; libxml2:makedepends; lv2:makedepends; openjpeg2:makedepends; openjph:makedepends; opus:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; sdbus-cpp:makedepends; sord:makedepends; sratom:makedepends; tpm2-tss:makedepends; v4l-utils:makedepends; wayland:makedepends; wireplumber:makedepends; xz:makedepends
+ed | required by: patch:makedepends
+efl | required by: fastfetch:makedepends
+ell | required by: bluez-libs:makedepends; bluez-utils:makedepends; bluez:makedepends
+expect | required by: automake:checkdepends; gcc-ada:checkdepends; gcc-d:checkdepends; gcc-fortran:checkdepends; gcc-go:checkdepends; gcc-libs:checkdepends; gcc:checkdepends; lib32-gcc-libs:checkdepends; libasan:checkdepends; libatomic:checkdepends; libgcc:checkdepends; libgccjit:checkdepends; libgfortran:checkdepends; libgo:checkdepends; libgomp:checkdepends; libgphobos:checkdepends; libhwasan:checkdepends; liblsan:checkdepends; libobjc:checkdepends; libquadmath:checkdepends; libstdc++:checkdepends; libtsan:checkdepends; libubsan:checkdepends
+extra-cmake-modules | required by: kcoreaddons:makedepends; kcrash:makedepends; ki18n:makedepends; kpmcore:makedepends; kwidgetsaddons:makedepends
+faac | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+faad2 | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+ffnvcodec-headers | required by: ffmpeg:makedepends
+fig2dev | required by: gnupg:makedepends
+fish | required by: grim:makedepends
+flake8 | required by: lv2:makedepends
+flatpak | required by: xdg-desktop-portal:makedepends
+fluidsynth | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+fontforge | required by: ttf-dejavu:makedepends
+fop | required by: pam:makedepends
+freetds | required by: qt6-base:makedepends
+frei0r-plugins | required by: ffmpeg:makedepends
+gamemode | required by: xdg-desktop-portal:makedepends
+gd | required by: glibc-locales:makedepends; glibc:makedepends; lib32-glibc:makedepends
+geoclue | required by: xdg-desktop-portal:makedepends
+gi-docgen | required by: appstream:makedepends; at-spi2-core:makedepends; gcr-4:makedepends; gcr:makedepends; gdk-pixbuf2:makedepends; glib2-devel:makedepends; glib2:makedepends; glycin:makedepends; gssdp:makedepends; gtk-update-icon-cache:makedepends; gtk4:makedepends; gupnp:makedepends; json-glib:makedepends; libadwaita:makedepends; libcloudproviders:makedepends; libical:makedepends; libnotify:makedepends; libproxy:makedepends; librsvg:makedepends; libsecret:makedepends; libsoup3:makedepends; libvips:makedepends; pango:makedepends; tinysparql:makedepends
+gjs | required by: libsecret:checkdepends
+glad | required by: libplacebo:makedepends
+glew | required by: harfbuzz:makedepends
+glfw | required by: harfbuzz:makedepends
+gperf | required by: appstream:makedepends; coreutils:makedepends; diffutils:makedepends; findutils:makedepends; fontconfig:makedepends; grep:makedepends; libseccomp:makedepends; m4:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; xcb-util:makedepends
+graphviz | required by: alsa-card-profiles:makedepends; avahi:makedepends; dav1d:makedepends; graphite:makedepends; libepoxy:makedepends; libjxl:makedepends; libnice:makedepends; libpipewire:makedepends; libteam:makedepends; libvips:makedepends; libwireplumber:makedepends; libxkbcommon-x11:makedepends; libxkbcommon:makedepends; openjpeg2:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; wayland:makedepends; wireplumber:makedepends
+grub | required by: efivar:checkdepends; terminus-font:makedepends
+gtk-doc | required by: accountsservice:makedepends; cairo:makedepends; colord:makedepends; dconf:makedepends; gnutls:makedepends; gobject-introspection-runtime:makedepends; gobject-introspection:makedepends; graphene:makedepends; gtk3:makedepends; gtk4-layer-shell:makedepends; gupnp-igd:makedepends; harfbuzz:makedepends; libblockdev-btrfs:makedepends; libblockdev-crypto:makedepends; libblockdev-fs:makedepends; libblockdev-loop:makedepends; libblockdev-lvm:makedepends; libblockdev-mdraid:makedepends; libblockdev-nvme:makedepends; libblockdev-part:makedepends; libblockdev-smart:makedepends; libblockdev-swap:makedepends; libblockdev:makedepends; libcolord:makedepends; libgirepository:makedepends; libgudev:makedepends; libmm-glib:makedepends; libnice:makedepends; libnm:makedepends; libp11-kit:makedepends; libpsl:makedepends; libxklavier:makedepends; libxmlb:makedepends; modemmanager:makedepends; nemo:makedepends; networkmanager:makedepends; p11-kit:makedepends; playerctl:makedepends; polkit:makedepends; udisks2:makedepends; upower:makedepends
+gtk2-compat | required by: pinentry:makedepends
+gyp | required by: ca-certificates-mozilla:makedepends; nss:makedepends
+hotdoc | required by: orc:makedepends
+ibus | required by: sdl3:makedepends
+imagemagick | required by: fastfetch:makedepends; giflib:makedepends; gnupg:makedepends; libvips:makedepends; python-sphinx:checkdepends
+imake | required by: firefox:makedepends
+inetutils | required by: gcc-ada:checkdepends; gcc-d:checkdepends; gcc-fortran:checkdepends; gcc-go:checkdepends; gcc-libs:checkdepends; gcc:checkdepends; lib32-gcc-libs:checkdepends; libasan:checkdepends; libatomic:checkdepends; libgcc:checkdepends; libgccjit:checkdepends; libgfortran:checkdepends; libgo:checkdepends; libgomp:checkdepends; libgphobos:checkdepends; libhwasan:checkdepends; liblsan:checkdepends; libobjc:checkdepends; libquadmath:checkdepends; libstdc++:checkdepends; libtsan:checkdepends; libubsan:checkdepends
+intltool | required by: gparted:makedepends; libdbusmenu-glib:makedepends; libdbusmenu-gtk3:makedepends; libqalculate:makedepends; nemo:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+itstool | required by: appstream:makedepends; gparted:makedepends; shadow:makedepends
+iucode-tool | required by: intel-ucode:makedepends
+iwd | required by: libnm:makedepends; networkmanager:makedepends
+java-environment | required by: automake:checkdepends; hdf5:makedepends; libjxl:makedepends; rubberband:makedepends
+java-environment=17 | required by: libbluray:makedepends
+jdk-openjdk | required by: libical:makedepends
+jsoncpp | required by: cmake:depends
+kexec-tools | required by: systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+kguiaddons | required by: pinentry:makedepends
+kwindowsystem | required by: pinentry:makedepends
+ladspa | required by: ffmpeg:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; rubberband:makedepends
+libavtp | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libcaca | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+libcamera | required by: alsa-card-profiles:makedepends; libpipewire:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends
+libcanberra | required by: alsa-card-profiles:makedepends; libpipewire:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends
+libclc | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+libdc1394 | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libdca | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libde265 | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libdv | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+libfbclient | required by: qt6-base:makedepends
+libffado | required by: alsa-card-profiles:makedepends; jack2:makedepends; libpipewire:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends
+libfido2 | required by: openssh:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+libgme | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libgoa | required by: gvfs:makedepends
+libgphoto2 | required by: gvfs:makedepends
+libgsf | required by: nemo:makedepends
+libgusb | required by: colord:depends
+libheif | required by: glycin:makedepends; libvips:makedepends
+libiconv | required by: fuse-common:makedepends; fuse3:makedepends
+liblrdf | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libltc | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libmbim | required by: modemmanager:depends
+libmbim-glib.so | required by: modemmanager:depends
+libmicrodns | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libmicrohttpd | required by: debuginfod:depends; debuginfod:makedepends; elfutils:makedepends; libelf:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+libmicrohttpd.so | required by: debuginfod:depends
+libmpcdec | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libmpeg2 | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libmtp | required by: gvfs:makedepends
+libnfs | required by: gvfs:makedepends
+libotf | required by: emacs:depends
+libpaper | required by: cups:depends; cups:makedepends; libcups:makedepends
+libportal | required by: xdg-desktop-portal:makedepends
+libqmi | required by: modemmanager:depends
+libqmi-glib.so | required by: modemmanager:depends
+libqrtr-glib | required by: modemmanager:depends
+libshout | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+libspandsp.so | required by: pipewire-audio:depends
+libsrtp | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libtpms | required by: tpm2-tss:makedepends
+libtree-sitter.so | required by: emacs:depends
+libwpe | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+libxaw | required by: groff:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends
+libxmu | required by: jasper:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends
+libxres | required by: xorg-server-common:makedepends; xorg-server-xvfb:makedepends
+libxslt | required by: bubblewrap:makedepends; gcr:makedepends; libpsl:makedepends; libxcb:makedepends; mobile-broadband-provider-info:makedepends; pam:makedepends; shadow:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; wayland:makedepends; xkeyboard-config:makedepends
+libyaml | required by: libblockdev-btrfs:makedepends; libblockdev-crypto:makedepends; libblockdev-fs:makedepends; libblockdev-loop:makedepends; libblockdev-lvm:depends; libblockdev-lvm:makedepends; libblockdev-mdraid:makedepends; libblockdev-nvme:makedepends; libblockdev-part:makedepends; libblockdev-smart:makedepends; libblockdev-swap:makedepends; libblockdev:makedepends; libfyaml:makedepends
+linux-atm | required by: iproute2:makedepends
+linux-headers | required by: kmod:checkdepends; openssh:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+lirc | required by: libpulse:makedepends
+lld | required by: aqueous-core:makedepends; aqueous-session:makedepends; firefox:makedepends; limine:makedepends
+lua51-lgi | required by: gtk4-layer-shell:checkdepends
+luajit | required by: gtk4-layer-shell:makedepends
+lynx | required by: libasyncns:makedepends; xdg-utils:makedepends
+lzip | required by: automake:checkdepends
+mallard-ducktype | required by: dbus:makedepends
+mandoc | required by: efivar:makedepends
+mariadb-libs | required by: libsasl:makedepends; qt6-base:makedepends
+mdbook | required by: wayland:makedepends
+meson | required by: accountsservice:makedepends; adwaita-cursors:makedepends; adwaita-fonts:makedepends; adwaita-icon-theme-legacy:makedepends; adwaita-icon-theme:makedepends; alsa-card-profiles:makedepends; appstream:makedepends; aqueous-core:makedepends; aqueous-session:makedepends; at-spi2-core:makedepends; atkmm-docs:makedepends; atkmm:makedepends; bubblewrap:makedepends; cairo:makedepends; cairomm-docs:makedepends; cairomm:makedepends; cinnamon-desktop:makedepends; colord:makedepends; dav1d:makedepends; dbus-broker-units:makedepends; dbus-broker:makedepends; dbus-units:makedepends; dbus:makedepends; dconf:makedepends; desktop-file-utils:makedepends; egl-gbm:makedepends; egl-wayland2:makedepends; egl-wayland:makedepends; egl-x11:makedepends; eglexternalplatform:makedepends; fontconfig:makedepends; freetype2:makedepends; fribidi:makedepends; fuse-common:makedepends; fuse3:makedepends; gcr-4:makedepends; gcr:makedepends; gdk-pixbuf2:makedepends; glib-networking:makedepends; glib2-devel:makedepends; glib2:makedepends; glibmm-docs:makedepends; glibmm:makedepends; glu:makedepends; glycin:makedepends; gnome-keyring:makedepends; gobject-introspection-runtime:makedepends; gobject-introspection:makedepends; graphene:makedepends; grim:makedepends; gsettings-desktop-schemas:makedepends; gsettings-system-schemas:makedepends; gssdp:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; gtk-update-icon-cache:makedepends; gtk3:makedepends; gtk4-layer-shell:makedepends; gtk4:makedepends; gtkmm3:makedepends; gupnp-igd:makedepends; gupnp:makedepends; gvfs:makedepends; harfbuzz:makedepends; hicolor-icon-theme:makedepends; iputils:makedepends; iso-codes:makedepends; json-glib:makedepends; kmod:makedepends; leancrypto:makedepends; libadwaita:makedepends; libbluray:makedepends; libcgif:makedepends; libcloudproviders:makedepends; libcolord:makedepends; libdecor:makedepends; libdisplay-info:makedepends; libdrm:makedepends; libdvdnav:makedepends; libdvdread:makedepends; libei:makedepends; libepoxy:makedepends; libevdev:makedepends; libgirepository:makedepends; libglvnd:makedepends; libgnomekbd:makedepends; libgudev:makedepends; libinih:makedepends; libinput:makedepends; liblc3:makedepends; libliftoff:makedepends; libmm-glib:makedepends; libnice:makedepends; libnm:makedepends; libnotify:makedepends; libnvme:makedepends; libp11-kit:makedepends; libpciaccess:makedepends; libpipewire:makedepends; libplacebo:makedepends; libproxy:makedepends; libpulse:makedepends; librsvg:makedepends; libsecret:makedepends; libsigc++-docs:makedepends; libsigc++:makedepends; libsoup3:makedepends; libsysprof-capture:makedepends; libva:makedepends; libvdpau:makedepends; libvips:makedepends; libwacom:makedepends; libwireplumber:makedepends; libxau:makedepends; libxcvt:makedepends; libxkbcommon-x11:makedepends; libxkbcommon:makedepends; libxkbfile:makedepends; libxml2:makedepends; libxmlb:makedepends; lilv:makedepends; lv2:makedepends; lz4:makedepends; mesa:makedepends; mobile-broadband-provider-info:makedepends; modemmanager:makedepends; nemo:makedepends; networkmanager:makedepends; opus:makedepends; orc:makedepends; p11-kit:makedepends; pam:makedepends; pango:makedepends; pangomm-docs:makedepends; pangomm:makedepends; pcsclite:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; pixman:makedepends; pkgconf:makedepends; playerctl:makedepends; polkit:makedepends; python-cairo:makedepends; python-dbus:makedepends; python-gobject:makedepends; rubberband:makedepends; seatd:makedepends; serd:makedepends; shared-mime-info:makedepends; slurp:makedepends; sord:makedepends; sratom:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; tinysparql:makedepends; tomlplusplus:makedepends; upower:makedepends; util-linux-libs:makedepends; util-linux:makedepends; uwsm:makedepends; v4l-utils:makedepends; vmaf:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends; wayland-protocols:makedepends; wayland:makedepends; webrtc-audio-processing-1:makedepends; wireplumber:makedepends; wl-clipboard:makedepends; wlroots0.20:makedepends; xapp-symbolic-icons:makedepends; xapp:makedepends; xdg-desktop-portal-gtk:makedepends; xdg-desktop-portal-wlr:makedepends; xdg-desktop-portal:makedepends; xdg-user-dirs:makedepends; xkeyboard-config:makedepends; xorg-fonts-encodings:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends; xorg-xwayland:makedepends; xorgproto:makedepends; zix:makedepends
+meson-python | required by: vapoursynth:makedepends
+mjpegtools | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+mm-common | required by: atkmm-docs:makedepends; atkmm:makedepends; cairomm-docs:makedepends; cairomm:makedepends; glibmm-docs:makedepends; glibmm:makedepends; gtkmm3:makedepends; libsigc++-docs:makedepends; libsigc++:makedepends; pangomm-docs:makedepends; pangomm:makedepends
+msgraph | required by: gvfs:makedepends
+mtools | required by: limine:makedepends
+nasm | required by: dav1d:makedepends; ffmpeg:makedepends; firefox:makedepends; flac:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; lame:makedepends; libass:makedepends; libjpeg-turbo:makedepends; libvpx:makedepends; limine:makedepends; rav1e:makedepends; svt-av1:makedepends; syslinux:makedepends; vmaf:makedepends; x264:makedepends; x265:makedepends; xvidcore:makedepends
+ncompress | required by: automake:checkdepends
+ndctl | required by: libblockdev-btrfs:makedepends; libblockdev-crypto:makedepends; libblockdev-fs:makedepends; libblockdev-loop:makedepends; libblockdev-lvm:makedepends; libblockdev-mdraid:makedepends; libblockdev-nvme:makedepends; libblockdev-part:makedepends; libblockdev-smart:makedepends; libblockdev-swap:makedepends; libblockdev:makedepends
+neon | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+net-tools | required by: gnutls:checkdepends
+netpbm | required by: groff:makedepends
+ninja | required by: aom:makedepends; aqueous-core:makedepends; aqueous-session:makedepends; ca-certificates-mozilla:makedepends; clang21:makedepends; compiler-rt21:makedepends; dav1d:makedepends; dbus:makedepends; flac:makedepends; freeglut:makedepends; glib2-devel:makedepends; glib2:makedepends; glslang:makedepends; grim:makedepends; gtk4-layer-shell:makedepends; json-c:makedepends; libbluray:makedepends; libdecor:makedepends; libdeflate:makedepends; libdisplay-info:makedepends; libevent:makedepends; libjpeg-turbo:makedepends; libldac:makedepends; libogg:makedepends; libplacebo:makedepends; libsoxr:makedepends; libwebp:makedepends; lld21:makedepends; llvm-libs:makedepends; llvm21-libs:makedepends; llvm21:makedepends; llvm:makedepends; lz4:makedepends; nss:makedepends; pahole:makedepends; qt6-base:makedepends; qt6-declarative:makedepends; qt6-imageformats:makedepends; qt6-svg:makedepends; qt6-translations:makedepends; sdl2-compat:makedepends; sdl3:makedepends; seatd:makedepends; shaderc:makedepends; spirv-headers:makedepends; spirv-tools:makedepends; srt:makedepends; svt-av1:makedepends; util-linux-libs:makedepends; util-linux:makedepends; vid.stab:makedepends; vulkan-headers:makedepends; vulkan-icd-loader:makedepends; wlroots0.20:makedepends; x265:makedepends; zlib-ng:makedepends; zstd:makedepends
+noctalia | required by: repository checklist
+  Available candidate: seafoam-labs/noctalia-git=5.0.1.r5455.g24dfc26d2-1
+noctalia-greeter | required by: repository checklist
+  Available candidate: seafoam-labs/noctalia-greeter-git=1.6.0.r275.g44337ecba-1
+nodejs | required by: firefox:makedepends; libmysofa:checkdepends
+nuklear | required by: libplacebo:makedepends
+onnxruntime | required by: alsa-card-profiles:makedepends; firefox:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; libpipewire:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends
+openal | required by: alsa-card-profiles:checkdepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; libpipewire:checkdepends; pipewire-alsa:checkdepends; pipewire-audio:checkdepends; pipewire-pulse:checkdepends; pipewire-session-manager:checkdepends; pipewire:checkdepends
+opencl-headers | required by: fastfetch:makedepends; ffmpeg:makedepends
+opencl-headers>=2.1 | required by: ocl-icd:makedepends
+opencv | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+openh264 | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+openmpi | required by: boost-libs:makedepends; boost:makedepends; fftw:makedepends; hdf5:makedepends
+openslide | required by: libvips:makedepends
+opentimelineio | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+pacrunner | required by: libnm:makedepends; networkmanager:makedepends
+pandoc | required by: gssdp:makedepends
+pandoc-cli | required by: flac:makedepends; ghostty-shell-integration:makedepends; ghostty-terminfo:makedepends; ghostty:makedepends
+parallel | required by: amd-ucode:makedepends; linux-firmware-amd:makedepends; linux-firmware-amdgpu:makedepends; linux-firmware-atheros:makedepends; linux-firmware-broadcom:makedepends; linux-firmware-cirrus:makedepends; linux-firmware-intel:makedepends; linux-firmware-mediatek:makedepends; linux-firmware-nvidia:makedepends; linux-firmware-other:makedepends; linux-firmware-radeon:makedepends; linux-firmware-realtek:makedepends; linux-firmware-ti:makedepends; linux-firmware-whence:makedepends; linux-firmware:makedepends
+patchelf | required by: curl:makedepends
+patchutils | required by: perl:makedepends
+perl-b-cow | required by: perl-clone:checkdepends
+perl-devel-checklib | required by: perl-xml-parser:makedepends
+perl-file-homedir | required by: groff:makedepends
+perl-file-sharedir-install | required by: perl-xml-parser:makedepends
+perl-font-ttf | required by: ttf-dejavu:makedepends
+perl-io-compress-brotli | required by: perl-http-message:checkdepends
+perl-io-string | required by: perl-xml-parser:checkdepends
+perl-locale-gettext | required by: help2man:depends
+perl-module-build-tiny | required by: perl-http-daemon:makedepends
+perl-sgmls | required by: fontconfig:makedepends; iputils:makedepends; wpa_supplicant:makedepends
+perl-test-deep | required by: perl-http-cookiejar:checkdepends
+perl-test-fatal | required by: perl-libwww:checkdepends
+perl-test-needs | required by: perl-http-daemon:checkdepends; perl-http-message:checkdepends; perl-libwww:checkdepends; perl-uri:checkdepends
+perl-test-pod | required by: perl-error:checkdepends
+perl-test-pod-coverage | required by: perl-error:checkdepends
+perl-test-requires | required by: perl-http-cookiejar:checkdepends
+perl-test-requiresinternet | required by: perl-libwww:checkdepends
+perl-test-warnings | required by: perl-uri:checkdepends
+perl-yaml | required by: libnm:makedepends; networkmanager:makedepends
+php-apache | required by: libsoup3:checkdepends
+po4a | required by: man-db:makedepends; procps-ng:makedepends; psmisc:makedepends; util-linux-libs:makedepends; util-linux:makedepends; xz:makedepends
+poppler-glib | required by: libvips:makedepends
+postgresql | required by: qt6-base:makedepends
+postgresql-libs | required by: libsasl:makedepends
+ppp | required by: libnm:makedepends; modemmanager:depends; networkmanager:makedepends
+psutils | required by: groff:makedepends
+publicsuffix-list | required by: libpsl:makedepends
+pybind11 | required by: openexr:makedepends
+pygmentize | required by: lv2:makedepends
+pyside6 | required by: kcoreaddons:makedepends; kwidgetsaddons:makedepends
+python-attrs | required by: libei:makedepends
+python-babel | required by: python-sphinx:depends
+python-black | required by: lv2:makedepends
+python-breathe | required by: libwireplumber:makedepends; wireplumber:makedepends
+python-commonmark | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; rsync:makedepends
+python-coverage | required by: python-setuptools:checkdepends
+python-dbus-next | required by: playerctl:checkdepends
+python-dbusmock | required by: accountsservice:checkdepends; libei:makedepends; libnotify:checkdepends; polkit:checkdepends; upower:checkdepends; xdg-desktop-portal:makedepends
+python-defusedxml | required by: python-sphinx:checkdepends
+python-docutils | required by: alsa-card-profiles:makedepends; alsa-utils:makedepends; bluez-libs:makedepends; bluez-utils:makedepends; bluez:makedepends; dbus-broker-units:makedepends; dbus-broker:makedepends; dbus-units:makedepends; gdk-pixbuf2:makedepends; glib2-devel:makedepends; glib2:makedepends; gtk-update-icon-cache:makedepends; gtk4:makedepends; json-glib:makedepends; libdrm:makedepends; libpipewire:makedepends; librsvg:makedepends; pango:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; python-sphinx:depends; xdg-desktop-portal:makedepends
+python-filelock | required by: python-build:checkdepends
+python-flit-core | required by: python-build:makedepends; python-sphinx:makedepends; python-wheel:makedepends
+python-fonttools | required by: graphite:checkdepends; harfbuzz:checkdepends
+python-imagesize | required by: python-sphinx:depends
+python-ini2toml | required by: python-setuptools:checkdepends
+python-installer | required by: brotli:makedepends; libseccomp:makedepends; llvm-libs:makedepends; llvm21-libs:makedepends; llvm21:makedepends; llvm:makedepends; nftables:makedepends; python-build:makedepends; python-setproctitle:makedepends; python-setuptools:makedepends; python-sphinx:makedepends; python-wheel:makedepends; vapoursynth:makedepends
+python-jaraco.collections | required by: python-setuptools:depends
+python-jaraco.envs | required by: python-setuptools:checkdepends
+python-jaraco.functools | required by: python-setuptools:depends
+python-jaraco.path | required by: python-setuptools:checkdepends
+python-jaraco.test | required by: python-setuptools:checkdepends
+python-jaraco.text | required by: python-setuptools:depends
+python-jinja | required by: libei:makedepends; libplacebo:makedepends; python-sphinx:depends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+python-jsonschema | required by: python-wheel:checkdepends
+python-keyring | required by: python-wheel:checkdepends
+python-keyrings-alt | required by: python-wheel:checkdepends
+python-libevdev | required by: libinput:makedepends; libwacom:makedepends; xorgproto:checkdepends
+python-lxml | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; libwireplumber:makedepends; lv2:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends; wireplumber:makedepends
+python-mako | required by: gobject-introspection-runtime:makedepends; gobject-introspection:depends; gobject-introspection:makedepends; libgirepository:makedepends; libplacebo:makedepends; mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+python-markdown | required by: gobject-introspection-runtime:makedepends; gobject-introspection:depends; gobject-introspection:makedepends; libgirepository:makedepends; lv2:makedepends
+python-markupsafe | required by: libplacebo:makedepends
+python-matplotlib | required by: pahole:makedepends
+python-more-itertools | required by: python-setuptools:depends
+python-myst-parser | required by: clang21:makedepends; llvm-libs:makedepends; llvm21-libs:makedepends; llvm21:makedepends; llvm:makedepends
+python-numpy | required by: boost-libs:makedepends; boost:makedepends; imath:makedepends
+python-packaging | required by: glib2-devel:depends; glib2-devel:makedepends; glib2:makedepends; mesa:makedepends; python-build:depends; python-setuptools:depends; python-sphinx:depends; python-wheel:depends; upower:checkdepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends; xdg-desktop-portal-gtk:makedepends
+python-path | required by: python-setuptools:checkdepends
+python-pefile | required by: systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+python-pip | required by: onetbb:makedepends; python-build:checkdepends; python-setuptools:checkdepends
+python-pkgconfig | required by: brotli:makedepends
+python-platformdirs | required by: python-setuptools:depends
+python-ply | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+python-psutil | required by: llvm-libs:makedepends; llvm21-libs:makedepends; llvm21:makedepends; llvm:makedepends; python-sphinx:checkdepends
+python-pycparser | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+python-pydata-sphinx-theme | required by: python-gobject:makedepends
+python-pyelftools | required by: systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+python-pygments | required by: bluez-libs:makedepends; bluez-utils:makedepends; bluez:makedepends; lv2:makedepends; python-sphinx:depends
+python-pylint | required by: lv2:makedepends
+python-pyproject-hooks | required by: python-build:depends
+python-pyproject-metadata | required by: python-dbus:makedepends
+python-pyqt5 | required by: libpulse:makedepends
+python-pytest | required by: gcc-ada:checkdepends; gcc-d:checkdepends; gcc-fortran:checkdepends; gcc-go:checkdepends; gcc-libs:checkdepends; gcc:checkdepends; lib32-gcc-libs:checkdepends; libasan:checkdepends; libatomic:checkdepends; libei:makedepends; libgcc:checkdepends; libgccjit:checkdepends; libgfortran:checkdepends; libgo:checkdepends; libgomp:checkdepends; libgphobos:checkdepends; libhwasan:checkdepends; libinput:checkdepends; liblsan:checkdepends; libobjc:checkdepends; libquadmath:checkdepends; libstdc++:checkdepends; libtsan:checkdepends; libubsan:checkdepends; libvips:checkdepends; libwacom:makedepends; playerctl:checkdepends; python-build:checkdepends; python-cairo:checkdepends; python-gobject:checkdepends; python-setproctitle:checkdepends; python-sphinx:checkdepends; python-wheel:checkdepends; xdg-desktop-portal:makedepends; xkeyboard-config:checkdepends
+python-pytest-asyncio | required by: playerctl:checkdepends
+python-pytest-home | required by: python-setuptools:checkdepends
+python-pytest-mock | required by: python-build:checkdepends
+python-pytest-rerunfailures | required by: python-build:checkdepends
+python-pytest-subprocess | required by: python-setuptools:checkdepends
+python-pytest-timeout | required by: python-setuptools:checkdepends
+python-pytest-xdist | required by: libei:checkdepends; python-sphinx:checkdepends; xdg-desktop-portal:checkdepends; xkeyboard-config:checkdepends
+python-pyudev | required by: libinput:makedepends; libwacom:makedepends
+python-pyvips | required by: libvips:checkdepends
+python-quart | required by: libsoup3:makedepends
+python-rdflib | required by: lv2:makedepends
+python-requests | required by: python-sphinx:depends
+python-roman-numerals-py | required by: python-sphinx:depends
+python-setuptools-scm | required by: python-build:checkdepends
+python-snowballstemmer | required by: python-sphinx:depends
+python-sphinx-alabaster-theme | required by: python-sphinx:depends
+python-sphinx-copybutton | required by: libuv:makedepends; python-gobject:makedepends; xdg-desktop-portal:makedepends
+python-sphinx-furo | required by: xdg-desktop-portal:makedepends
+python-sphinx-hawkmoth | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+python-sphinx-lv2-theme | required by: sratom:makedepends
+python-sphinx_rtd_theme | required by: btrfs-progs:makedepends; libwireplumber:makedepends; python-cairo:makedepends; python-dbus:makedepends; wireplumber:makedepends
+python-sphinxcontrib-applehelp | required by: python-sphinx:depends
+python-sphinxcontrib-devhelp | required by: python-sphinx:depends
+python-sphinxcontrib-htmlhelp | required by: python-sphinx:depends
+python-sphinxcontrib-jquery | required by: python-dbus:makedepends
+python-sphinxcontrib-jsmath | required by: python-sphinx:depends
+python-sphinxcontrib-qthelp | required by: python-sphinx:depends
+python-sphinxcontrib-serializinghtml | required by: python-sphinx:depends
+python-sphinxext-opengraph | required by: xdg-desktop-portal:makedepends
+python-sphinxygen | required by: sratom:makedepends
+python-structlog | required by: libei:makedepends
+python-tappy | required by: graphene:checkdepends; tinysparql:makedepends
+python-tomli | required by: python-dbus:makedepends
+python-tomli-w | required by: python-setuptools:checkdepends
+python-typing_extensions | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; python-sphinx:checkdepends
+python-uv | required by: python-build:checkdepends
+python-virtualenv | required by: automake:checkdepends; python-build:checkdepends
+python-yaml | required by: libei:makedepends; libinput:makedepends; mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+qrencode | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+qt5-base | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; polkit-qt6:makedepends
+qt5-declarative | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+qt5-tools | required by: dbus:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+qt5-wayland | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+qt5-x11extras | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+qt6-5compat | required by: v4l-utils:makedepends
+qt6-languageserver | required by: qt6-declarative:makedepends
+qt6-shadertools | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; qt6-declarative:makedepends
+qt6-tools | required by: appstream:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; kcoreaddons:makedepends; kcrash:makedepends; ki18n:makedepends; kwidgetsaddons:makedepends; qt6-translations:makedepends
+quickjs-ng | required by: fastfetch:makedepends
+quota-tools | required by: systemd-libs:makedepends; systemd-resolvconf:makedepends; systemd-sysvcompat:makedepends; systemd:makedepends
+ragel | required by: harfbuzz:makedepends
+rdfind | required by: amd-ucode:makedepends; linux-firmware-amd:makedepends; linux-firmware-amdgpu:makedepends; linux-firmware-atheros:makedepends; linux-firmware-broadcom:makedepends; linux-firmware-cirrus:makedepends; linux-firmware-intel:makedepends; linux-firmware-mediatek:makedepends; linux-firmware-nvidia:makedepends; linux-firmware-other:makedepends; linux-firmware-radeon:makedepends; linux-firmware-realtek:makedepends; linux-firmware-ti:makedepends; linux-firmware-whence:makedepends; linux-firmware:makedepends
+renderdoc | required by: qt6-base:makedepends
+ripgrep | required by: aqueous-core:checkdepends; aqueous-session:checkdepends; btrfs-progs:checkdepends
+roc-toolkit | required by: alsa-card-profiles:makedepends; libpipewire:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends
+rrdtool | required by: lm_sensors:makedepends
+rtkit | required by: alsa-card-profiles:makedepends; libpipewire:makedepends; libpulse:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; xdg-desktop-portal:makedepends
+rtmpdump | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+ruby | required by: ocl-icd:makedepends
+ruby-ronn-ng | required by: libidn2:makedepends
+rust | required by: devario-dracut:makedepends; dracut-git:makedepends; firefox:makedepends; gcc-ada:makedepends; gcc-d:makedepends; gcc-fortran:makedepends; gcc-go:makedepends; gcc-libs:makedepends; gcc:makedepends; git:makedepends; glycin:makedepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; lib32-gcc-libs:makedepends; libasan:makedepends; libatomic:makedepends; libblake3:makedepends; libdovi:makedepends; libgcc:makedepends; libgccjit:makedepends; libgfortran:makedepends; libgo:makedepends; libgomp:makedepends; libgphobos:makedepends; libhwasan:makedepends; liblsan:makedepends; libobjc:makedepends; libquadmath:makedepends; librsvg:makedepends; libstdc++:makedepends; libtsan:makedepends; libubsan:makedepends; linux-cachyos-lts-headers:makedepends; linux-cachyos-lts:makedepends; mesa:makedepends; rav1e:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+rust-bindgen | required by: linux-cachyos-lts-headers:makedepends; linux-cachyos-lts:makedepends; mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+rust-src | required by: linux-cachyos-lts-headers:makedepends; linux-cachyos-lts:makedepends
+samba | required by: libsoup3:makedepends
+sane | required by: colord:makedepends; libcolord:makedepends
+sassc | required by: gtk-update-icon-cache:makedepends; gtk3:makedepends; gtk4:makedepends; libadwaita:makedepends
+scdoc | required by: aqueous-core:makedepends; aqueous-session:makedepends; greetd-agreety:makedepends; greetd:makedepends; grim:makedepends; kmod:makedepends; seatd:makedepends; slurp:makedepends; uwsm:makedepends; xdg-desktop-portal-wlr:makedepends
+sdl | required by: libtheora:makedepends
+seafoam-keyring | required by: repository checklist
+setconf | required by: libx86emu:makedepends
+sharutils | required by: automake:checkdepends
+shelly | required by: repository checklist
+  Available candidate: seafoam-labs/shelly=3.1.6-1
+shiboken6-generator | required by: kcoreaddons:makedepends; kwidgetsaddons:makedepends
+smbclient | required by: gvfs:makedepends
+soundtouch | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+spirv-llvm-translator | required by: mesa:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+svt-hevc | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+swig | required by: audit:makedepends; libcap-ng:makedepends; libnvme:makedepends; lilv:makedepends; onetbb:makedepends; volume_key:makedepends
+swtpm | required by: libsecret:checkdepends; tpm2-tss:checkdepends
+sysfsutils | required by: hwinfo:makedepends
+taglib | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+tcl | required by: gcc-ada:checkdepends; gcc-d:checkdepends; gcc-fortran:checkdepends; gcc-go:checkdepends; gcc-libs:checkdepends; gcc:checkdepends; lib32-gcc-libs:checkdepends; libasan:checkdepends; libatomic:checkdepends; libgcc:checkdepends; libgccjit:checkdepends; libgfortran:checkdepends; libgo:checkdepends; libgomp:checkdepends; libgphobos:checkdepends; libhwasan:checkdepends; liblsan:checkdepends; libobjc:checkdepends; libquadmath:checkdepends; libstdc++:checkdepends; libtsan:checkdepends; libubsan:checkdepends; sqlite:makedepends
+tcl>=8.6 | required by: libnewt:makedepends
+tdb | required by: libpulse:makedepends
+texlive-binextra | required by: libunwind:makedepends
+texlive-fontsextra | required by: python-sphinx:checkdepends
+texlive-fontsrecommended | required by: python-sphinx:checkdepends
+texlive-latexextra | required by: python-sphinx:checkdepends
+texlive-luatex | required by: python-sphinx:checkdepends
+texlive-xetex | required by: graphite:makedepends; python-sphinx:checkdepends
+time | required by: hdf5:makedepends
+tk | required by: python-tests:makedepends; python:makedepends
+tpm2-abrmd | required by: libsecret:checkdepends
+tpm2-tools | required by: devario-dracut:depends; dracut-git:depends; gnutls:checkdepends
+tree-sitter | required by: emacs:makedepends
+twolame | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+umockdev | required by: libgudev:makedepends; upower:checkdepends; xdg-desktop-portal:makedepends
+unixodbc | required by: libldap:makedepends; qt6-base:makedepends
+unzip | required by: firefox:makedepends
+upx | required by: syslinux:makedepends
+usbmuxd | required by: upower:makedepends
+uthash | required by: tpm2-tss:checkdepends
+vala | required by: accountsservice:makedepends; appstream:makedepends; automake:checkdepends; colord:makedepends; dconf:makedepends; gcr-4:makedepends; gcr:makedepends; glycin:makedepends; gssdp:makedepends; gupnp:makedepends; libadwaita:makedepends; libcloudproviders:makedepends; libcolord:makedepends; libdbusmenu-glib:makedepends; libdbusmenu-gtk3:makedepends; libgudev:makedepends; libical:makedepends; libmm-glib:makedepends; libnm:makedepends; libproxy:makedepends; librsvg:makedepends; libsecret:makedepends; libsoup3:makedepends; libvips:makedepends; modemmanager:makedepends; networkmanager:makedepends; tinysparql:makedepends; xapp:makedepends
+valabind | required by: gtk4-layer-shell:makedepends
+valgrind | required by: alsa-card-profiles:makedepends; cairo:makedepends; curl:checkdepends; gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends; libei:checkdepends; libevdev:makedepends; libpipewire:makedepends; libpulse:makedepends; libseccomp:checkdepends; mesa:makedepends; nettle:checkdepends; orc:makedepends; pipewire-alsa:makedepends; pipewire-audio:makedepends; pipewire-pulse:makedepends; pipewire-session-manager:makedepends; pipewire:makedepends; vulkan-intel:makedepends; vulkan-mesa-implicit-layers:makedepends; vulkan-radeon:makedepends; vulkan-swrast:makedepends
+vamp-plugin-sdk | required by: rubberband:makedepends
+vim | required by: vmaf:checkdepends
+vulkan-validation-layers | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+w3m | required by: pam:makedepends
+waf | required by: jack2:makedepends
+wasi-compiler-rt | required by: firefox:makedepends
+wasi-libc | required by: firefox:makedepends
+wasi-libc++ | required by: firefox:makedepends
+wasi-libc++abi | required by: firefox:makedepends
+wavpack | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:depends; gst-plugins-good:makedepends; gstreamer:makedepends
+weston | required by: libadwaita:checkdepends
+wget | required by: coreutils:makedepends; cpio:makedepends; diffutils:makedepends; findutils:makedepends; grep:makedepends; gzip:makedepends; sed:makedepends
+wildmidi | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+wpebackend-fdo | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+wpewebkit | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+wsdd | required by: gvfs:makedepends
+xfconf | required by: fastfetch:makedepends
+xmlstarlet | required by: qt6-base:makedepends
+xmlto | required by: accountsservice:makedepends; alsa-utils:makedepends; appstream:makedepends; btrfs-progs:makedepends; dbus:makedepends; giflib:makedepends; git:makedepends; libnotify:makedepends; ocl-icd:makedepends; shared-mime-info:makedepends; wayland:makedepends; xdg-desktop-portal:makedepends; xdg-utils:makedepends; zeromq:makedepends
+xmltoman | required by: avahi:makedepends; libpulse:makedepends
+xorg-bdftopcf | required by: terminus-font:makedepends
+xorg-font-util | required by: xorg-fonts-encodings:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends; xorg-xwayland:makedepends
+xorg-mkfontscale | required by: xorg-fonts-encodings:makedepends
+xorg-util-macros | required by: libfontenc:makedepends; libice:makedepends; libpciaccess:makedepends; libsm:makedepends; libx11:makedepends; libxcb:makedepends; libxcomposite:makedepends; libxcursor:makedepends; libxdmcp:makedepends; libxext:makedepends; libxfixes:makedepends; libxfont2:makedepends; libxi:makedepends; libxinerama:makedepends; libxkbfile:makedepends; libxrandr:makedepends; libxshmfence:makedepends; libxss:makedepends; libxt:makedepends; libxtst:makedepends; xcb-util-image:makedepends; xcb-util-keysyms:makedepends; xcb-util-renderutil:makedepends; xcb-util-wm:makedepends; xcb-util:makedepends; xorg-fonts-encodings:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends; xorg-setxkbmap:makedepends; xorg-xkbcomp:makedepends; xorg-xprop:makedepends; xorgproto:makedepends
+xorg-xauth | required by: xorg-server-xvfb:depends
+xtrans | required by: libice:makedepends; libsm:makedepends; libx11:makedepends; libxfont2:makedepends; xorg-server-common:makedepends; xorg-server-xvfb:makedepends; xorg-xwayland:makedepends
+xxd | required by: cryptsetup:checkdepends; json-c:checkdepends
+yasm | required by: aom:makedepends; firefox:makedepends
+yelp-tools | required by: dbus:makedepends; gparted:makedepends; libsysprof-capture:makedepends
+zbar | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+zip | required by: automake:checkdepends; firefox:makedepends; nspr:makedepends
+zvbi | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+zxing-cpp | required by: gst-plugins-bad-libs:makedepends; gst-plugins-base-libs:makedepends; gst-plugins-base:makedepends; gst-plugins-good:makedepends; gstreamer:makedepends
+
+Reproduce: python audit.py (requires Python and libalpm, reads saved DBs and saved local manifests).
+The saved local-srcinfo.json was generated with makepkg --printsrcinfo for 14 default OS recipes.
+results.json preserves manifest inputs, selected names, dependency parents, hashes, and source URLs.
+missing-requirements.csv is the filterable list; section counts overlap and must not be added together.
