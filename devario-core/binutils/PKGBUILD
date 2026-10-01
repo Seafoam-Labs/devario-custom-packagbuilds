@@ -8,7 +8,7 @@
 pkgname=binutils
 pkgver=2.47
 _commit=6ce87bbc521cf46eaee9a1f7ef61cee2cdfb3e32
-pkgrel=4
+pkgrel=6
 pkgdesc='A set of programs to assemble and manipulate binary and object files'
 arch=(x86_64)
 url='https://www.gnu.org/software/binutils/'
@@ -44,6 +44,7 @@ provides=(
   libctf.so
   libgprofng.so
   libsframe.so
+  'libsframe.so=3-64'
 )
 backup=(
   'etc/gprofng.rc'
@@ -117,7 +118,22 @@ build() {
     --with-pic \
     --with-system-zlib
 
-  make -O tooldir=/usr
+  # Parallel/PGO output can bury the failing command before successful jobs.
+  # Preserve the full output and repeat diagnostics where the worker shows them.
+  if (set -o pipefail; make -O tooldir=/usr 2>&1 | tee "$srcdir/binutils-build.log"); then
+    :
+  else
+    local build_status=$?
+    printf '\nBinutils build failed (status %s). Full log: %s\n' \
+      "$build_status" "$srcdir/binutils-build.log" >&2
+    printf '%s\n' 'First error matches with context:' >&2
+    LC_ALL=C grep -n -m 12 -B 5 -A 5 -E \
+      'error:|fatal error:|undefined reference|Killed|No rule to make|cannot find|Segmentation fault|No space left|\*\*\*' \
+      "$srcdir/binutils-build.log" >&2 || true
+    printf '%s\n' 'Final 60 log lines:' >&2
+    tail -n 60 "$srcdir/binutils-build.log" >&2
+    return "$build_status"
+  fi
 
   # Extract the FSF All Permissive License
   # <https://www.gnu.org/prep/maintain/html_node/License-Notices-for-Other-Files.html>
@@ -141,6 +157,7 @@ check() {
 package() {
   cd binutils-build
   make DESTDIR="${pkgdir}" tooldir=/usr install
+  _verify_soname "$pkgdir/usr/lib/libsframe.so" libsframe.so.3 || return 1
 
   # install PIC version of libiberty
   install -m644 libiberty/pic/libiberty.a "${pkgdir}"/usr/lib
@@ -164,4 +181,10 @@ EOS
 
   # install FSF All Permissive License
   install -Dm644 -t "${pkgdir}"/usr/share/licenses/${pkgname}/ FSFAP
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

@@ -2,14 +2,13 @@
 pkgbase=libxcrypt
 pkgname=('libxcrypt' 'libxcrypt-compat')
 pkgver=4.5.2
-pkgrel=2
+pkgrel=3
 pkgdesc='Modern library for one-way hashing of passwords'
 arch=('x86_64')
 url='https://github.com/besser82/libxcrypt/'
 license=('LGPL-2.1-or-later')
 depends=('glibc')
 makedepends=('perl')
-provides=('libcrypt.so')
 source=("${url}releases/download/v${pkgver}/${pkgbase}-${pkgver}.tar.xz"{,.asc})
 sha256sums=('71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071'
             'SKIP')
@@ -54,16 +53,26 @@ check() {
 }
 
 package_libxcrypt() {
+  provides=('libcrypt.so' 'libcrypt.so=2-64')
   make -C "${srcdir}/build-libxcrypt" DESTDIR="${pkgdir}" install
+  _verify_soname "$pkgdir/usr/lib/libcrypt.so" libcrypt.so.2 || return 1
 }
 
 package_libxcrypt-compat() {
   pkgdesc='Modern library for one-way hashing of passwords - legacy API functions'
   depends=('libxcrypt')
+  provides=('libcrypt.so' 'libcrypt.so=1-64')
 
   make -C "${srcdir}/build-libxcrypt-compat" DESTDIR="${pkgdir}" install
+  _verify_soname "$pkgdir/usr/lib/libcrypt.so.1" libcrypt.so.1 || return 1
   # Only the versioned libcrypt.so.1 belongs in the compatibility package.
   rm -r "${pkgdir}/usr/include" "${pkgdir}/usr/share" \
     "${pkgdir}/usr/lib/pkgconfig"
   rm -f "${pkgdir}/usr/lib/"*.so "${pkgdir}/usr/lib/"*.la
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

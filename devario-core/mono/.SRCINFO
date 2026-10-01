@@ -1,7 +1,7 @@
 pkgbase = mono
 	pkgdesc = Free implementation of the .NET platform including runtime and compiler
 	pkgver = 6.12.0.206
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.mono-project.com/
 	install = mono.install
 	arch = x86_64
@@ -15,6 +15,7 @@ pkgbase = mono
 	depends = sh
 	depends = python
 	depends = ca-certificates
+	depends = ca-certificates-utils
 	provides = monodoc
 	conflicts = monodoc
 	source = mono::git+https://github.com/mono/mono#commit=0cbf0e290c31adb476f9de0fa44b1d8829affa40

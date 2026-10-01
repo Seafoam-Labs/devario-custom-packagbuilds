@@ -19,7 +19,7 @@ pkgname=(
   rust-aarch64-musl
 )
 pkgver=1.98.1
-pkgrel=4
+pkgrel=5
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
@@ -199,7 +199,12 @@ build() {
   export LIBSSH2_SYS_USE_PKG_CONFIG=1
   export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
   export RUST_BACKTRACE=1
-  unset CFLAGS CXXFLAGS LDFLAGS
+  # This build includes ARM and WebAssembly targets. Global worker flags such
+  # as -C target-cpu=x86-64-v3 must not leak into those compiler invocations.
+  # Let bootstrap.toml and x.py configure optimization for each target.
+  unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+  unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTDOCFLAGS CARGO_ENCODED_RUSTDOCFLAGS
+  unset CARGO_BUILD_RUSTFLAGS CARGO_BUILD_RUSTDOCFLAGS
 
   local xpy_options=(
     -j "$(nproc)"
@@ -219,21 +224,21 @@ build() {
 
     echo "Building instrumented compiler..."
     python ./x.py build sysroot "${xpy_options[@]}" \
-      --rust-profile-generate="$profraw"
+      --rust-profile-generate="$profraw" || return 1
 
     # Building cargo is our workload for profiling
     echo "Profiling instrumented compiler..."
     local stage2="$PWD/build/$host_tuple/stage2"
     LLVM_PROFILE_FILE="$profraw/default_%m_%p.profraw" \
       LD_LIBRARY_PATH="$stage2/lib" RUSTC="$stage2/bin/rustc" \
-      cargo build --manifest-path=src/tools/cargo/Cargo.toml
+      cargo build --manifest-path=src/tools/cargo/Cargo.toml || return 1
 
     # Merge the profile data
     local profdata="$PWD/build/rustc.profdata"
-    llvm-profdata merge -o "$profdata" "$profraw"
+    llvm-profdata merge -o "$profdata" "$profraw" || return 1
 
     stat -c "Profile data found (%s bytes)" "$profdata"
-    test -s "$profdata"
+    test -s "$profdata" || return 1
 
     # Clean up profraw and instrumented stage2 artifacts
     echo "Removing instrumented compiler..."
@@ -243,7 +248,7 @@ build() {
   fi
 
   echo "Building optimized compiler..."
-  DESTDIR="$srcdir/dest-rust" python ./x.py install "${xpy_options[@]}"
+  DESTDIR="$srcdir/dest-rust" python ./x.py install "${xpy_options[@]}" || return 1
 
   cd ../dest-rust
 

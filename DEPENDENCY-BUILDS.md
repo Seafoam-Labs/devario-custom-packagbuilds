@@ -95,3 +95,31 @@ has not been run.
 Full `--isolated` nspawn verification is unavailable in this environment because
 Shelly's privileged coordinator needs an interactive sudo password. Run the
 isolated commands on the worker before publishing the packages.
+
+## Qt 6.12 version alignment
+
+The [qt6-base recipe](devario-core/qt6-base/PKGBUILD) builds Qt 6.12.0 and its
+`qt6-xcb-private-headers` split package. The local
+[tools](devario-core/qt6-tools/PKGBUILD) and
+[translations](devario-core/qt6-translations/PKGBUILD) recipes now also use
+6.12.0. Qt's CMake compatibility checks remain enabled.
+
+Recipes are adapted from official Arch packaging:
+[base](https://gitlab.archlinux.org/archlinux/packaging/packages/qt6-base),
+[tools](https://gitlab.archlinux.org/archlinux/packaging/packages/qt6-tools), and
+[translations](https://gitlab.archlinux.org/archlinux/packaging/packages/qt6-translations).
+Base includes its two upstream patches and QtWebEngine CMake detection backport.
+Tools no longer applies the old LLVM 22 patch; it retains the pinned qlitehtml
+commit and checksum used by the previous local recipe.
+
+Build and publish base first. Make `qt6-declarative=6.12.0` available from the
+worker repository before building tools, then build translations. Tools pins
+both base and declarative to 6.12.0; translations pins base and tools to 6.12.0.
+Refresh the worker repository between stages and use clean isolated build roots.
+An existing translations package is needed to provision consumers of the new
+base during this cycle, because base depends on translations. Publish the
+matching Qt suite together for downstream use.
+
+Validation: all three recipes pass Bash syntax, makepkg/Shelly metadata, and
+Shelly review. Base's bundled patches match their declared checksums. Full
+builds and remote-source checksum verification have not been run.

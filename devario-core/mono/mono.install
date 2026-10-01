@@ -3,5 +3,21 @@ post_install() {
 }
 
 post_upgrade() {
-    cert-sync /etc/ssl/certs/ca-certificates.crt
+    # An isolated root may run this scriptlet before the CA extraction hook.
+    if [ ! -s /etc/ssl/certs/ca-certificates.crt ]; then
+        if ! update-ca-trust; then
+            echo 'mono: failed to generate the system CA bundle with update-ca-trust' >&2
+            return 1
+        fi
+    fi
+
+    if [ ! -s /etc/ssl/certs/ca-certificates.crt ]; then
+        echo 'mono: system CA bundle is missing or empty after update-ca-trust' >&2
+        return 1
+    fi
+
+    if ! cert-sync /etc/ssl/certs/ca-certificates.crt; then
+        echo 'mono: cert-sync failed; see the Mono runtime or certificate error above' >&2
+        return 1
+    fi
 }

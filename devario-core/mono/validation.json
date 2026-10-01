@@ -7,5 +7,6 @@
   "full_source_verification": "not run (Git sources retain upstream SKIP checksums)",
   "full_build": "not run",
   "isolated_build": "not run",
-  "btls_cmake_fix": "Pinned mono/btls/Makefile.am confirms BTLS_CMAKE_ARGS is forwarded to CMake; recipe syntax, Shelly review and metadata pass. Full Mono rebuild not run."
+  "btls_cmake_fix": "Pinned mono/btls/Makefile.am confirms BTLS_CMAKE_ARGS is forwarded to CMake; recipe syntax, Shelly review and metadata pass. Full Mono rebuild not run.",
+  "scriptlet_ca_bundle_fix": "Mocked install-scriptlet checks pass for existing bundle, missing bundle generation, generation failure, empty generated bundle, and cert-sync failure. Shell syntax and Shelly metadata pass. Worker failure cause remains unconfirmed without cert-sync stderr; full rebuild and isolated provisioning not run."
 }

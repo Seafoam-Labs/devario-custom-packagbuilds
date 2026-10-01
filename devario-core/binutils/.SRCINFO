@@ -1,7 +1,7 @@
 pkgbase = binutils
 	pkgdesc = A set of programs to assemble and manipulate binary and object files
 	pkgver = 2.47
-	pkgrel = 4
+	pkgrel = 6
 	url = https://www.gnu.org/software/binutils/
 	arch = x86_64
 	license = GPL-2.0-or-later
@@ -26,6 +26,7 @@ pkgbase = binutils
 	provides = libctf.so
 	provides = libgprofng.so
 	provides = libsframe.so
+	provides = libsframe.so=3-64
 	conflicts = binutils-multilib
 	replaces = binutils-multilib
 	options = staticlibs
