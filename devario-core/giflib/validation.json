@@ -1,0 +1,11 @@
+{
+  "source_checksums": "passed (upstream SHA-512)",
+  "security_patch_application": "passed",
+  "bash_syntax": "passed",
+  "metadata": "makepkg and Shelly agree; provides libgif.so=7-64",
+  "library_build": "passed",
+  "elf_class": "ELF64",
+  "soname": "libgif.so.7",
+  "full_package_build": "not run: xmlto is not installed in the local validation environment",
+  "isolated_build": "not run"
+}
