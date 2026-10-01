@@ -36,8 +36,15 @@ build() {
   # Compile source code for supported GPU archs in parallel
   export HIPCC_COMPILE_FLAGS_APPEND="-parallel-jobs=$(nproc)"
   export HIPCC_LINK_FLAGS_APPEND="-parallel-jobs=$(nproc)"
-  export CXX=/opt/rocm/llvm/bin/amdclang++
-  export CC=/opt/rocm/llvm/bin/amdclang
+  # rocm-llvm ships its drivers in /opt/rocm/lib/llvm (linked into /opt/rocm/bin);
+  # nothing provides AMD's /opt/rocm/llvm, so the upstream path does not resolve.
+  export CXX=/opt/rocm/bin/amdclang++
+  export CC=/opt/rocm/bin/amdclang
+  # The clang driver derives the HIP runtime dir from the path of the compiler it was
+  # invoked through, so going via the /opt/rocm/bin link leaves -lamdhip64 with a -L
+  # that has no libamdhip64.so. rocm-core exports ROCM_PATH for login shells only,
+  # which a build root never sources, so name the root and the driver stops guessing.
+  export ROCM_PATH=/opt/rocm
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   CXXFLAGS+=" -fcf-protection=none"
