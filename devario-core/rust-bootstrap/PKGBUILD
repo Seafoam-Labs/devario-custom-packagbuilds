@@ -1,0 +1,48 @@
+# Official Rust binaries used only to bootstrap the source-built Rust package.
+pkgname=rust-bootstrap
+pkgver=1.97.1
+pkgrel=1
+epoch=1
+pkgdesc='Temporary official Rust compiler, Cargo, rustfmt and standard libraries for bootstrapping'
+arch=('x86_64')
+url='https://www.rust-lang.org/'
+license=('Apache-2.0 OR MIT')
+depends=('glibc' 'libgcc' 'zlib' 'gcc-libs')
+provides=("rust=$epoch:$pkgver" "cargo=$pkgver" 'rustfmt' "rust-wasm=$epoch:$pkgver")
+conflicts=('rust' 'cargo' 'rustfmt' 'rust-wasm' 'rustup')
+# Preserve the already-built compiler and its libraries exactly as distributed.
+options=('!strip' '!debug' '!lto' 'staticlibs')
+validpgpkeys=('108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE')
+source=(
+  "https://static.rust-lang.org/dist/2026-07-16/rustc-1.97.1-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/cargo-1.97.1-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/rustfmt-1.97.1-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-unknown-unknown.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-wasip1.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-wasip2.tar.xz"{,.asc}
+)
+sha256sums=(
+  '9819d0a32d56bd339585319c80260e332779f5541fd66838ab7e016d6c814819' 'SKIP'
+  'e1be5f5ff7f7f80ca506fb65770b759edbdc6d303781ed71c5de8ec8a8394779' 'SKIP'
+  '907fe97d6afbde1eca1b34c992c76e1406d422e2e6f137813d382acec7eb4d14' 'SKIP'
+  '1c1e704ae80126b7de34f72ea2825f7fd01736dec20732faed47374b95282fba' 'SKIP'
+  'fa0edb6e9f34faae5735554d62d50875eded839dc707d0f1c01467a918d8453b' 'SKIP'
+  '40ab01f39c0d99d4537e67463fae623d4ced762f2f1e344e87b01529e0864075' 'SKIP'
+  'e06b2e8ce0822674d257e9e78dd8d00cf7b154ad3493240e97b3c5ef4fad83b5' 'SKIP'
+)
+
+package() {
+  local archive directory
+  for archive in "${source[@]}"; do
+    [[ $archive == *.tar.xz ]] || continue
+    directory=${archive##*/}
+    directory=${directory%.tar.xz}
+    sh "$srcdir/$directory/install.sh" \
+      --prefix=/usr --destdir="$pkgdir" --disable-ldconfig || return 1
+  done
+  # Package manager owns installation/removal; discard upstream uninstall state.
+  rm -f "$pkgdir/usr/lib/rustlib/"{components,install.log,rust-installer-version,uninstall.sh,manifest-*}
+  install -Dm644 "$srcdir/rustc-$pkgver-x86_64-unknown-linux-gnu/LICENSE-MIT" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
+}

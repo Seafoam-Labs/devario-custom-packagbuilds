@@ -1,21 +1,33 @@
 pkgname=libassuan
 pkgver=3.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc='IPC library used by GnuPG and related software'
 arch=('x86_64')
 url='https://gnupg.org/software/libassuan/'
 license=('LGPL-2.1-or-later' 'GPL-3.0-or-later' 'FSFULLR')
 depends=('glibc' 'libgpg-error' 'sh')
-makedepends=('git' 'autoconf' 'automake' 'texinfo')
-provides=('libassuan.so')
+makedepends=('git' 'autoconf' 'automake' 'texinfo' 'binutils')
+provides=('libassuan.so' 'libassuan.so=9-64')
 
 # Use the upstream GitHub mirror to avoid dev.gnupg.org HTTP throttling.
-source=("libassuan::git+https://github.com/gpg/libassuan.git#tag=libassuan-${pkgver}?signed")
-sha256sums=('83247852dcad5e7d6c8da071c4500d6c564ed9b4ec877796cc403283b2afba59')
+source=("libassuan::git+https://github.com/gpg/libassuan.git?signed#tag=libassuan-${pkgver}"
+        '0001-preserve-libassuan-1.0-compatibility.patch')
+sha256sums=('83247852dcad5e7d6c8da071c4500d6c564ed9b4ec877796cc403283b2afba59'
+            '332f9077b7d7edb15eae20c16c4c84663713fbe6294d01ecafb438e6a52e8502')
 validpgpkeys=('6DAA6E64A76D2840571B4902528897B826403ADA') # Werner Koch (dist signing 2020)
 
 prepare() {
   cd "${srcdir}/libassuan"
+  patch -Np1 -i "${srcdir}/0001-preserve-libassuan-1.0-compatibility.patch"
+  # 3.0.1 renamed the version node without changing the exported API.
+  # Keep 2.0 as the default and add 1.0 aliases for existing GnuPG binaries.
+  awk '/^[[:space:]]+(__)?assuan_[a-zA-Z0-9_]+;$/ {
+    gsub(/[[:space:];]/, "");
+    # Use distinct assembler symbols so the second .symver does not replace
+    # the first. @@@ selects a default version only in the defining object.
+    printf "__asm__(\".globl compat_%s\\n.set compat_%s,%s\\n.symver compat_%s,%s@LIBASSUAN_1.0\\n.symver %s,%s@@@LIBASSUAN_2.0\");\n", $0, $0, $0, $0, $0, $0, $0;
+  }' src/libassuan.vers > src/libassuan-compat.h
+  test -s src/libassuan-compat.h || return 1
   ./autogen.sh --force
 }
 
@@ -36,6 +48,20 @@ check() {
 package() {
   cd "${srcdir}/libassuan"
   make DESTDIR="${pkgdir}" install
+  # Fail packaging if either ABI disappears, including under Shelly's builder.
+  LC_ALL=C readelf -h "${pkgdir}/usr/lib/libassuan.so.9" |
+    grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "${pkgdir}/usr/lib/libassuan.so.9" |
+    grep -Fq 'Library soname: [libassuan.so.9]' || return 1
+  local symbols symbol
+  symbols=$(LC_ALL=C readelf --dyn-syms --wide "${pkgdir}/usr/lib/libassuan.so.9") || return 1
+  while read -r symbol; do
+    awk '$7 != "UND" { print $8 }' <<< "$symbols" |
+      grep -Fxq "${symbol}@LIBASSUAN_1.0" || return 1
+    awk '$7 != "UND" { print $8 }' <<< "$symbols" |
+      grep -Fxq "${symbol}@@LIBASSUAN_2.0" || return 1
+  done < <(awk '/^[[:space:]]+(__)?assuan_[a-zA-Z0-9_]+;$/ { gsub(/[[:space:];]/, ""); print; }' src/libassuan.vers)
+  rm -f "${pkgdir}/usr/lib/libassuan.la"
   install -Dm644 COPYING COPYING.LIB -t "${pkgdir}/usr/share/licenses/${pkgname}"
   install -Dm644 src/libassuan.m4 "${pkgdir}/usr/share/licenses/${pkgname}/FSFULLR"
 }

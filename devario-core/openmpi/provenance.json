@@ -1,0 +1,10 @@
+{
+  "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/openmpi.git",
+  "commit": "a01fdf3d77f98ad8ecc861a214d887cd203cfd36",
+  "packaging_changes": [
+    "Update source checksums to current archive verified against official release SHA-256",
+    "Bump pkgrel to 2"
+  ],
+  "checksum_reference": "https://www.open-mpi.org/software/ompi/v5.0/",
+  "verified_sha256": "e668a3c4acd50c41dc204c8a6dd98a611e0f26af89cf677577fa9be8a2698003"
+}

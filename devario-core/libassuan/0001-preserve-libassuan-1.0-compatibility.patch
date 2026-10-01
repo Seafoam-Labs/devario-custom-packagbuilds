@@ -1,0 +1,28 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 61e1958..c06fcac 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -121,7 +121,8 @@ endif
+ 
+ libassuan_la_SOURCES = $(common_sources) assuan-io.c
+ nodist_libassuan_la_SOURCES = assuan.h
+-libassuan_la_CPPFLAGS = $(AM_CPPFLAGS) @GPG_ERROR_CFLAGS@
++libassuan_la_CPPFLAGS = $(AM_CPPFLAGS) @GPG_ERROR_CFLAGS@ \
++  -include $(srcdir)/libassuan-compat.h
+ libassuan_la_LDFLAGS = $(libassuan_res_ldflag) $(no_undefined) \
+         $(extra_ltoptions) \
+ 	$(export_symbols) $(libassuan_version_script_cmd) -version-info \
+diff --git a/src/libassuan.vers b/src/libassuan.vers
+index 31732b4..31eb5d1 100644
+--- a/src/libassuan.vers
++++ b/src/libassuan.vers
+@@ -21,6 +21,9 @@
+ # Please remember to add new functions also to libassuan.def
+ #-----------------------------------------------------------
+ 
++LIBASSUAN_1.0 {
++};
++
+ LIBASSUAN_2.0 {
+   global:
+     assuan_accept;

@@ -1,0 +1,11 @@
+{
+  "syntax": "passed",
+  "makepkg_shelly_metadata": "agrees",
+  "shelly_review": "no findings",
+  "local_binfmt_checksum": "passed",
+  "pinned_source_commit": "accessible; all 19 configured submodule overrides match .gitmodules",
+  "full_source_verification": "not run (Git sources retain upstream SKIP checksums)",
+  "full_build": "not run",
+  "isolated_build": "not run",
+  "btls_cmake_fix": "Pinned mono/btls/Makefile.am confirms BTLS_CMAKE_ARGS is forwarded to CMake; recipe syntax, Shelly review and metadata pass. Full Mono rebuild not run."
+}

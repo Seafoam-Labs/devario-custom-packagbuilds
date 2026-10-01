@@ -1,0 +1,4 @@
+[musl]
+source = "git"
+git = "https://git.musl-libc.org/git/musl"
+prefix = "v"

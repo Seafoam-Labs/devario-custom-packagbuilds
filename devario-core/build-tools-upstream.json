@@ -1,0 +1,50 @@
+{
+  "asciidoctor": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/asciidoctor",
+    "commit": "e2c6b18ad2685c796f60ddfff9b9b92f50589056"
+  },
+  "bash-completion": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/bash-completion",
+    "commit": "5e3300d344440c188a3d2a422a3c1197f0fe457d"
+  },
+  "clang": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/clang",
+    "commit": "e69645bcebab9ea38c50680802ffe93e90a06738"
+  },
+  "extra-cmake-modules": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/extra-cmake-modules",
+    "commit": "4a13e164b09aeccebed0e5fb8ba16dbd878f6777"
+  },
+  "go-md2man": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/go-md2man",
+    "commit": "054cbdb97054e78711eb6b37741cafe279c0f992"
+  },
+  "lld": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lld",
+    "commit": "cb51de68f59f85ee4ce583e0935f3fa510d3a913"
+  },
+  "meson": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/meson",
+    "commit": "b35b17245dae7dbcf86b8dc312f3b7175e2e9f80"
+  },
+  "qt6-tools": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qt6-tools",
+    "commit": "5aa0d9ac1e1ba4f0f0c473b8c760d71156a074f9"
+  },
+  "ripgrep": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ripgrep",
+    "commit": "6a55ef18482898ec96618be6de1e0a0bdb0fe49e"
+  },
+  "rust": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rust",
+    "commit": "e74c45dd13ef429892557b5455388359553c0ea5"
+  },
+  "scdoc": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/scdoc",
+    "commit": "b64728f57c4dc9ea783ad8784244892cba6b514d"
+  },
+  "stb": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/stb",
+    "commit": "8e22b065364916a96ebb05a94e71b211698796e5"
+  }
+}

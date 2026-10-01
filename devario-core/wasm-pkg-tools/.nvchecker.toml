@@ -1,0 +1,5 @@
+[wasm-pkg-tools]
+source = "git"
+git = "https://github.com/bytecodealliance/wasm-pkg-tools.git"
+prefix = "v"
+exclude_regex = ".*(rc|alpha|beta|post).*"

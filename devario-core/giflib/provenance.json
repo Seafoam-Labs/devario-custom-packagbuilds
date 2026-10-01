@@ -1,0 +1,9 @@
+{
+  "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/giflib.git",
+  "commit": "f23355e0e7f23392047cf18dd05d67a3238856ba",
+  "changes": [
+    "Explicit libgif.so=7-64 provider and ELF64/SONAME packaging checks",
+    "pkgrel bumped to 3"
+  ],
+  "upstream_security_cherry_picks_retained": true
+}
