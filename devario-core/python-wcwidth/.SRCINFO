@@ -1,0 +1,19 @@
+pkgbase = python-wcwidth
+	pkgdesc = Python library that measures the width of unicode strings rendered to a terminal
+	pkgver = 0.9.1
+	pkgrel = 1
+	url = https://github.com/jquast/wcwidth
+	arch = x86_64
+	license = MIT
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	depends = glibc
+	depends = python
+	source = python-wcwidth::git+https://github.com/jquast/wcwidth#tag=0.9.1
+	sha512sums = 560312b6a7cf8ad1736da6ec017dc0c575a4f30c9cee40d38346ac548457764927982c2e7b57055fdfad77b42823ca2fe38446e8dc0e0a47f99790fd591aeb36
+	b2sums = c3e63b6ac19a98142e84c04f9c12e9a57f4adac594047201c6dc04e49211126abf7d2677a9eb2528f50f09a1dee5a6b4ad3a49598a62058dcefb8f5c26fd553e
+
+pkgname = python-wcwidth

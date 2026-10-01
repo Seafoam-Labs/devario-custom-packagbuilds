@@ -1,0 +1,81 @@
+Open MPI prerequisite build order
+=================================
+
+Scope: 64 new recipe directories, plus the existing openmpi recipe.
+The runtime/makedepends names declared by these new recipes resolve to the
+saved devario-core database or local recipes. This is not a recursive audit
+of the already-published base toolchain. Optional and check-only dependencies
+are not prerequisites for the first no-check bootstrap pass.
+
+Before starting:
+- Use a working base-devel toolchain, CMake, Ninja, Python, python-build,
+  python-installer, python-setuptools, python-wheel, and Meson in the isolated
+  build repositories. python-installer and Meson have existing local recipes
+  but were not published in the database snapshot used for this audit.
+- Ensure gcc-fortran and matching lib32-glibc/lib32-gcc-libs are available for
+  LAPACK, MPI Fortran bindings, and Valgrind.
+- CUDA also needs the existing nvidia-utils/opencl-nvidia split packages.
+- Break NumPy/Cython bootstrap recursion with a trusted python-numpy binary
+  seed compatible with the worker Python ABI. Make it available INSIDE the
+  isolated build repositories before stage 10. Stage 11 rebuilds NumPy from
+  source; rebuild Cython afterward against that result.
+- The initial order below excludes checkdepends. Use --no-check for this
+  bootstrap pass, then resolve the separately recorded test dependencies and
+  rerun checks. In particular, rocm-cmake checks require rocm-llvm, while
+  rocm-llvm requires rocm-cmake to build. Valgrind checks need glibc-debug.
+
+Build and publish every split output from each stage before starting the next.
+Packages on the same numbered line have no dependency on each other within
+the checked runtime/build graph and can be built concurrently.
+
+ 1. cccl, docbook-xml, fmt, gflags, lapack, libfabric, libxslt, libyaml, openpmix, pandoc-bin, patchelf, python-calver, python-fastjsonschema, python-flit-core, python-ply, python-pyelftools, python-wcag-contrast-ratio, python-wcwidth, sgml-common, tinyxxd
+ 2. cuda, docbook-sgml, docbook-xsl, google-glog, prrte, python-cppheaderparser, python-docutils, python-editables, python-packaging, python-pathspec, python-trove-classifiers, python-typing_extensions
+ 3. nccl, python-pyproject-metadata, python-vcs-versioning, valgrind
+ 4. meson-python, python-setuptools-scm
+ 5. python-lark-parser, python-pluggy
+ 6. python-poetry-core
+ 7. python-tomlkit
+ 8. python-hatchling
+ 9. python-hatch-vcs, python-pygments
+10. cython, python-prettytable
+11. python-numpy, python-yaml, rdma-core
+12. python-pyaml
+13. rocm-core
+14. rocm-cmake
+15. rocm-llvm, rocprofiler-register
+16. hipify-clang, hsa-rocr
+17. rocm-language-runtime, rocm-smi-lib, rocminfo
+18. hip-runtime, openucx
+19. rccl
+20. openucc
+21. openmpi
+
+Example:
+  shelly build --isolated --no-check ./devario-core/openpmix/PKGBUILD
+
+Package-base mappings:
+- hip-runtime produces hip-runtime-amd and hip-runtime-nvidia.
+- rocm-llvm produces rocm-llvm, rocm-llvm-libs, rocm-device-libs, comgr,
+  rocm-llvm-headers, rocm-llvm-static, rocm-llvm-tools, and other split outputs.
+  Publish the matching set together; hipify-clang needs rocm-llvm-static.
+- lapack supplies blas/cblas and the LAPACK split outputs.
+- tinyxxd provides xxd.
+- pandoc-bin provides pandoc/pandoc-cli using the official upstream binary,
+  whose SHA-256 is pinned to the digest published in its GitHub release.
+
+Adjustments to official recipes:
+- rocm-language-runtime is extracted from rocm-hip-sdk, avoiding unrelated
+  math and machine-learning metapackages.
+- fmt builds the library and tests without its website documentation.
+- docbook-sgml uses the working OASIS URL with the original checksum.
+
+Validation limits:
+- Syntax, local auxiliary-file checksums, and metadata were checked.
+- Fifteen source sets were downloaded and verified; giant CUDA/ROCm sources
+  and the remaining sources were not downloaded for verification.
+- pandoc-bin was packaged locally; the GPU/MPI stack has not been built.
+- See openmpi-prerequisites-validation.json for exact results and the
+  libxslt-docs empty-dependency-reset discrepancy in Shelly metadata.
+- Provenance: openmpi-prerequisites-upstream.json.
+- Dependency graph and missing check-only packages:
+  openmpi-prerequisites-dependencies.json.

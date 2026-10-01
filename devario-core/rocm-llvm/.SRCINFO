@@ -1,0 +1,119 @@
+pkgbase = rocm-llvm
+	pkgver = 7.2.4
+	pkgrel = 3
+	epoch = 2
+	url = https://rocm.docs.amd.com/en/latest/reference/rocmcc.html
+	arch = x86_64
+	makedepends = git
+	makedepends = cmake
+	makedepends = python
+	makedepends = ninja
+	makedepends = rocm-core
+	makedepends = rocm-cmake
+	makedepends = perl
+	makedepends = gcc-libs
+	makedepends = zlib
+	makedepends = zstd
+	makedepends = libffi
+	makedepends = libedit
+	makedepends = ncurses
+	makedepends = libxml2
+	makedepends = patchelf
+	options = staticlibs
+	options = !lto
+	source = rocm-llvm::git+https://github.com/ROCm/llvm-project#tag=rocm-7.2.4
+	source = 0001-compiler-rt-sanitizer-Remove-linux-scc.h.patch
+	sha256sums = cda215d04dfb6ede38c542d4604711d4a4623267df0f3d678491cd9fbcc32fd9
+	sha256sums = 3592a157f9c8c748a5f75d79c9e328f1c359ec6609d260a58d4b68ba97f7fe9b
+
+pkgname = rocm-llvm
+	pkgdesc = Radeon Open Compute - LLVM toolchain (clang, lld)
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm-libs
+	depends = rocm-core
+	depends = perl
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = zlib
+	depends = zstd
+	depends = libffi
+	depends = libedit
+	depends = ncurses
+	depends = libxml2
+	optdepends = rocm-flang: Fortran compiler
+	optdepends = rocm-llvm-headers: LLVM headers
+	optdepends = rocm-llvm-static: LLVM static libraries and CMake config
+	optdepends = rocm-llvm-tools: LLVM development tools
+	optdepends = rocm-openmp: OpenMP host runtime and GPU offloading
+
+pkgname = rocm-llvm-libs
+	pkgdesc = Radeon Open Compute - LLVM runtime libraries
+	license = Apache-2.0 WITH LLVM-exception
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = zlib
+	depends = zstd
+	depends = libffi
+	depends = libedit
+	depends = ncurses
+	depends = libxml2
+
+pkgname = rocm-mlir-libs
+	pkgdesc = Radeon Open Compute - MLIR runtime libraries
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm-libs
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+
+pkgname = rocm-llvm-tools
+	pkgdesc = Radeon Open Compute - LLVM development tools
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm=2:7.2.4-3
+	depends = rocm-llvm-libs
+	depends = rocm-mlir-libs
+
+pkgname = rocm-llvm-headers
+	pkgdesc = Radeon Open Compute - LLVM headers
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm=2:7.2.4-3
+
+pkgname = rocm-llvm-static
+	pkgdesc = Radeon Open Compute - LLVM static libraries and CMake configuration
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm-headers=2:7.2.4-3
+	depends = rocm-llvm-tools=2:7.2.4-3
+	optdepends = rocm-flang: find_package(Flang)
+
+pkgname = rocm-flang
+	pkgdesc = Radeon Open Compute - Fortran compiler
+	license = Apache-2.0 WITH LLVM-exception
+	depends = rocm-llvm=2:7.2.4-3
+	depends = rocm-llvm-libs
+	depends = rocm-mlir-libs
+	depends = gcc-libs
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	optdepends = rocm-openmp: OpenMP GPU offloading from Fortran
+
+pkgname = rocm-device-libs
+	pkgdesc = AMD specific device-side language runtime libraries
+	license = NCSA
+	depends = rocm-core
+
+pkgname = comgr
+	pkgdesc = AMDGPU GPU Code Object Manager
+	license = NCSA
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = zstd
+	depends = zlib
+	depends = ncurses
+	depends = rocm-core
+	depends = rocm-llvm
+	depends = rocm-llvm-libs
+	depends = rocm-device-libs

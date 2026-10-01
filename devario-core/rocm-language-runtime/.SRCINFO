@@ -1,0 +1,13 @@
+pkgbase = rocm-language-runtime
+	pkgver = 7.2.4
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/en/latest/
+	arch = any
+	license = LicenseRef-None
+
+pkgname = rocm-language-runtime
+	pkgdesc = ROCm runtime
+	depends = rocm-core
+	depends = hsa-rocr
+	depends = rocm-device-libs
+	depends = comgr

@@ -1,0 +1,630 @@
+{
+  "missing": {},
+  "existing_local_recipes_needed": {
+    "python-installer": [
+      "python-calver",
+      "python-pyelftools",
+      "python-docutils",
+      "python-cppheaderparser",
+      "python-setuptools-scm",
+      "python-typing_extensions",
+      "python-packaging",
+      "python-trove-classifiers",
+      "python-pygments",
+      "python-yaml",
+      "python-pluggy",
+      "cython",
+      "python-hatch-vcs",
+      "python-lark-parser",
+      "python-flit-core",
+      "python-wcag-contrast-ratio",
+      "python-pyproject-metadata",
+      "python-ply",
+      "python-vcs-versioning",
+      "python-tomlkit",
+      "python-editables",
+      "python-poetry-core",
+      "python-fastjsonschema",
+      "python-hatchling",
+      "python-wcwidth",
+      "python-numpy",
+      "python-pyaml",
+      "python-prettytable",
+      "meson-python",
+      "python-pathspec"
+    ],
+    "meson": [
+      "meson-python"
+    ]
+  },
+  "missing_check_dependencies": {
+    "python-pytest": [
+      "python-calver",
+      "python-setuptools-scm",
+      "python-packaging",
+      "python-pygments",
+      "python-yaml",
+      "python-pluggy",
+      "cython",
+      "python-hatch-vcs",
+      "python-flit-core",
+      "python-wcag-contrast-ratio",
+      "python-pyproject-metadata",
+      "python-vcs-versioning",
+      "python-tomlkit",
+      "python-editables",
+      "python-poetry-core",
+      "python-fastjsonschema",
+      "python-hatchling",
+      "python-wcwidth",
+      "python-numpy",
+      "meson-python"
+    ],
+    "python-pretend": [
+      "python-calver",
+      "python-packaging"
+    ],
+    "python-pillow": [
+      "python-docutils"
+    ],
+    "mercurial": [
+      "python-setuptools-scm",
+      "python-vcs-versioning"
+    ],
+    "python-pip": [
+      "python-setuptools-scm"
+    ],
+    "python-pytest-timeout": [
+      "python-setuptools-scm",
+      "python-vcs-versioning"
+    ],
+    "python-rich": [
+      "python-setuptools-scm",
+      "python-hatchling"
+    ],
+    "python-tomli-w": [
+      "python-packaging",
+      "python-poetry-core",
+      "python-hatchling"
+    ],
+    "python-hypothesis": [
+      "python-packaging",
+      "python-wcag-contrast-ratio",
+      "python-numpy"
+    ],
+    "python-lxml": [
+      "python-pygments"
+    ],
+    "python-interpreters-pep-734": [
+      "cython"
+    ],
+    "python-tzlocal": [
+      "python-lark-parser"
+    ],
+    "python-atomicwrites": [
+      "python-lark-parser"
+    ],
+    "python-regex": [
+      "python-lark-parser"
+    ],
+    "python-testpath": [
+      "python-flit-core"
+    ],
+    "jujutsu": [
+      "python-vcs-versioning"
+    ],
+    "python-pytest-mock": [
+      "python-poetry-core",
+      "meson-python"
+    ],
+    "python-virtualenv": [
+      "python-poetry-core"
+    ],
+    "python-click": [
+      "python-hatchling"
+    ],
+    "python-filelock": [
+      "python-hatchling"
+    ],
+    "python-uv": [
+      "python-hatchling"
+    ],
+    "python-unidecode": [
+      "python-pyaml"
+    ],
+    "python-pytest-lazy-fixtures": [
+      "python-prettytable"
+    ],
+    "python-coverage": [
+      "python-prettytable"
+    ],
+    "python-gitpython": [
+      "meson-python"
+    ]
+  },
+  "layers": [
+    [
+      "cccl",
+      "docbook-xml",
+      "fmt",
+      "gflags",
+      "lapack",
+      "libfabric",
+      "libxslt",
+      "libyaml",
+      "openpmix",
+      "pandoc-bin",
+      "patchelf",
+      "python-calver",
+      "python-fastjsonschema",
+      "python-flit-core",
+      "python-ply",
+      "python-pyelftools",
+      "python-wcag-contrast-ratio",
+      "python-wcwidth",
+      "sgml-common",
+      "tinyxxd"
+    ],
+    [
+      "cuda",
+      "docbook-sgml",
+      "docbook-xsl",
+      "google-glog",
+      "prrte",
+      "python-cppheaderparser",
+      "python-docutils",
+      "python-editables",
+      "python-packaging",
+      "python-pathspec",
+      "python-trove-classifiers",
+      "python-typing_extensions"
+    ],
+    [
+      "nccl",
+      "python-pyproject-metadata",
+      "python-vcs-versioning",
+      "valgrind"
+    ],
+    [
+      "meson-python",
+      "python-setuptools-scm"
+    ],
+    [
+      "python-lark-parser",
+      "python-pluggy"
+    ],
+    [
+      "python-poetry-core"
+    ],
+    [
+      "python-tomlkit"
+    ],
+    [
+      "python-hatchling"
+    ],
+    [
+      "python-hatch-vcs",
+      "python-pygments"
+    ],
+    [
+      "python-prettytable"
+    ]
+  ],
+  "blocked_by_cycles": {
+    "rocm-smi-lib": [
+      "hsa-rocr",
+      "rocm-core"
+    ],
+    "rocm-cmake": [
+      "rocm-core"
+    ],
+    "rocminfo": [
+      "hsa-rocr",
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "hip-runtime": [
+      "rocm-core",
+      "rocm-llvm",
+      "rocminfo",
+      "rocprofiler-register"
+    ],
+    "rocm-core": [
+      "python-pyaml"
+    ],
+    "rocm-llvm": [
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "rocm-language-runtime": [
+      "hsa-rocr",
+      "rocm-core",
+      "rocm-llvm"
+    ],
+    "python-yaml": [
+      "cython"
+    ],
+    "openucx": [
+      "rdma-core",
+      "rocm-language-runtime"
+    ],
+    "hsa-rocr": [
+      "rocm-core",
+      "rocm-llvm",
+      "rocprofiler-register"
+    ],
+    "openmpi": [
+      "hip-runtime",
+      "openucc",
+      "openucx"
+    ],
+    "cython": [
+      "python-numpy"
+    ],
+    "rdma-core": [
+      "cython"
+    ],
+    "hipify-clang": [
+      "rocm-llvm"
+    ],
+    "python-numpy": [
+      "cython"
+    ],
+    "python-pyaml": [
+      "python-yaml"
+    ],
+    "rocprofiler-register": [
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "rccl": [
+      "hip-runtime",
+      "hipify-clang",
+      "rocm-cmake",
+      "rocm-core",
+      "rocm-llvm",
+      "rocm-smi-lib"
+    ],
+    "openucc": [
+      "hip-runtime",
+      "openucx",
+      "rccl",
+      "rdma-core",
+      "rocm-llvm"
+    ]
+  },
+  "graph": {
+    "rocm-smi-lib": [
+      "hsa-rocr",
+      "rocm-core"
+    ],
+    "python-calver": [],
+    "rocm-cmake": [
+      "rocm-core"
+    ],
+    "rocminfo": [
+      "hsa-rocr",
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "fmt": [],
+    "hip-runtime": [
+      "cuda",
+      "python-cppheaderparser",
+      "rocm-core",
+      "rocm-llvm",
+      "rocminfo",
+      "rocprofiler-register"
+    ],
+    "python-pyelftools": [],
+    "python-docutils": [
+      "python-flit-core"
+    ],
+    "gflags": [],
+    "rocm-core": [
+      "python-prettytable",
+      "python-pyaml",
+      "python-pyelftools"
+    ],
+    "python-cppheaderparser": [
+      "python-ply"
+    ],
+    "python-setuptools-scm": [
+      "python-packaging",
+      "python-vcs-versioning"
+    ],
+    "google-glog": [
+      "gflags"
+    ],
+    "lapack": [],
+    "rocm-llvm": [
+      "patchelf",
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "python-typing_extensions": [
+      "python-flit-core"
+    ],
+    "python-packaging": [
+      "python-flit-core"
+    ],
+    "rocm-language-runtime": [
+      "hsa-rocr",
+      "rocm-core",
+      "rocm-llvm"
+    ],
+    "valgrind": [
+      "docbook-sgml",
+      "docbook-xml",
+      "docbook-xsl"
+    ],
+    "nccl": [
+      "cuda"
+    ],
+    "python-trove-classifiers": [
+      "python-calver"
+    ],
+    "libxslt": [],
+    "python-pygments": [
+      "python-hatchling",
+      "python-wcag-contrast-ratio"
+    ],
+    "python-yaml": [
+      "cython",
+      "libyaml"
+    ],
+    "python-pluggy": [
+      "python-setuptools-scm"
+    ],
+    "openucx": [
+      "cuda",
+      "rdma-core",
+      "rocm-language-runtime"
+    ],
+    "hsa-rocr": [
+      "rocm-core",
+      "rocm-llvm",
+      "rocprofiler-register",
+      "tinyxxd"
+    ],
+    "openmpi": [
+      "cuda",
+      "hip-runtime",
+      "libfabric",
+      "openpmix",
+      "openucc",
+      "openucx",
+      "prrte",
+      "valgrind"
+    ],
+    "tinyxxd": [],
+    "cython": [
+      "python-numpy",
+      "python-pygments"
+    ],
+    "python-hatch-vcs": [
+      "python-hatchling",
+      "python-setuptools-scm"
+    ],
+    "pandoc-bin": [],
+    "sgml-common": [],
+    "rdma-core": [
+      "cython",
+      "pandoc-bin",
+      "python-docutils",
+      "valgrind"
+    ],
+    "patchelf": [],
+    "python-lark-parser": [
+      "python-setuptools-scm",
+      "python-typing_extensions"
+    ],
+    "python-flit-core": [],
+    "cuda": [
+      "cccl"
+    ],
+    "docbook-xsl": [
+      "docbook-xml",
+      "libxslt"
+    ],
+    "python-wcag-contrast-ratio": [],
+    "python-pyproject-metadata": [
+      "python-flit-core",
+      "python-packaging"
+    ],
+    "hipify-clang": [
+      "cuda",
+      "rocm-llvm"
+    ],
+    "libyaml": [],
+    "python-ply": [],
+    "python-vcs-versioning": [
+      "python-packaging"
+    ],
+    "python-tomlkit": [
+      "python-poetry-core"
+    ],
+    "docbook-sgml": [
+      "sgml-common"
+    ],
+    "python-editables": [
+      "python-flit-core"
+    ],
+    "python-poetry-core": [
+      "python-fastjsonschema",
+      "python-lark-parser",
+      "python-packaging"
+    ],
+    "python-fastjsonschema": [],
+    "python-hatchling": [
+      "python-editables",
+      "python-packaging",
+      "python-pathspec",
+      "python-pluggy",
+      "python-tomlkit",
+      "python-trove-classifiers"
+    ],
+    "python-wcwidth": [],
+    "python-numpy": [
+      "cython",
+      "lapack",
+      "meson-python"
+    ],
+    "python-pyaml": [
+      "python-yaml"
+    ],
+    "prrte": [
+      "openpmix"
+    ],
+    "docbook-xml": [],
+    "python-prettytable": [
+      "python-hatch-vcs",
+      "python-hatchling",
+      "python-wcwidth"
+    ],
+    "meson-python": [
+      "patchelf",
+      "python-packaging",
+      "python-pyproject-metadata"
+    ],
+    "rocprofiler-register": [
+      "fmt",
+      "google-glog",
+      "rocm-cmake",
+      "rocm-core"
+    ],
+    "rccl": [
+      "hip-runtime",
+      "hipify-clang",
+      "rocm-cmake",
+      "rocm-core",
+      "rocm-llvm",
+      "rocm-smi-lib"
+    ],
+    "python-pathspec": [
+      "python-flit-core"
+    ],
+    "cccl": [],
+    "libfabric": [],
+    "openpmix": [],
+    "openucc": [
+      "cuda",
+      "hip-runtime",
+      "nccl",
+      "openucx",
+      "rccl",
+      "rdma-core",
+      "rocm-llvm"
+    ]
+  },
+  "bootstrap_seed": "python-numpy compatible with worker Python ABI, used to build cython before rebuilding python-numpy",
+  "build_layers_with_seed": [
+    [
+      "cccl",
+      "docbook-xml",
+      "fmt",
+      "gflags",
+      "lapack",
+      "libfabric",
+      "libxslt",
+      "libyaml",
+      "openpmix",
+      "pandoc-bin",
+      "patchelf",
+      "python-calver",
+      "python-fastjsonschema",
+      "python-flit-core",
+      "python-ply",
+      "python-pyelftools",
+      "python-wcag-contrast-ratio",
+      "python-wcwidth",
+      "sgml-common",
+      "tinyxxd"
+    ],
+    [
+      "cuda",
+      "docbook-sgml",
+      "docbook-xsl",
+      "google-glog",
+      "prrte",
+      "python-cppheaderparser",
+      "python-docutils",
+      "python-editables",
+      "python-packaging",
+      "python-pathspec",
+      "python-trove-classifiers",
+      "python-typing_extensions"
+    ],
+    [
+      "nccl",
+      "python-pyproject-metadata",
+      "python-vcs-versioning",
+      "valgrind"
+    ],
+    [
+      "meson-python",
+      "python-setuptools-scm"
+    ],
+    [
+      "python-lark-parser",
+      "python-pluggy"
+    ],
+    [
+      "python-poetry-core"
+    ],
+    [
+      "python-tomlkit"
+    ],
+    [
+      "python-hatchling"
+    ],
+    [
+      "python-hatch-vcs",
+      "python-pygments"
+    ],
+    [
+      "cython",
+      "python-prettytable"
+    ],
+    [
+      "python-numpy",
+      "python-yaml",
+      "rdma-core"
+    ],
+    [
+      "python-pyaml"
+    ],
+    [
+      "rocm-core"
+    ],
+    [
+      "rocm-cmake"
+    ],
+    [
+      "rocm-llvm",
+      "rocprofiler-register"
+    ],
+    [
+      "hipify-clang",
+      "hsa-rocr"
+    ],
+    [
+      "rocm-language-runtime",
+      "rocm-smi-lib",
+      "rocminfo"
+    ],
+    [
+      "hip-runtime",
+      "openucx"
+    ],
+    [
+      "rccl"
+    ],
+    [
+      "openucc"
+    ],
+    [
+      "openmpi"
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+pkgbase = rocm-smi-lib
+	pkgdesc = ROCm System Management Interface Library
+	pkgver = 7.2.0
+	pkgrel = 2
+	url = https://rocm.docs.amd.com/projects/rocm_smi_lib/en/latest
+	arch = x86_64
+	license = NCSA
+	makedepends = cmake
+	depends = glibc
+	depends = hsa-rocr
+	depends = libgcc
+	depends = python
+	depends = rocm-core
+	options = !lto
+	source = rocm-7.2.0.tar.gz::https://github.com/ROCm/rocm-systems/archive/rocm-7.2.0.tar.gz
+	sha256sums = 728ea7e9bf16e6ed217a0fd1a8c9afaba2dae2e7908fa4e27201e67c803c5638
+
+pkgname = rocm-smi-lib

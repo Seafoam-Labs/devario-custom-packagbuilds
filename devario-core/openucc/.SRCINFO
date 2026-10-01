@@ -1,0 +1,27 @@
+pkgbase = openucc
+	pkgdesc = Unified Collective Communication Library
+	pkgver = 1.9.0
+	pkgrel = 1
+	url = https://github.com/openucx/ucc
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = gtest
+	makedepends = cuda
+	makedepends = hip-runtime-amd
+	makedepends = rocm-llvm
+	makedepends = nccl
+	makedepends = rccl
+	makedepends = rdma-core
+	depends = glibc
+	depends = libstdc++
+	depends = openucx
+	optdepends = cuda: for CUDA execution engine and transport layer
+	optdepends = hip-runtime-amd: for HIP execution engine
+	optdepends = nccl: for NCCL transport layer
+	optdepends = rccl: for RCCL transport layer
+	optdepends = rdma-core: for InfiniBand transport layer
+	provides = libucc.so
+	source = openucc-1.9.0.tar.gz::https://github.com/openucx/ucc/archive/refs/tags/v1.9.0.tar.gz
+	b2sums = 5459f1e64ea27bea8e89932eb90509fe39719bd4adc82ecf3172971da6d2f9510dc8e2e5160130ac31163f9ae383168952183107ac04d0d954c0b5923ae233e1
+
+pkgname = openucc

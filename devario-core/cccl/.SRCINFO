@@ -1,0 +1,12 @@
+pkgbase = cccl
+	pkgdesc = CUDA Core Compute Libraries
+	pkgver = 3.4.2
+	pkgrel = 1
+	url = https://github.com/NVIDIA/cccl
+	arch = any
+	license = Apache-2.0
+	makedepends = cmake
+	source = cccl-3.4.2.tar.gz::https://github.com/NVIDIA/cccl/archive/refs/tags/v3.4.2.tar.gz
+	b2sums = 19b6467c6b8d03b13fc26e7a27f47a28d745a9c6852e0df5158c85e3d53fc4f54b9236b9344a5097f7a7a87d48720aa5c736140e7ddfd00314cbcc808cf063ea
+
+pkgname = cccl

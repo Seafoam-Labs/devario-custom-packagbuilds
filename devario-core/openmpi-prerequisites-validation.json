@@ -1,0 +1,1847 @@
+{
+  "cccl": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "cccl",
+      "packageNames": [
+        "cccl"
+      ],
+      "reviewDigest": "e97fff9495031025b6051257f5f97f9e6af2c1510e016162fd51f1575208e87a",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "cuda": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "cuda.sh:sha512",
+      "cuda.fish:sha512",
+      "cuda.conf:sha512",
+      "cublas.pc:sha512",
+      "cuda.pc:sha512",
+      "cudart.pc:sha512",
+      "cufft.pc:sha512",
+      "cufftw.pc:sha512",
+      "cufile.pc:sha512",
+      "curand.pc:sha512",
+      "cusolver.pc:sha512",
+      "cusparse.pc:sha512",
+      "nppc.pc:sha512",
+      "nppial.pc:sha512",
+      "nppicc.pc:sha512",
+      "nppicom.pc:sha512",
+      "nppidei.pc:sha512",
+      "nppif.pc:sha512",
+      "nppig.pc:sha512",
+      "nppim.pc:sha512",
+      "nppi.pc:sha512",
+      "nppist.pc:sha512",
+      "nppisu.pc:sha512",
+      "nppitc.pc:sha512",
+      "npps.pc:sha512",
+      "nvfatbin.pc:sha512",
+      "nvidia-ml.pc:sha512",
+      "nvjitlink.pc:sha512",
+      "nvjpeg.pc:sha512",
+      "nvrtc.pc:sha512"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "cuda",
+      "packageNames": [
+        "cuda"
+      ],
+      "reviewDigest": "34f8a9e8612d022b17144de684095f65bd684cfe3bd1e26b914c3630bf703929",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "for f in $(find \"$_prepdir\"/opt/cuda -name Makefile); do",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "install:cuda.install:post_upgrade",
+          "matchedLine": "if (( \"$(vercmp \"$2\" \"12.5.0-2\")\" < 0 )); then",
+          "message": "Dynamic command construction detected in install:cuda.install:post_upgrade() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "cublas.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cublas\nDescription: CUDA Basic Linear Algebra Subprograms\nVersion: latest\nLibs: -L${libdir} -lcublas\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cuda.conf",
+          "permissions": 420,
+          "content": "/opt/cuda/lib64\n/opt/cuda/nvvm/lib64\n"
+        },
+        {
+          "name": "cuda.fish",
+          "permissions": 420,
+          "content": "set --export --global CUDA_PATH /opt/cuda\nfish_add_path --append --global /opt/cuda/bin\n\n# Set the default host compiler for nvcc. This will need to be switched back\n# and forth between the latest and previous GCC version, whatever nvcc\n# currently supports.\nset --export --global NVCC_CCBIN /usr/bin/g++\n"
+        },
+        {
+          "name": "cuda.install",
+          "permissions": 420,
+          "content": "post_install() {\n    cat << EOF\n- The cuda binaries are in /opt/cuda/bin/\n- You need to source /etc/profile or restart your session in order for the CUDA\n  binaries to appear in your \\$PATH\n- The default host compiler for nvcc is set by the \\$NVCC_CCBIN environment\n  variable in /etc/profile.d/cuda.sh\nEOF\n    post_upgrade\n}\n\npost_upgrade() {\n    ldconfig -r .\n\n    # this message can be removed after some time, everything important is\n    # either in post_install or the following message\n    if (( \"$(vercmp \"$2\" \"12.5.0-2\")\" < 0 )); then\n        cat << EOF\n- The default host compiler for nvcc is no longer configured using symlinks in\n  /opt/cuda/bin/ but by the \\$NVCC_CCBIN environment variable in\n  /etc/profile.d/cuda.sh.  You need to source /etc/profile or restart your\n  session for it to be available in your environment.  Additionally, you may\n  need to clear the build cache of your projects where the old path may have\n  been recorded.\nEOF\n    fi\n\n    cat << EOF\n- When you uninstall an old, unrequired version of GCC that was previously\n  required by cuda for the default host compiler (\\$NVCC_CCBIN), you may need\n  to source /etc/profile or restart your session.  Additionally, you may need\n  to clear the build cache of your projects where the old path may be still\n  recorded.\nEOF\n}\n"
+        },
+        {
+          "name": "cuda.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib/stubs\nincludedir=${cudaroot}/include\n\nName: cuda\nDescription: CUDA Driver Library\nVersion: latest\nLibs: -L${libdir} -lcuda\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cuda.sh",
+          "permissions": 420,
+          "content": "export CUDA_PATH=/opt/cuda\nappend_path '/opt/cuda/bin'\nexport PATH\n\n\n# Set the default host compiler for nvcc. This will need to be switched back\n# and forth between the latest and previous GCC version, whatever nvcc\n# currently supports.\nexport NVCC_CCBIN='/usr/bin/g++'\n"
+        },
+        {
+          "name": "cudart.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cudart\nDescription: CUDA Runtime Library\nVersion: latest\nLibs: -L${libdir} -lcudart\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cufft.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cufft\nDescription: CUDA Fast Fourier Transform\nVersion: latest\nLibs: -L${libdir} -lcufft\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cufftw.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cufftw\nDescription: CUDA Fast Fourier Transform Wide\nVersion: latest\nLibs: -L${libdir} -lcufftw\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cufile.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cufile\nDescription: NVIDIA GPUDirect Storage Library\nVersion: latest\nLibs: -L${libdir} -lcufile\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "curand.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: curand\nDescription: CUDA Random Number Generation Library\nVersion: latest\nLibs: -L${libdir} -lcurand\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cusolver.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cusolver\nDescription: A LAPACK-like library on dense and sparse linear algebra\nVersion: latest\nLibs: -L${libdir} -lcusolver\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "cusparse.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: cusparse\nDescription: CUDA Sparse Matrix Library\nVersion: latest\nLibs: -L${libdir} -lcusparse\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppc.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppc\nDescription: NVIDIA Performance Primitives - Core\nVersion: latest\nLibs: -L${libdir} -lnppc\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppi.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppi\nDescription: NVIDIA Performance Primitives - Image Processing\nVersion: latest\nLibs: -L${libdir} -lnppi\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppial.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppial\nDescription: NVIDIA Performance Primitives - Image Processing - Arithmetic and Logic\nVersion: latest\nLibs: -L${libdir} -lnppial\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppicc.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppicc\nDescription: NVIDIA Performance Primitives - Image Processing - Color Conversion\nVersion: latest\nLibs: -L${libdir} -lnppicc\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppicom.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppicom\nDescription: NVIDIA Performance Primitives - Image Processing - Compression\nVersion: latest\nLibs: -L${libdir} -lnppicom\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppidei.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppidei\nDescription: NVIDIA Performance Primitives - Image Processing - DEI\nVersion: latest\nLibs: -L${libdir} -lnppidei\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppif.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppif\nDescription: NVIDIA Performance Primitives - Image Processing - Filters\nVersion: latest\nLibs: -L${libdir} -lnppif\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppig.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppig\nDescription: NVIDIA Performance Primitives - Image Processing - Geometry\nVersion: latest\nLibs: -L${libdir} -lnppig\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppim.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppim\nDescription: NVIDIA Performance Primitives - Image Processing - Morphological\nVersion: latest\nLibs: -L${libdir} -lnppim\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppist.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppist\nDescription: NVIDIA Performance Primitives - Image Processing - Statistic and Linear\nVersion: latest\nLibs: -L${libdir} -lnppist\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppisu.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppisu\nDescription: NVIDIA Performance Primitives - Image Processing - Support and Data Exchange\nVersion: latest\nLibs: -L${libdir} -lnppisu\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nppitc.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nppitc\nDescription: NVIDIA Performance Primitives - Image Processing - Threshold and Compare\nVersion: latest\nLibs: -L${libdir} -lnppitc\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "npps.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: npps\nDescription: NVIDIA Performance Primitives - Signal Processing\nVersion: latest\nLibs: -L${libdir} -lnpps\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nvfatbin.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nvfatbin\nDescription: NVIDIA fatbin Library\nVersion: latest\nLibs: -L${libdir} -lnvfatbin\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nvidia-ml.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib/stubs\nincludedir=${cudaroot}/include\n\nName: nvidia-ml\nDescription: NVML\nVersion: latest\nLibs: -L${libdir} -lnvidia-ml\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nvjitlink.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nvjitlink\nDescription: NVIDIA JIT Link Library\nVersion: latest\nLibs: -L${libdir} -lnvjitlink\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nvjpeg.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nvjpeg\nDescription: NVIDIA JPEG Library\nVersion: latest\nLibs: -L${libdir} -lnvjpeg\nCflags: -I${includedir}\n"
+        },
+        {
+          "name": "nvrtc.pc",
+          "permissions": 420,
+          "content": "cudaroot=/opt/cuda\nlibdir=${cudaroot}/lib\nincludedir=${cudaroot}/include\n\nName: nvrtc\nDescription: A runtime compilation library for CUDA C++\nVersion: latest\nLibs: -L${libdir} -lnvrtc\nCflags: -I${includedir}\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "cython": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "cython",
+      "packageNames": [
+        "cython"
+      ],
+      "reviewDigest": "f66926812ae3c28dc405c61381c9d23090a46e0a6358763b975b745b84d05ab1",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "docbook-sgml": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "license-from-upstream:sha256"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "docbook-sgml",
+      "packageNames": [
+        "docbook-sgml"
+      ],
+      "reviewDigest": "5662c6776092e4c58539a17500a5ee0c5916ab2a075ed56c4e5b61ebd2604a52",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "docbook-sgml.install",
+          "permissions": 420,
+          "content": "# arg 1:  the new package version\npre_install() {\n\t/bin/true\n}\n\n# arg 1:  the new package version\npost_install() {\n\tadd_catalog \"${1%-*}\"\n}\n\n# arg 1:  the new package version\n# arg 2:  the old package version\npre_upgrade() {\n\tremove_catalog \"${2%-*}\"\n}\n\n# arg 1:  the new package version\n# arg 2:  the old package version\npost_upgrade() {\n\tadd_catalog \"${1%-*}\"\n}\n\n# arg 1:  the old package version\npre_remove() {\n\tremove_catalog \"${1%-*}\"\n}\n\n# arg 1:  the old package version\npost_remove() {\n\t/bin/true\n}\n\n\nadd_catalog() {\n\tinstall-catalog --add /etc/sgml/sgml-docbook-dtd-$1.cat \\\n\t\t/usr/share/sgml/docbook-sgml-$1/catalog > /dev/null 2>&1\n\n\tinstall-catalog --add /etc/sgml/sgml-docbook-dtd-$1.cat \\\n\t\t/etc/sgml/sgml-docbook.cat > /dev/null 2>&1\n}\n\nremove_catalog() {\n\tinstall-catalog --remove /etc/sgml/sgml-docbook-dtd-$1.cat \\\n\t\t/usr/share/sgml/docbook-sgml-$1/catalog > /dev/null 2>&1\n\n\tinstall-catalog --remove /etc/sgml/sgml-docbook-dtd-$1.cat \\\n\t\t/etc/sgml/sgml-docbook.cat > /dev/null 2>&1\n}\n\nop=$1\nshift\n$op \"$@\"\n\n# vim:set syntax=sh ts=4 sw=4 noet:\n\n"
+        },
+        {
+          "name": "license-from-upstream",
+          "permissions": 420,
+          "content": "Copyright \u00a9 The Organization for the Advancement of Structured Information \nStandards [OASIS] 2001, 2002, 2003, 2004, 2005, 2006. All Rights Reserved.\n\nOASIS takes no position regarding the validity or scope of any intellectual \nproperty or other rights that might be claimed to pertain to the implementation \nor use of the technology described in this document or the extent to which any \nlicense under such rights might or might not be available; neither does it \nrepresent that it has made any effort to identify any such rights. Information \non OASIS's procedures with respect to rights in OASIS specifications can be \nfound at the OASIS website. Copies of claims of rights made available for \npublication and any assurances of licenses to be made available, or the result \nof an attempt made to obtain a general license or permission for the use of such \nproprietary rights by implementors or users of this specification, can be \nobtained from the OASIS Executive Director.\n\nOASIS invites any interested party to bring to its attention any copyrights, \npatents or patent applications, or other proprietary rights which may cover \ntechnology that may be required to implement this specification. Please address \nthe information to the OASIS Executive Director.\n\nThis document and translations of it may be copied and furnished to others, and \nderivative works that comment on or otherwise explain it or assist in its \nimplementation may be prepared, copied, published and distributed, in whole or \nin part, without restriction of any kind, provided that the above copyright \nnotice and this paragraph are included on all such copies and derivative works. \nHowever, this document itself may not be modified in any way, such as by \nremoving the copyright notice or references to OASIS, except as needed for the \npurpose of developing OASIS specifications, in which case the procedures for \ncopyrights defined in the OASIS Intellectual Property Rights document must be \nfollowed, or as required to translate it into languages other than English.\n\nThe limited permissions granted above are perpetual and will not be revoked by \nOASIS or its successors or assigns.\n\nThis document and the information contained herein is provided on an \"AS IS\" \nbasis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT \nLIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE \nANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A \nPARTICULAR PURPOSE.\n\nOASIS has been notified of intellectual property rights claimed in regard to \nsome or all of the contents of this specification. For more information consult \nthe online list of claimed rights.\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "docbook-xml": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "license-from-upstream:sha512"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "docbook-xml",
+      "packageNames": [
+        "docbook-xml"
+      ],
+      "reviewDigest": "2fb3fd667255eb7cbf7477783ecd1b625f8a0d8f1bebf0eb4383ea485bab572a",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "install:docbook-xml.install:pre_upgrade",
+          "matchedLine": "if [ $(vercmp $2 4.5) -lt 0 ]; then",
+          "message": "Dynamic command construction detected in install:docbook-xml.install:pre_upgrade() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "install:docbook-xml.install:post_upgrade",
+          "matchedLine": "if [ $(vercmp $2 4.5) -ge 0 ]; then",
+          "message": "Dynamic command construction detected in install:docbook-xml.install:post_upgrade() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "docbook-xml.install",
+          "permissions": 420,
+          "content": "post_install() {\n  if [ -e etc/xml/catalog.preserve ]; then\n    mv etc/xml/catalog.preserve etc/xml/catalog\n  elif [ ! -e etc/xml/catalog ]; then\n    xmlcatalog --noout --create etc/xml/catalog\n  fi\n  xmlcatalog --noout --add \"delegatePublic\" \\\n    \"-//OASIS//ENTITIES DocBook XML\" \\\n    \"file:///etc/xml/docbook-xml\" \\\n    etc/xml/catalog\n  xmlcatalog --noout --add \"delegatePublic\" \\\n    \"-//OASIS//DTD DocBook XML\" \\\n    \"file:///etc/xml/docbook-xml\" \\\n    etc/xml/catalog\n  xmlcatalog --noout --add \"delegateSystem\" \\\n    \"http://www.oasis-open.org/docbook/\" \\\n    \"file:///etc/xml/docbook-xml\" \\\n    etc/xml/catalog\n  xmlcatalog --noout --add \"delegateURI\" \\\n    \"http://www.oasis-open.org/docbook/\" \\\n    \"file:///etc/xml/docbook-xml\" \\\n    etc/xml/catalog\n}\n\n# arg 1:  the new package version\n# arg 2:  the old package version\npre_upgrade() {\n  if [ $(vercmp $2 4.5) -lt 0 ]; then\n    xmlcatalog --del \"file:///etc/xml/docbook\" etc/xml/catalog > etc/xml/catalog.preserve\n  fi\n}\n\npost_upgrade() {\n  if [ $(vercmp $2 4.5) -ge 0 ]; then\n    post_remove\n  fi\n  post_install\n}\n\npost_remove() {\n  xmlcatalog --noout --del file:///etc/xml/docbook-xml etc/xml/catalog\n}\n"
+        },
+        {
+          "name": "license-from-upstream",
+          "permissions": 420,
+          "content": "     Copyright 1992-2006 HaL Computer Systems, Inc.,\n     O'Reilly & Associates, Inc., ArborText, Inc., Fujitsu Software\n     Corporation, Norman Walsh, Sun Microsystems, Inc., and the\n     Organization for the Advancement of Structured Information\n     Standards (OASIS).\n\n     See also http://docbook.org/specs/\n\n     Permission to use, copy, modify and distribute the DocBook XML DTD\n     and its accompanying documentation for any purpose and without fee\n     is hereby granted in perpetuity, provided that the above copyright\n     notice and this paragraph appear in all copies.  The copyright\n     holders make no representation about the suitability of the DTD for\n     any purpose.  It is provided \"as is\" without expressed or implied\n     warranty.\n\n     If you modify the DocBook DTD in any way, except for declaring and\n     referencing additional sets of general entities and declaring\n     additional notations, label your DTD as a variant of DocBook.  See\n     the maintenance documentation for more information.\n\n     Please direct all questions, bug reports, or suggestions for\n     changes to the docbook@lists.oasis-open.org mailing list. For more\n     information, see http://www.oasis-open.org/docbook/.\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "docbook-xsl": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "765567_non-recursive_string_subst.patch:sha256"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "docbook-xsl",
+      "packageNames": [
+        "docbook-xsl"
+      ],
+      "reviewDigest": "34d2d4fa14dba8a120fa30187e868f2fafb65757f85368bbb149bb747516879f",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "install:docbook-xsl.install:post_remove",
+          "matchedLine": "if (( $(vercmp $1 1.79.2-5) >= 0 )); then",
+          "message": "Dynamic command construction detected in install:docbook-xsl.install:post_remove() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "765567_non-recursive_string_subst.patch",
+          "permissions": 420,
+          "content": "Description: use EXSLT \"replace\" function when available\n A recursive implementation  of string.subst is problematic,\n long strings with many matches will cause stack overflows.\nAuthor: Peter De Wachter <pdewacht@gmail.com>\nBug-Debian: https://bugs.debian.org/750593\n\n--- docbook-xsl-1.78.1+dfsg.orig/docbook-xsl/lib/lib.xsl\n+++ docbook-xsl-1.78.1+dfsg/docbook-xsl/lib/lib.xsl\n@@ -6,7 +6,11 @@\n \n      This module implements DTD-independent functions\n \n-     ******************************************************************** --><xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\n+     ******************************************************************** -->\n+<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\n+                xmlns:str=\"http://exslt.org/strings\"\n+                exclude-result-prefixes=\"str\"\n+                version=\"1.0\">\n \n <xsl:template name=\"dot.count\">\n   <!-- Returns the number of \".\" characters in a string -->\n@@ -52,6 +56,9 @@\n   <xsl:param name=\"replacement\"/>\n \n   <xsl:choose>\n+    <xsl:when test=\"function-available('str:replace')\">\n+      <xsl:value-of select=\"str:replace($string, string($target), string($replacement))\"/>\n+    </xsl:when>\n     <xsl:when test=\"contains($string, $target)\">\n       <xsl:variable name=\"rest\">\n         <xsl:call-template name=\"string.subst\">\n\n"
+        },
+        {
+          "name": "docbook-xsl.install",
+          "permissions": 420,
+          "content": "_xmlcatalog() {\n  xmlcatalog --noout \"$@\" etc/xml/catalog\n}\n\npost_install() {\n  [[ -f etc/xml/catalog ]] || _xmlcatalog --create\n\n  local ver x new=${1%-*}\n\n  for ver in $new current; do\n    for x in rewriteSystem rewriteURI; do\n      _xmlcatalog --add $x http://cdn.docbook.org/release/xsl/$ver \\\n        /usr/share/xml/docbook/xsl-stylesheets-$new\n\n      _xmlcatalog --add $x http://cdn.docbook.org/release/xsl-nons/$ver \\\n        /usr/share/xml/docbook/xsl-stylesheets-$new-nons\n\n      _xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl-ns/$ver \\\n        /usr/share/xml/docbook/xsl-stylesheets-$new\n\n      _xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl/$ver \\\n        /usr/share/xml/docbook/xsl-stylesheets-$new-nons\n    done\n  done\n}\n\npost_upgrade() {\n  post_remove $2\n  post_install $1\n}\n\npost_remove() {\n  local old=${1%-*}\n  _xmlcatalog --del /usr/share/xml/docbook/xsl-stylesheets-$old\n  if (( $(vercmp $1 1.79.2-5) >= 0 )); then\n    _xmlcatalog --del /usr/share/xml/docbook/xsl-stylesheets-$old-nons\n  fi\n}\n\n# vim:set ft=sh sw=2 et:\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "fmt": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "fmt",
+      "packageNames": [
+        "fmt"
+      ],
+      "reviewDigest": "e02ed663a09d29ba739b224a003fbfb590110a2fbb507edb6a6af2b2c6241be1",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "google-glog": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "google-glog",
+      "packageNames": [
+        "google-glog"
+      ],
+      "reviewDigest": "e8e3da4e6ad5e1951fe1d0c53ef3b2e42f987ea8939c8c3ce5c51f69e0ebad68",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "hip-runtime": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "hip-runtime",
+      "packageNames": [
+        "hip-runtime-amd",
+        "hip-runtime-nvidia"
+      ],
+      "reviewDigest": "2f7a788f03042eeea34169a8f2684549d9037063752c8352a4ea1aba75fa39ed",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "hipify-clang": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "hipify-clang",
+      "packageNames": [
+        "hipify-clang"
+      ],
+      "reviewDigest": "00da6e5834729a0c5230e7d08ef0992abb93f7b6a37ea3ae7d3821d719764a9f",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "hsa-rocr": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "hsa-rocr",
+      "packageNames": [
+        "hsa-rocr"
+      ],
+      "reviewDigest": "f6f0f4b6a64f1747cf9d7991db40f7d15b63728099432b3862e416c5990f7be4",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "lapack": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "lapack",
+      "packageNames": [
+        "blas",
+        "cblas",
+        "lapack",
+        "lapacke",
+        "blas64",
+        "cblas64",
+        "lapack64",
+        "lapacke64",
+        "lapack-doc"
+      ],
+      "reviewDigest": "9f5902dda3d058fd34774aaa01f85b3e05bce958627d1c6cbd7a9b33992612af",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "libfabric": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "libfabric",
+      "packageNames": [
+        "libfabric"
+      ],
+      "reviewDigest": "5e0838a26084312043edc93634c47d701bf602911080cf51c7f4c0a033b6cae9",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "libxslt": {
+    "syntax": "passed",
+    "metadata": "Shelly omits the empty depends reset for libxslt-docs; nonempty fields agree",
+    "metadata_difference": [
+      "depends ="
+    ],
+    "local_file_checksums": [
+      "0001-runtest-Print-output-causing-failure.patch:b2"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "libxslt",
+      "packageNames": [
+        "libxslt",
+        "libxslt-docs"
+      ],
+      "reviewDigest": "5da0cd104fed9df2a1ea48f908eafaacda4984d673809ef52a7ddcfdc7010d0b",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "0001-runtest-Print-output-causing-failure.patch",
+          "permissions": 420,
+          "content": "From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001\nFrom: \"Jan Alexander Steffens (heftig)\" <heftig@archlinux.org>\nDate: Sat, 15 Jun 2024 00:22:58 +0200\nSubject: [PATCH] runtest: Print output causing failure\n\n---\n tests/runtest.c | 4 ++--\n 1 file changed, 2 insertions(+), 2 deletions(-)\n\ndiff --git a/tests/runtest.c b/tests/runtest.c\nindex 9c6a6e1c0fac..856302121183 100644\n--- a/tests/runtest.c\n+++ b/tests/runtest.c\n@@ -666,17 +666,17 @@ xsltTest(const char *filename, int options) {\n     res = compareFileMem(outFilename, (char *) out, outSize);\n     if (res != 0) {\n         fprintf(stderr, \"Result for %s failed\\n\", filename);\n-        /* printf(\"####\\n%s####\\n\", out); */\n+        printf(\"####\\n%s####\\n\", out);\n         ret = -1;\n     }\n     free(outFilename);\n     xmlFree(out);\n \n     errFilename = changeSuffix(filename, errSuffix);\n     res = compareFileMem(errFilename, testErrors, testErrorsSize);\n     if (res != 0) {\n         fprintf(stderr, \"Error for %s failed\\n\", filename);\n-        /* printf(\"####\\n%s####\\n\", testErrors); */\n+        printf(\"####\\n%s####\\n\", testErrors);\n         ret = -1;\n     }\n     free(errFilename);\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "libyaml": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "libyaml",
+      "packageNames": [
+        "libyaml"
+      ],
+      "reviewDigest": "6bef76897adfed54a0f129664f28d1560b1ed6dd1546a8569ed565581a40c6d0",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "meson-python": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "meson-python",
+      "packageNames": [
+        "meson-python"
+      ],
+      "reviewDigest": "deba036ff71ab318447b607e13664f9147ae3cedafa23c6400f32a36dd6bf82a",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "nccl": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "nccl",
+      "packageNames": [
+        "nccl"
+      ],
+      "reviewDigest": "07d8b5e77041a85bbfc367889be20524a62351a3b570a7b6ca4971f746dba42f",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "_filelist=\"$(find . -type f -exec grep 'BUILDDIR' {} + | awk -F':' '{ print $1 }' | uniq)\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "openpmix": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "openpmix",
+      "packageNames": [
+        "openpmix",
+        "openpmix-docs"
+      ],
+      "reviewDigest": "39ef71fa110240bcf7795a3f86d35b568dc3f021f25e6edac2c638c3455cb26b",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "openucc": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "openucc",
+      "packageNames": [
+        "openucc"
+      ],
+      "reviewDigest": "f69b1917e66cef25afbcd8476a18f233e9dddcde492db2bbab17c3754f99ecf8",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "openucx": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "ucx-conf.patch:b2"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "openucx",
+      "packageNames": [
+        "openucx"
+      ],
+      "reviewDigest": "65a1d7e2c490444d7f657e6a2303d9156ca6ed206061975c4ae5f2a216645296",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "ucx-conf.patch",
+          "permissions": 420,
+          "content": "diff --git a/config/ucx.conf b/config/ucx.conf\nindex 580e4485f..f2fca6a5b 100644\n--- a/config/ucx.conf\n+++ b/config/ucx.conf\n@@ -1,3 +1,7 @@\n+[DEFAULT]\n+# Do not hijack SIGHUP https://gitlab.archlinux.org/archlinux/packaging/packages/openucx/-/issues/3\n+UCX_DEBUG_SIGNO=0\n+\n [Grace Hopper]\n CPU model=Grace\n UCX_REG_NONBLOCK_MEM_TYPES=host,cuda-managed\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "patchelf": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "patchelf",
+      "packageNames": [
+        "patchelf"
+      ],
+      "reviewDigest": "c6fe80a72fd6ec7b9dac38705ffbabb40b0d1503e7331339cd9c81ce7ee5e206",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "prrte": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "prte-mca-params.conf:sha512",
+      "prte-mca-params.conf:b2",
+      "prrte-ssh:sha512",
+      "prrte-ssh:b2"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "prrte",
+      "packageNames": [
+        "prrte",
+        "prrte-docs"
+      ],
+      "reviewDigest": "f0a721459608947129b03c709acea9a898e9e0ba6ec16bd90cbe5410c23d8988",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "prrte-ssh",
+          "permissions": 420,
+          "content": "#!/bin/sh\n\n# This script is a dummy wrapper which allows having openssh as *optional*\n# dependency for prrte - it always requires a valid plm_ssh_agent, even when it\n# is not actually used.\nexec /usr/bin/ssh \"$@\"\n"
+        },
+        {
+          "name": "prte-mca-params.conf",
+          "permissions": 420,
+          "content": "\n# Set a dummy wrapper as default plm_ssh_agent. Note that prrte always\n# requires a valid plm_ssh_agent, even when it is not actually used.\nplm_ssh_agent = prrte-ssh\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "python-cppheaderparser": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-cppheaderparser",
+      "packageNames": [
+        "python-cppheaderparser"
+      ],
+      "reviewDigest": "5f4c6a4c576ceb46dd119c332e11839b7199bcc67d5050b3c76d1280796bc126",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "python-docutils": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-docutils",
+      "packageNames": [
+        "python-docutils"
+      ],
+      "reviewDigest": "3b619e10046398901388aaab12db286f5f651055a7672da8d2833820247a6ea7",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-editables": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-editables",
+      "packageNames": [
+        "python-editables"
+      ],
+      "reviewDigest": "edb2d394ee2ecc581ea1dd1cdae3971e27002143cab0e67559c5b4585d771d82",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "PYTHONPATH=\"$(pwd)/src\" pytest -v",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-flit-core": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-flit-core",
+      "packageNames": [
+        "python-flit-core"
+      ],
+      "reviewDigest": "ad51cd02e25f797b8f89b0da05413e35faffdd19b5cee51c9a3e0f1c34e877e4",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-hatch-vcs": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-hatch-vcs",
+      "packageNames": [
+        "python-hatch-vcs"
+      ],
+      "reviewDigest": "e5f7a6527b4da3f10eeed45b482e85c83397a7f7bbc2a0e7edb11e1a66be6a24",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-hatchling": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-hatchling",
+      "packageNames": [
+        "python-hatchling"
+      ],
+      "reviewDigest": "7b14753f9ba47e37b34032f8fdf1619449860bd9f3d29847457220ad77f84c09",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-numpy": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-numpy",
+      "packageNames": [
+        "python-numpy"
+      ],
+      "reviewDigest": "c83ede2ce1b0de72aeacd5bd35855c39de4e8940e793b2d6e97a94bc4b2dd685",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-packaging": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-packaging",
+      "packageNames": [
+        "python-packaging"
+      ],
+      "reviewDigest": "01a401473e94240312a5d3840b7bde9abec5b56fad7b2d229dbfd54dd4c794c8",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-pathspec": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pathspec",
+      "packageNames": [
+        "python-pathspec"
+      ],
+      "reviewDigest": "8c6844405dbb0df0b06fc360c888f6f8546239af83a8bec97107f25df05105c3",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-pluggy": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pluggy",
+      "packageNames": [
+        "python-pluggy"
+      ],
+      "reviewDigest": "2e7c59a0488f03498e1174626af32dd7c424d6e7284a1281ed9a5c9b8ede3f47",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-ply": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "python-3.11.patch:sha512",
+      "license-from-upstream:sha512"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-ply",
+      "packageNames": [
+        "python-ply"
+      ],
+      "reviewDigest": "615541a933655ebd2751b6bf1dac9ab157f3b8b22405f9590ec651292f143959",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "license-from-upstream",
+          "permissions": 420,
+          "content": "Copyright (C) 2001-2015,\nDavid M. Beazley (Dabeaz LLC)\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are\nmet:\n\n* Redistributions of source code must retain the above copyright notice,\n  this list of conditions and the following disclaimer.  \n* Redistributions in binary form must reproduce the above copyright notice, \n  this list of conditions and the following disclaimer in the documentation\n  and/or other materials provided with the distribution.  \n* Neither the name of the David Beazley or Dabeaz LLC may be used to\n  endorse or promote products derived from this software without\n  specific prior written permission. \n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\nA PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\nOWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\nSPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\nLIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
+        },
+        {
+          "name": "python-3.11.patch",
+          "permissions": 420,
+          "content": "diff -up ply-3.11/test/testlex.py.262 ply-3.11/test/testlex.py\n--- ply-3.11/test/testlex.py.262\t2018-02-15 13:44:15.000000000 -0500\n+++ ply-3.11/test/testlex.py\t2021-12-30 13:21:51.894852923 -0500\n@@ -97,68 +97,68 @@ class LexErrorWarningTests(unittest.Test\n     def test_lex_doc1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_doc1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                               \"lex_doc1.py:18: No regular expression defined for rule 't_NUMBER'\\n\"))\n     def test_lex_dup1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_dup1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_dup1.py:20: Rule t_NUMBER redefined. Previously defined on line 18\\n\" ))        \n         \n     def test_lex_dup2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_dup2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_dup2.py:22: Rule t_NUMBER redefined. Previously defined on line 18\\n\" ))\n             \n     def test_lex_dup3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_dup3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_dup3.py:20: Rule t_NUMBER redefined. Previously defined on line 18\\n\" ))\n \n     def test_lex_empty(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_empty\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"No rules of the form t_rulename are defined\\n\"\n                                     \"No rules defined for state 'INITIAL'\\n\"))\n \n     def test_lex_error1(self):\n         run_import(\"lex_error1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"No t_error rule is defined\\n\"))\n \n     def test_lex_error2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_error2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Rule 't_error' must be defined as a function\\n\")\n                      )\n \n     def test_lex_error3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_error3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_error3.py:20: Rule 't_error' requires an argument\\n\"))\n \n     def test_lex_error4(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_error4\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_error4.py:20: Rule 't_error' has too many arguments\\n\"))\n \n     def test_lex_ignore(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_ignore\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_ignore.py:20: Rule 't_ignore' must be defined as a string\\n\"))\n \n     def test_lex_ignore2(self):\n         run_import(\"lex_ignore2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"t_ignore contains a literal backslash '\\\\'\\n\"))\n \n \n@@ -169,20 +169,20 @@ class LexErrorWarningTests(unittest.Test\n             msg = \"Invalid regular expression for rule 't_NUMBER'. unbalanced parenthesis\\n\"\n         else:\n             msg = \"Invalid regular expression for rule 't_NUMBER'. missing ), unterminated subpattern at position 0\"\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     msg,\n                                     contains=True))\n \n     def test_lex_re2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_re2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Regular expression for rule 't_PLUS' matches empty string\\n\"))\n \n     def test_lex_re3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_re3\")\n         result = sys.stderr.getvalue()\n-#        self.assert_(check_expected(result,\n+#        self.assertTrue(check_expected(result,\n #                                    \"Invalid regular expression for rule 't_POUND'. unbalanced parenthesis\\n\"\n #                                    \"Make sure '#' in rule 't_POUND' is escaped with '\\\\#'\\n\"))\n \n@@ -192,78 +192,78 @@ class LexErrorWarningTests(unittest.Test\n         else:\n             msg = (\"Invalid regular expression for rule 't_POUND'. missing ), unterminated subpattern at position 0\\n\"\n                    \"ERROR: Make sure '#' in rule 't_POUND' is escaped with '\\#'\")\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     msg,\n                                     contains=True), result)\n \n     def test_lex_rule1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_rule1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"t_NUMBER not defined as a function or string\\n\"))\n \n     def test_lex_rule2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_rule2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_rule2.py:18: Rule 't_NUMBER' requires an argument\\n\"))\n \n     def test_lex_rule3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_rule3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"lex_rule3.py:18: Rule 't_NUMBER' has too many arguments\\n\"))\n \n \n     def test_lex_state1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                    \"states must be defined as a tuple or list\\n\"))\n \n     def test_lex_state2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Invalid state specifier 'comment'. Must be a tuple (statename,'exclusive|inclusive')\\n\"\n                                     \"Invalid state specifier 'example'. Must be a tuple (statename,'exclusive|inclusive')\\n\"))\n \n     def test_lex_state3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"State name 1 must be a string\\n\"\n                                     \"No rules defined for state 'example'\\n\"))\n \n     def test_lex_state4(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state4\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"State type for state comment must be 'inclusive' or 'exclusive'\\n\"))\n \n \n     def test_lex_state5(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state5\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"State 'comment' already defined\\n\"))\n \n     def test_lex_state_noerror(self):\n         run_import(\"lex_state_noerror\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"No error rule is defined for exclusive state 'comment'\\n\"))    \n \n     def test_lex_state_norule(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_state_norule\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"No rules defined for state 'example'\\n\"))\n \n     def test_lex_token1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_token1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"No token list is defined\\n\"\n                                     \"Rule 't_NUMBER' defined for an unspecified token NUMBER\\n\"\n                                     \"Rule 't_PLUS' defined for an unspecified token PLUS\\n\"\n@@ -273,7 +273,7 @@ class LexErrorWarningTests(unittest.Test\n     def test_lex_token2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_token2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"tokens must be a list or tuple\\n\"\n                                     \"Rule 't_NUMBER' defined for an unspecified token NUMBER\\n\"\n                                     \"Rule 't_PLUS' defined for an unspecified token PLUS\\n\"\n@@ -283,14 +283,14 @@ class LexErrorWarningTests(unittest.Test\n     def test_lex_token3(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_token3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Rule 't_MINUS' defined for an unspecified token MINUS\\n\"))\n \n \n     def test_lex_token4(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_token4\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Bad token name '-'\\n\"))\n \n \n@@ -299,25 +299,25 @@ class LexErrorWarningTests(unittest.Test\n             run_import(\"lex_token5\")\n         except ply.lex.LexError:\n             e = sys.exc_info()[1]\n-        self.assert_(check_expected(str(e),\"lex_token5.py:19: Rule 't_NUMBER' returned an unknown token type 'NUM'\"))\n+        self.assertTrue(check_expected(str(e),\"lex_token5.py:19: Rule 't_NUMBER' returned an unknown token type 'NUM'\"))\n \n     def test_lex_token_dup(self):\n         run_import(\"lex_token_dup\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Token 'MINUS' multiply defined\\n\"))   \n \n         \n     def test_lex_literal1(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_literal1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Invalid literal '**'. Must be a single character\\n\"))\n \n     def test_lex_literal2(self):\n         self.assertRaises(SyntaxError,run_import,\"lex_literal2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Invalid literals specification. literals must be a sequence of characters\\n\"))\n \n import os\n@@ -340,7 +340,7 @@ class LexBuildOptionTests(unittest.TestC\n     def test_lex_module(self):\n         run_import(\"lex_module\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n@@ -348,7 +348,7 @@ class LexBuildOptionTests(unittest.TestC\n     def test_lex_object(self):\n         run_import(\"lex_object\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n@@ -356,7 +356,7 @@ class LexBuildOptionTests(unittest.TestC\n     def test_lex_closure(self):\n         run_import(\"lex_closure\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n@@ -377,34 +377,34 @@ class LexBuildOptionTests(unittest.TestC\n         run_import(\"lex_optimize\")\n \n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n-        self.assert_(os.path.exists(\"lextab.py\"))\n+        self.assertTrue(os.path.exists(\"lextab.py\"))\n \n         p = subprocess.Popen([sys.executable,'-O','lex_optimize.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n \n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"lextab.pyo\", 1))\n+            self.assertTrue(pymodule_out_exists(\"lextab.pyo\", 1))\n             pymodule_out_remove(\"lextab.pyo\", 1)\n \n         p = subprocess.Popen([sys.executable,'-OO','lex_optimize.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n \n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"lextab.pyo\", 2))\n+            self.assertTrue(pymodule_out_exists(\"lextab.pyo\", 2))\n         try:\n             os.remove(\"lextab.py\")\n         except OSError:\n@@ -433,31 +433,31 @@ class LexBuildOptionTests(unittest.TestC\n             pass\n         run_import(\"lex_optimize2\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n-        self.assert_(os.path.exists(\"opt2tab.py\"))\n+        self.assertTrue(os.path.exists(\"opt2tab.py\"))\n \n         p = subprocess.Popen([sys.executable,'-O','lex_optimize2.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"opt2tab.pyo\", 1))\n+            self.assertTrue(pymodule_out_exists(\"opt2tab.pyo\", 1))\n             pymodule_out_remove(\"opt2tab.pyo\", 1)\n         p = subprocess.Popen([sys.executable,'-OO','lex_optimize2.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"opt2tab.pyo\", 2))\n+            self.assertTrue(pymodule_out_exists(\"opt2tab.pyo\", 2))\n         try:\n             os.remove(\"opt2tab.py\")\n         except OSError:\n@@ -483,32 +483,32 @@ class LexBuildOptionTests(unittest.TestC\n         open(\"lexdir/sub/__init__.py\",\"w\").write(\"\")\n         run_import(\"lex_optimize3\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n-        self.assert_(os.path.exists(\"lexdir/sub/calctab.py\"))\n+        self.assertTrue(os.path.exists(\"lexdir/sub/calctab.py\"))\n \n         p = subprocess.Popen([sys.executable,'-O','lex_optimize3.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"lexdir/sub/calctab.pyo\", 1))\n+            self.assertTrue(pymodule_out_exists(\"lexdir/sub/calctab.pyo\", 1))\n             pymodule_out_remove(\"lexdir/sub/calctab.pyo\", 1)\n \n         p = subprocess.Popen([sys.executable,'-OO','lex_optimize3.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(PLUS,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"lexdir/sub/calctab.pyo\", 2))\n+            self.assertTrue(pymodule_out_exists(\"lexdir/sub/calctab.pyo\", 2))\n         try:\n             shutil.rmtree(\"lexdir\")\n         except OSError:\n@@ -549,33 +549,33 @@ class LexBuildOptionTests(unittest.TestC\n             pass\n         run_import(\"lex_opt_alias\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(+,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n-        self.assert_(os.path.exists(\"aliastab.py\"))\n+        self.assertTrue(os.path.exists(\"aliastab.py\"))\n \n         p = subprocess.Popen([sys.executable,'-O','lex_opt_alias.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(+,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"aliastab.pyo\", 1))\n+            self.assertTrue(pymodule_out_exists(\"aliastab.pyo\", 1))\n             pymodule_out_remove(\"aliastab.pyo\", 1)\n \n         p = subprocess.Popen([sys.executable,'-OO','lex_opt_alias.py'],\n                              stdout=subprocess.PIPE)\n         result = p.stdout.read()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,3,1,0)\\n\"\n                                     \"(+,'+',1,1)\\n\"\n                                     \"(NUMBER,4,1,2)\\n\"))\n \n         if test_pyo:\n-            self.assert_(pymodule_out_exists(\"aliastab.pyo\", 2))\n+            self.assertTrue(pymodule_out_exists(\"aliastab.pyo\", 2))\n         try:\n             os.remove(\"aliastab.py\")\n         except OSError:\n@@ -604,7 +604,7 @@ class LexBuildOptionTests(unittest.TestC\n             pass\n         run_import(\"lex_many_tokens\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(TOK34,'TOK34:',1,0)\\n\"\n                                     \"(TOK143,'TOK143:',1,7)\\n\"\n                                     \"(TOK269,'TOK269:',1,15)\\n\"\n@@ -614,13 +614,13 @@ class LexBuildOptionTests(unittest.TestC\n                                     \"(TOK999,'TOK999:',1,47)\\n\"\n                                     ))\n \n-        self.assert_(os.path.exists(\"manytab.py\"))\n+        self.assertTrue(os.path.exists(\"manytab.py\"))\n \n         if implementation() == 'CPython':\n             p = subprocess.Popen([sys.executable,'-O','lex_many_tokens.py'],\n                                  stdout=subprocess.PIPE)\n             result = p.stdout.read()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"(TOK34,'TOK34:',1,0)\\n\"\n                                         \"(TOK143,'TOK143:',1,7)\\n\"\n                                         \"(TOK269,'TOK269:',1,15)\\n\"\n@@ -630,7 +630,7 @@ class LexBuildOptionTests(unittest.TestC\n                                         \"(TOK999,'TOK999:',1,47)\\n\"\n                                         ))\n \n-            self.assert_(pymodule_out_exists(\"manytab.pyo\", 1))\n+            self.assertTrue(pymodule_out_exists(\"manytab.pyo\", 1))\n             pymodule_out_remove(\"manytab.pyo\", 1)\n         try:\n             os.remove(\"manytab.py\")\n@@ -657,7 +657,7 @@ class LexRunTests(unittest.TestCase):\n     def test_lex_hedit(self):\n         run_import(\"lex_hedit\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(H_EDIT_DESCRIPTOR,'abc',1,0)\\n\"\n                                     \"(H_EDIT_DESCRIPTOR,'abcdefghij',1,6)\\n\"\n                                     \"(H_EDIT_DESCRIPTOR,'xy',1,20)\\n\"))\n@@ -665,7 +665,7 @@ class LexRunTests(unittest.TestCase):\n     def test_lex_state_try(self):\n         run_import(\"lex_state_try\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"(NUMBER,'3',1,0)\\n\"\n                                     \"(PLUS,'+',1,2)\\n\"\n                                     \"(NUMBER,'4',1,4)\\n\"\ndiff -up ply-3.11/test/testyacc.py.262 ply-3.11/test/testyacc.py\n--- ply-3.11/test/testyacc.py.262\t2018-02-15 13:44:15.000000000 -0500\n+++ ply-3.11/test/testyacc.py\t2021-12-30 13:18:40.237690758 -0500\n@@ -97,14 +97,14 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_badargs(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_badargs\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_badargs.py:23: Rule 'p_statement_assign' has too many arguments\\n\"\n                                     \"yacc_badargs.py:27: Rule 'p_statement_expr' requires an argument\\n\"\n                                     ))        \n     def test_yacc_badid(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_badid\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_badid.py:32: Illegal name 'bad&rule' in rule 'statement'\\n\"\n                                     \"yacc_badid.py:36: Illegal rule name 'bad&rule'\\n\"\n                                     ))\n@@ -114,20 +114,20 @@ class YaccErrorWarningTests(unittest.Tes\n             run_import(\"yacc_badprec\")\n         except ply.yacc.YaccError:\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"precedence must be a list or tuple\\n\"\n                                         ))\n     def test_yacc_badprec2(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_badprec2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Bad precedence table\\n\"\n                                     ))\n \n     def test_yacc_badprec3(self):\n         run_import(\"yacc_badprec3\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Precedence already specified for terminal 'MINUS'\\n\"\n                                     \"Generating LALR tables\\n\"\n \n@@ -136,7 +136,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_badrule(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_badrule\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_badrule.py:24: Syntax error. Expected ':'\\n\"\n                                     \"yacc_badrule.py:28: Syntax error in rule 'statement'\\n\"\n                                     \"yacc_badrule.py:33: Syntax error. Expected ':'\\n\"\n@@ -148,13 +148,13 @@ class YaccErrorWarningTests(unittest.Tes\n             run_import(\"yacc_badtok\")\n         except ply.yacc.YaccError:\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"tokens must be a list or tuple\\n\"))\n \n     def test_yacc_dup(self):\n         run_import(\"yacc_dup\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_dup.py:27: Function p_statement redefined. Previously defined on line 23\\n\"\n                                     \"Token 'EQUALS' defined, but not used\\n\"\n                                     \"There is 1 unused token\\n\"\n@@ -166,7 +166,7 @@ class YaccErrorWarningTests(unittest.Tes\n             run_import(\"yacc_error1\")\n         except ply.yacc.YaccError:\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"yacc_error1.py:61: p_error() requires 1 argument\\n\"))\n \n     def test_yacc_error2(self):\n@@ -174,7 +174,7 @@ class YaccErrorWarningTests(unittest.Tes\n             run_import(\"yacc_error2\")\n         except ply.yacc.YaccError:\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"yacc_error2.py:61: p_error() requires 1 argument\\n\"))\n \n     def test_yacc_error3(self):\n@@ -183,13 +183,13 @@ class YaccErrorWarningTests(unittest.Tes\n         except ply.yacc.YaccError:\n             e = sys.exc_info()[1]\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"'p_error' defined, but is not a function or method\\n\"))\n             \n     def test_yacc_error4(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_error4\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_error4.py:62: Illegal rule name 'error'. Already defined as a token\\n\"\n                                     ))\n \n@@ -197,7 +197,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_error5(self):\n         run_import(\"yacc_error5\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Group at 3:10 to 3:12\\n\"\n                                     \"Undefined name 'a'\\n\"\n                                     \"Syntax error at 'b'\\n\"\n@@ -209,7 +209,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_error6(self):\n         run_import(\"yacc_error6\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"a=7\\n\"\n                                     \"Line 3: Syntax error at '*'\\n\"\n                                     \"c=21\\n\"\n@@ -218,7 +218,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_error7(self):\n         run_import(\"yacc_error7\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"a=7\\n\"\n                                     \"Line 3: Syntax error at '*'\\n\"\n                                     \"c=21\\n\"\n@@ -227,7 +227,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_inf(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_inf\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Token 'NUMBER' defined, but not used\\n\"\n                                     \"There is 1 unused token\\n\"\n                                     \"Infinite recursion detected for symbol 'statement'\\n\"\n@@ -236,27 +236,27 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_literal(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_literal\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_literal.py:36: Literal token '**' in rule 'expression' may only be a single character\\n\"\n                                     ))\n     def test_yacc_misplaced(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_misplaced\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_misplaced.py:32: Misplaced '|'\\n\"\n                                     ))\n \n     def test_yacc_missing1(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_missing1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_missing1.py:24: Symbol 'location' used, but not defined as a token or a rule\\n\"\n                                     ))\n \n     def test_yacc_nested(self):\n         run_import(\"yacc_nested\")\n         result = sys.stdout.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"A\\n\"\n                                     \"A\\n\"\n                                     \"A\\n\",\n@@ -265,7 +265,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_nodoc(self):\n         run_import(\"yacc_nodoc\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_nodoc.py:27: No documentation string specified in function 'p_statement_expr' (ignored)\\n\"\n                                     \"Generating LALR tables\\n\"\n                                     ))\n@@ -273,7 +273,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_noerror(self):\n         run_import(\"yacc_noerror\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"no p_error() function is defined\\n\"\n                                     \"Generating LALR tables\\n\"\n                                     ))\n@@ -281,7 +281,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_nop(self):\n         run_import(\"yacc_nop\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_nop.py:27: Possible grammar rule 'statement_expr' defined without p_ prefix\\n\"\n                                     \"Generating LALR tables\\n\"\n                                     ))\n@@ -289,7 +289,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_notfunc(self):\n         run_import(\"yacc_notfunc\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"'p_statement_assign' not defined as a function\\n\"\n                                     \"Token 'EQUALS' defined, but not used\\n\"\n                                     \"There is 1 unused token\\n\"\n@@ -300,13 +300,13 @@ class YaccErrorWarningTests(unittest.Tes\n             run_import(\"yacc_notok\")\n         except ply.yacc.YaccError:\n             result = sys.stderr.getvalue()\n-            self.assert_(check_expected(result,\n+            self.assertTrue(check_expected(result,\n                                         \"No token list is defined\\n\"))\n \n     def test_yacc_rr(self):\n         run_import(\"yacc_rr\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Generating LALR tables\\n\"\n                                     \"1 reduce/reduce conflict\\n\"\n                                     \"reduce/reduce conflict in state 15 resolved using rule (statement -> NAME EQUALS NUMBER)\\n\"\n@@ -317,7 +317,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_rr_unused(self):\n         run_import(\"yacc_rr_unused\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"no p_error() function is defined\\n\"\n                                     \"Generating LALR tables\\n\"\n                                     \"3 reduce/reduce conflicts\\n\"\n@@ -333,14 +333,14 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_simple(self):\n         run_import(\"yacc_simple\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Generating LALR tables\\n\"\n                                     ))\n \n     def test_yacc_sr(self):\n         run_import(\"yacc_sr\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Generating LALR tables\\n\"\n                                     \"20 shift/reduce conflicts\\n\"\n                                     ))\n@@ -348,21 +348,21 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_term1(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_term1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_term1.py:24: Illegal rule name 'NUMBER'. Already defined as a token\\n\"\n                                     ))\n \n     def test_yacc_unicode_literals(self):\n         run_import(\"yacc_unicode_literals\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Generating LALR tables\\n\"\n                                     ))\n \n     def test_yacc_unused(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_unused\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_unused.py:62: Symbol 'COMMA' used, but not defined as a token or a rule\\n\"\n                                     \"Symbol 'COMMA' is unreachable\\n\"\n                                     \"Symbol 'exprlist' is unreachable\\n\"\n@@ -370,7 +370,7 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_unused_rule(self):\n         run_import(\"yacc_unused_rule\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_unused_rule.py:62: Rule 'integer' defined, but not used\\n\"\n                                     \"There is 1 unused rule\\n\"\n                                     \"Symbol 'integer' is unreachable\\n\"\n@@ -380,21 +380,21 @@ class YaccErrorWarningTests(unittest.Tes\n     def test_yacc_uprec(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_uprec\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_uprec.py:37: Nothing known about the precedence of 'UMINUS'\\n\"\n                                     ))\n \n     def test_yacc_uprec2(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_uprec2\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"yacc_uprec2.py:37: Syntax error. Nothing follows %prec\\n\"\n                                     ))\n \n     def test_yacc_prec1(self):\n         self.assertRaises(ply.yacc.YaccError,run_import,\"yacc_prec1\")\n         result = sys.stderr.getvalue()\n-        self.assert_(check_expected(result,\n+        self.assertTrue(check_expected(result,\n                                     \"Precedence rule 'left' defined for unknown symbol '+'\\n\"\n                                     \"Precedence rule 'left' defined for unknown symbol '*'\\n\"\n                                     \"Precedence rule 'left' defined for unknown symbol '-'\\n\"\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-prettytable": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-prettytable",
+      "packageNames": [
+        "python-prettytable"
+      ],
+      "reviewDigest": "20d0bff23f9ab006a4ab0bb37abdac9aa21de48ad254a7c458491ab516777f82",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-pyaml": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pyaml",
+      "packageNames": [
+        "python-pyaml"
+      ],
+      "reviewDigest": "7150ef8da5144ca98639d4bc93f76aa32694bbd8d313fedb080580b827ea21f3",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "python_version=$(python -c 'import sys; print(\".\".join(map(str, sys.version_info[:2])))')",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-pyelftools": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pyelftools",
+      "packageNames": [
+        "python-pyelftools"
+      ],
+      "reviewDigest": "c2ec2b45ce9211e17e96d1fe2bba924537012ce3e3adae615931dc14944739e3",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-pygments": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pygments",
+      "packageNames": [
+        "python-pygments"
+      ],
+      "reviewDigest": "6dd78bc4a543395dd9da03995c8e7286d414c3f8021eeecc4db6846fdb67f968",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-setuptools-scm": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-setuptools-scm",
+      "packageNames": [
+        "python-setuptools-scm"
+      ],
+      "reviewDigest": "d7075c6f0ee2c7757f9870c756f7bdf89f309256140cb71902601f26dc988756",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "python -m installer --destdir=\"$(pwd)/tmp\" dist/*.whl",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "export PYTHONPATH=\"$(pwd)/tmp/$site_packages\"",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-tomlkit": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-tomlkit",
+      "packageNames": [
+        "python-tomlkit"
+      ],
+      "reviewDigest": "9ace8423f5dbd2923510306f8a11c9197c8beed9d5e0e26df075f94cf01e1b51",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-trove-classifiers": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-trove-classifiers",
+      "packageNames": [
+        "python-trove-classifiers"
+      ],
+      "reviewDigest": "6ce8442973db4ce93082a707e4e0ebadc899dd4b17258b47f69d360c416e1d92",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-wcag-contrast-ratio": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-wcag-contrast-ratio",
+      "packageNames": [
+        "python-wcag-contrast-ratio"
+      ],
+      "reviewDigest": "8dd7f0d9b863a932a2d8678ac79625af6ec2c18ae286cd3c00a5a5981ba6a4c6",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-wcwidth": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-wcwidth",
+      "packageNames": [
+        "python-wcwidth"
+      ],
+      "reviewDigest": "a07c3b41a7da0f006dfe4d039154bda4a39efabc868e7e90a943ab4e7506e118",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "python -m installer --destdir=\"$(pwd)/tmp\" dist/*.whl",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "export PYTHONPATH=\"$(pwd)/tmp/$site_packages\"",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-yaml": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-yaml",
+      "packageNames": [
+        "python-yaml"
+      ],
+      "reviewDigest": "8d1c2dabc34c269d02e39b7c99c5433b5025aa90bbdff1a121be831a239908d4",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rccl": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rccl",
+      "packageNames": [
+        "rccl"
+      ],
+      "reviewDigest": "54ab6faaa2e431e1c9c825f8179051aa014ee1a433ad19168c58c4e580c28c11",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "export HIPCC_COMPILE_FLAGS_APPEND=\"-parallel-jobs=$(nproc)\"",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "export HIPCC_LINK_FLAGS_APPEND=\"-parallel-jobs=$(nproc)\"",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rdma-core": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rdma-core",
+      "packageNames": [
+        "rdma-core"
+      ],
+      "reviewDigest": "05eeb5c6d962c634428cb1864c3e32b2b2c672e9df0c3aec2b0e03fafdf32b05",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "rocm-cmake": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocm-cmake",
+      "packageNames": [
+        "rocm-cmake"
+      ],
+      "reviewDigest": "0b719b8e81e8a127b34dbef10b8f8abbdaf6c8f5af6f30466d063e524ac6c893",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rocm-core": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "rocm-ld.conf:b2",
+      "rocm-profile.sh:b2",
+      "rocm.fish:b2"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocm-core",
+      "packageNames": [
+        "rocm-core"
+      ],
+      "reviewDigest": "3a0baba93b0a4bf4647c6ece5b8c8eb63206f528aac5f770e8820b8aa745a25e",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "rocm-ld.conf",
+          "permissions": 420,
+          "content": "/opt/rocm/lib\n"
+        },
+        {
+          "name": "rocm-profile.sh",
+          "permissions": 420,
+          "content": "export ROCM_PATH=/opt/rocm\nappend_path '/opt/rocm/bin'\nexport PATH\n"
+        },
+        {
+          "name": "rocm.fish",
+          "permissions": 420,
+          "content": "set --export --global ROCM_PATH /opt/rocm\nfish_add_path --append --global /opt/rocm/bin\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rocm-llvm": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "0001-compiler-rt-sanitizer-Remove-linux-scc.h.patch:sha256"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocm-llvm",
+      "packageNames": [
+        "rocm-llvm",
+        "rocm-llvm-libs",
+        "rocm-mlir-libs",
+        "rocm-llvm-tools",
+        "rocm-llvm-headers",
+        "rocm-llvm-static",
+        "rocm-flang",
+        "rocm-device-libs",
+        "comgr"
+      ],
+      "reviewDigest": "9f6bc58d58b7f776df6936a938d1b37085ff7cc059967cd7d05d97ac9f980113",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "FCFLAGS=$(sed -E \"s@($_unsupported)@@g\" <<<\"$FCFLAGS\")",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "0001-compiler-rt-sanitizer-Remove-linux-scc.h.patch",
+          "permissions": 420,
+          "content": "From: Arch Linux contributors\nSubject: [compiler-rt][sanitizer] Remove linux/scc.h\n\nlinux/scc.h was dropped from the kernel UAPI headers and is no longer\nshipped by linux-api-headers >= 7.1, so building sanitizer_common fails\nwith \"fatal error: 'linux/scc.h' file not found\".\n\nstruct_scc_modem_sz and struct_scc_stat_sz are not referenced by the\nioctl interceptors, so they can be removed along with the include.\n\nBackport of llvm/llvm-project commit 3dc4fd6dd (\"[compiler-rt][sanitizer]\nRemove linux/scc.h\", #194116), adjusted to apply on the ROCm fork, which\npredates the reindentation of that include block.\n\n--- a/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp\n+++ b/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp\n@@ -157,7 +157,6 @@\n #include <linux/lp.h>\n #include <linux/mroute.h>\n #include <linux/mroute6.h>\n-#include <linux/scc.h>\n #include <linux/serial.h>\n #include <sys/msg.h>\n #include <sys/ipc.h>\n@@ -532,8 +531,6 @@\n   unsigned struct_kbsentry_sz = sizeof(struct kbsentry);\n   unsigned struct_mtconfiginfo_sz = sizeof(struct mtconfiginfo);\n   unsigned struct_nr_parms_struct_sz = sizeof(struct nr_parms_struct);\n-  unsigned struct_scc_modem_sz = sizeof(struct scc_modem);\n-  unsigned struct_scc_stat_sz = sizeof(struct scc_stat);\n   unsigned struct_serial_multiport_struct_sz\n       = sizeof(struct serial_multiport_struct);\n   unsigned struct_serial_struct_sz = sizeof(struct serial_struct);\n--- a/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h\n+++ b/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h\n@@ -1119,8 +1119,6 @@\n extern unsigned struct_kbsentry_sz;\n extern unsigned struct_mtconfiginfo_sz;\n extern unsigned struct_nr_parms_struct_sz;\n-extern unsigned struct_scc_modem_sz;\n-extern unsigned struct_scc_stat_sz;\n extern unsigned struct_serial_multiport_struct_sz;\n extern unsigned struct_serial_struct_sz;\n extern unsigned struct_sockaddr_ax25_sz;\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rocm-smi-lib": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocm-smi-lib",
+      "packageNames": [
+        "rocm-smi-lib"
+      ],
+      "reviewDigest": "415a4d7841fc2d5943c092012162cd6e0c87a04b0584a59dc54259a239a6e3ae",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rocminfo": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocminfo",
+      "packageNames": [
+        "rocminfo"
+      ],
+      "reviewDigest": "17a6ad594eedc968577f27210fc640c7124a6703952b76eb0f4d484c2b36381f",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "rocprofiler-register": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocprofiler-register",
+      "packageNames": [
+        "rocprofiler-register"
+      ],
+      "reviewDigest": "78645ed6d327833050cb0a7d945f63996038dd9d6caa51ab0909de88dd661c92",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "sgml-common": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "sgml-common-0.6.3-manpage-1.patch:sha512"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "sgml-common",
+      "packageNames": [
+        "sgml-common"
+      ],
+      "reviewDigest": "fffbb35cace9c5a36cb749541998cec431b3d6dd73de8449f5154f305cb6528b",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "source: sgml-common-0.6.3-manpage-1.patch",
+          "matchedLine": "-man8dir\t  = $(mandir)/man8",
+          "message": "Dynamic command construction detected in source: sgml-common-0.6.3-manpage-1.patch() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "sgml-common-0.6.3-manpage-1.patch",
+          "permissions": 420,
+          "content": "Submitted By: Thomas Pegg <lnxfreak123 at insightbb dot com>\nDate: 2003-11-18\nInitial Package Version: 0.6.3\nOrigin: Thomas Pegg\nDescription: Fixes syntax of Makefile.am for installation of man pages,\nfor use with current automake versions 1.7.8 and higher.\n\ndiff -Naur sgml-common-0.6.3.orig/doc/man/Makefile.am sgml-common-0.6.3/doc/man/Makefile.am\n--- sgml-common-0.6.3.orig/doc/man/Makefile.am\t2001-01-30 14:42:22.000000000 +0000\n+++ sgml-common-0.6.3/doc/man/Makefile.am\t2003-11-18 16:48:47.000000000 +0000\n@@ -1,2 +1 @@\n-man8dir\t  = $(mandir)/man8\n-man8_DATA = *.8\n+man_MANS = install-catalog.8\n"
+        },
+        {
+          "name": "sgml-common.install",
+          "permissions": 420,
+          "content": "# arg 1:  the new package version\npre_install() {\n\t/bin/true\n}\n\n# arg 1:  the new package version\npost_install() {\n\tadd_catalog \"${1%-*}\"\n}\n\n# arg 1:  the new package version\n# arg 2:  the old package version\npre_upgrade() {\n\tremove_catalog \"${2%-*}\"\n}\n\n# arg 1:  the new package version\n# arg 2:  the old package version\npost_upgrade() {\n\tadd_catalog \"${1%-*}\"\n}\n\n# arg 1:  the old package version\npre_remove() {\n\tremove_catalog \"${1%-*}\"\n}\n\n# arg 1:  the old package version\npost_remove() {\n\t/bin/true\n}\n\n\nadd_catalog() {\n\tinstall-catalog --add /etc/sgml/sgml-ent.cat \\\n\t\t/usr/share/sgml/sgml-iso-entities-8879.1986/catalog > /dev/null 2>&1\n\n\tinstall-catalog --add /etc/sgml/sgml-docbook.cat \\\n\t\t/etc/sgml/sgml-ent.cat > /dev/null 2>&1\n}\n\nremove_catalog() {\n\tinstall-catalog --remove /etc/sgml/sgml-ent.cat \\\n\t\t/usr/share/sgml/sgml-iso-entities-8879.1986/catalog > /dev/null 2>&1\n\n\tinstall-catalog --remove /etc/sgml/sgml-docbook.cat \\\n\t\t/etc/sgml/sgml-ent.cat > /dev/null 2>&1\n}\n\nop=$1\nshift\n$op \"$@\"\n\n# vim:set syntax=sh ts=4 sw=4 noet:\n\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "tinyxxd": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "tinyxxd",
+      "packageNames": [
+        "tinyxxd"
+      ],
+      "reviewDigest": "60d1a805e7cec657c20aa57b034cad711d5cc5ed7398e9e1fe2501c15f657c4f",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "valgrind": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "valgrind-3.7.0-respect-flags.patch:sha512",
+      "valgrind-3.7.0-respect-flags.patch:b2"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "valgrind",
+      "packageNames": [
+        "valgrind"
+      ],
+      "reviewDigest": "1c3fb278dad33b65e532f67b721487b95ef079c03a4ce3f0594084debcd29131",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "source: valgrind-3.7.0-respect-flags.patch",
+          "matchedLine": "CC = $(MPI_CC)",
+          "message": "Dynamic command construction detected in source: valgrind-3.7.0-respect-flags.patch() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": [
+        {
+          "name": "valgrind-3.7.0-respect-flags.patch",
+          "permissions": 420,
+          "content": "diff -Naur valgrind-3.7.0.orig//mpi/Makefile.am valgrind-3.7.0/mpi/Makefile.am\n--- valgrind-3.7.0.orig/mpi/Makefile.am\t2011-10-26 17:24:23.000000000 -0400\n+++ valgrind-3.7.0/mpi/Makefile.am\t2011-11-10 16:03:14.000000000 -0500\n@@ -7,9 +7,6 @@\n CC = $(MPI_CC)\n DEFS =\n DEFAULT_INCLUDES =\n-CPPFLAGS =\n-CFLAGS =\n-LDFLAGS =\n \n EXTRA_DIST = \\\n \tmpiwrap_type_test.c\n"
+        }
+      ]
+    },
+    "source_verification": "passed",
+    "package_build": "not run"
+  },
+  "rocm-language-runtime": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "rocm-language-runtime",
+      "packageNames": [
+        "rocm-language-runtime"
+      ],
+      "reviewDigest": "a4fb9cd5fcc0417f1cf8580842106ed0e6dba4e2b79b0babae275a9692bf6508",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "pandoc-bin": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "pandoc-bin",
+      "packageNames": [
+        "pandoc-bin"
+      ],
+      "reviewDigest": "e8d7fb8e8b8800cd24d7f57fb4689b4ae6577f6cf3dfd074f5f84dd102e0cf63",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "passed",
+    "package_build": "passed with local makepkg; packaged binary reports Pandoc 3.11"
+  },
+  "python-pyproject-metadata": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-pyproject-metadata",
+      "packageNames": [
+        "python-pyproject-metadata"
+      ],
+      "reviewDigest": "8110ad6d74edff06a197ed68f8143bb065acef2f37a496eb8437dc1c5507894d",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-vcs-versioning": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-vcs-versioning",
+      "packageNames": [
+        "python-vcs-versioning"
+      ],
+      "reviewDigest": "c2f746cc08c21190beccbf7b5f64427e0e5f5469fb43542117108ca080c5f52d",
+      "findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "python -m installer --destdir=\"$(pwd)/tmp\" dist/*.whl",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "check",
+          "matchedLine": "export PYTHONPATH=\"$(pwd)/tmp/$site_packages\"",
+          "message": "Dynamic command construction detected in check() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-calver": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-calver",
+      "packageNames": [
+        "python-calver"
+      ],
+      "reviewDigest": "9da3573c60a1200a74905d69e382d8b848b9d6af145541c1ab924be1f9cd8155",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-poetry-core": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [
+      "python-poetry-core-1.9.0-devendor.patch:sha256"
+    ],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-poetry-core",
+      "packageNames": [
+        "python-poetry-core"
+      ],
+      "reviewDigest": "0465da9e72e7cda3800274195c352c8f316abffb811fbe2f00b38263aa124638",
+      "findings": [],
+      "relatedFiles": [
+        {
+          "name": "python-poetry-core-1.9.0-devendor.patch",
+          "permissions": 420,
+          "content": "diff -ruN a/src/poetry/core/__init__.py b/src/poetry/core/__init__.py\n--- a/src/poetry/core/__init__.py\t2024-02-02 15:03:53.000000000 +0100\n+++ b/src/poetry/core/__init__.py\t2024-02-25 14:45:34.346860290 +0100\n@@ -8,8 +8,3 @@\n # this cannot presently be replaced with importlib.metadata.version as when building\n # itself, poetry-core is not available as an installed distribution.\n __version__ = \"2.3.2\"\n-\n-__vendor_site__ = (Path(__file__).parent / \"_vendor\").as_posix()\n-\n-if __vendor_site__ not in sys.path:\n-    sys.path.insert(0, __vendor_site__)\n"
+        }
+      ]
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "gflags": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "gflags",
+      "packageNames": [
+        "gflags"
+      ],
+      "reviewDigest": "184228f82e5800cab3ec858356b624ab0016318e3d3ef9c8ad5065faea59ba9d",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-fastjsonschema": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-fastjsonschema",
+      "packageNames": [
+        "python-fastjsonschema"
+      ],
+      "reviewDigest": "4d6dbd63b430af00339e7a9d0ea27314f115356e53650d562c81749fdb14a653",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-lark-parser": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-lark-parser",
+      "packageNames": [
+        "python-lark-parser"
+      ],
+      "reviewDigest": "bcce1af56c4bf79cdbb7a5db2429dafd76cb609176fea498956c7cf35ff6a966",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  },
+  "python-typing_extensions": {
+    "syntax": "passed",
+    "metadata": "makepkg and Shelly agree",
+    "metadata_difference": [],
+    "local_file_checksums": [],
+    "review": {
+      "schemaVersion": 1,
+      "packageBase": "python-typing_extensions",
+      "packageNames": [
+        "python-typing_extensions"
+      ],
+      "reviewDigest": "da42d54f371a96042d0dc68b0aa81eb8633635827712e9d9eaedb20729287e6a",
+      "findings": [],
+      "relatedFiles": []
+    },
+    "source_verification": "not run",
+    "package_build": "not run"
+  }
+}

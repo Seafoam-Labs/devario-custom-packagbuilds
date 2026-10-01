@@ -1,0 +1,27 @@
+pkgbase = rccl
+	pkgdesc = ROCm Communication Collectives Library
+	pkgver = 7.2.4
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/projects/rccl/en/latest/index.html
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = git
+	makedepends = cmake
+	makedepends = rocm-cmake
+	makedepends = rocm-llvm
+	makedepends = hipify-clang
+	makedepends = python
+	depends = rocm-core
+	depends = glibc
+	depends = libgcc
+	depends = hip-runtime-amd
+	depends = rocm-smi-lib
+	options = !lto
+	source = rccl::git+https://github.com/ROCm/rccl#tag=rocm-7.2.4
+	source = rccl-json::git+https://github.com/nlohmann/json.git
+	source = rccl-mscclpp::git+https://github.com/microsoft/mscclpp.git
+	sha256sums = c47a838050a0188258fc318a82013d400fcaba661a2a58300bff8e51f77e20ec
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = rccl

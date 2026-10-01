@@ -1,0 +1,271 @@
+{
+  "cccl": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/cccl.git",
+    "commit": "fb7e6776ae893e1cd718c0243367d3b2b97e4af0"
+  },
+  "cuda": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/cuda.git",
+    "commit": "910a613961b3b5500b655d5a79ecb1af548479b7"
+  },
+  "cython": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/cython.git",
+    "commit": "56327537d5d05d9cf207fea604cd50b9871062ef"
+  },
+  "docbook-sgml": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/docbook-sgml.git",
+    "commit": "1b4f428883efdcbc78e1c1ba5f7c718555b836b5",
+    "changes": [
+      "Use working OASIS upstream archive URL; original checksum unchanged",
+      "Bump pkgrel to 11"
+    ]
+  },
+  "docbook-xml": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/docbook-xml.git",
+    "commit": "d927be055fc562a570870e4b197254b04d028dd8"
+  },
+  "docbook-xsl": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/docbook-xsl.git",
+    "commit": "bd8a2c168ded641ee96958c074d41010dc8e5a32"
+  },
+  "fmt": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/fmt.git",
+    "commit": "33556e8ea70bf0e76f3b855dfbf7fd3386b13904",
+    "changes": [
+      "Library only; disable website documentation; pkgrel 2"
+    ]
+  },
+  "google-glog": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/google-glog.git",
+    "commit": "83415e43a2c242afad2c61f614601f7e48d80c57"
+  },
+  "hip-runtime": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/hip-runtime.git",
+    "commit": "3d9ef426bd30be95b629a00cc3600e52d20f57b6"
+  },
+  "hipify-clang": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/hipify-clang.git",
+    "commit": "b339fceffd9edecfe599b597504bde6902957f31"
+  },
+  "hsa-rocr": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/hsa-rocr.git",
+    "commit": "92faa13353f01b3970b5f2fa2fad5b9db349d83f"
+  },
+  "lapack": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/lapack.git",
+    "commit": "d4a382adc16a41b112306ae9c05508aa4a94999c"
+  },
+  "libfabric": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/libfabric.git",
+    "commit": "08cf3d4817b88684ebf994fbc3b33d5cfe2fd94d"
+  },
+  "libxslt": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/libxslt.git",
+    "commit": "ae2998e51f2c294a8b697b53669df27479c96494"
+  },
+  "libyaml": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/libyaml.git",
+    "commit": "274ea03cc9f084994f02d264d3ada7f3d2f4ed0a"
+  },
+  "meson-python": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/meson-python.git",
+    "commit": "633105e380ee16785eac8fc7ed8d947dd1e580d4"
+  },
+  "nccl": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/nccl.git",
+    "commit": "1aef3ec46fcb92022273cea422355da4cb1accfe"
+  },
+  "openpmix": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/openpmix.git",
+    "commit": "a8fcb3f5963dac04661cc68dc8046db12da3fd73"
+  },
+  "openucc": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/openucc.git",
+    "commit": "29493e98c3e46b0cb53fe6ee3c0073cc811753f0"
+  },
+  "openucx": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/openucx.git",
+    "commit": "03222c9edbdd7480051d916f80efa080b43cebf0"
+  },
+  "patchelf": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/patchelf.git",
+    "commit": "613753346ac32d150a8d194b09b9800fc402f2fe"
+  },
+  "prrte": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/prrte.git",
+    "commit": "bcd534cff19fd6140b280be28215c63cbfeda1bd"
+  },
+  "python-cppheaderparser": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-cppheaderparser.git",
+    "commit": "60aa1bcc835351853955b823ad2e90b9a2726870"
+  },
+  "python-docutils": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-docutils.git",
+    "commit": "108b25c109b614160e844a6d3d1f8389926ef236"
+  },
+  "python-editables": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-editables.git",
+    "commit": "adee616327d2af77154b2b34358813078a3e3531"
+  },
+  "python-flit-core": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-flit-core.git",
+    "commit": "5786f353e865c26a1e9886b65849be6c1420d385"
+  },
+  "python-hatch-vcs": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-hatch-vcs.git",
+    "commit": "c397f619e07462313c58cae074c9c1a7d964c7a5"
+  },
+  "python-hatchling": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-hatchling.git",
+    "commit": "e68919a9e5c4039e0f83cd058f11c176bfa9ff28"
+  },
+  "python-numpy": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-numpy.git",
+    "commit": "0787aa4c14b2986acd59711c88bb981cef962864"
+  },
+  "python-packaging": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-packaging.git",
+    "commit": "a61fb6392a3d58655c46d6fba09f8edb978bb562"
+  },
+  "python-pathspec": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pathspec.git",
+    "commit": "2dc661f9f564b467ab21c00db4da5c353d389848"
+  },
+  "python-pluggy": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pluggy.git",
+    "commit": "6dc660698699446865f725ce6d7b4fbc221a05ed"
+  },
+  "python-ply": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-ply.git",
+    "commit": "83ce7df6fbb97838a8b650180f488fa54045c36a"
+  },
+  "python-prettytable": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-prettytable.git",
+    "commit": "82b5ac980427c92447b10f137a955c3434c3ea75"
+  },
+  "python-pyaml": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyaml.git",
+    "commit": "fd0217193900d479ce1a7f2b47ff680f7d7d2b89"
+  },
+  "python-pyelftools": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyelftools.git",
+    "commit": "05731eef87e92ee4a2949af595bb89262271cedd"
+  },
+  "python-pygments": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pygments.git",
+    "commit": "dbd6c64f49fb9234fa41e341f1ebfcd785f82f17"
+  },
+  "python-setuptools-scm": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-setuptools-scm.git",
+    "commit": "86f818f5a7f6a3cb9fe32266124563121cc8109e"
+  },
+  "python-tomlkit": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-tomlkit.git",
+    "commit": "9009785efbcc6facc520589b8f7c46c0f5dd0937"
+  },
+  "python-trove-classifiers": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-trove-classifiers.git",
+    "commit": "687a98e60d19fa787821d95332293915a297ee2e"
+  },
+  "python-wcag-contrast-ratio": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-wcag-contrast-ratio.git",
+    "commit": "97c7fe2604f3a3b775fbe9de60395827a5c787c4"
+  },
+  "python-wcwidth": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-wcwidth.git",
+    "commit": "0c7cc056497f0fd08a85686692dbd4b2ed7f3f24"
+  },
+  "python-yaml": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-yaml.git",
+    "commit": "3d4095b30bc38fa9148adfc521d019e02a51ab9d"
+  },
+  "rccl": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rccl.git",
+    "commit": "69189e7de19184647f0ea874a0e024035dfce015"
+  },
+  "rdma-core": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rdma-core.git",
+    "commit": "a073b4a0a7afef1b6aa655ab667f71d46ff67baf"
+  },
+  "rocm-cmake": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-cmake.git",
+    "commit": "c697575096dfcabb8924cd352951fc64b1590992"
+  },
+  "rocm-core": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-core.git",
+    "commit": "3fb0b245a092c8abda9ec9fad258b9513b2f7416"
+  },
+  "rocm-llvm": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-llvm.git",
+    "commit": "77724f2277c1551051343c8b6d86c0b340c92a45"
+  },
+  "rocm-smi-lib": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-smi-lib.git",
+    "commit": "97a115978fef6e9ea262cf280a79eb6fdcc3ace4"
+  },
+  "rocminfo": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocminfo.git",
+    "commit": "2863b8bebe7322b358d386acf5f46838098fa673"
+  },
+  "rocprofiler-register": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocprofiler-register.git",
+    "commit": "ab1d8f53ecfec7fe638d097e2e8043e2628e36b8"
+  },
+  "sgml-common": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/sgml-common.git",
+    "commit": "9b7a957aa9ab69950a734ee9602616500f32002f"
+  },
+  "tinyxxd": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/tinyxxd.git",
+    "commit": "13eac3c5c69862fe602839470b9cfcd76785a00d"
+  },
+  "valgrind": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/valgrind.git",
+    "commit": "9d89f774ed6d4149cedbbf13ad0940e826cf697a"
+  },
+  "rocm-language-runtime": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-hip-sdk.git",
+    "commit": "62560d64f17b2a3c119a1f8cdbe5fa695a4cd16f",
+    "changes": [
+      "Package only rocm-language-runtime metapackage"
+    ]
+  },
+  "pandoc-bin": {
+    "upstream": "https://github.com/jgm/pandoc/releases/tag/3.11",
+    "sha256": "sha256:37edb3bbcf722f921a009941bf5874e2e0c09263226c9b4a2d980788cb062ab6",
+    "changes": [
+      "Package official upstream binary; no Haskell bootstrap needed"
+    ]
+  },
+  "python-pyproject-metadata": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyproject-metadata.git",
+    "commit": "187e90b1d99be7a9522c5a69642db87d7f993568"
+  },
+  "python-vcs-versioning": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-vcs-versioning.git",
+    "commit": "a77adadc1b669ee08cf540f7c8b79e2827f946c0"
+  },
+  "python-calver": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-calver.git",
+    "commit": "45422ce3b4a30b358e60f2c1517db03ecba3dfb4"
+  },
+  "python-poetry-core": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-poetry-core.git",
+    "commit": "0cb332bedc8c77231eb434ec3e19e323a02d2d03"
+  },
+  "gflags": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/gflags.git",
+    "commit": "2202bc70b3eb643100f5e033e08f471dbc0926e0"
+  },
+  "python-fastjsonschema": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-fastjsonschema.git",
+    "commit": "5160e0bd608c23fb9f8cef53392a47d7f8156747"
+  },
+  "python-lark-parser": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-lark-parser.git",
+    "commit": "0f8205e5418e0f9ea95a6ec2e0f449a02d10239f"
+  },
+  "python-typing_extensions": {
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-typing_extensions.git",
+    "commit": "e39a6e6b7781e7e163c8cdb71aa1db222d73a5e5"
+  }
+}
