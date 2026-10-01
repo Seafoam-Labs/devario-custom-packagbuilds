@@ -3,7 +3,7 @@
 _name=ucx
 pkgname=openucx
 pkgver=1.20.1
-pkgrel=3
+pkgrel=4
 pkgdesc="Communication framework for data-centric and high-performance applications"
 arch=(x86_64)
 url="https://openucx.org/"
@@ -68,6 +68,10 @@ build() {
 
   export CFLAGS="${CFLAGS} -Wno-error=discarded-qualifiers -Wno-error=deprecated-openmp"
 
+  # binutils ships libbfd.a as fat LTO objects; linking -lbfd would recompile that IR under UCX's
+  # -Werror -Wframe-larger-than=8192, so use the prebuilt code instead of the linker plugin
+  export LDFLAGS="${LDFLAGS} -fno-use-linker-plugin"
+
   cd $_name-$pkgver
   ./autogen.sh
   # NOTE: upstream suggests running ./contrib/configure-release instead of
@@ -76,6 +80,8 @@ build() {
   ./configure "${configure_options[@]}"
   # prevent excessive overlinking due to libtool
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  # libtool forwards only whitelisted link args to gcc, and -fno-use-linker-plugin is not among them
+  sed -i -e 's/|-fuse-linker-plugin|/|-fno-use-linker-plugin|-fuse-linker-plugin|/' libtool
   make V=1
 }
 
@@ -83,6 +89,9 @@ package() {
   # this uses malloc_usable_size, which is incompatible with fortification level 3
   export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
   export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+
+  # the install-mode relink of libucs.so links -lbfd again, so disable the LTO plugin here too
+  export LDFLAGS="${LDFLAGS} -fno-use-linker-plugin"
 
   make DESTDIR="$pkgdir" install -C $_name-$pkgver
 

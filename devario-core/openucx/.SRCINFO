@@ -1,7 +1,7 @@
 pkgbase = openucx
 	pkgdesc = Communication framework for data-centric and high-performance applications
 	pkgver = 1.20.1
-	pkgrel = 3
+	pkgrel = 4
 	url = https://openucx.org/
 	arch = x86_64
 	license = BSD-3-Clause
