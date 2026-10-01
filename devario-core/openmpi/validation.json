@@ -1,0 +1,30 @@
+{
+  "syntax": "passed",
+  "makepkg_shelly_metadata": "agrees",
+  "source_sha256_and_blake2": "passed after verifying current archive SHA-256 against official Open MPI release page",
+  "shelly_review": {
+    "schemaVersion": 1,
+    "packageBase": "openmpi",
+    "packageNames": [
+      "openmpi",
+      "openmpi-docs"
+    ],
+    "reviewDigest": "abc0ec392394b877221671c3b33e93c74e2da47fe80e7c7f1e8541c9948116c8",
+    "findings": [],
+    "relatedFiles": []
+  },
+  "full_build": "not run; required dependencies unavailable in devario-core",
+  "missing_dependencies": [
+    "cuda",
+    "hip-runtime-amd",
+    "libfabric",
+    "libpmix.so",
+    "openpmix",
+    "openucc",
+    "openucx",
+    "prrte",
+    "valgrind"
+  ],
+  "local_recipes_not_published": [],
+  "source_prepare": "passed"
+}

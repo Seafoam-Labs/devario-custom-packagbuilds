@@ -1,0 +1,8 @@
+{
+  "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/mono.git",
+  "commit": "3a9a78efaff2d90cde3a4f09f555a14a2d82451d",
+  "packaging_changes": [
+    "Pass -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to nested BTLS CMake via make BTLS_CMAKE_ARGS",
+    "Bump pkgrel to 2"
+  ]
+}

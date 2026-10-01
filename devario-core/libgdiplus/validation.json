@@ -1,0 +1,8 @@
+{
+  "syntax": "passed",
+  "makepkg_shelly_metadata": "agrees",
+  "source_sha512_and_blake2": "passed",
+  "local_package_build": "Earlier recipe built successfully; current unversioned-provision change checked for syntax and metadata only",
+  "test_suite": "not run; upstream recipe has no check hook",
+  "isolated_build": "not run"
+}
