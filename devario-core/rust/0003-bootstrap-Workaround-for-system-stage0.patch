@@ -1,26 +1,33 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>
 Date: Thu, 7 Aug 2025 19:01:26 +0200
-Subject: [PATCH] bootstrap: Workaround for system stage0
+Subject: [PATCH] bootstrap: Copy system stage0 rustlib using its detected libdir
+
+Restrict copying to Rust libraries, but preserve initial_relative_libdir.
+An official compiler can detect lib64 through /usr/lib64 -> lib. Copying
+into stage0-sysroot/lib would leave its selected lib64 directory empty.
 
 See: https://github.com/rust-lang/rust/issues/143735
 ---
- src/bootstrap/src/core/build_steps/compile.rs | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/src/bootstrap/src/core/build_steps/compile.rs b/src/bootstrap/src/core/build_steps/compile.rs
-index ffbe4f4e74db..f1bca477db3d 100644
 --- a/src/bootstrap/src/core/build_steps/compile.rs
 +++ b/src/bootstrap/src/core/build_steps/compile.rs
-@@ -822,7 +822,10 @@ fn run(self, builder: &Builder<'_>) {
-                 let _ = fs::remove_dir_all(sysroot.join("lib/rustlib/src/rust"));
-             }
- 
+@@ -819,10 +819,15 @@
+                 // On local rebuilds this path might be a symlink to the project root,
+                 // which can be read-only (e.g., on CI). So remove it before copying
+                 // the stage0 lib.
+-                let _ = fs::remove_dir_all(sysroot.join("lib/rustlib/src/rust"));
+-            }
+-
 -            builder.cp_link_r(&builder.initial_sysroot.join("lib"), &sysroot.join("lib"));
-+            builder.cp_link_r(
-+                &builder.initial_sysroot.join("lib/rustlib"),
-+                &sysroot.join("lib/rustlib"),
-+            );
++                let _ = fs::remove_dir_all(sysroot.join(&builder.initial_relative_libdir).join("rustlib/src/rust"));
++            }
++
++            // Match the stage0 compiler's detected libdir (which may be lib64
++            // through /usr/lib64 -> lib), without copying unrelated system libs.
++            let rustlib = builder.initial_relative_libdir.join("rustlib");
++            let destination = sysroot.join(&rustlib);
++            t!(fs::create_dir_all(&destination));
++            builder.cp_link_r(&builder.initial_sysroot.join(&rustlib), &destination);
          } else {
              if builder.download_rustc() {
                  // Ensure there are no CI-rustc std artifacts.

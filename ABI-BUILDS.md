@@ -109,3 +109,46 @@ expression, and OpenSSL's existing `nproc` substitutions. Full package builds,
 remote source verification, and upstream test suites have not been run for
 this update. Build and publish the packages before expecting Rust dependency
 resolution to change; recipe metadata alone does not update the repository.
+
+## Rust bootstrap compiler cannot load LLVM
+
+An undefined symbol with version `LLVM_23.1` from `librustc_driver` while
+running `/usr/bin/rustc -vV` means the installed bootstrap compiler cannot load
+against the libraries in the build root. Adding another SONAME provision will
+not repair that binary incompatibility.
+
+The x86_64 Rust recipe now explicitly requires `rust-bootstrap=1:1.97.1`
+instead of the generic `rust` build dependency. The existing
+[rust-bootstrap recipe](devario-core/rust-bootstrap/PKGBUILD) packages official
+Rust binaries and conflicts with the repository `rust` package, so the isolated
+root must select the bootstrap package as its compiler. Other supported
+architectures retain their system Rust build dependency.
+
+Build and publish `rust-bootstrap` first, refresh the worker repository database,
+and retry Rust in a fresh isolated root:
+
+```sh
+shelly build --isolated ./devario-core/rust-bootstrap/PKGBUILD
+# Publish rust-bootstrap and refresh the worker repository before continuing.
+shelly build --isolated ./devario-core/rust/PKGBUILD
+```
+
+Rust checks `/usr/bin/rustc -vV` and `/usr/bin/cargo --version` before starting
+bootstrap. This change addresses the failing seed compiler; the final compiler
+still links to the declared system LLVM 23 libraries. A complete source build
+and a runtime check of its output on the worker are still required.
+
+### Stage1 cannot find `core` or `std`
+
+Rust release 4 also corrects the system-stage0 patch to use bootstrap's detected
+`initial_relative_libdir` when copying the seed standard libraries. Official
+Rust can select `/usr/lib64/rustlib` through the system's `lib64 -> lib` symlink.
+The previous patch always copied to `stage0-sysroot/lib/rustlib`, leaving the
+selected `stage0-sysroot/lib64/rustlib` empty and causing E0463.
+
+A local regression check using an official compiler reproduced E0463 with the
+old copy layout and compiled a crate using `std` with the corrected layout.
+The patch was checked against Rust 1.98.1 bootstrap sources. Retry with the
+updated Rust recipe and patch in a clean build directory so no old bootstrap
+binary or stage0 sysroot is reused. This fix does not require rebuilding
+`rust-bootstrap`. A full multi-target Rust build remains unverified.

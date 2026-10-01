@@ -19,7 +19,7 @@ pkgname=(
   rust-aarch64-musl
 )
 pkgver=1.98.1
-pkgrel=2
+pkgrel=4
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
@@ -56,23 +56,27 @@ makedepends=(
   ninja
   perl
   python
-  rust
   wasi-libc
   wasm-component-ld
 )
+makedepends_aarch64=(rust)
 makedepends_loong64=(
+  rust
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   musl-aarch64
   musl-x86_64
 )
 makedepends_riscv64=(
+  rust
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   musl-aarch64
   musl-x86_64
 )
 makedepends_x86_64=(
+  # Use official binaries: the repository rust may not load against our LLVM.
+  "rust-bootstrap=1:1.97.1"
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   lib32-gcc-libs
@@ -130,7 +134,7 @@ b2sums=('a055c8341556f29a6e2ca5137ca7943365d61d3b7dc30b182c5c62907659d16ad0caf8c
         'SKIP'
         '6809b37159858011394f7f8ebc8a49e0893a41a97345008a6f4b7056ea88d6bbcc72bb6173bf46df8f42fd3da6c580d541ddc372c79db42ff1bf57df58c2e1c0'
         'aa22b8bd7efb0241f17648455b1f23d3cdfdc2f952b3527e7bc73f27387e0386126e69e8afb92c9e5c8b0041b862b0a54020874b6ac13abd013e952604d9638c'
-        '2549fcc0a39937b3e9dfdf7d2638371b666bcbf81ac4335be05b4ab43468dc7f1629ad222e17717924785a0dc3d1eed562b2f08c57e07aea7e0d6a98fe510076'
+        'eeb9622d04c2aa746b959bd095639b038ffa29d7d0d8f5b8fccb7e62f1680cfcd88e7c0f13859fb48a4ca3cf97b98c0e33f06f9d728dab71918a0129c77fc8c6'
         'b38855482a160b211f52f656d7c8bed0ca3d6d93b1845f26316fe63fdb91951dcc548b3f45abb98a649b18e141348aec345f72702ad868314acac44fa393b1d3'
         'c215f7533beae11ce038fca383638ef84c7aa365609ae3ac65dae32894cf13a1eb96ab3e476b2c4a37fff2bdc0b14b9e01d23899ea04c4e17770d99898b5b7fd'
         '4af24662267a24abf05cc7afba60e7e42d7d3ca1e1f44cbba4c47dc6a6414e252d8df55fdc9be04ceca030a89eb52cb0ac0fd17f7ba515f72e1f8f00163df7af'
@@ -186,6 +190,10 @@ _pick() {
 
 build() {
   cd rustc-$pkgver-src
+
+  # Fail before bootstrap/PGO if the build root has an incompatible compiler.
+  /usr/bin/rustc -vV || return 1
+  /usr/bin/cargo --version || return 1
 
   export LIBGIT2_NO_VENDOR=1
   export LIBSSH2_SYS_USE_PKG_CONFIG=1
