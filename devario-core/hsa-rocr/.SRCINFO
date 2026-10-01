@@ -1,12 +1,13 @@
 pkgbase = hsa-rocr
 	pkgdesc = HSA Runtime API and runtime for ROCm
 	pkgver = 7.2.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/ROCm/rocm-systems
 	arch = x86_64
 	license = NCSA
 	makedepends = cmake
 	makedepends = rocm-llvm
+	makedepends = rocm-llvm-static
 	makedepends = xxd
 	depends = glibc
 	depends = libdrm

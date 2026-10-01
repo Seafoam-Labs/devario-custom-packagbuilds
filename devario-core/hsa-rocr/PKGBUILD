@@ -9,7 +9,7 @@
 
 pkgname=hsa-rocr
 pkgver=7.2.4
-pkgrel=1
+pkgrel=2
 pkgdesc='HSA Runtime API and runtime for ROCm'
 arch=('x86_64')
 url='https://github.com/ROCm/rocm-systems'
@@ -27,7 +27,7 @@ depends=(
 )
 provides=("hsakmt-roct=$pkgver")
 replaces=('hsakmt-roct')
-makedepends=('cmake' 'rocm-llvm' 'xxd')
+makedepends=('cmake' 'rocm-llvm' 'rocm-llvm-static' 'xxd')
 source=("rocm-${pkgver}.tar.gz::$url/archive/rocm-$pkgver.tar.gz")
 sha256sums=('817f9c136125b8d162757a18cdc25b18b1efeb8ef36a948c85e4a672fd149de5')
 _dirname="$(basename "$url")-rocm-$pkgver"/projects/rocr-runtime/
@@ -43,6 +43,10 @@ build() {
     -D CMAKE_BUILD_TYPE=None
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
     -D CMAKE_PREFIX_PATH=/opt/rocm
+    # rocm-llvm ships the LLVM/Clang CMake config in rocm-llvm-static under
+    # /opt/rocm/lib/llvm; the trap handler hard-codes AMD's /opt/rocm/llvm path.
+    -D Clang_DIR=/opt/rocm/lib/llvm/lib/cmake/clang
+    -D LLVM_DIR=/opt/rocm/lib/llvm/lib/cmake/llvm
     -D CMAKE_CXX_FLAGS="$CXXFLAGS -DNDEBUG"
     -DBUILD_SHARED_LIBS=ON)
   cmake "${cmake_args[@]}"
