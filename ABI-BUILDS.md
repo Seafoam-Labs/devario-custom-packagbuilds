@@ -233,7 +233,7 @@ change does not establish that the full build will succeed.
 ## libfido2 and BPF build-root providers
 
 Systemd release `262-6` adds `libudev.so=1-64` to `systemd-libs` for libfido2.
-[Binutils](devario-core/binutils/PKGBUILD) release `2.47-5` adds
+[Binutils](devario-core/binutils/PKGBUILD) release `2.47-7` provides
 `libsframe.so=3-64` for BPF. Both retain bare library provisions and verify the
 packaged ELF64 SONAME before publishing. Rebuild and publish the providers and
 refresh the worker repository; existing package metadata will not change just
@@ -288,3 +288,20 @@ Shelly reports no findings for the eight library recipes; PostgreSQL findings
 refer to upstream Makefile syntax in its patch and substitutions in its database
 check script. Full package builds, database tests, isolated provisioning, and
 remote-source verification have not been run.
+
+## Binutils PGO coverage mismatch
+
+Binutils release `2.47-7` disables its PGO training/use cycle while retaining
+LTO, fat LTO objects, and the worker's CPU flags. The full worker log identifies
+`ld/ldbuildid.c:119` (`generate_build_id`) failing with
+`-Werror=coverage-mismatch`: the generated profile counters and control flow do
+not match the profile-use compilation. The preceding missing-profile warnings
+in gprofng were not the fatal error. The reason for the profile mismatch itself
+has not been established.
+
+A clean local build using GCC 16.2.1, `-O2 -march=x86-64-v3 -mtune=generic`,
+LTO, and 12 jobs passed with PGO disabled. The earlier local PGO run lacked
+DejaGNU's `runtest`, so it did not reproduce the worker's training conditions.
+The recipe retains full-log capture and failure diagnostics. Use a clean build
+root for the worker retry. This local build does not verify isolated worker
+provisioning or replace the upstream test suite.

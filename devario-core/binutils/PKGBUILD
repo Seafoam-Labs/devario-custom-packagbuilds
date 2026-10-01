@@ -8,7 +8,7 @@
 pkgname=binutils
 pkgver=2.47
 _commit=6ce87bbc521cf46eaee9a1f7ef61cee2cdfb3e32
-pkgrel=6
+pkgrel=7
 pkgdesc='A set of programs to assemble and manipulate binary and object files'
 arch=(x86_64)
 url='https://www.gnu.org/software/binutils/'
@@ -86,6 +86,13 @@ prepare() {
 }
 
 build() {
+  # GCC rejects the worker's generated ldbuildid profile with coverage-mismatch.
+  # Keep LTO and the worker's CPU flags without the PGO training/use cycle.
+  CFLAGS+=" -flto=jobserver -ffat-lto-objects"
+  CXXFLAGS+=" -flto=jobserver -ffat-lto-objects"
+  LDFLAGS+=" -flto=jobserver"
+  export CFLAGS CXXFLAGS LDFLAGS
+
   cd binutils-build
 
   "${srcdir}"/binutils-gdb/configure \
@@ -102,7 +109,7 @@ build() {
     --enable-jansson \
     --enable-ld=default \
     --enable-new-dtags \
-    --enable-pgo-build=lto \
+    --disable-pgo-build \
     --enable-plugins \
     --enable-relro \
     --enable-shared \
