@@ -10,7 +10,10 @@ library for ELF64 and the corresponding SONAME, failing if it does not match.
 | [curl](curl/PKGBUILD) | `8.22.0-2` | `libcurl.so=4-64` |
 | [gpgme](gpgme/PKGBUILD) | `2.2.0-2` | `libgpgme.so=45-64` |
 | [libarchive](libarchive/PKGBUILD) | `3.8.9-2` | `libarchive.so=13-64` |
-| [openssl](openssl/PKGBUILD) | `3.6.4-2` | `libcrypto.so=3-64` |
+| [openssl](devario-core/openssl/PKGBUILD) | `3.6.4-3` | `libcrypto.so=3-64`, `libssl.so=3-64` |
+| [libgit2](devario-core/libgit2/PKGBUILD) | `1:1.9.7-2` | `libgit2.so=1.9-64` |
+| [libssh2](devario-core/libssh2/PKGBUILD) | `1.11.1-8` | `libssh2.so=1-64` |
+| [sqlite](devario-core/sqlite/PKGBUILD) | `3.53.4-2` | `libsqlite3.so=0-64` |
 | [xz](xz/PKGBUILD) | `5.8.4-2` | `liblzma.so=5-64` |
 | [mpfr](mpfr/PKGBUILD) | `4.2.2-2` | `libmpfr.so=6-64` |
 | [ncurses](ncurses/PKGBUILD) | `6.6-3` | `libncursesw.so=6-64` |
@@ -19,7 +22,7 @@ library for ELF64 and the corresponding SONAME, failing if it does not match.
 | [zstd](zstd/PKGBUILD) | `1.5.7-6` | `libzstd.so=1-64` |
 
 The recipes also retain the bare library provides. OpenSSL continues to provide
-`libcrypto.so`, `libcrypto.so=3-64`, and `libssl.so=3-64`. Curl also builds Arch's
+`libcrypto.so`, `libcrypto.so=3-64`, `libssl.so`, and `libssl.so=3-64`. Curl also builds Arch's
 `libcurl-compat` and `libcurl-gnutls` split packages; `libcurl.so=4-64` is provided
 by `curl` itself.
 
@@ -67,3 +70,42 @@ shell substitutions, computed commands, or Makefile variables in patches.
 The warnings were inspected; source checksums and signatures remain enabled.
 No full package builds or upstream test suites were run for this set, and remote
 source checksums and signatures have not been reverified during this task.
+
+## Rust dependency providers
+
+For Rust's missing `libgit2.so=1.9-64`, `libsqlite3.so=0-64`,
+`libssh2.so=1-64`, and `libssl.so=3-64`, build and publish these recipes in
+order, refreshing the worker repository database between dependent builds:
+
+1. `devario-core/openssl` (already had the versioned SSL provision; release 3
+   also supplies the bare SSL provision and propagates ABI check failures).
+2. `devario-core/libssh2` and `devario-core/sqlite`.
+3. `devario-core/libgit2`.
+4. Retry the Rust build after all four providers are available.
+
+For example, from this repository's root:
+
+```sh
+shelly build --review-only --json ./devario-core/libssh2/PKGBUILD
+shelly build --isolated --check ./devario-core/libssh2/PKGBUILD
+```
+
+SQLite retains the Arch split packages (`sqlite-tcl`, `sqlite-analyzer`,
+`lemon`, and `sqlite-doc`); the required ABI provision belongs to `sqlite`.
+Its `--soname=legacy` configuration produces `libsqlite3.so.0`. Libssh2
+retains the official Arch patches and signed Git source. Its signing key is
+listed in `validpgpkeys`; make it available to the build account before building.
+The new recipes come from the official Arch
+[libssh2](https://gitlab.archlinux.org/archlinux/packaging/packages/libssh2) and
+[SQLite](https://gitlab.archlinux.org/archlinux/packaging/packages/sqlite)
+packaging repositories, with their original source checksums retained.
+
+Validation for this update: all four recipes pass Bash syntax checks and
+`.SRCINFO` generation. Bundled patches and license files match their declared
+checksums. ABI helpers accept the matching host ELF64 libraries and reject an
+incorrect SONAME. Shelly review completes for all four; its warnings refer to
+backticks in patch descriptions, a quoted Makefile variable in SQLite's sed
+expression, and OpenSSL's existing `nproc` substitutions. Full package builds,
+remote source verification, and upstream test suites have not been run for
+this update. Build and publish the packages before expecting Rust dependency
+resolution to change; recipe metadata alone does not update the repository.

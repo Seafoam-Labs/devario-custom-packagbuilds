@@ -3,7 +3,7 @@
 
 pkgname=openssl
 pkgver=3.6.4
-pkgrel=2
+pkgrel=3
 pkgdesc='The Open Source toolkit for cryptography and Transport Layer Security'
 arch=('x86_64')
 url='https://www.openssl.org'
@@ -12,7 +12,7 @@ depends=('brotli' 'glibc' 'zlib' 'zstd')
 makedepends=('perl')
 optdepends=('ca-certificates' 'perl')
 replaces=('openssl-perl' 'openssl-doc')
-provides=('libcrypto.so' 'libcrypto.so=3-64' 'libssl.so=3-64')
+provides=('libcrypto.so' 'libcrypto.so=3-64' 'libssl.so' 'libssl.so=3-64')
 backup=('etc/ssl/openssl.cnf')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'ca-dir.patch')
@@ -73,8 +73,8 @@ package() {
 	cd "$srcdir/$pkgname-$pkgver"
 
 	make DESTDIR="$pkgdir" MANDIR=/usr/share/man MANSUFFIX=ssl install_sw install_ssldirs install_man_docs
-	_verify_soname "$pkgdir/usr/lib/libcrypto.so" libcrypto.so.3
-	_verify_soname "$pkgdir/usr/lib/libssl.so" libssl.so.3
+	_verify_soname "$pkgdir/usr/lib/libcrypto.so" libcrypto.so.3 || return 1
+	_verify_soname "$pkgdir/usr/lib/libssl.so" libssl.so.3 || return 1
 
 	chmod 700 "$pkgdir/etc/ssl/private"
 
