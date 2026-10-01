@@ -19,6 +19,10 @@ prepare() {
   # find_package() calls on global scope
   sed -i 's/add_subdirectory(external)/find_package(fmt REQUIRED)\nfind_package(glog REQUIRED)/' \
     "$srcdir/$_dirname/CMakeLists.txt"
+  # fmt >= 12 declares fmt::format only in fmt/format.h, not fmt/core.h
+  sed -i 's|#include <fmt/core.h>|#include <fmt/format.h>|' \
+    "$srcdir/$_dirname/source/lib/rocprofiler-register/details/dl.cpp" \
+    "$srcdir/$_dirname/source/lib/rocprofiler-register/details/environment.hpp"
 }
 
 build() {
