@@ -1,7 +1,7 @@
 pkgbase = libassuan
 	pkgdesc = IPC library used by GnuPG and related software
 	pkgver = 3.0.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gnupg.org/software/libassuan/
 	arch = x86_64
 	license = LGPL-2.1-or-later
@@ -11,12 +11,16 @@ pkgbase = libassuan
 	makedepends = autoconf
 	makedepends = automake
 	makedepends = texinfo
+	makedepends = binutils
 	depends = glibc
 	depends = libgpg-error
 	depends = sh
 	provides = libassuan.so
-	source = libassuan::git+https://github.com/gpg/libassuan.git#tag=libassuan-3.0.2?signed
+	provides = libassuan.so=9-64
+	source = libassuan::git+https://github.com/gpg/libassuan.git?signed#tag=libassuan-3.0.2
+	source = 0001-preserve-libassuan-1.0-compatibility.patch
 	validpgpkeys = 6DAA6E64A76D2840571B4902528897B826403ADA
 	sha256sums = 83247852dcad5e7d6c8da071c4500d6c564ed9b4ec877796cc403283b2afba59
+	sha256sums = 332f9077b7d7edb15eae20c16c4c84663713fbe6294d01ecafb438e6a52e8502
 
 pkgname = libassuan

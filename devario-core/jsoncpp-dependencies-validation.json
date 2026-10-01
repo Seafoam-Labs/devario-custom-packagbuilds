@@ -1,0 +1,273 @@
+{
+  "date": "2026-09-30",
+  "repository_url": "https://repo.seafoam-labs.org/devario-core/x86_64/devario-core.db",
+  "repository_database_sha256": "535f948aa1b1e6e7da68f4326c4aabf7ef7184bd94343e1133eab83a71fd5272",
+  "scope": "Direct jsoncpp dependencies and prerequisites of the added headless recipes; existing Meson integration-test dependency closure is not expanded. Availability checks are by package/provide name (all checked requirements are unversioned).",
+  "packages": {
+    "doxygen": {
+      "syntax": "passed",
+      "metadata": "makepkg and Shelly agree",
+      "source_checksums": "passed",
+      "local_package_build": "passed",
+      "review": {
+        "schemaVersion": 1,
+        "packageBase": "doxygen",
+        "packageNames": [
+          "doxygen"
+        ],
+        "reviewDigest": "01fbdd7e068533e061c9ea2118571f030eda3df3e7056b6b2c5f77d30886d27a",
+        "findings": [
+          {
+            "tool": "<dynamic-command>",
+            "severity": "warning",
+            "hook": "build",
+            "matchedLine": "export CMAKE_BUILD_PARALLEL_LEVEL=\"${CMAKE_BUILD_PARALLEL_LEVEL:-$(nproc)}\"",
+            "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+          }
+        ],
+        "relatedFiles": [
+          {
+            "name": "0001-test-009-bug.patch",
+            "permissions": 420,
+            "content": "diff --git a/testing/009/bug.xml b/testing/009/bug.xml\nindex e7aff1d..a8200ff 100644\n--- a/testing/009/bug.xml\n+++ b/testing/009/bug.xml\n@@ -18,7 +18,8 @@\n             <term>Member <ref refid=\"class_bug_1a1f720954dd97cd1203e80501a6eae74c\" kindref=\"member\">Bug::foo</ref>  ()</term>\n           </varlistentry>\n           <listitem>\n-            <para><anchor id=\"bug_1_bug000002\"/>Function bug<itemizedlist><listitem><para>list item 1 in bug</para></listitem><listitem><para>list item 2 in bug</para></listitem></itemizedlist></para>\n+            <para><anchor id=\"bug_1_bug000002\"/>Function bug<itemizedlist><listitem><para>list item 1 in bug</para></listitem><listitem><para>list item 2 in bug</para></listitem></itemizedlist>\n+</para>\n           </listitem>\n         </variablelist>\n       </para>\n"
+          }
+        ]
+      },
+      "sha256": {
+        "PKGBUILD": "a88cbe6c7fd7c089c29ce11354d7b142b0694ec70c4272a76b5c3eb4411d4076",
+        ".SRCINFO": "f904a48edada9829bb58261e9cd2cc326c54cb631cfb025657b73691442194ea"
+      }
+    },
+    "graphviz": {
+      "syntax": "passed",
+      "metadata": "makepkg and Shelly agree",
+      "source_checksums": "passed",
+      "local_package_build": "passed",
+      "review": {
+        "schemaVersion": 1,
+        "packageBase": "graphviz",
+        "packageNames": [
+          "graphviz"
+        ],
+        "reviewDigest": "4d98376d84fb3cdaa54148c0cbf4bd2a27205f3457e153656689bddfdfe66292",
+        "findings": [
+          {
+            "tool": "<dynamic-command>",
+            "severity": "warning",
+            "hook": "build",
+            "matchedLine": "export CMAKE_BUILD_PARALLEL_LEVEL=\"${CMAKE_BUILD_PARALLEL_LEVEL:-$(nproc)}\"",
+            "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+          }
+        ],
+        "relatedFiles": [
+          {
+            "name": "graphviz.install",
+            "permissions": 420,
+            "content": "post_install() {\n\trm -f usr/lib/graphviz/config{,6,8}\n\tusr/bin/dot -c\n}\n\npost_upgrade() {\n\tpost_install\n}\n\npre_remove() {\n\trm -f usr/lib/graphviz/config{,6,8}\n}\n"
+          }
+        ]
+      },
+      "sha256": {
+        "PKGBUILD": "443e485abeab97d840f276ac3ac52cfc01c48bf379e6fa1b0ac88ebae96684fb",
+        ".SRCINFO": "284fd8e1c78cdeb8e7a029d3db2fbb3c231eea60b3bd4b5718182ee943043c00"
+      }
+    },
+    "re2c": {
+      "syntax": "passed",
+      "metadata": "makepkg and Shelly agree",
+      "source_checksums": "passed",
+      "local_package_build": "passed",
+      "review": {
+        "schemaVersion": 1,
+        "packageBase": "re2c",
+        "packageNames": [
+          "re2c"
+        ],
+        "reviewDigest": "40a2c8768d573ac22ae736111315a8e4441d3fca3dbcf93a37ec0582b31a5f51",
+        "findings": [],
+        "relatedFiles": []
+      },
+      "sha256": {
+        "PKGBUILD": "bd5e52854342f72fe1dc1079094b7e09d455de7e9305fa5ed6a7a65ee61d932d",
+        ".SRCINFO": "0eb1edcb02f6b9ec86a0256f6eebc776e7499ae8df9d361ac7acb9512e451973"
+      }
+    }
+  },
+  "checks": {
+    "doxygen": "122 upstream tests passed",
+    "graphviz": "dot PNG and SVG rendering passed",
+    "re2c": "custom check_re2c target passed (CTest does not register tests)",
+    "jsoncpp": "unchanged recipe built jsoncpp and jsoncpp-doc using the new doxygen and dot; checks passed, including 127 unit tests",
+    "environment": "Local makepkg --nodeps builds in /tmp; no host packages installed; isolated Shelly builds not run"
+  },
+  "dependency_resolution": {
+    "jsoncpp": {
+      "libgcc": [
+        "repository:libgcc",
+        "recipe:gcc"
+      ],
+      "libstdc++": [
+        "repository:libstdc++",
+        "recipe:gcc"
+      ],
+      "doxygen": [
+        "recipe:doxygen"
+      ],
+      "graphviz": [
+        "recipe:graphviz"
+      ],
+      "python": [
+        "repository:python"
+      ],
+      "meson": [
+        "recipe:meson"
+      ],
+      "glibc": [
+        "repository:glibc",
+        "recipe:glibc"
+      ]
+    },
+    "doxygen": {
+      "libxml2": [
+        "repository:libxml2"
+      ],
+      "graphviz": [
+        "recipe:graphviz"
+      ],
+      "cmake": [
+        "repository:cmake",
+        "recipe:cmake"
+      ],
+      "ninja": [
+        "repository:ninja",
+        "recipe:ninja"
+      ],
+      "flex": [
+        "repository:flex"
+      ],
+      "bison": [
+        "repository:bison"
+      ],
+      "python": [
+        "repository:python"
+      ],
+      "glibc": [
+        "repository:glibc",
+        "recipe:glibc"
+      ],
+      "libgcc": [
+        "repository:libgcc",
+        "recipe:gcc"
+      ],
+      "libstdc++": [
+        "repository:libstdc++",
+        "recipe:gcc"
+      ],
+      "sqlite": [
+        "repository:sqlite"
+      ]
+    },
+    "graphviz": {
+      "cmake": [
+        "repository:cmake",
+        "recipe:cmake"
+      ],
+      "ninja": [
+        "repository:ninja",
+        "recipe:ninja"
+      ],
+      "bison": [
+        "repository:bison"
+      ],
+      "flex": [
+        "repository:flex"
+      ],
+      "python": [
+        "repository:python"
+      ],
+      "pkgconf": [
+        "repository:pkgconf"
+      ],
+      "glibc": [
+        "repository:glibc",
+        "recipe:glibc"
+      ],
+      "libgcc": [
+        "repository:libgcc",
+        "recipe:gcc"
+      ],
+      "libstdc++": [
+        "repository:libstdc++",
+        "recipe:gcc"
+      ],
+      "libltdl": [
+        "repository:libtool"
+      ],
+      "cairo": [
+        "repository:cairo"
+      ],
+      "pango": [
+        "repository:pango"
+      ],
+      "expat": [
+        "repository:expat"
+      ],
+      "zlib": [
+        "repository:zlib",
+        "repository:zlib-ng-compat",
+        "recipe:zlib"
+      ],
+      "freetype2": [
+        "repository:freetype2"
+      ]
+    },
+    "re2c": {
+      "cmake": [
+        "repository:cmake",
+        "recipe:cmake"
+      ],
+      "python": [
+        "repository:python"
+      ],
+      "glibc": [
+        "repository:glibc",
+        "recipe:glibc"
+      ],
+      "libgcc": [
+        "repository:libgcc",
+        "recipe:gcc"
+      ],
+      "libstdc++": [
+        "repository:libstdc++",
+        "recipe:gcc"
+      ]
+    },
+    "ninja": {
+      "cmake": [
+        "repository:cmake",
+        "recipe:cmake"
+      ],
+      "gtest": [
+        "repository:gtest"
+      ],
+      "python": [
+        "repository:python"
+      ],
+      "re2c": [
+        "recipe:re2c"
+      ],
+      "glibc": [
+        "repository:glibc",
+        "recipe:glibc"
+      ],
+      "libgcc": [
+        "repository:libgcc",
+        "recipe:gcc"
+      ],
+      "libstdc++": [
+        "repository:libstdc++",
+        "recipe:gcc"
+      ]
+    }
+  }
+}

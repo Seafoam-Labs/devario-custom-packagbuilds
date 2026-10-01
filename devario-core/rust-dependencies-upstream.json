@@ -1,0 +1,54 @@
+{
+  "aarch64-linux-gnu-binutils": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-binutils",
+    "commit": "93989c67feeffc6461d6528af6aed36ca9c0c894"
+  },
+  "aarch64-linux-gnu-gcc": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-gcc",
+    "commit": "f6bc44149f07bfb1ef8174f3be707c2f8819920b"
+  },
+  "aarch64-linux-gnu-glibc": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-glibc",
+    "commit": "77e9b700ee0015c91204fa7c02aa79525034fef6"
+  },
+  "aarch64-linux-gnu-linux-api-headers": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-linux-api-headers",
+    "commit": "0fc68a29e00b36b51a662aa244ab77e4811bc3be"
+  },
+  "libgit2": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libgit2",
+    "commit": "6e1717578e42be7d312c38575c1f79cd8d52eb38"
+  },
+  "llhttp": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/llhttp",
+    "commit": "7c6694acccc1780590b2ef9fbcc91d473419e85c"
+  },
+  "musl": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/musl",
+    "commit": "3d3d40f8b3788d3523a8941b6d5a2bdea016aa80"
+  },
+  "wasi-compiler-rt": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-compiler-rt",
+    "commit": "8792e1d2fad0edb9f0fb4ff84fe54d332c19ffad"
+  },
+  "wasi-libc": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libc",
+    "commit": "9476aa3c21fe8d9b1522958a58da8c66dd213a34"
+  },
+  "wasm-component-ld": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasm-component-ld",
+    "commit": "c3bdb1030f563c39fabfe3968f2b9915e91667b5"
+  },
+  "wasm-pkg-tools": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasm-pkg-tools",
+    "commit": "125dcdb39bdd49645366288ccd4484a98d305a53"
+  },
+  "wasm-tools": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasm-tools",
+    "commit": "ec3668aa6a27a7216fb40f55dc3bf4a886dec4a1"
+  },
+  "wit-bindgen": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wit-bindgen",
+    "commit": "ecb1062939f6236e57c0c70e91ca1582727db5a9"
+  }
+}

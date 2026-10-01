@@ -1,0 +1,70 @@
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: kevin <kevin@archlinux.org>
+# Contributor: John Proctor <jproctor@prium.net>
+
+pkgname=graphviz
+pkgver=16.1.0
+pkgrel=2
+pkgdesc='Graph visualization software'
+url='https://www.graphviz.org/'
+license=('EPL')
+arch=('x86_64')
+# Headless dot/layout tools with Cairo/Pango PNG and SVG rendering.
+depends=('glibc' 'libgcc' 'libstdc++' 'libltdl' 'cairo' 'pango' 'expat' 'zlib' 'freetype2')
+makedepends=('cmake' 'ninja' 'bison' 'flex' 'python' 'pkgconf')
+source=("https://gitlab.com/graphviz/graphviz/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('1e028b2b3e84e946c1d3e8c47590f8f0741bba1041fe6eff36eee87e598ea249')
+b2sums=('dabed4c1dd0b87f17da65035e411671a85a40f8ba8fcfd7ace53236d616779c76eadb4bf2531b27d450be09eab92bd725045735a833670b56392fdd62986427a')
+install='graphviz.install'
+
+prepare() {
+  # These two optional plugins lack CMake switches. Keep host discovery from
+  # silently adding dependencies beyond this headless package's declared set.
+  sed -i \
+    -e 's/pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)/set(GDK_PIXBUF_FOUND 0)/' \
+    -e 's/pkg_check_modules(LASI lasi)/set(LASI_FOUND 0)/' \
+    "$pkgname-$pkgver/CMakeLists.txt"
+}
+
+build() {
+  export CMAKE_BUILD_PARALLEL_LEVEL="${CMAKE_BUILD_PARALLEL_LEVEL:-$(nproc)}"
+  local options=() feature
+  for feature in TCL SWIG SHARP D GO GUILE JAVA JAVASCRIPT LUA PERL PHP PYTHON R RUBY; do
+    options+=("-DENABLE_${feature}=OFF")
+  done
+  for feature in GVEDIT SMYRNA GDK GTK GHOSTSCRIPT POPPLER QUARTZ RSVG WEBP X; do
+    options+=("-DWITH_${feature}=OFF")
+  done
+  for feature in ANN GTS GD AA DevIL; do
+    options+=("-DCMAKE_DISABLE_FIND_PACKAGE_${feature}=ON")
+  done
+  # Fail configuration rather than silently omitting jsoncpp's PNG renderer.
+  pkg-config --exists cairo pangocairo || return 1
+  cmake -S "$pkgname-$pkgver" -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib -DENABLE_LTDL=ON \
+    -DWITH_EXPAT=ON -DWITH_ZLIB=ON "${options[@]}"
+  cmake --build build
+}
+
+check() {
+  # Collect build-tree plugins so dot can create a private plugin cache.
+  local plugin
+  mkdir -p "$srcdir/test-plugins"
+  while IFS= read -r -d '' plugin; do
+    ln -sf "$srcdir/$plugin" "$srcdir/test-plugins/${plugin##*/}"
+  done < <(find build/plugin -name 'libgvplugin*.so*' -print0)
+  export GVBINDIR="$srcdir/test-plugins"
+  build/cmd/dot/dot -c
+  printf 'digraph G { jsoncpp -> documentation; }\n' > smoke.dot
+  build/cmd/dot/dot -Tpng smoke.dot -o smoke.png
+  build/cmd/dot/dot -Tsvg smoke.dot -o smoke.svg
+  test -s smoke.png && test -s smoke.svg
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "$pkgname-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

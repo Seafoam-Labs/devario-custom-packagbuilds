@@ -1,0 +1,122 @@
+Rust dependency builds and first compiler
+========================================
+
+The rust recipe builds Rust 1:1.98.1-2. Its signed source archive identifies
+Rust 1.97.1 (2026-07-16) as stage0 in src/stage0. Its bootstrap.x86_64.toml
+explicitly uses /usr/bin/rustc, /usr/bin/cargo, and /usr/bin/rustfmt inside
+the build root. A rustup installation in the host user's home does not supply
+those paths inside Shelly's isolated root.
+
+Recipes added
+-------------
+aarch64-linux-gnu-gcc            AArch64 cross compiler
+aarch64-linux-gnu-glibc          AArch64 GNU libc/sysroot
+libgit2                         Git library, providing libgit2.so
+musl                           Outputs musl AND musl-aarch64
+wasi-libc                      WebAssembly libc/sysroot
+wasm-component-ld               WebAssembly component linker
+
+Additional prerequisites added:
+aarch64-linux-gnu-binutils
+aarch64-linux-gnu-linux-api-headers
+llhttp
+wasi-compiler-rt
+wasm-tools
+wasm-pkg-tools
+wit-bindgen
+
+Existing recipes are reused: ninja, cppdap, jsoncpp, cmake, rust, clang,
+compiler-rt, lld, and the GCC/multilib packages. There is no separate
+musl-aarch64 PKGBUILD because musl is a split-package build. Its RISC-V
+output and compiler dependency were removed for this x86_64/AArch64 set;
+musl's pkgrel is 3. All other imported recipes retain upstream behavior.
+rust-dependencies-upstream.json records the 13 upstream packaging commits.
+
+These recipes are not the complete recursive build/check dependency closure.
+For example, llhttp also needs npm and ts-node; full test suites have additional
+requirements. Resolve each .SRCINFO against the worker's bootstrap repositories.
+
+Getting the first Rust compiler
+------------------------------
+The rust-bootstrap recipe packages official Rust 1.97.1 binaries. It does not
+compile Rust and does not need an existing Rust compiler. It installs rustc,
+Cargo, rustfmt, the native standard library, and standard libraries for
+wasm32-unknown-unknown, wasm32-wasip1, and wasm32-wasip2 under /usr.
+It provides rust, cargo, rustfmt, and rust-wasm to dependency resolution.
+
+Its seven component archives have SHA-256 values taken from the signed
+2026-07-16 release manifest. The native rustc, Cargo and std hashes also match
+the values in Rust 1.98.1's src/stage0. Each archive's detached signature is
+checked against 108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE. See
+rust-bootstrap/provenance.json and rust-bootstrap/keys/pgp/.
+
+1. On the worker, review/import that public key as the build account, then
+   build from this repository's root:
+
+     gpg --import devario-core/rust-bootstrap/keys/pgp/*.asc
+     shelly build --review-only --json ./devario-core/rust-bootstrap/PKGBUILD
+     shelly build --isolated ./devario-core/rust-bootstrap/PKGBUILD
+
+   The existing isolated GPG/keyboxd fix is still needed for signed sources.
+   Keep signature verification enabled. This bootstrap is for compiler
+   dependency cycles, not a bypass of package/source authentication.
+
+2. Sign and publish rust-bootstrap-1.97.1-1-x86_64.pkg.tar.zst to a temporary
+   bootstrap repository configured for the worker's isolated builds. Refresh
+   its database. Dependency resolution must see its rust/cargo provisions;
+   installing it only on the host does not seed an isolated root.
+
+3. Seed the cross-toolchain and WASI cycles separately. These ordinary rebuild
+   recipes cannot bootstrap those toolchains from an empty sysroot:
+
+   - aarch64-linux-gnu-gcc depends on aarch64-linux-gnu-glibc, and glibc needs
+     that GCC. Seed a compatible pair plus binutils and Linux API headers from
+     a trusted upstream binary repository, then rebuild the supplied recipes.
+   - wasi-libc and wasi-compiler-rt depend on each other. Seed a matching pair
+     for LLVM 23, then rebuild them with the supplied recipes.
+
+   One way to obtain these seed packages is from an up-to-date disposable
+   Arch build machine using its normal signed repositories:
+
+     sudo mkdir -p /var/tmp/devario-bootstrap-seeds
+     sudo pacman -Sw --cachedir /var/tmp/devario-bootstrap-seeds \
+       aarch64-linux-gnu-binutils aarch64-linux-gnu-linux-api-headers \
+       aarch64-linux-gnu-gcc aarch64-linux-gnu-glibc wasi-libc wasi-compiler-rt
+
+   This downloads packages and dependencies; it does not install them. Inspect
+   versions, preserve upstream provenance, and use the worker's normal verified
+   bootstrap repository process. Select compatible LLVM 23 WASI seeds; newer
+   upstream packages may target a different LLVM version. Do not assume all
+   downloaded dependencies should replace Devario packages.
+
+4. Build/publish prerequisites in this order, with seeds available:
+   - Existing jsoncpp/cppdap/CMake and Ninja (retain bootstrap CMake to break
+     the CMake/cppdap cycle).
+   - AArch64 binutils and headers, then rebuild AArch64 GCC/glibc using the
+     seeded pair. Build musl once to publish both musl and musl-aarch64.
+   - llhttp, then libgit2.
+   - wasm-component-ld, wasm-tools, wasm-pkg-tools, and wit-bindgen, using
+     rust-bootstrap as their compiler/Cargo and WebAssembly test libraries.
+   - Rebuild wasi-compiler-rt and wasi-libc using their seeded pair, LLVM 23,
+     and the WebAssembly tools just built.
+
+5. Build the existing rust recipe with all prerequisites available:
+
+     shelly build --isolated ./devario-core/rust/PKGBUILD
+
+   It builds the actual compiler from source and emits the Rust split packages.
+   Its upstream recipe has no check() hook; --check alone does not run the
+   compiler test suite. Publish the matching source-built split outputs together.
+
+6. Stop offering rust-bootstrap to normal builds once source-built Rust is
+   available. It conflicts with rust/rust-wasm/cargo/rustfmt/rustup to prevent
+   file overlap. Recreate the isolated root so it resolves source-built Rust,
+   then rebuild Rust and its Rust-written prerequisites using that compiler.
+
+References
+----------
+https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html
+https://static.rust-lang.org/dist/2026-07-16/channel-rust-1.97.1.toml
+
+Validation details are recorded in rust-dependencies-validation.json. Recipe
+creation and local validation do not publish packages or update the worker.

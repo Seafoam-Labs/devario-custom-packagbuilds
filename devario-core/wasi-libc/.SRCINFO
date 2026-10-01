@@ -1,0 +1,24 @@
+pkgbase = wasi-libc
+	pkgdesc = WASI libc implementation for WebAssembly
+	pkgver = 0+659+2e6fb9d8
+	pkgrel = 2
+	epoch = 1
+	url = https://github.com/WebAssembly/wasi-libc
+	arch = any
+	license = Apache-2.0 WITH LLVM-exception AND Apache-2.0 AND MIT
+	makedepends = clang
+	makedepends = cmake
+	makedepends = git
+	makedepends = llvm
+	makedepends = ninja
+	makedepends = wasi-compiler-rt
+	makedepends = wasm-tools
+	makedepends = wasm-component-ld
+	makedepends = wasm-pkg-tools
+	makedepends = wit-bindgen
+	options = !buildflags
+	options = staticlibs
+	source = git+https://github.com/WebAssembly/wasi-libc.git#commit=2e6fb9d8ee0cdf9e431fbcabe8af3115de000a13
+	b2sums = 136e908a5565e8e59e22ffcd87f5b03b9b72f4b178c04a49fa728589e0934159d7188b615c7b3cf699a1c0dd1269c1a6719c0d633db13676af58f6359b221f81
+
+pkgname = wasi-libc

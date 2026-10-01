@@ -1,0 +1,307 @@
+{
+  "date": "2026-09-30",
+  "scope": "Source verification and recipe metadata for all recipes; local binary repackaging and compiler smoke tests for rust-bootstrap. No isolated build or full dependency source builds performed.",
+  "packages": {
+    "aarch64-linux-gnu-binutils": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "376ce579fae3b1a7ea137eaa281deb448d4c73d0c5bbffabd92296dcdb74a701",
+        ".SRCINFO": "a80aa42f083211e54e50b68a27374b6a0cc17524dd91cc2a2a0efbcc360a2b43"
+      },
+      "package_build": "not run"
+    },
+    "aarch64-linux-gnu-gcc": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "f1ae99b452662e9417c52693feb6cd2cc0108408f11876ff44474a1226fc4729",
+        ".SRCINFO": "81dbf2a62cb64f2f3c620df98f93c486cdd2a4540d48e38456aafcdd33c1b42f"
+      },
+      "package_build": "not run"
+    },
+    "aarch64-linux-gnu-glibc": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "52a128af596bf4bf7b206216928ab4c74a5935ad8768d32677f4c22015c4b2e5",
+        ".SRCINFO": "9666f64f33a1b05ff948d37a33fa4296b29d56b728cdaf4e7c1019ce0ab641a2"
+      },
+      "package_build": "not run"
+    },
+    "aarch64-linux-gnu-linux-api-headers": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "80b96020d229198705f8009ce783c023752f272f4101df9b14acf8f518692402",
+        ".SRCINFO": "c8f549e09161362e3a80f16f6394410e8d85fe996caa8b44885398ccf6465854"
+      },
+      "package_build": "not run"
+    },
+    "libgit2": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "a6e8c9765d528a5188b47e011b296997ed95b459fbbcedbdfc1da581e4f4687c",
+        ".SRCINFO": "da5ed422e77bbdf288a6db185da2047efcbab997762282dc9d2e23f7e103ccce"
+      },
+      "package_build": "not run"
+    },
+    "llhttp": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "npm",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "  npm install",
+          "message": "'npm' is invoked in build() \u2014 this fetches/executes external code outside Shelly's control."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "79ea5584853f0070616d1470ffd0875c955578b64628e6dd437a5cfd07a8c140",
+        ".SRCINFO": "777e15de78b7dcd5bfe3cb5b63d15ef43a8fd2f1d7f61ffe62da91df0e8f48a4"
+      },
+      "package_build": "not run"
+    },
+    "musl": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "99dc0713255a586c44357aff1c2a77de69f6789538be7d097d93421a42062ad1",
+        ".SRCINFO": "a7893754bec147e6c0be8053226966e89efdf5c19f8697c1bc5bdaa96de2c951"
+      },
+      "package_build": "not run"
+    },
+    "wasi-compiler-rt": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "resource_dir=\"$(clang --print-resource-dir)\"",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "resource_dir=\"$(clang --print-resource-dir)\"",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "5e466b6f21165c2ac8a72b5e5c2b346be8d1099d8ea3933aba59db42d0f2adad",
+        ".SRCINFO": "fc7e2f2ccd5ecc8727cd16e3bb6b9d2259c5592ca1cf181b6944d4ca22408a51"
+      },
+      "package_build": "not run"
+    },
+    "wasi-libc": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "pkgver",
+          "matchedLine": "printf \"0+%s+%s\" \"$(git rev-list --count HEAD)\" \"$(git rev-parse --short HEAD)\"",
+          "message": "Dynamic command construction detected in pkgver() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "resource_dir=\"$(clang --print-resource-dir)\"",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "16eab41901be9de1125a8b56b40eb7c71e1b7adcf0c010ac3ed4a57b871fff33",
+        ".SRCINFO": "20b34f7c105042ae427fc0a0bb08de29c71d3870f71b2757ee4cd6d4f17c8fed"
+      },
+      "package_build": "not run"
+    },
+    "wasm-component-ld": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "fetch",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "  cargo fetch --locked --target host-tuple",
+          "message": "'fetch' is invoked in prepare() \u2014 this fetches/executes external code outside Shelly's control."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "5b1ed774a024fe3681342b4d95733118526d115e822df43c441ae41442add478",
+        ".SRCINFO": "aa604e04b4a875e03f41b8e0c6a1bd6e2523ff78a67a3a0581195194f1b1c471"
+      },
+      "package_build": "not run"
+    },
+    "wasm-pkg-tools": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "fetch",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "  cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "'fetch' is invoked in prepare() \u2014 this fetches/executes external code outside Shelly's control."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "072ea26ca335b6b65d2b08bafed2a88a30abbb7154beee05a5c3b930f083ed81",
+        ".SRCINFO": "a9718b33b857d47c16b15feb66a4414ba3bb91a58816b6cb36a71ea180428b66"
+      },
+      "package_build": "not run"
+    },
+    "wasm-tools": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "fetch",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "    cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "'fetch' is invoked in prepare() \u2014 this fetches/executes external code outside Shelly's control."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "b80a45263db4e31c290751057f9f770b3e3dacd1fcf3d903fe6abea6f20bcd0b",
+        ".SRCINFO": "a8687482670bf85a6ef0d21ae9000804ece82d8790a92686c3f03b8e7ae7b86c"
+      },
+      "package_build": "not run"
+    },
+    "wit-bindgen": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [
+        {
+          "tool": "fetch",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "  cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "'fetch' is invoked in prepare() \u2014 this fetches/executes external code outside Shelly's control."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "cargo fetch --locked --target \"$(rustc --print host-tuple)\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "sha256": {
+        "PKGBUILD": "5c4e83ebb7d33000c432215569e5c7e77707f1da05497ae4fa59c452cb9d39d2",
+        ".SRCINFO": "6c4e601076a8b24acd91d6f6b7f7edb130fe08bfc1ea9127a4e38311a85497aa"
+      },
+      "package_build": "not run"
+    },
+    "rust-bootstrap": {
+      "bash_syntax_exit_code": 0,
+      "source_verification_exit_code": 0,
+      "review_returncode": 0,
+      "metadata_agrees": true,
+      "review_findings": [],
+      "sha256": {
+        "PKGBUILD": "8bf36ef50dee6ac550f72abba27ec931c10f699a2eb45ba211961a009d98f4a0",
+        ".SRCINFO": "1f4198b6e3e27fdfd3a82b5595fb9a511568b06ae92501faf3f5c0c07638f4a3"
+      },
+      "package_build": "passed (makepkg --nodeps; binary repackaging)"
+    }
+  },
+  "bootstrap_smoke_tests": {
+    "rustc": {
+      "exit_code": 0,
+      "stdout": "rustc 1.97.1 (8bab26f4f 2026-07-14)\n",
+      "stderr": ""
+    },
+    "cargo": {
+      "exit_code": 0,
+      "stdout": "cargo 1.97.1 (c980f4866 2026-06-30)\n",
+      "stderr": ""
+    },
+    "rustfmt": {
+      "exit_code": 0,
+      "stdout": "rustfmt 1.9.0-stable (8bab26f4f6 2026-07-14)\n",
+      "stderr": ""
+    },
+    "x86_64-unknown-linux-gnu": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wasm32-unknown-unknown": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wasm32-wasip1": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wasm32-wasip2": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "native_run": {
+      "exit_code": 0,
+      "stdout": "bootstrap works\n",
+      "stderr": ""
+    }
+  }
+}

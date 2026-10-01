@@ -1,0 +1,101 @@
+Devario Core build-tool recipes
+==============================
+
+Added 2026-09-30 from the official Arch Linux packaging repositories.
+Exact repository URLs and commits are recorded in build-tools-upstream.json.
+Each new directory includes PKGBUILD, generated .SRCINFO, packaging licenses,
+and the supporting patches, configuration files, and public keys from upstream.
+The existing Ninja recipe was retained and validated.
+
+Recipe                 Version (including package release)
+asciidoctor            2.0.26-1
+bash-completion        2.18.0-1
+clang                  23.1.1-1
+extra-cmake-modules     6.30.0-1
+go-md2man              2.0.7-2
+lld                    23.1.1-1
+meson                  1.12.1-1
+ninja                  1.13.2-3
+qt6-tools              6.11.2-3
+ripgrep                15.2.0-1
+rust                   1:1.98.1-2
+scdoc                  1.11.5-2
+stb                    20260415.205329.g31c1ad374564-1
+
+Local adjustments
+-----------------
+Qt Tools: pin qlitehtml to 1f56cfe0a8e9a8a99072e0d325632bd8dc0e20d3 and
+verify its Git archive with SHA-256 instead of fetching an unchecked moving
+branch. This is the same commit selected by upstream's prepare() function.
+The Qt source preparation and llvm22.patch application passed locally.
+
+scdoc: declare glibc as a runtime dependency because this recipe intentionally
+builds a dynamically linked executable. The build and check() hook passed.
+
+Other new PKGBUILDs retain upstream behavior, including test dependencies and
+Rust's split packages. Rust produces rust, rust-musl, rust-src, rust-wasm,
+lib32-rust-libs, rust-aarch64-gnu, and rust-aarch64-musl on x86_64.
+
+Worker prerequisites and ordering
+--------------------------------
+These are distribution rebuild recipes. They require a working base-devel
+environment and a repository that resolves their declared dependencies.
+The complete declarations are in each recipe's .SRCINFO. This set does not
+provide every recursive build, documentation, or test dependency.
+
+Use the existing CMake/Ninja and Python bootstrap tools to start. CMake has
+its own dependency cycle with cppdap; do not assume a build from an empty root.
+Build Ninja before Meson and the LLVM tools. Meson also needs Python's build,
+installer, setuptools, wheel, aiohttp, strictyaml, and tqdm packages.
+
+Clang, LLD, and Rust target LLVM 23.1.1. The audited core snapshot already
+contains llvm and llvm-libs 23.1.1. Build compiler-rt 23.1.1 from the
+compiler-rt directory first; compiler-rt21 is not a substitute. Then build
+Clang and LLD before Rust and Qt Tools. See compiler-rt/README.txt.
+The versioned clang21/lld21 directories remain available for LLVM 21 users.
+
+Rust requires an existing Rust/Cargo/rustfmt compiler installation, LLVM 23.1.1,
+multilib libraries, AArch64 cross compilers/libraries, musl targets, wasi-libc,
+and wasm-component-ld. Its upstream bootstrap configuration uses /usr/bin
+tools and builds multiple target libraries. Build and publish its split outputs
+together. The recipe declares check dependencies but has no check() hook;
+passing --check does not run the Rust compiler test suite.
+
+Build Rust before Ripgrep. Ripgrep's prepare() fetches Cargo.lock-pinned crates;
+its build and tests use --frozen. Go-md2man needs Go and downloads its Go module
+dependencies during the build. Asciidoctor needs Ruby and ruby-rdoc, plus the
+declared Ruby test gems when checks are enabled.
+
+Build Qt Tools before Extra CMake Modules (ECM uses Qt Help for documentation).
+Qt Tools needs litehtml, matching Qt 6.11.2 base/declarative packages, Clang,
+LLVM, CMake, Ninja, and Vulkan headers. Qt Tools and Extra CMake Modules have
+no check() hook. Bash Completion, Go-md2man, and stb also have no check() hook.
+Meson's upstream check dependency list is deliberately extensive and retained.
+
+Review and build from the repository root, for example:
+
+  shelly build --review-only --json ./devario-core/scdoc/PKGBUILD
+  shelly build --isolated --check ./devario-core/scdoc/PKGBUILD
+
+For signed sources, compare the fingerprints in validpgpkeys with the bundled
+keys/pgp/*.asc files, then import the public keys as the account doing the build.
+Copy the whole recipe directory to the worker so patches and keys are included.
+Publish packages and refresh the repository database before dependent builds.
+
+Validation
+----------
+All 13 recipes passed bash -n, makepkg --printsrcinfo, source checksum validation,
+and applicable source signature validation. Validation targeted x86_64; Rust's
+other host architectures were not built or validated. The only remaining SKIP
+checksums in these recipes are detached signatures verified against source files.
+
+Shelly review completed for all 13. Findings flag ordinary command substitutions,
+Ruby installation into the temporary package tree, Cargo's locked dependency
+fetch, and backticks in upstream patch comments. These findings were inspected.
+
+scdoc built successfully, passed make check, and produced package archives in a
+temporary directory. Qt Tools source extraction and prepare() passed. Full builds
+of the remaining recipes and isolated worker builds have not been run in this
+task. No host packages were installed and no packages were published.
+
+See build-tools-validation.json for recipe hashes and validation results.

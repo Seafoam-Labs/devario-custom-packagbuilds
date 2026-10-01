@@ -1,0 +1,6 @@
+[aarch64-linux-gnu-glibc]
+source = 'git'
+git = 'https://sourceware.org/git/glibc.git'
+include_regex = 'glibc-[\d.]+'
+exclude_regex = '.*.9000'
+prefix = 'glibc-'

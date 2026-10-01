@@ -1,0 +1,14 @@
+{
+  "doxygen": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/doxygen.git",
+    "commit": "b24032062ba937639acc45c5475e1106ae9fa405"
+  },
+  "graphviz": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/graphviz.git",
+    "commit": "3b19ae66bd16693ac74e75f6e34c77cce1ad5da2"
+  },
+  "re2c": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/re2c.git",
+    "commit": "3f9f1d5175fdc51be973dddf6b5af7487d000b3a"
+  }
+}

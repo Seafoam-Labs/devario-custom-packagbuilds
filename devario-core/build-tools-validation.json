@@ -1,0 +1,359 @@
+{
+  "date": "2026-09-30T15:46:33.840682+00:00",
+  "architecture": "x86_64",
+  "results": {
+    "asciidoctor": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [
+        {
+          "hook": "build",
+          "matchedLine": "  gem build --verbose \"${pkgname}.gemspec\"",
+          "severity": "warning",
+          "tool": "gem"
+        },
+        {
+          "hook": "build",
+          "matchedLine": "  gem install \\",
+          "severity": "warning",
+          "tool": "gem"
+        },
+        {
+          "hook": "build",
+          "matchedLine": "  local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "gem"
+        },
+        {
+          "hook": "build",
+          "matchedLine": "local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "check",
+          "matchedLine": "  local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "gem"
+        },
+        {
+          "hook": "check",
+          "matchedLine": "local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "package",
+          "matchedLine": "  local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "gem"
+        },
+        {
+          "hook": "package",
+          "matchedLine": "local _gemdir=\"$(gem env gemdir)\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        }
+      ],
+      "pkgbuild_sha256": "8f2990863370899b45ce0876c64e8a80e2a1a211cb3f7d65acdfef6bf1764e19",
+      "srcinfo_sha256": "1e3f94d37dd5bdfb992c3ca463cd838437347ead0ccd35293211545ee50f1c9e",
+      "full_build": "not run"
+    },
+    "bash-completion": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "3582236f74f466b07c8309bc2a28a94cf7968f806fb3cf754cb56dcbc80820f3",
+      "srcinfo_sha256": "755b5533ed307e9e3b2c49af497cfd78fac0e700515f8bb48ad38b8f775ad079",
+      "full_build": "not run"
+    },
+    "clang": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [
+        {
+          "hook": "build",
+          "matchedLine": "local distribution_components=$(_get_distribution_components | paste -sd\\;)",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "package",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        }
+      ],
+      "pkgbuild_sha256": "3b569b3f056c6a857c285f7a6c2415ab8bdf9bdd40f4a46e4de2c76b273c7875",
+      "srcinfo_sha256": "4166978be8529e05e462959f497a5d6a5cd1938b9571e2caabb2a0a2886d2536",
+      "full_build": "not run"
+    },
+    "extra-cmake-modules": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "f4aff3c5794677dadedc86b35c2f36e33d16d868f52bc2eaf8fc945297687535",
+      "srcinfo_sha256": "85f37467a0c03bf588d545f71209cc0a694e40901bdbf37a9105044dcaec2e10",
+      "full_build": "not run"
+    },
+    "go-md2man": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "c160cf3c2c90d7255d85d192bd18788d6cd4fa4ad177b8b68f1abdd6745ac773",
+      "srcinfo_sha256": "2a345b85007222e83ac5adb78299fa8b82baac640c9633225ce6b7d834b7e7cf",
+      "full_build": "not run"
+    },
+    "lld": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "cb78ae8d8b92d3ce50a0f5e29131b80447bb3fd765bac5c16acce1b4a06ad87f",
+      "srcinfo_sha256": "1a6087de7d79ebcdac9d2d6d0560a777946867c79e50ad79649ca79f77d7ada5",
+      "full_build": "not run"
+    },
+    "meson": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "926c265d18502cbf3d330975dd7f6348335c91bc856c5ae4815a8bde9793af43",
+      "srcinfo_sha256": "314991c75fccc2ee39e80c8009ed3c5e997bcd0b6f4ebbff7f9ef31f107eff81",
+      "full_build": "not run"
+    },
+    "ninja": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [
+        {
+          "hook": "package",
+          "matchedLine": "local site_packages=$(python -c \"import site; print(site.getsitepackages()[0])\")",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        }
+      ],
+      "pkgbuild_sha256": "71437851976398b91b067ab21549ff15f3c816e7127647d5712eba1e607bc62d",
+      "srcinfo_sha256": "814927f21d9e96c65a4b0f023f21f1b5e11edc83a804a66d135742145b268000",
+      "full_build": "not run"
+    },
+    "qt6-tools": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "aa5c4079f9af8f058e3ce4a06271fe228f5210faf2237580ceeda3bf352c04f7",
+      "srcinfo_sha256": "ac1405a13bd03c158eced24519eed4f131c6efc22837add81c64668115e7b0bf",
+      "full_build": "not run",
+      "source_preparation": "passed with pinned, checksummed qlitehtml"
+    },
+    "ripgrep": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [
+        {
+          "hook": "prepare",
+          "matchedLine": "  cargo fetch --locked --target host-tuple",
+          "severity": "warning",
+          "tool": "fetch"
+        }
+      ],
+      "pkgbuild_sha256": "3f4a8cde3bd88f519364d6eda0291cefbd0e3c2cf098d33455bf8140b2ec2bf2",
+      "srcinfo_sha256": "287e39010da49b7715e39ca6dbfb47ff7ed4636690a9f387e5a34a2854239601",
+      "full_build": "not run"
+    },
+    "rust": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [
+        {
+          "hook": "build",
+          "matchedLine": "-j \"$(nproc)\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "build",
+          "matchedLine": "d=\"$(dirname \"$f\")\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "prepare",
+          "matchedLine": "clangdir=\"$(clang -print-resource-dir)\"",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0001-bootstrap-Change-libexec-dir.patch",
+          "matchedLine": "// Copy `rust-analyzer-proc-macro-srv` to `<sysroot>/libexec/`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0004-compiler-Change-LLVM-targets.patch",
+          "matchedLine": "(from `rustc --print target-list`) that best matches autoconf.",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0004-compiler-Change-LLVM-targets.patch",
+          "matchedLine": "`rustc --version --verbose`) is different from the target triple",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0009-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "-/// The shape of the tile is specified in the struct of [`__tile1024i`]. The register of the tile is allocated by the compiler.",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "-    /// * `\"amx-tf32\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "-`amx-tf32`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"amx-avx512\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"amx-fp8\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"amx-movrs\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"bmi1\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"f16c\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "/// * `\"fma\"`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`amx-fp8`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`amx-int8`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`amx-movrs`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`amx-tile`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`apxf`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0010-cleanup-upstream-dropped-AMX-TF32.patch",
+          "matchedLine": "`atomics`",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        },
+        {
+          "hook": "source: 0011-Reapply-LLVM-23-Run-AssignGUIDPass-in-some-places.patch",
+          "matchedLine": "// For `-Copt-level=0`, and the pre-link fat/thin LTO stages.",
+          "severity": "warning",
+          "tool": "<dynamic-command>"
+        }
+      ],
+      "pkgbuild_sha256": "6cd8badf01ded768a75f0cd88cb072b311434c67097c6a40fd63277892a99f4d",
+      "srcinfo_sha256": "a1e7c9c380c42e0b0a9bf4b4e93fb9e66e7d5caa1f608bdf1ae2ac5066adac87",
+      "full_build": "not run"
+    },
+    "scdoc": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "2ec6bd7a875e2d7920f909934cc8c2a30138a74296d3c183af723144e12e08f0",
+      "srcinfo_sha256": "2f843036c8e671e20afe4a8344eaed96316099aa55b63da48f6c23f62fdae289",
+      "full_build": "passed, including check() and package archives"
+    },
+    "stb": {
+      "bash_syntax": "passed",
+      "source_checksums": "passed",
+      "source_signatures": "passed where declared",
+      "makepkg_shelly_metadata": "match",
+      "shelly_review": "completed; findings inspected",
+      "review_findings": [],
+      "pkgbuild_sha256": "c410194e9870dd103cf3945b03c91062a3e63756c69e1206a7c7195bf26cd689",
+      "srcinfo_sha256": "80854923e32b03025099f6da0011c7cbef9cfc7da9909f846e77c3616c69d277",
+      "full_build": "not run"
+    }
+  }
+}
