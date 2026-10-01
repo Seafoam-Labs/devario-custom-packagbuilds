@@ -5,7 +5,7 @@
 pkgbase=hip-runtime
 pkgname=(hip-runtime-amd hip-runtime-nvidia)
 pkgver=7.2.4
-pkgrel=1
+pkgrel=2
 _pkgdesc="Heterogeneous Interface for Portability"
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/HIP/en/latest/'
@@ -13,7 +13,7 @@ license=('MIT')
 _amd_depends=('rocm-core' 'bash' 'perl' 'glibc' 'libgcc' 'numactl'
          'mesa' 'comgr' 'rocminfo' 'rocm-llvm' 'libelf' 'rocprofiler-register')
 _nvidia_depends=('cuda')
-makedepends=('git' 'cmake' 'python' 'python-cppheaderparser'
+makedepends=('git' 'cmake' 'python' 'python-cppheaderparser' 'rocm-llvm-static'
              "${_amd_depends[@]}" "${_nvidia_depends[@]}")
 _tag="tag=rocm-$pkgver"
 # HIPCC compiler wrapper
@@ -54,6 +54,13 @@ build() {
     -DHIP_CATCH_TEST=0
     -DCLR_BUILD_HIP=ON
     -DCLR_BUILD_OCL=OFF
+    # hipamd's PCH step runs find_package(LLVM) against AMD's /opt/rocm/llvm, but
+    # the config ships in rocm-llvm-static under /opt/rocm/lib/llvm.
+    -DLLVM_DIR=/opt/rocm/lib/llvm/lib/cmake/llvm
+    # hiprtc's find_program(clang/llvm-mc) only hints /opt/rocm/llvm/bin, and the
+    # LLVM/Clang configs export no LLVM_ROOT/Clang_ROOT, so name the root.
+    -DLLVM_ROOT=/opt/rocm/lib/llvm
+    -DClang_ROOT=/opt/rocm/lib/llvm
   )
   cmake "${hip_amd_args[@]}"
   cmake --build build-amd

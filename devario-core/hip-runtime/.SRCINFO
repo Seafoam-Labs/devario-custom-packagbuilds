@@ -1,6 +1,6 @@
 pkgbase = hip-runtime
 	pkgver = 7.2.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://rocm.docs.amd.com/projects/HIP/en/latest/
 	arch = x86_64
 	license = MIT
@@ -8,6 +8,7 @@ pkgbase = hip-runtime
 	makedepends = cmake
 	makedepends = python
 	makedepends = python-cppheaderparser
+	makedepends = rocm-llvm-static
 	makedepends = rocm-core
 	makedepends = bash
 	makedepends = perl
