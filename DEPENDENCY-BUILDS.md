@@ -3,14 +3,20 @@
 For Zig 0.16 and its LLVM 21, CMake, GCC, and Python prerequisites, see
 [the Zig build guide](ZIG-BUILDS.md).
 
-These x86_64 recipes are adapted from the corresponding
+Devario is an independent operating system. These x86_64 recipes are adapted
+from the corresponding
 [Arch Linux packaging repositories](https://gitlab.archlinux.org/archlinux/packaging/packages).
+Those links record recipe provenance.
 Each directory includes its PKGBUILD, generated `.SRCINFO`, and required local
 source files. Copy whole directories to the Remora worker.
 
 For curl, GPGME, libarchive, OpenSSL, XZ, MPFR, ncurses, readline, xxHash,
 and Zstandard with explicit ABI provisions, see [the ABI build guide](ABI-BUILDS.md).
 That guide records their separate validation status and suggested build order.
+
+For `llvm22` and `llvm22-libs` version `22.1.8-3`, see the
+[LLVM 22 build guide](devario-core/llvm22/README.md). The recipe provides
+versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 
 | Build directory | Requested packages or provisions |
 | --- | --- |
@@ -133,3 +139,32 @@ a fresh root. Publish the corrected tools package for other `lrelease` users.
 Validation: all three recipes pass Bash syntax, makepkg/Shelly metadata, and
 Shelly review. Base's bundled patches match their declared checksums. Full
 builds and remote-source checksum verification have not been run.
+
+## Noto fonts source directory
+
+[noto-fonts](devario-core/noto-fonts/PKGBUILD) release `1:2026.10.01-2` fixes
+the `cd: notofonts: No such file or directory` failure in both split-package
+functions. The original source URL ends in `notofonts.github.io`. Makepkg's
+Git filename handling truncates at `.git`, giving `notofonts`, while Shelly
+retains `notofonts.github.io` because it only removes a terminal `.git` suffix.
+The explicit `notofonts::` source alias makes both builders create the directory
+the recipe expects. Both packaging functions now use `$srcdir/notofonts`.
+
+The recipe retains the monthly release tag, upstream SHA-256 checksums, all
+four fontconfig files, and the `noto-fonts` / `noto-fonts-extra` split from
+[Arch packaging commit 0851acf360a933d18d8ae511c50229028686950b](https://gitlab.archlinux.org/archlinux/packaging/packages/noto-fonts/-/commit/0851acf360a933d18d8ae511c50229028686950b).
+The tag resolves to `025970232f4f8ff349310d9785431e87d20ed27c`, matching the
+checkout shown in the worker's failure. Copy the whole directory to the worker
+and retry:
+
+```sh
+shelly build --isolated ./devario-core/noto-fonts/PKGBUILD
+```
+
+Validation: all five source checksums passed. A local makepkg build from the
+pinned release produced both archives: 621 fonts in `noto-fonts` and 1,550 in
+`noto-fonts-extra`, matching the source selections without overlapping package
+payloads. All four fontconfig symlinks resolve correctly, and the upstream
+license is included. Bash syntax and makepkg/Shelly metadata checks passed;
+Shelly review reported no findings. A full isolated Shelly build remains
+unverified.
