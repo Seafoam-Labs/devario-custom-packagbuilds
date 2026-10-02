@@ -17,7 +17,7 @@ source files. Copy whole directories to the Remora worker.
 | [flatpak](devario-core/flatpak/PKGBUILD) | `flatpak` and `flatpak-docs` 1:1.18.4-3 | Shelly's Flatpak backend |
 | [inxi](devario-core/inxi/PKGBUILD) | `inxi` 3.3.41.1-3 | Devario system reports |
 | [nbd](devario-core/nbd/PKGBUILD) | `nbd` 3.27.1-4 | Live image network block devices |
-| [nfs-utils](devario-core/nfs-utils/PKGBUILD) | `nfs-utils` and `nfsidmap` 3.1.1-2 | Live image NFS support |
+| [nfs-utils](devario-core/nfs-utils/PKGBUILD) | `nfs-utils` and `nfsidmap` 3.1.1-3 | Live image NFS support |
 | [tpm2-tools](devario-core/tpm2-tools/PKGBUILD) | `tpm2-tools` 5.8-2 | Dracut TPM support |
 
 [spandsp](devario-core/spandsp/PKGBUILD) is also updated to `0.0.6-6` to

@@ -9,7 +9,7 @@
 pkgbase=nfs-utils
 pkgname=('nfs-utils' 'nfsidmap')
 pkgver=3.1.1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url='https://linux-nfs.org/'
 license=('GPL-2.0-or-later')
@@ -95,7 +95,8 @@ package_nfs-utils() {
 
   # systemd sysusers - FS#75536
   install -D -m 644 ../nfs-utils.sysusers "${pkgdir}"/usr/lib/sysusers.d/rpcuser.conf
-  chown -Rv 34:34 "${pkgdir}"/var/lib/nfs/statd
+  # Shelly journals ownership for the archive; its wrapper accepts -R, not -Rv.
+  chown -R 34:34 "${pkgdir}"/var/lib/nfs/statd
   chmod -R 700 "${pkgdir}"/var/lib/nfs/statd
   chmod 644 "${pkgdir}"/var/lib/nfs/statd/state
 
