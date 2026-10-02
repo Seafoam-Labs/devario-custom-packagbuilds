@@ -3,7 +3,7 @@
 
 pkgname=('llvm21' 'llvm21-libs')
 pkgver=21.1.8
-pkgrel=1
+pkgrel=1.1
 arch=('x86_64')
 url="https://llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
