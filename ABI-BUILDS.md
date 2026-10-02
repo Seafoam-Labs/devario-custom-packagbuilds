@@ -307,6 +307,88 @@ libudev and libsystemd. Bash syntax, makepkg/Shelly metadata, and Shelly review
 passed. The bootstrap disables the upstream test suite; full systemd builds
 and isolated provisioning remain unverified.
 
+## TPM2 provider for the Devario kernel build root
+
+[tpm2-tss](devario-core/tpm2-tss/PKGBUILD) release `4.2.0-3` supplies the
+versioned library provisions required by the existing `tpm2-tools` package:
+
+| Library | Explicit provision |
+| --- | --- |
+| ESAPI | `libtss2-esys.so=0-64` |
+| FAPI | `libtss2-fapi.so=1-64` |
+| Marshalling | `libtss2-mu.so=0-64` |
+| Return codes | `libtss2-rc.so=0-64` |
+| System API | `libtss2-sys.so=1-64` |
+| TCTI loader | `libtss2-tctildr.so=0-64` |
+| Null TCTI | `libtss2-tcti-null.so=0-64` |
+
+The Devario repository checked on 2026-10-01 published `tpm2-tss-4.2.0-2`
+with only bare library provisions. The new recipe retains those names, adds
+the exact ABI values, and verifies all seven packaged ELF64 SONAMEs before
+creating an archive. The `tpm2-tools`, `devario-dracut`, `initramfs`,
+`linux-devario`, and `linux-devario-headers` errors are downstream of this
+missing provider metadata; they do not require duplicate recipes.
+
+The recipe is based on [Arch packaging commit
+608d3ed4aa216f1ae9e76ccde010a4ca995b05ca](https://gitlab.archlinux.org/archlinux/packaging/packages/tpm2-tss/-/commit/608d3ed4aa216f1ae9e76ccde010a4ca995b05ca).
+It retains the signed upstream `4.2.0` tag, source checksums, the patch that
+locks the tss system account, factory configuration, tmpfiles rules, signing
+keys, and the upstream unit/integration test configuration.
+
+The `swtpm` test dependency also requires `libseccomp.so=2-64`. Devario's
+published `libseccomp-2.6.0-1` had only the bare provision when checked on
+2026-10-01. The new [libseccomp recipe](devario-core/libseccomp/PKGBUILD),
+release `2.6.0-2`, retains the bare name and adds the exact ABI provision,
+verified against the packaged ELF64 `libseccomp.so.2` SONAME. It keeps Arch's
+Python split package, signed source tag, source checksums, strict-aliasing
+fix, and upstream tests from [packaging commit
+95a18e64bdd767620a8d8f06ad95eb6c55e49340](https://gitlab.archlinux.org/archlinux/packaging/packages/libseccomp/-/commit/95a18e64bdd767620a8d8f06ad95eb6c55e49340).
+The library's only runtime dependency is glibc, so it can be built before
+the TPM packages.
+
+Copy each entire recipe directory and import its source-signing keys as the
+build account when needed. Build and publish libseccomp before running the
+tpm2-tss checks, then publish tpm2-tss before retrying systemd:
+
+```sh
+shelly build --review-only --json ./devario-core/libseccomp/PKGBUILD
+shelly build --isolated --check ./devario-core/libseccomp/PKGBUILD
+# Publish libseccomp 2.6.0-2 and refresh the worker repository.
+shelly build --review-only --json ./devario-core/tpm2-tss/PKGBUILD
+shelly build --isolated --check ./devario-core/tpm2-tss/PKGBUILD
+# Publish tpm2-tss 4.2.0-3 and refresh the worker repository.
+shelly build --isolated --check ./devario-core/systemd/PKGBUILD
+```
+
+This recipe does not depend on `linux-devario-headers` or `tpm2-tools`. If the
+worker's baseline root independently pulls in the broken dependency chain,
+build this initial provider on an existing compatible host without
+`--isolated`, publish it, and then retry isolation.
+
+Libseccomp validation: source checksums and the signed tag passed verification.
+Both split packages built locally with x86-64-v3 flags, and the Python binding
+loaded successfully. The library archive contains `libseccomp.so=2-64` and an
+ELF64 library with SONAME `libseccomp.so.2`, without a temporary build RPATH.
+The regression run passed 7,933 checks and skipped 46 architecture-specific
+checks. Its 40 Valgrind checks could not run on this host: supplying matching
+loader debug symbols resolved the initial startup error, but Valgrind then
+failed on an unsupported AVX-512 instruction in the host's glibc loader.
+Packaging completed with `--nocheck` after that diagnosis; the recipe retains
+the full `check()` function and requires a Valgrind-compatible environment to
+validate those memory checks. Bash syntax and makepkg/Shelly metadata passed,
+and Shelly review reported no findings. Isolated provisioning is unverified.
+
+TPM2 validation: upstream source checksums and the signed tag passed verification.
+A local makepkg build with x86-64-v3 flags completed, including 259 passing
+upstream test programs and 12 skips, with no failures. Missing build/test tools
+were extracted into `/tmp`; no host packages were installed. The socket-based
+tests ran outside the restricted validation sandbox. All seven packaged
+libraries have the expected ELF64 SONAMEs, the archive contains their exact
+ABI provisions, and no temporary build paths remain in their RPATHs.
+Bash syntax and makepkg/Shelly metadata checks passed. Shelly's three review
+warnings concern backticks in the upstream patch's descriptive text. Full
+isolated provisioning and the subsequent systemd build remain unverified.
+
 ## MariaDB and PostgreSQL dependency providers
 
 | Recipe | Explicit provision |
