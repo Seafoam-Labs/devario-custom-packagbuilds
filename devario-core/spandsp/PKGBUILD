@@ -2,12 +2,13 @@
 
 pkgname=spandsp
 pkgver=0.0.6
-pkgrel=5
+pkgrel=6
 pkgdesc='A DSP library for telephony'
 arch=('x86_64')
 url='https://www.soft-switch.org/'
 license=('GPL')
 depends=('glibc' 'libtiff')
+provides=('libspandsp.so' 'libspandsp.so=2-64')
 
 # Fedora's lookaside cache contains the original upstream release archive.
 # The MD5 in the URL is a cache locator; verify with Arch's SHA-512 below.
@@ -29,4 +30,8 @@ check() {
 package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/libspandsp.so" \
+    | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/libspandsp.so" \
+    | grep -Fq 'Library soname: [libspandsp.so.2]' || return 1
 }

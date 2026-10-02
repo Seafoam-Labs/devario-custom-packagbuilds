@@ -10,6 +10,76 @@ Those links record recipe provenance.
 Each directory includes its PKGBUILD, generated `.SRCINFO`, and required local
 source files. Copy whole directories to the Remora worker.
 
+## ISO runtime packages added on 2026-10-02
+
+| Recipe | Outputs | Purpose |
+| --- | --- | --- |
+| [flatpak](devario-core/flatpak/PKGBUILD) | `flatpak` and `flatpak-docs` 1:1.18.4-2 | Shelly's Flatpak backend |
+| [inxi](devario-core/inxi/PKGBUILD) | `inxi` 3.3.41.1-3 | Devario system reports |
+| [nbd](devario-core/nbd/PKGBUILD) | `nbd` 3.27.1-4 | Live image network block devices |
+| [nfs-utils](devario-core/nfs-utils/PKGBUILD) | `nfs-utils` and `nfsidmap` 3.1.1-2 | Live image NFS support |
+| [tpm2-tools](devario-core/tpm2-tools/PKGBUILD) | `tpm2-tools` 5.8-2 | Dracut TPM support |
+
+[spandsp](devario-core/spandsp/PKGBUILD) is also updated to `0.0.6-6` to
+provide `libspandsp.so` and `libspandsp.so=2-64` for PipeWire. Its packaging
+function verifies the ELF class and SONAME before publication. The existing
+[inter-font](devario-core/inter-font/PKGBUILD) recipe supplies the remaining
+missing installer font package.
+
+The five new recipes preserve Arch's supporting files, packaging licenses,
+source checksums, and upstream signing keys, except that inxi uses a pinned,
+checksummed Git commit. Codeberg's generated inxi archive no longer matches
+Arch's recorded checksum; its complete file contents were compared with the
+release commit and found identical. Per-package READMEs record the exact Arch
+packaging commits and validation results.
+
+Import the bundled public keys as the worker account before verifying signed
+sources:
+
+```sh
+gpg --import devario-core/flatpak/keys/pgp/*.asc \
+  devario-core/nfs-utils/keys/pgp/*.asc \
+  devario-core/tpm2-tools/keys/pgp/*.asc
+```
+
+Then review and build each selected directory, for example:
+
+```sh
+shelly build --review-only --json ./devario-core/tpm2-tools/PKGBUILD
+shelly build --isolated --check ./devario-core/tpm2-tools/PKGBUILD
+```
+
+The signed repository databases inspected on 2026-10-02 still lack these
+prerequisites. They must be supplied separately; these recipes do not make
+the repository dependency closure complete:
+
+| Consumer | Missing runtime prerequisites | Missing build/test prerequisites |
+| --- | --- | --- |
+| flatpak | `libmalcontent`, `xdg-dbus-proxy` | `gtk-doc`, `python-pyparsing`, `xmlto` |
+| nbd | None in the inspected databases | `autoconf-archive`, `docbook-utils`, `perl-sgmls` |
+| nfs-utils | `rpcbind`, `gssproxy`; `nfsidmap` is produced by this recipe | `rpcsvc-proto` |
+| tpm2-tools | Publish the existing `tpm2-tss` 4.2.0-3 recipe's explicit ABI provisions | `autoconf-archive`, `cmocka`; tests also need `expect`, `swtpm`, `tpm2-abrmd` |
+
+These are direct dependency checks against the inspected database snapshot,
+not a complete recursive bootstrap audit. Inxi's declared dependencies were
+available. Publish both NFS outputs together. Publish the updated `tpm2-tss`
+before building `tpm2-tools`. `cmocka` is a build dependency because unit-test
+binaries are enabled at configure time even when `check()` is skipped.
+
+All six changed recipes pass Bash syntax, generated makepkg metadata, Shelly
+metadata generation, and Shelly review. All source checksums pass, and Flatpak,
+NFS, and TPM upstream signatures verify with the bundled keys. Local makepkg
+builds of inxi and spandsp succeeded; the installed inxi command reports its
+version and spandsp's archive carries its versioned library provision.
+NBD's three upstream fixes apply, but preparation on this host stops at the
+missing declared `autoconf-archive` dependency. Flatpak, NFS, TPM, and complete
+NBD builds have not been run. Isolated worker builds remain required.
+
+Flatpak and NBD retain Arch's disabled integration-test policy because those
+tests hang or fail in package-build containers. Flatpak does not request unused
+check dependencies. An invocation with `--check` does not provide runtime or
+network-device acceptance for either package.
+
 For curl, GPGME, libarchive, OpenSSL, XZ, MPFR, ncurses, readline, xxHash,
 and Zstandard with explicit ABI provisions, see [the ABI build guide](ABI-BUILDS.md).
 That guide records their separate validation status and suggested build order.
