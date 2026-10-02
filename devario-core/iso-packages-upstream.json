@@ -1,0 +1,88 @@
+{
+  "calamares": {
+    "changes": "Declare cmake explicitly; package release 6.",
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/calamares",
+    "recipeDirectory": "devario-installer/calamares",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "ckbcomp": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/ckbcomp",
+    "recipeDirectory": "devario-installer/ckbcomp",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "composefs": {
+    "commit": "c880de20c67bb92593f3ed1511d53929a1006045",
+    "recipeDirectory": "devario-core/composefs",
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/composefs"
+  },
+  "devario-aqueous-desktop": {
+    "changes": "Pin all five Aqueous components to 1.0.0-1; package release 8.",
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/devario-aqueous-desktop",
+    "recipeDirectory": "devario-installer/devario-aqueous-desktop",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "devario-base": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/devario-base",
+    "recipeDirectory": "devario-installer/devario-base",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "devario-boot": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/devario-boot",
+    "recipeDirectory": "devario-installer/devario-boot",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "devario-filesystem": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/devario-filesystem",
+    "recipeDirectory": "devario-installer/devario-filesystem",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "devario-keyring": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/devario-keyring",
+    "recipeDirectory": "devario-installer/devario-keyring",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "ding-libs": {
+    "commit": "fe5ca9fb8d9efb9f53e6fac2ee42b97ca144df7f",
+    "recipeDirectory": "devario-core/ding-libs",
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/ding-libs"
+  },
+  "gssproxy": {
+    "commit": "e0e05e6f1a17f8d3fc83fbc560c12f47eb63de16",
+    "recipeDirectory": "devario-core/gssproxy",
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/gssproxy"
+  },
+  "libmalcontent": {
+    "changes": "Build public library and introspection data without Flatpak UI, daemons, docs, or tests.",
+    "commit": "d28f6635359d02d1068d8b21fb5810e5074b7903",
+    "packagingBase": {
+      "commit": "b73007214057fbbb17c3fee61fe221ccca7e6645",
+      "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/malcontent"
+    },
+    "recipeDirectory": "devario-core/libmalcontent",
+    "tag": "0.14.0",
+    "upstream": "https://gitlab.freedesktop.org/pwithnall/malcontent"
+  },
+  "rpcbind": {
+    "commit": "be1cdfa7500f96c684071cad874272e0e5a3a39a",
+    "recipeDirectory": "devario-core/rpcbind",
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/rpcbind"
+  },
+  "seafoam-keyring": {
+    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
+    "path": "packages/seafoam-keyring",
+    "recipeDirectory": "devario-installer/seafoam-keyring",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "xdg-dbus-proxy": {
+    "commit": "9d5f9bbe2e2896421f9e8220970610545423f586",
+    "recipeDirectory": "devario-core/xdg-dbus-proxy",
+    "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/xdg-dbus-proxy"
+  }
+}

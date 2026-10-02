@@ -1,0 +1,116 @@
+# Upstream recipe adapted from the Arch User Repository for Devario.
+
+pkgname=calamares
+pkgver=3.4.2
+pkgrel=6
+pkgdesc="Distribution-independent installer framework"
+arch=('x86_64')
+url="https://codeberg.org/Calamares/calamares"
+license=('GPL-3.0-or-later')
+depends=(
+  'ckbcomp'
+  'gcc-libs'
+  'glibc'
+  'icu'
+  'kcoreaddons'
+  'kcrash'
+  'kpmcore'
+  'libxcrypt'
+  'libpwquality'
+  'parted'
+  'polkit-qt6'
+  'python'
+  'qt6-base'
+  'qt6-declarative'
+  'qt6-svg'
+  'inter-font'
+  'noto-fonts'
+  'yaml-cpp'
+)
+makedepends=(
+  'cmake'
+  'extra-cmake-modules'
+  'libglvnd'
+  'ninja'
+  'qt6-tools'
+  'qt6-translations'
+)
+source=(
+  "${pkgname}-${pkgver}.tar.gz::${url}/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  '0001-devario-wayland-runtime.patch'
+  '0002-devario-pearl-appearance.patch'
+  'PearlStyle.cpp'
+  'PearlStyle.h'
+)
+sha256sums=(
+  '733bbbb00dc9f84874bd5c22960952f317ea2537565431179fa2152b2fbfdccc'
+  '878a1a0ce1d2eed87cb3ea4468c761ddadd2f981e6b1eaf74c942e4243374a5b'
+  '1b2557a24d8e6a89bdfa6ff287604d4910b0c384ab0ba3aa0435862b8c3c3f01'
+  'e38c14b4865a6a7d93f190933ab5d26d4cfba54d4b9fdf674d4a29829d5a6778'
+  '1393c59f7611b3ee93aaa68d899b5fb5ad8b20d3a244bc61ae712f2615eb29f8'
+)
+
+prepare() {
+  install -Dm644 "$srcdir/PearlStyle.cpp" "$srcdir/${pkgname}-${pkgver}/src/calamares/pearl/PearlStyle.cpp"
+  install -Dm644 "$srcdir/PearlStyle.h" "$srcdir/${pkgname}-${pkgver}/src/calamares/pearl/PearlStyle.h"
+  patch -d "$srcdir/${pkgname}-${pkgver}" -Np1 \
+    < "$srcdir/0002-devario-pearl-appearance.patch"
+  patch -d "$srcdir/${pkgname}-${pkgver}" -Np1 \
+    < "$srcdir/0001-devario-wayland-runtime.patch"
+}
+
+build() {
+  # Calamares logs source locations through __FILE__. Keep build-machine paths
+  # out of the binary while preserving useful upstream-relative diagnostics.
+  export CFLAGS+=" -ffile-prefix-map=$srcdir=/usr/src/debug/${pkgname}-${pkgver}"
+  export CXXFLAGS+=" -ffile-prefix-map=$srcdir=/usr/src/debug/${pkgname}-${pkgver}"
+
+  local skip_modules=(
+    dracut
+    dracutlukscfg
+    dummycpp
+    dummyprocess
+    dummypython
+    dummypythonqt
+    initramfs
+    initramfscfg
+    interactiveterminal
+    packages
+    packagechooser
+    packagechooserq
+    services-openrc
+  )
+
+  # Devario supplies its own complete configuration in the ISO overlay.
+  cmake \
+    -B build \
+    -S "$srcdir/${pkgname}-${pkgver}" \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DWITH_QT6=ON \
+    -DINSTALL_CONFIG=OFF \
+    -DSKIP_MODULES="${skip_modules[*]}" \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_BINDIR=/usr/bin \
+    -DKDE_INSTALL_SBINDIR=/usr/sbin \
+    -DKDE_INSTALL_LIBDIR=/usr/lib \
+    -DKDE_INSTALL_LIBEXECDIR=/usr/libexec \
+    -DKDE_INSTALL_INCLUDEDIR=/usr/include \
+    -DKDE_INSTALL_LOCALSTATEDIR=/var \
+    -DKDE_INSTALL_SHAREDSTATEDIR=/usr/share \
+    -DKDE_INSTALL_DATAROOTDIR=/usr/share \
+    -DKDE_INSTALL_DATADIR=/usr/share \
+    -DKDE_INSTALL_LOCALEDIR=/usr/share/locale \
+    -DKDE_INSTALL_MANDIR=/usr/share/man \
+    -DKDE_INSTALL_INFODIR=/usr/share/info \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -Wno-dev
+
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}

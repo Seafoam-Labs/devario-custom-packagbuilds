@@ -1,0 +1,38 @@
+# Library-only adaptation of Arch's malcontent recipe for Devario bootstrap.
+# Maintainer: Devario maintainers
+pkgname=libmalcontent
+pkgver=0.14.0
+pkgrel=5
+pkgdesc='Parental control library for applications'
+arch=('x86_64')
+url='https://gitlab.freedesktop.org/pwithnall/malcontent'
+license=('LGPL-2.1-or-later')
+depends=('accountsservice' 'glib2' 'glibc' 'libgcc')
+makedepends=('dbus' 'git' 'glib2-devel' 'gobject-introspection' 'meson' 'polkit' 'python')
+provides=('libmalcontent-0.so' 'libmalcontent-0.so=0-64')
+source=(
+  "git+https://gitlab.freedesktop.org/pwithnall/malcontent.git#tag=$pkgver"
+  '0001-library-only-bootstrap.patch'
+)
+b2sums=(
+  '7258122f1b593c7352b1847e2fecb29da7a1cf7438575d0050202977e0d35b925fc85d202bee093c20f86bd8471bf9e645792c637b82e6aede6cc49c31b40949'
+  '53d49b4eb035b562522682ff4af55c60ee680e076651fd0727f7bd0999b10cf79b5d4351f5b934716388957b027371244f748c4c1325ee54df0e7155a1670239'
+)
+
+prepare() {
+  patch -Np1 -d malcontent -i "$srcdir/0001-library-only-bootstrap.patch"
+}
+
+build() {
+  # Avoid the Flatpak UI cycle and unrelated daemon/subproject dependencies.
+  arch-meson malcontent build -Dlibrary_only=true -Dui=disabled -Dinstalled_tests=false
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/libmalcontent-0.so" \
+    | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/libmalcontent-0.so" \
+    | grep -Fq 'Library soname: [libmalcontent-0.so.0]' || return 1
+}

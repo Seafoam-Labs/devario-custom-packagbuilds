@@ -1,0 +1,418 @@
+{
+  "date": "2026-10-02",
+  "dependencyAudit": {
+    "localPackages": [
+      {
+        "depends": [
+          "glibc",
+          "libgcc",
+          "openssl"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "composefs",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "1.0.8-1"
+      },
+      {
+        "depends": [
+          "libverto-module-base",
+          "popt",
+          "ding-libs",
+          "systemd-libs",
+          "krb5",
+          "glibc"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "gssproxy",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "0.9.2-4"
+      },
+      {
+        "depends": [
+          "glibc",
+          "libtirpc",
+          "systemd-libs"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "rpcbind",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "1.3.1-3"
+      },
+      {
+        "depends": [
+          "glib2",
+          "glibc",
+          "libgcc"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "xdg-dbus-proxy",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "0.1.9-2"
+      },
+      {
+        "depends": [
+          "accountsservice",
+          "glib2",
+          "glibc",
+          "libgcc"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "libmalcontent",
+        "provides": [
+          "libmalcontent-0.so",
+          "libmalcontent-0.so=0-64"
+        ],
+        "repository": "local-recipe (unpublished)",
+        "version": "0.14.0-5"
+      },
+      {
+        "depends": [
+          "glibc"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "ding-libs",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "0.7.0-1"
+      },
+      {
+        "depends": [],
+        "filename": "NOT PUBLISHED",
+        "name": "inter-font",
+        "provides": [
+          "ttf-font"
+        ],
+        "repository": "local-recipe (unpublished)",
+        "version": "4.1-1"
+      },
+      {
+        "depends": [
+          "ckbcomp",
+          "gcc-libs",
+          "glibc",
+          "icu",
+          "kcoreaddons",
+          "kcrash",
+          "kpmcore",
+          "libxcrypt",
+          "libpwquality",
+          "parted",
+          "polkit-qt6",
+          "python",
+          "qt6-base",
+          "qt6-declarative",
+          "qt6-svg",
+          "inter-font",
+          "noto-fonts",
+          "yaml-cpp"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "calamares",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "3.4.2-6"
+      },
+      {
+        "depends": [
+          "perl",
+          "xkeyboard-config"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "ckbcomp",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "1.248-1"
+      },
+      {
+        "depends": [
+          "aqueous-core=1.0.0-1",
+          "aqueous-session=1.0.0-1",
+          "xdg-desktop-portal-aqueous=1.0.0-1",
+          "aqueous-integration-pearl=1.0.0-1",
+          "aqueous-shell-pearl=1.0.0-1",
+          "pearl",
+          "pearl-greeter-git",
+          "greetd",
+          "ghostty",
+          "nemo",
+          "firefox",
+          "networkmanager",
+          "pipewire",
+          "pipewire-alsa",
+          "pipewire-pulse",
+          "wireplumber",
+          "polkit",
+          "gnome-keyring",
+          "accountsservice",
+          "gvfs",
+          "udisks2",
+          "upower",
+          "brightnessctl",
+          "playerctl",
+          "bluez-utils",
+          "xdg-user-dirs",
+          "xdg-utils",
+          "noto-fonts",
+          "ttf-dejavu",
+          "linux-devario-headers",
+          "nvidia-open-dkms=615.71.09",
+          "nvidia-utils=615.71.09",
+          "vulkan-intel",
+          "vulkan-radeon",
+          "vulkan-swrast"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "devario-aqueous-desktop",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "1-8"
+      },
+      {
+        "depends": [
+          "devario-filesystem",
+          "gcc-libs",
+          "glibc",
+          "bash",
+          "coreutils",
+          "file",
+          "findutils",
+          "gawk",
+          "grep",
+          "procps-ng",
+          "sed",
+          "tar",
+          "gettext",
+          "pciutils",
+          "psmisc",
+          "shadow",
+          "util-linux",
+          "bzip2",
+          "gzip",
+          "xz",
+          "licenses",
+          "shelly>=3.1.6-2",
+          "devario-boot",
+          "devario-keyring",
+          "seafoam-keyring",
+          "systemd",
+          "systemd-sysvcompat",
+          "iputils",
+          "iproute2",
+          "curl",
+          "inxi",
+          "python",
+          "sudo"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "devario-base",
+        "provides": [
+          "base=3"
+        ],
+        "repository": "local-recipe (unpublished)",
+        "version": "3-8"
+      },
+      {
+        "depends": [
+          "devario-dracut=112",
+          "bash",
+          "coreutils",
+          "util-linux",
+          "kmod",
+          "limine",
+          "cryptsetup",
+          "lvm2",
+          "btrfs-progs",
+          "e2fsprogs",
+          "glibc",
+          "gawk",
+          "grep",
+          "findutils"
+        ],
+        "filename": "NOT PUBLISHED",
+        "name": "devario-boot",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "1-4"
+      },
+      {
+        "depends": [],
+        "filename": "NOT PUBLISHED",
+        "name": "devario-filesystem",
+        "provides": [
+          "filesystem=2026.09.23"
+        ],
+        "repository": "local-recipe (unpublished)",
+        "version": "1-1"
+      },
+      {
+        "depends": [],
+        "filename": "NOT PUBLISHED",
+        "name": "devario-keyring",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "20260923-1"
+      },
+      {
+        "depends": [],
+        "filename": "NOT PUBLISHED",
+        "name": "seafoam-keyring",
+        "provides": [],
+        "repository": "local-recipe (unpublished)",
+        "version": "20260923-1"
+      }
+    ],
+    "missingDirectBuildOrTest": {
+      "ding-libs": [
+        "check"
+      ],
+      "gssproxy": [
+        "po4a"
+      ]
+    },
+    "missingRuntime": {},
+    "scope": "Recipe metadata plus signed 2026-10-02 repository databases; not an installation or conflict check",
+    "selectedCount": 637
+  },
+  "recipes": {
+    "calamares": {
+      "localBuild": "not run; source and patches prepared",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "4baa477bcb143e63b74b288940489ca661e4575786a64365ed43824154312a9c",
+      "recipeDirectory": "devario-installer/calamares",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "ckbcomp": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "d86ca3ae00616397e63bcfdfbf118bd701c3a58316c424005ae3a93ebad5c65a",
+      "recipeDirectory": "devario-installer/ckbcomp",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "composefs": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "59b75bd680466691fd14c7ef82be6104305042de943ba09904b7bcbeac18d06d",
+      "recipeDirectory": "devario-core/composefs",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "devario-aqueous-desktop": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "b743b319ee5b0e93d7ef52045a756e472d8e9dfb05073c5521afb53e3ddc9666",
+      "recipeDirectory": "devario-installer/devario-aqueous-desktop",
+      "reviewFindings": 4,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "devario-base": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "7327901d4182f891a557fb80804780dbaf9b7d61223a0612febf516d4ffadace",
+      "recipeDirectory": "devario-installer/devario-base",
+      "reviewFindings": 33,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "devario-boot": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "f39f2fa2d96cedc4ead7fc18af1668c844e9272a93ddeec52e727cbac3a4e04a",
+      "recipeDirectory": "devario-installer/devario-boot",
+      "reviewFindings": 33,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "devario-filesystem": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "99c7b5dfa574ffbbe8d6d44b6c2b896f0e0647f826eb69c5ad01a961288c3077",
+      "recipeDirectory": "devario-installer/devario-filesystem",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "devario-keyring": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "1cf119535f3b0ecb6a917715522302bbac7c9aef2c352a3445bdd983d1d9cb74",
+      "recipeDirectory": "devario-installer/devario-keyring",
+      "reviewFindings": 1,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "ding-libs": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "743d90eb6fa7a45bae6dfd9dbfb2b4de7bc33ed64bb2d0d5668ae503588e906d",
+      "recipeDirectory": "devario-core/ding-libs",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "gssproxy": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "34ae467ba5f915fb887aa49ad1b0a6a31806315d791cc794ba2d4b0542d06dbb",
+      "recipeDirectory": "devario-core/gssproxy",
+      "reviewFindings": 1,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "inter-font": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "9d93e9225c010e58fd9b23437f980e6a7d134b4766b870723fe0ba9f30d699e1",
+      "recipeDirectory": "devario-core/inter-font",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "libmalcontent": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "030d7b4e5b801bd73fb3b5643062a70483cdd2d754ae01fc6c9632c95f85e91b",
+      "recipeDirectory": "devario-core/libmalcontent",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "rpcbind": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "d7378429257b917412b2417e1c5d73862b42ca1c42a20af4f44789fb40bdd29d",
+      "recipeDirectory": "devario-core/rpcbind",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "seafoam-keyring": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "39101da8925a6d3fbbbcbffc85e1187d42d4846b24730abb16b21741e4c9c24e",
+      "recipeDirectory": "devario-installer/seafoam-keyring",
+      "reviewFindings": 1,
+      "sources": "verified",
+      "syntax": "passed"
+    },
+    "xdg-dbus-proxy": {
+      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
+      "metadata": "makepkg and Shelly agree",
+      "pkgbuildSha256": "7238a9bae56fa651be3e29f61d0b5c0df0647ce4bc7be8a20265cb4aa5b2216a",
+      "recipeDirectory": "devario-core/xdg-dbus-proxy",
+      "reviewFindings": 0,
+      "sources": "verified",
+      "syntax": "passed"
+    }
+  },
+  "scope": "Local recipe validation; no publication, isolated worker build, or ISO acceptance"
+}

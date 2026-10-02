@@ -1,0 +1,26 @@
+pkgbase = libmalcontent
+	pkgdesc = Parental control library for applications
+	pkgver = 0.14.0
+	pkgrel = 5
+	url = https://gitlab.freedesktop.org/pwithnall/malcontent
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = dbus
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = meson
+	makedepends = polkit
+	makedepends = python
+	depends = accountsservice
+	depends = glib2
+	depends = glibc
+	depends = libgcc
+	provides = libmalcontent-0.so
+	provides = libmalcontent-0.so=0-64
+	source = git+https://gitlab.freedesktop.org/pwithnall/malcontent.git#tag=0.14.0
+	source = 0001-library-only-bootstrap.patch
+	b2sums = 7258122f1b593c7352b1847e2fecb29da7a1cf7438575d0050202977e0d35b925fc85d202bee093c20f86bd8471bf9e645792c637b82e6aede6cc49c31b40949
+	b2sums = 53d49b4eb035b562522682ff4af55c60ee680e076651fd0727f7bd0999b10cf79b5d4351f5b934716388957b027371244f748c4c1325ee54df0e7155a1670239
+
+pkgname = libmalcontent

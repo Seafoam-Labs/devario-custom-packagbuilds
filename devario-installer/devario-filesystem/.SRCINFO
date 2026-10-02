@@ -1,0 +1,28 @@
+pkgbase = devario-filesystem
+	pkgdesc = Devario filesystem hierarchy and distribution identity
+	pkgver = 1
+	pkgrel = 1
+	url = https://github.com/Seafoam-Labs/devario-os
+	arch = any
+	license = GPL-3.0-or-later
+	provides = filesystem=2026.09.23
+	conflicts = filesystem
+	replaces = filesystem
+	backup = etc/os-release
+	backup = etc/issue
+	backup = etc/hosts
+	backup = etc/fstab
+	backup = etc/crypttab
+	backup = etc/passwd
+	backup = etc/group
+	backup = etc/shadow
+	backup = etc/gshadow
+	backup = etc/nsswitch.conf
+	backup = etc/profile
+	backup = etc/shells
+	backup = etc/ld.so.conf
+	backup = etc/resolv.conf
+	backup = etc/subuid
+	backup = etc/subgid
+
+pkgname = devario-filesystem

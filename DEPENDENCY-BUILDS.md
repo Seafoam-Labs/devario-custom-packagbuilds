@@ -10,6 +10,90 @@ Those links record recipe provenance.
 Each directory includes its PKGBUILD, generated `.SRCINFO`, and required local
 source files. Copy whole directories to the Remora worker.
 
+## Remaining ISO runtime and OS-owned recipes
+
+General runtime recipes are available under `devario-core/`:
+
+| Directory | Version | Build/publish order |
+| --- | --- | --- |
+| `composefs` | 1.0.8-1 | Before provisioning ostree/Flatpak consumers |
+| `ding-libs` | 0.7.0-1 | Before GSSProxy; an additional missing runtime dependency |
+| `gssproxy` | 0.9.2-4 | After ding-libs; before NFS consumers |
+| `rpcbind` | 1.3.1-3 | Before NFS consumers |
+| `libmalcontent` | 0.14.0-5 | Before Flatpak; library-only bootstrap avoids the Flatpak UI cycle |
+| `xdg-dbus-proxy` | 0.1.9-2 | Before Flatpak; declares D-Bus for its tests |
+| `inter-font` | 4.1-1 | Existing recipe; publish before Calamares |
+
+OS-owned live USB and installer recipes are in
+[`devario-installer/`](devario-installer/README.md):
+
+| Directory | Version | Build/publish order |
+| --- | --- | --- |
+| `devario-filesystem` | 1-1 | Before OS metapackages |
+| `devario-keyring` | 20260923-1 | Before OS metapackages |
+| `seafoam-keyring` | 20260923-1 | Before OS metapackages |
+| `devario-boot` | 1-4 | Before devario-base; requires published devario-dracut |
+| `devario-base` | 3-8 | After filesystem, boot, and both keyrings |
+| `devario-aqueous-desktop` | 1-8 | Requires the five published Aqueous 1.0.0-1 components |
+| `ckbcomp` | 1.248-1 | Before Calamares |
+| `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |
+
+The eight OS-owned directories in `devario-installer/` are self-contained copies from `devario-os`
+commit `63f329223e0851a5f05519b849bb250d560833e2`. All referenced hooks,
+configuration, patches, desktop files, and public key material are included.
+The desktop recipe's Aqueous pins and Calamares's explicit CMake dependency
+are updated in this package repository. The original OS checkout is unchanged;
+these copies do not automatically synchronize with it. Exact provenance is in
+[iso-packages-upstream.json](devario-core/iso-packages-upstream.json).
+
+These copies are an alternative worker build route. The OS repository's
+`scripts/build-packages.sh` and `scripts/build-packages-nspawn.sh` can also build
+the OS-owned packages from their own recipes. The ISO assembler consumes
+completed signed packages in the staged `devario-core` closure; it does not
+compile PKGBUILDs. Public repository publication is not required for a local
+ISO, but the staged repository must contain the required artifacts, dependencies,
+and matching signed metadata.
+The `devario-installer/` source folder does not change that binary repository name.
+
+Review and build each complete recipe directory, publishing and refreshing
+the worker repository between prerequisite stages:
+
+```sh
+gpg --import devario-core/ding-libs/keys/pgp/*.asc
+shelly build --review-only --json ./devario-core/ding-libs/PKGBUILD
+shelly build --isolated --check ./devario-core/ding-libs/PKGBUILD
+```
+
+GSSProxy still declares the missing build dependency `po4a` for translated
+documentation. Ding-libs declares missing test dependency `check`; its configure
+script otherwise omits some tests. These were absent from the inspected signed
+2026-10-02 databases and are not runtime dependencies of the ISO.
+
+Validation: all sources pass their declared checksums, including the signed
+ding-libs release. Local makepkg builds succeeded for all listed recipes except
+Calamares, whose source verification and both patches passed preparation.
+Composefs's six Meson tests and the D-Bus proxy suite passed outside the sandbox,
+where temporary directories and local sockets are available. Ding-libs passed
+14 tests without its optional Check-based coverage. GSSProxy's upstream
+`test_proxymech` target built; its local build lacked po4a translations.
+Libmalcontent built using temporary GLib development tools and its GIR typelib
+loaded successfully; the library-only bootstrap deliberately omits upstream
+documentation and test targets. Full isolated worker builds and an ISO install
+remain unverified.
+
+Shelly review findings in the imported OS sources were inspected: runtime boot,
+GPU, and migration scripts contain command substitutions; `devario-report.sh`
+uses sudo when invoked to collect system logs. Packaging installs these files
+without executing them. The keyring findings identify binary public-key data:
+both bundles match the OS source and contain no secret-key packets. GSSProxy's
+remaining warning is backtick notation in an upstream patch description.
+
+After including these recipes, the metadata audit selects 637 packages with
+zero missing runtime requirements against the inspected signed databases.
+This is a dependency-name/version check, not proof of conflict-free installation
+or ISO readiness. The Shelly assembler integration and builder provisioning
+issues from the readiness audit still require separate work.
+
 ## ISO runtime packages added on 2026-10-02
 
 | Recipe | Outputs | Purpose |
