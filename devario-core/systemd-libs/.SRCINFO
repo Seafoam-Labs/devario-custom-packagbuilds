@@ -1,0 +1,31 @@
+pkgbase = systemd-libs
+	pkgdesc = systemd client libraries (bootstrap build)
+	pkgver = 262
+	pkgrel = 5.1
+	url = https://github.com/systemd/systemd
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	license = CC0-1.0
+	license = GPL-2.0-or-later WITH Linux-syscall-note
+	makedepends = gperf
+	makedepends = meson
+	makedepends = ninja
+	makedepends = python-jinja
+	depends = glibc
+	depends = libgcc
+	depends = libgcc_s.so
+	depends = libgcrypt
+	depends = lz4
+	depends = xz
+	depends = zstd
+	provides = libsystemd
+	provides = libsystemd.so
+	provides = libsystemd.so=0-64
+	provides = libudev.so
+	provides = libudev.so=1-64
+	conflicts = libsystemd
+	replaces = libsystemd
+	source = systemd-262.tar.gz::https://codeload.github.com/systemd/systemd/tar.gz/refs/tags/v262
+	sha256sums = 6aa77506c0644aa67f940a48e3d3a7368601f787e4f249139516d353f107bcab
+
+pkgname = systemd-libs

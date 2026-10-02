@@ -1,6 +1,6 @@
 pkgbase = systemd
 	pkgver = 262
-	pkgrel = 6
+	pkgrel = 7
 	url = https://www.github.com/systemd/systemd
 	arch = x86_64
 	license = LGPL-2.1-or-later
@@ -52,7 +52,7 @@ pkgbase = systemd
 	makedepends = qrencode
 	makedepends = lib32-gcc-libs
 	makedepends = python-pefile
-	makedepends = linux-headers
+	makedepends = linux-devario-headers
 	conflicts = mkinitcpio<38-1
 	source = git+https://github.com/systemd/systemd#tag=v262?signed
 	source = 0001-Use-Arch-Linux-device-access-groups.patch
@@ -213,8 +213,8 @@ pkgname = systemd-tests
 	depends = python-pexpect
 	depends = python-pytest
 	depends = python-psutil
-	depends = systemd=262-6
-	depends = systemd-libs=262-6
+	depends = systemd=262-7
+	depends = systemd-libs=262-7
 
 pkgname = systemd-ukify
 	pkgdesc = Combine kernel and initrd into a signed Unified Kernel Image

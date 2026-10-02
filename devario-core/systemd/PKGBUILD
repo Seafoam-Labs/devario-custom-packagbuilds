@@ -20,7 +20,7 @@ pkgname=('systemd'
 # way or another. We use proper version for pacman here (no dash for rc
 # release!), and change in source array below.
 pkgver=262
-pkgrel=6
+pkgrel=7
 arch=('x86_64')
 license=('LGPL-2.1-or-later')
 url='https://www.github.com/systemd/systemd'
@@ -31,7 +31,7 @@ makedepends=('acl' 'apparmor' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
              'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync'
              'bpf' 'libbpf' 'clang' 'llvm' 'curl' 'gnutls' 'python-pyelftools'
-             'libpwquality' 'qrencode' 'lib32-gcc-libs' 'python-pefile' 'linux-headers')
+             'libpwquality' 'qrencode' 'lib32-gcc-libs' 'python-pefile' 'linux-devario-headers')
 conflicts=("mkinitcpio<38-1")
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
@@ -162,7 +162,7 @@ build() {
     -Dsshdprivsepdir=/usr/share/empty.sshd
     -Dsysupdated=enabled
     -Dvmlinux-h=provided
-    -Dvmlinux-h-path=/usr/src/linux/vmlinux.h
+    -Dvmlinux-h-path=/usr/src/linux-devario/vmlinux.h
 
     -Dcompat-sysv-interfaces=false
     -Ddbuspolicydir=/usr/share/dbus-1/system.d

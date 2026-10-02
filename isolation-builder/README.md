@@ -83,6 +83,14 @@ shelly build --isolated --check ./isolation-builder/m4/PKGBUILD
 Publish the resulting packages and refresh the repository database before using
 them to satisfy dependencies of subsequent isolated builds.
 
+For the libfido2/libudev bootstrap cycle, use the standalone
+[systemd-libs recipe](../devario-core/systemd-libs/PKGBUILD) under `devario-core`.
+If its own isolated root cannot be provisioned, build it once on a working host
+without `--isolated`, publish the package, and refresh the worker repository.
+Then build the full [systemd recipe](../devario-core/systemd/PKGBUILD) in isolation. See the
+[ABI build guide](../ABI-BUILDS.md#libfido2-and-bpf-build-root-providers) for build
+order and validation.
+
 ## Validation
 
 The original 17-directory import was validated as follows:

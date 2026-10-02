@@ -239,10 +239,73 @@ packaged ELF64 SONAME before publishing. Rebuild and publish the providers and
 refresh the worker repository; existing package metadata will not change just
 by updating these recipes.
 
-Systemd itself build-depends on libfido2 and BPF, so the systemd build root needs
-an existing compatible libudev provider to bootstrap this dependency cycle.
-Build binutils first to supply libsframe. Recipe syntax and generated metadata
-were checked; full builds and isolated provisioning remain unverified.
+Systemd release `262-7` uses `linux-devario-headers` instead of `linux-headers`
+and reads its BPF type header from `/usr/src/linux-devario/vmlinux.h`. The
+published `linux-devario-headers-7.2.8-1.1` archive was checked against its
+repository SHA-256 on 2026-10-01 and contains that header through its
+`/usr/src/linux-devario` symlink. The separate `linux-api-headers` dependency
+continues to supply userspace kernel headers. This corrects kernel selection;
+the worker's generic `FileConflicts` message does not identify the conflicting
+paths or establish that the header package caused the provisioning failure.
+
+Systemd itself build-depends on libfido2 and BPF. To break the libfido2/libudev
+cycle, build and publish the standalone
+[systemd-libs bootstrap](devario-core/systemd-libs/PKGBUILD) first. It
+produces `systemd-libs-262-5.1` with both versioned ABI provisions without declaring
+systemd, libfido2, PAM, or BPF as recipe dependencies. The published `262-1`
+package was checked on 2026-10-01 and had only the bare library provisions.
+
+For the reported failure while provisioning the bootstrap's own isolated root,
+build this package once outside isolation on an existing compatible build host
+with its build tools and dependencies installed. Shelly provisions baseline
+packages independently of the recipe: its RLPM-only profile explicitly includes
+systemd, while its libalpm-enabled profile installs base and base-devel. Removing
+systemd from the recipe therefore does not remove it from the isolated root.
+The new package's ABI provisions and file ownership fixes cannot take effect
+until its archive has been built and published. Use the worker's target CPU
+flags when preparing that archive.
+
+Refresh the worker repository after publishing the bootstrap libraries. Build
+binutils to supply libsframe if needed, then rebuild the full systemd split
+set. Its `262-7` release replaces the temporary `262-5.1` libraries package.
+The bootstrap also ships NSS modules, headers, and pkg-config files; normal
+systemd daemons and documentation continue to come from the full build.
+
+Use bootstrap release `262-5.1` or later: the original `262-5` included
+`/usr/share/pkgconfig/systemd.pc` and `udev.pc`, which are owned by the main
+systemd package and caused `FileConflicts` during provisioning. The corrected
+bootstrap retains only the library-specific pkg-config files.
+
+Both are independent recipes under `devario-core`; no mode switch is needed.
+The bootstrap uses a SHA-256-pinned upstream source archive and builds only the
+client libraries, four NSS modules, headers, and library pkg-config files. Its
+build dependencies are gperf, Meson, Ninja, and Python/Jinja; journal compression
+and gcrypt support remain enabled.
+
+```sh
+shelly build --review-only --json ./devario-core/systemd-libs/PKGBUILD
+# Initial bootstrap on a working host; omit --isolated.
+shelly build ./devario-core/systemd-libs/PKGBUILD
+# Publish systemd-libs 262-5.1 and refresh the worker repository.
+shelly build --isolated --check ./devario-core/systemd/PKGBUILD
+```
+
+Once provisioning succeeds with the corrected repository packages, the
+standalone systemd-libs recipe can also be built in isolation. A `FileConflicts`
+failure that persists after publishing the corrected archive needs the actual
+conflicting paths; the generic `rlpm` subject does not identify them.
+
+The bootstrap source archive passed its SHA-256 check. A native makepkg build
+produced `systemd-libs-262-5.1-x86_64.pkg.tar.zst` with both versioned ABI
+provisions. Gperf was extracted from the host package cache into `/tmp`;
+`--nodeps` allowed that temporary tool without installing host packages.
+The rebuilt archive has no file overlaps with `systemd-262-1`; all 31 payload
+files belong to the normal systemd-libs package. All six libraries have the
+expected SONAMEs and do not link to the private libsystemd-shared library.
+A C consumer compiled against the packaged headers and ran with the new
+libudev and libsystemd. Bash syntax, makepkg/Shelly metadata, and Shelly review
+passed. The bootstrap disables the upstream test suite; full systemd builds
+and isolated provisioning remain unverified.
 
 ## MariaDB and PostgreSQL dependency providers
 

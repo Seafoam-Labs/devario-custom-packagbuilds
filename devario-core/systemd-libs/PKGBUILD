@@ -1,0 +1,54 @@
+# Bootstrap the client libraries without systemd's libfido2/PAM build cycle.
+pkgname=systemd-libs
+pkgver=262
+# Supersede the published 262-1; the full systemd recipe's 262-7 replaces this.
+pkgrel=5.1
+pkgdesc='systemd client libraries (bootstrap build)'
+arch=('x86_64')
+url='https://github.com/systemd/systemd'
+license=('LGPL-2.1-or-later' 'CC0-1.0' 'GPL-2.0-or-later WITH Linux-syscall-note')
+depends=('glibc' 'libgcc' 'libgcc_s.so' 'libgcrypt' 'lz4' 'xz' 'zstd')
+makedepends=('gperf' 'meson' 'ninja' 'python-jinja')
+provides=('libsystemd' 'libsystemd.so' 'libsystemd.so=0-64'
+          'libudev.so' 'libudev.so=1-64')
+conflicts=('libsystemd')
+replaces=('libsystemd')
+source=("systemd-${pkgver}.tar.gz::https://codeload.github.com/systemd/systemd/tar.gz/refs/tags/v${pkgver}")
+sha256sums=('6aa77506c0644aa67f940a48e3d3a7368601f787e4f249139516d353f107bcab')
+
+build() {
+  arch-meson "systemd-$pkgver" build \
+    --auto-features=disabled \
+    -Dmode=release \
+    -Dversion-tag="$pkgver-$pkgrel" \
+    -Dvcs-tag=false \
+    -Dtests=false \
+    -Dinstall-tests=false \
+    -Dtranslations=false \
+    -Defi=false \
+    -Dgcrypt=enabled \
+    -Dlz4=enabled \
+    -Dxz=enabled \
+    -Dzstd=enabled \
+    -Dnss-myhostname=true \
+    -Dnss-mymachines=enabled \
+    -Dnss-resolve=enabled \
+    -Dnss-systemd=true
+  meson compile -C build libsystemd libudev nss devel
+}
+
+package() {
+  # Install only libraries and development files, without rebuilding daemons.
+  DESTDIR="$pkgdir" meson install -C build --no-rebuild \
+    --tags libsystemd,libudev,nss,devel
+  # These daemon metadata files belong to systemd, not systemd-libs.
+  rm "$pkgdir/usr/share/pkgconfig/"{systemd,udev}.pc
+  rmdir "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/share"
+  _verify_soname "$pkgdir/usr/lib/libsystemd.so" libsystemd.so.0 || return 1
+  _verify_soname "$pkgdir/usr/lib/libudev.so" libudev.so.1 || return 1
+}
+
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
