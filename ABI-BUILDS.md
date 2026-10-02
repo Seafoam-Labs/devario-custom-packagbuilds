@@ -450,3 +450,60 @@ DejaGNU's `runtest`, so it did not reproduce the worker's training conditions.
 The recipe retains full-log capture and failure diagnostics. Use a clean build
 root for the worker retry. This local build does not verify isolated worker
 provisioning or replace the upstream test suite.
+
+## Image codec providers for chafa and libheif
+
+| Recipe | Output package | Version | Explicit ABI provisions |
+| --- | --- | --- | --- |
+| [aom](devario-core/aom/PKGBUILD) | `aom` | `3.15.1-2` | `libaom.so=3-64` |
+| [libwebp](devario-core/libwebp/PKGBUILD) | `libwebp` | `1.6.0-3` | `libsharpyuv.so=0-64`, `libwebp.so=7-64`, `libwebpdecoder.so=3-64`, `libwebpdemux.so=2-64`, `libwebpmux.so=3-64` |
+| [x264](devario-core/x264/PKGBUILD) | `x264` | `3:0.165.r3222.b35605a-3` | `libx264.so=165-64` |
+| [x265](devario-core/x265/PKGBUILD) | `x265` | `4.3-2` | `libx265.so=217-64` |
+
+Harfbuzz build-depends on `chafa`, which requires `libheif`, whose Arch metadata
+requires all eight provisions above. The published copies of these four packages
+carried only bare `.so` provisions, so the harfbuzz isolated root failed with
+`UnsatisfiedDependencies` before compiling anything. Resolution takes the
+provisions of the same-named package from the highest priority repository, which
+hid Arch's versioned values; `libopenh264.so=8-64` and `libde265` resolved
+because no repository package of those names exists. Other repository packages
+with the same gap will fail the same way for any Arch dependent that names a
+versioned provision, so a `PROVIDES` diff against Arch's databases is the check
+that finds them.
+
+The recipes come from the official Arch packaging repositories for
+[aom](https://gitlab.archlinux.org/archlinux/packaging/packages/aom),
+[libwebp](https://gitlab.archlinux.org/archlinux/packaging/packages/libwebp),
+[x264](https://gitlab.archlinux.org/archlinux/packaging/packages/x264), and
+[x265](https://gitlab.archlinux.org/archlinux/packaging/packages/x265), keeping
+their patches, checksums, split packages, `validpgpkeys`, and x264's
+commit-pinned Git source. Import the two signing keys as the build account after
+checking the fingerprints in `validpgpkeys`:
+`B002F08B74A148DAA01F7123A48E86DB0B830498` (AOMedia) and
+`6B0E6B70976DE303EDF2F601F9C3D6BDB8232B5D` (WebP).
+
+None of the four depends on the others, so build them in any order, publish all
+four, refresh the worker repository, and only then retry harfbuzz:
+
+```sh
+for r in aom libwebp x264 x265; do
+  shelly build --review-only --json ./devario-core/$r/PKGBUILD
+  shelly build --isolated --check ./devario-core/$r/PKGBUILD
+done
+```
+
+Confirm each archive's `.PKGINFO` carries the versioned provisions before
+publishing, then check the refreshed repository database. `aom-docs` and
+`libwebp-utils` are already published, so the four recipes produce six
+replacement archives.
+
+Validation: all four pass Bash syntax checks, generate `.SRCINFO` carrying both
+bare and versioned provisions, and complete Shelly review. The only findings are
+two warnings about the `$(nproc)` substitution in libwebp's upstream `check()`.
+Both bundled patches match their declared upstream checksums, and both exported
+keys match the fingerprints in `validpgpkeys`. Every ABI helper accepts the
+matching host library and rejects a wrong SONAME. A libalpm transaction for
+`chafa` against a copy of the repository database carrying these provisions
+resolves, with all four satisfied by the repository copies rather than Arch's.
+Full package builds, isolated provisioning, and the harfbuzz retry have not been
+run.
