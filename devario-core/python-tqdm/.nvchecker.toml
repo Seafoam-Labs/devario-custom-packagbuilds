@@ -1,0 +1,3 @@
+[python-tqdm]
+source = "pypi"
+pypi = "tqdm"

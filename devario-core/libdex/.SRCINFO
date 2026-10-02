@@ -1,0 +1,33 @@
+pkgbase = libdex
+	pkgdesc = A library supporting deferred execution
+	pkgver = 1.2.0
+	pkgrel = 1
+	url = https://gitlab.gnome.org/GNOME/libdex
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = dbus
+	makedepends = gi-docgen
+	makedepends = glib2-devel>=2.87
+	makedepends = gobject-introspection
+	makedepends = libsoup3
+	makedepends = meson
+	makedepends = ninja
+	makedepends = pkgconf
+	makedepends = vala
+	depends = glib2>=2.87
+	depends = glibc
+	depends = libatomic
+	depends = libgcc
+	depends = liburing
+	depends = libsysprof-capture
+	depends = python
+	depends = python-gobject
+	source = https://download.gnome.org/sources/libdex/1.2/libdex-1.2.0.tar.xz
+	sha256sums = 69f5b244c21f6402831c3ab8af85a01772f72fb118677388436f12f32bfb06d9
+
+pkgname = libdex
+	provides = libdex-1.so=1-64
+
+pkgname = libdex-docs
+	pkgdesc = A library supporting deferred execution (documentation)
+	depends = 

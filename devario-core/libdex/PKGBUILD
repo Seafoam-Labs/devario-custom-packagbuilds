@@ -1,0 +1,66 @@
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
+
+pkgbase=libdex
+pkgname=(libdex libdex-docs)
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="A library supporting deferred execution"
+url="https://gitlab.gnome.org/GNOME/libdex"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  'glib2>=2.87'
+  glibc
+  libatomic
+  libgcc
+  liburing
+  libsysprof-capture
+  python
+  python-gobject
+)
+makedepends=(
+  gi-docgen
+  'glib2-devel>=2.87'
+  gobject-introspection
+  libsoup3
+  meson
+  ninja
+  pkgconf
+  vala
+)
+checkdepends=(dbus)
+source=("https://download.gnome.org/sources/libdex/${pkgver%.*}/libdex-$pkgver.tar.xz")
+sha256sums=('69f5b244c21f6402831c3ab8af85a01772f72fb118677388436f12f32bfb06d9')
+
+build() {
+  arch-meson "libdex-$pkgver" build -D docs=true -D sysprof=true
+  meson compile -C build
+}
+
+check() {
+  dbus-run-session meson test -C build --print-errorlogs
+}
+
+package_libdex() {
+  provides=('libdex-1.so=1-64')
+
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libdex-1.so" libdex-1.so.1
+
+  mkdir -p "$srcdir/doc/usr/share"
+  mv "$pkgdir/usr/share/doc" "$srcdir/doc/usr/share/"
+}
+
+package_libdex-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+  mv "$srcdir/doc/"* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

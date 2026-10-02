@@ -1,0 +1,3 @@
+[libdex]
+source = "gnome"
+gnome = "libdex"

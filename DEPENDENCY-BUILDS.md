@@ -20,6 +20,10 @@ versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 
 | Build directory | Requested packages or provisions |
 | --- | --- |
+| [qt5-base](devario-core/qt5-base/PKGBUILD) | `qt5-base` and matching `qt5-xcb-private-headers` 5.15.19+kde+r96 |
+| [libdex](devario-core/libdex/PKGBUILD) | `libdex` 1.2.0, providing `libdex-1.so=1-64`; also produces `libdex-docs` |
+| [python-tqdm](devario-core/python-tqdm/PKGBUILD) | `python-tqdm` 4.70.1, required by the local Meson recipe |
+| [ministream](devario-core/ministream/PKGBUILD) | `ministream` 0.99.1, providing `libministream.so=1-64` for consumers such as libadwaita |
 | [inter-font](devario-core/inter-font/PKGBUILD) | `inter-font`, supplying the Pearl installer’s Inter font family |
 | [glycin](devario-core/glycin/PKGBUILD) | `glycin` 2.2.1 for gdk-pixbuf requiring `glycin-2 >= 2.2.alpha.7`; also produces GTK4 integration and documentation |
 | [gtksourceview5](gtksourceview5/PKGBUILD) | `gtksourceview5` (also produces documentation) |
@@ -36,6 +40,11 @@ For the gdk-pixbuf error finding glycin 2.1.0, follow the
 [glycin build guide](devario-core/glycin/README.md). Build and publish glycin
 2.2.1 first, refresh the worker repository, then retry gdk-pixbuf in a fresh
 isolated root. Its worker recipe should require `glycin>=2.2.1`.
+
+If Shelly lists `ministream` before refusing an AUR dependency step in an
+isolated build, follow the [ministream build guide](devario-core/ministream/README.md).
+Build and publish ministream to the worker repository first, refresh its
+database, and retry the dependent package in a fresh isolated root.
 
 For NVIDIA's binary utilities, see the [nvidia-utils build guide](nvidia-utils/README.md)
 for separate validation results and driver integration requirements. This recipe

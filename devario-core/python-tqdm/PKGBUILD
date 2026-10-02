@@ -1,0 +1,68 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Robin Candau <antiz@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
+
+pkgname=python-tqdm
+pkgver=4.70.1
+pkgrel=1
+pkgdesc='Fast, extensible progress meter for Python and the command line'
+arch=(any)
+url='https://github.com/tqdm/tqdm'
+license=(MIT MPL-2.0)
+depends=(python)
+makedepends=(
+  python-build
+  python-installer
+  python-setuptools
+  python-setuptools-scm
+)
+checkdepends=(
+  python-pytest
+  python-pytest-asyncio
+  python-pytest-timeout
+)
+source=("https://files.pythonhosted.org/packages/source/t/tqdm/tqdm-$pkgver.tar.gz")
+sha256sums=('cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4')
+
+build() {
+  cd "$srcdir/tqdm-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$srcdir/tqdm-$pkgver"
+  rm -rf "$srcdir/test-install"
+  python -m installer --destdir="$srcdir/test-install" dist/*.whl
+  cp -r tests pyproject.toml "$srcdir/test-install/"
+  local site_packages
+  site_packages=$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')
+
+  # Exercise the built wheel without pulling in GUI/notebook/data-science stacks.
+  # Keep test helpers importable in spawned multiprocessing workers.
+  cd "$srcdir/test-install"
+  # Separate processes avoid upstream tests leaking global locks between modules.
+  local test_module
+  for test_module in \
+    tests/tests_asyncio.py \
+    tests/tests_concurrent.py \
+    tests/tests_contrib.py \
+    tests/tests_contrib_logging.py \
+    tests/tests_itertools.py \
+    tests/tests_main.py \
+    tests/tests_rlock.py \
+    tests/tests_synchronisation.py \
+    tests/tests_tqdm.py \
+    tests/tests_utils.py \
+    tests/tests_version.py; do
+    PYTHONPATH="$srcdir/test-install$site_packages${PYTHONPATH:+:$PYTHONPATH}" \
+      python -m pytest --import-mode=importlib "$test_module" || return
+  done
+}
+
+package() {
+  cd "$srcdir/tqdm-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENCE "$pkgdir/usr/share/licenses/$pkgname/LICENCE"
+  install -Dm644 tqdm/completion.sh "$pkgdir/usr/share/bash-completion/completions/tqdm"
+  install -Dm644 tqdm/tqdm.1 "$pkgdir/usr/share/man/man1/tqdm.1"
+}

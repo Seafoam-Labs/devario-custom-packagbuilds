@@ -1,0 +1,47 @@
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
+
+pkgname=ministream
+pkgver=0.99.1
+pkgrel=1
+pkgdesc="Lightweight alternative to AppStream"
+url="https://gitlab.gnome.org/GNOME/ministream"
+arch=(x86_64)
+license=(LGPL-2.1-only)
+depends=(glibc glib2)
+makedepends=(
+  appstream
+  git
+  glib2-devel
+  gobject-introspection
+  libxml2
+  meson
+  ninja
+  pkgconf
+)
+provides=('libministream.so=1-64')
+source=("git+https://gitlab.gnome.org/GNOME/ministream.git?signed#tag=$pkgver")
+b2sums=('2eda0968342c4513ce293713e3764821c81e37185cb8a2a47294c565512cf6605dbcc96f959b961dc8472d97a2fc70e43d5af25ea27f044c404bdc3a86de8d88')
+validpgpkeys=(
+  BBDE032EAAFBFC627FB7E635B1F4055D8460CE34 # Florian Leander Singer (sp1rit)
+)
+
+build() {
+  arch-meson ministream build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libministream.so" libministream.so.1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
