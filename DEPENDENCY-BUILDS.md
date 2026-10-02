@@ -14,7 +14,7 @@ source files. Copy whole directories to the Remora worker.
 
 | Recipe | Outputs | Purpose |
 | --- | --- | --- |
-| [flatpak](devario-core/flatpak/PKGBUILD) | `flatpak` and `flatpak-docs` 1:1.18.4-2 | Shelly's Flatpak backend |
+| [flatpak](devario-core/flatpak/PKGBUILD) | `flatpak` and `flatpak-docs` 1:1.18.4-3 | Shelly's Flatpak backend |
 | [inxi](devario-core/inxi/PKGBUILD) | `inxi` 3.3.41.1-3 | Devario system reports |
 | [nbd](devario-core/nbd/PKGBUILD) | `nbd` 3.27.1-4 | Live image network block devices |
 | [nfs-utils](devario-core/nfs-utils/PKGBUILD) | `nfs-utils` and `nfsidmap` 3.1.1-2 | Live image NFS support |
@@ -76,8 +76,10 @@ missing declared `autoconf-archive` dependency. Flatpak, NFS, TPM, and complete
 NBD builds have not been run. Isolated worker builds remain required.
 
 Flatpak and NBD retain Arch's disabled integration-test policy because those
-tests hang or fail in package-build containers. Flatpak does not request unused
-check dependencies. An invocation with `--check` does not provide runtime or
+tests hang or fail in package-build containers. Flatpak release 3 explicitly
+disables test compilation and installation through Meson; omitting `check()`
+alone left `socat` required at configure time in release 2. An invocation with
+`--check` does not provide runtime or
 network-device acceptance for either package.
 
 For curl, GPGME, libarchive, OpenSSL, XZ, MPFR, ncurses, readline, xxHash,

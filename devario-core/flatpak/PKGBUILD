@@ -9,7 +9,7 @@ pkgname=(
   flatpak-docs
 )
 pkgver=1.18.4
-pkgrel=2
+pkgrel=3
 epoch=1
 pkgdesc="Linux application sandboxing and distribution framework (formerly xdg-app)"
 url="https://flatpak.org"
@@ -73,6 +73,9 @@ validpgpkeys=(
 
 build() {
   local meson_options=(
+    # Tests are enabled upstream by default and require socat at configure time.
+    -D tests=false
+    -D installed_tests=false
     -D selinux_module=disabled
     -D system_bubblewrap=bwrap
     -D system_dbus_proxy=xdg-dbus-proxy
@@ -83,7 +86,8 @@ build() {
 }
 
 # Upstream integration tests hang in package-build containers. Retain Arch's
-# disabled check policy; exercise sandbox installation on the target system.
+# disabled check policy and disable their build above; exercise sandbox
+# installation on the target system.
 
 _pick() {
   local p="$1" f d; shift

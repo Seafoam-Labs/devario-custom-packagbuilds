@@ -1,6 +1,6 @@
 # Flatpak for Devario
 
-Builds `flatpak` and `flatpak-docs` version `1:1.18.4-2`, based on
+Builds `flatpak` and `flatpak-docs` version `1:1.18.4-3`, based on
 [Arch packaging commit 22a6dfa94f4c91c266a61823a1558c9fbc6d88fa](https://gitlab.archlinux.org/archlinux/packaging/packages/flatpak/-/commit/22a6dfa94f4c91c266a61823a1558c9fbc6d88fa).
 This supplies the runtime required by Shelly's Flatpak backend. The recipe
 retains the profile script, Flathub remote definition, signed upstream tag,
@@ -18,6 +18,10 @@ On 2026-10-02, repository metadata still lacked runtime packages
 
 Validation: Bash syntax, makepkg and Shelly metadata, Shelly review, all source
 checksums, and the upstream Git-tag signature passed. A full build has not
-been run. Arch disables integration tests because they hang in containers;
-this recipe retains that policy and omits their unused check dependencies.
+been run. Arch skips running integration tests because they hang in containers.
+Release 3 also explicitly sets Meson's `tests=false` and
+`installed_tests=false`. Omitting `check()` alone left test compilation enabled
+and made `socat` mandatory during configuration, causing the isolated build
+failure in release 2. The test-only dependencies are no longer required with
+these options.
 Verify Flatpak installation and sandbox execution on the built Devario system.
