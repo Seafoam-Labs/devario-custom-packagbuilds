@@ -114,11 +114,21 @@ commit and checksum used by the previous local recipe.
 
 Build and publish base first. Make `qt6-declarative=6.12.0` available from the
 worker repository before building tools, then build translations. Tools pins
-both base and declarative to 6.12.0; translations pins base and tools to 6.12.0.
+both base and declarative to 6.12.0 as runtime dependencies; translations pins
+base, declarative, and tools to 6.12.0 as build dependencies.
 Refresh the worker repository between stages and use clean isolated build roots.
 An existing translations package is needed to provision consumers of the new
 base during this cycle, because base depends on translations. Publish the
 matching Qt suite together for downstream use.
+
+Qt 6.12's `lrelease` links to QtQml through LinguistProject and TrLib when tools
+is built with QML support. Tools `6.12.0-3` therefore requires declarative at
+runtime. Translations `6.12.0-3` also explicitly requests declarative so isolated
+builds work with tools packages that still have the older dependency metadata.
+This fixes `lrelease: error while loading shared libraries: libQt6Qml.so.6`.
+Sync the updated translations PKGBUILD into the worker's selected package
+directory (the reported failure uses `default/qt6-translations`), then retry in
+a fresh root. Publish the corrected tools package for other `lrelease` users.
 
 Validation: all three recipes pass Bash syntax, makepkg/Shelly metadata, and
 Shelly review. Base's bundled patches match their declared checksums. Full

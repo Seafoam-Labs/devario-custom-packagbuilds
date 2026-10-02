@@ -7,7 +7,7 @@ pkgname=(qt6-base
          qt6-xcb-private-headers)
 _pkgver=6.12.0
 pkgver=${_pkgver/-/}
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 url='https://www.qt.io'
 license=(GPL-3.0-only
@@ -42,7 +42,6 @@ depends=(brotli
          libxcb
          libxkbcommon
          libxkbcommon-x11
-         md4c
          mesa
          mtdev
          openssl
@@ -110,6 +109,7 @@ build() {
     _no_direct_extern_access=ON
   fi
 
+  # Use Qt's bundled md4c: newer system GitHub dialect flags fail Qt's static assertion.
   cmake -B build -S $_pkgfn -G Ninja \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -126,6 +126,7 @@ build() {
     -DFEATURE_libproxy=ON \
     -DFEATURE_openssl_linked=ON \
     -DFEATURE_system_sqlite=ON \
+    -DFEATURE_system_textmarkdownreader=OFF \
     -DFEATURE_system_xcb_xinput=ON \
     -DFEATURE_no_direct_extern_access=$_no_direct_extern_access \
     -DFEATURE_mimetype_database=OFF \

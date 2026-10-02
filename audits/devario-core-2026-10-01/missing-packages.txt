@@ -1,0 +1,17 @@
+bash-completion
+btdu
+faugus-launcher
+gamescope
+helium-browser-bin
+jsoncpp
+jsoncpp-doc
+mangohud
+ostree
+python-installer
+python-myst-parser
+python-psutil
+python-tomlkit
+ripgrep
+steam
+steam-devices
+waterfox-bin

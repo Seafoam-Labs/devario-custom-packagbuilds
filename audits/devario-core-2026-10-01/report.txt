@@ -1,0 +1,67 @@
+DEVARIO-CORE LOCAL PACKAGE AVAILABILITY
+Checked UTC: 2026-10-01T21:13:53+00:00
+Local repository: /home/zoey/devario-custom-packagbuilds
+Local commit: 09f273474220eedfb07eb1e9e1c2315b3d2ac7bd
+
+Sources:
+https://repo.seafoam-labs.org/?repo=devario-core
+https://repo.seafoam-labs.org/devario-core/x86_64/devario-core.db
+https://repo.seafoam-labs.org/api/v1/packages?repository=devario-core
+https://repo.seafoam-labs.org/api/v1/packages
+Database SHA-256: 65f2cb79636e5a32f17ade3a5759f6ccc58b0398624230639f53080c24ab52be
+
+Scope and method:
+All 205 PKGBUILDs in this checkout, including devario-browser, devario-core,
+devario-gaming, and isolation-builder. Package names were generated directly
+from every current PKGBUILD using makepkg --printsrcinfo; all 205 succeeded.
+Split-package outputs are counted individually. Duplicate names from different
+recipes are counted once. The live x86_64 repository includes any packages.
+The website API and package database agree on all 1,055 names and versions.
+All 17 missing names also lack a matching virtual provider in devario-core.
+
+Availability is checked by package name, regardless of version. A listed older
+version counts as published. No package archives were downloaded or installed.
+This records publication status; it cannot prove that an absent package has
+never been built locally. Signature validity and installability are not checked.
+
+Local recipes: 205
+Distinct local package outputs: 301
+Published in devario-core: 284
+Absent from devario-core: 17 outputs from 15 recipes
+Absent from all repositories listed on the site: 11
+
+Absent from devario-core (package | recipe | published elsewhere):
+bash-completion | devario-core/bash-completion/PKGBUILD | none
+btdu | devario-core/btdu/PKGBUILD | default/btdu=0.7.2-2
+faugus-launcher | devario-gaming/faugus/PKGBUILD | devario-gaming/faugus-launcher=2.0.1-1
+gamescope | devario-gaming/gamescope/PKGBUILD | devario-gaming/gamescope=3.16.31-1
+helium-browser-bin | devario-browser/helium/PKGBUILD | none
+jsoncpp | devario-core/jsoncpp/PKGBUILD | none
+jsoncpp-doc | devario-core/jsoncpp/PKGBUILD | none
+mangohud | devario-gaming/mangohud/PKGBUILD | devario-gaming/mangohud=0.8.4-1
+ostree | devario-core/ostree/PKGBUILD | none
+python-installer | devario-core/python-installer/PKGBUILD | none
+python-myst-parser | devario-core/python-myst-parser/PKGBUILD | none
+python-psutil | devario-core/python-psutil/PKGBUILD | none
+python-tomlkit | devario-core/python-tomlkit/PKGBUILD | none
+ripgrep | devario-core/ripgrep/PKGBUILD | none
+steam | devario-gaming/steam/PKGBUILD | devario-gaming/steam=1.0.0.87-3
+steam-devices | devario-gaming/steam/PKGBUILD | devario-gaming/steam-devices=1.0.0.87-3
+waterfox-bin | devario-browser/waterfox/PKGBUILD | none
+
+Absent from every repository listed on the site:
+bash-completion
+helium-browser-bin
+jsoncpp
+jsoncpp-doc
+ostree
+python-installer
+python-myst-parser
+python-psutil
+python-tomlkit
+ripgrep
+waterfox-bin
+
+Files: missing-packages.txt contains the 17 names, one per line.
+missing-packages.tsv maps each name to its recipe, local version, and any
+publication under another repository.
