@@ -8,8 +8,8 @@ _mode=release
 
 pkgname=scx-scheds-git
 _gitname=scx
-pkgver=1.1.3.r462.g7b301d54
-pkgrel=2
+pkgver=1.1.3.r507.gdf0fdfc46
+pkgrel=1
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -32,37 +32,51 @@ optdepends=(
 options=(!lto)
 provides=("scx-scheds")
 conflicts=("scx-scheds")
-source=("git+https://github.com/Seafoam-Labs/scx")
+source=("git+https://github.com/sched-ext/scx")
 sha256sums=('SKIP')
 
 _backports=(
-4e68aa81cdeb6c29fdd532a3ea01f6ea0d88da81 # scheds: Introduce scx_maestro
-a9c0fd1f02d9bfb58bc4c68843058ddf839d0ac7 # scx_maestro: Honor cgroup cpu.weight for tasks and sub-schedulers
-812938a996f06c8f43bc8c78bfb145d05f071ba5 # scx_maestro: Allow to enable/disable NUMA and SMT optimizations
-b5e2db1092a6e7192a4b25565ea740ae1e7cd2ea # scx_maestro: Don't update deadline in case of re-enqueue
-958c12d02d6feff15adc0cca14f354500533855b # scx_maestro: Introduce completely fair scheduling
-05f062f5676538efef58f5c5b41d94bd4baf78cd # scx_maestro: Make enqueue + CPU kick more reliable
-3a544f1e4c1ad98b49fbdff3820129d52eea5e5e # scx_maestro: Enforce preemption each tick on CPU contention
-aa97a262aff62e70213a1e0ab94d302d4002b0df # scx_maestro: Temporarily drop sub-sched support
-72f9da57751a0b186c9400f93c1dde1466587c17 # scx_maestro: bump to 1.1.1
-a851079797f2b36d81b04d1bbbf937f34884bbcc # scx_maestro: fix formatting
-035b3c06d48225212eef80197f685ca295bbdc26 # scx_maestro: bump to 1.1.2
-aabadd3bef560e0e7301cd7b9ebcd0211b280f5a # scx_maestro: Use scx_bpf_task_set_slice() setter
-adccda155f726a88cab955b803dfdd8528ec4d37 # scx_maestro: bump to 1.1.3
-fb4f0a93be7031877c742c19b6de940e0ddff3df # scx_maestro: bump libbpf to 0.27.0
-be10069d0e98e9716cc1742154b9e9e3fa0c6ce0 # scx_maestro: migrate to Rust edition 2024 and rust-version 1.91
-ec5f81da16d47bd81e360ed7509539004c4ef466 # scx_maestro: fix formatting
-0894133d6767d8b15c90ff39ab9f38e25eed86cc # scx_maestro: bump libbpf to 0.27.1
-7159bef4fe117fc839028eb94ce9a2899d8efb83 # scx_maestro: bump libbpf to 0.27.2
-968d593c9c65591596c6e269c2acc5cbaa7500c2 # scx_pandemonium: bump to 5.21.0
-e30a7b2b2117909f912dc0389778ff69a797e4f9 # scx_pandemonium: bump to 5.22.0
-2bd52d483343e16d2598a5298cdccd25b5962939 # scx_flow: bump to 4.2.41-o1
-c7bb51a73a903a2ba5f7777624a83bed667ebe5e # scx_flow: bump to 4.2.46-o1
-0ac43709ec13a8832820df3d2b084c36f0c974bc # scx_flow: bump to 4.5.1
-ac7e865f8ddbcffcb75a5bd3024a4aca9ddc9023 # scx_cake: STATE: record the 2026-09-26 revert to 9db04489e and its findings
-6fa7d9050f199deeae7c484f4a578641a4684448 # scx_cake: STATE: restore the full round history after the revert
-a4f5ee6619d26d7dee0abf62517a7873f2c27c6c # scx_cake: bound the vtime lead a task holds over the frontier
-96c95fba8f9974fcf586f4510e1037de075e3112 # scx_cake: update pool serving and document game testing
+521d32f49ed263b121f95f9eec5216befc70bdda # scheds: Introduce scx_maestro
+166a87698239eff4c6e4ab44aca61852380c4b0c # scx_maestro: Honor cgroup cpu.weight for tasks and sub-schedulers
+4f154d6ae4399d77b96be42b8f9800c0c153829c # scx_maestro: Allow to enable/disable NUMA and SMT optimizations
+e37337b69ba2844015302c858b0a091236ad8927 # scx_maestro: Don't update deadline in case of re-enqueue
+47f0e0ece29a274f79ade2760b758a3c00c08cf0 # scx_maestro: Introduce completely fair scheduling
+0d4a5e00aa7075b8723eba0a572e8159fd9e9c96 # scx_maestro: Make enqueue + CPU kick more reliable
+c695acd04d92cbe02d777ea5b680997e5e4ca437 # scx_maestro: Enforce preemption each tick on CPU contention
+266ad927683c76fa684d403dd57ca6bfd73aa4e6 # scx_maestro: Temporarily drop sub-sched support
+e9b21ddb14a41d264c7359496609d76f297c8dff # scx_maestro: bump to 1.1.1
+f610bb174fe4a46cb961b92cd0d7f82c890cb576 # scx_maestro: fix formatting
+58b93a5faeb0e5e7f265dca815fe77af71f83b7b # scx_maestro: bump to 1.1.2
+faeec3bacf8accf13f7cbbb74fbaecf6ebee5486 # scx_maestro: Use scx_bpf_task_set_slice() setter
+46f2d30dbeb049affa7f20328611333a7e6340d0 # scx_maestro: bump to 1.1.3
+cbb2e293e4e8f00a331797d36c7bb8d7ed71e422 # scx_maestro: bump libbpf to 0.27.0
+50421d7d354ecc93407b25ff1f4fcbe0aa78f18b # scx_maestro: migrate to Rust edition 2024 and rust-version 1.91
+5807770e62ea668643a79cf067c233eb56405674 # scx_maestro: fix formatting
+ccc7b8be6c7132dd7b38b7187d3522aa221681cc # scx_maestro: bump libbpf to 0.27.1
+bf7effa0867930fe304ed10f65352771c0c6a38a # scx_maestro: bump libbpf to 0.27.2
+43b45d67ea94e4efdc311cd0356d3c0ff572e175 # scx_pandemonium: bump to 5.21.0
+fe681f61e103931d059e190b9af31d50a1a061e8 # scx_pandemonium: bump to 5.22.0
+1792174e349a9887dcd2c3319737fc29ae2a6d5e # scx_flow: bump to 4.2.41-o1
+be1cd4850f6eccce943606f7aa09ee18137d7e43 # scx_flow: bump to 4.2.46-o1
+c781d6405ea0137da7a1285b17e1f13b632995ac # scx_flow: bump to 4.5.1
+78fe9ca6861174a490ae84ba3740327010b22c91 # scx_cake: STATE: record the 2026-09-26 revert to 9db04489e and its findings
+dfa41a6997b7946887502c2ba37e10dfe15042f1 # scx_cake: STATE: restore the full round history after the revert
+7c1775acf817090b55ce1776e3ca7c82ad7cb606 # scx_cake: bound the vtime lead a task holds over the frontier
+25879d8b15ed2d5ee1893bf68e3c1ec90279ac11 # scx_cake: update pool serving and document game testing
+ad0176178017192f615e0a22fd9c3418d41b4577 # scx_eevdf: Honor WF_CURRENT_CPU
+7f1e66acda79595eb44a9ff32f738ab1b72c02e1 # scx_eevdf: Keep the placement a queued wakeup already has
+76b92cb0af22033db2ec0e34d4533037ceb2db78 # scx_eevdf: Arm the hrtick when a task queues as displaced
+2750631eb08e43587a094f2fa8a180868b0dedc7 # scx_eevdf: Return from asymmetric idle selection
+9205de4be3427b8941ebc4dd17efe95a95ba5e5a # scx_eevdf: Use the asymmetric domain's scan budget and idle-core hint
+c5dbea0509b6f656dc97d8512b43605030014a09 # scx_eevdf: Honor cpus_share_resources() in idle selection
+607282957f3aba3115e1f98ede68cac3e4afeb12 # scx_eevdf: Walk an unbounded LLC idle scan from the target
+7a66f683a9bf4eff96e9d427c35bc212f9b3d2f7 # scx_eevdf: Enforce a cpu.max set before the scheduler loads
+865305f8a92f959df6d5f08a4a53773b08fe893a # scx_eevdf: Admit cpu.max tasks only to CIDs holding runtime
+f3cd2f9a84bb8e80e4059b9be93781d8c04193d6 # scx_eevdf: Place wakeups on SCHED_IDLE CIDs found by the idle scan
+1ba0f7c617c28fc2306466253290a77c45f7c3d7 # scx_eevdf: Treat SCHED_IDLE CIDs as idle ones in the idle scans
+4d36fde52370434cedff787091ce931d52acc544 # scx_eevdf: Stop the idle-core scans on a zero SIS_UTIL budget
+8013d73a8b7b3a9d8e0b598db3ce93620bfb780b # scx_eevdf: Use bpf_arena_for() in scan_idle_window()
+e1d2f0af8687047484aefcce6148e229fc5e53ee # scx_eevdf: Clarify idle topology scans
 )
 
 _reverts=(
