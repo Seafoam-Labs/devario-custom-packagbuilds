@@ -1,0 +1,128 @@
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
+
+pkgbase=glycin
+pkgname=(glycin glycin-gtk4 glycin-docs)
+pkgver=2.2.1
+pkgrel=1
+pkgdesc="Sandboxed and extendable image decoding"
+arch=(x86_64)
+url="https://gnome.pages.gitlab.gnome.org/glycin/"
+license=('MPL-2.0 OR LGPL-2.1-or-later')
+depends=(
+  bubblewrap
+  cairo
+  fontconfig
+  'glib2>=2.68'
+  glibc
+  lcms2
+  libgcc
+  'libjxl>=0.11.1'
+  'librsvg>=2.52.0'
+  'libseccomp>=2.5.0'
+  shared-mime-info
+)
+makedepends=(
+  clang
+  gettext
+  gi-docgen
+  glib2-devel
+  gobject-introspection
+  'gtk4>=4.16.0'
+  'libheif>=1.20.0'
+  meson
+  ninja
+  pkgconf
+  'rust>=1.93'
+  vala
+)
+checkdepends=(dav1d ffmpeg rav1e svt-av1)
+source=("https://download.gnome.org/sources/glycin/${pkgver%.*}/glycin-$pkgver.tar.xz")
+sha256sums=('937ae571d76c0de5e59db944d1194981360be37ee97875729781bc3816ddeafe')
+
+export CARGO_PROFILE_RELEASE_DEBUG=2 CARGO_PROFILE_RELEASE_STRIP=false
+export CARGO_PROFILE_RELEASE_LTO=true CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+
+prepare() {
+  cd "$srcdir/glycin-$pkgver"
+
+  # Match cargo_home in meson.build. The release includes test-images.
+  CARGO_HOME="$srcdir/build/cargo-home" \
+    cargo fetch --locked --target x86_64-unknown-linux-gnu
+}
+
+build() {
+  local meson_options=(
+    -D capi_docs=true
+    -D test_tokio=false
+    # Keep the upstream packaging exclusion for the hanging HEIC encoder test.
+    -D test_skip_ext=heic
+  )
+
+  arch-meson "$srcdir/glycin-$pkgver" build "${meson_options[@]}"
+  CARGO_NET_OFFLINE=true meson compile -C build
+}
+
+check() {
+  CARGO_HOME="$srcdir/build/cargo-home" CARGO_NET_OFFLINE=true \
+    meson test -C build --print-errorlogs
+}
+
+_pick() {
+  local p="$1" f d
+  shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
+
+package_glycin() {
+  optdepends=('libheif>=1.20.0: Load .avif, .heic and .heif')
+  provides=('libglycin-2.so=0-64')
+
+  meson install -C build --destdir "$pkgdir" --no-rebuild
+  _verify_soname "$pkgdir/usr/lib/libglycin-2.so" libglycin-2.so.0
+
+  cd "$pkgdir"
+  _pick gtk4 usr/include/glycin-gtk4-*
+  _pick gtk4 usr/lib/girepository-1.0/GlyGtk4-*
+  _pick gtk4 usr/lib/libglycin-gtk4-*
+  _pick gtk4 usr/lib/pkgconfig/glycin-gtk4-*
+  _pick gtk4 usr/share/gir-1.0/GlyGtk4-*
+  _pick gtk4 usr/share/vala/vapi/glycin-gtk4-*
+  _pick docs usr/share/doc
+}
+
+package_glycin-gtk4() {
+  pkgdesc+=" - GTK4 integration"
+  depends=(
+    fontconfig
+    'glib2>=2.68'
+    glibc
+    "glycin=$pkgver-$pkgrel"
+    'gtk4>=4.16.0'
+    lcms2
+    libgcc
+    'libseccomp>=2.5.0'
+  )
+  provides=('libglycin-gtk4-2.so=0-64')
+
+  mv "$srcdir/gtk4/"* "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libglycin-gtk4-2.so" libglycin-gtk4-2.so.0
+}
+
+package_glycin-docs() {
+  pkgdesc+=" - documentation"
+  depends=()
+  mv "$srcdir/docs/"* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

@@ -1,9 +1,13 @@
 # ncurses for Shelly
 
 Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/ncurses/-/blob/main/PKGBUILD),
-this recipe builds `ncurses 6.6-3` with explicit `libncursesw.so=6-64` and
+this recipe builds `ncurses 6.6-4` with explicit `libncursesw.so=6-64` and
 bare `libncursesw.so` provisions. The packaging function checks the installed
 library's ELF64 class and SONAME before accepting the declared ABI.
+
+The package excludes `/usr/share/terminfo/g/ghostty`, which is owned by
+`ghostty-terminfo` in Devario. This lets both packages install together when
+Shelly provisions the Aqueous session build root.
 
 Source checksums and upstream build settings are retained, as is signature
 verification where present in Arch's recipe. Both required Arch patches are bundled. The other ncurses library provisions and linker scripts are retained.

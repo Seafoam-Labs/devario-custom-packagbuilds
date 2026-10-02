@@ -20,6 +20,8 @@ versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 
 | Build directory | Requested packages or provisions |
 | --- | --- |
+| [inter-font](devario-core/inter-font/PKGBUILD) | `inter-font`, supplying the Pearl installer’s Inter font family |
+| [glycin](devario-core/glycin/PKGBUILD) | `glycin` 2.2.1 for gdk-pixbuf requiring `glycin-2 >= 2.2.alpha.7`; also produces GTK4 integration and documentation |
 | [gtksourceview5](gtksourceview5/PKGBUILD) | `gtksourceview5` (also produces documentation) |
 | [enchant](enchant/PKGBUILD) | `enchant` |
 | [hunspell](hunspell/PKGBUILD) | `hunspell` |
@@ -29,6 +31,11 @@ versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 | [dbus](dbus/PKGBUILD) | `dbus`, providing `libdbus-1.so=3-64` |
 | [glib2](glib2/PKGBUILD) | `glib2`, providing `libglib-2.0.so=0-64` (also produces development tools and documentation) |
 | [nvidia-utils](nvidia-utils/PKGBUILD) | `nvidia-utils`, providing `opengl-driver`, `vulkan-driver`, and `nvidia-libgl` |
+
+For the gdk-pixbuf error finding glycin 2.1.0, follow the
+[glycin build guide](devario-core/glycin/README.md). Build and publish glycin
+2.2.1 first, refresh the worker repository, then retry gdk-pixbuf in a fresh
+isolated root. Its worker recipe should require `glycin>=2.2.1`.
 
 For NVIDIA's binary utilities, see the [nvidia-utils build guide](nvidia-utils/README.md)
 for separate validation results and driver integration requirements. This recipe
@@ -78,7 +85,7 @@ the new packages' `.PKGINFO` and in the repository database. For example:
 
 ```sh
 bsdtar -xOf /path/to/dbus-1.16.2-2-x86_64.pkg.tar.zst .PKGINFO | grep '^provides = '
-bsdtar -xOf /path/to/glib2-2.88.3-2-x86_64.pkg.tar.zst .PKGINFO | grep '^provides = '
+bsdtar -xOf /path/to/glib2-2.90.0-1-x86_64.pkg.tar.zst .PKGINFO | grep '^provides = '
 ```
 
 Compiler architecture flags come from the worker's Shelly configuration. These
@@ -96,7 +103,8 @@ jq, numactl, Enchant, GtkSourceView, D-Bus, and GLib. The generated archives'
 `.PKGINFO` contains the expected ABI provisions, including both D-Bus and GLib
 requirements above. Temporary build tools were
 extracted under `/tmp`; no host packages were installed. Full GCC compilation
-has not been run.
+has not been run. GLib has since been updated to 2.90.0; its current validation
+status is recorded in the [GLib build guide](devario-core/glib2/README.md).
 
 Full `--isolated` nspawn verification is unavailable in this environment because
 Shelly's privileged coordinator needs an interactive sudo password. Run the
