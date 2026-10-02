@@ -1,0 +1,47 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Tobias Powalowski <tpowa@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
+
+pkgname=libusb
+pkgver=1.0.30
+pkgrel=2
+pkgdesc="Library that provides generic access to USB devices"
+arch=(x86_64)
+url="https://libusb.info/"
+license=(LGPL-2.1-or-later)
+depends=(glibc systemd-libs 'libudev.so=1-64')
+makedepends=(autoconf automake git libtool pkgconf)
+provides=('libusb-1.0.so=0-64')
+source=("git+https://github.com/libusb/libusb.git#tag=v$pkgver")
+sha512sums=('d21fae358ebef28a733d69af9c361b853a437295230d57fe662b1a57a46480e459d49de4147d8d3297066dcf54f9e28fde28311a50eeec53a7453b71ae8077c6')
+b2sums=('5e5f8ae594acf3808fba8b0fc01e94317d16fb3d3f25b9b8484d30ca922a75b2c00441a94f49cd2b03aff53f73f46ba88f1f31f065cf7041cf8f968d48ad8869')
+
+prepare() {
+  cd libusb
+  autoreconf -fiv
+}
+
+build() {
+  cd libusb
+  ./configure --prefix=/usr --enable-udev --enable-tests-build
+  # Prevent excessive overlinking due to libtool.
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+check() {
+  make -k check -C libusb
+}
+
+package() {
+  make DESTDIR="$pkgdir" install -C libusb
+  _verify_soname "$pkgdir/usr/lib/libusb-1.0.so" libusb-1.0.so.0
+  install -Dm644 libusb/{AUTHORS,ChangeLog,README} -t "$pkgdir/usr/share/doc/$pkgname/"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

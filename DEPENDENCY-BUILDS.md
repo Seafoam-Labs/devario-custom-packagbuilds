@@ -20,6 +20,7 @@ versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 
 | Build directory | Requested packages or provisions |
 | --- | --- |
+| [libusb](devario-core/libusb/PKGBUILD) | `libusb`, explicitly providing `libusb-1.0.so=0-64` for libgusb |
 | [qt5-base](devario-core/qt5-base/PKGBUILD) | `qt5-base` and matching `qt5-xcb-private-headers` 5.15.19+kde+r96 |
 | [libdex](devario-core/libdex/PKGBUILD) | `libdex` 1.2.0, providing `libdex-1.so=1-64`; also produces `libdex-docs` |
 | [python-tqdm](devario-core/python-tqdm/PKGBUILD) | `python-tqdm` 4.70.1, required by the local Meson recipe |
