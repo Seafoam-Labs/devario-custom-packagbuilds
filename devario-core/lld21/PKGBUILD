@@ -4,17 +4,19 @@
 pkgname=lld21
 pkgver=21.1.8
 pkgrel=1
+# Keep this dependency release aligned with the Devario llvm21 recipe.
+_llvm_pkgrel=1.1
 pkgdesc="Linker from the LLVM project (Version 21)"
 arch=('x86_64')
 url="https://lld.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 depends=(
-  'llvm21-libs'
+  "llvm21-libs=$pkgver-$_llvm_pkgrel"
   'libstdc++'
   'zlib'
   'zstd'
 )
-makedepends=('llvm21' 'cmake' 'ninja' 'python-sphinx')
+makedepends=("llvm21=$pkgver-$_llvm_pkgrel" 'cmake' 'ninja' 'python-sphinx')
 checkdepends=('llvm')
 _source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
 source=($_source_base/lld-$pkgver.src.tar.xz{,.sig}
@@ -53,7 +55,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr/lib/llvm21
     -DCMAKE_SKIP_INSTALL_RPATH=ON
     -DBUILD_SHARED_LIBS=ON
-    -DLLVM_CMAKE_DIR=/usr/lib/llvm21/lib/cmake
+    -DLLVM_DIR=/usr/lib/llvm21/lib/cmake/llvm
     -DLLVM_CONFIG=/usr/lib/llvm21/bin/llvm-config
     -DLLVM_EXTERNAL_LIT=/usr/bin/lit
     -DLLVM_INCLUDE_TESTS=ON
@@ -82,6 +84,10 @@ package() {
     mv "$pkgdir"/usr/lib/{llvm21/lib/,}$_lib
     ln -s ../../$_lib "$pkgdir/usr/lib/llvm21/lib/$_lib"
   done
+
+  # Check the installed layout and every startup relocation, also with --no-check.
+  LD_LIBRARY_PATH="$pkgdir/usr/lib:$pkgdir/usr/lib/llvm21/lib:/usr/lib/llvm21/lib" \
+    LD_BIND_NOW=1 "$pkgdir/usr/lib/llvm21/bin/ld.lld" --version
 }
 
 # vim:set ts=2 sw=2 et:

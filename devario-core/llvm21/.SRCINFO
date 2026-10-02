@@ -40,7 +40,7 @@ pkgbase = llvm21
 
 pkgname = llvm21
 	pkgdesc = Compiler infrastructure (LLVM 21)
-	depends = llvm21-libs
+	depends = llvm21-libs=21.1.8-1.1
 	depends = curl
 	depends = perl
 

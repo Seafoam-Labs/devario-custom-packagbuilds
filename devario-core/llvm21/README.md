@@ -1,8 +1,8 @@
 # llvm21 for Shelly
 
-Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/llvm21/-/blob/main/PKGBUILD), pinned to `21.1.8-1`. Copy the whole directory to the worker, including local patches and `keys/` where present.
+Devario package `21.1.8-1.1`, adapted from [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/llvm21/-/blob/main/PKGBUILD). Copy the whole directory to the worker, including local patches and `keys/` where present.
 
-One build produces `llvm21` and `llvm21-libs`. Publish both together. Tools live under `/usr/lib/llvm21`; versioned command links such as `llvm-config-21` allow LLVM 21 to coexist with newer LLVM packages. The runtime package declares the current split GCC runtime dependencies.
+One build produces `llvm21` and `llvm21-libs`. Publish both together. The development package requires the exact runtime release from this build. Tools live under `/usr/lib/llvm21`; versioned command links such as `llvm-config-21` allow LLVM 21 to coexist with newer LLVM packages. The runtime package declares the current split GCC runtime dependencies. After compilation, `llc --version` runs with eager symbol binding against the newly built library.
 
 The permitted upstream signing fingerprints are:
 
@@ -14,14 +14,14 @@ The permitted upstream signing fingerprints are:
 Import the supplied public keys as the build account after checking these fingerprints:
 
 ```sh
-gpg --import llvm21/keys/pgp/*.asc
+gpg --import devario-core/llvm21/keys/pgp/*.asc
 ```
 
 From the repository root:
 
 ```sh
-shelly build --review-only --json ./llvm21/PKGBUILD
-shelly build --isolated --check ./llvm21/PKGBUILD
+shelly build --review-only --json ./devario-core/llvm21/PKGBUILD
+shelly build --isolated --check ./devario-core/llvm21/PKGBUILD
 ```
 
-Bash syntax, generated metadata, source checksums, applicable signatures, and source preparation were validated. makepkg and Shelly metadata agree. See [the Zig build guide](../ZIG-BUILDS.md) for build order, bootstrap dependencies, review findings, and the exact limits of local build validation.
+Bash syntax, generated metadata, source checksums, applicable signatures, and source preparation were validated. makepkg and Shelly metadata agree. See [the Zig build guide](../../ZIG-BUILDS.md) for build order, bootstrap dependencies, review findings, and the exact limits of local build validation.

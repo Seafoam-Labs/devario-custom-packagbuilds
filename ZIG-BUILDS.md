@@ -23,11 +23,11 @@ signing keys. Copy whole directories to the worker.
 | [python-psutil](python-psutil/PKGBUILD) | `7.2.2-1` | `python-psutil` |
 | [python-sphinx](python-sphinx/PKGBUILD) | `9.1.0-1` | `python-sphinx` |
 | [python-myst-parser](python-myst-parser/PKGBUILD) | `5.1.0-1` | `python-myst-parser` |
-| [llvm21](llvm21/PKGBUILD) | `21.1.8-1` | `llvm21`, `llvm21-libs` |
+| [llvm21](devario-core/llvm21/PKGBUILD) | `21.1.8-1.1` | `llvm21`, `llvm21-libs` |
 | [compiler-rt21](compiler-rt21/PKGBUILD) | `21.1.8-1` | `compiler-rt21`, including 32-bit runtimes |
-| [clang21](clang21/PKGBUILD) | `21.1.8-1` | `clang21` |
-| [lld21](lld21/PKGBUILD) | `21.1.8-1` | `lld21` |
-| [zig](zig/PKGBUILD) (existing) | `0.16.0-1` | `zig` |
+| [clang21](devario-core/clang21/PKGBUILD) | `21.1.8-1` | `clang21` |
+| [lld21](devario-core/lld21/PKGBUILD) | `21.1.8-1` | `lld21` |
+| [zig](devario-core/zig/PKGBUILD) (existing) | `0.16.0-1` | `zig` |
 
 The existing GCC build supplies `gcc`, `gcc-libs`, `libgcc`, `libstdc++`,
 `libasan`, `libatomic`, `libgfortran`, `libgomp`, `libhwasan`, `liblsan`,
@@ -98,19 +98,57 @@ fingerprints listed in each recipe's README:
 
 ```sh
 for recipe in cmake llvm21 compiler-rt21 clang21 lld21 emacs libuv rhash; do
-  gpg --import "$recipe"/keys/pgp/*.asc
+  gpg --import "devario-core/$recipe"/keys/pgp/*.asc
 done
 ```
 
 Review and build one recipe at a time from the repository root:
 
 ```sh
-shelly build --review-only --json ./llvm21/PKGBUILD
-shelly build --isolated --check ./llvm21/PKGBUILD
+shelly build --review-only --json ./devario-core/llvm21/PKGBUILD
+shelly build --isolated --check ./devario-core/llvm21/PKGBUILD
 ```
 
 Publish the resulting archives and refresh the repository database before
 building the next stage. Recipe creation does not install or publish packages.
+
+## Repairing the LLVM 21 runtime mismatch
+
+The published LLD, Clang, and Zig binaries contained references to C++ string
+symbols tagged `LLVM_21.1` that Devario's LLVM library does not export. The
+failure was reproduced with the published archives, including after LLVM's
+package release became `21.1.8-1.1`. Matching version labels alone cannot repair
+those compiled references.
+
+The recipes retain the versions currently published in `devario-core`:
+`llvm21` and `llvm21-libs` at `21.1.8-1.1`, `clang21` and `lld21` at
+`21.1.8-1`, and `zig` at `0.16.0-1`. Build/runtime dependency pins use these
+exact versions. The LLVM development package requires its matching runtime;
+Clang and LLD select its CMake directory explicitly, and Zig prefers its
+installation prefix. Zig's malformed patch checksum is corrected.
+
+Use Devario's published LLVM pair to rebuild Clang and LLD, publish those
+archives, then rebuild and publish Zig. Refresh the worker repository between
+stages and use fresh build roots. Because package release numbers are retained,
+ensure the worker uses the rebuilt archives instead of cached older archives
+with the same filenames. These version pins cannot distinguish two different
+binaries carrying the same package version.
+
+LLVM's build runs `llc --version` against its new library. The other recipes
+run their staged commands with `LD_BIND_NOW=1` during packaging, even when the
+full test suite is disabled. This makes unresolved startup symbols fail the
+package build before publication.
+
+Validation: all four recipes pass Bash syntax and makepkg/Shelly metadata
+checks, and their versions match the Devario repository index. The corrected
+Zig patch checksum matches its downloaded contents. Shelly review has no
+findings for LLD or Zig; LLVM and Clang retain their existing warnings about
+computed distribution-component lists. A native LLD build against the
+extracted, published Devario LLVM `21.1.8-1.1` succeeded. Its staged linker
+starts with eager binding, and all dynamic relocations resolve against that
+LLVM library. Zig's LLVM discovery module also selects that SDK with the new
+CMake prefix setting. Full LLVM, Clang, and Zig rebuilds and isolated validation
+remain unverified.
 
 ## Source integrity and validation
 

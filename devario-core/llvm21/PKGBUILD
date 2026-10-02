@@ -104,6 +104,9 @@ build() {
 
   cmake .. "${cmake_args[@]}"
   ninja
+
+  # Check all startup relocations against the library from this build.
+  LD_LIBRARY_PATH="$PWD/lib" LD_BIND_NOW=1 ./bin/llc --version
 }
 
 check() {
@@ -113,7 +116,7 @@ check() {
 
 package_llvm21() {
   pkgdesc="Compiler infrastructure (LLVM 21)"
-  depends=('llvm21-libs' 'curl' 'perl')
+  depends=("llvm21-libs=$pkgver-$pkgrel" 'curl' 'perl')
 
   cd llvm-$pkgver.src/build
 

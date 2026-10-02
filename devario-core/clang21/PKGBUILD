@@ -4,12 +4,14 @@
 pkgname=clang21
 pkgver=21.1.8
 pkgrel=1
+# Keep this dependency release aligned with the Devario llvm21 recipe.
+_llvm_pkgrel=1.1
 pkgdesc="C language family frontend for LLVM 21"
 arch=('x86_64')
 url="https://clang.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
-depends=('llvm21-libs' 'gcc' 'compiler-rt21')
-makedepends=('llvm21' 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
+depends=("llvm21-libs=$pkgver-$_llvm_pkgrel" 'gcc' 'compiler-rt21')
+makedepends=("llvm21=$pkgver-$_llvm_pkgrel" 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
 optdepends=('openmp: OpenMP support in clang with -fopenmp'
             'python: for scan-view and git-clang-format'
             'llvm21: referenced by some clang headers')
@@ -81,6 +83,7 @@ build() {
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=/usr/lib/llvm21
     -DCMAKE_PREFIX_PATH=/usr/lib/llvm21
+    -DLLVM_DIR=/usr/lib/llvm21/lib/cmake/llvm
     -DCMAKE_INSTALL_DOCDIR=share/doc
     -DCMAKE_SKIP_RPATH=ON
     -DCLANG_DEFAULT_PIE_ON_LINUX=ON
@@ -131,6 +134,10 @@ package() {
   mv "$pkgdir"/usr/lib/{llvm21/lib/,}libclang-cpp.so.21.1
   ln -s ../../libclang-cpp.so.21.1 "$pkgdir/usr/lib/llvm21/lib/libclang-cpp.so.21.1"
   ln -s llvm21/lib/libclang.so.21.1 "$pkgdir"/usr/lib/libclang.so.21.1
+
+  # Check the installed layout and every startup relocation, also with --no-check.
+  LD_LIBRARY_PATH="$pkgdir/usr/lib:$pkgdir/usr/lib/llvm21/lib:/usr/lib/llvm21/lib" \
+    LD_BIND_NOW=1 "$pkgdir/usr/lib/llvm21/bin/clang" --version
 }
 
 # vim:set ts=2 sw=2 et:

@@ -6,12 +6,12 @@ pkgbase = clang21
 	arch = x86_64
 	license = Apache-2.0 WITH LLVM-exception
 	checkdepends = llvm
-	makedepends = llvm21
+	makedepends = llvm21=21.1.8-1.1
 	makedepends = cmake
 	makedepends = ninja
 	makedepends = python-sphinx
 	makedepends = python-myst-parser
-	depends = llvm21-libs
+	depends = llvm21-libs=21.1.8-1.1
 	depends = gcc
 	depends = compiler-rt21
 	optdepends = openmp: OpenMP support in clang with -fopenmp
