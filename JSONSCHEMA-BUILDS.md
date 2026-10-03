@@ -1,7 +1,13 @@
-# Python JSON Schema build chain
+# Optional Python JSON Schema repository build chain
 
-Upload the complete recipe directories below to Remora and publish them to
-`devario-core` in this order. Refresh the worker database between stages.
+The ISO workflow now prepares its own Python validation virtual environment
+from pinned, hash-verified binary wheels. These 15 recipes are retained for
+users who want repository-managed Python packages; they are not required for
+ISO construction or the current Remora upload list.
+
+For that optional repository route, upload the complete recipe directories
+below and publish them to `devario-core` in this order. Refresh the worker
+database between stages.
 
 | Stage | Recipe directories under `devario-core/` |
 | --- | --- |
@@ -34,9 +40,10 @@ local package builds, and 303 jsonschema validator tests passed. These local
 builds used temporary Python build tools and skipped the installed-package
 dependency check; full isolated Remora builds remain to be run after publication.
 
-After building and publishing, install `python-jsonschema` on the ISO builder
-and on the host running the nspawn wrappers. Building an archive alone does not
-install the Python module on those machines.
+For ISO validation, use `devario-os/scripts/prepare-validation-env.py` or let the
+build/validation entry points prepare it automatically. The nspawn preparation
+step creates a separate environment inside the container before attestation.
+There is no need to install these packages on the host or builder.
 
 The ISO integration also requires the updated installer recipes
 `devario-installer/devario-base` (3-10), `devario-installer/devario-boot` (1-6),

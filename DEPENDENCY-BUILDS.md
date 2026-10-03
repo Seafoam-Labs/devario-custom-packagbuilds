@@ -17,15 +17,32 @@ built with `-Dpath-profile=devario` and support for `HookDirMode = Replace`.
 | devario-boot | 1-6 | `devario-installer/devario-boot` |
 | devario-base | 3-10 | `devario-installer/devario-base` |
 
+A subsequent audit of the complete signed repository file inventory found
+additional hook owners not represented by the original local recipe scan.
+Update the worker recipes for `accountsservice`, `appstream`, `ca-certificates`
+(output `ca-certificates-utils`), `dconf`, `desktop-file-utils`, `dkms`,
+`fontconfig`, `gdk-pixbuf2`, `gtk3`, `gtk4` (including `gtk-update-icon-cache`),
+`gvfs`, `kmod`, `man-db`, `openssh`, `perl`, `shared-mime-info`, and `syslinux`.
+Move both hook/helper installation paths and references to `/usr/share/rlpm/`.
+The published `systemd` and `devario-dracut` archives also still use old paths;
+the local recipes above already include their fixes. Rebuilding devario-dracut
+also restores its `initramfs` provision, avoiding the old `dracut-git` provider.
+
+The published Shelly CLI at `832de83c` supports explicit configuration but still
+uses the old public key directory. Build upstream revision
+`1913c78d272f6b8c53531d02181f024b78708d2b` or newer with the Devario profile.
+
 Build each split recipe once and publish its matching outputs together;
 `glibc` includes `lib32-glibc`. Build boot after dracut, and base after boot
 and keyring. Keep using the existing published bootstrap dependencies for
 cycles among glib2, D-Bus, and systemd.
 
-Also build the 15 recipes in the [jsonschema build chain](JSONSCHEMA-BUILDS.md)
-in its listed stages, unless already published. Publish `nbd` 3.27.1-4 to
-`devario-core` too; its existing recipe needs no additional path changes.
-This is 24 local recipe targets, plus the patched upstream Shelly build.
+The ISO workflow now prepares an isolated Python validation environment from
+hash-pinned upstream wheels. The 15 Python recipes from the previous work are
+optional and are no longer required for the ISO or Remora build list.
+Publish `nbd` 3.27.1-4 to `devario-core` if still missing; its existing recipe
+needs no additional path changes. The original local list is the eight rebuild targets above plus `nbd`; the
+additional worker recipes listed above must also be migrated before ISO construction.
 The ISO uses the published `devario-desktop` and stable `pearl-greeter`;
 `devario-aqueous-desktop` and `seafoam-keyring` are not default ISO requirements.
 
@@ -34,7 +51,8 @@ metadata, and 68 bundled-source checksums passed. Staged package functions
 for base, boot, and keyring produced the expected paths and boot hook masks.
 The OS repository's three matching recipes are synchronized. Full compilation,
 isolated Remora builds, and publication of these releases remain to be done.
-ISO builder and verification script path migration remains separate work.
+The ISO builder and verification script path migration is now implemented.
+Repository publication remains separate from these local source changes.
 
 For Zig 0.16 and its LLVM 21, CMake, GCC, and Python prerequisites, see
 [the Zig build guide](ZIG-BUILDS.md).
