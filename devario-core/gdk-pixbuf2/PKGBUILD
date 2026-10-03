@@ -10,7 +10,7 @@ pkgname=(
   gdk-pixbuf2-docs
 )
 pkgver=2.44.8
-pkgrel=2
+pkgrel=3
 pkgdesc="An image loading library"
 url="https://gitlab.gnome.org/GNOME/gdk-pixbuf"
 arch=(x86_64)
@@ -18,7 +18,7 @@ license=(LGPL-2.0-or-later)
 depends=(
   glib2
   glibc
-  glycin
+  'glycin>=2.2.1'
   shared-mime-info
 )
 makedepends=(
@@ -43,6 +43,14 @@ prepare() {
 }
 
 build() {
+  # Isolated roots may not run shared-mime-info's post-transaction hook.
+  # GIO needs the compiled MIME database to recognize the test resource images.
+  local mime_data_dir="$srcdir/mime-data"
+  install -Dm644 /usr/share/mime/packages/freedesktop.org.xml \
+    "$mime_data_dir/mime/packages/freedesktop.org.xml"
+  export XDG_DATA_DIRS="$mime_data_dir:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+  update-mime-database "$mime_data_dir/mime"
+
   local meson_options=(
     -D android=disabled
     -D builtin_loaders=all

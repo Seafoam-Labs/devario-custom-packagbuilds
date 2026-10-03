@@ -1,7 +1,7 @@
 pkgbase = gdk-pixbuf2
 	pkgdesc = An image loading library
 	pkgver = 2.44.8
-	pkgrel = 2
+	pkgrel = 3
 	url = https://gitlab.gnome.org/GNOME/gdk-pixbuf
 	arch = x86_64
 	license = LGPL-2.0-or-later
@@ -13,7 +13,7 @@ pkgbase = gdk-pixbuf2
 	makedepends = python-docutils
 	depends = glib2
 	depends = glibc
-	depends = glycin
+	depends = glycin>=2.2.1
 	depends = shared-mime-info
 	source = git+https://gitlab.gnome.org/GNOME/gdk-pixbuf.git#tag=2.44.8
 	source = gdk-pixbuf-query-loaders.hook
