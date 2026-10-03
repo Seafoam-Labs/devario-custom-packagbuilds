@@ -376,6 +376,16 @@ isolated commands on the worker before publishing the packages.
 
 ## Qt 6.12 version alignment
 
+The published `qt6-declarative 6.12.0-1` archive contains QML but omits Qt Quick
+and Quick Widgets, preventing Calamares from loading `libQt6QuickWidgets.so.6`.
+Build and publish `devario-core/qt6-shadertools` and
+`devario-core/qt6-languageserver` (both 6.12.0-1) first, then rebuild
+`devario-core/qt6-declarative` as 6.12.0-2 in a fresh isolated root. These new
+recipes pin Qt build inputs to 6.12.0. The declarative recipe requires the
+ShaderToolsTools CMake package and rejects staged packages missing QML, Quick,
+or Quick Widgets libraries. Upstream source checksums are retained; Bash syntax
+and generated metadata were checked, but these new recipes have not been compiled.
+
 The [qt6-base recipe](devario-core/qt6-base/PKGBUILD) builds Qt 6.12.0 and its
 `qt6-xcb-private-headers` split package. The local
 [tools](devario-core/qt6-tools/PKGBUILD) and

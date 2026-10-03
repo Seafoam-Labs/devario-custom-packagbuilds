@@ -1,0 +1,22 @@
+pkgbase = qt6-shadertools
+	pkgdesc = Provides functionality for the shader pipeline that allows Qt Quick to operate on Vulkan, Metal, and Direct3D, in addition to OpenGL
+	pkgver = 6.12.0
+	pkgrel = 1
+	url = https://www.qt.io
+	arch = x86_64
+	groups = qt6
+	license = GPL-3.0-only
+	license = LGPL-3.0-only
+	license = LicenseRef-Qt-Commercial
+	license = Qt-GPL-exception-1.0
+	makedepends = cmake
+	makedepends = git
+	makedepends = ninja
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = qt6-base=6.12.0
+	source = git+https://code.qt.io/qt/qtshadertools#tag=v6.12.0
+	sha256sums = bd98ae84bad099e2fc417219311016d144347d65ee8d2a5a9211d79a52aaf497
+
+pkgname = qt6-shadertools
