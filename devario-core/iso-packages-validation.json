@@ -274,7 +274,7 @@
       ]
     },
     "missingRuntime": {},
-    "scope": "Recipe metadata plus signed 2026-10-02 repository databases; not an installation or conflict check",
+    "scope": "Historical audit of the previous two-repository ISO profile; see JSONSCHEMA-BUILDS.md for current core-only changes.",
     "selectedCount": 637
   },
   "recipes": {
@@ -315,21 +315,19 @@
       "syntax": "passed"
     },
     "devario-base": {
-      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
-      "metadata": "makepkg and Shelly agree",
-      "pkgbuildSha256": "7327901d4182f891a557fb80804780dbaf9b7d61223a0612febf516d4ffadace",
+      "localBuild": "package() staging passed after Shelly/RLPM path migration; full isolated build pending",
+      "metadata": "makepkg .SRCINFO regenerated and verified; Shelly metadata review not rerun",
+      "pkgbuildSha256": "e8f4dc9d75415dc0514a92ecb6a3d197a837c16435bb792c8781436941407337",
       "recipeDirectory": "devario-installer/devario-base",
-      "reviewFindings": 33,
-      "sources": "verified",
+      "sources": "bundled source checksums verified after path migration",
       "syntax": "passed"
     },
     "devario-boot": {
-      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
-      "metadata": "makepkg and Shelly agree",
-      "pkgbuildSha256": "f39f2fa2d96cedc4ead7fc18af1668c844e9272a93ddeec52e727cbac3a4e04a",
+      "localBuild": "package() staging passed after Shelly/RLPM path migration; full isolated build pending",
+      "metadata": "makepkg .SRCINFO regenerated and verified; Shelly metadata review not rerun",
+      "pkgbuildSha256": "f5f36b907eadae9dbec3ef9a33fd0982364c9f41198df10f326791918c5e4bcb",
       "recipeDirectory": "devario-installer/devario-boot",
-      "reviewFindings": 33,
-      "sources": "verified",
+      "sources": "bundled source checksums verified after path migration",
       "syntax": "passed"
     },
     "devario-filesystem": {
@@ -342,12 +340,11 @@
       "syntax": "passed"
     },
     "devario-keyring": {
-      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
-      "metadata": "makepkg and Shelly agree",
-      "pkgbuildSha256": "1cf119535f3b0ecb6a917715522302bbac7c9aef2c352a3445bdd983d1d9cb74",
+      "localBuild": "package() staging passed after Shelly/RLPM path migration; full isolated build pending",
+      "metadata": "makepkg .SRCINFO regenerated and verified; Shelly metadata review not rerun",
+      "pkgbuildSha256": "1672fe983249e1b852a618cbae5f8657dcaf05379a5a9d82d885a072001acc27",
       "recipeDirectory": "devario-installer/devario-keyring",
-      "reviewFindings": 1,
-      "sources": "verified",
+      "sources": "bundled source checksums verified after path migration",
       "syntax": "passed"
     },
     "ding-libs": {

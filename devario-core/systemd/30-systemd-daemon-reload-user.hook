@@ -8,4 +8,4 @@ Target = usr/lib/systemd/user/*
 [Action]
 Description = Reloading user manager configuration...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook daemon-reload-user
+Exec = /usr/share/rlpm/scripts/systemd-hook daemon-reload-user

@@ -6,4 +6,4 @@ Target = usr/lib/systemd/system/*
 [Action]
 Description = Enqueuing marked services...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook enqueue-marked
+Exec = /usr/share/rlpm/scripts/systemd-hook enqueue-marked

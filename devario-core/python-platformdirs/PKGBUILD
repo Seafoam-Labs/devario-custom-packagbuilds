@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-platformdirs
+pkgver=4.12.2
+pkgrel=1
+pkgdesc='Python platformdirs library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/platformdirs/'
+license=('MIT')
+depends=('python>=3.12' )
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/d0/89/446044f33aba0348d35e433f56d12206d010a5281a1df54054d4cfb82388/platformdirs-4.12.2-py3-none-any.whl')
+noextract=('platformdirs-4.12.2-py3-none-any.whl')
+sha256sums=('29dbf06d96c500bc6bdbce75fb0a14d63279c93b1842f97e72a135b33e856983')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/platformdirs-4.12.2-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/platformdirs-4.12.2.dist-info/licenses/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

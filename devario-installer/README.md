@@ -2,13 +2,20 @@
 
 This folder contains the eight OS-owned recipes and their supporting files:
 
+The current ISO uses the repository's `devario-desktop` and stable
+`pearl-greeter`. `devario-aqueous-desktop` and `seafoam-keyring` are retained here
+for older configurations and are no longer part of the default ISO build.
+Rebuild `devario-base` 3-10, `devario-boot` 1-6, and `devario-keyring`
+20260923-2 for the Shelly Devario path profile, RLPM hooks, and core-only
+configuration. OS login and GPU defaults now live in the ISO profile.
+
 | Recipe | Build order |
 | --- | --- |
 | [devario-filesystem](devario-filesystem/PKGBUILD) | Before devario-base |
 | [devario-keyring](devario-keyring/PKGBUILD) | Before devario-base |
-| [seafoam-keyring](seafoam-keyring/PKGBUILD) | Before devario-base |
+| [seafoam-keyring](seafoam-keyring/PKGBUILD) | Legacy; excluded from the default ISO |
 | [devario-boot](devario-boot/PKGBUILD) | After devario-dracut; before devario-base |
-| [devario-base](devario-base/PKGBUILD) | After filesystem, boot, and both keyrings |
+| [devario-base](devario-base/PKGBUILD) | After filesystem, boot, and devario-keyring |
 | [devario-aqueous-desktop](devario-aqueous-desktop/PKGBUILD) | After the five Aqueous 1.0.0-1 components |
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |

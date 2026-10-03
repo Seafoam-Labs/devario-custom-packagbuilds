@@ -1,0 +1,14 @@
+pkgbase = python-autocommand
+	pkgdesc = Python autocommand library (build-tool bootstrap)
+	pkgver = 2.2.2
+	pkgrel = 1
+	url = https://pypi.org/project/autocommand/
+	arch = any
+	license = LGPL-3.0-only
+	makedepends = python-installer
+	depends = python>=3.12
+	noextract = autocommand-2.2.2-py3-none-any.whl
+	source = https://files.pythonhosted.org/packages/b5/62/05203c39d21aa3171454a6c5391ea3b582a97bfb1bc1adad25628331a1cd/autocommand-2.2.2-py3-none-any.whl
+	sha256sums = 710afe251075e038e19e815e25f8155cabe02196cfb545b2185e0d9c8b2b0459
+
+pkgname = python-autocommand

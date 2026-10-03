@@ -1,0 +1,18 @@
+pkgbase = python-jaraco.text
+	pkgdesc = Python jaraco.text library (build-tool bootstrap)
+	pkgver = 4.0.0
+	pkgrel = 1
+	url = https://pypi.org/project/jaraco.text/
+	arch = any
+	license = MIT
+	makedepends = python-installer
+	depends = python>=3.12
+	depends = python-jaraco.functools
+	depends = python-jaraco.context>=4.1
+	depends = python-autocommand
+	depends = python-more-itertools
+	noextract = jaraco.text-4.0.0-py3-none-any.whl
+	source = https://files.pythonhosted.org/packages/2f/29/350039bde32fbd7000e2fb81e1c4e42a857b5e77bcbaf6267c806c70ab9a/jaraco.text-4.0.0-py3-none-any.whl
+	sha256sums = 08de508939b5e681b14cdac2f1f73036cd97f6f8d7b25e96b8911a9a428ca0d1
+
+pkgname = python-jaraco.text

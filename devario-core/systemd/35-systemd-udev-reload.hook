@@ -8,4 +8,4 @@ Target = usr/lib/udev/rules.d/*
 [Action]
 Description = Reloading device manager configuration...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook udev-reload
+Exec = /usr/share/rlpm/scripts/systemd-hook udev-reload

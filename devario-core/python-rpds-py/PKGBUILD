@@ -1,0 +1,30 @@
+# Maintainer: Devario maintainers
+pkgname=python-rpds-py
+pkgver=2026.6.3
+pkgrel=1
+pkgdesc='Python bindings for Rust persistent data structures'
+arch=(x86_64)
+url='https://github.com/crate-py/rpds'
+license=('MIT')
+depends=('python' 'gcc-libs' 'glibc')
+makedepends=('rust' 'maturin>=1.9' 'python-installer')
+source=('https://files.pythonhosted.org/packages/aa/2a/9618a122aeb2a169a28b03889a2995fe297588964333d4a7d67bdf46e147/rpds_py-2026.6.3.tar.gz')
+sha256sums=('1cebd1337c242e4ec2293e541f712b2da849b29f48f0c293684b71c0632625d4')
+
+prepare() {
+  cd "rpds_py-2026.6.3"
+  export CARGO_HOME="$srcdir/cargo-home"
+  cargo fetch --locked
+}
+
+build() {
+  cd "rpds_py-2026.6.3"
+  export CARGO_HOME="$srcdir/cargo-home"
+  maturin build --release --frozen --strip --interpreter python --out dist
+}
+
+package() {
+  cd "rpds_py-2026.6.3"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

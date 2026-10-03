@@ -10,7 +10,7 @@ pkgbase=glibc
 pkgname=(glibc lib32-glibc glibc-locales)
 pkgver=2.44+r50+g1848099f063e
 _commit=1848099f063e99d4ffecbd7667766d54862398b9
-pkgrel=1
+pkgrel=2
 arch=(x86_64 aarch64)
 url='https://www.gnu.org/software/libc'
 license=(GPL-2.0-or-later LGPL-2.1-or-later)
@@ -236,12 +236,12 @@ package_glibc() {
   install -Dm644 "${srcdir}"/sdt-config.h "${pkgdir}"/usr/include/sys/sdt-config.h
 
   # Install relevant pre- and post-transaction hooks.
-  install -vDm 644 ../10-glibc-locale-gen.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../10-glibc-remove-locale-archive.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../11-glibc-ldconfig.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../11-glibc-remove-ldconfig-cache.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../12-glibc-iconvconfig.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../12-glibc-remove-iconvconfig-cache.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
+  install -vDm 644 ../10-glibc-locale-gen.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../10-glibc-remove-locale-archive.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../11-glibc-ldconfig.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../11-glibc-remove-ldconfig-cache.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../12-glibc-iconvconfig.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../12-glibc-remove-iconvconfig-cache.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
 
   # Install tunables.conf
   install -vDm 644 ../tunables.conf -t "${pkgdir}"/etc/
@@ -273,8 +273,8 @@ package_lib32-glibc() {
   ln -s ../lib/locale "${pkgdir}"/usr/lib32/locale
 
   # Install relevant pre- and post-transaction hooks.
-  install -vDm 644 ../12-lib32-glibc-iconvconfig.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
-  install -vDm 644 ../12-lib32-glibc-remove-iconvconfig-cache.hook -t "${pkgdir}"/usr/share/libalpm/hooks/
+  install -vDm 644 ../12-lib32-glibc-iconvconfig.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
+  install -vDm 644 ../12-lib32-glibc-remove-iconvconfig-cache.hook -t "${pkgdir}"/usr/share/rlpm/hooks/
 }
 
 package_glibc-locales() {

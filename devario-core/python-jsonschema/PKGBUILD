@@ -1,0 +1,28 @@
+# Maintainer: Devario maintainers
+pkgname=python-jsonschema
+pkgver=4.26.0
+pkgrel=1
+pkgdesc='JSON Schema validation including Draft 2020-12'
+arch=(any)
+url='https://github.com/python-jsonschema/jsonschema'
+license=('MIT')
+depends=('python' 'python-attrs>=22.2.0' 'python-jsonschema-specifications>=2023.03.6' 'python-referencing>=0.28.4' 'python-rpds-py>=0.25.0')
+makedepends=('python-hatchling' 'python-hatch-vcs' 'python-hatch-fancy-pypi-readme' 'python-build' 'python-installer')
+source=('https://files.pythonhosted.org/packages/b3/fc/e067678238fa451312d4c62bf6e6cf5ec56375422aee02f9cb5f909b3047/jsonschema-4.26.0.tar.gz')
+sha256sums=('0c26707e2efad8aa1bfc5b7ce170f3fccc2e4918ff85989ba9ffa9facb2be326')
+
+build() {
+  cd "jsonschema-4.26.0"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "jsonschema-$pkgver"
+  python -m unittest jsonschema.tests.test_validators
+}
+
+package() {
+  cd "jsonschema-4.26.0"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

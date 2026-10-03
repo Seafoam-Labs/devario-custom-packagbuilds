@@ -8,4 +8,4 @@ Target = usr/
 [Action]
 Description = Arming ConditionNeedsUpdate...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook update
+Exec = /usr/share/rlpm/scripts/systemd-hook update

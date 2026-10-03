@@ -7,4 +7,4 @@ Target = usr/lib/sysusers.d/*.conf
 [Action]
 Description = Creating system user accounts...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook sysusers
+Exec = /usr/share/rlpm/scripts/systemd-hook sysusers

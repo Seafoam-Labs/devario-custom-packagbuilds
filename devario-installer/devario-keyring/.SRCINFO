@@ -1,7 +1,7 @@
 pkgbase = devario-keyring
 	pkgdesc = Devario repository signing keys
 	pkgver = 20260923
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = CC0-1.0

@@ -1,0 +1,14 @@
+pkgbase = python-more-itertools
+	pkgdesc = Python more-itertools library (build-tool bootstrap)
+	pkgver = 11.1.0
+	pkgrel = 1
+	url = https://pypi.org/project/more-itertools/
+	arch = any
+	license = MIT
+	makedepends = python-installer
+	depends = python>=3.12
+	noextract = more_itertools-11.1.0-py3-none-any.whl
+	source = https://files.pythonhosted.org/packages/e8/3d/1087453384dbde46a8c7f9356eead2c58be8a7bf156bca40243377c85715/more_itertools-11.1.0-py3-none-any.whl
+	sha256sums = 4b65538ae22f6fed0ce4874efd317463a7489796a0939fa66824dd542125a192
+
+pkgname = python-more-itertools

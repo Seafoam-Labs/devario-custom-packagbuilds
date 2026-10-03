@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-jaraco.text
+pkgver=4.0.0
+pkgrel=1
+pkgdesc='Python jaraco.text library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/jaraco.text/'
+license=('MIT')
+depends=('python>=3.12' 'python-jaraco.functools' 'python-jaraco.context>=4.1' 'python-autocommand' 'python-more-itertools')
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/2f/29/350039bde32fbd7000e2fb81e1c4e42a857b5e77bcbaf6267c806c70ab9a/jaraco.text-4.0.0-py3-none-any.whl')
+noextract=('jaraco.text-4.0.0-py3-none-any.whl')
+sha256sums=('08de508939b5e681b14cdac2f1f73036cd97f6f8d7b25e96b8911a9a428ca0d1')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/jaraco.text-4.0.0-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/jaraco.text-4.0.0.dist-info/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

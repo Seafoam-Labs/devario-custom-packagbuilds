@@ -7,4 +7,4 @@ Target = usr/lib/tmpfiles.d/*.conf
 [Action]
 Description = Creating temporary files...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook tmpfiles
+Exec = /usr/share/rlpm/scripts/systemd-hook tmpfiles

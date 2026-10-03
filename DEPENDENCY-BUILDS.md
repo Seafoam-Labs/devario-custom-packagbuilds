@@ -1,5 +1,41 @@
 # Missing dependency builds for Shelly
 
+For the current core-only ISO, upload the complete recipe directories below.
+These releases move system hooks and their helpers to `/usr/share/rlpm/`,
+public key bundles to `/usr/share/shelly/keyrings/`, and mutable state and
+configuration to Shelly paths. They require the patched Shelly CLI/key tools
+built with `-Dpath-profile=devario` and support for `HookDirMode = Replace`.
+
+| Rebuild recipe | Release | Location |
+| --- | --- | --- |
+| glibc | 2.44+r50+g1848099f063e-2 | `devario-core/glibc` |
+| glib2 | 2.90.0-2 | `devario-core/glib2` |
+| dbus | 1.16.2-3 | `devario-core/dbus` |
+| systemd | 262-8 | `devario-core/systemd` |
+| devario-dracut | 112-5 | `devario-core/devario-dracut` |
+| devario-keyring | 20260923-2 | `devario-installer/devario-keyring` |
+| devario-boot | 1-6 | `devario-installer/devario-boot` |
+| devario-base | 3-10 | `devario-installer/devario-base` |
+
+Build each split recipe once and publish its matching outputs together;
+`glibc` includes `lib32-glibc`. Build boot after dracut, and base after boot
+and keyring. Keep using the existing published bootstrap dependencies for
+cycles among glib2, D-Bus, and systemd.
+
+Also build the 15 recipes in the [jsonschema build chain](JSONSCHEMA-BUILDS.md)
+in its listed stages, unless already published. Publish `nbd` 3.27.1-4 to
+`devario-core` too; its existing recipe needs no additional path changes.
+This is 24 local recipe targets, plus the patched upstream Shelly build.
+The ISO uses the published `devario-desktop` and stable `pearl-greeter`;
+`devario-aqueous-desktop` and `seafoam-keyring` are not default ISO requirements.
+
+Validation for the eight path updates: Bash syntax, regenerated makepkg
+metadata, and 68 bundled-source checksums passed. Staged package functions
+for base, boot, and keyring produced the expected paths and boot hook masks.
+The OS repository's three matching recipes are synchronized. Full compilation,
+isolated Remora builds, and publication of these releases remain to be done.
+ISO builder and verification script path migration remains separate work.
+
 For Zig 0.16 and its LLVM 21, CMake, GCC, and Python prerequisites, see
 [the Zig build guide](ZIG-BUILDS.md).
 
@@ -30,10 +66,10 @@ OS-owned live USB and installer recipes are in
 | Directory | Version | Build/publish order |
 | --- | --- | --- |
 | `devario-filesystem` | 1-1 | Before OS metapackages |
-| `devario-keyring` | 20260923-1 | Before OS metapackages |
+| `devario-keyring` | 20260923-2 | Before OS metapackages |
 | `seafoam-keyring` | 20260923-1 | Before OS metapackages |
-| `devario-boot` | 1-4 | Before devario-base; requires published devario-dracut |
-| `devario-base` | 3-8 | After filesystem, boot, and both keyrings |
+| `devario-boot` | 1-6 | Before devario-base; requires published devario-dracut |
+| `devario-base` | 3-10 | After filesystem, boot, and devario-keyring |
 | `devario-aqueous-desktop` | 1-8 | Requires the five published Aqueous 1.0.0-1 components |
 | `ckbcomp` | 1.248-1 | Before Calamares |
 | `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |
@@ -42,8 +78,8 @@ The eight OS-owned directories in `devario-installer/` are self-contained copies
 commit `63f329223e0851a5f05519b849bb250d560833e2`. All referenced hooks,
 configuration, patches, desktop files, and public key material are included.
 The desktop recipe's Aqueous pins and Calamares's explicit CMake dependency
-are updated in this package repository. The original OS checkout is unchanged;
-these copies do not automatically synchronize with it. Exact provenance is in
+are updated in this package repository. The base, boot, and keyring recipes are synchronized with the OS checkout
+for this path migration; future edits do not automatically synchronize. Exact provenance is in
 [iso-packages-upstream.json](devario-core/iso-packages-upstream.json).
 
 These copies are an alternative worker build route. The OS repository's

@@ -1,9 +1,8 @@
 pkgbase = devario-base
 	pkgdesc = Minimal package set defining a base Devario installation
 	pkgver = 3
-	pkgrel = 8
+	pkgrel = 10
 	url = https://github.com/Seafoam-Labs/devario-os
-	install = devario-base.install
 	arch = any
 	license = GPL-3.0-or-later
 	depends = devario-filesystem
@@ -30,7 +29,6 @@ pkgbase = devario-base
 	depends = shelly>=3.1.6-2
 	depends = devario-boot
 	depends = devario-keyring
-	depends = seafoam-keyring
 	depends = systemd
 	depends = systemd-sysvcompat
 	depends = iputils
@@ -47,15 +45,9 @@ pkgbase = devario-base
 	replaces = devario-alpm-runtime
 	backup = etc/shelly.conf
 	source = shelly.conf
-	source = shelly-storage-migrate
-	source = shelly-storage-migrate.service
-	source = devario-base.install
 	source = devario-report.sh
 	source = devario-report.desktop
-	sha256sums = 6ff7d46aac499013eccc83d4bd977bbdb929f28c7df7572177e1851b92d578d5
-	sha256sums = 0fafdbb0f41e471dea9ce0a5f0b79bd216b443926f7f4c99d6b11d9f536d5b52
-	sha256sums = f7df4b2ed5e8db335dea4c44912a4f18f843742d14bdae584453d6c5218d7aa9
-	sha256sums = 2a594dab826f2599528d8a96b388fadd163a9df079e579756365a24df507cb72
+	sha256sums = bc3ec8837e5ee51dc80b1a6a20a3cf223cdfb7ab417337e473dfdfb3dc03aaa2
 	sha256sums = 119b53a8143666fec4dbd22373857651bbe8d14206722209016f71b3fd9a84e6
 	sha256sums = 80393599bf8724177dafe28a258f59756c1713e52a3777fff1663df82deb634d
 

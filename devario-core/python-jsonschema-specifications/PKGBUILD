@@ -1,0 +1,23 @@
+# Maintainer: Devario maintainers
+pkgname=python-jsonschema-specifications
+pkgver=2025.9.1
+pkgrel=1
+pkgdesc='JSON Schema meta-schemas and vocabularies'
+arch=(any)
+url='https://github.com/python-jsonschema/jsonschema-specifications'
+license=('MIT')
+depends=('python' 'python-referencing>=0.31.0')
+makedepends=('python-hatchling>=1.27.0' 'python-hatch-vcs' 'python-build' 'python-installer')
+source=('https://files.pythonhosted.org/packages/19/74/a633ee74eb36c44aa6d1095e7cc5569bebf04342ee146178e2d36600708b/jsonschema_specifications-2025.9.1.tar.gz')
+sha256sums=('b540987f239e745613c7a9176f3edb72b832a4ac465cf02712288397832b5e8d')
+
+build() {
+  cd "jsonschema_specifications-2025.9.1"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "jsonschema_specifications-2025.9.1"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

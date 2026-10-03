@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-more-itertools
+pkgver=11.1.0
+pkgrel=1
+pkgdesc='Python more-itertools library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/more-itertools/'
+license=('MIT')
+depends=('python>=3.12' )
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/e8/3d/1087453384dbde46a8c7f9356eead2c58be8a7bf156bca40243377c85715/more_itertools-11.1.0-py3-none-any.whl')
+noextract=('more_itertools-11.1.0-py3-none-any.whl')
+sha256sums=('4b65538ae22f6fed0ce4874efd317463a7489796a0939fa66824dd542125a192')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/more_itertools-11.1.0-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/more_itertools-11.1.0.dist-info/licenses/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

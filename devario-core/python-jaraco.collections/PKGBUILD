@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-jaraco.collections
+pkgver=5.2.1
+pkgrel=1
+pkgdesc='Python jaraco.collections library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/jaraco.collections/'
+license=('MIT')
+depends=('python>=3.12' 'python-jaraco.text')
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/b5/fe/570f6a7b4443a3548ab02ba88c77b64521452a2eed2c80449d13be8fd4d1/jaraco_collections-5.2.1-py3-none-any.whl')
+noextract=('jaraco_collections-5.2.1-py3-none-any.whl')
+sha256sums=('ea3415ddfc50206b6ba7d09c3deb358b76a5f8c1ddc82be788e8e8bd151ebfa8')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/jaraco_collections-5.2.1-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/jaraco_collections-5.2.1.dist-info/licenses/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

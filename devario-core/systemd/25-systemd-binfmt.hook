@@ -7,4 +7,4 @@ Target = usr/lib/binfmt.d/*.conf
 [Action]
 Description = Registering binary formats...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook binfmt
+Exec = /usr/share/rlpm/scripts/systemd-hook binfmt

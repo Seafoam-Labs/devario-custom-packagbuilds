@@ -1,0 +1,15 @@
+pkgbase = python-jaraco.collections
+	pkgdesc = Python jaraco.collections library (build-tool bootstrap)
+	pkgver = 5.2.1
+	pkgrel = 1
+	url = https://pypi.org/project/jaraco.collections/
+	arch = any
+	license = MIT
+	makedepends = python-installer
+	depends = python>=3.12
+	depends = python-jaraco.text
+	noextract = jaraco_collections-5.2.1-py3-none-any.whl
+	source = https://files.pythonhosted.org/packages/b5/fe/570f6a7b4443a3548ab02ba88c77b64521452a2eed2c80449d13be8fd4d1/jaraco_collections-5.2.1-py3-none-any.whl
+	sha256sums = ea3415ddfc50206b6ba7d09c3deb358b76a5f8c1ddc82be788e8e8bd151ebfa8
+
+pkgname = python-jaraco.collections

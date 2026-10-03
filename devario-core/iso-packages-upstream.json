@@ -25,12 +25,14 @@
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "devario-base": {
+    "changes": "Release 3-10: Shelly configuration and mutable paths; exclusive RLPM system hooks and Shelly administrator hooks; core-only repositories.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-base",
     "recipeDirectory": "devario-installer/devario-base",
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "devario-boot": {
+    "changes": "Release 1-6: install system hook under rlpm and hook masks under shelly.d.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-boot",
     "recipeDirectory": "devario-installer/devario-boot",
@@ -43,6 +45,7 @@
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "devario-keyring": {
+    "changes": "Release 20260923-2: install public key bundles under /usr/share/shelly/keyrings.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-keyring",
     "recipeDirectory": "devario-installer/devario-keyring",

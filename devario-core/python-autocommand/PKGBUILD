@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-autocommand
+pkgver=2.2.2
+pkgrel=1
+pkgdesc='Python autocommand library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/autocommand/'
+license=('LGPL-3.0-only')
+depends=('python>=3.12' )
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/b5/62/05203c39d21aa3171454a6c5391ea3b582a97bfb1bc1adad25628331a1cd/autocommand-2.2.2-py3-none-any.whl')
+noextract=('autocommand-2.2.2-py3-none-any.whl')
+sha256sums=('710afe251075e038e19e815e25f8155cabe02196cfb545b2185e0d9c8b2b0459')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/autocommand-2.2.2-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/autocommand-2.2.2.dist-info/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

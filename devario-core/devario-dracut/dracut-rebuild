@@ -11,4 +11,4 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
-/usr/share/libalpm/scripts/dracut-install < "/usr/bin/dracut-rebuild"
+/usr/share/rlpm/scripts/dracut-install < "/usr/bin/dracut-rebuild"

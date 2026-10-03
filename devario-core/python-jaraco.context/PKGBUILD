@@ -1,0 +1,21 @@
+# Maintainer: Devario maintainers
+# Pure-Python upstream wheel bootstraps setuptools' own runtime dependencies.
+pkgname=python-jaraco.context
+pkgver=6.1.2
+pkgrel=1
+pkgdesc='Python jaraco.context library (build-tool bootstrap)'
+arch=(any)
+url='https://pypi.org/project/jaraco.context/'
+license=('MIT')
+depends=('python>=3.12' )
+makedepends=('python-installer')
+source=('https://files.pythonhosted.org/packages/f2/58/bc8954bda5fcda97bd7c19be11b85f91973d67a706ed4a3aec33e7de22db/jaraco_context-6.1.2-py3-none-any.whl')
+noextract=('jaraco_context-6.1.2-py3-none-any.whl')
+sha256sums=('bf8150b79a2d5d91ae48629d8b427a8f7ba0e1097dd6202a9059f29a36379535')
+
+package() {
+  python -m installer --destdir="$pkgdir" "$srcdir/jaraco_context-6.1.2-py3-none-any.whl"
+  local site_packages
+  site_packages="$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+  install -Dm644 "$pkgdir$site_packages/jaraco_context-6.1.2.dist-info/licenses/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

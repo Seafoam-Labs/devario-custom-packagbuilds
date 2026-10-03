@@ -1,0 +1,14 @@
+pkgbase = python-platformdirs
+	pkgdesc = Python platformdirs library (build-tool bootstrap)
+	pkgver = 4.12.2
+	pkgrel = 1
+	url = https://pypi.org/project/platformdirs/
+	arch = any
+	license = MIT
+	makedepends = python-installer
+	depends = python>=3.12
+	noextract = platformdirs-4.12.2-py3-none-any.whl
+	source = https://files.pythonhosted.org/packages/d0/89/446044f33aba0348d35e433f56d12206d010a5281a1df54054d4cfb82388/platformdirs-4.12.2-py3-none-any.whl
+	sha256sums = 29dbf06d96c500bc6bdbce75fb0a14d63279c93b1842f97e72a135b33e856983
+
+pkgname = python-platformdirs

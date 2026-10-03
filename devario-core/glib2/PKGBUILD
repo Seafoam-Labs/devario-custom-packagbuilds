@@ -9,7 +9,7 @@ pkgname=(
   glib2-docs
 )
 pkgver=2.90.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Low level core library"
 url="https://gitlab.gnome.org/GNOME/glib"
 license=(LGPL-2.1-or-later)
@@ -148,7 +148,7 @@ package_glib2() {
     _verify_soname "$pkgdir/usr/lib/$lib.so" "$lib.so.0"
   done
 
-  install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 *.hook
+  install -Dt "$pkgdir/usr/share/rlpm/hooks" -m644 *.hook
   touch "$pkgdir/usr/lib/gio/modules/.keep"
 
   python -m compileall -d /usr/share/glib-2.0/codegen \

@@ -1,0 +1,23 @@
+# Maintainer: Devario maintainers
+pkgname=python-referencing
+pkgver=0.37.0
+pkgrel=1
+pkgdesc='JSON reference resolution for Python'
+arch=(any)
+url='https://github.com/python-jsonschema/referencing'
+license=('MIT')
+depends=('python' 'python-attrs>=22.2.0' 'python-rpds-py>=0.7.0' 'python-typing_extensions>=4.4.0')
+makedepends=('python-hatchling' 'python-hatch-vcs' 'python-build' 'python-installer')
+source=('https://files.pythonhosted.org/packages/22/f5/df4e9027acead3ecc63e50fe1e36aca1523e1719559c499951bb4b53188f/referencing-0.37.0.tar.gz')
+sha256sums=('44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8')
+
+build() {
+  cd "referencing-0.37.0"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "referencing-0.37.0"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

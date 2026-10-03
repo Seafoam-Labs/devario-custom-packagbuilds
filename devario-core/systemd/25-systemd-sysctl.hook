@@ -7,4 +7,4 @@ Target = usr/lib/sysctl.d/*.conf
 [Action]
 Description = Applying kernel sysctl settings...
 When = PostTransaction
-Exec = /usr/share/libalpm/scripts/systemd-hook sysctl
+Exec = /usr/share/rlpm/scripts/systemd-hook sysctl
