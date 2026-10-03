@@ -14,16 +14,60 @@ built with `-Dpath-profile=devario` and support for `HookDirMode = Replace`.
 | systemd | 262-8 | `devario-core/systemd` |
 | devario-dracut | 112-5 | `devario-core/devario-dracut` |
 | devario-keyring | 20260923-2 | `devario-installer/devario-keyring` |
-| devario-boot | 1-6 | `devario-installer/devario-boot` |
-| devario-base | 3-10 | `devario-installer/devario-base` |
+| devario-boot | 1-7 | `devario-installer/devario-boot` |
+| devario-base | 3-11 | `devario-installer/devario-base` |
+
+`devario-boot` 1-7 replaces installed Limine with systemd-boot. Build and
+publish it before `devario-base` 3-11, which requires that release. Installation
+now requires 64-bit UEFI and a FAT EFI System Partition at `/boot`. The live ISO
+retains its BIOS Syslinux support, so `syslinux` remains in the rebuild list.
+The boot recipe retains the legacy hook mask and migrates an existing Devario
+Limine marker only after successful UEFI deployment.
 
 A subsequent audit of the complete signed repository file inventory found
-additional hook owners not represented by the original local recipe scan.
-Update the worker recipes for `accountsservice`, `appstream`, `ca-certificates`
-(output `ca-certificates-utils`), `dconf`, `desktop-file-utils`, `dkms`,
-`fontconfig`, `gdk-pixbuf2`, `gtk3`, `gtk4` (including `gtk-update-icon-cache`),
-`gvfs`, `kmod`, `man-db`, `openssh`, `perl`, `shared-mime-info`, and `syslinux`.
-Move both hook/helper installation paths and references to `/usr/share/rlpm/`.
+17 additional recipe bases. Their recipes and supporting files are now in
+`devario-core`, imported from the upstream packaging tags matching the published
+versions. Each PKGBUILD records its upstream packaging commit. Hook/helper
+installation paths, hook commands, and install-script references now use
+`/usr/share/rlpm/`; package releases and bundled-source checksums are updated.
+
+| Additional rebuild recipe | New version | Location |
+| --- | --- | --- |
+| accountsservice | 26.27.3-2 | [recipe](devario-core/accountsservice/PKGBUILD) |
+| appstream | 1.2.1-2 | [recipe](devario-core/appstream/PKGBUILD) |
+| ca-certificates | 20240618-2 | [recipe](devario-core/ca-certificates/PKGBUILD) |
+| dconf | 51.0-2 | [recipe](devario-core/dconf/PKGBUILD) |
+| desktop-file-utils | 0.28-2 | [recipe](devario-core/desktop-file-utils/PKGBUILD) |
+| dkms | 3.4.3-3 | [recipe](devario-core/dkms/PKGBUILD) |
+| fontconfig | 2:2.18.3-3 | [recipe](devario-core/fontconfig/PKGBUILD) |
+| gdk-pixbuf2 | 2.44.8-2 | [recipe](devario-core/gdk-pixbuf2/PKGBUILD) |
+| gtk3 | 1:3.24.52-3 | [recipe](devario-core/gtk3/PKGBUILD) |
+| gtk4 | 1:4.24.1-2 | [recipe](devario-core/gtk4/PKGBUILD) |
+| gvfs | 1.62.0-4 | [recipe](devario-core/gvfs/PKGBUILD) |
+| kmod | 34.2-2 | [recipe](devario-core/kmod/PKGBUILD) |
+| man-db | 2.13.1-3 | [recipe](devario-core/man-db/PKGBUILD) |
+| openssh | 10.5p1-2 | [recipe](devario-core/openssh/PKGBUILD) |
+| perl | 5.42.3-2 | [recipe](devario-core/perl/PKGBUILD) |
+| shared-mime-info | 2.5.1-3 | [recipe](devario-core/shared-mime-info/PKGBUILD) |
+| syslinux | 6.04.pre3.r3.g05ac953c-6 | [recipe](devario-core/syslinux/PKGBUILD) |
+
+Publish all matching split outputs together, including `ca-certificates-utils`
+from `ca-certificates` and `gtk-update-icon-cache` from `gtk4`. Keep each complete
+recipe directory, including any `keys/pgp` public keys, when uploading to Remora.
+Perl's old-module hook now reads `/var/lib/shelly/local` directly for package
+ownership; it no longer requires the legacy package-manager command. DKMS's
+hook debugging variable is now `DKMS_RLPM_HOOK_DEBUG`.
+The imported install scripts also avoid the unavailable `vercmp` executable:
+CA certificate migration checks the old directory directly, fresh dconf and
+fontconfig installs retain their initialization, and obsolete pre-Devario
+upgrade notices/migrations are removed.
+
+Validation for these 17 recipes: metadata generation and Shelly review completed,
+32 shell files passed syntax checks, and all 81 checksums for 70 bundled source
+files matched. Four Perl hook fixture tests passed. Shelly's static review still
+reports dynamic-command warnings in upstream helper scripts and patch text.
+Full isolated compilation and publication have not been performed.
+
 The published `systemd` and `devario-dracut` archives also still use old paths;
 the local recipes above already include their fixes. Rebuilding devario-dracut
 also restores its `initramfs` provision, avoiding the old `dracut-git` provider.
@@ -42,7 +86,7 @@ hash-pinned upstream wheels. The 15 Python recipes from the previous work are
 optional and are no longer required for the ISO or Remora build list.
 Publish `nbd` 3.27.1-4 to `devario-core` if still missing; its existing recipe
 needs no additional path changes. The original local list is the eight rebuild targets above plus `nbd`; the
-additional worker recipes listed above must also be migrated before ISO construction.
+additional recipes listed above must also be rebuilt and published before ISO construction.
 The ISO uses the published `devario-desktop` and stable `pearl-greeter`;
 `devario-aqueous-desktop` and `seafoam-keyring` are not default ISO requirements.
 
@@ -86,8 +130,8 @@ OS-owned live USB and installer recipes are in
 | `devario-filesystem` | 1-1 | Before OS metapackages |
 | `devario-keyring` | 20260923-2 | Before OS metapackages |
 | `seafoam-keyring` | 20260923-1 | Before OS metapackages |
-| `devario-boot` | 1-6 | Before devario-base; requires published devario-dracut |
-| `devario-base` | 3-10 | After filesystem, boot, and devario-keyring |
+| `devario-boot` | 1-7 | Before devario-base; requires published devario-dracut |
+| `devario-base` | 3-11 | After filesystem, boot, and devario-keyring |
 | `devario-aqueous-desktop` | 1-8 | Requires the five published Aqueous 1.0.0-1 components |
 | `ckbcomp` | 1.248-1 | Before Calamares |
 | `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |

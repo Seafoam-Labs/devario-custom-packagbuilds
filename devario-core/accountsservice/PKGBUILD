@@ -1,0 +1,84 @@
+# Devario: install transaction hooks and helpers under /usr/share/rlpm.
+# Packaging source: https://gitlab.archlinux.org/archlinux/packaging/packages/accountsservice/-/commit/6f9d2907bfacdbd461f10b899e75013a6745d078
+
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+pkgname=accountsservice
+pkgver=26.27.3
+pkgrel=2
+pkgdesc="D-Bus interface for user account query and manipulation"
+url="https://gitlab.freedesktop.org/accountsservice/accountsservice"
+arch=(x86_64)
+license=(GPL-3.0-or-later)
+depends=(
+  glib2
+  glibc
+  json-c
+  libgcc
+  libxcrypt
+  polkit
+  shadow
+  systemd
+)
+makedepends=(
+  docbook-xsl
+  git
+  glib2-devel
+  gobject-introspection
+  gtk-doc
+  meson
+  vala
+  xmlto
+)
+checkdepends=(
+  glibc-locales
+  python-dbusmock
+  python-gobject
+)
+source=(
+  "git+$url.git#tag=$pkgver"
+  accounts-daemon-restart.hook
+  0001-tests-Drop-check-format-test.patch
+)
+b2sums=('8d69d3238ebe41733f32c39e752826ebff06b084f848f1a8fe3cc93d733a400dab2039fd747b8487b145a11d9ad745dce1d9f6f05389e2b8e0961b156f88c599'
+        'b7f29c44e782687ecad459024e5be8e87b4809a19f422d1cc7fbd8958b90c68d39542e3fc13c69376e6093688214418974fa1a5b1d31ea03550cb0170b21b7ea'
+        'e59a6c0d092a28d34cc9f7260aa58cbe73e2a4d5d303f5676fcc929764cd1158e59c330cbd0115e895ca0cae52ed31e4f3ad2e2549fb7dbf618bf8327f1c438d')
+
+prepare() {
+  cd $pkgname
+
+  # Fix build with patches
+  git apply -3 ../0001-tests-Drop-check-format-test.patch
+}
+
+build() {
+  local meson_options=(
+    -D admin_group=wheel
+    -D docbook=true
+    -D gtk_doc=true
+  )
+
+  arch-meson $pkgname build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  depends+=(
+    libcrypt.so
+    libg{lib,object,io}-2.0.so
+    libsystemd.so
+  )
+  provides+=(libaccountsservice.so)
+
+  meson install -C build --destdir "$pkgdir"
+
+  install -Dt "$pkgdir/usr/share/rlpm/hooks" -m644 *.hook
+  install -d "$pkgdir/usr/share/accountsservice/interfaces"
+}
+
+# vim:set sw=2 sts=-1 et:

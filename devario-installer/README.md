@@ -5,7 +5,7 @@ This folder contains the eight OS-owned recipes and their supporting files:
 The current ISO uses the repository's `devario-desktop` and stable
 `pearl-greeter`. `devario-aqueous-desktop` and `seafoam-keyring` are retained here
 for older configurations and are no longer part of the default ISO build.
-Rebuild `devario-base` 3-10, `devario-boot` 1-6, and `devario-keyring`
+Rebuild `devario-base` 3-11, `devario-boot` 1-7, and `devario-keyring`
 20260923-2 for the Shelly Devario path profile, RLPM hooks, and core-only
 configuration. OS login and GPU defaults now live in the ISO profile.
 
@@ -43,3 +43,7 @@ See [dependency build notes](../DEPENDENCY-BUILDS.md) for prerequisites and
 validation limitations. Shared [provenance](../devario-core/iso-packages-upstream.json)
 and [validation records](../devario-core/iso-packages-validation.json) cover both
 the runtime recipes and these OS packages.
+
+`devario-boot` 1-7 deploys systemd-boot for installed systems. Calamares now
+requires 64-bit UEFI; the live ISO retains BIOS Syslinux support. Build boot
+before base, whose 3-11 recipe requires the new boot lifecycle.

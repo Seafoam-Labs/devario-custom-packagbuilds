@@ -1,0 +1,68 @@
+# Devario: install transaction hooks and helpers under /usr/share/rlpm.
+# Packaging source: https://gitlab.archlinux.org/archlinux/packaging/packages/dkms/-/commit/1dc192d2318b11c7ded9aa6829f5bf29fe35ff4d
+
+# Maintainer: Sébastien Luttringer
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: Balwinder S "bsd" Dheeman (bdheeman AT gmail.com)
+
+pkgname=dkms
+pkgver=3.4.3
+pkgrel=3
+pkgdesc='Dynamic Kernel Modules System'
+arch=('any')
+url='https://github.com/dkms-project/dkms'
+license=(GPL-2.0-or-later)
+depends=(
+  bash
+  coreutils
+  gawk
+  gcc
+  kmod
+  make
+  patch
+  sed
+)
+makedepends=(
+  git
+)
+optdepends=('linux-headers: build modules against the Arch kernel'
+            'linux-lts-headers: build modules against the LTS kernel'
+            'linux-zen-headers: build modules against the ZEN kernel'
+            'linux-hardened-headers: build modules against the HARDENED kernel')
+backup=('etc/dkms/framework.conf')
+source=("git+https://github.com/dell/dkms.git#tag=v$pkgver"
+        'hook.install'
+        'hook.remove'
+        'hook.upgrade'
+        'hook.sh')
+sha256sums=('2d794448ffe817ef0e6f99d0a028174b917fa7177ec67da89d4eb6c1cd7563f2'
+            '77acc23f486de2fbfc71de3c42f958fe2c7e4d62bcc4d76cbedef1ee3d32a32d'
+            '23a12189f01bb9129dfa45a693589bb2a4973b2b260e9e4a38da8a616474d3ed'
+            '6de1594204f5ea4c576acd63af7ab78b0e0b2876273e71902446029b6408f860'
+            'ee8226ab9efd78fd6f389af71201b5fc5bc3fafde4b109b94b8bb2a76faf9bd2')
+
+package() {
+  # RLPM hooks
+  install -D -m 644 hook.install "$pkgdir/usr/share/rlpm/hooks/70-dkms-install.hook"
+  # both upgrade and remove hooks are removing dkms modules.
+  # remove always call depmod while upgrade never, as install will later.
+  # upgrade is run before remove in order to have the cleanest depmod file,
+  # if something goes wrong before the depmod call in install hook.
+  install -D -m 644 hook.upgrade "$pkgdir/usr/share/rlpm/hooks/70-dkms-upgrade.hook"
+  install -D -m 644 hook.remove "$pkgdir/usr/share/rlpm/hooks/71-dkms-remove.hook"
+  # hook helper
+  install -D -m 755 hook.sh "$pkgdir/usr/share/rlpm/scripts/dkms"
+  # upstream installer
+  cd dkms
+  # we don't need kconf files and libdir is only for debian stuff, so
+  # we install them outside of $pkgdir
+  make \
+    DESTDIR="$pkgdir" \
+    SBIN=/usr/bin \
+    KCONF=/../trash \
+    LIBDIR=/../trash \
+    MODDIR=/usr/lib/modules \
+    install
+}
+
+# vim:set ts=2 sw=2 et:

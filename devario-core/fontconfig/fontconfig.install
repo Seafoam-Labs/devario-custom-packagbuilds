@@ -1,0 +1,20 @@
+post_upgrade() {
+  # Devario already ships the current layout. Initialize fresh installations;
+  # upgrades use the configuration hook without resetting administrator choices.
+  if [[ $2 == 0 ]]; then
+    echo "Creating fontconfig configuration..."
+    find usr/share/fontconfig/conf.default -mindepth 1 |
+      /usr/share/rlpm/scripts/40-fontconfig-config /etc/fonts/conf.d
+
+  fi
+
+  # a full forced directory scan is required here
+  echo "Rebuilding fontconfig cache..."
+  /usr/bin/fc-cache -rs
+}
+
+post_install() {
+  post_upgrade $1 0
+}
+
+# vim:set sw=2 et:

@@ -1,0 +1,8 @@
+post_install() {
+  dconf update
+}
+
+# Upgrades from Devario's dconf 51 already use the current database format.
+# Transaction hooks handle changed configuration directories.
+
+# vim:set sw=2 et:
