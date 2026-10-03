@@ -1,6 +1,6 @@
 # util-linux for Shelly isolated builds
 
-This recipe builds `util-linux` and `util-linux-libs` 2.42.4-2, based on
+This recipe builds `util-linux` and `util-linux-libs` 2.42.4-3, based on
 [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/util-linux/-/blob/main/PKGBUILD).
 It retains the signed release tag, original source checksums, build options,
 PAM files, services, udev rules, and package split.
@@ -28,7 +28,19 @@ shelly build --review-only --json ./PKGBUILD
 shelly build --isolated ./PKGBUILD
 ```
 
-Validation:
+Release 3 adds `libuuid.so=1-64` to `util-linux-libs`, alongside its existing
+bare provision. Shelly preserves this explicit ABI dependency for consumers
+such as wget. Packaging verifies that the staged library is ELF64 with SONAME
+`libuuid.so.1`, and fails if the declared ABI no longer matches the binary.
+Rebuild and publish both split packages together, then refresh the worker
+repository database before retrying dependent builds.
+
+Release 3 validation: Bash syntax, makepkg and Shelly metadata, and Shelly review
+passed. The ABI helper accepts the matching host library and rejects an
+incorrect SONAME or an executable without a SONAME. This revision has not been
+compiled or published.
+
+Validation of release 2, before the ABI metadata change:
 
 - Shell syntax, `.SRCINFO` generation, and Shelly review passed (no findings).
 - The release-tag signature and all source checksums verified successfully.

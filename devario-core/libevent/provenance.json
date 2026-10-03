@@ -3,6 +3,7 @@
   "commit": "914033d8ac6b2c684de7ad43612eed464768f41f",
   "changes": [
     "Add libevent_core and libevent_core.so provisions alongside upstream library provisions",
-    "Bump pkgrel to 3; no forced ABI version"
+    "Release 3 added bare library aliases without a forced ABI version",
+    "Release 4 adds libevent_core-2.1.so=7-64 with an ELF64/SONAME packaging check for Shelly"
   ]
 }

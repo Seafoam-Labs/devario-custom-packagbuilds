@@ -1,12 +1,12 @@
 # Calamares with Pearl appearance
 
-This worker recipe is copied from `devario-os` commit
-`63f329223e0851a5f05519b849bb250d560833e2`, with CMake explicitly added to
-`makedepends` in release 6. The `iso/`, `tools/`, `tests/` and `scripts/` paths
-below refer to that OS repository. Copy this entire package directory to the
-worker; no OS checkout is required to build the package. Source checksums and
-clean application of both patches pass; this imported release has not undergone
-a full Calamares compilation. See [the worker build guide](../../DEPENDENCY-BUILDS.md).
+This worker recipe mirrors `devario-os/packages/calamares`. Release 7 pins the
+x86-64-v3 compiler target and rejects incompatible startup objects and ELF
+output. It has been compiled with the Devario toolchain and libraries. The
+`iso/`, `tools/`, `tests/` and `scripts/` paths below refer to the OS repository.
+Copy this entire package directory, including `verify-isa.py`, to the worker;
+no OS checkout is required to build the package. See
+[the worker build guide](../../DEPENDENCY-BUILDS.md).
 
 Devario builds Calamares 3.4.2 with its Wayland runtime patch and a focused Qt
 presentation patch. Installation jobs remain configured in
@@ -81,6 +81,13 @@ APIs against the new source before refreshing patches. Re-render and compare bot
 palettes against the chosen Pearl release whenever the reference changes.
 
 ## Verification
+
+Calamares targets x86-64-v3. The recipe replaces host compiler flags and checks
+the toolchain's C runtime startup objects before compiling. Build in a Devario
+root with v3-compatible dependencies; a CachyOS v4 host toolchain is rejected.
+The package step and ISO preflight inspect every ELF payload for ISA notes above
+v3, including module libraries. These notes are a regression check, not a full
+instruction audit; the controlled compiler target remains necessary.
 
 `tests/test-calamares-theme.sh` builds a standalone Qt test executable and a
 test-only capture library. It needs CMake, Ninja, a C++17 compiler, Python/PyYAML,

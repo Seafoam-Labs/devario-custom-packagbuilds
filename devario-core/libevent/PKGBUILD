@@ -4,7 +4,7 @@
 pkgbase=libevent
 pkgname=(libevent libevent-docs)
 pkgver=2.1.13
-pkgrel=3
+pkgrel=4
 pkgdesc="Event notification library"
 url="https://libevent.org/"
 arch=(x86_64)
@@ -66,7 +66,8 @@ check() {
 }
 
 package_libevent() {
-  provides=(libevent_core libevent_core.so libevent{,_core,_extra,_openssl,_pthreads}-2.1.so)
+  provides=(libevent_core libevent_core.so libevent{,_core,_extra,_openssl,_pthreads}-2.1.so
+            'libevent_core-2.1.so=7-64')
   depends=(
     glibc
     openssl
@@ -74,6 +75,7 @@ package_libevent() {
   optdepends=('python: event_rpcgen.py')
 
   DESTDIR="$pkgdir" cmake --install build
+  _verify_soname "$pkgdir/usr/lib/libevent_core-2.1.so" libevent_core-2.1.so.7 || return 1
 
   mkdir -p doc/usr/share
   mv {"$pkgdir",doc}/usr/share/doc
@@ -86,4 +88,10 @@ package_libevent-docs() {
 
   mv -v doc/* "$pkgdir"
   install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 libevent-$pkgver-stable/LICENSE
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

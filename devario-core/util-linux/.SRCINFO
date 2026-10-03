@@ -1,7 +1,7 @@
 pkgbase = util-linux
 	pkgdesc = Miscellaneous system utilities for Linux
 	pkgver = 2.42.4
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/util-linux/util-linux
 	arch = x86_64
 	license = BSD-2-Clause
@@ -101,5 +101,6 @@ pkgname = util-linux-libs
 	provides = libmount.so
 	provides = libsmartcols.so
 	provides = libuuid.so
+	provides = libuuid.so=1-64
 	conflicts = libutil-linux
 	replaces = libutil-linux

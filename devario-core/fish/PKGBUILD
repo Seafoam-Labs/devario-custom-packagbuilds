@@ -1,0 +1,76 @@
+# Adapted for Devario from Arch Linux's fish package.
+# Arch maintainer: Levente Polyak <anthraxx@archlinux.org>
+
+pkgname=fish
+pkgver=4.9.3
+pkgrel=1
+pkgdesc='Smart and user friendly shell intended mostly for interactive use'
+arch=('x86_64')
+url='https://fishshell.com/'
+license=('GPL-2.0-only AND LGPL-2.0-or-later AND MIT AND PSF-2.0')
+depends=('glibc' 'libgcc' 'pcre2')
+# Accept rustup's unversioned rust provision too; upstream requires Rust 1.85+.
+makedepends=('cmake' 'gettext' 'git' 'ninja' 'pkgconf' 'python-sphinx' 'rust')
+checkdepends=('less' 'procps-ng' 'python-pexpect' 'tmux' 'wget')
+optdepends=(
+  'python: man page completion parser and web configuration tool'
+  'pkgfile: command-not-found hook'
+  'groff: help for built-in commands'
+  'mandoc: help for built-in commands (alternative)'
+  'xsel: X11 clipboard integration'
+  'xclip: X11 clipboard integration (alternative)'
+  'wl-clipboard: Wayland clipboard integration'
+)
+backup=('etc/fish/config.fish')
+install=fish.install
+source=(
+  "https://github.com/fish-shell/fish-shell/releases/download/$pkgver/fish-$pkgver.tar.xz"
+  "https://github.com/fish-shell/fish-shell/releases/download/$pkgver/fish-$pkgver.tar.xz.asc"
+)
+sha256sums=(
+  '20998a25f73217ddcc19f499055fd587e9912d1ad6e7109120fbcf2871f0b98c'
+  'SKIP'
+)
+validpgpkeys=('D7E7B7E37EF129243377FC0A634329A4CF8E23E8') # Johannes Altmanninger
+
+# Keep debug information available to makepkg; upstream enables Rust LTO.
+export CARGO_PROFILE_RELEASE_DEBUG=2 CARGO_PROFILE_RELEASE_STRIP=false
+
+prepare() {
+  cd "$srcdir/fish-$pkgver"
+
+  # Fetch locked dependencies before the offline build and test phases.
+  CARGO_HOME="$srcdir/cargo-home" \
+    cargo fetch --locked --target "$(rustc -vV | sed -n 's/^host: //p')"
+}
+
+build() {
+  export CARGO_HOME="$srcdir/cargo-home"
+
+  cmake -S "$srcdir/fish-$pkgver" -B "$srcdir/build" -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_BINDIR=bin \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_INSTALL_DOCDIR=share/doc/fish \
+    -DCARGO_FLAGS=--frozen \
+    -DFISH_USE_SYSTEM_PCRE2=ON \
+    -DWITH_DOCS=ON \
+    -DWITH_MESSAGE_LOCALIZATION=ON
+  cmake --build "$srcdir/build"
+}
+
+check() {
+  # The terminal-style unit tests need escape sequences even in headless builds.
+  TERM=xterm-256color CARGO_HOME="$srcdir/cargo-home" \
+    cmake --build "$srcdir/build" --target fish_run_tests
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install "$srcdir/build"
+
+  install -Dm644 "$srcdir/fish-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/fish/COPYING"
+  install -Dm644 "$srcdir/fish-$pkgver/doc_src/license.rst" \
+    "$pkgdir/usr/share/licenses/fish/license.rst"
+}

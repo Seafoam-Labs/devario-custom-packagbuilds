@@ -1,0 +1,74 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Darshit Shah <darnir@gmail.com>
+# Adapted for Devario: preserve the explicit library ABI for Shelly.
+
+pkgname=libpsl
+pkgver=0.21.5
+pkgrel=3
+pkgdesc='Public Suffix List library'
+url='https://github.com/rockdaboot/libpsl'
+arch=('x86_64')
+license=('MIT')
+depends=(
+  glibc
+  libidn2
+  libunistring
+)
+makedepends=(
+  autoconf
+  automake
+  gtk-doc
+  libtool
+  libxslt
+  publicsuffix-list
+  python
+)
+provides=('libpsl.so' 'libpsl.so=5-64')
+source=(https://github.com/rockdaboot/libpsl/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz{,.sig})
+sha512sums=('c14d575cecc0f1693894dd79565b6b9220084ddfa43b908a1cefe16d147cdd5ec47796eb0c2135e2f829a951abaf39d8a371ab5c1352f57b36e610e25adf91f5'
+            'SKIP')
+b2sums=('a0076f622b85df99f866de6707850ac216b764bdb68c6d516f4603da42dac8eae3ee4c53d68dbb6af6f779c2c7f1b9caab74c8b558209b1f6823f95c13fc3ceb'
+        'SKIP')
+validpgpkeys=('1CB27DBC98614B2D5841646D08302DB6A2670428') # Tim Rühsen <tim.ruehsen@gmx.de>
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  rm -frv list
+  autoreconf -fiv
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+  ./configure \
+    --prefix=/usr \
+    --disable-static \
+    --disable-dependency-tracking \
+    --enable-man \
+    --enable-gtk-doc \
+    --enable-{builtin,runtime}=libidn2 \
+    --with-psl-file=/usr/share/publicsuffix/effective_tld_names.dat \
+    --with-psl-testfile=/usr/share/publicsuffix/test_psl.txt
+  LC_CTYPE=en_US.UTF-8 make
+}
+
+check() {
+  cd ${pkgname}-${pkgver}
+  make check
+}
+
+package() {
+  depends+=('libidn2.so' 'libunistring.so')
+
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+  _verify_soname "$pkgdir/usr/lib/libpsl.so" libpsl.so.5 || return 1
+  install -Dm 644 COPYING -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim: ts=2 sw=2 et:

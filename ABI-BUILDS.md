@@ -507,3 +507,45 @@ matching host library and rejects a wrong SONAME. A libalpm transaction for
 resolves, with all four satisfied by the repository copies rather than Arch's.
 Full package builds, isolated provisioning, and the harfbuzz retry have not been
 run.
+
+## Fish check dependencies: tmux and wget
+
+Fish's isolated build root includes tmux and wget for the upstream test suite.
+Their versioned shared-library requirements are supplied by these recipes:
+
+| Recipe | Output package | Version | Required provision |
+| --- | --- | --- | --- |
+| [libevent](devario-core/libevent/PKGBUILD) | `libevent` | `2.1.13-4` | `libevent_core-2.1.so=7-64` |
+| [libidn2](devario-core/libidn2/PKGBUILD) | `libidn2` | `2.3.8-2` | `libidn2.so=0-64` |
+| [util-linux](devario-core/util-linux/PKGBUILD) | `util-linux-libs` | `2.42.4-3` | `libuuid.so=1-64` |
+| [libpsl](devario-core/libpsl/PKGBUILD) | `libpsl` | `0.21.5-3` | `libpsl.so=5-64` |
+| [nettle](devario-core/nettle/PKGBUILD) | `nettle` | `4.0-2` | `libnettle.so=9-64` |
+
+Libevent and util-linux retain their existing package splits and gain explicit
+ABI provisions. Libidn2, libpsl, and nettle are new recipes adapted from the
+official Arch packaging repositories, retaining their signed release sources,
+checksums, and bundled upstream public keys. Nettle also explicitly provides
+`libhogweed.so=7-64`. All five retain their bare library provisions and check
+the staged ELF64 library's SONAME before packaging can succeed.
+
+Build and publish libidn2 before libpsl. Libevent, util-linux, and nettle can be
+built independently using their declared prerequisites. Publish matching split
+outputs together, including `util-linux-libs` from util-linux and `libevent-docs`
+from libevent. Copy complete recipe directories, including `keys/pgp` and local
+support files, to the worker.
+
+Refresh the worker's repository database after publishing these packages, then
+retry `devario-core/fish`. Updating PKGBUILDs or `.SRCINFO` alone cannot repair
+an existing repository archive's metadata. Confirm the corresponding
+`provides =` lines in each new archive's `.PKGINFO` before publishing.
+
+Validation: all five recipes pass Bash syntax checks, and both makepkg and
+Shelly metadata contain the requested versioned provisions on the correct
+output packages. ABI helpers accept matching host libraries and reject wrong
+SONAMEs and executables without SONAMEs. Checksums and release signatures for
+all three new sources verify. Nettle's signature verifies with the pinned key,
+although GPG warns that the release key has since expired. Signature verification
+remains enabled. Shelly review reports no findings for the new
+recipes or util-linux; libevent retains the known false positives for backticks
+inside a C comment in its existing patch. Full compilation, isolated-root
+provisioning, and repository publication have not been performed for this set.

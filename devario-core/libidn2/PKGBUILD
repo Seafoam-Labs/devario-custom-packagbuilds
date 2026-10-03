@@ -1,0 +1,47 @@
+# Maintainer: Evangelos Foutras <foutrelis@archlinux.org>
+# Contributor: Daurnimator <quae@daurnimator.com>
+# Adapted for Devario: preserve the explicit library ABI for Shelly.
+
+pkgname=libidn2
+pkgver=2.3.8
+pkgrel=2
+pkgdesc="Free software implementation of IDNA2008, Punycode and TR46"
+arch=('x86_64')
+url="https://www.gnu.org/software/libidn/#libidn2"
+license=('GPL2' 'LGPL3')
+depends=('glibc' 'libunistring')
+makedepends=('ruby-ronn-ng')
+provides=('libidn2.so' 'libidn2.so=0-64')
+source=(https://ftp.gnu.org/gnu/libidn/$pkgname-$pkgver.tar.gz{,.sig})
+sha256sums=('f557911bf6171621e1f72ff35f5b1825bb35b52ed45325dcdee931e5d3c0787a'
+            'SKIP')
+validpgpkeys=('B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE') # Simon Josefsson <simon@josefsson.org>
+
+build() {
+  cd $pkgname-$pkgver
+
+  ./configure \
+    --prefix=/usr \
+    --disable-static
+  make
+}
+
+check() {
+  cd $pkgname-$pkgver
+  make check
+}
+package() {
+  depends+=('libunistring.so')
+
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+  _verify_soname "$pkgdir/usr/lib/libidn2.so" libidn2.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set ts=2 sw=2 et:

@@ -1,7 +1,7 @@
 pkgbase = libevent
 	pkgdesc = Event notification library
 	pkgver = 2.1.13
-	pkgrel = 3
+	pkgrel = 4
 	url = https://libevent.org/
 	arch = x86_64
 	license = BSD-3-Clause-Modification
@@ -31,6 +31,7 @@ pkgname = libevent
 	provides = libevent_extra-2.1.so
 	provides = libevent_openssl-2.1.so
 	provides = libevent_pthreads-2.1.so
+	provides = libevent_core-2.1.so=7-64
 
 pkgname = libevent-docs
 	pkgdesc = Event notification library (documentation)

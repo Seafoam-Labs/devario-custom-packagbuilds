@@ -1,17 +1,29 @@
 {
+  "package_version": "2.1.13-4",
   "syntax": "passed",
-  "makepkg_shelly_metadata": "agrees",
-  "source_sha256": "passed",
-  "source_release_signature": "passed using bundled upstream public keys",
-  "local_package_build": "passed for libevent and libevent-docs; used previously built Doxygen from /tmp",
-  "tests": "44 enabled tests passed; upstream flaky-test exclusions retained",
-  "core_soname": "libevent_core-2.1.so.7",
-  "archive_provides": [
-    "libevent_core",
-    "libevent_core.so",
-    "libevent_core-2.1.so=7-64"
-  ],
-  "abi_policy": "Recipe uses unversioned library provisions; makepkg detected SONAME ABI automatically",
-  "isolated_build": "not run",
-  "shelly_review": "Warnings concern backticks in a C comment in the upstream patch; no shell execution in that comment"
+  "makepkg_shelly_metadata": "both include libevent_core-2.1.so=7-64 on libevent",
+  "abi_checks": "matching host ELF64 library accepted; wrong SONAME and executable without SONAME rejected",
+  "shelly_review": "Existing warnings concern backticks in a C comment in the upstream patch",
+  "full_build_this_revision": "not run",
+  "isolated_build_this_revision": "not run",
+  "previous_revision": {
+    "package_version": "2.1.13-3",
+    "validation": {
+      "syntax": "passed",
+      "makepkg_shelly_metadata": "agrees",
+      "source_sha256": "passed",
+      "source_release_signature": "passed using bundled upstream public keys",
+      "local_package_build": "passed for libevent and libevent-docs; used previously built Doxygen from /tmp",
+      "tests": "44 enabled tests passed; upstream flaky-test exclusions retained",
+      "core_soname": "libevent_core-2.1.so.7",
+      "archive_provides": [
+        "libevent_core",
+        "libevent_core.so",
+        "libevent_core-2.1.so=7-64"
+      ],
+      "abi_policy": "Recipe uses unversioned library provisions; makepkg detected SONAME ABI automatically",
+      "isolated_build": "not run",
+      "shelly_review": "Warnings concern backticks in a C comment in the upstream patch; no shell execution in that comment"
+    }
+  }
 }

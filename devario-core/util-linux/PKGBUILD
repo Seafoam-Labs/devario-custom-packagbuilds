@@ -13,7 +13,7 @@
 pkgbase=util-linux
 pkgname=(util-linux util-linux-libs)
 pkgver=2.42.4
-pkgrel=2
+pkgrel=3
 pkgdesc='Miscellaneous system utilities for Linux'
 url='https://github.com/util-linux/util-linux'
 arch=('x86_64')
@@ -200,7 +200,8 @@ package_util-linux-libs() {
   pkgdesc='util-linux runtime libraries'
   depends=('glibc'
            'sqlite')
-  provides=('libutil-linux' 'libblkid.so' 'libfdisk.so' 'libmount.so' 'libsmartcols.so' 'libuuid.so')
+  provides=('libutil-linux' 'libblkid.so' 'libfdisk.so' 'libmount.so' 'libsmartcols.so'
+            'libuuid.so' 'libuuid.so=1-64')
   conflicts=('libutil-linux')
   replaces=('libutil-linux')
   optdepends=('python: python bindings to libmount')
@@ -217,7 +218,14 @@ package_util-linux-libs() {
   mv util-linux-libs/include "$pkgdir"/usr/include
   mv util-linux-libs/site-packages "$pkgdir"/"${_python_stdlib}"/site-packages
   mv util-linux-libs/man3 "$pkgdir"/usr/share/man/man3
+  _verify_soname "$pkgdir/usr/lib/libuuid.so" libuuid.so.1 || return 1
 
   install -vDm 644 $pkgbase/Documentation/licenses/COPYING.{BSD*,ISC} -t "$pkgdir/usr/share/licenses/$pkgname/"
   install -vDm 644 $pkgbase-BSD-2-Clause.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

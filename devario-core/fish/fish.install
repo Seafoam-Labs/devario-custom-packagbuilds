@@ -1,0 +1,12 @@
+post_install() {
+  grep -qxF '/usr/bin/fish' etc/shells || echo '/usr/bin/fish' >> etc/shells
+  grep -qxF '/bin/fish' etc/shells || echo '/bin/fish' >> etc/shells
+}
+
+post_upgrade() {
+  post_install
+}
+
+pre_remove() {
+  sed -i -e '\|^/usr/bin/fish$|d' -e '\|^/bin/fish$|d' etc/shells
+}
