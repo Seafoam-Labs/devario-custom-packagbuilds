@@ -428,6 +428,46 @@ Validation: all three recipes pass Bash syntax, makepkg/Shelly metadata, and
 Shelly review. Base's bundled patches match their declared checksums. Full
 builds and remote-source checksum verification have not been run.
 
+## Calamares build dependency: litehtml
+
+The core-only Calamares build requires `qt6-tools`, whose `litehtml` dependency
+was absent from `devario-core`. These two complete recipe directories supply
+that dependency and its HTML parser:
+
+| Build and publish order | Release | Directory |
+| --- | --- | --- |
+| 1. gumbo-parser | 0.13.2-2 | [devario-core/gumbo-parser](devario-core/gumbo-parser/PKGBUILD) |
+| 2. litehtml | 0.10-2 | [devario-core/litehtml](devario-core/litehtml/PKGBUILD) |
+
+Upload each complete directory to the Devario build worker. Publish
+`gumbo-parser` to `devario-core` and refresh the worker repository before building
+`litehtml` in a fresh root. Then publish `litehtml` and rerun `devario-os/build-iso.sh`
+with a fresh repository snapshot. Use the Devario x86-64-v3 build environment
+for the published packages.
+
+Litehtml 0.10 matches the system-library integration in the existing Qt 6.12
+tools recipe. It builds against the separately packaged Gumbo library and
+removes the upstream CMake lookup for a Gumbo config file that Gumbo does not
+install. Both recipes include explicit SONAME provisions and reject unexpected
+library ABI versions during packaging.
+
+Recipes are adapted from official Arch packaging for
+[litehtml](https://gitlab.archlinux.org/archlinux/packaging/packages/litehtml) and
+[gumbo-parser](https://gitlab.archlinux.org/archlinux/packaging/packages/gumbo-parser).
+Litehtml retains the upstream packaging checksum. The current Codeberg Gumbo
+archive has a different compressed checksum from the Arch recipe; all 92 tracked
+source files were compared with upstream release tag `0.13.2`, commit
+`322c54c178590ba42b8b04e8c0e4840595a1f717`, before pinning its current SHA-256.
+
+Validation: both source checksums, Bash syntax, matching makepkg/Shelly metadata,
+and Shelly review passed. Both recipes' build and package functions completed
+locally; Gumbo passed all 184 tests. A separate CMake consumer discovered, linked,
+and ran against the staged libraries. The staged libraries have the expected
+SONAMEs and no temporary build-directory RPATHs. Adding these outputs to the
+retained core snapshot's dependency model resolves Qt tools and all declared
+build/check dependencies of these recipes. Isolated worker builds and
+publication remain to be done.
+
 ## Noto fonts source directory
 
 [noto-fonts](devario-core/noto-fonts/PKGBUILD) release `1:2026.10.01-2` fixes

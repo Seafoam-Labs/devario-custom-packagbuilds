@@ -1,0 +1,36 @@
+# Maintainer: Devario maintainers
+# Based on Antonio Rojas's Arch packaging for litehtml 0.10-1:
+# https://gitlab.archlinux.org/archlinux/packaging/packages/litehtml
+
+pkgname=litehtml
+pkgver=0.10
+pkgrel=2
+pkgdesc='Fast and lightweight HTML/CSS rendering engine'
+url='https://github.com/litehtml/litehtml'
+arch=(x86_64)
+license=(BSD-3-Clause)
+depends=(glibc gumbo-parser libgcc libstdc++)
+makedepends=(cmake)
+provides=('liblitehtml.so=0-64')
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('7700eced92847d34ad9846b138cf195a9c974b519be70de58797880ae9da649e')
+
+build() {
+  cmake -B build -S "$srcdir/$pkgname-$pkgver" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -DEXTERNAL_GUMBO=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DLITEHTML_BUILD_TESTING=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "$srcdir/$pkgname-$pkgver/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+  # gumbo-parser installs a library and pkg-config metadata, not a CMake config.
+  sed -i '/^find_dependency(gumbo)$/d' "$pkgdir/usr/lib/cmake/litehtml/litehtmlConfig.cmake"
+  # Shelly preserves explicit ABI provisions; reject an unexpected library.
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/liblitehtml.so" | grep -E 'Class:[[:space:]]+ELF64' >/dev/null || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/liblitehtml.so" | grep -F 'Library soname: [liblitehtml.so.0]' >/dev/null || return 1
+}

@@ -1,0 +1,17 @@
+pkgbase = gumbo-parser
+	pkgdesc = HTML5 parsing library in pure C99
+	pkgver = 0.13.2
+	pkgrel = 2
+	url = https://codeberg.org/gumbo-parser/gumbo-parser/
+	arch = x86_64
+	license = Apache-2.0
+	checkdepends = gtest
+	makedepends = autoconf
+	makedepends = automake
+	makedepends = libtool
+	depends = glibc
+	provides = libgumbo.so=3-64
+	source = gumbo-parser-0.13.2.tar.gz::https://codeberg.org/gumbo-parser/gumbo-parser/archive/0.13.2.tar.gz
+	sha256sums = 90bea83283760339da194fb90112a532854c13cd1eabdabc7ef7a4dede1dbc9d
+
+pkgname = gumbo-parser

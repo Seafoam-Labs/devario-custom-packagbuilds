@@ -1,0 +1,44 @@
+# Maintainer: Devario maintainers
+# Based on Arch packaging for gumbo-parser 0.13.2-1:
+# https://gitlab.archlinux.org/archlinux/packaging/packages/gumbo-parser
+# Upstream maintainers: Balló György and Carl Smedstad
+
+pkgname=gumbo-parser
+pkgver=0.13.2
+pkgrel=2
+pkgdesc='HTML5 parsing library in pure C99'
+arch=(x86_64)
+url='https://codeberg.org/gumbo-parser/gumbo-parser/'
+license=(Apache-2.0)
+depends=(glibc)
+makedepends=(autoconf automake libtool)
+checkdepends=(gtest)
+provides=('libgumbo.so=3-64')
+source=("$pkgname-$pkgver.tar.gz::${url}archive/$pkgver.tar.gz")
+# Current Codeberg archive, verified against release-tag commit
+# 322c54c178590ba42b8b04e8c0e4840595a1f717 (all 92 tracked source files).
+sha256sums=('90bea83283760339da194fb90112a532854c13cd1eabdabc7ef7a4dede1dbc9d')
+
+prepare() {
+  cd "$srcdir/$pkgname"
+  ./autogen.sh
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "$srcdir/$pkgname"
+  make check
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" install
+  # Shelly preserves explicit ABI provisions; reject an unexpected library.
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/libgumbo.so" | grep -E 'Class:[[:space:]]+ELF64' >/dev/null || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/libgumbo.so" | grep -F 'Library soname: [libgumbo.so.3]' >/dev/null || return 1
+}
