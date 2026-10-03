@@ -1,0 +1,91 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>
+Date: Mon, 13 Jan 2025 23:55:38 +0100
+Subject: [PATCH] meson: Detect Devario and set the UID and GID
+
+Adapted from Arch Linux packaging for Devario. Allow an explicit
+-Dos_type=devario because Devario currently identifies itself through
+/etc/os-release and does not install a distribution-specific marker.
+---
+ meson.build       | 26 ++++++++++++++++++++++----
+ meson_options.txt |  6 +++---
+ 2 files changed, 25 insertions(+), 7 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index d74cc38..91487f0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -236,9 +236,6 @@ endif
+ polkitd_user = get_option('polkitd_user')
+ config_data.set_quoted('POLKITD_USER', polkitd_user)
+ 
+-polkitd_uid = get_option('polkitd_uid')
+-polkitd_gid = get_option('polkitd_gid')
+-
+ # Select which authentication framework to use
+ auth_deps = []
+ 
+@@ -304,6 +301,7 @@ if os_type == ''
+     ['debian', '/etc/debian_version'],
+     ['gentoo', '/etc/gentoo-release'],
+     ['pardus', '/etc/pardus-release'],
++    ['devario', '/etc/devario-release'],
+     ['lfs', '/etc/lfs-release'],
+   ]
+ 
+@@ -319,6 +317,26 @@ if os_type == ''
+   endif
+ endif
+ 
++# The default UID differs between distributions, set it accordingly if not specified
++polkitd_uid = get_option('polkitd_uid')
++if polkitd_uid == ''
++  if os_type == 'devario'
++    polkitd_uid = '102'
++  else
++    polkitd_uid = '-'
++  endif
++endif
++
++# The default GID differs between distributions, set it accordingly if not specified
++polkitd_gid = get_option('polkitd_gid')
++if polkitd_gid == ''
++  if os_type == 'devario'
++    polkitd_gid = '102'
++  else
++    polkitd_gid = '-'
++  endif
++endif
++
+ # The default privileged group differs between distributions, set it accordingly if not specified
+ privileged_group = get_option('privileged_group')
+ if privileged_group == ''
+@@ -352,7 +370,7 @@ if pam_include == ''
+       'PAM_FILE_INCLUDE_PASSWORD': 'system-password',
+       'PAM_FILE_INCLUDE_SESSION': 'system-session',
+     }
+-  #if ['redhat', 'gentoo', 'pardus'].contains(os_type)
++  #if ['redhat', 'gentoo', 'pardus', 'devario'].contains(os_type)
+   else
+     pam_conf = {
+       'PAM_FILE_INCLUDE_AUTH': 'system-auth',
+diff --git a/meson_options.txt b/meson_options.txt
+index 916f365..aabbce3 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -3,12 +3,12 @@ option('systemdsystemunitdir', type: 'string', value: '', description: 'custom d
+ 
+ option('libs-only', type: 'boolean', value: false, description: 'Only build libraries (skips building polkitd)')
+ option('polkitd_user', type: 'string', value: 'polkitd', description: 'User for running polkitd (polkitd)')
+-option('polkitd_uid', type: 'string', value: '-', description: 'Fixed UID for user running polkitd (polkitd)')
+-option('polkitd_gid', type: 'string', value: '-', description: 'Fixed GID for user running polkitd (polkitd)')
++option('polkitd_uid', type: 'string', value: '', description: 'Fixed UID for user running polkitd (polkitd)')
++option('polkitd_gid', type: 'string', value: '', description: 'Fixed GID for user running polkitd (polkitd)')
+ option('privileged_group', type: 'string', value: '', description: 'Group to use for default privileged access (default: wheel)')
+ 
+ option('authfw', type: 'combo', choices: ['pam', 'shadow', 'bsdauth'], value: 'pam', description: 'Authentication framework (pam/shadow)')
+-option('os_type', type: 'combo', choices: ['redhat', 'suse', 'gentoo', 'pardus', 'solaris', 'netbsd', 'lfs', 'openembedded', 'debian', ''], value: '', description: 'distribution or OS')
++option('os_type', type: 'combo', choices: ['redhat', 'suse', 'gentoo', 'pardus', 'solaris', 'netbsd', 'lfs', 'openembedded', 'debian', 'devario', ''], value: '', description: 'distribution or OS')
+ 
+ option('pam_include', type: 'string', value: '', description: 'pam file to include')
+ option('pam_module_dir', type: 'string', value: '', description: 'directory to install PAM security module')

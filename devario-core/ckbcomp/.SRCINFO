@@ -1,0 +1,13 @@
+pkgbase = ckbcomp
+	pkgdesc = Compile an XKB keyboard description into a console keymap
+	pkgver = 1.249
+	pkgrel = 1
+	url = https://salsa.debian.org/installer-team/console-setup
+	arch = any
+	license = GPL-2.0-or-later
+	depends = perl
+	depends = xkeyboard-config
+	source = console-setup_1.249.tar.xz::https://deb.debian.org/debian/pool/main/c/console-setup/console-setup_1.249.tar.xz
+	sha256sums = 2042e268b085ad900f2f9863715d67fadb95b8994554f10d407fc14f224b73ae
+
+pkgname = ckbcomp
