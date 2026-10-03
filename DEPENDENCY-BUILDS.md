@@ -15,14 +15,20 @@ built with `-Dpath-profile=devario` and support for `HookDirMode = Replace`.
 | devario-dracut | 112-5 | `devario-core/devario-dracut` |
 | devario-keyring | 20260923-2 | `devario-installer/devario-keyring` |
 | devario-boot | 1-7 | `devario-installer/devario-boot` |
-| devario-base | 3-11 | `devario-installer/devario-base` |
+| devario-base | 3-12 | `devario-installer/devario-base` |
 
 `devario-boot` 1-7 replaces installed Limine with systemd-boot. Build and
-publish it before `devario-base` 3-11, which requires that release. Installation
+publish it before `devario-base` 3-12, which requires that release. Installation
 now requires 64-bit UEFI and a FAT EFI System Partition at `/boot`. The live ISO
 retains its BIOS Syslinux support, so `syslinux` remains in the rebuild list.
 The boot recipe retains the legacy hook mask and migrates an existing Devario
 Limine marker only after successful UEFI deployment.
+
+`devario-base` 3-12 also requires Fish and `shadow>=4.20.0.arch1-3`.
+Build and publish `devario-core/fish` 4.9.3-1 and `devario-core/shadow`
+4.20.0.arch1-3 before base and ISO assembly. The Shadow release sets
+`useradd`'s default shell to `/usr/bin/fish`; the ISO profile applies the
+same default to the live user and Calamares-created accounts.
 
 A subsequent audit of the complete signed repository file inventory found
 17 additional recipe bases. Their recipes and supporting files are now in
@@ -131,7 +137,7 @@ OS-owned live USB and installer recipes are in
 | `devario-keyring` | 20260923-2 | Before OS metapackages |
 | `seafoam-keyring` | 20260923-1 | Before OS metapackages |
 | `devario-boot` | 1-7 | Before devario-base; requires published devario-dracut |
-| `devario-base` | 3-11 | After filesystem, boot, and devario-keyring |
+| `devario-base` | 3-12 | After filesystem, boot, devario-keyring, Fish, and Shadow |
 | `devario-aqueous-desktop` | 1-8 | Requires the five published Aqueous 1.0.0-1 components |
 | `ckbcomp` | 1.248-1 | Before Calamares |
 | `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |

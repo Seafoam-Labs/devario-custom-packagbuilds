@@ -5,9 +5,14 @@ This folder contains the eight OS-owned recipes and their supporting files:
 The current ISO uses the repository's `devario-desktop` and stable
 `pearl-greeter`. `devario-aqueous-desktop` and `seafoam-keyring` are retained here
 for older configurations and are no longer part of the default ISO build.
-Rebuild `devario-base` 3-11, `devario-boot` 1-7, and `devario-keyring`
+Rebuild `devario-base` 3-12, `devario-boot` 1-7, and `devario-keyring`
 20260923-2 for the Shelly Devario path profile, RLPM hooks, and core-only
 configuration. OS login and GPU defaults now live in the ISO profile.
+
+Publish `fish` 4.9.3-1 and `shadow` 4.20.0.arch1-3 from `devario-core/`
+before rebuilding base. Fish is the default shell for new user accounts;
+Shadow supplies the `useradd` default, and the ISO profile configures the
+live user and Calamares-created accounts.
 
 | Recipe | Build order |
 | --- | --- |
@@ -15,7 +20,7 @@ configuration. OS login and GPU defaults now live in the ISO profile.
 | [devario-keyring](devario-keyring/PKGBUILD) | Before devario-base |
 | [seafoam-keyring](seafoam-keyring/PKGBUILD) | Legacy; excluded from the default ISO |
 | [devario-boot](devario-boot/PKGBUILD) | After devario-dracut; before devario-base |
-| [devario-base](devario-base/PKGBUILD) | After filesystem, boot, and devario-keyring |
+| [devario-base](devario-base/PKGBUILD) | After filesystem, boot, devario-keyring, Fish, and Shadow |
 | [devario-aqueous-desktop](devario-aqueous-desktop/PKGBUILD) | After the five Aqueous 1.0.0-1 components |
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |
@@ -46,4 +51,4 @@ the runtime recipes and these OS packages.
 
 `devario-boot` 1-7 deploys systemd-boot for installed systems. Calamares now
 requires 64-bit UEFI; the live ISO retains BIOS Syslinux support. Build boot
-before base, whose 3-11 recipe requires the new boot lifecycle.
+before base, whose 3-12 recipe requires the new boot lifecycle.
