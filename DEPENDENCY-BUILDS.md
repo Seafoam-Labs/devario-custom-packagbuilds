@@ -45,7 +45,7 @@ installation paths, hook commands, and install-script references now use
 | gtk4 | 1:4.24.1-2 | [recipe](devario-core/gtk4/PKGBUILD) |
 | gvfs | 1.62.0-4 | [recipe](devario-core/gvfs/PKGBUILD) |
 | kmod | 34.2-2 | [recipe](devario-core/kmod/PKGBUILD) |
-| man-db | 2.13.1-3 | [recipe](devario-core/man-db/PKGBUILD) |
+| man-db | 2.13.1-4 | [recipe](devario-core/man-db/PKGBUILD) |
 | openssh | 10.5p1-2 | [recipe](devario-core/openssh/PKGBUILD) |
 | perl | 5.42.3-2 | [recipe](devario-core/perl/PKGBUILD) |
 | shared-mime-info | 2.5.1-3 | [recipe](devario-core/shared-mime-info/PKGBUILD) |

@@ -6,7 +6,7 @@
 
 pkgname=man-db
 pkgver=2.13.1
-pkgrel=3
+pkgrel=4
 pkgdesc="A utility for reading man pages"
 arch=('x86_64')
 url="https://gitlab.com/man-db/man-db"
@@ -18,9 +18,8 @@ backup=('etc/man_db.conf')
 conflicts=('man')
 provides=('man')
 replaces=('man')
-source=(#https://savannah.nongnu.org/download/man-db/$pkgname-$pkgver.tar.xz{,.asc}
-        # fallback should be used within first 24h after a release
-        https://download-mirror.savannah.gnu.org/releases/man-db/$pkgname-$pkgver.tar.xz{,.asc}
+# Use Savannah's standard release mirror redirector.
+source=(https://download.savannah.nongnu.org/releases/man-db/$pkgname-$pkgver.tar.xz{,.asc}
         $pkgname-remove-cache.hook
 )
 validpgpkeys=('AC0A4FF12611B6FCCF01C111393587D97D86500B') # Colin Watson <cjwatson@debian.org>
