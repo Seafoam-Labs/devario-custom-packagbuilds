@@ -549,3 +549,66 @@ remains enabled. Shelly review reports no findings for the new
 recipes or util-linux; libevent retains the known false positives for backticks
 inside a C comment in its existing patch. Full compilation, isolated-root
 provisioning, and repository publication have not been performed for this set.
+
+## OpenJDK font and image library providers
+
+The staged libraries have the correct ELF64 SONAMEs, but their old package
+metadata supplies only unversioned library names. These recipes retain those
+names and add the exact provisions required by `jdk-openjdk`:
+
+| Recipe | New version | Required provision |
+| --- | --- | --- |
+| [freetype2](devario-core/freetype2/PKGBUILD) | `2.14.3-2` | `libfreetype.so=6-64` |
+| [harfbuzz](devario-core/harfbuzz/PKGBUILD) | `14.5.1-2` | `libharfbuzz.so=0-64` |
+| [libjpeg-turbo](devario-core/libjpeg-turbo/PKGBUILD) | `3.2.0-3` | `libjpeg.so=8-64` |
+| [lcms2](devario-core/lcms2/PKGBUILD) | `2.19.1-2` | `liblcms2.so=2-64` |
+
+HarfBuzz also adds `=0-64` to its existing subset, GObject, raster, vector,
+Cairo, and ICU library provisions; libjpeg-turbo adds `libturbojpeg.so=0-64`.
+The Cairo and ICU provisions belong to their corresponding split packages.
+Each explicit provision has a packaging check for ELF64 and the expected
+SONAME, with a mismatch stopping packaging.
+
+The recipes use the official Arch packaging tags matching the staged releases:
+[FreeType 2.14.3-1](https://gitlab.archlinux.org/archlinux/packaging/packages/freetype2/-/tree/2.14.3-1),
+[HarfBuzz 14.5.1-1](https://gitlab.archlinux.org/archlinux/packaging/packages/harfbuzz/-/tree/14.5.1-1),
+[libjpeg-turbo 3.2.0-2](https://gitlab.archlinux.org/archlinux/packaging/packages/libjpeg-turbo/-/tree/3.2.0-2),
+and [Little CMS 2.19.1-1](https://gitlab.archlinux.org/archlinux/packaging/packages/lcms2/-/tree/2.19.1-1).
+Each PKGBUILD records the upstream packaging commit. Source checksums,
+signature verification where present, patches, licenses, signing keys, and
+split packages are retained. Copy the complete recipe directories to Remora.
+
+Build libjpeg-turbo before lcms2. FreeType and HarfBuzz have mutual build
+dependencies; use the existing compatible packages to bootstrap their rebuilds.
+HarfBuzz's chafa dependency also needs the codec providers described above.
+Publish matching split outputs together, refresh the worker's repository
+database, and retry the OpenJDK consumer only after these providers are
+available. Editing recipes or `.SRCINFO` does not update published archives.
+
+Validation: all four recipes pass Bash syntax checks and makepkg/Shelly metadata
+generation with the expected bare and versioned provisions. All four bundled
+source-file checksums and six signing-key fingerprints match their declarations.
+All 11 ABI checks accept the staged libraries and reject incorrect SONAMEs and
+an executable without a SONAME. Shelly review reports no findings for HarfBuzz
+or lcms2; FreeType warnings concern backticks in an upstream patch comment, and
+libjpeg-turbo's warning concerns its existing `$(nproc)` substitution.
+Full builds, upstream tests, and isolated provisioning have not been run for
+this update. Remote source verification is recorded below for FreeType only.
+
+### FreeType source download TLS failure
+
+The FreeType recipe now uses the project's official SourceForge mirror for all
+three release archives and their detached signatures. This avoids the worker's
+failing `download-mirror.savannah.gnu.org` endpoint. The alternate location is
+listed on [FreeType's download page](https://freetype.org/download.html).
+All three archives downloaded over verified HTTPS, matched the recipe's
+original BLAKE2 checksums, and passed signature verification with the bundled
+Werner Lemberg key. The source filenames, checksums, signing key, ABI provisions,
+and package release remain unchanged; `.SRCINFO` contains the new URLs.
+
+The original Savannah URL also works from the development host, so the worker's
+underlying TLS failure has not been reproduced or diagnosed. Copy the updated
+recipe to Remora and retry. If verified HTTPS downloads fail at SourceForge as
+well, investigate the build root's clock, CA trust store, and TLS backend.
+Certificate and signature verification remain enabled. The remote worker retry
+has not been performed here.
