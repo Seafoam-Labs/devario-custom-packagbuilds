@@ -1,0 +1,57 @@
+pkgname=mesa-utils
+pkgver=9.0.0
+pkgrel=1
+pkgdesc='OpenGL, EGL and Vulkan diagnostic utilities from Mesa demos'
+arch=('x86_64')
+url='https://www.mesa3d.org/'
+license=('MIT')
+depends=(
+  'glibc'
+  'libdecor'
+  'libdrm'
+  'libglvnd'
+  'libx11'
+  'libxcb'
+  'libxext'
+  'libxkbcommon'
+  'libxkbcommon-x11'
+  'mesa'
+  'vulkan-icd-loader'
+  'wayland'
+)
+makedepends=('glslang' 'glu' 'meson' 'vulkan-headers' 'wayland-protocols')
+provides=('glxinfo' 'glxgears' 'eglinfo' 'eglgears' 'es2info' 'es2gears')
+source=("https://archive.mesa3d.org/demos/mesa-demos-${pkgver}.tar.xz")
+sha256sums=('3046a3d26a7b051af7ebdd257a5f23bfeb160cad6ed952329cdff1e9f1ed496b')
+
+build() {
+  meson setup build "$srcdir/mesa-demos-$pkgver" \
+    --prefix=/usr \
+    --libdir=lib \
+    --buildtype=plain \
+    --wrap-mode=nofallback \
+    -Dgles1=disabled \
+    -Dgles2=enabled \
+    -Dosmesa=disabled \
+    -Dglut=disabled \
+    -Degl=enabled \
+    -Dlibdrm=enabled \
+    -Dx11=enabled \
+    -Dwayland=enabled \
+    -Dvulkan=enabled
+  meson compile -C build
+}
+
+package() {
+  # Install the diagnostic utilities without the unrelated demonstration programs.
+  install -Dm755 -t "$pkgdir/usr/bin" \
+    build/src/xdemos/{glxinfo,glxgears} \
+    build/src/egl/opengl/{eglinfo,eglgears_wayland,eglgears_x11,eglkms,egltri_wayland,egltri_x11,peglgears,xeglgears,xeglthreads} \
+    build/src/egl/opengles2/{es2_info,es2gears_wayland,es2gears_x11,es2tri} \
+    build/src/vulkan/vkgears
+
+  # The release carries its MIT notice in source headers, not a COPYING file.
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+  sed -n '1,/^ \*\//p' "$srcdir/mesa-demos-$pkgver/src/xdemos/glxinfo.c" \
+    > "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

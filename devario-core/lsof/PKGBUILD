@@ -1,0 +1,28 @@
+pkgname=lsof
+pkgver=4.99.7
+pkgrel=1
+pkgdesc='List files opened by running processes'
+arch=('x86_64')
+url='https://github.com/lsof-org/lsof'
+license=('LicenseRef-lsof')
+depends=('glibc' 'libtirpc')
+makedepends=('groff')
+source=("${url}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('4a10391aab0b8ce1f539e82a1966693b2a6cf225972a6504ebb7ec4fa71675de')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --enable-security \
+    --enable-no-sock-security \
+    --with-libtirpc
+  make
+}
+
+package() {
+  make -C "$srcdir/$pkgname-$pkgver" DESTDIR="$pkgdir" install
+  install -Dm644 "$srcdir/$pkgname-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

@@ -1,0 +1,29 @@
+pkgname=strace
+pkgver=7.2
+pkgrel=1
+pkgdesc='Trace system calls and signals'
+arch=('x86_64')
+url='https://strace.io/'
+license=('LGPL-2.1-or-later')
+depends=('glibc' 'libunwind')
+source=("https://strace.io/files/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('4bde6246926890dcee824f6e6ac42a06752f47d77e5097d86e3c0d6d4b709fe5')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./configure \
+    --prefix=/usr \
+    --with-libunwind \
+    --enable-mpers=check
+  make
+}
+
+check() {
+  make -C "$srcdir/$pkgname-$pkgver" check
+}
+
+package() {
+  make -C "$srcdir/$pkgname-$pkgver" DESTDIR="$pkgdir" install
+  install -Dm644 "$srcdir/$pkgname-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}
