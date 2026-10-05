@@ -1,0 +1,86 @@
+# Maintainer: Devario maintainers
+# Mesa source metadata follows the official Arch mesa 26.2.4 packaging.
+pkgname=vulkan-virtio
+pkgver=26.2.4
+pkgrel=1
+epoch=1
+pkgdesc='Open-source Vulkan driver for Virtio-GPU (Venus)'
+arch=('x86_64')
+url='https://www.mesa3d.org/'
+license=('MIT AND BSD-3-Clause AND SGI-B-2.0')
+depends=(
+  'expat'
+  'glibc'
+  'libdisplay-info'
+  'libdrm>=2.4.109'
+  'libgcc'
+  'libx11'
+  'libxcb'
+  'libxshmfence'
+  'systemd-libs'
+  'vulkan-icd-loader'
+  "vulkan-mesa-implicit-layers=$epoch:$pkgver"
+  'wayland'
+  'xcb-util-keysyms'
+  'zlib'
+  'zstd'
+)
+makedepends=(
+  'glslang'
+  'meson'
+  'ninja'
+  'python-mako'
+  'python-packaging'
+  'python-yaml'
+  'wayland-protocols>=1.41'
+  'xorgproto'
+)
+optdepends=('vulkan-mesa-layers: additional Vulkan layers')
+provides=('vulkan-driver')
+options=('!lto')
+source=("https://archive.mesa3d.org/mesa-$pkgver.tar.xz"{,.sig})
+sha256sums=(
+  'bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9'
+  'SKIP'
+)
+validpgpkeys=('57551DE15B968F6341C248F68D8E31AFC32428A6') # Eric Engestrom
+
+build() {
+  # Build Venus only. Mesa's other drivers and implicit layers have separate
+  # package owners; never install a second copy of their payloads here.
+  meson setup build "$srcdir/mesa-$pkgver" \
+    --prefix=/usr \
+    --libdir=lib \
+    --buildtype=plain \
+    --wrap-mode=nofallback \
+    -Dauto_features=disabled \
+    -Db_ndebug=true \
+    -Dplatforms=x11,wayland \
+    -Dgallium-drivers= \
+    -Dvulkan-drivers=virtio \
+    -Dvulkan-layers= \
+    -Dvulkan-manifest-per-architecture=false \
+    -Dvulkan-loader-rpath= \
+    -Dopengl=false \
+    -Dgles1=disabled \
+    -Dgles2=disabled \
+    -Dglx=disabled \
+    -Degl=disabled \
+    -Dgbm=disabled \
+    -Dllvm=disabled \
+    -Ddisplay-info=enabled \
+    -Dzlib=enabled \
+    -Dzstd=enabled \
+    -Dlibunwind=disabled \
+    -Dbuild-tests=false
+  meson compile -C build
+}
+
+package() {
+  install -Dm755 build/src/virtio/vulkan/libvulkan_virtio.so \
+    "$pkgdir/usr/lib/libvulkan_virtio.so"
+  install -Dm644 build/src/virtio/vulkan/virtio_icd.json \
+    "$pkgdir/usr/share/vulkan/icd.d/virtio_icd.json"
+  install -Dm644 "$srcdir/mesa-$pkgver/docs/license.rst" \
+    "$pkgdir/usr/share/licenses/$pkgname/license.rst"
+}

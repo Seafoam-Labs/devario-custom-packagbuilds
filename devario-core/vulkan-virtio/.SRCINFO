@@ -1,0 +1,41 @@
+pkgbase = vulkan-virtio
+	pkgdesc = Open-source Vulkan driver for Virtio-GPU (Venus)
+	pkgver = 26.2.4
+	pkgrel = 1
+	epoch = 1
+	url = https://www.mesa3d.org/
+	arch = x86_64
+	license = MIT AND BSD-3-Clause AND SGI-B-2.0
+	makedepends = glslang
+	makedepends = meson
+	makedepends = ninja
+	makedepends = python-mako
+	makedepends = python-packaging
+	makedepends = python-yaml
+	makedepends = wayland-protocols>=1.41
+	makedepends = xorgproto
+	depends = expat
+	depends = glibc
+	depends = libdisplay-info
+	depends = libdrm>=2.4.109
+	depends = libgcc
+	depends = libx11
+	depends = libxcb
+	depends = libxshmfence
+	depends = systemd-libs
+	depends = vulkan-icd-loader
+	depends = vulkan-mesa-implicit-layers=1:26.2.4
+	depends = wayland
+	depends = xcb-util-keysyms
+	depends = zlib
+	depends = zstd
+	optdepends = vulkan-mesa-layers: additional Vulkan layers
+	provides = vulkan-driver
+	options = !lto
+	source = https://archive.mesa3d.org/mesa-26.2.4.tar.xz
+	source = https://archive.mesa3d.org/mesa-26.2.4.tar.xz.sig
+	validpgpkeys = 57551DE15B968F6341C248F68D8E31AFC32428A6
+	sha256sums = bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9
+	sha256sums = SKIP
+
+pkgname = vulkan-virtio
