@@ -1,0 +1,32 @@
+pkgbase = cairomm
+	pkgdesc = C++ bindings for Cairo
+	pkgver = 1.19.1
+	pkgrel = 1
+	url = https://www.cairographics.org/cairomm/
+	arch = x86_64
+	license = LGPL-2.0-or-later
+	makedepends = git
+	makedepends = libsigc++-3.0-docs
+	makedepends = meson
+	makedepends = mm-common
+	depends = cairo
+	depends = glibc
+	depends = libgcc
+	depends = libsigc++-3.0
+	depends = libstdc++
+	options = !emptydirs
+	source = git+https://gitlab.freedesktop.org/cairo/cairomm.git#tag=1.19.1
+	b2sums = ae80b004fdc804cdde4e50e9beb81265181c83558ccb87226d0969db481b6a17b722c454828826ccb8b51ff415c95b835cac912ccff901944b25bbffda022117
+
+pkgname = cairomm
+	depends = cairo
+	depends = glibc
+	depends = libgcc
+	depends = libsigc++-3.0
+	depends = libstdc++
+	depends = libsigc-3.0.so
+	provides = libcairomm-1.16.so
+
+pkgname = cairomm-docs
+	pkgdesc = C++ bindings for Cairo (documentation)
+	options = !strip
