@@ -1,6 +1,6 @@
 # Official upstream binary for documentation-tool bootstrapping.
 pkgname=pandoc-bin
-pkgver=3.11
+pkgver=3.12
 pkgrel=1
 pkgdesc='Universal document converter (official upstream binary)'
 arch=('x86_64')

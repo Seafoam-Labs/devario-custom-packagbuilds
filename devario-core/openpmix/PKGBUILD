@@ -8,7 +8,7 @@ pkgname=(
   openpmix-docs
 )
 # NOTE: keep in sync with openmpi major versions
-pkgver=5.0.11
+pkgver=6.1.0
 pkgrel=1
 pkgdesc="Extended version of the PMI standard"
 arch=(x86_64)
@@ -25,8 +25,8 @@ makedepends=(
 # openpmix does not support LTO https://github.com/openpmix/openpmix/pull/3383
 options=(!lto)
 source=($url/releases/download/v$pkgver/$_name-$pkgver.tar.gz)
-sha512sums=('86d096f3e169259a1e373b1757b5cb5c0dca8aee4598453fc49cb36da89164f62641107e02b7f47e338283e5310df5993578c9391fc6e98fe9f79c8acc4f702c')
-b2sums=('dfa6f99debcde75563e9eae5701604e0a859486764d1355e469b83d13368590c512fb9043790d55956b5a4608dbd9b45d83351f6100d9d0aa45e8fa85c9612cc')
+sha512sums=('ef51209e9ffb83035a6ebeaa09c34dc66701be71d5ecf723e45c39d488ba688aa90648ef4dfe020f6a0dfef3ebea3b10d75a428b727f3bd5d90a8c95fcecff66')
+b2sums=('6d91f0d31985001cd5e0ea2e3961180cc48e5ab7714de6204762844bbca44c02b0df3bd703f3de7231007915d389ab427cfacd4da73b3809928080f5af65dbba')
 
 _pick() {
   local p="$1" f d; shift

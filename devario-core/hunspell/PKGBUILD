@@ -2,7 +2,7 @@
 # Contributor: Hussam Al-Tayeb <ht990332@gmail.com>
 
 pkgname=hunspell
-pkgver=1.7.3
+pkgver=1.7.5
 pkgrel=2
 pkgdesc="Spell checker and morphological analyzer library and program"
 arch=('x86_64')
@@ -13,7 +13,7 @@ makedepends=('pkgconf' 'gettext')
 provides=('libhunspell-1.7.so=0-64')
 optdepends=('perl: for ispellaff2myspell')
 source=(https://github.com/hunspell/hunspell/releases/download/v${pkgver}/hunspell-${pkgver}.tar.gz)
-sha256sums=('433274dac0619cb00c2e18b43a3dd3a9d50da5b5613fa9b5c21781e35dd76bc1')
+sha256sums=('2e559f0c2a592ba48e421477f58e9bf7e01062277a4a7821afb52fc9401010ae')
 
 build() {
   cd hunspell-$pkgver
