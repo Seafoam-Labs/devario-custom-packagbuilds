@@ -1,0 +1,27 @@
+pkgname=wayland-utils
+pkgver=1.3.0
+pkgrel=1
+pkgdesc='Display information about a Wayland compositor'
+arch=('x86_64')
+url='https://gitlab.freedesktop.org/wayland/wayland-utils'
+license=('MIT')
+depends=('glibc' 'libdrm' 'wayland')
+makedepends=('meson' 'wayland-protocols')
+source=("${url}/-/releases/${pkgver}/downloads/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('a39d0e65617c6ae186d768c223f57060a3a435f6f9f02d03074f945313bfcf0d')
+
+build() {
+  meson setup build "$srcdir/$pkgname-$pkgver" \
+    --prefix=/usr \
+    --libdir=lib \
+    --buildtype=plain \
+    --wrap-mode=nofallback \
+    -Ddrm=enabled
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  install -Dm644 "$srcdir/$pkgname-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

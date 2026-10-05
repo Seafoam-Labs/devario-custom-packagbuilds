@@ -1,0 +1,40 @@
+# Maintainer: Devario maintainers
+
+pkgname=matugen
+pkgver=4.2.0
+pkgrel=1
+pkgdesc='A Material You and base16 color generation tool with templates'
+arch=('x86_64')
+url='https://github.com/InioX/matugen'
+license=('GPL-2.0-or-later')
+depends=('glibc' 'libgcc')
+makedepends=('rust')
+options=('!lto')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('82044ab8ac3e793b2b94f8f75917b348b4038585133a77c07f5de59c88d65244')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  cargo build --release --frozen
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export CARGO_HOME="$srcdir/cargo-home"
+  cargo test --release --frozen
+  target/release/matugen --version
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/matugen "$pkgdir/usr/bin/matugen"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

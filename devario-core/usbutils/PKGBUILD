@@ -1,0 +1,32 @@
+pkgname=usbutils
+pkgver=019
+pkgrel=1
+pkgdesc='Inspect USB devices and their descriptors'
+arch=('x86_64')
+url='https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usbutils.git/'
+license=('GPL-2.0-only' 'GPL-2.0-or-later' 'GPL-3.0-only' 'LGPL-2.1-or-later' 'MIT')
+depends=('glibc' 'hwdata' 'libusb' 'systemd-libs')
+makedepends=('meson' 'systemd')
+optdepends=(
+  'coreutils: lsusb.py helper'
+  'python: lsusb.py helper'
+  'sh: usb-devices helper'
+)
+source=("https://www.kernel.org/pub/linux/utils/usb/usbutils/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('659f40c440e31ba865c52c818a33d3ba6a97349e3353f8b1985179cb2aa71ec5')
+
+build() {
+  meson setup build "$srcdir/$pkgname-$pkgver" \
+    --prefix=/usr \
+    --libdir=lib \
+    --buildtype=plain \
+    --wrap-mode=nofallback
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  install -Dm755 build/usbreset "$pkgdir/usr/bin/usbreset"
+  install -Dm644 -t "$pkgdir/usr/share/doc/$pkgname" "$srcdir/$pkgname-$pkgver/"{NEWS,README.md}
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" "$srcdir/$pkgname-$pkgver/LICENSES/"*.txt
+}
