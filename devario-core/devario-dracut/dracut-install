@@ -11,6 +11,27 @@ elif [[ -f /etc/dracut-cachyos.conf ]]; then
 fi
 
 nvidia_modules="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+amd_modules="amdgpu"
+intel_modules="i915 xe"
+
+# Add every module from the given list that exists for ${kver}.
+# Usage: add_early_kms <label> <module>...
+add_early_kms() {
+	local label=$1 module
+	local found=()
+	shift
+	for module in "$@"; do
+		if modinfo -k "${kver}" "${module}" &> /dev/null; then
+			found+=("${module}")
+		fi
+	done
+	if (( ${#found[@]} )); then
+		echo ":: Including ${label} modules (${found[*]}) for ${pkgbase} (${kver})"
+		extra_args+=(--add-drivers " ${found[*]} ")
+	else
+		echo ":: ${label} modules not found for ${kver}, skipping early KMS"
+	fi
+}
 
 while read -r line; do
 	if [[ "${line}" != */vmlinuz ]]; then
@@ -48,6 +69,12 @@ for line in "${lines[@]}"; do
 		else
 			echo ":: NVIDIA modules not found for ${kver}, skipping early KMS"
 		fi
+	fi
+	if [[ ${AMD_EARLY_KMS} == "true" ]]; then
+		add_early_kms AMD ${amd_modules}
+	fi
+	if [[ ${INTEL_EARLY_KMS} == "true" ]]; then
+		add_early_kms Intel ${intel_modules}
 	fi
 
 	echo ":: Building initramfs for ${pkgbase} (${kver})"
