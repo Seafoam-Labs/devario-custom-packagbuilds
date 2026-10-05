@@ -496,3 +496,139 @@ payloads. All four fontconfig symlinks resolve correctly, and the upstream
 license is included. Bash syntax and makepkg/Shelly metadata checks passed;
 Shelly review reported no findings. A full isolated Shelly build remains
 unverified.
+
+## GTK3 bindings blocking the ISO dependency audit
+
+The 2026-10-05 ISO run `20261005T164652Z-75817` selected 644 packages but
+reported six unresolved requirements. Its published `atkmm` 2.36.4 and
+`cairomm` 1.19.1 belonged to incompatible ABI branches. GParted, gtkmm3, and
+pangomm still require `libatkmm-1.6.so` and `libcairomm-1.0.so`. The newer
+packages also introduced unavailable glibmm-2.68 and libsigc++-3.0 dependencies.
+
+The corrected recipes follow the GTK3 branches in the official
+[atkmm packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/atkmm)
+and [cairomm packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/cairomm),
+retaining their pinned Git tags and upstream packaging BLAKE2 checksums:
+
+| Recipe | Corrected version | Required library |
+| --- | --- | --- |
+| [atkmm](devario-core/atkmm/PKGBUILD) | `1:2.28.5-1` | `libatkmm-1.6.so.1` |
+| [cairomm](devario-core/cairomm/PKGBUILD) | `1:1.14.6-1` | `libcairomm-1.0.so.1` |
+
+Epoch 1 makes these corrections upgrades over the already-published versions.
+Both recipes use the existing glibmm/libsigc++ ABI family, publish bare and
+explicit `=1-64` library provisions, and verify the real ELF64 SONAME before
+packaging succeeds. Do not substitute the newer ABI libraries with symlinks or
+metadata-only provides. The newer bindings now have distinct packages, listed
+below, so both generations can coexist.
+
+Build `mm-common` first if it is not yet published, then build both corrected
+recipes and publish their matching runtime and documentation outputs:
+
+```sh
+shelly build --isolated --check ./devario-core/cairomm/PKGBUILD
+shelly build --isolated --check ./devario-core/atkmm/PKGBUILD
+```
+
+After signing and publishing the replacement archives and refreshing the hosted
+repository database, retry the ISO build using a fresh repository snapshot.
+The retained failed run still contains the incompatible archives. Its six local
+installer packages are not the cause, and changing only their metadata or
+rerunning against the same snapshot cannot fix the failure.
+
+The validation and remaining release steps for both generations are recorded
+below. Keep the epoch when refreshing the corrected GTK3 packages.
+
+## Parallel C++ binding packages
+
+These recipes preserve the newer ABI stack without replacing GTK3's package
+names, headers, libraries, pkg-config files, or documentation:
+
+| Recipe | Version | Outputs |
+| --- | --- | --- |
+| [mm-common](devario-core/mm-common/PKGBUILD) | `1.0.8-1` | `mm-common` |
+| [libsigc++-3.0](devario-core/libsigc++-3.0/PKGBUILD) | `3.8.1-1` | `libsigc++-3.0`, `libsigc++-3.0-docs` |
+| [glibmm-2.68](devario-core/glibmm-2.68/PKGBUILD) | `2.90.0-1` | `glibmm-2.68`, `glibmm-2.68-docs` |
+| [cairomm-1.16](devario-core/cairomm-1.16/PKGBUILD) | `1.19.1-1` | `cairomm-1.16`, `cairomm-1.16-docs` |
+| [atkmm-2.36](devario-core/atkmm-2.36/PKGBUILD) | `2.36.4-1` | `atkmm-2.36`, `atkmm-2.36-docs` |
+
+Package suffixes identify the ABI, not the upstream release number. The newer
+atkmm and cairomm recipes preserve the source versions previously published
+under the wrong names. Each library recipe checks its actual ELF64 SONAME and
+provides only its own library ABI; none provides, replaces, or conflicts with
+the legacy package names. Documentation packages also have separate names.
+
+The new recipes follow official Arch packaging for
+[atkmm-2.36](https://gitlab.archlinux.org/archlinux/packaging/packages/atkmm-2.36),
+[cairomm-1.16](https://gitlab.archlinux.org/archlinux/packaging/packages/cairomm-1.16),
+[glibmm-2.68](https://gitlab.archlinux.org/archlinux/packaging/packages/glibmm-2.68),
+[libsigc++-3.0](https://gitlab.archlinux.org/archlinux/packaging/packages/libsigcplusplus-3.0),
+and [mm-common](https://gitlab.archlinux.org/archlinux/packaging/packages/mm-common).
+The cairomm 1.19.1 tag and checksum come from this repository's previous
+cairomm recipe. Every source remains pinned and checksum-verified.
+
+`glibmm-2.68` explicitly requires `glib2>=2.89.4`, matching its upstream
+build requirement. The retained repository already has GLib 2.90.0.
+`mm-common` uses the existing legacy libsigc++ and its documentation to bootstrap;
+there is no dependency on the new sigc++ package. It builds without network
+access using a separately downloaded, checksum-pinned GCC documentation tag.
+It requires `libxslt` for the C++ documentation tools and makes the unrelated
+GTK C documentation generator `gtk-doc` optional.
+
+Build and publish in this order, refreshing the worker's repository database
+between dependency stages. Publish runtime and documentation outputs together:
+
+1. `mm-common`, using existing `libsigc++` and `libsigc++-docs`.
+2. Corrected `atkmm` and `cairomm`, including their `-docs` outputs.
+3. `libsigc++-3.0`, including `libsigc++-3.0-docs`.
+4. `glibmm-2.68` and `cairomm-1.16`, including their `-docs` outputs.
+5. `atkmm-2.36`, after the new GLibmm runtime and documentation are available.
+
+For example, from this repository root:
+
+```sh
+shelly build --isolated --check ./devario-core/mm-common/PKGBUILD
+# Publish mm-common before building the dependent recipes.
+shelly build --isolated --check ./devario-core/libsigc++-3.0/PKGBUILD
+# Publish both sigc++ outputs before building the next stage.
+shelly build --isolated --check ./devario-core/glibmm-2.68/PKGBUILD
+shelly build --isolated --check ./devario-core/cairomm-1.16/PKGBUILD
+# Publish the new GLibmm outputs before building atkmm-2.36.
+shelly build --isolated --check ./devario-core/atkmm-2.36/PKGBUILD
+```
+
+Installations containing the mistakenly named modern libraries must upgrade
+`atkmm`, `cairomm`, and their documentation to the corrected epoch-1 packages
+before, or in the same transaction as, installing the parallel modern packages.
+Otherwise the old incorrect archives still own the modern paths. Do not add
+`conflicts` or `replaces` against the correctly named legacy packages to work
+around that transitional state. After publication, a fresh ISO snapshot should
+select the corrected legacy packages for GParted. The optional modern stack
+does not need to be added to the live ISO to repair its dependency closure.
+
+Validation on 2026-10-05:
+
+- All seven recipe source checksums and the extra GCC tag-file checksum passed.
+- All seven recipes completed native build and package-function runs under
+  `/tmp`, using staged build dependencies without installing them on the host.
+- Sigc++ passed 42 upstream tests, modern cairomm passed 7, and GLibmm passed 35
+  with 2 expected failures. The GLibmm package check explicitly excludes
+  `giomm_tls_client_test`, which connects to `www.gnome.org` and fails without
+  DNS/network access. The test remains available for separate network testing.
+  Atkmm and mm-common define no Meson tests in these configurations.
+- File inventories for 17 runtime/documentation payloads, including the existing
+  legacy GLibmm and sigc++ archives, have no overlapping non-directory paths.
+- `tests/test-gtk3-binding-abi.py` checks both generations' ABI guards, rejection
+  of wrong/missing ELF libraries, separate package identities/provisions, and
+  upgrade ordering for the corrected legacy packages.
+- Bash syntax, regenerated `.SRCINFO`, and Shelly review passed. Shelly reported
+  no review findings for the new recipes.
+- A metadata projection resolves all runtime, build, and check dependencies
+  against the retained repository: 175 selected packages, zero unresolved
+  requirements. The earlier ISO projection remains 644 selected packages with
+  zero unresolved requirements after correcting the two legacy providers.
+
+These are native staged builds and metadata audits, not signed release builds.
+Clean isolated package builds, signed publication, a fresh repository audit,
+and the ISO rebuild remain required before the reported ISO failure is fixed
+in published artifacts.

@@ -1,16 +1,14 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
-pkgbase=atkmm
+# This ABI has its own package name; do not provide or replace the GTK3 package.
+pkgbase=atkmm-2.36
 pkgname=(
-  atkmm
-  atkmm-docs
+  atkmm-2.36
+  atkmm-2.36-docs
 )
-pkgver=2.28.5
+pkgver=2.36.4
 pkgrel=1
-# Supersede the incompatible 2.36.4 package already published as atkmm.
-epoch=1
-# GTK3/GParted require the 2.28 branch and libatkmm-1.6 ABI.
 pkgdesc="C++ bindings for ATK"
 url="https://www.gtkmm.org/"
 arch=(x86_64)
@@ -19,21 +17,21 @@ depends=(
   atk
   glib2
   glibc
-  glibmm
+  glibmm-2.68
   libgcc
-  libsigc++
+  libsigc++-3.0
   libstdc++
 )
 makedepends=(
   git
-  glibmm-docs
-  libsigc++-docs
+  glibmm-2.68-docs
+  libsigc++-3.0-docs
   meson
   mm-common
 )
 options=(!emptydirs)
 source=("git+https://gitlab.gnome.org/GNOME/atkmm.git#tag=$pkgver")
-b2sums=('c69c631bf79ffa6b78e6809bac8e95da572db57a78b3eef606a8b7aa113744934947236161c0044039bf4d1c27ec2686ca1c70019d8c9175dde0cf1df50f70f1')
+b2sums=('2b9cfe54dbb33e1d50831448ec18576dc0a9658db4c71b2555d330496d1879247b2064ca8bd9735c8c3e5b88785aec3233f7496080c91b39661d7b1f5e614543')
 
 prepare() {
   cd atkmm
@@ -52,22 +50,23 @@ check() {
   meson test -C build --print-errorlogs
 }
 
-package_atkmm() {
+package_atkmm-2.36() {
   depends+=(
-    libglibmm-2.4.so
-    libsigc-2.0.so
+    libglibmm-2.68.so
+    libsigc-3.0.so
   )
-  provides=(libatkmm-1.6.so libatkmm-1.6.so=1-64)
+  provides=(libatkmm-2.36.so libatkmm-2.36.so=1-64)
 
   meson install -C build --destdir "$pkgdir"
-  _verify_soname "$pkgdir/usr/lib/libatkmm-1.6.so" libatkmm-1.6.so.1 || return 1
+
+  _verify_soname "$pkgdir/usr/lib/libatkmm-2.36.so" libatkmm-2.36.so.1 || return 1
 
   # Split -docs
   mkdir -p docs/usr/share
   mv -t docs/usr/share "$pkgdir"/usr/share/{devhelp,doc}
 }
 
-package_atkmm-docs() {
+package_atkmm-2.36-docs() {
   pkgdesc+=" (documentation)"
   depends=()
   options=(!strip)
@@ -75,7 +74,7 @@ package_atkmm-docs() {
   mv -t "$pkgdir" docs/*
 }
 
-# Do not let a future version refresh advertise an incompatible GTK3 ABI.
+# Keep the advertised ABI tied to the actual installed library.
 _verify_soname() {
   LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
   LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1

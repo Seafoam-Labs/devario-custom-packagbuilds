@@ -1,42 +1,35 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
 
-pkgbase=atkmm
+# This ABI has its own package name; do not provide or replace the GTK3 package.
+pkgbase=libsigc++-3.0
 pkgname=(
-  atkmm
-  atkmm-docs
+  libsigc++-3.0
+  libsigc++-3.0-docs
 )
-pkgver=2.28.5
+pkgver=3.8.1
 pkgrel=1
-# Supersede the incompatible 2.36.4 package already published as atkmm.
-epoch=1
-# GTK3/GParted require the 2.28 branch and libatkmm-1.6 ABI.
-pkgdesc="C++ bindings for ATK"
-url="https://www.gtkmm.org/"
+pkgdesc="Callback Framework for C++"
+url="https://libsigcplusplus.github.io/libsigcplusplus/"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
 depends=(
-  atk
-  glib2
   glibc
-  glibmm
   libgcc
-  libsigc++
   libstdc++
 )
 makedepends=(
   git
-  glibmm-docs
-  libsigc++-docs
   meson
   mm-common
 )
 options=(!emptydirs)
-source=("git+https://gitlab.gnome.org/GNOME/atkmm.git#tag=$pkgver")
-b2sums=('c69c631bf79ffa6b78e6809bac8e95da572db57a78b3eef606a8b7aa113744934947236161c0044039bf4d1c27ec2686ca1c70019d8c9175dde0cf1df50f70f1')
+source=("git+https://github.com/libsigcplusplus/libsigcplusplus#tag=$pkgver")
+b2sums=('f174ad6b43e1b33da7a7fff149507c5ac04a66941947077644d1b9e5d1b0aabfe773e3ba26787644b2175a75ce10ab9a9ca8cadfcec0b560685ca2d163b11235')
 
 prepare() {
-  cd atkmm
+  cd libsigcplusplus
 }
 
 build() {
@@ -44,7 +37,7 @@ build() {
     -D maintainer-mode=true
   )
 
-  arch-meson atkmm build "${meson_options[@]}"
+  arch-meson libsigcplusplus build "${meson_options[@]}"
   meson compile -C build
 }
 
@@ -52,22 +45,19 @@ check() {
   meson test -C build --print-errorlogs
 }
 
-package_atkmm() {
-  depends+=(
-    libglibmm-2.4.so
-    libsigc-2.0.so
-  )
-  provides=(libatkmm-1.6.so libatkmm-1.6.so=1-64)
+package_libsigc++-3.0() {
+  provides=(libsigc-3.0.so libsigc-3.0.so=0-64)
 
   meson install -C build --destdir "$pkgdir"
-  _verify_soname "$pkgdir/usr/lib/libatkmm-1.6.so" libatkmm-1.6.so.1 || return 1
+
+  _verify_soname "$pkgdir/usr/lib/libsigc-3.0.so" libsigc-3.0.so.0 || return 1
 
   # Split -docs
   mkdir -p docs/usr/share
   mv -t docs/usr/share "$pkgdir"/usr/share/{devhelp,doc}
 }
 
-package_atkmm-docs() {
+package_libsigc++-3.0-docs() {
   pkgdesc+=" (documentation)"
   depends=()
   options=(!strip)
@@ -75,7 +65,7 @@ package_atkmm-docs() {
   mv -t "$pkgdir" docs/*
 }
 
-# Do not let a future version refresh advertise an incompatible GTK3 ABI.
+# Keep the advertised ABI tied to the actual installed library.
 _verify_soname() {
   LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
   LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1

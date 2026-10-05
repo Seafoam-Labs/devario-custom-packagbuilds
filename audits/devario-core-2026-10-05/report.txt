@@ -1,0 +1,69 @@
+DEVARIO-CORE PUBLICATION / VERSION AUDIT
+2026-10-05T18:44:56.888574+00:00
+
+Verified against active Devario signer BB62CD2725FD8E25558F900A84F94F672976872C
+Published packages: 1119. Local recipes: 278, producing 415 declared package outputs.
+386 outputs match; 11 published versions are older; 16 outputs are absent by exact name; 2 published versions are newer.
+Missing exact names are not a claim that no virtual provider exists.
+
+Recent GTK binding fixes, modern split bindings, mm-common, and vulkan-virtio all match local versions.
+ISO published-metadata closure: 627 packages selected; only calamares is unresolved.
+Calamares belongs to the six local installer recipes staged by scripts/build-packages-core.py.
+The prior six GTK binding dependency errors are absent. This does not replace a full ISO build.
+Venus is published but not selected in iso/packages.x86_64; setup-qemu.sh still lacks hostmem/blob/venus options.
+
+LOCAL PUBLICATION DIFFERENCES
+libxml2: published 2.15.4-1, local 2.15.4-2 (published_older)
+libxml2-docs: published 2.15.4-1, local 2.15.4-2 (published_older)
+lz4: published 1:1.10.0-2, local 1:1.10.0-3 (published_older)
+maturin: published ABSENT, local 1.15.0-1 (missing)
+openpmix: published 5.0.11-1, local 6.1.0-1 (published_older)
+openpmix-docs: published 5.0.11-1, local 6.1.0-1 (published_older)
+pam: published 1.7.3-1, local 1.7.3-2 (published_older)
+pandoc-bin: published 3.11-1, local 3.12-1 (published_older)
+prrte: published 3.0.14-1, local 4.1.0-1 (published_older)
+prrte-docs: published 3.0.14-1, local 4.1.0-1 (published_older)
+python-attrs: published ABSENT, local 26.1.0-1 (missing)
+python-autocommand: published ABSENT, local 2.2.2-1 (missing)
+python-build: published 1.6.0-1, local 1.6.1-1 (published_older)
+python-hatch-fancy-pypi-readme: published ABSENT, local 25.1.0-1 (missing)
+python-jaraco.collections: published ABSENT, local 5.2.1-1 (missing)
+python-jaraco.context: published ABSENT, local 6.1.2-1 (missing)
+python-jaraco.functools: published ABSENT, local 4.6.0-1 (missing)
+python-jaraco.text: published ABSENT, local 4.0.0-1 (missing)
+python-jsonschema-specifications: published ABSENT, local 2025.9.1-1 (missing)
+python-jsonschema: published ABSENT, local 4.26.0-1 (missing)
+python-more-itertools: published ABSENT, local 11.1.0-1 (missing)
+python-platformdirs: published ABSENT, local 4.12.2-1 (missing)
+python-pyproject-hooks: published ABSENT, local 1.3.3-1 (missing)
+python-referencing: published ABSENT, local 0.37.0-1 (missing)
+python-rpds-py: published ABSENT, local 2026.6.3-1 (missing)
+qt6-translations: published 6.12.0-1, local 6.12.0-3 (published_older)
+scx-tools: published ABSENT, local 1.1.3-2 (missing)
+spirv-tools: published 1:1.4.363.0-1, local 2026.4.rc2-1 (published_newer)
+systemd-libs: published 262-8, local 262-5.1 (published_newer)
+
+ARCH STABLE SOURCE-VERSION COMPARISON
+1072 same-name packages compared: 979 same source version, 81 newer, 12 older.
+This comparison ignores epoch and packaging release; different source branches can be intentional.
+cccl: published 3.4.3-1, Arch 3.5.0-1
+cmake: published 4.4.3-2, Arch 4.4.4-1
+lib32-rust-libs: published 1:1.98.1-5, Arch 1:1.99.0-1
+meson-python: published 0.22.0-1, Arch 0.22.1-1
+openssl: published 3.6.4-3, Arch 3.6.5-1
+rust: published 1:1.98.1-5, Arch 1:1.99.0-1
+rust-aarch64-gnu: published 1:1.98.1-5, Arch 1:1.99.0-1
+rust-aarch64-musl: published 1:1.98.1-5, Arch 1:1.99.0-1
+rust-musl: published 1:1.98.1-5, Arch 1:1.99.0-1
+rust-src: published 1:1.98.1-5, Arch 1:1.99.0-1
+rust-wasm: published 1:1.98.1-5, Arch 1:1.99.0-1
+tzdata: published 2026d-2, Arch 2026e-1
+
+Repository metadata only. Arch source versions compared without epoch/pkgrel; differing ABI branches may be intentional. Does not verify package archives, installation, or VM graphics.
+No package recipes were changed, rebuilt, installed, or published in this audit.
+
+Database sources:
+https://repo.seafoam-labs.org/devario-core/x86_64/devario-core.db
+https://geo.mirror.pkgbuild.com/core/os/x86_64/core.db
+https://geo.mirror.pkgbuild.com/extra/os/x86_64/extra.db
+https://geo.mirror.pkgbuild.com/multilib/os/x86_64/multilib.db

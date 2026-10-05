@@ -2,16 +2,14 @@
 # Contributor: Kevin <kevin@archlinux.org>
 # Contributor: criminy <criminy@gmail.com>
 
-pkgbase=cairomm
+# This ABI has its own package name; do not provide or replace the GTK3 package.
+pkgbase=cairomm-1.16
 pkgname=(
-  cairomm
-  cairomm-docs
+  cairomm-1.16
+  cairomm-1.16-docs
 )
-pkgver=1.14.6
+pkgver=1.19.1
 pkgrel=1
-# Supersede the incompatible 1.19.1 package already published as cairomm.
-epoch=1
-# GTK3/GParted require the 1.14 branch and libcairomm-1.0 ABI.
 pkgdesc="C++ bindings for Cairo"
 url="https://www.cairographics.org/cairomm/"
 arch=(x86_64)
@@ -20,18 +18,19 @@ depends=(
   cairo
   glibc
   libgcc
-  libsigc++
+  libsigc++-3.0
   libstdc++
 )
 makedepends=(
   git
-  libsigc++-docs
+  libsigc++-3.0-docs
   meson
   mm-common
 )
 options=(!emptydirs)
+checkdepends=(boost)
 source=("git+https://gitlab.freedesktop.org/cairo/cairomm.git#tag=$pkgver")
-b2sums=('2d87fa35ac313a5976ecaaacf486bceb68f59c69b91d41ac4592ea0b2ce980a8d3ab5863d7b721e08cec5ccae11bf0bd3926e9326ee33d6d6e874c7823181652')
+b2sums=('ae80b004fdc804cdde4e50e9beb81265181c83558ccb87226d0969db481b6a17b722c454828826ccb8b51ff415c95b835cac912ccff901944b25bbffda022117')
 
 prepare() {
   cd cairomm
@@ -50,19 +49,20 @@ check() {
   meson test -C build --print-errorlogs
 }
 
-package_cairomm() {
-  depends+=(libsigc-2.0.so)
-  provides=(libcairomm-1.0.so libcairomm-1.0.so=1-64)
+package_cairomm-1.16() {
+  depends+=(libsigc-3.0.so)
+  provides=(libcairomm-1.16.so libcairomm-1.16.so=1-64)
 
   meson install -C build --destdir "$pkgdir"
-  _verify_soname "$pkgdir/usr/lib/libcairomm-1.0.so" libcairomm-1.0.so.1 || return 1
+
+  _verify_soname "$pkgdir/usr/lib/libcairomm-1.16.so" libcairomm-1.16.so.1 || return 1
 
   # Split -docs
   mkdir -p docs/usr/share
   mv -t docs/usr/share "$pkgdir"/usr/share/{devhelp,doc}
 }
 
-package_cairomm-docs() {
+package_cairomm-1.16-docs() {
   pkgdesc+=" (documentation)"
   depends=()
   options=(!strip)
@@ -70,7 +70,7 @@ package_cairomm-docs() {
   mv -t "$pkgdir" docs/*
 }
 
-# Do not let a future version refresh advertise an incompatible GTK3 ABI.
+# Keep the advertised ABI tied to the actual installed library.
 _verify_soname() {
   LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
   LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1

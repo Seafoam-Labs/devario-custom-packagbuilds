@@ -1,0 +1,85 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
+
+# This ABI has its own package name; do not provide or replace the GTK3 package.
+pkgbase=glibmm-2.68
+pkgname=(
+  glibmm-2.68
+  glibmm-2.68-docs
+)
+pkgver=2.90.0
+pkgrel=1
+pkgdesc="C++ bindings for GLib"
+url="https://www.gtkmm.org/"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  'glib2>=2.89.4'
+  glibc
+  libgcc
+  'libsigc++-3.0>=3.0.0'
+  libstdc++
+  perl
+)
+makedepends=(
+  clang
+  git
+  libsigc++-3.0-docs
+  meson
+  mm-common
+  perl-xml-parser
+)
+checkdepends=(glib-networking)
+options=(!emptydirs)
+source=("git+https://gitlab.gnome.org/GNOME/glibmm.git#tag=$pkgver")
+b2sums=('f929f28a4b97024e54c3ae593a69abbe4a3ce971b3954c4ffa4bbd9325dece3e70bcbcbfa7a7e53186c57f29297fff202f5c2f5e4377703c8ad20c50c52d074a')
+
+prepare() {
+  cd glibmm
+}
+
+build() {
+  local meson_options=(
+    -D maintainer-mode=true
+  )
+
+  arch-meson glibmm build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  # This one upstream test connects to www.gnome.org and fails without DNS.
+  # Keep package checks usable in builders without outbound network access.
+  meson test -C build --print-errorlogs --exclude giomm_tls_client_test
+}
+
+package_glibmm-2.68() {
+  depends+=(libsigc-3.0.so)
+  provides=(libglibmm-2.68.so libglibmm-2.68.so=1-64 libgiomm-2.68.so libgiomm-2.68.so=1-64)
+
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+
+  _verify_soname "$pkgdir/usr/lib/libglibmm-2.68.so" libglibmm-2.68.so.1 || return 1
+  _verify_soname "$pkgdir/usr/lib/libgiomm-2.68.so" libgiomm-2.68.so.1 || return 1
+
+  # Split -docs
+  mkdir -p docs/usr/share
+  mv -t docs/usr/share "$pkgdir"/usr/share/{devhelp,doc}
+}
+
+package_glibmm-2.68-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+  options=(!strip)
+
+  mv -t "$pkgdir" docs/*
+}
+
+# Keep the advertised ABI tied to the actual installed library.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:

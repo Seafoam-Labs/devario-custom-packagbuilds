@@ -1,0 +1,24 @@
+pkgbase = libsigc++-3.0
+	pkgdesc = Callback Framework for C++
+	pkgver = 3.8.1
+	pkgrel = 1
+	url = https://libsigcplusplus.github.io/libsigcplusplus/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = git
+	makedepends = meson
+	makedepends = mm-common
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	options = !emptydirs
+	source = git+https://github.com/libsigcplusplus/libsigcplusplus#tag=3.8.1
+	b2sums = f174ad6b43e1b33da7a7fff149507c5ac04a66941947077644d1b9e5d1b0aabfe773e3ba26787644b2175a75ce10ab9a9ca8cadfcec0b560685ca2d163b11235
+
+pkgname = libsigc++-3.0
+	provides = libsigc-3.0.so
+	provides = libsigc-3.0.so=0-64
+
+pkgname = libsigc++-3.0-docs
+	pkgdesc = Callback Framework for C++ (documentation)
+	options = !strip
