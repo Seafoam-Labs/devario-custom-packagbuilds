@@ -30,27 +30,35 @@ if [[ $BUILDDIR -ef "$startdir" && "$startdir" == *" "* ]]; then
     BUILDDIR=/tmp/makepkg-$pkgname
 fi
 
-pkgver=7.8.0.r79.g4fd29ea0
-pkgrel=1
+pkgver=8.13.0.r101.gabc47a98
+pkgrel=2
 pkgdesc='Linux observability platform: event-driven monitor, eBPF tracer and analyzer on an in-tree flow-model sort/search engine, with kernel-module telemetry and GPU attribution'
 arch=('x86_64')
 url='https://github.com/wllclngn/montauk'
 license=('GPL-2.0-only')
+# libbpf, liburing and NVML are dlopen'd at first use (util/BpfDyn, UringDyn,
+# NvmlDyn) since montauk 8.10.0, so the binary links only glibc and gcc-libs.
+# Their headers are build-time inputs; the libraries themselves are optional
+# at run time. bpftool and clang must be present at build time or CMake
+# silently builds without --trace.
 depends=(
     'glibc'
     'gcc-libs'
-    'libbpf'
-    'liburing'
 )
 makedepends=(
     'git'
     'cmake'
     'gcc'
     'clang'
+    'bpftool'
+    'libbpf'
+    'liburing'
 )
 optdepends=(
+    'libbpf: eBPF trace mode (montauk --trace)'
+    'liburing: Prometheus metrics endpoint'
     'nvidia-utils: NVML-based per-process GPU attribution'
-    'linux-headers: build the optional kernel module via ./install.py --kernel'
+    'python: montauk-profile capture/report harness'
 )
 
 # Coexistence with a future stable AUR `montauk` package.
@@ -111,11 +119,19 @@ build() {
 package() {
     cd "$srcdir/$_pkgname"
 
-    # Binaries.
-    install -Dm755 build/montauk              "$pkgdir/usr/bin/montauk"
-    install -Dm755 build/montauk_analyze      "$pkgdir/usr/bin/montauk_analyze"
-    install -Dm755 build/montauk_trace_decode "$pkgdir/usr/bin/montauk_trace_decode"
-    install -Dm755 build/sublimation          "$pkgdir/usr/bin/sublimation"
+    # Binaries. Since 8.10.0 the analyzer and the trace decoder are compiled
+    # into montauk itself; montauk_analyze and montauk_trace_decode no longer
+    # exist as separate executables.
+    install -Dm755 build/montauk     "$pkgdir/usr/bin/montauk"
+    install -Dm755 build/sublimation "$pkgdir/usr/bin/sublimation"
+
+    # montauk-profile: importable module plus CLI shim, same layout as
+    # install.py (lib/montauk/montauk_profile.py, bin/montauk-profile symlink).
+    if [ -f components/profile/montauk_profile.py ]; then
+        install -Dm755 components/profile/montauk_profile.py \
+            "$pkgdir/usr/lib/montauk/montauk_profile.py"
+        ln -s ../lib/montauk/montauk_profile.py "$pkgdir/usr/bin/montauk-profile"
+    fi
 
     # Manpage — the in-app help overlay loads it at runtime via `man montauk`.
     install -Dm644 montauk.1                 "$pkgdir/usr/share/man/man1/montauk.1"
@@ -125,10 +141,13 @@ package() {
     install -Dm644 LICENSE                   "$pkgdir/usr/share/licenses/$_pkgname/LICENSE"
     install -Dm644 README.md                 "$pkgdir/usr/share/doc/$_pkgname/README.md"
 
-    # Optional supplementary doc — only present in some commits. Wrap in
+    # Optional supplementary docs — only present in some commits. Wrap in
     # a real `if` so a missing file doesn't make package() return non-zero
     # from the trailing test (which makepkg would treat as build failure).
-    if [ -f DEPLOYMENT.md ]; then
-        install -Dm644 DEPLOYMENT.md "$pkgdir/usr/share/doc/$_pkgname/DEPLOYMENT.md"
-    fi
+    local _doc
+    for _doc in CONFIG.md DEPLOYMENT.md; do
+        if [ -f "$_doc" ]; then
+            install -Dm644 "$_doc" "$pkgdir/usr/share/doc/$_pkgname/$_doc"
+        fi
+    done
 }
