@@ -1,0 +1,41 @@
+# Based on Arch Linux's simdjson recipe by Bert Peters <bertptrs@archlinux.org>.
+# Adapted for Devario: preserve the explicit library ABI for Shelly.
+
+pkgname=simdjson
+epoch=1
+pkgver=5.0.1
+pkgrel=2
+pkgdesc='A fast JSON parser with complete validation'
+arch=('x86_64')
+url='https://github.com/simdjson/simdjson'
+license=('Apache-2.0 OR MIT')
+depends=('glibc' 'libgcc' 'libstdc++')
+makedepends=('cmake' 'ninja')
+provides=('libsimdjson.so' 'libsimdjson.so=34-64')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/simdjson/simdjson/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('8f7fcd06418b461d8b4d610004cb5e16b0887f7eef905021fda51a9c28277769')
+
+build() {
+  # Developer mode downloads extra test/benchmark dependencies through CPM.
+  # The release includes the generated header needed for a library-only build.
+  cmake -S "${pkgname}-${pkgver}" -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSIMDJSON_DEVELOPER_MODE=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+  _verify_soname "${pkgdir}/usr/lib/libsimdjson.so" libsimdjson.so.34 || return 1
+  install -Dm644 "${pkgname}-${pkgver}/LICENSE" \
+    "${pkgname}-${pkgver}/LICENSE-MIT" -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
