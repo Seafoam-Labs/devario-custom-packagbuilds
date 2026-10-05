@@ -6,7 +6,7 @@ The current ISO uses the repository's `devario-desktop` and stable
 `pearl-greeter`. `devario-aqueous-desktop` and `seafoam-keyring` are retained here
 for older configurations and are no longer part of the default ISO build.
 Rebuild `devario-base` 3-13, `devario-boot` 1-7, and `devario-keyring`
-20260923-2 for the Shelly Devario path profile, RLPM hooks, and all six signed
+20260923-3 for the Shelly Devario path profile, RLPM hooks, and all six signed
 runtime repositories: core, browser, development, entertainment, gaming, and
 utilities. OS login and GPU defaults now live in the ISO profile.
 

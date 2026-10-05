@@ -1,5 +1,10 @@
 # Devario keyring package
 
+Version `20260923-3` represents an empty `devario-revoked` list with one LF
+newline so Remora accepts it as an uploaded source file. It still declares no
+revoked keys. Upload `PKGBUILD` and all four source files together, preserving
+their exact bytes; the recipe and `.SRCINFO` contain matching SHA-256 hashes.
+
 This directory copies the public bundle and recipe from `devario-os` commit
 `63f329223e0851a5f05519b849bb250d560833e2`. The script path below refers to
 that OS repository. The copied bundle contains only public-key packets and
