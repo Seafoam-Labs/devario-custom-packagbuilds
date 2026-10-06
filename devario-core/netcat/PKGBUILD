@@ -1,0 +1,51 @@
+# Maintainer: Devario maintainers
+# Based on Arch Linux's openbsd-netcat recipe and Debian's Linux port.
+
+pkgname=netcat
+pkgver=1.238_1
+pkgrel=1
+pkgdesc='TCP/IP networking utility (OpenBSD variant)'
+arch=('x86_64')
+url='https://salsa.debian.org/debian/netcat-openbsd'
+license=('BSD-2-Clause' 'BSD-3-Clause')
+depends=('glibc' 'libbsd')
+makedepends=('pkgconf')
+checkdepends=('bash' 'coreutils' 'diffutils')
+provides=("openbsd-netcat=$pkgver")
+conflicts=('openbsd-netcat' 'gnu-netcat')
+_sourcever="${pkgver/_/-}"
+_sourcedir="netcat-openbsd-debian-$_sourcever"
+source=("$url/-/archive/debian/$_sourcever/$_sourcedir.tar.gz")
+sha256sums=('ca2fed5e3e0e9841af812bd7ad2ed9e094f5c4cb72817e91323c75e14858af4a')
+
+prepare() {
+  cd "$srcdir/$_sourcedir"
+  local patch_name
+  while IFS= read -r patch_name; do
+    patch -Np1 -i "debian/patches/$patch_name"
+  done < debian/patches/series
+}
+
+build() {
+  cd "$srcdir/$_sourcedir"
+  make \
+    CFLAGS="$CFLAGS -DDEBIAN_VERSION=\\\"$_sourcever\\\" -I/usr/include/libbsd" \
+    LDFLAGS="$LDFLAGS -lbsd"
+}
+
+check() (
+  cd "$srcdir/$_sourcedir"
+  test_tmpdir="$(mktemp -d)"
+  trap 'rm -rf -- "$test_tmpdir"' EXIT
+  TMPDIR="$test_tmpdir" bash debian/tests/client-server
+)
+
+package() {
+  cd "$srcdir/$_sourcedir"
+  install -Dm755 nc "$pkgdir/usr/bin/nc"
+  ln -s nc "$pkgdir/usr/bin/netcat"
+  ln -s nc "$pkgdir/usr/bin/nc.openbsd"
+  install -Dm644 nc.1 "$pkgdir/usr/share/man/man1/nc.1"
+  ln -s nc.1 "$pkgdir/usr/share/man/man1/netcat.1"
+  install -Dm644 debian/copyright "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

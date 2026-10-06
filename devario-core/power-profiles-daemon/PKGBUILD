@@ -1,0 +1,43 @@
+# Maintainer: Devario maintainers
+
+pkgname=power-profiles-daemon
+pkgver=0.30
+pkgrel=1
+pkgdesc='Makes power profiles handling available over D-Bus'
+arch=('x86_64')
+url='https://gitlab.freedesktop.org/upower/power-profiles-daemon'
+license=('GPL-3.0-only')
+depends=('gcc-libs' 'glib2' 'glibc' 'libgudev' 'polkit' 'systemd' 'upower')
+optdepends=('python-gobject: for powerprofilesctl')
+makedepends=(
+  'bash-completion'
+  'glib2-devel'
+  'meson'
+  'ninja'
+  'pkgconf'
+  'python-argparse-manpage'
+  'python-gobject'
+  'python-shtab'
+)
+checkdepends=('python-dbusmock' 'umockdev')
+source=("$pkgname-$pkgver.tar.gz::$url/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('90f2c95024861d9f4062abedd514084939224e7a49edd468f001af7260ec8e6c')
+
+build() {
+  arch-meson "$pkgname-$pkgver" build \
+    --libexecdir=lib \
+    -Dsystemdsystemunitdir=/usr/lib/systemd/system \
+    -Dzshcomp=/usr/share/zsh/site-functions \
+    -Dbashcomp=enabled \
+    -Dmanpage=enabled \
+    -Dpylint=disabled
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}

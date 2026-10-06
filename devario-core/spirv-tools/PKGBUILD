@@ -1,5 +1,5 @@
 pkgname=spirv-tools
-pkgver=2026.4.rc2
+pkgver=2026.4
 pkgrel=1
 pkgdesc='API and commands for processing SPIR-V modules'
 arch=('x86_64')

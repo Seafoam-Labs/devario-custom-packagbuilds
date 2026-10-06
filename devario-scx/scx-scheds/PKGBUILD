@@ -1,22 +1,23 @@
 # Maintainer: Peter Jung ptr1337 <admin@ptr1337.dev>
 # Maintainer: Piotr Górski <lucjan.lucjanov@gmail.com>
+# Contributor: Tejun Heo <tj@kernel.org>
 
 # Available profiles: “release”, “release-tiny”, “release-fast“
-# See: https://github.com/sched-ext/scx-loader/blob/main/Cargo.toml
+# See: https://github.com/sched-ext/scx/blob/main/Cargo.toml
 _mode=release
 
-pkgname=scx-tools-git
-_gitname=scx-loader
-pkgver=1.1.3.r2.g247fd05
-pkgrel=3
-epoch=1
-pkgdesc='scx_loader: A DBUS Interface for Managing sched_ext Schedulers'
-url='https://github.com/sched-ext/scx-loader'
+pkgname=scx-scheds
+_gitname=scx
+pkgver=1.1.3
+pkgrel=1.1
+pkgdesc='sched_ext schedulers and tools'
+url='https://github.com/sched-ext/scx'
 arch=('x86_64')
 license=('GPL-2.0-only')
 depends=(
-  polkit
-  scx-scheds
+  libseccomp
+  libelf
+  zlib
 )
 makedepends=(
   cargo
@@ -25,25 +26,21 @@ makedepends=(
   llvm
   llvm-libs
 )
+optdepends=(
+'scx-tools: scx_loader, scxctl and scxtui - A DBUS Interface for Managing sched_ext Schedulers '
+)
 options=(!lto)
-provides=("scxctl" "scx-tools")
-conflicts=("scxctl" "scx-tools")
-source=("git+https://github.com/sched-ext/scx-loader")
-sha256sums=('SKIP')
+source=("git+https://github.com/sched-ext/scx#tag=v$pkgver")
+sha256sums=('282b4a9365fc2635ba554ee46f6decbe78f1d06340a8dee3f1573931e8a3973a')
 
 _backports=(
-9129803097f54a04506b17f331ab30844317ca76 # scx_loader: Add chaos scheduler
-a52346f36bce36a7dc713489d12f18f4268389fb # scx_loader: Set scx_eevdf as a default scheduler
-0feb62d2c38448cdf51bb4312bc8e6194bf98a06 # scxctl: add a config command to dump the resolved configuration
+6624f0f178e233b2f733825e5e08549048ca3700 # scx_cake: nightly squash — R.28 per-task geometry + veto trade priced (2026-08-19)
+bdbf5eec541fdd48ed825d8e07cebdf5aad10e63 # scx_cake: remove build-host topology baking — one binary runs on all hardware
+18dbe236217a907a4f165bb89e8f75a3fda9ab46 # PANDEMONIUMv5.19.0:
 )
 
 _reverts=(
 )
-
-pkgver() {
-  cd $_gitname
-  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
-}
 
 prepare() {
   cd $_gitname
@@ -77,7 +74,15 @@ build() {
   cd $_gitname
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
-  cargo build --profile=$_mode --frozen --workspace
+  cargo build \
+     --profile=$_mode \
+     --frozen \
+     --workspace \
+     --exclude scx_rlfifo \
+     --exclude scx_characterize \
+     --exclude xtask \
+     --exclude vmlinux_docify \
+     --exclude scx_arena_selftests
 }
 
 package() {
@@ -85,10 +90,6 @@ package() {
 
   # Install all built executables (skip .so and .d files)
   find target/$_mode \
-    -maxdepth 1 -type f -executable ! -name '*.so' ! -name 'xtask' \
+    -maxdepth 1 -type f -executable ! -name '*.so' \
     -exec install -Dm755 -t "$pkgdir/usr/bin/" {} +
-
-  # Install runtime assets via xtask
-  # (systemd units, D-Bus services, configs, sample files)
-  ./target/$_mode/xtask install --destdir "$pkgdir"
 }
