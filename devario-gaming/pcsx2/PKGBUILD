@@ -1,0 +1,108 @@
+# Maintainer: witchlliee <witchlliee@proton.me>
+
+pkgname=pcsx2
+pkgver=2.8.2
+pkgrel=1
+pkgdesc='PlayStation 2 emulator'
+arch=('x86_64')
+url="https://github.com/PCSX2/pcsx2"
+license=('GPL-3.0-or-later')
+
+depends=(
+    dbus
+    ffmpeg
+    hicolor-icon-theme
+    curl
+    libbacktrace
+    libglvnd
+    libpcap
+    libpipewire
+    libpng
+    libxi
+    libxrandr
+    qt6-base
+    qt6-wayland
+    freetype2
+    glibc
+    libgcc
+    libjpeg-turbo
+    libstdc++
+    libwebp
+    libx11
+    lz4
+    systemd-libs
+    zlib
+    zstd
+    plutosvg
+    plutovg
+    rapidyaml
+    sdl3
+    shaderc
+    kddockwidgets
+)
+makedepends=(
+    7zip
+    clang
+    cmake
+    extra-cmake-modules
+    git
+    libpipewire
+    libpulse
+    lld
+    llvm
+    ninja
+    qt6-tools
+    qt6-wayland
+    vulkan-headers
+)
+optdepends=(
+    'alsa-utils: Sound player for RetroAchievements'
+    'gstreamer: Backup sound player for RetroAchievements'
+    'noto-fonts: System font support'
+)
+
+source=(
+    "git+https://github.com/PCSX2/pcsx2.git"
+    "git+https://github.com/PCSX2/pcsx2_patches.git"
+)
+sha256sums=('SKIP'
+            'SKIP')
+
+install=pcsx2.install
+
+build()
+{
+    # See .github/workflows/scripts/linux/generate-cmake-qt.sh
+
+    cmake -S ${pkgname} -B build \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" \
+    -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" \
+    -DUSE_VULKAN=ON \
+    -DENABLE_SETCAP=OFF \
+    -DWAYLAND_API=ON \
+    -DCMAKE_INSTALL_PREFIX="/usr" \
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+    -DDISABLE_ADVANCE_SIMD=ON \
+    -DCMAKE_PREFIX_PATH="${srcdir}/deps-build" \
+    -DPACKAGE_MODE=ON
+
+    # Build
+    ninja -C build
+
+    cd pcsx2_patches
+    7z a -r ../patches.zip patches/.
+}
+
+package() {
+    DESTDIR="${pkgdir}" cmake --install build
+
+    install -Dm644 "pcsx2/.github/workflows/scripts/linux/pcsx2-qt.desktop" \
+    "${pkgdir}/usr/share/applications/PCSX2.desktop"
+    install -Dm644 "pcsx2/bin/resources/icons/AppIconLarge.png" \
+    "${pkgdir}/usr/share/icons/hicolor/512x512/apps/PCSX2.png"
+    install -Dm644 -t "${pkgdir}/usr/share/PCSX2/resources/" "patches.zip"
+}
