@@ -1,5 +1,11 @@
 # Missing dependency builds for Shelly
 
+Build and publish `devario-core/netcat` 1.238_1-1 before the next ISO rebuild.
+It packages Debian's OpenBSD netcat port as `netcat`, provides `openbsd-netcat`,
+and installs `nc`, `netcat`, and `nc.openbsd`. The recipe applies the upstream
+Linux patches, includes both BSD licenses and runs the upstream client/server
+checks. Devario's ISO and repository package lists now also include `ripgrep`.
+
 Build and publish `devario-core/power-profiles-daemon` 0.30-1 before the next
 Devario ISO rebuild. The recipe uses the checksum-pinned upstream release,
 includes D-Bus activation and polkit policy, and runs upstream tests through
