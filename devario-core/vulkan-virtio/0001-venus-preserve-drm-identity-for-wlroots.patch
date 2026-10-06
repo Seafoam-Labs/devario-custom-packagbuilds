@@ -1,0 +1,40 @@
+Subject: [PATCH] venus: preserve DRM identity for wlroots renderers
+
+Venus hides DRM and PCI identity on NVIDIA to force WSI clients onto the
+prime blit path. This also prevents wlroots' Vulkan renderer from matching
+its DRM device, causing Aqueous startup to fail with VulkanRendererUnavailable.
+
+Like Gamescope, the wlroots Vulkan renderer does not use WSI swapchains.
+Preserve its guest device identity when the engine is wlroots and
+VK_KHR_surface is not enabled. Keep the existing workaround for WSI clients,
+including any wlroots instance that enables VK_KHR_surface.
+
+Based on Mesa 26.2.4.
+
+diff --git a/src/virtio/vulkan/vn_wsi.c b/src/virtio/vulkan/vn_wsi.c
+--- a/src/virtio/vulkan/vn_wsi.c
++++ b/src/virtio/vulkan/vn_wsi.c
+@@ -148,14 +148,20 @@
+     *    late to reject LINEAR mod when the native image path has already
+     *    been taken instead of the prime image path.
+     *
+-    * Gamescope requires VK_EXT_physical_device_drm and its runtime doesn't
+-    * use standard WSI extensions, so venus can spoof without impacting it.
++    * Gamescope and the wlroots Vulkan renderer require
++    * VK_EXT_physical_device_drm to match the guest DRM device. Neither uses
++    * standard WSI extensions for rendering. Keep the wlroots exception limited
++    * to instances without VK_KHR_surface so WSI clients retain the workaround.
+     */
+    struct vk_properties *props = &physical_dev->base.vk.properties;
+    const bool is_nvidia = props->vendorID == 0x10de;
+    const char *app_name = physical_dev->instance->base.vk.app_info.app_name;
+    const bool is_gamescope = app_name && strcmp(app_name, "gamescope") == 0;
+-   if (is_nvidia && !is_gamescope) {
++   const char *engine_name = physical_dev->instance->base.vk.app_info.engine_name;
++   const bool is_wlroots_renderer =
++      engine_name && strcmp(engine_name, "wlroots") == 0 &&
++      !physical_dev->instance->base.vk.enabled_extensions.KHR_surface;
++   if (is_nvidia && !is_gamescope && !is_wlroots_renderer) {
+       /* Fail same_gpu check on x11. See wsi_device_matches_drm_fd. */
+       physical_dev->base.vk.supported_extensions.EXT_pci_bus_info = false;
+       props->pciDomain = 0;

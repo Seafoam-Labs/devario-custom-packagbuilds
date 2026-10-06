@@ -5,6 +5,13 @@ Devario guests. It installs `libvulkan_virtio.so`, `virtio_icd.json`, and the
 upstream license. Wayland and X11 presentation are enabled. Existing Mesa
 packages continue to supply OpenGL, physical GPU drivers, and Vulkan layers.
 
+Package release 2 includes `0001-venus-preserve-drm-identity-for-wlroots.patch`.
+Mesa's NVIDIA WSI workaround hides the guest DRM identity that wlroots needs to
+match its Vulkan renderer to the display device. The patch preserves that
+identity for instances whose engine name is `wlroots` and which do not enable
+`VK_KHR_surface`. NVIDIA WSI clients retain the existing workaround, and the
+upstream Gamescope exception is unchanged. The change is confined to Venus.
+
 The version and epoch match the inspected Devario repository snapshot. The
 implicit Vulkan layers dependency is pinned to the same upstream Mesa version;
 update these packages together when moving to another Mesa release. This recipe
@@ -38,3 +45,16 @@ exported Vulkan ICD entry point were checked. Bash syntax and Shelly metadata
 generation passed; Shelly review reported no findings. A clean isolated package
 build, signed publication, ISO integration, and VM graphics acceptance remain
 pending.
+
+Validation of release 2 on 2026-10-06: the patch applied without fuzz to the
+checksum-verified Mesa 26.2.4 archive. The recipe's `prepare()`, `build()`, and
+`package()` functions completed on the development host with no compiler
+warnings. Generated metadata, patch checksum, upgrade ordering, ICD reference,
+and the three-file payload passed checks; Shelly review reported no findings.
+Six real-driver probes in an NVIDIA RTX 5090 / proprietary 615.71.09 Venus VM
+confirmed the original wlroots failure, restored guest DRM identity with the
+patched renderer, retained the workaround for unnamed clients, other engines,
+and wlroots instances enabling `VK_KHR_surface`, and preserved the Gamescope
+exception. These probes test device identity, not full desktop acceptance.
+An isolated signed package build and full NVIDIA desktop, greeter, client, and
+installer acceptance are still required before publication.

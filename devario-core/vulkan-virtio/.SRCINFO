@@ -1,7 +1,7 @@
 pkgbase = vulkan-virtio
 	pkgdesc = Open-source Vulkan driver for Virtio-GPU (Venus)
 	pkgver = 26.2.4
-	pkgrel = 1
+	pkgrel = 2
 	epoch = 1
 	url = https://www.mesa3d.org/
 	arch = x86_64
@@ -9,6 +9,7 @@ pkgbase = vulkan-virtio
 	makedepends = glslang
 	makedepends = meson
 	makedepends = ninja
+	makedepends = patch
 	makedepends = python-mako
 	makedepends = python-packaging
 	makedepends = python-yaml
@@ -34,8 +35,10 @@ pkgbase = vulkan-virtio
 	options = !lto
 	source = https://archive.mesa3d.org/mesa-26.2.4.tar.xz
 	source = https://archive.mesa3d.org/mesa-26.2.4.tar.xz.sig
+	source = 0001-venus-preserve-drm-identity-for-wlroots.patch
 	validpgpkeys = 57551DE15B968F6341C248F68D8E31AFC32428A6
 	sha256sums = bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9
 	sha256sums = SKIP
+	sha256sums = 8494f4f8700ee49c3ff5700eb56f69c8b808aecb9f58bcc2fd2e24d8f6ff97e4
 
 pkgname = vulkan-virtio

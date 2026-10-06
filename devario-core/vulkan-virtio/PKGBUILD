@@ -2,7 +2,7 @@
 # Mesa source metadata follows the official Arch mesa 26.2.4 packaging.
 pkgname=vulkan-virtio
 pkgver=26.2.4
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc='Open-source Vulkan driver for Virtio-GPU (Venus)'
 arch=('x86_64')
@@ -29,6 +29,7 @@ makedepends=(
   'glslang'
   'meson'
   'ninja'
+  'patch'
   'python-mako'
   'python-packaging'
   'python-yaml'
@@ -38,12 +39,21 @@ makedepends=(
 optdepends=('vulkan-mesa-layers: additional Vulkan layers')
 provides=('vulkan-driver')
 options=('!lto')
-source=("https://archive.mesa3d.org/mesa-$pkgver.tar.xz"{,.sig})
+source=(
+  "https://archive.mesa3d.org/mesa-$pkgver.tar.xz"{,.sig}
+  '0001-venus-preserve-drm-identity-for-wlroots.patch'
+)
 sha256sums=(
   'bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9'
   'SKIP'
+  '8494f4f8700ee49c3ff5700eb56f69c8b808aecb9f58bcc2fd2e24d8f6ff97e4'
 )
 validpgpkeys=('57551DE15B968F6341C248F68D8E31AFC32428A6') # Eric Engestrom
+
+prepare() {
+  cd "$srcdir/mesa-$pkgver"
+  patch -Np1 -i "$srcdir/0001-venus-preserve-drm-identity-for-wlroots.patch"
+}
 
 build() {
   # Build Venus only. Mesa's other drivers and implicit layers have separate
