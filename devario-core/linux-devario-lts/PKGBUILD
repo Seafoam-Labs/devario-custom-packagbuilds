@@ -89,9 +89,9 @@ _minor=55
 #_minorc=$((_minor+1))
 #_rcver=rc8
 pkgver=${_major}.${_minor}
-_tagrel=1
+_tagrel=2
 # Devario rebuild 1 of the upstream release, with a baseline x86-64 target.
-pkgrel=1.1
+pkgrel=1.2
 _stable=${_major}.${_minor}
 #_stable=${_major}
 #_stablerc=${_major}-${_rcver}
@@ -483,5 +483,5 @@ for _p in "${pkgname[@]}"; do
     }"
 done
 
-b2sums=('1c5148677d28a8a7ab056e89c11c64c3f55b2988a868c2727c31f5c585819a20247a36be7ae1b919b9b26c0981cc994f6f92de36a5375385929e0d2f4335d9fb'
+b2sums=('dcca890fd9a163a137e19c1778c046110121c1e9a17e67706a52750a7f0f4eddfbd7eb8e8a10694e182efa04912a2a25635d8bbd6e8d41bf2bae2fc3e961d104'
         'b00a2da0b7ba5639ed62806773644c6d90171b976a709dc386aa270edd9200ac6b50d535e5cb50e744fdadceaffd53e441930a5a1fba29c1a928fc286d495d24')
