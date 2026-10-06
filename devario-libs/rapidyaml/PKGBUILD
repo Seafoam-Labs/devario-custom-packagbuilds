@@ -26,7 +26,7 @@ source=(
   "rapidyaml::git+https://github.com/biojppm/rapidyaml.git#tag=v${pkgver}"
 )
 
-b2sums=('bb64f292e31c94dadb13b9168dfa77eb4519c218a9a4c0f9c61a1e3fccfa78e0c31494214f8023564a3af3bd80d9ef7b6a966c0285230752fd65b96af583f388')
+b2sums=('041703c4a798bb47ed192a65cf6e280ca58f7a2e6804aca11e49d96b494374b8d6fea3974c4a2cc5d4ae88bf57728f2c8efce65d8f4af8080403b1794720dbef')
 
 prepare() {
   cd rapidyaml

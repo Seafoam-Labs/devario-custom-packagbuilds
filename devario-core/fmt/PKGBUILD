@@ -5,7 +5,7 @@
 pkgbase=fmt
 pkgname=fmt
 pkgver=12.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Open-source formatting library for C++'
 arch=(x86_64)
 url=https://fmt.dev
@@ -33,7 +33,7 @@ package() {
     libgcc
     libstdc++
   )
-  provides=(libfmt.so)
+  provides=('libfmt.so' 'libfmt.so=12-64')
 
   DESTDIR="${pkgdir}" cmake --install build --component fmt_core
   install -Dm 644 -t "${pkgdir}"/usr/share/licenses/${pkgname} fmt/LICENSE
