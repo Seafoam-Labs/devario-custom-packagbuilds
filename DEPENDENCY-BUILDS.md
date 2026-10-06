@@ -1,5 +1,9 @@
 # Missing dependency builds for Shelly
 
+Build and publish `devario-installer/devario-base` 3-15 before the next ISO
+rebuild to include `devario-productivity` and `devario-libs` in `/etc/shelly.conf`.
+The default configuration no longer includes `devario-scx`.
+
 Build and publish `devario-core/netcat` 1.238_1-1 before the next ISO rebuild.
 It packages Debian's OpenBSD netcat port as `netcat`, provides `openbsd-netcat`,
 and installs `nc`, `netcat`, and `nc.openbsd`. The recipe applies the upstream
