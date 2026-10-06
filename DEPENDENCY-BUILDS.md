@@ -1,5 +1,11 @@
 # Missing dependency builds for Shelly
 
+Build and publish `devario-core/power-profiles-daemon` 0.30-1 before the next
+Devario ISO rebuild. The recipe uses the checksum-pinned upstream release,
+includes D-Bus activation and polkit policy, and runs upstream tests through
+Meson. The ISO now requests this package and starts it alongside UPower in
+live and installed sessions so Pearl can show battery status and power profiles.
+
 For the current core-only ISO, upload the complete recipe directories below.
 These releases move system hooks and their helpers to `/usr/share/rlpm/`,
 public key bundles to `/usr/share/shelly/keyrings/`, and mutable state and
