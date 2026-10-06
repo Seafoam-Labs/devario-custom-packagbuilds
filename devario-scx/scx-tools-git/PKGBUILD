@@ -34,7 +34,7 @@ sha256sums=('SKIP')
 _backports=(
 9129803097f54a04506b17f331ab30844317ca76 # scx_loader: Add chaos scheduler
 a52346f36bce36a7dc713489d12f18f4268389fb # scx_loader: Set scx_eevdf as a default scheduler
-dffb9bdc3471bd5238f88653b724ca893032249d # scxctl: add a config command to dump the resolved configuration
+89134daee1be1ae2a77400ef7411e26144b10dd4 # scxctl: add a config command to dump the resolved configuration
 )
 
 _reverts=(
