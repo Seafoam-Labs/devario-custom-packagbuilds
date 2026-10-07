@@ -2,7 +2,7 @@
 # Mesa source metadata follows the official Arch mesa 26.2.4 packaging.
 pkgname=vulkan-virtio
 pkgver=26.2.4
-pkgrel=2
+pkgrel=3
 epoch=1
 pkgdesc='Open-source Vulkan driver for Virtio-GPU (Venus)'
 arch=('x86_64')
@@ -36,23 +36,28 @@ makedepends=(
   'wayland-protocols>=1.41'
   'xorgproto'
 )
+checkdepends=('python')
 optdepends=('vulkan-mesa-layers: additional Vulkan layers')
 provides=('vulkan-driver')
 options=('!lto')
 source=(
   "https://archive.mesa3d.org/mesa-$pkgver.tar.xz"{,.sig}
-  '0001-venus-preserve-drm-identity-for-wlroots.patch'
+  '0001-venus-preserve-identity-use-wsi-blit-policy.patch'
+  'test-venus-wsi.py'
+  'venus-wsi.c'
 )
 sha256sums=(
   'bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9'
   'SKIP'
-  '8494f4f8700ee49c3ff5700eb56f69c8b808aecb9f58bcc2fd2e24d8f6ff97e4'
+  'e8c019c3068a2754b0832b63affcb302cc3f5b50310496726801f870f40458d6'
+  'aeb1f14387c0c82124e2cb93d2a5abb85f29728486e16a713e668b5db3b5e985'
+  'b89e84df0134650dd87b153b2a4d04312e955681cf0061519b3ee2bb526a4e44'
 )
 validpgpkeys=('57551DE15B968F6341C248F68D8E31AFC32428A6') # Eric Engestrom
 
 prepare() {
   cd "$srcdir/mesa-$pkgver"
-  patch -Np1 -i "$srcdir/0001-venus-preserve-drm-identity-for-wlroots.patch"
+  patch -Np1 -i "$srcdir/0001-venus-preserve-identity-use-wsi-blit-policy.patch"
 }
 
 build() {
@@ -84,6 +89,10 @@ build() {
     -Dlibunwind=disabled \
     -Dbuild-tests=false
   meson compile -C build
+}
+
+check() {
+  python "$srcdir/test-venus-wsi.py" "$srcdir/mesa-$pkgver"
 }
 
 package() {

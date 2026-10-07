@@ -5,12 +5,24 @@ Devario guests. It installs `libvulkan_virtio.so`, `virtio_icd.json`, and the
 upstream license. Wayland and X11 presentation are enabled. Existing Mesa
 packages continue to supply OpenGL, physical GPU drivers, and Vulkan layers.
 
-Package release 2 includes `0001-venus-preserve-drm-identity-for-wlroots.patch`.
-Mesa's NVIDIA WSI workaround hides the guest DRM identity that wlroots needs to
-match its Vulkan renderer to the display device. The patch preserves that
-identity for instances whose engine name is `wlroots` and which do not enable
-`VK_KHR_surface`. NVIDIA WSI clients retain the existing workaround, and the
-upstream Gamescope exception is unchanged. The change is confined to Venus.
+Package release 3 includes `0001-venus-preserve-identity-use-wsi-blit-policy.patch`.
+It replaces release 2's engine-name exception. Venus keeps its public DRM/PCI
+identity for all applications; its WSI device explicitly requests the PRIME
+buffer-blit path for NVIDIA instead of falsifying device properties. The older
+NVIDIA-driver software-WSI restriction remains in place. No application or engine
+name selects the workaround.
+
+The recipe builds only Venus, including its private copy of Mesa's common WSI.
+This does not patch the WSI embedded in other installed Vulkan drivers.
+`check()` compiles and runs the production Venus initialization and WSI selection
+functions with test doubles to check identity preservation, the NVIDIA copy
+policy, the older-driver restriction, unaffected native paths, and initialization
+failure. It does not require a GPU.
+
+This patch addresses device identification and WSI path selection. The recorded
+Zink modifier, memory-allocation, and synchronization errors remain separate
+acceptance work. A successful build or policy test does not qualify the package
+for automatic VM rollout.
 
 The version and epoch match the inspected Devario repository snapshot. The
 implicit Vulkan layers dependency is pinned to the same upstream Mesa version;
@@ -58,3 +70,13 @@ and wlroots instances enabling `VK_KHR_surface`, and preserved the Gamescope
 exception. These probes test device identity, not full desktop acceptance.
 An isolated signed package build and full NVIDIA desktop, greeter, client, and
 installer acceptance are still required before publication.
+
+Validation of release 3 on 2026-10-07: the replacement patch applied without fuzz
+or offsets to the checksum-verified Mesa 26.2.4 archive. The recipe's `prepare()`,
+`build()`, `check()`, and `package()` functions completed in a temporary directory
+on the development host; compilation reported no warnings. The policy tests,
+source/patch/test checksums, regenerated `.SRCINFO`, package upgrade ordering,
+ICD library reference, exported ICD entry point, and exact three-file payload
+passed. Shelly review reported no findings. This run did not repeat signature
+verification of the unchanged source archive or the release 2 VM identity probes.
+An isolated signed package build and full VM/client acceptance remain pending.
