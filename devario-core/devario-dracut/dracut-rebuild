@@ -11,4 +11,9 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
+# Devario owns generation and boot entries as one workflow when installed.
+if [[ -x /usr/lib/devario/boot-update ]]; then
+	exec /usr/lib/devario/boot-update
+fi
+
 /usr/share/rlpm/scripts/dracut-install < "/usr/bin/dracut-rebuild"

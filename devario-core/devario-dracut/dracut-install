@@ -33,7 +33,7 @@ add_early_kms() {
 	fi
 }
 
-while read -r line; do
+while IFS= read -r line || [[ -n "$line" ]]; do
 	if [[ "${line}" != */vmlinuz ]]; then
 		# triggers when it's a change to dracut files
 		all=1
@@ -41,25 +41,31 @@ while read -r line; do
 	fi
 
 	lines+=("/${line%/vmlinuz}")
-
-	pkgbase="$(<"${lines[-1]}/pkgbase")"
-	install -Dm644 "/${line}" "/boot/vmlinuz-${pkgbase}"
 done
 
 if (( all )); then
+	shopt -s nullglob
 	lines=(/usr/lib/modules/*)
 fi
 
 [[ ${DRACUT_QUIET} == "true" ]] && DRACUT_EXTRA_PARAMS=" --quiet"
 
 for line in "${lines[@]}"; do
-	if ! pacman -Qqo "${line}/pkgbase" &> /dev/null; then
-		# if pkgbase does not belong to any package then skip this kernel
+	# Shelly maintains its own database. A leftover modules directory is not
+	# a bootable kernel unless its package metadata and image are both present.
+	if [[ ! -s "${line}/pkgbase" || ! -s "${line}/vmlinuz" ]]; then
+		echo ":: Skipping ${line}: missing kernel pkgbase or vmlinuz" >&2
 		continue
 	fi
 
 	pkgbase="$(<"${line}/pkgbase")"
 	kver="${line##*/}"
+	if [[ ! "$pkgbase" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ || ! "$kver" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]]; then
+		echo ":: Invalid kernel metadata in ${line}" >&2
+		exit 1
+	fi
+	# Also copy the image during a rebuild triggered by firmware or dracut.
+	install -Dm644 "${line}/vmlinuz" "/boot/vmlinuz-${pkgbase}"
 
 	extra_args=()
 	if [[ ${NVIDIA_EARLY_KMS} == "true" ]]; then
