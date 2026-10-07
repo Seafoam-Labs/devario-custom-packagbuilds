@@ -3,7 +3,7 @@
 # Contributor: George Rawlinson <grawlinson@archlinux.org>
 
 pkgname=llhttp
-pkgver=9.3.1
+pkgver=9.4.3
 pkgrel=1
 pkgdesc='Port of http_parser to llparse'
 arch=(x86_64)
@@ -15,7 +15,7 @@ makedepends=(cmake
              npm
              ts-node)
 source=(git+https://github.com/nodejs/llhttp#tag=v$pkgver)
-sha256sums=('b09cc993e0c9941257441b51b657c23542e01c9607ce2f38f8667ebdeb0bfb65')
+sha256sums=('4680f7742e0bd25fd7dd24431a62c82899743f14dea248ec80a7873661d35f38')
 
 build() {
   cd $pkgname

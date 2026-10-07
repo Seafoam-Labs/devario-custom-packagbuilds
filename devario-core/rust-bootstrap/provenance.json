@@ -1,35 +1,36 @@
 {
-  "manifest": "https://static.rust-lang.org/dist/2026-07-16/channel-rust-1.97.1.toml",
+  "manifest": "https://static.rust-lang.org/dist/2026-08-20/channel-rust-1.98.0.toml",
   "manifest_signer": "108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE",
-  "rust_source_stage0": "rustc-1.98.1-src/src/stage0",
+  "rust_source_stage0": "rustc-1.99.0-src/src/stage0",
   "components": [
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rustc-1.97.1-x86_64-unknown-linux-gnu.tar.xz",
-      "sha256": "9819d0a32d56bd339585319c80260e332779f5541fd66838ab7e016d6c814819"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rustc-1.98.0-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "0e37cb339f447fc44d6d781073bacacebfdc5612f2600e4c7e84c266f5f3aced"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/cargo-1.97.1-x86_64-unknown-linux-gnu.tar.xz",
-      "sha256": "e1be5f5ff7f7f80ca506fb65770b759edbdc6d303781ed71c5de8ec8a8394779"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/cargo-1.98.0-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "2f512d170d3dd23e16ababcda32ee2e6d5172d861a7af1f504e0b1e270cafab9"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rustfmt-1.97.1-x86_64-unknown-linux-gnu.tar.xz",
-      "sha256": "907fe97d6afbde1eca1b34c992c76e1406d422e2e6f137813d382acec7eb4d14"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rustfmt-1.98.0-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "8922a03e68265a74a8040590e28b173fb5d9d49655bb6eacfd880fbd3bef0dc3"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-x86_64-unknown-linux-gnu.tar.xz",
-      "sha256": "1c1e704ae80126b7de34f72ea2825f7fd01736dec20732faed47374b95282fba"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-x86_64-unknown-linux-gnu.tar.xz",
+      "sha256": "f5022e6c95a5ad23cca2513dc8281200f585fa188de6370aa37b128a43f876a3"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-unknown-unknown.tar.xz",
-      "sha256": "fa0edb6e9f34faae5735554d62d50875eded839dc707d0f1c01467a918d8453b"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-unknown-unknown.tar.xz",
+      "sha256": "3bb537c09555b96020a38a3a8810c38908b194eff3c2cb6184a45dda5c6828de"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-wasip1.tar.xz",
-      "sha256": "40ab01f39c0d99d4537e67463fae623d4ced762f2f1e344e87b01529e0864075"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-wasip1.tar.xz",
+      "sha256": "07af7da4d9e943226c438cd5b60ba2b1f23a88c077eb09ccb227a385529c8b08"
     },
     {
-      "url": "https://static.rust-lang.org/dist/2026-07-16/rust-std-1.97.1-wasm32-wasip2.tar.xz",
-      "sha256": "e06b2e8ce0822674d257e9e78dd8d00cf7b154ad3493240e97b3c5ef4fad83b5"
+      "url": "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-wasip2.tar.xz",
+      "sha256": "c54e91aa066465963064ea69edc0bebb243eea357e36d4488bcfa2686f8cc538"
     }
-  ]
+  ],
+  "manifest_sha256": "3f7d139b73bbbd0004ef6e58b430831c68cdad2b1f64ee2eb35d54c09199489a"
 }

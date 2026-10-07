@@ -117,7 +117,7 @@ running `/usr/bin/rustc -vV` means the installed bootstrap compiler cannot load
 against the libraries in the build root. Adding another SONAME provision will
 not repair that binary incompatibility.
 
-The x86_64 Rust recipe now explicitly requires `rust-bootstrap=1:1.97.1`
+The x86_64 Rust recipe now explicitly requires `rust-bootstrap=1:1.98.0`
 instead of the generic `rust` build dependency. The existing
 [rust-bootstrap recipe](devario-core/rust-bootstrap/PKGBUILD) packages official
 Rust binaries and conflicts with the repository `rust` package, so the isolated
@@ -152,6 +152,55 @@ The patch was checked against Rust 1.98.1 bootstrap sources. Retry with the
 updated Rust recipe and patch in a clean build directory so no old bootstrap
 binary or stage0 sysroot is reused. This fix does not require rebuilding
 `rust-bootstrap`. A full multi-target Rust build remains unverified.
+
+## Rust 1.99.0 dependency refresh (2026-10-07)
+
+The Rust recipe and all seven split packages now use 1.99.0. Its x86_64
+bootstrap package uses the official 1.98.0 compiler pinned in the release's
+`src/stage0`; it deliberately follows that bootstrap requirement rather than
+using the newest compiler. The signed bootstrap manifest and component hashes
+are recorded in `devario-core/rust-bootstrap/provenance.json`.
+
+| Recipe | Version |
+| --- | --- |
+| `rust` | `1:1.99.0-1` |
+| `rust-bootstrap` | `1:1.98.0-1` |
+| `llvm`, `clang`, `lld`, `compiler-rt`, `wasi-compiler-rt` | `23.1.3-1` |
+| `aarch64-linux-gnu-gcc` | `16.2.0-1` |
+| `aarch64-linux-gnu-linux-api-headers` | `7.2.9-1` |
+| `wasm-tools` | `1.261.0-1` |
+| `llhttp` | `9.4.3-1` |
+
+The new `devario-core/llvm` recipe supplies `llvm` and `llvm-libs`, matching
+Rust's exact 23.1.3 dependencies. It retains separate LLVM component builds to
+fit the existing Clang, LLD, and compiler-rt recipes. The versioned `llvm21` and
+`llvm22` packages continue to serve their existing consumers.
+
+AArch64 binutils/glibc, musl, libgit2, wasi-libc, wasm-component-ld,
+wasm-pkg-tools, and wit-bindgen were checked and retain their current versions.
+The existing local ABI provisions, musl target selection, bootstrap libdir fix,
+and compiler-rt build fixes are preserved. Rust's three LLVM 23 compatibility
+patches are already incorporated upstream and have been removed; the remaining
+patches were checked against 1.99.0. PGO now uses the upstream `[pgo]`
+configuration table, with compiler failures still propagated immediately.
+
+Using a working bootstrap repository, build and publish LLVM/LLVM libraries
+before their consumers, and provide matching compiler-rt, Clang, LLD, and WASI
+runtime packages before Rust. Update the AArch64 toolchain and WebAssembly
+providers as well. Build `rust-bootstrap` before Rust, refresh the worker
+repository database between dependency stages, and rebuild Rust in a fresh
+isolated root. The cross-GCC/glibc and WASI libc/runtime dependency cycles still
+require existing seed packages; this update does not bootstrap an empty system.
+
+Validation results are recorded in `devario-core/rust-dependencies-validation.json`.
+All 19 recipes passed Bash syntax, metadata consistency, and Shelly review;
+review warnings remain for dynamic commands and existing dependency-fetch hooks.
+All 11 new or changed recipes passed source checksum/signature verification.
+Rust's eight patches apply to 1.99.0, and Clang/compiler-rt patches apply to
+LLVM 23.1.3. Unchanged recipes did not have their remote sources reverified.
+The bootstrap binary package built successfully; its Rust/Cargo/rustfmt tools,
+native executable, three WebAssembly targets, and stage0 `lib64` sysroot smoke
+tests passed. Full Rust, LLVM, and cross-toolchain builds remain untested.
 
 ## OSTree and Flatpak dependency providers
 

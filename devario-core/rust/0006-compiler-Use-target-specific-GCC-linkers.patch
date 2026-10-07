@@ -50,10 +50,10 @@ index 77e77338d0ed..4a2f1a739fb8 100644
      Target {
          llvm_target: "i686-pc-linux-gnu".into(),
 diff --git a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_gnu.rs b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_gnu.rs
-index 1489af79b74c..acd369b5a7eb 100644
+index 36f41231ae00..078c614b0d4b 100644
 --- a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_gnu.rs
 +++ b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_gnu.rs
-@@ -21,6 +21,7 @@ pub(crate) fn target() -> Target {
+@@ -20,6 +20,7 @@ pub(crate) fn target() -> Target {
          | SanitizerSet::REALTIME;
      base.supports_fentry = true;
      base.supports_xray = true;

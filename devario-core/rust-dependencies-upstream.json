@@ -5,7 +5,10 @@
   },
   "aarch64-linux-gnu-gcc": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-gcc",
-    "commit": "f6bc44149f07bfb1ef8174f3be707c2f8819920b"
+    "commit": "f6bc44149f07bfb1ef8174f3be707c2f8819920b",
+    "upstream_version": "16.2.0",
+    "release_url": "https://ftp.gnu.org/gnu/gcc/",
+    "checked_date": "2026-10-07"
   },
   "aarch64-linux-gnu-glibc": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-glibc",
@@ -13,23 +16,69 @@
   },
   "aarch64-linux-gnu-linux-api-headers": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aarch64-linux-gnu-linux-api-headers",
-    "commit": "0fc68a29e00b36b51a662aa244ab77e4811bc3be"
+    "commit": "0fc68a29e00b36b51a662aa244ab77e4811bc3be",
+    "upstream_version": "7.2.9",
+    "release_url": "https://www.kernel.org/releases.json",
+    "checked_date": "2026-10-07"
+  },
+  "clang": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/clang",
+    "commit": "e69645bcebab9ea38c50680802ffe93e90a06738",
+    "upstream_version": "23.1.3",
+    "release_url": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-23.1.3",
+    "checked_date": "2026-10-07"
+  },
+  "compiler-rt": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/compiler-rt",
+    "commit": "bd056b1aae566ddd9f982d5a5b9ccae93e50099c",
+    "upstream_version": "23.1.3",
+    "release_url": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-23.1.3",
+    "checked_date": "2026-10-07"
   },
   "libgit2": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libgit2",
     "commit": "6e1717578e42be7d312c38575c1f79cd8d52eb38"
   },
+  "lld": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lld",
+    "commit": "cb51de68f59f85ee4ce583e0935f3fa510d3a913",
+    "upstream_version": "23.1.3",
+    "release_url": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-23.1.3",
+    "checked_date": "2026-10-07"
+  },
   "llhttp": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/llhttp",
-    "commit": "7c6694acccc1780590b2ef9fbcc91d473419e85c"
+    "commit": "7c6694acccc1780590b2ef9fbcc91d473419e85c",
+    "upstream_version": "9.4.3",
+    "release_url": "https://github.com/nodejs/llhttp/releases/tag/release%2Fv9.4.3",
+    "checked_date": "2026-10-07"
+  },
+  "llvm": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/llvm",
+    "commit": "7f7f42795ecfa96f07877644fe590767435fcf9a",
+    "packaging_ref": "23.1.1-1",
+    "upstream_version": "23.1.3",
+    "release_url": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-23.1.3",
+    "checked_date": "2026-10-07",
+    "note": "Standalone LLVM recipe retained to match the separate clang, compiler-rt, and lld recipes."
   },
   "musl": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/musl",
     "commit": "3d3d40f8b3788d3523a8941b6d5a2bdea016aa80"
   },
+  "rust": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rust",
+    "commit": "4cbcee6f89be6216cbd3b3da39104d70ac6f8553",
+    "upstream_version": "1.99.0",
+    "release_url": "https://static.rust-lang.org/dist/channel-rust-stable.toml",
+    "checked_date": "2026-10-07"
+  },
   "wasi-compiler-rt": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-compiler-rt",
-    "commit": "8792e1d2fad0edb9f0fb4ff84fe54d332c19ffad"
+    "commit": "8792e1d2fad0edb9f0fb4ff84fe54d332c19ffad",
+    "upstream_version": "23.1.3",
+    "release_url": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-23.1.3",
+    "checked_date": "2026-10-07"
   },
   "wasi-libc": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libc",
@@ -45,7 +94,10 @@
   },
   "wasm-tools": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wasm-tools",
-    "commit": "ec3668aa6a27a7216fb40f55dc3bf4a886dec4a1"
+    "commit": "ec3668aa6a27a7216fb40f55dc3bf4a886dec4a1",
+    "upstream_version": "1.261.0",
+    "release_url": "https://github.com/bytecodealliance/wasm-tools/releases/tag/v1.261.0",
+    "checked_date": "2026-10-07"
   },
   "wit-bindgen": {
     "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wit-bindgen",

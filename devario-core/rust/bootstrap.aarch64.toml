@@ -2,7 +2,7 @@
 profile = "dist"
 
 # see src/bootstrap/src/utils/change_tracker.rs
-change-id = 158169
+change-id = 160100
 
 [llvm]
 download-ci-llvm = false
