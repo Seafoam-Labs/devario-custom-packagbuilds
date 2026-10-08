@@ -1,0 +1,21 @@
+pkgbase = smartgit
+	pkgdesc = Graphical Git client with GitHub, GitLab, Azure DevOps and Bitbucket integration
+	pkgver = 26.1.057
+	pkgrel = 1
+	url = https://www.smartgit.dev/
+	arch = x86_64
+	license = LicenseRef-SmartGit
+	depends = bash
+	depends = git
+	depends = glibc
+	depends = gtk3>=3.24
+	depends = xdg-utils
+	depends = zlib
+	optdepends = git-lfs: Git Large File Storage support
+	optdepends = openssh: access repositories using system SSH
+	options = !strip
+	options = !debug
+	source = https://download.smartgit.dev/smartgit/smartgit-26_1_057-no-git-linux-amd64.tar.gz
+	sha256sums = c57854aeb2700a0f62c96e5bef59b950984d7441cbea9a762cac5735f704bb34
+
+pkgname = smartgit

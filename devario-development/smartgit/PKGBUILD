@@ -1,0 +1,49 @@
+pkgname=smartgit
+pkgver=26.1.057
+pkgrel=1
+pkgdesc='Graphical Git client with GitHub, GitLab, Azure DevOps and Bitbucket integration'
+arch=('x86_64')
+url='https://www.smartgit.dev/'
+license=('LicenseRef-SmartGit')
+depends=('bash' 'git' 'glibc' 'gtk3>=3.24' 'xdg-utils' 'zlib')
+optdepends=(
+  'git-lfs: Git Large File Storage support'
+  'openssh: access repositories using system SSH'
+)
+# Preserve the bundled Java runtime and upstream binaries.
+options=('!strip' '!debug')
+source=("https://download.smartgit.dev/smartgit/smartgit-${pkgver//./_}-no-git-linux-amd64.tar.gz")
+sha256sums=('c57854aeb2700a0f62c96e5bef59b950984d7441cbea9a762cac5735f704bb34')
+
+package() {
+  install -dm755 "$pkgdir/opt" "$pkgdir/usr/bin"
+  cp -a --no-preserve=ownership "$srcdir/smartgit" "$pkgdir/opt/smartgit"
+  ln -s /opt/smartgit/bin/smartgit.sh "$pkgdir/usr/bin/smartgit"
+
+  install -Dm644 "$srcdir/smartgit/license.html" \
+    "$pkgdir/usr/share/licenses/$pkgname/license.html"
+  ln -s /opt/smartgit/licenses "$pkgdir/usr/share/licenses/$pkgname/third-party"
+
+  local size
+  for size in 32 48 64 128 256; do
+    install -Dm644 "$srcdir/smartgit/bin/smartgit-$size.png" \
+      "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/smartgit.png"
+  done
+  install -Dm644 "$srcdir/smartgit/bin/smartgit.svg" \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/smartgit.svg"
+
+  install -dm755 "$pkgdir/usr/share/applications"
+  cat > "$pkgdir/usr/share/applications/com.syntevo.SmartGit.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=SmartGit
+Comment=Graphical Git client
+Exec=smartgit %u
+Icon=smartgit
+Terminal=false
+StartupWMClass=SmartGit
+Categories=Development;RevisionControl;
+Keywords=git;version-control;
+MimeType=x-scheme-handler/git;x-scheme-handler/smartgit;
+EOF
+}

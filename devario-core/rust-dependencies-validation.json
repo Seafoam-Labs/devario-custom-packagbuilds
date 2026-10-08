@@ -1,6 +1,6 @@
 {
   "date": "2026-10-07",
-  "scope": "Bash syntax, metadata consistency and Shelly review for all 19 Rust/toolchain recipes. Source verification for all 11 new or changed recipes, patch compatibility checks, and local binary repackaging plus compiler smoke tests for rust-bootstrap. Unchanged recipe sources were not reverified. No isolated or full source builds performed.",
+  "scope": "Bash syntax, metadata consistency and Shelly review for all 19 Rust/toolchain recipes. Source verification for all 11 new or changed recipes, patch compatibility checks, and local binary repackaging plus compiler smoke tests for rust-bootstrap. Unchanged recipe sources were not reverified. llhttp release 3 additionally passed a local full source/package build with 32-job worker settings and an HTTP parser smoke test. libgit2 release 3 additionally passed a full source/package build against llhttp 9.4, all 5 enabled CTest suites, and a cached distribution Cargo loader smoke test. llhttp release 4 passed repackaging and ABI metadata checks. No isolated builds or other full source builds performed.",
   "packages": {
     "aarch64-linux-gnu-binutils": {
       "bash_syntax_exit_code": 0,
@@ -101,13 +101,15 @@
       "bash_syntax_exit_code": 0,
       "metadata_agrees": true,
       "review_returncode": 0,
-      "source_verification": "not rerun; recipe unchanged",
       "sha256": {
-        "PKGBUILD": "254efedf4d5e91cba7b4a2ca030be63e642dceb22c3f31c8970f7838a36a6aec",
-        ".SRCINFO": "f9ce3a5d52049eb1659cf2a3d0ba33e8f6bfa234c4d9e7c03d7f01eb5b2a6ddd"
+        "PKGBUILD": "69418bdc8623bfb564ca2dbd064bee290f7e377c53618c9adcf1e576f49c49ab",
+        ".SRCINFO": "96874be1f37ae1615831ff556a36851e08a4e477ccb1172750b73698a72cc61b"
       },
-      "package_build": "not run",
-      "review_findings": []
+      "package_build": "passed (local makepkg --nodeps --check against staged llhttp 9.4.3; 5/5 enabled CTest suites passed; isolated worker not rerun)",
+      "review_findings": [],
+      "source_verification_exit_code": 0,
+      "validation_note": "Release 3 requires llhttp>=9.4.3 and libllhttp.so=9.4-64; verifies the packaged library needs libllhttp.so.9.4. Source checksums, syntax, metadata and Shelly review passed. ABI check accepts rebuilt libgit2 and rejects the host library linked to 9.3.",
+      "cargo_loader_smoke_test": "passed: cached distribution Cargo 1.96.0 --version with rebuilt libgit2/llhttp; loader confirms libgit2.so.1.9 and libllhttp.so.9.4 from staging, with no 9.3 dependency"
     },
     "lld": {
       "bash_syntax_exit_code": 0,
@@ -127,10 +129,10 @@
       "review_returncode": 0,
       "source_verification_exit_code": 0,
       "sha256": {
-        "PKGBUILD": "76a520186879739dcfe044712600369321c3e6143d827562f4c83c193d71a0d8",
-        ".SRCINFO": "384729c419a70cdd55a3a3524f3a07f7595e385ac648408956b08edaa09f2e2c"
+        "PKGBUILD": "df8cbeb990b1edbc1432a5a25d8943eb63b9a9eadd855f060bbfdc5e9cf16099",
+        ".SRCINFO": "4141b4ea597b6f104dc50d61fbd4a6c1ba9ed73f21de307e3e91abace50d09fe"
       },
-      "package_build": "not run",
+      "package_build": "passed (release 4 repackaging of locally built 9.4.3 sources; ABI provision verified in package metadata)",
       "review_findings": [
         {
           "tool": "npm",
@@ -139,7 +141,9 @@
           "matchedLine": "  npm install",
           "message": "'npm' is invoked in build() \u2014 this fetches/executes external code outside Shelly's control."
         }
-      ]
+      ],
+      "validation_note": "Release 4 declares libllhttp.so=9.4-64 and checks the packaged ELF64 SONAME. Source unchanged from verified release 3; syntax, metadata consistency and Shelly review passed.",
+      "smoke_test": "passed: shared library accepts a valid HTTP request and rejects malformed input"
     },
     "llvm": {
       "bash_syntax_exit_code": 0,

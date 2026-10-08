@@ -1,175 +1,121 @@
-# Maintainer: Anatol Pomozov <anatol.pomozov@gmail.com>
-# Maintainer: Andreas 'Segaja' Schleifer <segaja at archlinux dot org>
-# Maintainer: Tim Meusel <tim@bastelfreak.de>
-# Contributor: Thomas Dziedzic <gostrc@gmail.com>
-# Contributor: Allan McRae <allan@archlinux.org>
-# Contributor: John Proctor <jproctor@prium.net>
-# Contributor: Jeramy Rutley <jrutley@gmail.com>
-
-# Do not re-package default gems (see https://stdgems.org/). Trying to do that will lead to multiple problems
-
-pkgname=(
-  ruby
-  ruby-docs
-  ruby-default-gems
-  ruby-bundled-gems
-  ruby-stdlib
-)
-pkgver=3.4.10
+pkgname=ruby
+pkgver=4.0.7
 pkgrel=1
-pkgdesc='An object-oriented language for quick and easy programming'
-url='https://www.ruby-lang.org/en/'
+pkgdesc='Object-oriented scripting language with RubyGems, Bundler and YJIT'
 arch=(x86_64)
-license=(BSD-2-Clause)
-makedepends=(
-  doxygen
-  libgcc
-  gdbm
-  glibc
-  gmp
-  graphviz
-  libffi
-  libxcrypt
-  libyaml
-  openssl
-  readline
-  rust
-  tk
-  zlib
+url='https://www.ruby-lang.org/'
+license=('BSD-2-Clause OR Ruby')
+depends=(glibc libgcc gmp libffi libxcrypt libyaml openssl zlib)
+makedepends=(rust)
+checkdepends=(procps-ng)
+optdepends=('base-devel: build native gem extensions')
+# This package installs the default and bundled gems from the release tarball.
+# Keep these versions aligned with the installed gemspecs when updating Ruby.
+_gem_provides=(
+  'ruby-abbrev=0.1.2'
+  'ruby-base64=0.3.0'
+  'ruby-benchmark=0.5.0'
+  'ruby-bigdecimal=4.0.1'
+  'ruby-bundler=4.0.20'
+  'ruby-csv=3.3.5'
+  'ruby-date=3.5.1'
+  'ruby-debug=1.11.1'
+  'ruby-delegate=0.6.1'
+  'ruby-did_you_mean=2.0.0'
+  'ruby-digest=3.2.1'
+  'ruby-drb=2.2.3'
+  'ruby-english=0.8.1'
+  'ruby-erb=6.0.7'
+  'ruby-error_highlight=0.7.2'
+  'ruby-etc=1.4.6'
+  'ruby-fcntl=1.3.0'
+  'ruby-fiddle=1.1.8'
+  'ruby-fileutils=1.8.0'
+  'ruby-find=0.2.0'
+  'ruby-forwardable=1.4.0'
+  'ruby-getoptlong=0.2.1'
+  'ruby-io-console=0.8.2'
+  'ruby-io-nonblock=0.3.2'
+  'ruby-io-wait=0.4.0'
+  'ruby-ipaddr=1.2.8'
+  'ruby-irb=1.16.0'
+  'ruby-json=2.18.0'
+  'ruby-logger=1.7.0'
+  'ruby-matrix=0.4.3'
+  'ruby-minitest=6.0.0'
+  'ruby-mutex_m=0.3.0'
+  'ruby-net-ftp=0.3.9'
+  'ruby-net-http=0.9.1'
+  'ruby-net-imap=0.6.4.1'
+  'ruby-net-pop=0.1.2'
+  'ruby-net-protocol=0.2.2'
+  'ruby-net-smtp=0.5.1'
+  'ruby-nkf=0.2.0'
+  'ruby-observer=0.1.2'
+  'ruby-open-uri=0.5.0'
+  'ruby-open3=0.2.1'
+  'ruby-openssl=4.0.2'
+  'ruby-optparse=0.8.1'
+  'ruby-ostruct=0.6.3'
+  'ruby-power_assert=3.0.1'
+  'ruby-pp=0.6.3'
+  'ruby-prettyprint=0.2.0'
+  'ruby-prime=0.1.4'
+  'ruby-prism=1.8.1'
+  'ruby-pstore=0.2.1'
+  'ruby-psych=5.3.1'
+  'ruby-racc=1.8.1'
+  'ruby-rake=13.3.1'
+  'ruby-rbs=3.10.0'
+  'ruby-rdoc=7.0.4'
+  'ruby-readline=0.0.4'
+  'ruby-reline=0.6.3'
+  'ruby-repl_type_completor=0.1.12'
+  'ruby-resolv=0.7.2'
+  'ruby-resolv-replace=0.1.1'
+  'ruby-rexml=3.4.4'
+  'ruby-rinda=0.2.0'
+  'ruby-rss=0.3.2'
+  'ruby-ruby2_keywords=0.0.5'
+  'ruby-securerandom=0.4.1'
+  'ruby-shellwords=0.2.2'
+  'ruby-singleton=0.3.0'
+  'ruby-stringio=3.2.0'
+  'ruby-strscan=3.1.6'
+  'ruby-syntax_suggest=2.0.3'
+  'ruby-syslog=0.3.0'
+  'ruby-tempfile=0.3.1'
+  'ruby-test-unit=3.7.5'
+  'ruby-time=0.4.2'
+  'ruby-timeout=0.6.0'
+  'ruby-tmpdir=0.3.1'
+  'ruby-tsort=0.2.0'
+  'ruby-typeprof=0.31.1'
+  'ruby-un=0.3.0'
+  'ruby-uri=1.1.1'
+  'ruby-weakref=0.1.4'
+  'ruby-yaml=0.4.0'
+  'ruby-zlib=3.2.3'
 )
-checkdepends=(
-  procps-ng
+provides=(
+  libruby.so 'libruby.so=4.0-64'
+  'rubygems=4.0.20' 'ruby-rubygems=4.0.20'
+  ruby-default-gems ruby-bundled-gems ruby-stdlib
+  "${_gem_provides[@]}"
 )
-options=('!emptydirs')
-source=(
-  "https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.xz"
+conflicts=(
+  rubygems ruby-rubygems ruby-default-gems ruby-bundled-gems ruby-bundledgems ruby-stdlib
+  "${_gem_provides[@]%%=*}"
 )
-sha512sums=('c28d59946c0a1b8e4385a772e0651c6f4154c18ab8a2a62289c3213eb4fe937cec0942e0076cda429576e58ad277b18f4b5611e644d15b122c1cd96baf10f284')
-b2sums=('57c851d6e147918549bec0738c985bc461089184717b7e5350d9addf3cb74f5dc2f635e9cd72233d0d4f59b7340c36ffe3f11a1305fbcf40572de145690b99a2')
-
-_bootstrap=0
-_rubyver="${pkgver:0:3}.0"
-_bundled_gems=(
-  abbrev
-  base64
-  bigdecimal
-  csv
-  debug
-  drb
-  getoptlong
-  matrix
-  minitest
-  mutex_m
-  net-ftp
-  net-imap
-  net-pop
-  net-smtp
-  nkf
-  observer
-  power_assert
-  prime
-  racc
-  rake
-  rbs
-  repl_type_completor
-  resolv-replace
-  rexml
-  rinda
-  rss
-  test-unit
-  syslog
-  typeprof
-)
-_bundled_gems_bins=(
-  racc
-  rake
-  rbs
-  rdbg
-  typeprof
-)
-_default_gems=(
-  benchmark
-  cgi
-  date
-  delegate
-  did_you_mean
-  digest
-  english
-  error_highlight
-  etc
-  fcntl
-  fiddle
-  fileutils
-  find
-  forwardable
-  io-console
-  io-nonblock
-  io-wait
-  ipaddr
-  json
-  logger
-  net-http
-  net-protocol
-  open-uri
-  open3
-  openssl
-  optparse
-  ostruct
-  pathname
-  prism
-  pp
-  prettyprint
-  pstore
-  psych
-  readline
-  reline
-  resolv
-  ruby2_keywords
-  securerandom
-  set
-  shellwords
-  singleton
-  stringio
-  strscan
-  syntax_suggest
-  tempfile
-  time
-  timeout
-  tmpdir
-  tsort
-  un
-  uri
-  weakref
-  yaml
-  zlib
-)
-_default_tool_gems=(
-  bundler
-  erb
-  irb
-  rdoc
-  rubygems
-)
-_default_tool_gems_bins=(
-  bundle
-  bundler
-  erb
-  gem
-  irb
-  rdoc
-  ri
-)
-
-prepare() {
-  cd "ruby-${pkgver}"
-
-  autoreconf -fiv
-}
+# GCC LTO caused Ractor crashes in bootstrap tests; the same build passes without it.
+options=(!emptydirs !lto)
+source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/ruby-$pkgver.tar.gz")
+sha256sums=('911ace20f90d068ca0e4dda6d0e4f0f81e52e52f2dd4f4004c721e253412e82d')
 
 build() {
-  cd "ruby-${pkgver}"
+  cd "ruby-$pkgver"
 
-  # this uses malloc_usable_size, which is incompatible with fortification level 3
+  # Ruby's use of malloc_usable_size is incompatible with fortify level 3.
   export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
   export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
 
@@ -180,186 +126,31 @@ build() {
     --sharedstatedir=/var/lib \
     --libexecdir=/usr/lib/ruby \
     --enable-shared \
+    --enable-yjit \
+    --disable-zjit \
     --disable-rpath \
-    --with-dbm-type=gdbm_compat
+    --disable-install-doc \
+    --disable-install-static-library
 
   make
-  make rdoc capi
 }
 
 check() {
-  cd "ruby-${pkgver}"
-
-  # this uses malloc_usable_size, which is incompatible with fortification level 3
-  export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-  export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-
-  make check
+  cd "ruby-$pkgver"
+  make test
 }
 
-package_ruby() {
-  depends=(
-    libgcc
-    gdbm
-    glibc
-    gmp
-    libffi
-    libxcrypt
-    libyaml
-    openssl
-    readline
-    zlib
-  )
-  optdepends=(
-    'tk: for Ruby/TK'
-    'ruby-docs: Documentation for Ruby'
-    'ruby-default-gems: Default gems which are part of Ruby StdLib'
-    'ruby-bundled-gems: Bundled gems which are part of Ruby StdLib'
-    'ruby-stdlib: Full Ruby StdLib including default gems, bundled gems and tools'
-  )
-  provides=(
-    libruby.so
-  )
-  replaces=(
-    ruby-benchmark
-    ruby-cgi
-    ruby-date
-    ruby-delegate
-    ruby-did_you_mean
-    ruby-digest
-    ruby-english
-    ruby-etc
-    ruby-fcntl
-    ruby-fiddle
-    ruby-fileutils
-    ruby-find
-    ruby-forwardable
-    ruby-io-console
-    ruby-io-nonblock
-    ruby-io-wait
-    ruby-ipaddr
-    ruby-json
-    ruby-logger
-    ruby-net-http
-    ruby-open-uri
-    ruby-prism
-    ruby-psych
-    ruby-reline
-    ruby-ruby2_keywords
-    ruby-set
-    ruby-stringio
-    ruby-time
-    ruby-tmpdir
-    ruby-uri
-  )
-  conflicts=("${replaces[@]}")
-  provides+=("${_default_gems[@]/#/ruby-}")
+package() {
+  cd "ruby-$pkgver"
+  make DESTDIR="$pkgdir" install-nodoc
 
-  cd "ruby-${pkgver}"
+  # Installed gems retain their sources and specifications; omit archive copies.
+  rm -r "$pkgdir/usr/lib/ruby/gems/${pkgver%.*}.0/cache"
 
-  make DESTDIR="${pkgdir}" install-nodoc
+  # Verify the explicit ABI provision used by Shelly's dependency resolver.
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/libruby.so" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/libruby.so" | grep -Fq 'Library soname: [libruby.so.4.0]' || return 1
 
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
-  install --verbose -D --mode=0644 *.md --target-directory "${pkgdir}/usr/share/doc/${pkgname}"
-
-  # remove unrepreducible files
-  rm --recursive --verbose \
-    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/cache"
-
-  # bootstrap switch
-  if (( _bootstrap )); then
-    # provide everything for a bootstrap build
-    # use a reference to provides to srcinfo generation isn't confused
-    declare -n bootstrap_provides=provides
-    bootstrap_provides+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
-    bootstrap_provides+=("${_bundled_gems[@]/#/ruby-}")
-    declare -n bootstrap_conflicts=conflicts
-    bootstrap_conflicts+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
-    bootstrap_conflicts+=("${_bundled_gems[@]/#/ruby-}")
-  else
-    # remove de-vendored parts
-    _remove_default_tool_gems
-    _remove_bundled_gems
-    # add standard dependencies
-    depends+=(
-      rubygems
-    )
-  fi
+  install -Dm644 BSDL COPYING LEGAL -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/$pkgname"
 }
-
-# remove bundled gems - they are provided as dedicated packages
-_remove_bundled_gems() {
-  local gem bin
-  for gem in "${_bundled_gems[@]}"; do
-    msg2 "removing bundled gem ${gem}"
-    rm --recursive --verbose \
-      "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/gems/${gem}"-* \
-      "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/specifications/${gem}"-*.gemspec
-    rm --recursive --verbose --force \
-      "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/extensions"/*-linux/"${_rubyver}/${gem}"-*
-  done
-  for bin in "${_bundled_gems_bins[@]}"; do
-    rm --recursive --verbose "${pkgdir}/usr/bin/${bin}"
-    rm --recursive --verbose --force "${pkgdir}/usr/bin/${bin}.lock"
-    rm --recursive --verbose --force "${pkgdir}/usr/share/man/man1/${bin}.1"
-  done
-
-}
-
-# remove default tool gems - they are provided as dedicated packages
-_remove_default_tool_gems() {
-  local gem bin
-  for gem in "${_default_tool_gems[@]}"; do
-    msg2 "removing default gem ${gem}"
-    rm --recursive --verbose \
-      "${pkgdir}/usr/lib/ruby/${_rubyver}/${gem}"*
-    if [[ ${gem} != rubygems ]]; then
-      rm --recursive --verbose \
-        "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/gems/${gem}"-* \
-        "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/specifications/default/${gem}"-*.gemspec
-    fi
-    rm --recursive --verbose --force \
-      "${pkgdir}/usr/lib/ruby/${_rubyver}"/*-linux/"${gem}"
-  done
-  for bin in "${_default_tool_gems_bins[@]}"; do
-    rm --recursive --verbose "${pkgdir}/usr/bin/${bin}"
-    rm --recursive --verbose --force "${pkgdir}/usr/bin/${bin}.lock"
-    rm --recursive --verbose --force "${pkgdir}/usr/share/man/man1/${bin}.1"
-  done
-}
-
-package_ruby-docs() {
-  pkgdesc='Documentation files for Ruby'
-
-  cd "ruby-${pkgver}"
-  make DESTDIR="${pkgdir}" install-doc install-capi
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
-}
-
-package_ruby-bundled-gems() {
-  pkgdesc='Bundled gems which are part of Ruby StdLib'
-  replaces=(ruby-bundledgems)
-  conflicts=(ruby-bundledgems)
-  depends=("${_bundled_gems[@]/#/ruby-}")
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
-}
-
-package_ruby-default-gems() {
-  pkgdesc='Default gems which are part of Ruby StdLib'
-  depends=("${_default_tool_gems[@]/#/ruby-}")
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
-}
-
-package_ruby-stdlib() {
-  pkgdesc='Full Ruby StdLib including default gems, bundled gems and tools'
-  depends=(ruby-default-gems ruby-bundled-gems)
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
-}
-
-# vim: tabstop=2 shiftwidth=2 expandtab:
