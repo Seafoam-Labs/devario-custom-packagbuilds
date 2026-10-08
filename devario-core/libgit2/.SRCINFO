@@ -1,7 +1,7 @@
 pkgbase = libgit2
 	pkgdesc = A linkable library for Git
 	pkgver = 1.9.7
-	pkgrel = 2
+	pkgrel = 3
 	epoch = 1
 	url = https://github.com/libgit2/libgit2
 	arch = x86_64
@@ -13,7 +13,8 @@ pkgbase = libgit2
 	makedepends = python
 	depends = libgcc
 	depends = glibc
-	depends = llhttp
+	depends = llhttp>=9.4.3
+	depends = libllhttp.so=9.4-64
 	depends = zlib
 	provides = libgit2.so
 	provides = libgit2.so=1.9-64
@@ -24,7 +25,8 @@ pkgbase = libgit2
 pkgname = libgit2
 	depends = libgcc
 	depends = glibc
-	depends = llhttp
+	depends = llhttp>=9.4.3
+	depends = libllhttp.so=9.4-64
 	depends = zlib
 	depends = libssh2
 	depends = libssh2.so

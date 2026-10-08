@@ -1,0 +1,156 @@
+pkgname=ruby
+pkgver=4.0.7
+pkgrel=1
+pkgdesc='Object-oriented scripting language with RubyGems, Bundler and YJIT'
+arch=(x86_64)
+url='https://www.ruby-lang.org/'
+license=('BSD-2-Clause OR Ruby')
+depends=(glibc libgcc gmp libffi libxcrypt libyaml openssl zlib)
+makedepends=(rust)
+checkdepends=(procps-ng)
+optdepends=('base-devel: build native gem extensions')
+# This package installs the default and bundled gems from the release tarball.
+# Keep these versions aligned with the installed gemspecs when updating Ruby.
+_gem_provides=(
+  'ruby-abbrev=0.1.2'
+  'ruby-base64=0.3.0'
+  'ruby-benchmark=0.5.0'
+  'ruby-bigdecimal=4.0.1'
+  'ruby-bundler=4.0.20'
+  'ruby-csv=3.3.5'
+  'ruby-date=3.5.1'
+  'ruby-debug=1.11.1'
+  'ruby-delegate=0.6.1'
+  'ruby-did_you_mean=2.0.0'
+  'ruby-digest=3.2.1'
+  'ruby-drb=2.2.3'
+  'ruby-english=0.8.1'
+  'ruby-erb=6.0.7'
+  'ruby-error_highlight=0.7.2'
+  'ruby-etc=1.4.6'
+  'ruby-fcntl=1.3.0'
+  'ruby-fiddle=1.1.8'
+  'ruby-fileutils=1.8.0'
+  'ruby-find=0.2.0'
+  'ruby-forwardable=1.4.0'
+  'ruby-getoptlong=0.2.1'
+  'ruby-io-console=0.8.2'
+  'ruby-io-nonblock=0.3.2'
+  'ruby-io-wait=0.4.0'
+  'ruby-ipaddr=1.2.8'
+  'ruby-irb=1.16.0'
+  'ruby-json=2.18.0'
+  'ruby-logger=1.7.0'
+  'ruby-matrix=0.4.3'
+  'ruby-minitest=6.0.0'
+  'ruby-mutex_m=0.3.0'
+  'ruby-net-ftp=0.3.9'
+  'ruby-net-http=0.9.1'
+  'ruby-net-imap=0.6.4.1'
+  'ruby-net-pop=0.1.2'
+  'ruby-net-protocol=0.2.2'
+  'ruby-net-smtp=0.5.1'
+  'ruby-nkf=0.2.0'
+  'ruby-observer=0.1.2'
+  'ruby-open-uri=0.5.0'
+  'ruby-open3=0.2.1'
+  'ruby-openssl=4.0.2'
+  'ruby-optparse=0.8.1'
+  'ruby-ostruct=0.6.3'
+  'ruby-power_assert=3.0.1'
+  'ruby-pp=0.6.3'
+  'ruby-prettyprint=0.2.0'
+  'ruby-prime=0.1.4'
+  'ruby-prism=1.8.1'
+  'ruby-pstore=0.2.1'
+  'ruby-psych=5.3.1'
+  'ruby-racc=1.8.1'
+  'ruby-rake=13.3.1'
+  'ruby-rbs=3.10.0'
+  'ruby-rdoc=7.0.4'
+  'ruby-readline=0.0.4'
+  'ruby-reline=0.6.3'
+  'ruby-repl_type_completor=0.1.12'
+  'ruby-resolv=0.7.2'
+  'ruby-resolv-replace=0.1.1'
+  'ruby-rexml=3.4.4'
+  'ruby-rinda=0.2.0'
+  'ruby-rss=0.3.2'
+  'ruby-ruby2_keywords=0.0.5'
+  'ruby-securerandom=0.4.1'
+  'ruby-shellwords=0.2.2'
+  'ruby-singleton=0.3.0'
+  'ruby-stringio=3.2.0'
+  'ruby-strscan=3.1.6'
+  'ruby-syntax_suggest=2.0.3'
+  'ruby-syslog=0.3.0'
+  'ruby-tempfile=0.3.1'
+  'ruby-test-unit=3.7.5'
+  'ruby-time=0.4.2'
+  'ruby-timeout=0.6.0'
+  'ruby-tmpdir=0.3.1'
+  'ruby-tsort=0.2.0'
+  'ruby-typeprof=0.31.1'
+  'ruby-un=0.3.0'
+  'ruby-uri=1.1.1'
+  'ruby-weakref=0.1.4'
+  'ruby-yaml=0.4.0'
+  'ruby-zlib=3.2.3'
+)
+provides=(
+  libruby.so 'libruby.so=4.0-64'
+  'rubygems=4.0.20' 'ruby-rubygems=4.0.20'
+  ruby-default-gems ruby-bundled-gems ruby-stdlib
+  "${_gem_provides[@]}"
+)
+conflicts=(
+  rubygems ruby-rubygems ruby-default-gems ruby-bundled-gems ruby-bundledgems ruby-stdlib
+  "${_gem_provides[@]%%=*}"
+)
+# GCC LTO caused Ractor crashes in bootstrap tests; the same build passes without it.
+options=(!emptydirs !lto)
+source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/ruby-$pkgver.tar.gz")
+sha256sums=('911ace20f90d068ca0e4dda6d0e4f0f81e52e52f2dd4f4004c721e253412e82d')
+
+build() {
+  cd "ruby-$pkgver"
+
+  # Ruby's use of malloc_usable_size is incompatible with fortify level 3.
+  export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --sharedstatedir=/var/lib \
+    --libexecdir=/usr/lib/ruby \
+    --enable-shared \
+    --enable-yjit \
+    --disable-zjit \
+    --disable-rpath \
+    --disable-install-doc \
+    --disable-install-static-library
+
+  make
+}
+
+check() {
+  cd "ruby-$pkgver"
+  make test
+}
+
+package() {
+  cd "ruby-$pkgver"
+  make DESTDIR="$pkgdir" install-nodoc
+
+  # Installed gems retain their sources and specifications; omit archive copies.
+  rm -r "$pkgdir/usr/lib/ruby/gems/${pkgver%.*}.0/cache"
+
+  # Verify the explicit ABI provision used by Shelly's dependency resolver.
+  LC_ALL=C readelf -h "$pkgdir/usr/lib/libruby.so" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$pkgdir/usr/lib/libruby.so" | grep -Fq 'Library soname: [libruby.so.4.0]' || return 1
+
+  install -Dm644 BSDL COPYING LEGAL -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 README.md NEWS.md -t "$pkgdir/usr/share/doc/$pkgname"
+}

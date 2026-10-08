@@ -110,6 +110,31 @@ remote source verification, and upstream test suites have not been run for
 this update. Build and publish the packages before expecting Rust dependency
 resolution to change; recipe metadata alone does not update the repository.
 
+## Cargo cannot load libllhttp.so.9.3
+
+llhttp 9.4.3 installs `libllhttp.so.9.4`, replacing the 9.3 ABI. Existing
+libgit2 binaries linked to `libllhttp.so.9.3` must be rebuilt; Cargo loads
+libgit2 and fails before wasm-tools can run its prepare step.
+
+The updated recipes make this dependency explicit:
+
+- `llhttp` 9.4.3-4 provides `libllhttp.so=9.4-64` and verifies its ELF64 SONAME.
+- `libgit2` 1:1.9.7-3 requires `llhttp>=9.4.3` and `libllhttp.so=9.4-64`, and
+  refuses to package a library that does not link to `libllhttp.so.9.4`.
+
+Build and publish llhttp first, refresh the worker repository database, then
+build and publish libgit2. Refresh the database again and retry wasm-tools in
+a fresh isolated root with the rebuilt libgit2. The recipes alone do not
+replace already-published binaries. Do not symlink the old SONAME to the new
+one: rebuild its consumers against the correct library.
+
+Local validation: llhttp repackaging and its ABI metadata checks passed.
+libgit2 built against staged llhttp 9.4.3 and passed all five enabled CTest
+suites. The new linkage check rejects the host's old libgit2 and accepts the
+rebuilt one. A cached distribution Cargo 1.96.0 starts with the rebuilt
+libraries, and the dynamic loader resolves libgit2 plus llhttp 9.4 from staging.
+The isolated worker and the full wasm-tools build have not been rerun.
+
 ## Rust bootstrap compiler cannot load LLVM
 
 An undefined symbol with version `LLVM_23.1` from `librustc_driver` while
@@ -169,14 +194,26 @@ are recorded in `devario-core/rust-bootstrap/provenance.json`.
 | `aarch64-linux-gnu-gcc` | `16.2.0-1` |
 | `aarch64-linux-gnu-linux-api-headers` | `7.2.9-1` |
 | `wasm-tools` | `1.261.0-1` |
-| `llhttp` | `9.4.3-1` |
+| `llhttp` | `9.4.3-4` |
+| `libgit2` | `1:1.9.7-3` |
+
+llhttp release 2 declares Clang as a build dependency. Its `make release`
+step compiles generated C code using `CLANG ?= clang`, before the CMake build;
+a base-devel-only isolated root otherwise fails with `clang: No such file or directory`.
+Release 3 also runs `make -j1 release`: upstream declares `clean` and `all` as
+sibling prerequisites, so parallel cleanup can delete the compiler output
+directory. The subsequent CMake build retains parallelism. LTO is disabled
+because the release Makefile does not pass its flags to the Clang link step.
+A local full package build with `MAKEFLAGS=-j32` and
+`CMAKE_BUILD_PARALLEL_LEVEL=32`, followed by a linked HTTP parser smoke test,
+passed. The isolated worker build has not been rerun.
 
 The new `devario-core/llvm` recipe supplies `llvm` and `llvm-libs`, matching
 Rust's exact 23.1.3 dependencies. It retains separate LLVM component builds to
 fit the existing Clang, LLD, and compiler-rt recipes. The versioned `llvm21` and
 `llvm22` packages continue to serve their existing consumers.
 
-AArch64 binutils/glibc, musl, libgit2, wasi-libc, wasm-component-ld,
+AArch64 binutils/glibc, musl, wasi-libc, wasm-component-ld,
 wasm-pkg-tools, and wit-bindgen were checked and retain their current versions.
 The existing local ABI provisions, musl target selection, bootstrap libdir fix,
 and compiler-rt build fixes are preserved. Rust's three LLVM 23 compatibility
