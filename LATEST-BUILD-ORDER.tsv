@@ -1,0 +1,1322 @@
+stage	package	change	version	recipe_directory	bootstrap
+01	aalib	Added recipe	1.4rc5-19	devario-libs/aalib	—
+01	acpica	Added recipe	20251212-1	devario-development/acpica	—
+01	ada	Added recipe	4.0.0-1	devario-libs/ada	—
+01	alembic	Added recipe	1.8.12-1	devario-libs/alembic	—
+01	anari-sdk	Added recipe	0.16.0-1	devario-development/anari-sdk	—
+01	apache-orc	Added recipe	2.3.1-4	devario-libs/apache-orc	—
+01	argon2	Added recipe	20190702-7	devario-libs/argon2	—
+01	arj	Added recipe	3.10.22-14	devario-development/arj	—
+01	aspell	Added recipe	0.60.8.2-2	devario-utilities/aspell	—
+01	assimp	Added recipe	6.0.5-1	devario-libs/assimp	—
+01	aws-c-common	Added recipe	1.0.2-1	devario-libs/aws-c-common	—
+01	benchmark	Added recipe	1.9.5-2	devario-libs/benchmark	—
+01	blosc	Added recipe	1.21.6-2	devario-libs/blosc	—
+01	boxed-cpp	Added recipe	1.4.3-2	devario-libs/boxed-cpp	—
+01	btrfs-assistant	Added recipe	2.3.1-1	devario-utilities/btrfs-assistant	—
+01	bzip3	Added recipe	1.5.4-1	devario-development/bzip3	—
+01	c-ares	Added recipe	1.34.8-1	devario-libs/c-ares	—
+01	cabextract	Added recipe	1.11-3	devario-utilities/cabextract	—
+01	catch2	Added recipe	3.16.0-1	devario-libs/catch2	—
+01	cbindgen	Added recipe	0.29.4-1	devario-libs/cbindgen	—
+01	cdparanoia	Added recipe	10.2-10	devario-utilities/cdparanoia	—
+01	cdrtools	Added recipe	3.02a09-7	devario-development/cdrtools	—
+01	chromaprint	Added recipe	1.6.1-2	devario-libs/chromaprint	—
+01	chrono-date	Added recipe	3.0.5-1	devario-libs/chrono-date	—
+01	chrpath	Added recipe	0.18-1	devario-development/chrpath	—
+01	cli11	Added recipe	2.7.2-1	devario-development/cli11	—
+01	cliphist	Added recipe	0.7.0-2	devario-utilities/cliphist	—
+01	cmocka	Added recipe	2.0.2-1	devario-development/cmocka	—
+01	codelldb-bin	Added recipe	1.12.3-1	devario-development/codelldb-bin	—
+01	cppunit	Added recipe	1.15.1-5	devario-libs/cppunit	—
+01	cpuinfo	Added recipe	r843.ea6b9f1-1	devario-libs/cpuinfo	—
+01	cudnn	Added recipe	9.27.0.42-1	devario-libs/cudnn	—
+01	cxxopts	Added recipe	3.3.1-1	devario-development/cxxopts	—
+01	directx-headers	Added recipe	1.619.5-1	devario-libs/directx-headers	—
+01	discord	Added recipe	1.0.161-1	devario-gaming/discord	—
+01	djvulibre	Added recipe	3.5.30.1-1	devario-libs/djvulibre	—
+01	dlpack	Added recipe	1.3-1	devario-libs/dlpack	—
+01	docbook-dsssl	Added recipe	1.79-10	devario-utilities/docbook-dsssl	—
+01	docbook-sgml31	Added recipe	3.1-7	devario-utilities/docbook-sgml31	—
+01	docker-compose	Added recipe	5.6.0-1	devario-development/docker-compose	—
+01	doctest	Added recipe	2.5.3-1	devario-libs/doctest	—
+01	dotconf	Added recipe	1.4.1-1	devario-libs/dotconf	—
+01	ed	Added recipe	1.22.6-1	devario-development/ed	—
+01	ethtool	Added recipe	7.1-1	devario-utilities/ethtool	—
+01	exiv2	Added recipe	0.28.9-1	devario-libs/exiv2	—
+01	faac	Added recipe	2.1-1	devario-development/faac	—
+01	faad2	Added recipe	2.11.4-1	devario-development/faad2	—
+01	festival	Added recipe	2.5.0-5	devario-development/festival	—
+01	ffcall	Added recipe	2.5-1	devario-libs/ffcall	—
+01	ffnvcodec-headers	Added recipe	13.1.15.0-1	devario-libs/ffnvcodec-headers	—
+01	fltk1.3	Added recipe	1.3.11-4	devario-development/fltk1.3	—
+01	fluxer-canary-bin	Added recipe	2026.1008.32323-1	devario-gaming/fluxer-canary-bin	—
+01	fpc	Added recipe	3.2.2-11	devario-development/fpc	Seed: `fpc`
+01	fpc-src	Added recipe	3.2.2-4	devario-development/fpc-src	—
+01	freetds	Added recipe	1.5.19-1	devario-libs/freetds	—
+01	fstrm	Added recipe	0.6.1-2	devario-libs/fstrm	—
+01	functional-plus	Added recipe	0.2.28-1	devario-libs/functional-plus	—
+01	gamemode	Added recipe	1.8.2-3	devario-gaming/gamemode	—
+01	gendesk	Added recipe	1.0.15-1	devario-development/gendesk	—
+01	geos	Added recipe	3.15.0-1	devario-libs/geos	—
+01	github-cli	Added recipe	2.102.0-1	devario-development/github-cli	—
+01	glew	Added recipe	2.3.1-1	devario-libs/glew	—
+01	glfw	Added recipe	3.5.1-1	devario-libs/glfw	—
+01	glm	Added recipe	1.0.3-1	devario-libs/glm	—
+01	glow	Added recipe	3.0.0-2	devario-productivity/glow	—
+01	gn	Added recipe	0.2385.9ece3f52-1	devario-development/gn	—
+01	gnu-efi	Added recipe	4.0.4-1	devario-development/gnu-efi	—
+01	go-tools	Added recipe	0.51.0-1	devario-development/go-tools	—
+01	gperf	Added recipe	3.3-2	devario-development/gperf	—
+01	gpgmepp	Added recipe	2.2.0-1	devario-libs/gpgmepp	—
+01	gpu-screen-recorder	Added recipe	6.1.3-1	devario-entertainment/gpu-screen-recorder	—
+01	grabit-git	Added recipe	0.8.0.r344.ge573305-2	devario-utilities/grabit-git	—
+01	gsl	Added recipe	2.8-1	devario-libs/gsl	—
+01	half	Added recipe	2.2.1-1	devario-libs/half	—
+01	hdparm	Added recipe	9.65-3	devario-utilities/hdparm	—
+01	hipblas-common	Added recipe	10.0-1	devario-libs/hipblas-common	—
+01	hiredis	Added recipe	1.4.1-1	devario-libs/hiredis	—
+01	hyphen	Added recipe	2.8.9-1	devario-libs/hyphen	—
+01	hyphen-en	Added recipe	2.8.9-1	devario-libs/hyphen	—
+01	iniparser	Added recipe	4.3.2-1	devario-libs/iniparser	—
+01	intltool	Added recipe	0.51.0-6	devario-development/intltool	—
+01	itstool	Added recipe	2.0.7-3	devario-development/itstool	—
+01	iw	Added recipe	6.17-1	devario-utilities/iw	—
+01	java-environment-common	Added recipe	3-7	devario-libs/java-common	—
+01	java-runtime-common	Added recipe	3-7	devario-libs/java-common	—
+01	jbig2dec	Added recipe	0.20-2	devario-libs/jbig2dec	—
+01	karchive	Added recipe	6.30.0-1	devario-libs/karchive	—
+01	kconfig	Added recipe	6.30.0-1	devario-libs/kconfig	—
+01	kglobalaccel	Added recipe	6.30.0-1	devario-libs/kglobalaccel	—
+01	kirigami	Added recipe	6.30.0-1	devario-libs/kirigami	—
+01	kitemmodels	Added recipe	6.30.0-1	devario-libs/kitemmodels	—
+01	lact	Added recipe	0.10.1-1	devario-utilities/lact	—
+01	ladspa	Added recipe	1.17-7	devario-development/ladspa	—
+01	laszip2	Added recipe	2.2.0-3	devario-libs/laszip2	—
+01	lbzip2	Added recipe	2.5-6	devario-development/lbzip2	—
+01	lhasa	Added recipe	0.5.0-1	devario-development/lhasa	—
+01	lib32-alsa-lib	Added recipe	1.2.16.1-1	devario-libs/lib32-alsa-lib	—
+01	lib32-attr	Added recipe	2.6.0-1	devario-libs/lib32-attr	—
+01	lib32-brotli	Added recipe	1.2.0-2	devario-libs/lib32-brotli	—
+01	lib32-bzip2	Added recipe	1.0.8-4	devario-libs/lib32-bzip2	—
+01	lib32-expat	Added recipe	2.9.0-1	devario-libs/lib32-expat	—
+01	lib32-gmp	Added recipe	6.3.0-2	devario-libs/lib32-gmp	—
+01	lib32-icu	Added recipe	78.3-1	devario-libs/lib32-icu	—
+01	lib32-json-c	Added recipe	0.19-1	devario-libs/lib32-json-c	—
+01	lib32-libdisplay-info	Added recipe	0.3.0-1	devario-libs/lib32-libdisplay-info	—
+01	lib32-libffi	Added recipe	3.8.0-1	devario-libs/lib32-libffi	—
+01	lib32-libgpg-error	Added recipe	1.61-1	devario-libs/lib32-libgpg-error	—
+01	lib32-libndp	Added recipe	1.9-1	devario-libs/lib32-libndp	—
+01	lib32-libnghttp2	Added recipe	1.70.0-1	devario-libs/lib32-libnghttp2	—
+01	lib32-libnghttp3	Added recipe	1.18.0-1	devario-libs/lib32-libnghttp3	—
+01	lib32-libogg	Added recipe	1.3.6-1	devario-libs/lib32-libogg	—
+01	lib32-libtasn1	Added recipe	4.21.0-2	devario-libs/lib32-libtasn1	—
+01	lib32-libunistring	Added recipe	1.4.2-1	devario-libs/lib32-libunistring	—
+01	lib32-libxau	Added recipe	1.0.12-1	devario-libs/lib32-libxau	—
+01	lib32-libxcrypt	Added recipe	4.5.2-1	devario-libs/lib32-libxcrypt	—
+01	lib32-libxcrypt-compat	Added recipe	4.5.2-1	devario-libs/lib32-libxcrypt	—
+01	lib32-lm_sensors	Added recipe	3.6.2-2	devario-libs/lib32-lm_sensors	—
+01	lib32-ncurses	Added recipe	6.6-2	devario-libs/lib32-ncurses	—
+01	lib32-openssl	Added recipe	3.6.5-1	devario-libs/lib32-openssl	—
+01	lib32-opus	Added recipe	1.6.1-1	devario-libs/lib32-opus	—
+01	lib32-speexdsp	Added recipe	1.2.1-2	devario-libs/lib32-speexdsp	—
+01	lib32-spirv-tools	Added recipe	1.4.363.0-1	devario-libs/lib32-spirv-tools	—
+01	lib32-zlib	Added recipe	1.3.2-1	devario-libs/lib32-zlib	—
+01	lib32-zstd	Added recipe	1.5.7-2	devario-libs/lib32-zstd	—
+01	libaemu	Added recipe	0.1.2-5	devario-libs/libaemu	—
+01	libao	Added recipe	1.2.2-7	devario-libs/libao	—
+01	libburn	Added recipe	1.5.8-1	devario-libs/libburn	—
+01	libcacard	Added recipe	2.8.1-1	devario-libs/libcacard	—
+01	libcue	Added recipe	2.3.0-2	devario-libs/libcue	—
+01	libdca	Added recipe	0.0.7-3	devario-libs/libdca	—
+01	libde265	Added recipe	1.1.3-1	devario-libs/libde265	—
+01	libfreexl	Added recipe	2.0.0-3	devario-libs/libfreexl	—
+01	libgme	Added recipe	0.6.5-1	devario-libs/libgme	—
+01	libharu	Added recipe	2.4.6-1	devario-libs/libharu	—
+01	libidn	Added recipe	1.44-1	devario-libs/libidn	—
+01	libiscsi	Added recipe	1.20.3-1	devario-libs/libiscsi	—
+01	libisofs	Added recipe	1.5.8.2-1	devario-libs/libisofs	—
+01	liblqr	Added recipe	0.4.3-1	devario-libs/liblqr	—
+01	libltc	Added recipe	1.3.2-2	devario-libs/libltc	—
+01	libmaxminddb	Added recipe	1.14.1-1	devario-libs/libmaxminddb	—
+01	libmicrodns	Added recipe	0.2.0-2	devario-libs/libmicrodns	—
+01	libmicrohttpd	Added recipe	1.0.10-1	devario-libs/libmicrohttpd	—
+01	libmms	Added recipe	0.6.4-6	devario-libs/libmms	—
+01	libnfs	Added recipe	7.0.2-2	devario-libs/libnfs	—
+01	libpaper	Added recipe	2.2.8-1	devario-libs/libpaper	—
+01	libpfm	Added recipe	4.14.1-1	devario-libs/libpfm	—
+01	libreplaygain	Added recipe	475-5	devario-libs/libreplaygain	—
+01	libsass	Added recipe	3.6.6-2	devario-libs/libsass	—
+01	libshout	Added recipe	2.4.6-5	devario-libs/libshout	—
+01	libsigsegv	Added recipe	2.15-1	devario-libs/libsigsegv	—
+01	libsixel	Added recipe	1.10.5-1	devario-libs/libsixel	—
+01	libslirp	Added recipe	4.9.5-1	devario-libs/libslirp	—
+01	libsonic	Added recipe	0.2.0-2	devario-libs/libsonic	—
+01	libspiro	Added recipe	20240903-1	devario-libs/libspiro	—
+01	libsrtp	Added recipe	2.8.1-1	devario-libs/libsrtp	—
+01	libsrtp-docs	Added recipe	2.8.1-1	devario-libs/libsrtp	—
+01	libtlsrpt	Added recipe	0.5.1-1	devario-libs/libtlsrpt	—
+01	libultrahdr	Added recipe	2.0.2-1	devario-libs/libultrahdr	—
+01	libuninameslist	Added recipe	20260918-1	devario-libs/libuninameslist	—
+01	libunrar	Added recipe	7.3.1-1	devario-utilities/unrar	—
+01	libutempter	Added recipe	1.2.3-1	devario-libs/libutempter	—
+01	libutf8proc	Added recipe	2.12.0-1	devario-libs/libutf8proc	—
+01	libvoikko	Added recipe	4.3.3-3	devario-libs/libvoikko	—
+01	libwmf	Added recipe	0.2.16-1	devario-libs/libwmf	—
+01	libx86	Added recipe	1.1.1-1	devario-libs/libx86	—
+01	libxnvctrl	Added recipe	615.78.08-2	devario-utilities/nvidia-settings	—
+01	libyuv	Added recipe	r2921+644251f25-1	devario-libs/libyuv	—
+01	libzen	Added recipe	0.4.41-3	devario-libs/libzen	—
+01	libzip	Added recipe	1.11.4-1	devario-libs/libzip	—
+01	log4cplus	Added recipe	2.2.0.1-1	devario-libs/log4cplus	—
+01	logrotate	Added recipe	3.22.0-1	devario-core/logrotate	—
+01	lrzip	Added recipe	0.660-1	devario-development/lrzip	—
+01	lsb-release	Added recipe	2.0.r55.a25a4fc-2	devario-utilities/lsb-release	—
+01	luajit	Added recipe	2.1.1788856981+c6ffc14-1	devario-libs/luajit	—
+01	lynx	Added recipe	2.9.3-1	devario-development/lynx	—
+01	mbedtls3	Added recipe	3.6.7-1	devario-libs/mbedtls3	—
+01	micro	Added recipe	2.0.15-3	devario-core/micro	—
+01	microsoft-gsl	Added recipe	5.0.1-1	devario-libs/microsoft-gsl	—
+01	mingw-w64-binutils	Added recipe	2.47-1	devario-development/mingw-w64-binutils	—
+01	mingw-w64-headers	Added recipe	14.0.0-1	devario-libs/mingw-w64-headers	—
+01	mingw-w64-tools	Added recipe	14.0.0-1	devario-development/mingw-w64-tools	—
+01	mmdblookup	Added recipe	1.14.1-1	devario-libs/libmaxminddb	—
+01	mongo-c-driver	Added recipe	2.5.5-1	devario-libs/mongo-c-driver	—
+01	msgpack-cxx	Added recipe	8.0.0-1	devario-libs/msgpack-cxx	—
+01	mtools	Added recipe	4.0.49-1	devario-utilities/mtools	—
+01	mujs	Added recipe	1.3.10-1	devario-libs/mujs	—
+01	multipath-tools	Added recipe	0.15.1-1	devario-utilities/multipath-tools	—
+01	muparser	Added recipe	2.3.5-2	devario-libs/muparser	—
+01	nano	Added recipe	9.2-1	devario-core/nano	—
+01	ntsync-autoload	Added recipe	1-1	devario-utilities/ntsync-autoload	—
+01	nvidia-settings	Added recipe	615.78.08-2	devario-utilities/nvidia-settings	—
+01	nvm	Added recipe	0.40.8-1	devario-development/nvm	—
+01	nvtop	Added recipe	3.3.2-1	devario-utilities/nvtop	—
+01	ocaml	Added recipe	5.5.0-1	devario-development/ocaml	—
+01	ocaml-compiler-libs	Added recipe	5.5.0-1	devario-development/ocaml	—
+01	onednn	Added recipe	3.11.3-1	devario-libs/onednn	—
+01	opencl-headers	Added recipe	2026.05.29-1	devario-libs/opencl-headers	—
+01	openvr	Added recipe	2.15.6-2	devario-development/openvr	—
+01	openxr	Added recipe	1.1.60-2	devario-libs/openxr	—
+01	osinfo-db-tools	Added recipe	1.12.0-3	devario-development/osinfo-db-tools	—
+01	otf-atkinsonhyperlegiblemono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-aurulent-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-codenewroman-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-comicshanns-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-commit-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-droid-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-firamono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-geist-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-hasklig-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-hermit-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-monaspace-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-opendyslexic-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	otf-overpass-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	pangomm-2.48	Added recipe	2.58.0-1	devario-libs/pangomm-2.48	—
+01	pangomm-2.48-docs	Added recipe	2.58.0-1	devario-libs/pangomm-2.48	—
+01	parallel	Added recipe	20260922-1	devario-utilities/parallel	—
+01	parallel-docs	Added recipe	20260922-1	devario-utilities/parallel	—
+01	pcaudiolib	Added recipe	1.3-1	devario-libs/pcaudiolib	—
+01	perl-archive-cpio	Added recipe	0.10-12	devario-libs/perl-archive-cpio	—
+01	perl-archive-zip	Added recipe	1.68-12	devario-libs/perl-archive-zip	—
+01	perl-file-slurp	Added recipe	9999.32-5	devario-libs/perl-file-slurp	—
+01	perl-file-which	Added recipe	1.27-8	devario-libs/perl-file-which	—
+01	perl-inc-latest	Added recipe	0.500-15	devario-libs/perl-inc-latest	—
+01	perl-io-string	Added recipe	1.08-13	devario-libs/perl-io-string	—
+01	perl-json	Added recipe	4.11-1	devario-libs/perl-json	—
+01	perl-locale-gettext	Added recipe	1.07-16	devario-libs/perl-locale-gettext	—
+01	perl-mime-charset	Added recipe	1.013.1-6	devario-libs/perl-mime-charset	—
+01	perl-params-someutil	Added recipe	1.12-1	devario-libs/perl-params-someutil	—
+01	perl-parse-yapp	Added recipe	1.21-10	devario-libs/perl-parse-yapp	—
+01	perl-pod-parser	Added recipe	1.67-4	devario-libs/perl-pod-parser	—
+01	perl-sgmls	Added recipe	1.1-14	devario-libs/perl-sgmls	—
+01	perl-sort-versions	Added recipe	1.62-13	devario-libs/perl-sort-versions	—
+01	perl-sub-install	Added recipe	0.929-4	devario-libs/perl-sub-install	—
+01	perl-term-readkey	Added recipe	2.38-11	devario-libs/perl-term-readkey	—
+01	perl-text-charwidth	Added recipe	0.04-25	devario-libs/perl-text-charwidth	—
+01	perl-text-csv	Added recipe	2.06-3	devario-libs/perl-text-csv	—
+01	perl-yaml-tiny	Added recipe	1.76-3	devario-libs/perl-yaml-tiny	—
+01	pkcs11-helper	Added recipe	1.31.0-1	devario-libs/pkcs11-helper	—
+01	plasma-wayland-protocols	Added recipe	1.23.0-1	devario-development/plasma-wayland-protocols	—
+01	poppler-data	Added recipe	0.4.12-2	devario-libs/poppler-data	—
+01	potrace	Added recipe	1.16-5	devario-entertainment/potrace	—
+01	proj	Added recipe	9.8.1-1	devario-libs/proj	—
+01	protobuf-c	Added recipe	1.5.2-15	devario-libs/protobuf-c	—
+01	publicsuffix-list	Added recipe	20260507.2070.ee780bcf-1	devario-development/publicsuffix-list	—
+01	pugixml	Added recipe	1.16-1	devario-libs/pugixml	—
+01	qhull	Added recipe	2020.2-6	devario-libs/qhull	—
+01	qrencode	Added recipe	4.1.1-4	devario-libs/qrencode	—
+01	qt5-declarative	Added recipe	5.15.19+kde+r23-1	devario-libs/qt5-declarative	Cycle G159 — seed packages required
+01	qt5-tools	Added recipe	5.15.19+kde+r3-2	devario-libs/qt5-tools	Cycle G159 — seed packages required
+01	qt5-translations	Added recipe	5.15.19-1	devario-libs/qt5-translations	Cycle G159 — seed packages required
+01	qt6-5compat	Added recipe	6.12.0-1	devario-libs/qt6-5compat	—
+01	qt6-canvaspainter	Added recipe	6.12.0-1	devario-libs/qt6-canvaspainter	—
+01	qt6-charts	Added recipe	6.12.0-1	devario-libs/qt6-charts	—
+01	qt6-connectivity	Added recipe	6.12.0-1	devario-libs/qt6-connectivity	—
+01	qt6-datavis3d	Added recipe	6.12.0-1	devario-libs/qt6-datavis3d	—
+01	qt6-networkauth	Added recipe	6.12.0-1	devario-libs/qt6-networkauth	—
+01	qt6-quicktimeline	Added recipe	6.12.0-1	devario-libs/qt6-quicktimeline	—
+01	qt6-remoteobjects	Added recipe	6.12.0-1	devario-libs/qt6-remoteobjects	—
+01	qt6-scxml	Added recipe	6.12.0-1	devario-libs/qt6-scxml	—
+01	qt6-sensors	Added recipe	6.12.0-1	devario-libs/qt6-sensors	—
+01	qt6-serialport	Added recipe	6.12.0-1	devario-libs/qt6-serialport	—
+01	qt6-webchannel	Added recipe	6.12.0-1	devario-libs/qt6-webchannel	—
+01	qt6-websockets	Added recipe	6.12.0-1	devario-libs/qt6-websockets	—
+01	qt6pas	Added recipe	6.2.10-4	devario-libs/qt6pas	—
+01	range-v3	Added recipe	0.12.0-2	devario-libs/range-v3	—
+01	rapidjson	Added recipe	1.1.0-6	devario-development/rapidjson	—
+01	re2	Added recipe	2025.11.05-6	devario-libs/re2	—
+01	reflection-cpp	Added recipe	0.4.0-1	devario-libs/reflection-cpp	—
+01	riscv64-linux-gnu-linux-api-headers	Added recipe	7.2-1	devario-libs/riscv64-linux-gnu-linux-api-headers	—
+01	rkcommon	Added recipe	1.15.4-1	devario-libs/rkcommon	—
+01	rnnoise	Added recipe	0.2-1	devario-libs/rnnoise	—
+01	robin-map	Added recipe	1.4.1-1	devario-libs/robin-map	—
+01	rocm-toolchain	Added recipe	0.4.0-2	devario-development/rocm-toolchain	—
+01	roctracer	Added recipe	10.0-1	devario-libs/roctracer	—
+01	rpcsvc-proto	Added recipe	1.4.4-2	devario-development/rpcsvc-proto	—
+01	rpmextract	Added recipe	1.0-11	devario-development/rpmextract	—
+01	rtmpdump	Added recipe	2.6-2	devario-development/rtmpdump	—
+01	ruby-kramdown	Added recipe	2.5.0-1	devario-libs/ruby-kramdown	—
+01	ruby-mini_portile2	Added recipe	2.8.9-1	devario-libs/ruby-mini_portile2	—
+01	ruby-mustache	Added recipe	1.1.1-7	devario-libs/ruby-mustache	—
+01	ruby-rdiscount	Added recipe	2.2.7.5-1	devario-libs/ruby-rdiscount	—
+01	rust-bindgen	Added recipe	0.73.2-1	devario-libs/rust-bindgen	—
+01	rustup	Added recipe	1.29.1-1	devario-development/rustup	—
+01	s2n-tls	Added recipe	1.7.11-1	devario-libs/s2n-tls	—
+01	safeint	Added recipe	3.0.28-1	devario-libs/safeint	—
+01	sdl12-compat	Added recipe	1.2.68-2	devario-libs/sdl12-compat	—
+01	setconf	Added recipe	0.7.7-4	devario-development/setconf	—
+01	signify	Added recipe	33-1	devario-development/signify	—
+01	simdutf	Added recipe	9.2.1-2	devario-libs/simdutf	—
+01	snapper	Added recipe	0.13.2-1	devario-utilities/snapper	—
+01	soundtouch	Added recipe	2.4.1-1	devario-libs/soundtouch	—
+01	spice-protocol	Added recipe	0.14.5-1	devario-libs/spice-protocol	—
+01	spirv-llvm-translator	Added recipe	23.1.2-1	devario-development/spirv-llvm-translator	—
+01	starship	Added recipe	1.26.0-1	devario-core/starship	—
+01	suitesparse	Added recipe	7.14.1-1	devario-libs/suitesparse	—
+01	suitesparse-graphblas	Added recipe	7.14.1-1	devario-libs/suitesparse	—
+01	swig	Metadata only	4.5.1-1	devario-development/swig	—
+01	sysfsutils	Added recipe	2.1.1-2	devario-utilities/sysfsutils	—
+01	systemd-manager-tui	Added recipe	1.2.5-1	devario-utilities/systemd-manager-tui	—
+01	talloc	Added recipe	2.5.0-2	devario-libs/talloc	—
+01	tcl	Added recipe	9.0.1-1	devario-development/tcl	—
+01	tdb	Added recipe	1.4.15-2	devario-libs/tdb	—
+01	texi2html	Added recipe	5.0-8	devario-development/texi2html	—
+01	texinfo	Updated	7.3-2	isolation-builder/texinfo	Existing Devario dependencies required
+01	tidy	Added recipe	5.8.0-3	devario-utilities/tidy	—
+01	tinycdb	Added recipe	0.81-2	devario-libs/tinycdb	—
+01	tinyxml2	Added recipe	11.0.0-2	devario-libs/tinyxml2	—
+01	tree-sitter	Added recipe	0.26.9-1	devario-development/tree-sitter	—
+01	tree-sitter-cli	Added recipe	0.26.9-1	devario-development/tree-sitter	—
+01	ttf-0xproto-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-3270-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-adwaitamono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-agave-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-annotationmono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-anonymouspro-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-arimo-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-bigblueterminal-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-bitstream-vera-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-cascadia-code-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-cascadia-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-cousine-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-d2coding-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-daddytime-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-dejavu-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-envycoder-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-fantasque-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-firacode-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-go-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-gohu-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-googlesanscode-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-hack-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-heavydata-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-iawriter-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-ibmplex-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-inconsolata-go-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-inconsolata-lgc-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-inconsolata-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-intone-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-iosevka-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-iosevkaterm-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-iosevkatermslab-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-jetbrains-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-lekton-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-liberation-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-lilex-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-martian-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-meslo-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-monofur-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-monoid-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-mononoki-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-mplus-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-noto-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-profont-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-proggyclean-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-recursive-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-roboto	Added recipe	3.016-1	devario-libs/ttf-roboto	—
+01	ttf-roboto-mono	Added recipe	3.001-1	devario-development/ttf-roboto-mono	—
+01	ttf-roboto-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-sharetech-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-sourcecodepro-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-space-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-terminus-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-tinos-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-ubuntu-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-ubuntu-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-victor-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	ttf-zed-mono-nerd	Added recipe	3.5.1-2	devario-libs/nerd-fonts	—
+01	twolame	Added recipe	0.4.0-4	devario-libs/twolame	—
+01	uasm	Added recipe	2.57-3	devario-development/uasm	—
+01	uchardet	Added recipe	0.0.8-4	devario-libs/uchardet	—
+01	unace	Added recipe	2.5-11	devario-development/unace	—
+01	unicode-character-database	Added recipe	18.0.0-1	devario-libs/unicode-character-database	—
+01	unicode-cldr	Added recipe	48.2-1	devario-development/unicode-cldr	—
+01	unicode-cldr-annotations	Added recipe	48.2-1	devario-development/unicode-cldr	—
+01	unifdef	Added recipe	2.12-4	devario-development/unifdef	—
+01	unrar	Added recipe	7.3.1-1	devario-utilities/unrar	—
+01	unzip	Added recipe	6.0-23	devario-utilities/unzip	—
+01	usbredir	Added recipe	0.15.0-1	devario-libs/usbredir	—
+01	utf8cpp	Added recipe	4.2.0-1	devario-development/utf8cpp	—
+01	vc-intrinsics	Added recipe	0.25.0-2	devario-development/vc-intrinsics	—
+01	verdict	Added recipe	1.4.5-3	devario-libs/verdict	—
+01	virtiofsd	Added recipe	1.14.0-1	devario-utilities/virtiofsd	—
+01	viskores	Added recipe	1.2.0-1	devario-libs/viskores	—
+01	vscodium-bin	Added recipe	1.135.06055-1	devario-development/vscodium-bin	—
+01	wavpack	Added recipe	5.9.0-1	devario-libs/wavpack	—
+01	webrtc-audio-processing	Added recipe	2.1-9	devario-libs/webrtc-audio-processing	—
+01	wildmidi	Added recipe	0.5.0-1	devario-libs/wildmidi	—
+01	wlr-randr	Added recipe	0.5.0-1	devario-utilities/wlr-randr	—
+01	wlrctl	Added recipe	0.2.2-2	devario-utilities/wlrctl	—
+01	woff2	Added recipe	1.0.2-6	devario-libs/woff2	—
+01	wolfssl	Added recipe	5.9.4-1	devario-libs/wolfssl	—
+01	wtype	Added recipe	0.4-2	devario-utilities/wtype	—
+01	xcur2png	Added recipe	0.7.1-9	devario-utilities/xcur2png	—
+01	xdg-user-dirs-gtk	Added recipe	0.16-1	devario-utilities/xdg-user-dirs-gtk	—
+01	xerces-c	Added recipe	3.3.0-4	devario-libs/xerces-c	—
+01	xmlto	Added recipe	0.0.29-1	devario-development/xmlto	—
+01	xorg-util-macros	Added recipe	1.20.2-1	devario-development/xorg-util-macros	—
+01	xsimd	Added recipe	14.3.0-1	devario-libs/xsimd	—
+01	xtrans	Added recipe	1.6.0-1	devario-libs/xtrans	—
+01	zint	Added recipe	2.16.0-2	devario-libs/zint	—
+01	zint-qt	Added recipe	2.16.0-2	devario-libs/zint	—
+01	zip	Added recipe	3.0-14	devario-development/zip	—
+01	zita-convolver	Added recipe	4.0.3-5	devario-libs/zita-convolver	—
+01	zopfli	Added recipe	1.0.3-5	devario-libs/zopfli	—
+01	zvbi	Added recipe	0.2.45-1	devario-libs/zvbi	—
+02	7zip	Added recipe	26.04-1	devario-utilities/7zip	—
+02	alsa-tools	Added recipe	1.2.15-3	devario-utilities/alsa-tools	—
+02	aws-c-cal	Added recipe	1.0.0-1	devario-libs/aws-c-cal	—
+02	aws-c-compression	Added recipe	1.0.0-1	devario-libs/aws-c-compression	—
+02	aws-c-sdkutils	Added recipe	1.0.0-1	devario-libs/aws-c-sdkutils	—
+02	aws-checksums	Added recipe	1.0.1-1	devario-libs/aws-checksums	—
+02	bc	Added recipe	1.08.2-1	devario-utilities/bc	—
+02	cava	Added recipe	1.0.0-1	devario-entertainment/cava	—
+02	clblast	Added recipe	1.7.0-1	devario-libs/clblast	—
+02	clisp	Added recipe	2.49.95-3	devario-development/clisp	—
+02	composable-kernel	Added recipe	10.0-1	devario-libs/composable-kernel	—
+02	crypto++	Added recipe	8.9.0-3	devario-libs/crypto++	—
+02	dateutils	Added recipe	0.4.11-3	devario-development/dateutils	—
+02	dnssec-anchors	Added recipe	20250524-1	devario-utilities/dnssec-anchors	Cycle G537 — seed packages required
+02	dpkg	Added recipe	1.23.11-2	devario-development/dpkg	—
+02	eigen	Added recipe	5.0.1-2	devario-libs/eigen	—
+02	fast_float	Added recipe	8.3.1-1	devario-development/fast_float	—
+02	flite	Added recipe	2.2-3	devario-development/flite	—
+02	fluidsynth	Added recipe	2.6.1-1	devario-libs/fluidsynth	—
+02	gfxstream	Added recipe	0.1.2-2	devario-libs/gfxstream	—
+02	glusterfs	Added recipe	11.2-2	devario-utilities/glusterfs	—
+02	gtkmm-4.0	Added recipe	4.24.0-1	devario-libs/gtkmm-4.0	—
+02	gtkmm-4.0-docs	Added recipe	4.24.0-1	devario-libs/gtkmm-4.0	—
+02	inetutils	Added recipe	2.8-1	devario-utilities/inetutils	—
+02	jdk8-openjdk	Added recipe	8.504.u01-2	devario-development/java8-openjdk	Seed: `java-environment=8`
+02	jre8-openjdk	Added recipe	8.504.u01-2	devario-development/java8-openjdk	Seed: `java-environment=8`
+02	jre8-openjdk-headless	Added recipe	8.504.u01-2	devario-development/java8-openjdk	Seed: `java-environment=8`
+02	js140	Added recipe	140.17.0-1	devario-libs/js140	—
+02	kcodecs	Added recipe	6.30.0-1	devario-libs/kcodecs	—
+02	ldns	Added recipe	1.9.2-1	devario-libs/ldns	Cycle G537 — seed packages required
+02	level-zero-headers	Added recipe	1.32.0-1	devario-development/level-zero	—
+02	level-zero-loader	Added recipe	1.32.0-1	devario-development/level-zero	—
+02	lib32-acl	Added recipe	2.4.0-1	devario-libs/lib32-acl	—
+02	lib32-cmocka	Added recipe	2.0.2-1	devario-development/lib32-cmocka	—
+02	lib32-directx-headers	Added recipe	1.619.5-1	devario-libs/lib32-directx-headers	—
+02	lib32-libasyncns	Added recipe	0.8+r3+g68cd5af-3	devario-libs/lib32-libasyncns	—
+02	lib32-libgcrypt	Added recipe	1.12.4-1	devario-libs/lib32-libgcrypt	—
+02	lib32-libldap	Added recipe	2.7.1-1	devario-libs/lib32-libldap	—
+02	lib32-libpciaccess	Added recipe	0.19-1	devario-libs/lib32-libpciaccess	—
+02	lib32-libpng	Added recipe	1.6.59-1	devario-libs/lib32-libpng	—
+02	lib32-libssh2	Added recipe	1.11.1-5	devario-libs/lib32-libssh2	—
+02	lib32-libvorbis	Added recipe	1.3.7-4	devario-libs/lib32-libvorbis	—
+02	lib32-libxdmcp	Added recipe	1.1.5-1	devario-libs/lib32-libxdmcp	—
+02	lib32-libxshmfence	Added recipe	1.3.3-1	devario-libs/lib32-libxshmfence	—
+02	lib32-nettle	Added recipe	4.0-2	devario-libs/lib32-nettle	—
+02	lib32-nspr	Added recipe	4.40-1	devario-libs/lib32-nspr	—
+02	lib32-p11-kit	Added recipe	0.26.5-1	devario-libs/lib32-p11-kit	—
+02	lib32-readline	Added recipe	8.3.3-1	devario-libs/lib32-readline	—
+02	lib32-util-linux	Added recipe	2.42.4-1	devario-libs/lib32-util-linux	—
+02	libavtp	Added recipe	0.2.0-3	devario-libs/libavtp	—
+02	libcbor	Added recipe	0.14.0-1	devario-libs/libcbor	—
+02	libclc	Added recipe	23.1.1-2	devario-libs/libclc	—
+02	libdc1394	Added recipe	2.2.7-2	devario-libs/libdc1394	—
+02	libdv	Added recipe	1.0.0-12	devario-libs/libdv	—
+02	libev	Added recipe	4.33-5	devario-libs/libev	—
+02	libgeotiff	Added recipe	1.7.4-1	devario-libs/libgeotiff	—
+02	libid3tag	Added recipe	0.16.4-1	devario-libs/libid3tag	—
+02	libieee1284	Added recipe	0.2.11-19	devario-libs/libieee1284	—
+02	libisoburn	Added recipe	1.5.8.2-1	devario-libs/libisoburn	—
+02	libmediainfo	Added recipe	26.10-1	devario-libs/libmediainfo	—
+02	libmpcdec	Added recipe	0.1+r475-6	devario-libs/musepack	—
+02	libnet	Added recipe	1.3-2	devario-libs/libnet	—
+02	librttopo	Added recipe	1.1.0-6	devario-libs/librttopo	—
+02	libunicode	Added recipe	0.9.2-1	devario-libs/libunicode	—
+02	libxmu	Added recipe	1.3.1-1	devario-libs/libxmu	—
+02	libxpm	Added recipe	3.5.19-1	devario-libs/libxpm	—
+02	libxpresent	Added recipe	1.0.2-1	devario-libs/libxpresent	—
+02	lsscsi	Added recipe	0.32-2	devario-utilities/lsscsi	—
+02	mgard	Added recipe	1.6.0-12	devario-libs/mgard	—
+02	mingw-w64-crt	Added recipe	14.0.0-1	devario-libs/mingw-w64-crt	Cycle G467 — seed packages required
+02	mingw-w64-gcc	Added recipe	16.2.0-2	devario-development/mingw-w64-gcc	Cycle G467 — seed packages required
+02	mingw-w64-winpthreads	Added recipe	14.0.0-1	devario-libs/mingw-w64-winpthreads	Cycle G467 — seed packages required
+02	musepack-tools	Added recipe	0.1+r475-6	devario-libs/musepack	—
+02	neon	Added recipe	0.37.1-1	devario-libs/neon	—
+02	neovim	Updated	0.12.5-2	devario-development/neovim	External prerequisites required; see Neovim note below
+02	netcdf	Added recipe	4.10.1-1	devario-libs/netcdf	—
+02	nodejs	Added recipe	26.11.1-1	devario-development/nodejs	—
+02	nodejs-lts-iron	Added recipe	20.20.2-1	devario-development/nodejs-lts-iron	—
+02	nodejs-lts-krypton	Added recipe	24.21.0-2	devario-development/nodejs-lts-krypton	—
+02	nwg-look	Added recipe	1.1.2-1	devario-utilities/nwg-look	—
+02	ocaml-findlib	Added recipe	1.9.8-7	devario-libs/ocaml-findlib	—
+02	ocamlbuild	Added recipe	0.16.1-7	devario-libs/ocamlbuild	—
+02	opam	Added recipe	2.6.1-1	devario-development/opam	—
+02	openjdk8-doc	Added recipe	8.504.u01-2	devario-development/java8-openjdk	Seed: `java-environment=8`
+02	openjdk8-src	Added recipe	8.504.u01-2	devario-development/java8-openjdk	Seed: `java-environment=8`
+02	openrgb	Added recipe	1.0-2	devario-utilities/openrgb	—
+02	opensp	Added recipe	1.5.2-11	devario-libs/opensp	—
+02	openvpn	Added recipe	2.7.8-2	devario-utilities/openvpn	—
+02	osinfo-db	Added recipe	20260812-1	devario-libs/osinfo-db	—
+02	patchutils	Added recipe	0.4.5-1	devario-development/patchutils	—
+02	perl-data-optlist	Added recipe	0.115-1	devario-libs/perl-data-optlist	—
+02	perl-font-ttf	Added recipe	1.06-6	devario-libs/perl-font-ttf	—
+02	perl-module-build	Added recipe	0.4234-6	devario-libs/perl-module-build	—
+02	perl-text-wrapi18n	Added recipe	0.06-10	devario-libs/perl-text-wrapi18n	—
+02	perl-unicode-linebreak	Added recipe	2019.001-9	devario-libs/perl-unicode-linebreak	—
+02	podofo	Added recipe	0.10.6-1	devario-libs/podofo	—
+02	podofo-tools	Added recipe	0.10.6-1	devario-libs/podofo	—
+02	popsicle	Added recipe	1.3.3-2	devario-utilities/popsicle	—
+02	postfix	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-cdb	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-ldap	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-lmdb	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-mongodb	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-mysql	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-pcre	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-pgsql	Added recipe	3.11.7-2	devario-development/postfix	—
+02	postfix-sqlite	Added recipe	3.11.7-2	devario-development/postfix	—
+02	proton-ge-custom-bin	Added recipe	GE_Proton11_7-1	devario-gaming/proton-ge-custom-bin	—
+02	python-beautifulsoup4	Added recipe	4.15.0-1	devario-libs/python-beautifulsoup4	Cycle G408 — seed packages required
+02	python-click	Added recipe	8.5.0-1	devario-libs/python-click	—
+02	python-cloudpickle	Added recipe	3.1.2-3	devario-libs/python-cloudpickle	—
+02	python-dnspython	Added recipe	2.8.0-3	devario-libs/python-dnspython	—
+02	python-idna	Added recipe	3.20-1	devario-libs/python-idna	—
+02	python-mdurl	Added recipe	0.1.2-9	devario-libs/python-mdurl	—
+02	python-mypy_extensions	Added recipe	1.1.0-2	devario-development/python-mypy_extensions	—
+02	python-py-cpuinfo2	Added recipe	10.1.1-1	devario-libs/python-py-cpuinfo2	—
+02	python-pyparsing	Added recipe	3.3.3-1	devario-libs/python-pyparsing	—
+02	python-roman-numerals-py	Added recipe	4.1.0-1	devario-libs/python-roman-numerals-py	—
+02	python-soupsieve	Added recipe	2.10-1	devario-libs/python-soupsieve	Cycle G408 — seed packages required
+02	python-sphinx-alabaster-theme	Added recipe	1.0.0-6	devario-development/python-sphinx-alabaster-theme	—
+02	python-sphinxcontrib-applehelp	Added recipe	2.0.0-5	devario-development/python-sphinxcontrib-applehelp	—
+02	python-sphinxcontrib-devhelp	Added recipe	2.0.0-6	devario-development/python-sphinxcontrib-devhelp	—
+02	python-sphinxcontrib-htmlhelp	Added recipe	2.1.0-5	devario-development/python-sphinxcontrib-htmlhelp	—
+02	python-sphinxcontrib-qthelp	Added recipe	2.0.0-5	devario-development/python-sphinxcontrib-qthelp	—
+02	python-sphinxcontrib-serializinghtml	Added recipe	2.0.0-5	devario-development/python-sphinxcontrib-serializinghtml	—
+02	qt5-x11extras	Added recipe	5.15.19-1	devario-libs/qt5-x11extras	—
+02	qt6-3d	Added recipe	6.12.0-1	devario-libs/qt6-3d	—
+02	qt6-httpserver	Added recipe	6.12.0-1	devario-libs/qt6-httpserver	—
+02	qt6-positioning	Added recipe	6.12.0-1	devario-libs/qt6-positioning	—
+02	qt6-quick3d	Added recipe	6.12.0-1	devario-libs/qt6-quick3d	—
+02	qt6-serialbus	Added recipe	6.12.0-1	devario-libs/qt6-serialbus	—
+02	read-edid	Added recipe	3.0.2-5	devario-utilities/read-edid	—
+02	riscv64-linux-gnu-binutils	Added recipe	2.47-1	devario-development/riscv64-linux-gnu-binutils	—
+02	rocfft	Added recipe	10.0-1	devario-libs/rocfft	—
+02	rocm-opencl-runtime	Added recipe	10.0-1	devario-libs/rocm-opencl-runtime	—
+02	rocprim	Added recipe	10.0-1	devario-libs/rocprim	—
+02	rocrand	Added recipe	10.0-3	devario-libs/rocrand	—
+02	ruby-kramdown-parser-gfm	Added recipe	1.1.0-6	devario-libs/ruby-kramdown-parser-gfm	—
+02	ruby-nokogiri	Added recipe	1.19.4-1	devario-libs/ruby-nokogiri	—
+02	sassc	Added recipe	3.6.2-5	devario-development/sassc	—
+02	sbsigntools	Added recipe	0.9.5-4	devario-development/sbsigntools	—
+02	seabios	Added recipe	1.17.0-3	devario-utilities/seabios	—
+02	seabios-docs	Added recipe	1.17.0-3	devario-utilities/seabios	—
+02	sound-theme-freedesktop	Added recipe	0.8-6	devario-libs/sound-theme-freedesktop	—
+02	sz	Added recipe	3.3.2-2	devario-libs/sz	—
+02	taglib	Added recipe	2.3.2-1	devario-libs/taglib	—
+02	tevent	Added recipe	0.17.2-2	devario-libs/tevent	—
+02	tk	Added recipe	9.0.1-1	devario-libs/tk	—
+02	unbound	Added recipe	1.26.1-3	devario-development/unbound	Cycle G537 — seed packages required
+02	unicode-emoji	Added recipe	17.0-1	devario-libs/unicode-emoji	—
+02	vde2	Added recipe	2.3.3-10	devario-utilities/vde2	—
+02	wget	Added recipe	1.25.0-6	devario-utilities/wget	—
+02	xorg-xdpyinfo	Added recipe	1.4.0-1	devario-utilities/xorg-xdpyinfo	—
+02	xorg-xrandr	Added recipe	1.5.4-1	devario-utilities/xorg-xrandr	—
+02	yelp-xsl	Added recipe	49.0-1	devario-libs/yelp-xsl	—
+02	zziplib	Added recipe	0.13.80-1	devario-libs/zziplib	—
+03	alsa-plugins	Added recipe	1.2.12-6	devario-libs/alsa-plugins	—
+03	aws-c-io	Added recipe	1.0.0-1	devario-libs/aws-c-io	—
+03	cgns	Added recipe	4.5.2-1	devario-development/cgns	—
+03	dune	Added recipe	3.24.2-1	devario-development/dune	Cycle G423 — seed packages required
+03	efitools	Added recipe	1.9.2-7	devario-utilities/efitools	—
+03	hipcub	Added recipe	10.0-1	devario-libs/hipcub	—
+03	hipfft	Added recipe	10.0-1	devario-libs/hipfft	—
+03	hiprand	Added recipe	10.0-1	devario-libs/hiprand	—
+03	ispc	Added recipe	1.31.0-2	devario-development/ispc	—
+03	jdk-openjdk	Updated	27.u35-2	devario-development/jdk-openjdk	Seed: `java-environment>=22`
+03	jdk11-openjdk	Added recipe	11.0.32.1.u1-2	devario-development/java11-openjdk	Seed: `java-environment=11`
+03	jdk17-openjdk	Added recipe	17.0.20.1.u1-2	devario-development/java17-openjdk	Seed: `java-environment=17`
+03	jdk21-openjdk	Added recipe	21.0.12.1.u1-2	devario-development/java21-openjdk	Seed: `java-environment=21`
+03	jdk25-openjdk	Added recipe	25.0.4.1.u1-2	devario-development/java25-openjdk	Seed: `java-environment=25`
+03	jre-openjdk	Updated	27.u35-2	devario-development/jdk-openjdk	Seed: `java-environment>=22`
+03	jre-openjdk-headless	Updated	27.u35-2	devario-development/jdk-openjdk	Seed: `java-environment>=22`
+03	jre11-openjdk	Added recipe	11.0.32.1.u1-2	devario-development/java11-openjdk	Seed: `java-environment=11`
+03	jre11-openjdk-headless	Added recipe	11.0.32.1.u1-2	devario-development/java11-openjdk	Seed: `java-environment=11`
+03	jre17-openjdk	Added recipe	17.0.20.1.u1-2	devario-development/java17-openjdk	Seed: `java-environment=17`
+03	jre17-openjdk-headless	Added recipe	17.0.20.1.u1-2	devario-development/java17-openjdk	Seed: `java-environment=17`
+03	jre21-openjdk	Added recipe	21.0.12.1.u1-2	devario-development/java21-openjdk	Seed: `java-environment=21`
+03	jre21-openjdk-headless	Added recipe	21.0.12.1.u1-2	devario-development/java21-openjdk	Seed: `java-environment=21`
+03	jre25-openjdk	Added recipe	25.0.4.1.u1-2	devario-development/java25-openjdk	Seed: `java-environment=25`
+03	jre25-openjdk-headless	Added recipe	25.0.4.1.u1-2	devario-development/java25-openjdk	Seed: `java-environment=25`
+03	lib32-e2fsprogs	Added recipe	1.47.4-1	devario-libs/lib32-e2fsprogs	—
+03	lib32-libavtp	Added recipe	0.2.0-3	devario-libs/lib32-libavtp	—
+03	lib32-libdrm	Added recipe	2.4.134-1	devario-libs/lib32-libdrm	—
+03	lib32-libxcb	Added recipe	1.17.0-1	devario-libs/lib32-libxcb	—
+03	lib32-libxml2	Added recipe	2.15.4-1	devario-libs/lib32-libxml2	—
+03	lib32-pcre2	Added recipe	10.49-1	devario-libs/lib32-pcre2	—
+03	lib32-pixman	Added recipe	0.46.4-1	devario-libs/lib32-pixman	—
+03	lib32-sqlite	Added recipe	3.53.4-1	devario-libs/lib32-sqlite	—
+03	libnbd	Added recipe	1.24.3-1	devario-libs/libnbd	—
+03	libspatialite	Added recipe	5.1.0-4	devario-libs/libspatialite	—
+03	libxaw	Added recipe	1.0.16-2	devario-libs/libxaw	—
+03	mjpegtools	Added recipe	2.2.1-4	devario-development/mjpegtools	—
+03	node-gyp	Added recipe	13.1.0-1	devario-development/node-gyp	Cycle G012 — seed packages required
+03	nodejs-nopt	Added recipe	10.0.1-1	devario-libs/nodejs-nopt	Cycle G012 — seed packages required
+03	ocaml-csexp	Added recipe	1.5.2-10	devario-libs/ocaml-csexp	Cycle G423 — seed packages required
+03	ocaml-pp	Added recipe	2.0.0-6	devario-libs/ocaml-pp	Cycle G423 — seed packages required
+03	ocaml-re	Added recipe	1.14.0-3	devario-libs/ocaml-re	Cycle G423 — seed packages required
+03	ocaml-result	Added recipe	1.5-17	devario-libs/ocaml-result	Cycle G423 — seed packages required
+03	openal	Added recipe	1.25.2-2	devario-libs/openal	—
+03	openal-examples	Added recipe	1.25.2-2	devario-libs/openal	—
+03	openjade	Added recipe	1.3.2-10	devario-utilities/openjade	—
+03	openjdk-doc	Updated	27.u35-2	devario-development/jdk-openjdk	Seed: `java-environment>=22`
+03	openjdk-src	Updated	27.u35-2	devario-development/jdk-openjdk	Seed: `java-environment>=22`
+03	openjdk11-doc	Added recipe	11.0.32.1.u1-2	devario-development/java11-openjdk	Seed: `java-environment=11`
+03	openjdk11-src	Added recipe	11.0.32.1.u1-2	devario-development/java11-openjdk	Seed: `java-environment=11`
+03	openjdk17-doc	Added recipe	17.0.20.1.u1-2	devario-development/java17-openjdk	Seed: `java-environment=17`
+03	openjdk17-src	Added recipe	17.0.20.1.u1-2	devario-development/java17-openjdk	Seed: `java-environment=17`
+03	openjdk21-doc	Added recipe	21.0.12.1.u1-2	devario-development/java21-openjdk	Seed: `java-environment=21`
+03	openjdk21-src	Added recipe	21.0.12.1.u1-2	devario-development/java21-openjdk	Seed: `java-environment=21`
+03	openjdk25-doc	Added recipe	25.0.4.1.u1-2	devario-development/java25-openjdk	Seed: `java-environment=25`
+03	openjdk25-src	Added recipe	25.0.4.1.u1-2	devario-development/java25-openjdk	Seed: `java-environment=25`
+03	perl-sub-exporter	Added recipe	0.992-1	devario-libs/perl-sub-exporter	—
+03	po4a	Added recipe	0.74-1	devario-development/po4a	—
+03	pulseaudio-alsa	Added recipe	1.2.12-6	devario-libs/alsa-plugins	—
+03	python-markdown-it-py	Added recipe	4.2.0-1	devario-libs/python-markdown-it-py	—
+03	qt5pas	Added recipe	1.2.16-3	devario-libs/qt5pas	—
+03	qt6-graphs	Added recipe	6.12.0-1	devario-libs/qt6-graphs	—
+03	qt6-location	Added recipe	6.12.0-1	devario-libs/qt6-location	—
+03	qwen-code-bin	Added recipe	0.25.0-1	devario-development/qwen-code-bin	—
+03	riscv64-linux-gnu-gcc	Added recipe	16.2.1-1	devario-development/riscv64-linux-gnu-gcc	Cycle G512 — seed packages required
+03	riscv64-linux-gnu-glibc	Added recipe	2.44-1	devario-libs/riscv64-linux-gnu-glibc	Cycle G512 — seed packages required
+03	rocthrust	Added recipe	7.2.4-1	devario-libs/rocthrust	—
+03	ruby-ronn-ng	Added recipe	0.10.1-6	devario-libs/ruby-ronn-ng	—
+03	semver	Added recipe	7.8.5-1	devario-libs/semver	Cycle G012 — seed packages required
+03	spice	Added recipe	0.16.0-4	devario-libs/spice	—
+03	xclip	Added recipe	0.13-6	devario-utilities/xclip	—
+03	xorg-xauth	Added recipe	1.1.5-1	devario-development/xorg-xauth	—
+03	xorg-xeyes	Added recipe	1.3.1-1	devario-utilities/xorg-xeyes	—
+03	xorg-xinput	Added recipe	1.6.4-2	devario-utilities/xorg-xinput	—
+03	xorg-xkill	Added recipe	1.0.7-1	devario-utilities/xorg-xkill	—
+03	yarn	Added recipe	1.22.22-2	devario-development/yarn	Seed: `yarn`
+04	aws-c-event-stream	Added recipe	1.0.0-1	devario-libs/aws-c-event-stream	—
+04	aws-c-http	Added recipe	1.0.0-1	devario-libs/aws-c-http	—
+04	cline-cli	Added recipe	3.0.70-1	devario-development/cline-cli	—
+04	docbook-utils	Added recipe	0.6.15-1	devario-development/docbook-utils	—
+04	embree	Added recipe	4.4.1-1	devario-libs/embree	—
+04	espeak-ng	Added recipe	1.52.0-1	devario-utilities/espeak-ng	—
+04	git-lfs	Added recipe	3.8.0-1	devario-development/git-lfs	—
+04	groovy	Added recipe	6.0.0-1	devario-development/groovy	—
+04	lazarus	Added recipe	4.8-1	devario-development/lazarus	—
+04	lazarus-qt5	Added recipe	4.8-1	devario-development/lazarus	—
+04	lazarus-qt6	Added recipe	4.8-1	devario-development/lazarus	—
+04	lib32-keyutils	Added recipe	1.6.3-4	devario-libs/lib32-keyutils	Cycle G672 — seed packages required
+04	lib32-krb5	Added recipe	1.22.2-1	devario-libs/lib32-krb5	Cycle G672 — seed packages required
+04	lib32-libx11	Added recipe	1.8.13-1	devario-libs/lib32-libx11	—
+04	lib32-llvm	Added recipe	23.1.1-1	devario-libs/lib32-llvm	—
+04	lib32-llvm-libs	Added recipe	23.1.1-1	devario-libs/lib32-llvm	—
+04	lib32-wayland	Added recipe	1.26.0-1	devario-libs/lib32-wayland	—
+04	lib32-xcb-util-keysyms	Added recipe	0.4.1-2	devario-libs/lib32-xcb-util-keysyms	—
+04	lib32-xz	Added recipe	5.8.4-1	devario-libs/lib32-xz	—
+04	libvirt	Added recipe	12.8.0-1	devario-libs/libvirt	—
+04	libvirt-storage-gluster	Added recipe	12.8.0-1	devario-libs/libvirt	—
+04	libvirt-storage-iscsi-direct	Added recipe	12.8.0-1	devario-libs/libvirt	—
+04	marked	Added recipe	16.3.0-1	devario-libs/marked	—
+04	mpv	Added recipe	0.41.0-6	devario-entertainment/mpv	—
+04	ocaml-bigarray-compat	Added recipe	1.1.0-9	devario-libs/ocaml-bigarray-compat	—
+04	ocaml-stdlib-shims	Added recipe	0.3.0-14	devario-libs/ocaml-stdlib-shims	—
+04	ocaml-topkg	Added recipe	1.1.1-1	devario-libs/ocaml-topkg	—
+04	openimagedenoise	Added recipe	2.4.1-2	devario-libs/openimagedenoise	—
+04	perl-sub-prototype	Added recipe	0.03-3	devario-libs/perl-sub-prototype	—
+04	pnpm	Added recipe	12.10.1-1	devario-development/pnpm	Seed: `pnpm`
+04	python-mdit_py_plugins	Added recipe	0.6.1-1	devario-libs/python-mdit_py_plugins	—
+04	python-rich	Added recipe	15.0.0-1	devario-libs/python-rich	—
+04	typescript	Added recipe	6.0.3-1	devario-development/typescript	—
+05	asciidoc	Added recipe	10.2.1-3	devario-development/asciidoc	—
+05	aws-c-auth	Added recipe	1.0.0-1	devario-libs/aws-c-auth	—
+05	aws-c-mqtt	Added recipe	1.0.0-1	devario-libs/aws-c-mqtt	—
+05	capstone	Added recipe	5.0.9-1	devario-libs/capstone	—
+05	conduit-llnl	Added recipe	0.9.9-2	devario-libs/conduit-llnl	—
+05	dtc	Added recipe	1.8.1-1	devario-utilities/dtc	—
+05	flatbuffers	Added recipe	25.12.19-4	devario-libs/flatbuffers	—
+05	ghostscript	Added recipe	10.08.0-1	devario-utilities/ghostscript	Cycle G039 — seed packages required
+05	github-desktop	Added recipe	3.4.14-2	devario-development/github-desktop	—
+05	gyp	Added recipe	20240207.1615ec32-2	devario-development/gyp	—
+05	i2c-tools	Added recipe	4.4-4	devario-utilities/i2c-tools	—
+05	ijs	Added recipe	0.35-7	devario-libs/ijs	Cycle G039 — seed packages required
+05	lib32-clang	Added recipe	23.1.1-1	devario-libs/lib32-clang	—
+05	lib32-libxext	Added recipe	1.3.7-1	devario-libs/lib32-libxext	—
+05	lib32-libxfixes	Added recipe	6.0.2-1	devario-libs/lib32-libxfixes	—
+05	lib32-libxrender	Added recipe	0.9.12-1	devario-libs/lib32-libxrender	—
+05	lib32-spirv-llvm-translator	Added recipe	23.1.2-1	devario-libs/lib32-spirv-llvm-translator	—
+05	liblouis	Added recipe	3.39.0-1	devario-libs/liblouis	—
+05	libspeechd	Added recipe	0.12.1-4	devario-utilities/speech-dispatcher	—
+05	libvirt-python	Added recipe	12.8.0-1	devario-libs/libvirt-python	—
+05	mallard-ducktype	Added recipe	1.0.2-13	devario-development/mallard-ducktype	—
+05	marked-man	Added recipe	2.1.1-1	devario-development/marked-man	—
+05	mercurial	Added recipe	7.2.4-1	devario-development/mercurial	—
+05	net-snmp	Added recipe	5.9.5.2-1	devario-utilities/net-snmp	—
+05	ocaml-integers	Added recipe	0.8.0-1	devario-libs/ocaml-integers	—
+05	perl-sub-override	Added recipe	0.12-3	devario-libs/perl-sub-override	—
+05	python-accessible-pygments	Added recipe	0.0.5-3	devario-libs/python-accessible-pygments	—
+05	python-appdirs	Added recipe	1.4.4-12	devario-libs/python-appdirs	—
+05	python-argcomplete	Added recipe	3.7.2-1	devario-libs/python-argcomplete	—
+05	python-cachetools	Added recipe	7.2.1-1	devario-libs/python-cachetools	—
+05	python-capstone	Added recipe	5.0.9-1	devario-libs/capstone	—
+05	python-certifi	Added recipe	2026.07.22-1	devario-libs/python-certifi	—
+05	python-cppy	Added recipe	1.3.1-1	devario-libs/python-cppy	—
+05	python-cycler	Added recipe	0.12.1-4	devario-libs/python-cycler	—
+05	python-dbusmock	Added recipe	0.38.1-1	devario-development/python-dbusmock	—
+05	python-distlib	Added recipe	0.4.3-1	devario-libs/python-distlib	—
+05	python-evdev	Added recipe	2.0.0-1	devario-libs/python-evdev	—
+05	python-filelock	Added recipe	4.0.10-1	devario-libs/python-filelock	—
+05	python-flatbuffers	Added recipe	25.12.19-4	devario-libs/flatbuffers	—
+05	python-fonttools	Added recipe	4.66.1-1	devario-libs/python-fonttools	—
+05	python-fsspec	Added recipe	2026.9.0-1	devario-libs/python-fsspec	—
+05	python-gast	Added recipe	0.7.0-3	devario-libs/python-gast	—
+05	python-gmpy2	Added recipe	2.3.2-1	devario-libs/python-gmpy2	—
+05	python-greenlet	Added recipe	3.5.6-1	devario-libs/python-greenlet	—
+05	python-h11	Added recipe	0.16.0-2	devario-libs/python-h11	—
+05	python-httplib2	Added recipe	0.32.0-1	devario-libs/python-httplib2	—
+05	python-imagesize	Added recipe	2.0.1-1	devario-libs/python-imagesize	—
+05	python-iniconfig	Added recipe	2.3.0-1	devario-libs/python-iniconfig	—
+05	python-inputs	Added recipe	0.5-4	devario-libs/python-inputs	—
+05	python-joblib	Added recipe	1.6.0-2	devario-libs/python-joblib	—
+05	python-librt	Added recipe	0.16.0-1	devario-libs/python-librt	—
+05	python-magic	Added recipe	0.4.27-6	devario-libs/python-magic	—
+05	python-markdown	Added recipe	3.11.0-1	devario-libs/python-markdown	—
+05	python-markupsafe	Added recipe	3.0.4-1	devario-libs/python-markupsafe	—
+05	python-mpi4py	Added recipe	4.1.2-1	devario-libs/python-mpi4py	—
+05	python-msgpack	Added recipe	1.1.2-2	devario-libs/python-msgpack	—
+05	python-nodeenv	Added recipe	1.11.0-1	devario-libs/python-nodeenv	—
+05	python-pefile	Added recipe	2024.8.26-2	devario-libs/python-pefile	—
+05	python-py3c	Added recipe	1.4-6	devario-libs/python-py3c	—
+05	python-pyclipper	Added recipe	1.4.0-2	devario-libs/python-pyclipper	—
+05	python-pycparser	Added recipe	3.01-1	devario-libs/python-pycparser	—
+05	python-pycryptodomex	Added recipe	3.23.0-3	devario-libs/python-pycryptodomex	—
+05	python-pytz	Added recipe	2026.1-1	devario-libs/python-pytz	—
+05	python-pyzstd	Added recipe	0.19.1-3	devario-libs/python-pyzstd	—
+05	python-scikit-build-core	Added recipe	1.1.1-1	devario-libs/python-scikit-build-core	—
+05	python-semantic-version	Added recipe	2.10.0-9	devario-libs/python-semantic-version	—
+05	python-setuptools-reproducible	Added recipe	0.1-1	devario-development/python-setuptools-reproducible	—
+05	python-simplejson	Added recipe	4.2.0-1	devario-libs/python-simplejson	—
+05	python-six	Added recipe	1.17.0-3	devario-libs/python-six	—
+05	python-smartypants	Added recipe	2.0.2-2	devario-libs/python-smartypants	—
+05	python-snowballstemmer	Added recipe	3.1.1-1	devario-libs/python-snowballstemmer	—
+05	python-sphinxcontrib-jsmath	Added recipe	1.0.1-21	devario-development/python-sphinxcontrib-jsmath	—
+05	python-text-unidecode	Added recipe	1.3-13	devario-libs/python-text-unidecode	—
+05	python-thrift	Added recipe	0.22.0-6	devario-libs/thrift	—
+05	python-toml	Added recipe	0.10.2-13	devario-libs/python-toml	—
+05	python-ufonormalizer	Added recipe	0.6.3-2	devario-libs/python-ufonormalizer	—
+05	python-ujson	Added recipe	6.0.0-1	devario-libs/python-ujson	—
+05	python-unicodedata2	Added recipe	18.0.0-1	devario-libs/python-unicodedata2	—
+05	python-urllib3	Added recipe	2.8.0-1	devario-libs/python-urllib3	—
+05	python-vdf	Added recipe	4.0-5	devario-libs/python-vdf	—
+05	python-versioneer	Added recipe	0.29-5	devario-libs/python-versioneer	—
+05	python-webencodings	Added recipe	0.5.1-13	devario-libs/python-webencodings	—
+05	python-xxhash	Added recipe	4.0.1-1	devario-libs/python-xxhash	—
+05	python-zope-event	Added recipe	6.2-1	devario-libs/python-zope-event	—
+05	python-zope-interface	Added recipe	8.6-1	devario-libs/python-zope-interface	—
+05	python-zopfli	Added recipe	0.4.3-1	devario-libs/python-zopfli	—
+05	python-zstandard	Added recipe	0.25.0-3	devario-libs/python-zstandard	—
+05	reflector	Added recipe	2023-6	devario-utilities/reflector	—
+05	scons	Added recipe	4.11.1-1	devario-development/scons	—
+05	speech-dispatcher	Added recipe	0.12.1-4	devario-utilities/speech-dispatcher	—
+05	thrift	Added recipe	0.22.0-6	devario-libs/thrift	—
+05	ufw	Added recipe	0.36.2-7	devario-core/ufw	—
+05	vesktop	Added recipe	1.6.7-1	devario-gaming/vesktop	—
+05	vkbasalt-cli	Added recipe	3.1.1-3	devario-gaming/vkbasalt-cli	—
+05	zfp	Added recipe	1.0.1-5	devario-libs/zfp	—
+06	aws-c-s3	Added recipe	1.3.0-1	devario-libs/aws-c-s3	—
+06	blosc2	Added recipe	3.3.5-1	devario-libs/blosc2	—
+06	cifs-utils	Added recipe	7.8-1	devario-utilities/cifs-utils	Cycle G650 — seed packages required
+06	colm	Added recipe	0.14.7-5	devario-development/colm	—
+06	gradle	Added recipe	9.8.0-1	devario-development/gradle	—
+06	gradle-doc	Added recipe	9.8.0-1	devario-development/gradle	—
+06	gradle-src	Added recipe	9.8.0-1	devario-development/gradle	—
+06	ldb	Added recipe	4.25.0-2	devario-utilities/samba	Cycle G650 — seed packages required
+06	lib32-libxinerama	Added recipe	1.1.6-1	devario-libs/lib32-libxinerama	—
+06	lib32-libxrandr	Added recipe	1.5.5-1	devario-libs/lib32-libxrandr	—
+06	lib32-libxss	Added recipe	1.2.5-1	devario-libs/lib32-libxss	—
+06	lib32-libxxf86vm	Added recipe	1.1.7-1	devario-libs/lib32-libxxf86vm	—
+06	lib32-nss	Added recipe	3.131-1	devario-libs/lib32-nss	—
+06	libspectre	Added recipe	0.2.12-2	devario-libs/libspectre	—
+06	libtraceevent	Added recipe	1.9.0-1	devario-libs/libtraceevent	—
+06	libtraceevent-docs	Added recipe	1.9.0-1	devario-libs/libtraceevent	—
+06	libwbclient	Added recipe	4.25.0-2	devario-utilities/samba	Cycle G650 — seed packages required
+06	nanobind	Added recipe	3.1.0-1	devario-libs/nanobind	—
+06	nasm	Added recipe	3.02-1	devario-development/nasm	—
+06	ocaml-ctypes	Added recipe	0.24.0-2	devario-libs/ocaml-ctypes	—
+06	paraview-catalyst	Added recipe	2.1.0-2	devario-libs/paraview-catalyst	—
+06	pastebinit	Added recipe	1.5.1-2	devario-utilities/pastebinit	—
+06	patool	Added recipe	4.1.0-1	devario-utilities/patool	—
+06	python-babel	Added recipe	2.18.0-1	devario-libs/python-babel	—
+06	python-beniget	Added recipe	0.5.0-2	devario-libs/python-beniget	—
+06	python-booleanoperations	Added recipe	0.10.0-3	devario-libs/python-booleanoperations	—
+06	python-cffi	Added recipe	2.1.1-1	devario-libs/python-cffi	—
+06	python-dateutil	Added recipe	2.9.0-8	devario-libs/python-dateutil	—
+06	python-fontmath	Added recipe	0.10.0-1	devario-libs/python-fontmath	—
+06	python-fontpens	Added recipe	0.4.0-1	devario-libs/python-fontpens	—
+06	python-fs	Added recipe	2.4.16-6	devario-libs/python-fs	—
+06	python-html5lib	Added recipe	1.1-19	devario-libs/python-html5lib	—
+06	python-jinja	Added recipe	3.1.6-3	devario-libs/python-jinja	—
+06	python-kiwisolver	Added recipe	1.5.1-1	devario-libs/python-kiwisolver	—
+06	python-mako	Added recipe	1.4.3-1	devario-libs/python-mako	—
+06	python-mpmath	Added recipe	1.4.1-1	devario-libs/python-mpmath	—
+06	python-pytest	Added recipe	9.1.1-1	devario-development/python-pytest	—
+06	python-python-discovery	Added recipe	1.6.1-1	devario-libs/python-python-discovery	—
+06	python-setuptools-rust	Added recipe	1.13.0-1	devario-development/python-setuptools-rust	—
+06	python-slugify	Added recipe	9.1.2-1	devario-libs/python-slugify	—
+06	python-sphinx-theme-builder	Added recipe	0.2.0b2-9	devario-development/python-sphinx-theme-builder	—
+06	python-tensile	Added recipe	10.0-1	devario-libs/python-tensile	—
+06	python-typogrify	Added recipe	2.1.0-2	devario-libs/python-typogrify	—
+06	python-wsproto	Added recipe	1.3.2-1	devario-libs/python-wsproto	—
+06	python-xlib	Added recipe	0.33-7	devario-libs/python-xlib	—
+06	rebuild-detector	Added recipe	4.4.5-2	devario-development/rebuild-detector	—
+06	samba	Added recipe	4.25.0-2	devario-utilities/samba	Cycle G650 — seed packages required
+06	serf	Added recipe	1.3.10-2	devario-libs/serf	—
+06	smbclient	Added recipe	4.25.0-2	devario-utilities/samba	Cycle G650 — seed packages required
+06	strip-nondeterminism	Added recipe	1.15.1-1	devario-development/strip-nondeterminism	—
+07	adios2	Added recipe	2.12.1-6	devario-development/adios2	—
+07	aws-crt-cpp	Added recipe	0.43.8-1	devario-libs/aws-crt-cpp	—
+07	bootconfig	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	bpf	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	brltty-udev-generic	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	bun	Added recipe	1.4.2-3	devario-development/bun	—
+07	cpupower	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	dracut-brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	edk2-aarch64	Added recipe	202608-2	devario-utilities/edk2	—
+07	edk2-ovmf	Added recipe	202608-2	devario-utilities/edk2	—
+07	edk2-riscv64	Added recipe	202608-2	devario-utilities/edk2	—
+07	edk2-shell	Added recipe	202608-2	devario-utilities/edk2	—
+07	gi-docgen	Added recipe	2026.1-1	devario-libs/gi-docgen	—
+07	gjs	Added recipe	1.90.0-1	devario-libs/gjs	—
+07	hyperv	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	intel-speed-select	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	java-brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	java-hamcrest	Added recipe	3.0-3	devario-libs/java-hamcrest	—
+07	kcpuid	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	lib32-flac	Added recipe	1.5.0-1	devario-libs/lib32-flac	—
+07	libavif	Added recipe	1.4.2-1	devario-libs/libavif	—
+07	libtracefs	Added recipe	1.8.3-1	devario-libs/libtracefs	—
+07	libtracefs-docs	Added recipe	1.8.3-1	devario-libs/libtracefs	—
+07	linux-tools-meta	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	maturin	Updated	1.15.0-2	devario-core/maturin	—
+07	ocaml-brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	openh264	Added recipe	2.6.0-2	devario-libs/openh264	—
+07	openvdb	Added recipe	13.0.0-3	devario-libs/openvdb	—
+07	perf	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	pybind11	Added recipe	3.1.0-1	devario-libs/pybind11	—
+07	python-brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	python-cbor2	Added recipe	6.1.5-1	devario-libs/python-cbor2	—
+07	python-defcon	Added recipe	0.12.2-3	devario-libs/python-defcon	—
+07	python-gevent	Added recipe	26.9.0-1	devario-libs/python-gevent	—
+07	python-libcst	Added recipe	1.8.6-1	devario-libs/python-libcst	—
+07	python-maturin	Added split output	1.15.0-2	devario-core/maturin	—
+07	python-pandas	Added recipe	2.3.3-7	devario-libs/python-pandas	—
+07	python-pytest-playwright	Added recipe	0.9.0-1	devario-development/python-pytest-playwright	—
+07	python-pythran	Added recipe	0.19.0-1	devario-libs/python-pythran	—
+07	python-sympy	Added recipe	1.14.0-6	devario-libs/python-sympy	—
+07	subversion	Added recipe	1.14.5-5	devario-development/subversion	—
+07	tcl-brltty	Added recipe	6.9.1-3	devario-utilities/brltty	—
+07	tmon	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	towncrier	Added recipe	26.9.0-1	devario-development/towncrier	—
+07	turbostat	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	usbip	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+07	x86_energy_perf_policy	Added recipe	7.2.9-1	devario-utilities/linux-tools	—
+08	aws-sdk-cpp	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-core	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-ec2	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-firehose	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-iam	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-kinesis	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	aws-sdk-cpp-s3	Added recipe	1.11.906-1	devario-libs/aws-sdk-cpp	—
+08	cudnn-frontend	Added recipe	1.30.0-1	devario-libs/cudnn-frontend	—
+08	junit	Added recipe	4.13.2-3	devario-libs/junit	—
+08	lib32-libsndfile	Added recipe	1.2.2-3	devario-libs/lib32-libsndfile	—
+08	libheif	Added recipe	1.23.6-1	devario-libs/libheif	—
+08	libxdp	Added recipe	1.6.3-2	devario-utilities/xdp-tools	—
+08	ndctl	Added recipe	85-1	devario-libs/ndctl	—
+08	netpbm	Added recipe	10.86.51-1	devario-utilities/netpbm	—
+08	opencode	Added recipe	2.0.26-1	devario-development/opencode	—
+08	openvkl	Added recipe	2.0.2-1	devario-libs/openvkl	—
+08	powertop	Added recipe	2.16-1	devario-utilities/powertop	—
+08	python-ast-serialize	Added recipe	0.12.1-1	devario-libs/python-ast-serialize	—
+08	python-contourpy	Added recipe	1.4.0-1	devario-libs/python-contourpy	—
+08	python-cryptography	Added recipe	50.0.2-1	devario-libs/python-cryptography	—
+08	python-cudnn-frontend	Added recipe	1.30.0-1	devario-libs/cudnn-frontend	—
+08	python-mutatormath	Added recipe	3.0.1-7	devario-libs/python-mutatormath	—
+08	python-orjson	Added recipe	3.13.0-1	devario-libs/python-orjson	—
+08	python-uv	Added recipe	0.12.23-1	devario-development/uv	—
+08	python-uv-build	Added recipe	0.12.23-1	devario-development/uv	—
+08	qt6-webengine	Added recipe	6.11.2-2	devario-libs/qt6-webengine	—
+08	sdl2_image	Added recipe	2.8.12-2	devario-libs/sdl2_image	—
+08	uv	Added recipe	0.12.23-1	devario-development/uv	—
+08	xdp-tools	Added recipe	1.6.3-2	devario-utilities/xdp-tools	—
+09	ant	Added recipe	1.10.17-1	devario-development/ant	—
+09	ant-doc	Added recipe	1.10.17-1	devario-development/ant	—
+09	fig2dev	Added recipe	3.2.9-2	devario-development/fig2dev	—
+09	gd	Added recipe	2.3.3-9	devario-libs/gd	—
+09	hspell	Added recipe	1.4-7	devario-development/hspell	—
+09	hunspell-he	Added recipe	1.4-7	devario-development/hspell	—
+09	imlib2	Added recipe	1.12.7-3	devario-libs/imlib2	—
+09	lib32-libsamplerate	Added recipe	0.2.2-3	devario-libs/lib32-libsamplerate	—
+09	mypy	Added recipe	2.4.0-1	devario-development/mypy	—
+09	ospray	Added recipe	3.2.0-8	devario-development/ospray	—
+09	qt6-webview	Added recipe	6.12.0-1	devario-libs/qt6-webview	—
+10	libcaca	Added recipe	0.99.beta20-7	devario-libs/libcaca	—
+10	libgphoto2	Added recipe	2.5.34-1	devario-libs/libgphoto2	—
+10	libgphoto2-docs	Added recipe	2.5.34-1	devario-libs/libgphoto2	—
+10	libsynctex	Added recipe	2026.0-3	devario-utilities/texlive-bin	—
+10	php	Added recipe	8.5.11-1	devario-development/php	—
+10	php-apache	Added recipe	8.5.11-1	devario-development/php	—
+10	php-cgi	Added recipe	8.5.11-1	devario-development/php	—
+10	php-dblib	Added recipe	8.5.11-1	devario-development/php	—
+10	php-embed	Added recipe	8.5.11-1	devario-development/php	—
+10	php-enchant	Added recipe	8.5.11-1	devario-development/php	—
+10	php-fpm	Added recipe	8.5.11-1	devario-development/php	—
+10	php-gd	Added recipe	8.5.11-1	devario-development/php	—
+10	php-legacy	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-apache	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-cgi	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-dblib	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-embed	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-enchant	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-fpm	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-gd	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-odbc	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-pgsql	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-phpdbg	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-pspell	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-snmp	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-sodium	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-sqlite	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-tidy	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-legacy-xsl	Added recipe	8.3.35-1	devario-development/php-legacy	—
+10	php-odbc	Added recipe	8.5.11-1	devario-development/php	—
+10	php-pgsql	Added recipe	8.5.11-1	devario-development/php	—
+10	php-phpdbg	Added recipe	8.5.11-1	devario-development/php	—
+10	php-snmp	Added recipe	8.5.11-1	devario-development/php	—
+10	php-sodium	Added recipe	8.5.11-1	devario-development/php	—
+10	php-sqlite	Added recipe	8.5.11-1	devario-development/php	—
+10	php-tidy	Added recipe	8.5.11-1	devario-development/php	—
+10	php-xsl	Added recipe	8.5.11-1	devario-development/php	—
+10	python-charset-normalizer	Added recipe	3.5.1-1	devario-libs/python-charset-normalizer	—
+10	sonnet	Added recipe	6.30.0-1	devario-libs/sonnet	—
+10	texlive-bin	Added recipe	2026.0-3	devario-utilities/texlive-bin	—
+11	check	Added recipe	0.15.2-4	devario-libs/check	—
+11	check-docs	Added recipe	0.15.2-4	devario-libs/check	—
+11	dvisvgm	Added recipe	3.6.1-1	devario-utilities/dvisvgm	Cycle G101 — seed packages required
+11	grpc	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	grpc-cli	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	openai-codex	Added recipe	0.162.0-1	devario-development/openai-codex	—
+11	openai-codex-voice	Added recipe	0.162.0-1	devario-development/openai-codex	—
+11	php-grpc	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	php-legacy-grpc	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	python-grpcio	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	python-grpcio-tools	Added recipe	1.84.0-2	devario-libs/grpc	—
+11	python-requests	Added recipe	2.34.2-1	devario-libs/python-requests	—
+11	qt6-multimedia	Added recipe	6.12.0-1	devario-libs/qt6-multimedia	—
+11	qt6-multimedia-ffmpeg	Added recipe	6.12.0-1	devario-libs/qt6-multimedia	—
+11	qt6-multimedia-gstreamer	Added recipe	6.12.0-1	devario-libs/qt6-multimedia	—
+11	texlive-basic	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-bibtexextra	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-binextra	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-context	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-doc	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-fontsextra	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-fontsrecommended	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-fontutils	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-formatsextra	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-games	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-humanities	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langarabic	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langchinese	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langcjk	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langcyrillic	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langczechslovak	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langenglish	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langeuropean	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langfrench	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langgerman	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langgreek	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langitalian	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langjapanese	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langkorean	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langother	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langpolish	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langportuguese	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-langspanish	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-latex	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-latexextra	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-latexrecommended	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-luatex	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-mathscience	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-meta	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-metapost	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-music	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-pictures	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-plaingeneric	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-pstricks	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-publishers	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+11	texlive-xetex	Added recipe	2026.1-3	devario-utilities/texlive-texmf	Cycle G101 — seed packages required
+12	arrow	Added recipe	25.0.1-7	devario-libs/arrow	—
+12	bind	Added recipe	9.20.29-2	devario-utilities/bind	—
+12	contour	Added recipe	0.7.0.8982-1	devario-utilities/contour	—
+12	dblatex	Added recipe	0.3.12-13	devario-development/dblatex	—
+12	define	Added recipe	1.74-2	devario-productivity/define	—
+12	electron43	Added recipe	43.7.9-1	devario-libs/electron43	—
+12	fontforge	Added recipe	20251009-5	devario-libs/fontforge	—
+12	gl2ps	Added recipe	1.4.3-1	devario-libs/gl2ps	—
+12	python-distro	Added recipe	1.9.0-4	devario-libs/python-distro	—
+12	python-pooch	Added recipe	1.9.0-1	devario-libs/python-pooch	—
+12	python-pyudev	Added recipe	0.24.4-1	devario-libs/python-pyudev	—
+12	python-sphinx-argparse	Added recipe	0.6.1-1	devario-development/python-sphinx-argparse	—
+12	python-sphinx-autodoc-typehints	Added recipe	3.13.9-1	devario-development/python-sphinx-autodoc-typehints	—
+12	python-sphinx-basic-ng	Added recipe	1.0.0b2-4	devario-development/python-sphinx-basic-ng	—
+12	python-sphinx-copybutton	Added recipe	0.5.2-5	devario-development/python-sphinx-copybutton	—
+12	python-sphinx-inline-tabs	Added recipe	2023.04.21-5	devario-development/python-sphinx-inline-tabs	—
+12	python-sphinx-issues	Added recipe	5.0.1-1	devario-development/python-sphinx-issues	—
+12	python-sphinxcontrib-jquery	Added recipe	4.1-5	devario-development/python-sphinxcontrib-jquery	—
+12	python-sphinxcontrib-mermaid	Added recipe	2.1.1-1	devario-development/python-sphinxcontrib-mermaid	—
+12	python-sphinxcontrib-towncrier	Added recipe	0.5.0a0-2	devario-development/python-sphinxcontrib-towncrier	—
+12	qt6-speech	Added recipe	6.12.0-1	devario-libs/qt6-speech	—
+12	virglrenderer	Added recipe	1.3.0-2	devario-libs/virglrenderer	—
+13	podman-desktop	Added recipe	1.29.3-1	devario-development/podman-desktop	—
+13	pyside6	Added recipe	6.12.0-1	devario-libs/pyside6	—
+13	pyside6-tools	Added recipe	6.12.0-1	devario-libs/pyside6	—
+13	python-pip	Added recipe	26.2.1-1	devario-libs/python-pip	—
+13	python-pyarrow	Added recipe	25.0.1-1	devario-libs/python-pyarrow	—
+13	python-scipy	Added recipe	1.18.1-1	devario-libs/python-scipy	—
+13	python-sphinx-furo	Added recipe	2025.12.19-2	devario-development/python-sphinx-furo	—
+13	python-sphinx_rtd_theme	Added recipe	3.1.0-1	devario-development/python-sphinx_rtd_theme	—
+13	python-userpath	Added recipe	1.9.2-4	devario-libs/python-userpath	—
+13	python-virtualenv	Added recipe	21.14.5-1	devario-libs/python-virtualenv	—
+13	ragel	Added recipe	7.0.4-1	devario-development/ragel	—
+13	rutabaga-ffi	Added recipe	0.1.85-1	devario-libs/rutabaga-ffi	—
+13	shiboken6	Added recipe	6.12.0-1	devario-libs/pyside6	—
+13	shiboken6-generator	Added recipe	6.12.0-1	devario-libs/pyside6	—
+13	solaar	Added recipe	1.1.20-2	devario-utilities/solaar	—
+13	ttf-liberation	Added recipe	2.1.5-2	devario-libs/ttf-liberation	—
+14	blueprint-compiler	Added recipe	0.22.2-1	devario-development/blueprint-compiler	—
+14	chromium	Added recipe	153.0.8010.52-1	devario-browser/chromium	—
+14	kguiaddons	Added recipe	6.30.0-2	devario-libs/kguiaddons	—
+14	python-lxml	Added recipe	6.1.3_1-1	devario-libs/python-lxml	—
+14	python-lxml-docs	Added recipe	6.1.3_1-1	devario-libs/python-lxml	—
+14	python-pipx	Added recipe	1.15.0-1	devario-development/python-pipx	—
+14	rocblas	Added recipe	7.2.4-3	devario-libs/rocblas	—
+15	breeze-icons	Added recipe	6.30.0-1	devario-libs/breeze-icons	—
+15	kcolorscheme	Added recipe	6.30.0-1	devario-libs/kcolorscheme	—
+15	lib32-vulkan-icd-loader	Added recipe	1.4.363.0-1	devario-libs/lib32-vulkan-icd-loader	—
+15	python-fontparts	Added recipe	1.1.1-2	devario-libs/python-fontparts	—
+15	python-steam	Added recipe	2.0.0.alpha1-3	devario-libs/python-steam	—
+15	rocsparse	Added recipe	7.2.4-1	devario-libs/rocsparse	—
+15	yelp-tools	Added recipe	42.1-2	devario-development/yelp-tools	—
+16	gtk-doc	Added recipe	1.37.0-1	devario-libs/gtk-doc	—
+16	hipsparse	Added recipe	7.2.4-1	devario-libs/hipsparse	—
+16	kconfigwidgets	Added recipe	6.30.0-1	devario-libs/kconfigwidgets	—
+16	kiconthemes	Added recipe	6.30.0-1	devario-libs/kiconthemes	—
+16	ksvg	Added recipe	6.30.0-1	devario-libs/ksvg	—
+16	protonup-qt	Added recipe	2.15.1-2	devario-gaming/protonup-qt	—
+16	python-ufoprocessor	Added recipe	1.14.1-2	devario-libs/python-ufoprocessor	—
+16	rocsolver	Added recipe	7.2.4-1	devario-libs/rocsolver	—
+16	zenity	Added recipe	4.2.2-1	devario-utilities/zenity	—
+17	afdko	Added recipe	5.0.1-2	devario-libs/afdko	—
+17	dbus-glib	Added recipe	0.116-1	devario-libs/dbus-glib	—
+17	gnome-desktop	Added recipe	51.0-1	devario-libs/gnome-desktop	—
+17	gnome-desktop-4	Added recipe	51.0-1	devario-libs/gnome-desktop	—
+17	gnome-desktop-common	Added recipe	51.0-1	devario-libs/gnome-desktop	—
+17	gnome-desktop-docs	Added recipe	51.0-1	devario-libs/gnome-desktop	—
+17	hipblas	Added recipe	7.2.4-1	devario-libs/hipblas	—
+17	hipsolver	Added recipe	7.2.4-1	devario-libs/hipsolver	—
+17	kirigami-addons	Added recipe	1.15.0-1	devario-libs/kirigami-addons	—
+17	lib32-libidn2	Added recipe	2.3.8-1	devario-libs/lib32-libidn2	—
+17	libcanberra	Added recipe	0.30+r2+gc0620e4-6	devario-libs/libcanberra	—
+17	libgsf	Added recipe	1.14.60-1	devario-libs/libgsf	—
+17	libgsf-docs	Added recipe	1.14.60-1	devario-libs/libgsf	—
+17	libgxps	Added recipe	0.3.2-5	devario-libs/libgxps	—
+17	libiptcdata	Added recipe	1.0.5-5	devario-libs/libiptcdata	—
+17	libraqm	Added recipe	0.11.0-1	devario-libs/libraqm	—
+17	phodav	Added recipe	3.0-4	devario-libs/phodav	—
+17	poppler	Added recipe	26.08.0-1	devario-libs/poppler	—
+17	poppler-glib	Added recipe	26.08.0-1	devario-libs/poppler	—
+17	poppler-qt5	Added recipe	26.08.0-1	devario-libs/poppler	—
+17	poppler-qt6	Added recipe	26.08.0-1	devario-libs/poppler	—
+17	qqc2-desktop-style	Added recipe	6.30.0-1	devario-libs/qqc2-desktop-style	—
+17	raptor	Added recipe	2.0.16-9	devario-libs/raptor	—
+17	rocalution	Added recipe	7.2.4-1	devario-libs/rocalution	—
+17	totem-pl-parser	Added recipe	3.26.7-1	devario-libs/totem-pl-parser	—
+17	vala	Added recipe	0.56.19-2	devario-development/vala	Seed: `vala`
+18	easyeffects	Added recipe	8.3.0-2	devario-entertainment/easyeffects	—
+18	gdal	Added recipe	3.13.3-3	devario-libs/gdal	—
+18	gexiv2	Added recipe	0.16.2-2	devario-libs/gexiv2	—
+18	gexiv2-common	Added recipe	0.16.2-2	devario-libs/gexiv2	—
+18	gexiv2-docs	Added recipe	0.16.2-2	devario-libs/gexiv2	—
+18	gnome-autoar	Added recipe	0.5.2-1	devario-libs/gnome-autoar	—
+18	gnome-autoar-docs	Added recipe	0.5.2-1	devario-libs/gnome-autoar	—
+18	gtk-vnc	Added recipe	1.5.0-1	devario-libs/gtk-vnc	—
+18	gtk-vnc-docs	Added recipe	1.5.0-1	devario-libs/gtk-vnc	—
+18	gupnp-dlna	Added recipe	0.12.0-5	devario-libs/gupnp-dlna	—
+18	gvim	Added recipe	9.2.1164-4	devario-development/vim	—
+18	hipblaslt	Added recipe	7.2.4-1	devario-libs/hipblaslt	—
+18	ibus	Added recipe	1.5.34-2	devario-utilities/ibus	—
+18	imagemagick	Added recipe	7.1.2.32-1	devario-entertainment/imagemagick	—
+18	lib32-gnutls	Added recipe	3.8.13-3	devario-libs/lib32-gnutls	—
+18	lib32-libpsl	Added recipe	0.21.5-1	devario-libs/lib32-libpsl	—
+18	libappindicator	Added recipe	12.10.1-2	devario-core/libappindicator	—
+18	libibus	Added recipe	1.5.34-2	devario-utilities/ibus	—
+18	liblrdf	Added recipe	0.6.1-5	devario-libs/liblrdf	—
+18	libmanette	Added recipe	0.2.13-2	devario-libs/libmanette	—
+18	libmanette-docs	Added recipe	0.2.13-2	devario-libs/libmanette	—
+18	libnma	Added recipe	1.10.6-3	devario-core/libnma	—
+18	libnma-common	Added recipe	1.10.6-3	devario-core/libnma	—
+18	libnma-gtk4	Added recipe	1.10.6-3	devario-core/libnma	—
+18	libosinfo	Added recipe	1.12.0-3	devario-libs/libosinfo	—
+18	libportal	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libportal-docs	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libportal-gtk3	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libportal-gtk4	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libportal-qt5	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libportal-qt6	Added recipe	0.11.0-1	devario-libs/libportal	—
+18	libvirt-glib	Added recipe	5.0.0-3	devario-libs/libvirt-glib	—
+18	ollama	Added recipe	0.40.1-1	devario-development/ollama	—
+18	ollama-cuda	Added recipe	0.40.1-1	devario-development/ollama	—
+18	ollama-docs	Added recipe	0.40.1-1	devario-development/ollama	—
+18	ollama-rocm	Added recipe	0.40.1-1	devario-development/ollama	—
+18	ollama-vulkan	Added recipe	0.40.1-1	devario-development/ollama	—
+18	pavucontrol	Added recipe	6.2-1	devario-utilities/pavucontrol	—
+18	python-gdal	Added recipe	3.13.3-3	devario-libs/gdal	—
+18	python-pillow	Added recipe	12.3.0-1	devario-libs/python-pillow	—
+18	sane	Added recipe	1.4.0-4	devario-development/sane	—
+18	spice-gtk	Added recipe	0.43-1	devario-libs/spice-gtk	—
+18	vim	Added recipe	9.2.1164-4	devario-development/vim	—
+18	vim-runtime	Added recipe	9.2.1164-4	devario-development/vim	—
+18	vte-common	Added recipe	0.84.1-1	devario-libs/vte3	—
+18	vte-docs	Added recipe	0.84.1-1	devario-libs/vte3	—
+18	vte3	Added recipe	0.84.1-1	devario-libs/vte3	—
+18	vte3-utils	Added recipe	0.84.1-1	devario-libs/vte3	—
+18	vte4	Added recipe	0.84.1-1	devario-libs/vte3	—
+18	vte4-utils	Added recipe	0.84.1-1	devario-libs/vte3	—
+19	lib32-libngtcp2	Added recipe	1.25.0-1	devario-libs/lib32-libngtcp2	—
+19	liblas	Added recipe	1.8.1.r145+g33097f17-3	devario-libs/liblas	—
+19	localsearch	Added recipe	3.12.0-1	devario-utilities/localsearch	—
+19	localsearch-testutils	Added recipe	3.12.0-1	devario-utilities/localsearch	—
+19	miopen-hip	Added recipe	7.2.4-1	devario-libs/miopen-hip	—
+19	network-manager-applet	Added recipe	1.36.0-2	devario-core/network-manager-applet	—
+19	nm-connection-editor	Added recipe	1.36.0-2	devario-core/network-manager-applet	—
+19	pdal	Added recipe	2.10.1-1	devario-libs/pdal	—
+19	proton-cachyos-native	Added recipe	11.0.20261005-2	devario-gaming/proton-cachyos-native	—
+19	python-matplotlib	Added recipe	3.11.2-1	devario-libs/python-matplotlib	—
+19	python-pywal	Added recipe	3.3.0-11	devario-development/python-pywal	—
+19	qemu-audio-alsa	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-dbus	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-jack	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-oss	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-pa	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-pipewire	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-sdl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-audio-spice	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-base	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-block-curl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-block-dmg	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-block-iscsi	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-block-nfs	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-block-ssh	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-chardev-baum	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-chardev-spice	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-common	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-desktop	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-docs	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-emulators-full	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-full	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-guest-agent	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-qxl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu-gl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu-pci	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu-pci-gl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu-pci-rutabaga	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-gpu-rutabaga	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-vga	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-vga-gl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-display-virtio-vga-rutabaga	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-s390x-virtio-gpu-ccw	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-uefi-vars	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-usb-host	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-usb-redirect	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-hw-usb-smartcard	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-img	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-pr-helper	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-aarch64	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-alpha	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-alpha-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-arm	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-arm-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-avr	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-hexagon	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-hppa	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-hppa-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-loongarch64	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-m68k	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-microblaze	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-microblaze-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-mips	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-or1k	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-ppc	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-ppc-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-riscv	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-riscv-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-rx	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-s390x	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-s390x-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-sh4	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-sparc	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-sparc-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-tricore	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-x86	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-x86-firmware	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-system-xtensa	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-tests	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-tools	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-curses	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-dbus	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-egl-headless	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-gtk	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-opengl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-sdl	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-spice-app	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-ui-spice-core	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-user	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-user-binfmt	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-user-static	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-user-static-binfmt	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-vhost-user-gpu	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	qemu-vmsr-helper	Added recipe	11.1.2-2	devario-utilities/qemu	—
+19	wine	Added recipe	11.19-1	devario-gaming/wine	—
+19	wine-cachyos-opt	Added recipe	10.0.20260425-1	devario-gaming/wine-cachyos-opt	—
+19	zbar	Added recipe	0.23.93-7	devario-libs/zbar	—
+20	goverlay	Added recipe	1.9.3-1	devario-gaming/goverlay	—
+20	lib32-curl	Added recipe	8.22.0-1	devario-libs/lib32-curl	—
+20	lib32-libcurl-compat	Added recipe	8.22.0-1	devario-libs/lib32-curl	—
+20	lib32-libcurl-gnutls	Added recipe	8.22.0-1	devario-libs/lib32-curl	—
+20	libnautilus-extension	Added recipe	51.0.1-2	devario-utilities/nautilus	—
+20	libnautilus-extension-docs	Added recipe	51.0.1-2	devario-utilities/nautilus	—
+20	migraphx	Added recipe	7.2.3-7	devario-libs/migraphx	—
+20	nautilus	Added recipe	51.0.1-2	devario-utilities/nautilus	—
+20	rocm-hip-libraries	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-hip-runtime	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-hip-sdk	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-language-runtime	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-ml-libraries	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-ml-sdk	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	rocm-opencl-sdk	Added recipe	7.2.4-1	devario-development/rocm-hip-sdk	—
+20	winetricks	Added recipe	20260125-2	devario-gaming/winetricks	—
+21	file-roller	Added recipe	44.7-1	devario-utilities/file-roller	—
+21	lib32-libelf	Added recipe	0.196-2	devario-libs/lib32-libelf	—
+21	onnxruntime-cpu	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	onnxruntime-cuda	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	onnxruntime-opt-cuda	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	onnxruntime-opt-rocm	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	onnxruntime-rocm	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	protontricks	Added recipe	1.14.1-1	devario-gaming/protontricks	—
+21	python-onnxruntime-cpu	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	python-onnxruntime-cuda	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	python-onnxruntime-opt-cuda	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	python-onnxruntime-opt-rocm	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+21	python-onnxruntime-rocm	Added recipe	1.29.0-3	devario-development/onnxruntime	—
+22	lib32-dbus	Added recipe	1.16.2-1	devario-libs/lib32-dbus	Cycle G688 — seed packages required
+22	lib32-glib2	Added recipe	2.90.1-2	devario-libs/lib32-glib2	Cycle G688 — seed packages required
+22	lib32-systemd	Added recipe	262-2	devario-libs/lib32-systemd	Cycle G688 — seed packages required
+22	opencascade	Added recipe	7.9.3-4	devario-development/opencascade	Cycle G364 — seed packages required
+22	vtk	Added recipe	9.7.1-2	devario-libs/vtk	Cycle G364 — seed packages required
+23	lib32-cairo	Added recipe	1.18.6-1	devario-libs/lib32-cairo	Cycle G714 — seed packages required
+23	lib32-fontconfig	Added recipe	2.18.3-2	devario-libs/lib32-fontconfig	Cycle G714 — seed packages required
+23	lib32-freetype2	Added recipe	2.14.3-1	devario-libs/lib32-freetype2	Cycle G714 — seed packages required
+23	lib32-harfbuzz	Added recipe	14.6.0-1	devario-libs/lib32-harfbuzz	Cycle G714 — seed packages required
+23	lib32-harfbuzz-cairo	Added recipe	14.6.0-1	devario-libs/lib32-harfbuzz	Cycle G714 — seed packages required
+23	lib32-harfbuzz-icu	Added recipe	14.6.0-1	devario-libs/lib32-harfbuzz	Cycle G714 — seed packages required
+23	lib32-libglvnd	Added recipe	1.7.0-1	devario-libs/lib32-libglvnd	Cycle G734 — seed packages required
+23	lib32-libnm	Added recipe	1.58.1-2	devario-libs/lib32-libnm	—
+23	lib32-libpipewire	Added recipe	1.6.9-1	devario-libs/lib32-pipewire	—
+23	lib32-libpulse	Added recipe	17.0+r98+gb096704c0-1	devario-libs/lib32-libpulse	—
+23	lib32-libva	Added recipe	2.24.1-1	devario-libs/lib32-libva	Cycle G734 — seed packages required
+23	lib32-mesa	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-opencl-mesa	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-pipewire	Added recipe	1.6.9-1	devario-libs/lib32-pipewire	—
+23	lib32-pipewire-jack	Added recipe	1.6.9-1	devario-libs/lib32-pipewire	—
+23	lib32-pipewire-netjack2	Added recipe	1.6.9-1	devario-libs/lib32-pipewire	—
+23	lib32-pipewire-v4l2	Added recipe	1.6.9-1	devario-libs/lib32-pipewire	—
+23	lib32-vulkan-asahi	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-broadcom	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-dzn	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-freedreno	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-gfxstream	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-intel	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-mesa-implicit-layers	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-mesa-layers	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-nouveau	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-panfrost	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-powervr	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-radeon	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-swrast	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	lib32-vulkan-virtio	Added recipe	26.2.4-1	devario-libs/lib32-mesa	Cycle G734 — seed packages required
+23	opencv	Added recipe	5.0.0-13	devario-libs/opencv	—
+23	opencv-cuda	Added recipe	5.0.0-13	devario-libs/opencv	—
+23	opencv-samples	Added recipe	5.0.0-13	devario-libs/opencv	—
+23	python-opencv	Added recipe	5.0.0-13	devario-libs/opencv	—
+23	python-opencv-cuda	Added recipe	5.0.0-13	devario-libs/opencv	—
+24	lib32-alsa-plugins	Added recipe	1.2.12-1	devario-libs/lib32-alsa-plugins	—
+24	zxing-cpp	Added recipe	3.1.1-1	devario-libs/zxing-cpp	—
+25	proton-cachyos-slr	Added recipe	11.0.20261005-2	devario-gaming/proton-cachyos-slr	—
+25	umu-launcher	Added recipe	1.4.4-1	devario-gaming/umu-launcher	—
+25	webkit2gtk-4.1	Added recipe	2.54.1-1	devario-development/webkit2gtk-4.1	—
+25	webkit2gtk-4.1-docs	Added recipe	2.54.1-1	devario-development/webkit2gtk-4.1	—
+25	webkitgtk-6.0	Added recipe	2.54.1-1	devario-libs/webkitgtk-6.0	—
+25	webkitgtk-6.0-docs	Added recipe	2.54.1-1	devario-libs/webkitgtk-6.0	—
+26	font-manager	Added recipe	0.9.4-3	devario-utilities/font-manager	—
+26	glade	Added recipe	3.40.0+r31+g1b15f940-4	devario-development/glade	—
+27	gtksourceview4	Added recipe	4.8.4-2	devario-libs/gtksourceview4	—
+27	libhandy	Added recipe	1.8.3-2	devario-core/libhandy	—
+27	libhandy-docs	Added recipe	1.8.3-2	devario-core/libhandy	—
+28	meld	Added recipe	3.24.1-1	devario-development/meld	—
+28	seahorse	Added recipe	47.0.1-6	devario-core/seahorse	—
+28	virt-install	Added recipe	5.1.0-4	devario-development/virt-manager	—
+28	virt-manager	Added recipe	5.1.0-4	devario-development/virt-manager	—
+28	xpad	Added recipe	5.9.0-1	devario-gaming/xpad	—

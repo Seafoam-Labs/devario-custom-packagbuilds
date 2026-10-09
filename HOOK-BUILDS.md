@@ -1,6 +1,6 @@
 # Shelly/RLPM hook audit — 2026-10-08
 
-For the three recipes changed in the latest hook audit, use [the latest-only build order](LATEST-BUILD-ORDER.md), with all 43 package outputs listed individually.
+For every package added or updated in commit `8a82447`, use [the commit build order](LATEST-BUILD-ORDER.md): 1,321 outputs from 900 affected recipes, individually listed in stages and labeled by change type.
 
 The audit checked **1,250 local recipe directories** and **66 bundled hook
 files from 30 recipes**, plus rebuild-detector's generated upstream hook.

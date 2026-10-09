@@ -1,6 +1,6 @@
 # Devario builder order
 
-For the three recipes changed in the latest hook audit, use [the latest-only build order](LATEST-BUILD-ORDER.md), with all 43 package outputs listed individually.
+For every package added or updated in commit `8a82447`, use [the commit build order](LATEST-BUILD-ORDER.md): 1,321 outputs from 900 affected recipes, individually listed in stages and labeled by change type.
 
 Each stage below lists every package by name, with its build recipe and bootstrap requirement. The order covers **908 recipes in 28 stages**: the 896 new recipes and 12 reused existing recipes from this application expansion.
 
