@@ -1,0 +1,16 @@
+pkgbase = python-execnet
+	pkgdesc = Rapid multi-Python deployment and inter-process communication
+	pkgver = 2.1.2
+	pkgrel = 1
+	url = https://execnet.readthedocs.io/
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-hatchling
+	makedepends = python-hatch-vcs
+	depends = python
+	source = https://files.pythonhosted.org/packages/source/e/execnet/execnet-2.1.2.tar.gz
+	sha256sums = 63d83bfdd9a23e35b9c6a3261412324f964c2ec8dcd8d3c6916ee9373e0befcd
+
+pkgname = python-execnet

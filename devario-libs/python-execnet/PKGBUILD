@@ -1,0 +1,30 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-execnet
+_name=execnet
+pkgver=2.1.2
+pkgrel=1
+pkgdesc='Rapid multi-Python deployment and inter-process communication'
+arch=(any)
+url='https://execnet.readthedocs.io/'
+license=(MIT)
+depends=(python)
+makedepends=(
+  python-build
+  python-installer
+  python-hatchling
+  python-hatch-vcs
+)
+source=("https://files.pythonhosted.org/packages/source/e/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('63d83bfdd9a23e35b9c6a3261412324f964c2ec8dcd8d3c6916ee9373e0befcd')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

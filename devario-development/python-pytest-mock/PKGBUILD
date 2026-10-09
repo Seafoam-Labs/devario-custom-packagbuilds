@@ -1,0 +1,31 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-pytest-mock
+_name=pytest_mock
+pkgver=3.16.0
+pkgrel=1
+pkgdesc='Thin wrapper around unittest.mock for easier use with pytest'
+arch=(any)
+url='https://pytest-mock.readthedocs.io/'
+license=(MIT)
+depends=('python>=3.10' 'python-pytest>=6.2.5')
+makedepends=(
+  python-build
+  python-installer
+  python-setuptools
+  python-setuptools-scm
+  python-wheel
+)
+source=("https://files.pythonhosted.org/packages/source/p/pytest-mock/$_name-$pkgver.tar.gz")
+sha256sums=('5a8395528b8f498205f3718f575228d0edaed7425fff638f87d1a6c3e0383636')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
