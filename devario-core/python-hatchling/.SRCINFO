@@ -1,6 +1,6 @@
 pkgbase = python-hatchling
 	pkgdesc = Extensible, standards compliant build backend used by Hatch
-	pkgver = 1.32.3
+	pkgver = 1.32.4
 	pkgrel = 1
 	url = https://github.com/pypa/hatch/tree/master/backend
 	arch = any
@@ -23,7 +23,7 @@ pkgbase = python-hatchling
 	depends = python-pluggy
 	depends = python-tomlkit
 	depends = python-trove-classifiers
-	source = https://github.com/pypa/hatch/archive/hatchling-v1.32.3.tar.gz
-	b2sums = 6e88de250bd737d5e97f8e256c2312cf98c508ca5f963439894c7d76833a5fa0e0cf9b0ef05a7e6567b3f38fde7c01012a688fca150279f62f1258572c3aeb2c
+	source = https://github.com/pypa/hatch/archive/hatchling-v1.32.4.tar.gz
+	b2sums = be84990cf0a04a180221fa14642e7245c2b58830f2d538ba82446e4f525812cd9af598cc41e734b9c9e158c103c8f073abf2e5f240fa6fedf83d154bd092c453
 
 pkgname = python-hatchling

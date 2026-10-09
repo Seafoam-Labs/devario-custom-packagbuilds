@@ -1,0 +1,22 @@
+pkgbase = python-pyproject-api
+	pkgdesc = API to interact with the python pyproject.toml based projects
+	pkgver = 1.11.3
+	pkgrel = 2
+	url = https://github.com/tox-dev/pyproject-api
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-mock
+	checkdepends = python-virtualenv
+	makedepends = python-build
+	makedepends = python-hatch-vcs
+	makedepends = python-hatchling>=1.32.4
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	depends = python-packaging
+	source = pyproject-api-1.11.3.tar.gz::https://github.com/tox-dev/pyproject-api/archive/refs/tags/1.11.3.tar.gz
+	sha512sums = 0bf22696050b3cf85132a0bd7d0c8d777625a0cd4e10f7af60c0af13d30e457c47bd6ff4e58d9e1365415d4152cc7003f824de0c6f84e20490b2960b4d60f48e
+	b2sums = 9965abfb0fdb09d2d936623509913e2b29b474a0de98a853cae0e29fa3506d105692b265978b45980648d18b423e5abab33408d18ce1497794b19303d5494ed4
+
+pkgname = python-pyproject-api

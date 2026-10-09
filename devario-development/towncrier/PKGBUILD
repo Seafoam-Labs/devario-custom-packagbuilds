@@ -1,8 +1,12 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
+# Bootstrap before Twisted and Mercurial are available in the worker repository.
+# Set to 0 and regenerate .SRCINFO for a rebuild with the full test suite.
+_bootstrap=1
+
 pkgname=towncrier
 pkgver=26.9.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Utility to produce useful, summarised news files for your project"
 arch=('any')
 url="https://github.com/twisted/towncrier"
@@ -18,10 +22,12 @@ makedepends=(
   'python-installer'
   'python-hatchling'
 )
-checkdepends=(
-  'python-twisted'
-  'mercurial'
-)
+if (( !_bootstrap )); then
+  checkdepends=(
+    'python-twisted'
+    'mercurial'
+  )
+fi
 source=("git+https://github.com/twisted/towncrier.git#tag=$pkgver")
 sha512sums=('f95e7ae5453c25aa5805f04b7a7e42639897f146c8426c9ec6f164a73a43650189008e73f94aaed944708825f97c3212629556db972726988cf5e1328c45a5ec')
 
@@ -31,6 +37,11 @@ build() {
 }
 
 check() {
+  if (( _bootstrap )); then
+    printf '%s\n' 'Skipping towncrier tests for bootstrap; rebuild with _bootstrap=0 after Twisted and Mercurial are available.'
+    return 0
+  fi
+
   cd towncrier
   python -m installer --destdir=tmp_install dist/*.whl
   local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')

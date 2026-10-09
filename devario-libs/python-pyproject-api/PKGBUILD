@@ -1,0 +1,56 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+
+_name=pyproject-api
+pkgname=python-pyproject-api
+pkgver=1.11.3
+pkgrel=2
+pkgdesc="API to interact with the python pyproject.toml based projects"
+arch=(any)
+url="https://github.com/tox-dev/pyproject-api"
+license=(MIT)
+depends=(
+  python
+  python-packaging
+)
+makedepends=(
+  python-build
+  python-hatch-vcs
+  'python-hatchling>=1.32.4'
+  python-installer
+  python-wheel
+)
+checkdepends=(
+  python-pytest
+  python-pytest-mock
+  python-virtualenv
+)
+source=($_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz)
+sha512sums=('0bf22696050b3cf85132a0bd7d0c8d777625a0cd4e10f7af60c0af13d30e457c47bd6ff4e58d9e1365415d4152cc7003f824de0c6f84e20490b2960b4d60f48e')
+b2sums=('9965abfb0fdb09d2d936623509913e2b29b474a0de98a853cae0e29fa3506d105692b265978b45980648d18b423e5abab33408d18ce1497794b19303d5494ed4')
+
+build() {
+  cd $_name-$pkgver
+  SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver python -m build --wheel --no-isolation
+}
+
+check() {
+  local pytest_options=(
+    -vv
+    # unclear why that fails
+    --deselect tests/test_frontend.py::test_missing_backend
+  )
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+  cd $_name-$pkgver
+  # install to temporary location, as importlib is used
+  python -m installer --destdir=test_dir dist/*.whl
+  export PYTHONPATH="$PWD/test_dir/$site_packages:$PYTHONPATH"
+  pytest "${pytest_options[@]}"
+}
+
+package() {
+  cd $_name-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

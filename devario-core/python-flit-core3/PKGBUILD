@@ -1,0 +1,34 @@
+# Flit 3 compatibility backend for projects requiring flit_core<4.
+pkgname=python-flit-core3
+_name=flit_core
+pkgver=3.12.0
+pkgrel=1
+pkgdesc='A PEP 517 build backend for packages requiring Flit Core below version 4'
+arch=(any)
+url='https://github.com/pypa/flit'
+license=(BSD-3-Clause)
+groups=(python-build-backend)
+depends=(python)
+makedepends=(python-installer)
+checkdepends=(python-pytest python-testpath)
+provides=("python-flit-core=$pkgver")
+conflicts=(python-flit-core)
+source=("https://files.pythonhosted.org/packages/source/f/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2')
+
+build() {
+  cd "$_name-$pkgver"
+  # Build with the backend in this source tree, independent of installed Flit.
+  python -m flit_core.wheel
+}
+
+check() {
+  cd "$_name-$pkgver"
+  python -m pytest -q tests_core
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
