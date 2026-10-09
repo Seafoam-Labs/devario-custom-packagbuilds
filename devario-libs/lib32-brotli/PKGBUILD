@@ -6,7 +6,7 @@
 
 pkgname=lib32-brotli
 pkgver=1.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Generic-purpose lossless compression algorithm (32-bit)'
 arch=(x86_64)
 license=(MIT)
@@ -21,6 +21,9 @@ makedepends=(
 )
 provides=(
   libbrotli{common,dec,enc}.so
+  'libbrotlicommon.so=1-32'
+  'libbrotlidec.so=1-32'
+  'libbrotlienc.so=1-32'
 )
 source=(git+https://github.com/google/brotli#tag=v$pkgver)
 sha512sums=('36b8fadb3e5de540746eea19c758234095fafc0a4a687bd70fc70b0f74036c03cf9c70a7339aa1626f1197b5ac707bf5b01e393f6cd26c90b78519529724871a')
@@ -46,9 +49,19 @@ check() {
 
 package() {
   DESTDIR="$pkgdir" cmake --install build
+  local lib
+  for lib in libbrotli{common,dec,enc}; do
+    _verify_soname "$pkgdir/usr/lib32/$lib.so" "$lib.so.1" || return 1
+  done
   rm -rf "${pkgdir}"/usr/{bin,include,lib32/*.a,share}
   install -dm 755 "${pkgdir}"/usr/share/licenses
   ln -s brotli "${pkgdir}"/usr/share/licenses/lib32-brotli
 }
 
 # vim:set sw=2 sts=-1 et:
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF32' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

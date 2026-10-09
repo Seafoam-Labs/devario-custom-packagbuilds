@@ -1,4 +1,55 @@
-# Multilib toolchain for compiler-rt21
+# Multilib build dependencies
+
+## Missing 32-bit audio, Brotli, and ICU ABI providers
+
+The isolated-root errors for ALSA plugins, curl, libxml2, and PipeWire identify
+four missing versioned provisions. Failures for libelf, Wayland, LLVM, Mesa,
+libglvnd, and libva cascade through those dependencies; retry resolution after
+publishing these providers before changing the dependent recipes.
+
+| Recipe | Rebuild release | Provision required by the reported failure |
+| --- | --- | --- |
+| [lib32-alsa-lib](devario-libs/lib32-alsa-lib/PKGBUILD) | `1.2.16.1-2` | `libasound.so=2-32` |
+| [lib32-brotli](devario-libs/lib32-brotli/PKGBUILD) | `1.2.0-3` | `libbrotlidec.so=1-32` |
+| [lib32-icu](devario-libs/lib32-icu/PKGBUILD) | `78.3-2` | `libicuuc.so=78-32` |
+| [lib32-opus](devario-libs/lib32-opus/PKGBUILD) | `1.6.1-2` | `libopus.so=0-32` |
+
+All four recipes retain bare library provisions and now explicitly advertise
+their versioned 32-bit ABIs. This includes ALSA topology, Brotli common/encoder,
+and the other ICU libraries already listed in their provides arrays. Packaging
+checks every advertised library for ELF32 and the expected SONAME, returning
+failure for an incorrect architecture or ABI. Source versions, checksums,
+patches, and signature verification remain unchanged.
+
+With a working multilib toolchain and each recipe's declared dependencies
+available, these four providers can be built independently. In particular,
+`lib32-alsa-lib` requires native `alsa-lib=1.2.16.1`. Copy the complete recipe
+directories, including bundled patches and signing keys, to the worker. For
+each recipe, run from its directory, for example:
+
+```sh
+cd devario-libs/lib32-alsa-lib
+shelly build --review-only --json "$PWD/PKGBUILD"
+shelly build --isolated --check "$PWD/PKGBUILD"
+```
+
+Publish all four rebuilt packages and refresh the worker repository database
+before retrying the original package in a fresh isolated root. Verify that the
+archives' `.PKGINFO` and the refreshed database contain the exact provisions
+listed above. Editing PKGBUILDs or `.SRCINFO` alone does not update published
+packages. Existing consumers do not need rebuilding solely for this metadata
+repair when their required SONAMEs match.
+
+Validation: all four recipes pass Bash syntax checks and makepkg/Shelly metadata
+generation with the expected bare and versioned provisions. All 12 ABI checks
+accept matching host ELF32 libraries and reject wrong SONAMEs, matching native
+ELF64 libraries, and an executable without a SONAME. Both bundled ICU patches
+match their declared SHA-512 checksums. Shelly reviews complete; Brotli's only
+finding concerns its existing `$(nproc)` test parallelism, which was inspected
+before generating metadata with `--reviewed`. Full source builds, remote source
+verification, publication, and isolated provisioning remain unverified.
+
+## Multilib toolchain for compiler-rt21
 
 `compiler-rt21` intentionally builds i386 runtimes, including RTSanitizerCommon.
 Its isolated root needs working 32-bit headers, startup objects, libraries,

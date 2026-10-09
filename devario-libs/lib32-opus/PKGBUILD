@@ -7,7 +7,7 @@ pkgname=(
   lib32-opus
 )
 pkgver=1.6.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Totally open, royalty-free, highly versatile audio codec (32-bit)"
 url="https://www.opus-codec.org/"
 arch=(x86_64)
@@ -55,9 +55,10 @@ check() {
 }
 
 package_lib32-opus() {
-  provides=(libopus.so)
+  provides=(libopus.so 'libopus.so=0-32')
 
   meson install -C build --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib32/libopus.so" libopus.so.0 || return 1
 
   rm -r "$pkgdir/usr/include"
 
@@ -65,3 +66,9 @@ package_lib32-opus() {
 }
 
 # vim:set sw=2 sts=-1 et:
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF32' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

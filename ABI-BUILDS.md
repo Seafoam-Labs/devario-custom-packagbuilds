@@ -1,5 +1,47 @@
 # Explicit library ABI builds for Shelly
 
+## Wine bootstrap: sane requires libtiff and libxml2 ABIs
+
+The `wine-cachyos-opt` isolated root installs `sane` as a build dependency.
+Sane requires `libtiff.so=6-64` and `libxml2.so=16-64`. The published
+[devario-core database](https://repo.seafoam-labs.org/devario-core/x86_64/devario-core.db)
+checked on 2026-10-09 contains `libtiff` 4.7.2-1 and `libxml2` 2.15.4-1
+with only bare library provisions, so neither satisfies those requirements.
+
+| Recipe | Required release | Explicit provision |
+| --- | --- | --- |
+| [libtiff](devario-core/libtiff/PKGBUILD) | `4.7.2-2` | `libtiff.so=6-64`, `libtiffxx.so=6-64` |
+| [libxml2](devario-core/libxml2/PKGBUILD) | `2.15.4-2` | `libxml2.so=16-64` |
+
+The new libtiff recipe retains the sources, checksums, signed-tag verification,
+and signing keys from the [official Arch recipe](https://gitlab.archlinux.org/archlinux/packaging/packages/libtiff/-/commit/9661343dd63b9f1ddad74dde22f3137183dad258).
+Both recipes retain bare provisions and verify ELF64 SONAMEs before packaging.
+The existing libxml2 release-2 recipe already contains its ABI fix.
+
+Copy the complete recipe directories to Remora. With their declared dependencies
+available (including ICU for libxml2), build each provider from its directory:
+
+```sh
+(cd devario-core/libtiff && shelly build --isolated --check "$PWD/PKGBUILD")
+(cd devario-core/libxml2 && shelly build --isolated --check "$PWD/PKGBUILD")
+```
+
+Publish the resulting packages, including the matching `libxml2-docs` split
+output, and refresh the worker's repository database. Confirm that both the
+package archives' `.PKGINFO` and the refreshed database advertise the exact
+provisions above. Then retry `wine-cachyos-opt` in a fresh isolated root.
+Neither Wine nor sane needs a recipe change for these two missing provisions;
+editing source metadata alone does not repair the published packages.
+
+Validation: both recipes pass Bash syntax checks, makepkg/Shelly metadata
+generation, and Shelly review without findings when invoked from their recipe
+directories. The ABI helpers accept the matching host ELF64 libraries and
+reject incorrect SONAMEs; libtiff also rejects an executable without a SONAME.
+Full source builds, remote source signature/checksum verification, publication,
+and isolated Wine provisioning have not been performed for this update.
+
+## Provider overview
+
 These x86_64 recipes provide the requested ABI dependencies. The numbers after
 `.so=` describe the library's SONAME major version and ELF bitness, not the
 upstream package release version. Each packaging function checks the installed

@@ -3,7 +3,7 @@
 
 pkgname=lib32-icu
 pkgver=78.3
-pkgrel=1
+pkgrel=2
 pkgdesc="International Components for Unicode library (32 bit)"
 arch=(x86_64)
 url="https://icu.unicode.org"
@@ -13,7 +13,15 @@ license=('LicenseRef-Unicode-3.0'
          'NAIST-2003')
 depends=('lib32-gcc-libs' 'lib32-glibc' 'icu')
 makedepends=('python')
-provides=(libicu{data,i18n,io,test,tu,uc}.so)
+provides=(
+  libicu{data,i18n,io,test,tu,uc}.so
+  'libicudata.so=78-32'
+  'libicui18n.so=78-32'
+  'libicuio.so=78-32'
+  'libicutest.so=78-32'
+  'libicutu.so=78-32'
+  'libicuuc.so=78-32'
+)
 source=(https://github.com/unicode-org/icu/releases/download/release-${pkgver}/icu4c-${pkgver}-sources.tgz{,.asc} 
         ICU-22132.patch
         icu-77.1-invalid-malloc.patch)
@@ -63,6 +71,10 @@ check() {
 package() {
   cd icu/source
   make DESTDIR="${pkgdir}" install
+  local lib
+  for lib in libicu{data,i18n,io,test,tu,uc}; do
+    _verify_soname "$pkgdir/usr/lib32/$lib.so" "$lib.so.78" || return 1
+  done
   rm -r "${pkgdir}/usr"/{include,share}
 
   # keep icu-config-32
@@ -71,4 +83,10 @@ package() {
 
   # Install license
   install -Dm644 ../LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF32' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

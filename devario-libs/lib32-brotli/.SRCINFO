@@ -1,7 +1,7 @@
 pkgbase = lib32-brotli
 	pkgdesc = Generic-purpose lossless compression algorithm (32-bit)
 	pkgver = 1.2.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/google/brotli
 	arch = x86_64
 	license = MIT
@@ -12,6 +12,9 @@ pkgbase = lib32-brotli
 	provides = libbrotlicommon.so
 	provides = libbrotlidec.so
 	provides = libbrotlienc.so
+	provides = libbrotlicommon.so=1-32
+	provides = libbrotlidec.so=1-32
+	provides = libbrotlienc.so=1-32
 	source = git+https://github.com/google/brotli#tag=v1.2.0
 	sha512sums = 36b8fadb3e5de540746eea19c758234095fafc0a4a687bd70fc70b0f74036c03cf9c70a7339aa1626f1197b5ac707bf5b01e393f6cd26c90b78519529724871a
 

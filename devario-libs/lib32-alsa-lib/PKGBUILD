@@ -4,7 +4,7 @@
 _name=alsa-lib
 pkgname=lib32-alsa-lib
 pkgver=1.2.16.1
-pkgrel=1
+pkgrel=2
 pkgdesc="An alternative implementation of Linux sound support (32 bit)"
 arch=(x86_64)
 url="https://www.alsa-project.org"
@@ -17,6 +17,8 @@ depends=(
 provides=(
   libasound.so
   libatopology.so
+  'libasound.so=2-32'
+  'libatopology.so=2-32'
 )
 source=(
   https://www.alsa-project.org/files/pub/lib/$_name-$pkgver.tar.bz2{,.sig}
@@ -59,5 +61,13 @@ check() {
 
 package() {
   make DESTDIR="$pkgdir" install -C $_name-$pkgver
+  _verify_soname "$pkgdir/usr/lib32/libasound.so" libasound.so.2 || return 1
+  _verify_soname "$pkgdir/usr/lib32/libatopology.so" libatopology.so.2 || return 1
   rm -r "$pkgdir"/usr/{bin,include,share}
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF32' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }
