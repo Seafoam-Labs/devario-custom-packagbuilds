@@ -42,9 +42,6 @@
 ### Set performance governor as default
 : "${_per_gov:=no}"
 
-### Enable TCP_CONG_BBR3
-: "${_tcp_bbr3:=no}"
-
 ### Running with a 1000HZ, 750Hz, 600 Hz, 500Hz, 300Hz, 250Hz and 100Hz tick rate
 : "${_HZ_ticks:=1000}"
 
@@ -79,12 +76,6 @@ _processor_opt=generic_v3
 
 # Build a debug package with non-stripped vmlinux
 : "${_build_debug:=no}"
-
-# ATTENTION: Do not modify after this line
-_is_ci_build() {
-    [[ -n "$CI" || -n "$GITHUB_RUN_ID" ]]
-    return $?
-}
 
 _pkgsuffix=devario
 
@@ -222,31 +213,6 @@ prepare() {
         echo "Enabling KBUILD_CFLAGS -O3..."
         scripts/config -d CC_OPTIMIZE_FOR_PERFORMANCE \
             -e CC_OPTIMIZE_FOR_PERFORMANCE_O3
-    fi
-
-    ### CI-only stuff
-    if _is_ci_build; then
-        echo "Detected build inside CI"
-
-        scripts/config \
-            -d CC_OPTIMIZE_FOR_PERFORMANCE_O3 \
-            -e CC_OPTIMIZE_FOR_SIZE \
-            -d DEBUG_KERNEL \
-            -e DEBUG_INFO_REDUCED
-    fi
-
-    ### Enable bbr3
-    if [ "$_tcp_bbr3" = "yes" ]; then
-        echo "Disabling TCP_CONG_CUBIC..."
-        scripts/config -m TCP_CONG_CUBIC \
-            -d DEFAULT_CUBIC \
-            -e TCP_CONG_BBR \
-            -e DEFAULT_BBR \
-            --set-str DEFAULT_TCP_CONG bbr \
-            -m NET_SCH_FQ_CODEL \
-            -e NET_SCH_FQ \
-            -d CONFIG_DEFAULT_FQ_CODEL \
-            -e CONFIG_DEFAULT_FQ
     fi
 
     ### Select THP
