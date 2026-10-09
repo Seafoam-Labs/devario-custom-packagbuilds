@@ -2,13 +2,14 @@
 
 pkgname=ijs
 pkgver=0.35
-pkgrel=7
+pkgrel=8
 pkgdesc="a library which implements a protocol for transmission of raster page images"
 arch=('x86_64')
 url="https://www.openprinting.org/download/ijs/"
 license=('AGPL-3.0-or-later')
 depends=('glibc' 'sh')
-makedepends=('docbook-utils' 'ghostscript')
+# The release includes ijs_spec.pdf; rebuilding it would require Ghostscript,
+# which itself depends on ijs. Use the bundled PDF to avoid that build cycle.
 source=("https://www.openprinting.org/download/ijs/download/ijs-$pkgver.tar.bz2"
         # this one misses ijs-config and its manpage but adds AGPL v3 COPYING
         #ijs-$pkgver.tar.gz::https://github.com/ArtifexSoftware/ijs/archive/refs/tags/$pkgver.tar.gz

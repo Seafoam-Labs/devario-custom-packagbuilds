@@ -1,7 +1,7 @@
 pkgbase = poppler-data
 	pkgdesc = Encoding data for the poppler PDF rendering library
 	pkgver = 0.4.12
-	pkgrel = 2
+	pkgrel = 3
 	url = https://poppler.freedesktop.org/
 	arch = any
 	license = GPL-2.0-only OR GPL-3.0-only

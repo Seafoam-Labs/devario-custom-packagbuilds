@@ -1,12 +1,10 @@
 pkgbase = ijs
 	pkgdesc = a library which implements a protocol for transmission of raster page images
 	pkgver = 0.35
-	pkgrel = 7
+	pkgrel = 8
 	url = https://www.openprinting.org/download/ijs/
 	arch = x86_64
 	license = AGPL-3.0-or-later
-	makedepends = docbook-utils
-	makedepends = ghostscript
 	depends = glibc
 	depends = sh
 	source = https://www.openprinting.org/download/ijs/download/ijs-0.35.tar.bz2

@@ -3,7 +3,7 @@
 
 pkgname=poppler-data
 pkgver=0.4.12
-pkgrel=2
+pkgrel=3
 _POPPLER_DATA_EXTRA_VERSION="0.4.11-2"
 pkgdesc="Encoding data for the poppler PDF rendering library"
 arch=('any')
@@ -23,9 +23,9 @@ package() {
   # additional cMaps for ghostscript - FS#76416
   cp ../${pkgname}-${_POPPLER_DATA_EXTRA_VERSION}-extra/Identity-* "${pkgdir}"/usr/share/poppler/cMap
 
-  # add symlinks to cMaps - FS#76565
+  # Link nested CMaps only; the top-level Identity files are already installed.
   pushd "${pkgdir}"/usr/share/poppler/cMap
-    find ../cMap -type f -exec ln -s {} . \;
+    find ../cMap -mindepth 2 -type f -exec ln -s {} . \;
   popd
 
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
