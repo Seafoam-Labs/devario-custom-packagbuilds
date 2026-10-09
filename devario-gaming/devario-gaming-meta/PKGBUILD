@@ -1,0 +1,37 @@
+# Maintainer: Devario maintainers
+
+pkgname=devario-gaming-meta
+pkgver=1
+pkgrel=1
+pkgdesc="Meta package pulling in the gaming dependencies Devario supports"
+arch=('any')
+url="https://github.com/Seafoam-Labs/devario-os"
+license=('GPL-3.0-or-later')
+
+# Depends only. Upstream cachyos-gaming-meta also ships a split-lock sysctl;
+# Devario leaves kernel tunables to the kernel recipes.
+depends=(
+  'alsa-plugins'
+  'giflib'
+  'glfw'
+  'gst-plugins-base-libs'
+  'lib32-alsa-plugins'
+  'lib32-gtk3'
+  'lib32-libjpeg-turbo'
+  'lib32-libva'
+  'lib32-ocl-icd'
+  'lib32-opencl-icd-loader'
+  'libjpeg-turbo'
+  'libva'
+  'libxslt'
+  'mpg123'
+  'opencl-icd-loader'
+  'openal'
+  'proton-cachyos-slr'
+  'umu-launcher'
+  'protontricks'
+  'ttf-liberation'
+  'wine-cachyos-opt'
+  'winetricks'
+  'vulkan-tools'
+)
