@@ -1,0 +1,6 @@
+{
+  "name": "portaudio",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/portaudio/-/archive/main/portaudio-main.tar.gz",
+  "sha256": "b5bd8182c36fb2782599432c59f8eeeb9f001f1c4a357d8162aeae5a63b6e472",
+  "bytes": 2110
+}

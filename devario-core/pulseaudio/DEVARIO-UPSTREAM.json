@@ -1,0 +1,6 @@
+{
+  "name": "pulseaudio",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pulseaudio/-/archive/main/pulseaudio-main.tar.gz",
+  "sha256": "9a8e09d64f0009b9ff97b789b5cce16449e1900b8ee72991d54856efe5a49783",
+  "bytes": 14973
+}

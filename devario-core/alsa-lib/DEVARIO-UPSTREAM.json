@@ -1,0 +1,6 @@
+{
+  "name": "alsa-lib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/alsa-lib/-/archive/main/alsa-lib-main.tar.gz",
+  "sha256": "8d15d6605c4849e909af19f3767df87b01cb2b3d137c58c856ec73ee1bf24750",
+  "bytes": 3890
+}

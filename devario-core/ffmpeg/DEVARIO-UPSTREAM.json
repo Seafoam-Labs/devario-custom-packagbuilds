@@ -1,0 +1,6 @@
+{
+  "name": "ffmpeg",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ffmpeg/-/archive/main/ffmpeg-main.tar.gz",
+  "sha256": "865dce1f7a55550bf135daa976136d7ce3df89159c4953b9c7b9df43238117af",
+  "bytes": 17457
+}

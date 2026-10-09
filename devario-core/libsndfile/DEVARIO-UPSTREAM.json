@@ -1,0 +1,6 @@
+{
+  "name": "libsndfile",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libsndfile/-/archive/main/libsndfile-main.tar.gz",
+  "sha256": "3353b1c7111026f1aed507e08a6078143732782282c1b58a9741c6b5dff15306",
+  "bytes": 7726
+}
