@@ -3,7 +3,7 @@
 
 pkgname=benchmark
 pkgver=1.9.5
-pkgrel=2
+pkgrel=3
 pkgdesc="A microbenchmark support library"
 arch=('x86_64')
 url="https://github.com/google/benchmark"
@@ -29,6 +29,7 @@ build() {
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DBUILD_SHARED_LIBS=ON \
     -DBENCHMARK_ENABLE_LTO=ON \
+    -DBENCHMARK_ENABLE_WERROR=OFF \
     -DBENCHMARK_ENABLE_GTEST_TESTS=OFF \
     ..
 
