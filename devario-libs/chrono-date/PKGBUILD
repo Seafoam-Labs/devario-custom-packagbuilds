@@ -2,7 +2,7 @@
 
 pkgname=chrono-date
 pkgver=3.0.5
-pkgrel=1
+pkgrel=2
 pkgdesc="A date and time library based on the C++11/14/17 <chrono> header"
 arch=(x86_64)
 url="https://howardhinnant.github.io/date/date.html"
@@ -15,7 +15,7 @@ provides=(
     'libdate-tz.so'
 )
 source=("$pkgname-$pkgver.tar.gz::https://github.com/HowardHinnant/date/archive/v$pkgver.tar.gz"
-        "538-output-date-pc-for-pkg-config.patch::https://patch-diff.githubusercontent.com/raw/HowardHinnant/date/pull/538.patch"
+        "538-output-date-pc-for-pkg-config.patch"
         "disable_buggy_libstdc++_tests.patch")
 sha256sums=('ef786edc203daec76475825640b3af247bd08e31fc52217e5ce8f76107b4bb05'
             'c881ae3ae08b46a2137b987e593469d030669c37c9423921a1fac7de512676f3'
