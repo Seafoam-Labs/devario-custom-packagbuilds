@@ -30,6 +30,7 @@ pkgname = openal
 	optdepends = fluidsynth: MIDI rendering
 	optdepends = libmysofa: makemhr tool
 	provides = libopenal.so
+	provides = libopenal.so=1-64
 
 pkgname = openal-examples
 	pkgdesc = Cross-platform 3D audio library, software implementation (example programs)

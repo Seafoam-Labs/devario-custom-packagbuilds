@@ -68,9 +68,11 @@ package_openal() {
     'fluidsynth: MIDI rendering'
     'libmysofa: makemhr tool'
   )
-  provides+=(libopenal.so)
+  # Shelly keeps bare .so provisions unversioned; add the SONAME form
+  provides+=('libopenal.so' 'libopenal.so=1-64')
 
   DESTDIR="$pkgdir" cmake --install build
+  _verify_soname "$pkgdir/usr/lib/libopenal.so" libopenal.so.1 || return 1
   install -Dt "$pkgdir/usr/share/doc/openal" -m644 openal-soft/docs/*
 
   cd "$pkgdir"
@@ -91,3 +93,9 @@ package_openal-examples() {
 }
 
 # vim:set sw=2 sts=-1 et:
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

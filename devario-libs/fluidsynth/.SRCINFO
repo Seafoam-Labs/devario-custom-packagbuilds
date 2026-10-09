@@ -25,6 +25,7 @@ pkgbase = fluidsynth
 	depends = sdl3
 	provides = libfluidsynth.so
 	provides = soundfont-synthesizer
+	provides = libfluidsynth.so=3-64
 	backup = etc/conf.d/fluidsynth
 	source = fluidsynth-2.6.1.tar.gz::https://github.com/fluidsynth/fluidsynth/archive/v2.6.1.tar.gz
 	sha512sums = 5c46421ba17559cb826fb2e6b8002b3459c910ff2ebd6d75c55f3139bea58487ddb4ac8da71c6bb72bc5af9590e11752b3d88a8e41170b8e41f228e9a08257cd
