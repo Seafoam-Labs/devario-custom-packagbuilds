@@ -1,11 +1,10 @@
 pkgbase = python-zope-event
 	pkgdesc = Provides a simple event system
 	pkgver = 6.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/zopefoundation/zope.event
 	arch = any
 	license = ZPL-2.1
-	checkdepends = python-zope-testrunner
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

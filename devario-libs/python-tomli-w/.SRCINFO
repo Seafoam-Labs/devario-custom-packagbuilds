@@ -1,12 +1,10 @@
 pkgbase = python-tomli-w
 	pkgdesc = A lil' TOML writer
 	pkgver = 1.2.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/hukkin/tomli-w
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-tomli
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-flit-core

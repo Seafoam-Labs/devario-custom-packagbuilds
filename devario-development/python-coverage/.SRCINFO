@@ -1,14 +1,10 @@
 pkgbase = python-coverage
 	pkgdesc = A tool for measuring code coverage of Python programs
 	pkgver = 7.16.2
-	pkgrel = 2
+	pkgrel = 3
 	url = https://coverage.readthedocs.io/en/latest/
 	arch = x86_64
 	license = Apache-2.0
-	checkdepends = python-pytest
-	checkdepends = python-pytest-xdist
-	checkdepends = python-flaky
-	checkdepends = python-hypothesis
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

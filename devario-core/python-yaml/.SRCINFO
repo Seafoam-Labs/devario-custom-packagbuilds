@@ -1,11 +1,10 @@
 pkgbase = python-yaml
 	pkgdesc = Python bindings for YAML, using fast libYAML library
 	pkgver = 6.0.3
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/yaml/pyyaml
 	arch = x86_64
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = cython
 	makedepends = python-build
 	makedepends = python-installer

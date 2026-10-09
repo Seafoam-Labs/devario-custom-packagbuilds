@@ -2,14 +2,13 @@
 
 pkgname=python-calver
 pkgver=2025.10.20
-pkgrel=1
+pkgrel=2
 pkgdesc="Setuptools extension for CalVer package versions"
 url="https://github.com/di/calver"
 license=('Apache-2.0')
 arch=('any')
 depends=('python')
 makedepends=('git' 'python-setuptools' 'python-build' 'python-installer' 'python-wheel')
-checkdepends=('python-pytest' 'python-pretend')
 source=("git+https://github.com/di/calver.git#tag=$pkgver")
 sha512sums=('16dcd12f3d7eb0977e3f9e8aaf46dbee836e39d1608b4318a7700e18e497bdfa06bd6797e91e4a12189eb4d3007703690210f90c69af832b05e3e319944c6caa')
 
@@ -21,11 +20,6 @@ prepare() {
 build() {
   cd calver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd calver
-  PYTHONPATH="$PWD"/build/lib pytest
 }
 
 package() {

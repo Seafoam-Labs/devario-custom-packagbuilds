@@ -1,11 +1,10 @@
 pkgbase = python-wsproto
 	pkgdesc = WebSockets state-machine based protocol implementation
 	pkgver = 1.3.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/python-hyper/wsproto
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-setuptools
 	makedepends = python-build

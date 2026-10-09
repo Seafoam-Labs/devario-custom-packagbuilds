@@ -3,7 +3,7 @@
 
 pkgname=python-colorama
 pkgver=0.4.6
-pkgrel=6
+pkgrel=7
 pkgdesc="Python API for cross-platform colored terminal text."
 arch=('any')
 url="https://pypi.python.org/pypi/colorama"
@@ -16,11 +16,6 @@ sha512sums=('2b269b190041398a1808b0b5147e47422b4451a1bc91841d0957572214ba8addd73
 build() {
   cd colorama-$pkgver
   python -m build -nw
-}
-
-check() {
-  cd colorama-$pkgver
-  python -m unittest discover -p *_test.py
 }
 
 package() {

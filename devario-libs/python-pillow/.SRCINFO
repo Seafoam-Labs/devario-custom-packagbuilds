@@ -1,12 +1,10 @@
 pkgbase = python-pillow
 	pkgdesc = Python Imaging Library (PIL) fork
 	pkgver = 12.3.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://pillow.readthedocs.io
 	arch = x86_64
 	license = MIT-CMU
-	checkdepends = python-pytest
-	checkdepends = python-pytest-timeout
 	makedepends = git
 	makedepends = pybind11
 	makedepends = python-build

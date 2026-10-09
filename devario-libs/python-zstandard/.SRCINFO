@@ -1,12 +1,10 @@
 pkgbase = python-zstandard
 	pkgdesc = Python bindings to the Zstandard (zstd) compression library
 	pkgver = 0.25.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://github.com/indygreg/python-zstandard
 	arch = x86_64
 	license = BSD-3-Clause
-	checkdepends = python-hypothesis
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

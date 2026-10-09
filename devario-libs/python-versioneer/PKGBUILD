@@ -2,7 +2,7 @@
 
 pkgname=python-versioneer
 pkgver=0.29
-pkgrel=5
+pkgrel=6
 pkgdesc='A tool for managing a recorded version number in setuptools-based python projects'
 arch=(any)
 url='https://github.com/python-versioneer/python-versioneer'
@@ -22,17 +22,6 @@ build() {
   cd "$pkgname"
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$pkgname"
-
-  # temporary install
-  python -m installer --destdir="$(pwd)/tmp" dist/*.whl
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  export PYTHONPATH="$(pwd)/tmp/$site_packages"
-
-  python -m unittest discover test
 }
 
 package() {

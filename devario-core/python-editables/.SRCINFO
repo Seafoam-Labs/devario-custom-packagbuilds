@@ -1,11 +1,10 @@
 pkgbase = python-editables
 	pkgdesc = Python library for creating editable wheels
 	pkgver = 0.6
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pfmoore/editables
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

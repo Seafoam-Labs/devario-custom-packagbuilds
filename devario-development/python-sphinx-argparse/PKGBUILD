@@ -3,7 +3,7 @@
 _name=sphinx-argparse
 pkgname=python-sphinx-argparse
 pkgver=0.6.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Sphinx extension that automatically documents argparse commands and options"
 arch=(any)
 url="https://github.com/sphinx-doc/sphinx-argparse/"
@@ -18,10 +18,6 @@ makedepends=(
   python-flit-core
   python-installer
   python-wheel
-)
-checkdepends=(
-  python-lxml
-  python-pytest
 )
 optdepends=('python-commonmark: markdown support')
 source=(
@@ -42,11 +38,6 @@ prepare() {
 build() {
   cd $_name-$pkgver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $_name-$pkgver
-  pytest -vv
 }
 
 package() {

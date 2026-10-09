@@ -1,11 +1,10 @@
 pkgbase = python-text-unidecode
 	pkgdesc = The most basic Text::Unidecode port
 	pkgver = 1.3
-	pkgrel = 13
+	pkgrel = 14
 	url = https://github.com/kmike/text-unidecode
 	arch = any
 	license = Artistic-1.0-Perl
-	checkdepends = python-pytest
 	makedepends = python-setuptools
 	makedepends = python-build
 	makedepends = python-installer

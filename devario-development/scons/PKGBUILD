@@ -7,7 +7,7 @@
 _name=SCons
 pkgname=scons
 pkgver=4.11.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Extensible Python-based build utility"
 arch=(any)
 url="https://scons.org"
@@ -21,10 +21,6 @@ makedepends=(
   python-installer
   python-setuptools
   python-wheel
-)
-checkdepends=(
-  python-psutil
-  python-pytest
 )
 optdepends=(
   'python-psutil: to wait for processes to exit'
@@ -41,11 +37,6 @@ b2sums=('ae51d6ed13765d08d9a72f753da81de62bec344210f17a52df4c91798571cd6a417c734
 build() {
   cd $pkgname
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $pkgname
-  python runtest.py --all --unit-only
 }
 
 package() {

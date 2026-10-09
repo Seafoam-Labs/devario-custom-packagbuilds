@@ -1,7 +1,7 @@
 pkgbase = maturin
 	pkgdesc = Build Python packages containing Rust extensions
 	pkgver = 1.15.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/PyO3/maturin
 	arch = x86_64
 	license = MIT OR Apache-2.0

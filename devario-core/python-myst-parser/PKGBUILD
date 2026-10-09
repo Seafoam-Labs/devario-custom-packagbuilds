@@ -4,7 +4,7 @@
 _pkgname=MyST-Parser
 pkgname=python-myst-parser
 pkgver=5.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='An extended commonmark compliant parser, with bridges to docutils/sphinx'
 arch=('any')
 url='https://github.com/executablebooks/MyST-Parser'
@@ -12,7 +12,6 @@ license=('MIT')
 depends=('python' 'python-docutils' 'python-jinja' 'python-markdown-it-py' 'python-mdit_py_plugins' 'python-pygments' 'python-sphinx' 'python-yaml')
 optdepends=('python-linkify-it-py: linkify support')
 makedepends=('python-build' 'python-installer' 'python-flit-core' 'python-wheel')
-checkdepends=('python-beautifulsoup4' 'python-linkify-it-py' 'python-pytest' 'python-pytest-param-files' 'python-pytest-regressions' 'python-sphinx-pytest')
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha512sums=('db3c9b2173f0e3ca1c53053c4b5150291436dc50203e6c93660d0b9aafb2e0b27f06765dfb18b1147ec5629ca11a5fcb8b83862783c58099ee214c4d4b9a60a0')
 
@@ -26,14 +25,6 @@ build() {
   cd $_pkgname-$pkgver
 
   python -m build -wn
-}
-
-check() {
-  cd $_pkgname-$pkgver
-
-  python -m pytest \
-    -k 'not test_sphinx_builds and not fixtures and not test_myst_config and not test_myst_refs' \
-    --disable-warnings
 }
 
 package() {

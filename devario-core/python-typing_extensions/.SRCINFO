@@ -1,11 +1,10 @@
 pkgbase = python-typing_extensions
 	pkgdesc = Backported and Experimental Type Hints for Python 3.8+
 	pkgver = 4.16.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/python/typing_extensions
 	arch = any
 	license = Python-2.0.1
-	checkdepends = python-tests
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-flit-core

@@ -1,16 +1,10 @@
 pkgbase = python-nodeenv
 	pkgdesc = Node.js virtual environment builder
 	pkgver = 1.11.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/ekalinin/nodeenv
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = dash
-	checkdepends = fish
-	checkdepends = nodejs
-	checkdepends = python-pytest
-	checkdepends = python-coverage
-	checkdepends = zsh
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

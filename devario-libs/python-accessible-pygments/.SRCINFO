@@ -1,12 +1,10 @@
 pkgbase = python-accessible-pygments
 	pkgdesc = Collection of accessible pygments styles
 	pkgver = 0.0.5
-	pkgrel = 3
+	pkgrel = 4
 	url = https://github.com/Quansight-Labs/accessible-pygments
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-hypothesis
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-hatch-fancy-pypi-readme

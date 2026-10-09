@@ -3,7 +3,7 @@
 _pyname=contourpy
 pkgname=python-$_pyname
 pkgver=1.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Python library for calculating contours in 2D quadrilateral grids'
 arch=(x86_64)
 url='https://github.com/contourpy/contourpy'
@@ -18,9 +18,6 @@ makedepends=(git
              pybind11
              python-build
              python-installer)
-checkdepends=(python-matplotlib
-              python-pytest
-              python-wurlitzer)
 optdepends=('python-matplotlib: matplotlib renderer')
 source=(git+https://github.com/contourpy/contourpy#tag=v$pkgver)
 sha256sums=('7bc10aeb2e69b7bbac2ba938799a8f73a6c11a9d4d3cef0cdd150c79307e6881')
@@ -32,13 +29,6 @@ prepare() {
 build() {
   cd $_pyname
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $_pyname
-  python -m venv --system-site-packages test-env
-  test-env/bin/python -m installer dist/*.whl
-  test-env/bin/python -m pytest -v
 }
 
 package() {

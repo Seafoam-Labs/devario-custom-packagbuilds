@@ -1,12 +1,10 @@
 pkgbase = scons
 	pkgdesc = Extensible Python-based build utility
 	pkgver = 4.11.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://scons.org
 	arch = any
 	license = MIT
-	checkdepends = python-psutil
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

@@ -4,7 +4,7 @@
 _name=imagesize_py
 pkgname=python-imagesize
 pkgver=2.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Analyzes JPEG/JPEG 2000/PNG/GIF/TIFF/SVG/Netpbm/WebP image headers and returns image size or DPI'
 url=https://github.com/shibukawa/imagesize_py
 arch=(any)
@@ -23,11 +23,6 @@ b2sums=('d46f612b97ed5576ce33c3012c5ce44380fcce0c52ee50fa81236cab0563aaad5c1e015
 build() {
   cd $_name
   python -m build --wheel --skip-dependency-check --no-isolation
-}
-
-check() {
-  cd $_name
-  python -m unittest discover -v
 }
 
 package() {

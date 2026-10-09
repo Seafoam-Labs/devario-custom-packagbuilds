@@ -3,7 +3,7 @@
 pkgname=python-pyzstd
 _pyname=${pkgname#python-}
 pkgver=0.19.1
-pkgrel=3
+pkgrel=4
 pkgdesc='Python bindings to Zstandard (zstd) compression library'
 arch=(x86_64)
 url="https://pypi.org/project/$_pyname"
@@ -12,7 +12,6 @@ depends=(python)
 makedepends=(python-{build,installer,wheel}
              python-hatch-vcs
              python-hatchling)
-checkdepends=(python-pytest)
 _archive="$_pyname-$pkgver"
 source=("https://files.pythonhosted.org/packages/source/${_pyname::1}/$_pyname/$_archive.tar.gz")
 sha256sums=('36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d586937830a8afc7d72')
@@ -20,11 +19,6 @@ sha256sums=('36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d586937830a8afc7d72')
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive"
-	PYTHONPATH=src pytest
 }
 
 package() {

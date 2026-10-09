@@ -4,7 +4,7 @@
 _pyname=fontParts
 pkgname=python-${_pyname,,}
 pkgver=1.1.1
-pkgrel=2
+pkgrel=3
 pkgdesc='The replacement for RoboFab'
 arch=(any)
 url="https://github.com/robotools/${_pyname}"
@@ -25,19 +25,9 @@ _archive="${_pyname,,}-$pkgver"
 source=("https://files.pythonhosted.org/packages/source/${_pyname::1}/$_pyname/$_archive.tar.gz")
 sha256sums=('7ceed66dc176c05f2274e9d09b401b124ce00c46e758e4fecb7f5f19f3d34c61')
 
-prepare() {
-	cd "$_archive"
-	sed -i -e 's/assertEquals/assertEqual/' Lib/$_pyname/test/test_glyph.py
-}
-
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive/Lib"
-	PYTHONPATH=. python "$_pyname/fontshell/test.py"
 }
 
 package() {

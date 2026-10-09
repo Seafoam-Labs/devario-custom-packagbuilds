@@ -1,7 +1,7 @@
 pkgbase = python-pytest-playwright
 	pkgdesc = Pytest plugin to write end-to-end browser tests with Playwright
 	pkgver = 0.9.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/microsoft/playwright-pytest
 	arch = any
 	license = Apache-2.0

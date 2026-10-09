@@ -1,14 +1,10 @@
 pkgbase = python-pyudev
 	pkgdesc = Python bindings to libudev
 	pkgver = 0.24.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pyudev/pyudev
 	arch = any
 	license = LGPL-2.1-or-later
-	checkdepends = python-pytest
-	checkdepends = python-docutils
-	checkdepends = python-hypothesis
-	checkdepends = python-pip
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

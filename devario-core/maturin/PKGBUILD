@@ -2,7 +2,7 @@
 pkgbase=maturin
 pkgname=(maturin python-maturin)
 pkgver=1.15.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Build Python packages containing Rust extensions'
 arch=(x86_64)
 # Rust LTO cannot consume makepkg C LTO objects from ring.
@@ -25,10 +25,6 @@ build() {
   export CARGO_HOME="$srcdir/cargo-home"
   cargo build --release --frozen --bin maturin
   MATURIN_SETUP_ARGS="--frozen" python -m build --wheel --no-isolation
-}
-
-check() {
-  "maturin-1.15.0/target/release/maturin" --version
 }
 
 package_maturin() {

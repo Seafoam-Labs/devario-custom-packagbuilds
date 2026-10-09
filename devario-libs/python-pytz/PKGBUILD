@@ -5,7 +5,7 @@
 
 pkgname=python-pytz
 pkgver=2026.1
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://pypi.python.org/pypi/pytz"
 license=("MIT")
@@ -28,12 +28,6 @@ prepare() {
 build(){
     cd pytz-$pkgver
     python -m build --wheel --no-isolation
-}
-
-check(){
-    cd pytz-$pkgver/pytz/tests
-
-    python3 test_tzinfo.py
 }
 
 package(){

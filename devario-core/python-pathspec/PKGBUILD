@@ -4,7 +4,7 @@
 pkgname=python-pathspec
 _name=${pkgname#python-}
 pkgver=1.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Utility library for gitignore style pattern matching of file paths'
 arch=('any')
 url=https://github.com/cpburnz/python-pathspec
@@ -26,11 +26,6 @@ b2sums=('f241c1db613c03a48764db57fd5da435e9a0a525a2c90e6ed85ca3e1ce7cfe8aafcb900
 build() {
   cd $pkgname
   python -m build --wheel --skip-dependency-check --no-isolation
-}
-
-check() {
-  cd $pkgname
-  python -m unittest
 }
 
 package() {

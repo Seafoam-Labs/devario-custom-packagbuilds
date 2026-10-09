@@ -1,15 +1,10 @@
 pkgbase = python-vcs-versioning
 	pkgdesc = the blessed package to manage your versions by vcs metadata
 	pkgver = 2.5.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pypa/setuptools-scm
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-pytest-timeout
-	checkdepends = python-setuptools-scm
-	checkdepends = jujutsu
-	checkdepends = mercurial
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

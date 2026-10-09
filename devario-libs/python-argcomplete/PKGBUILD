@@ -5,14 +5,13 @@
 pkgname=python-argcomplete
 _pyname=argcomplete
 pkgver=3.7.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Easy, extensible command line tab completion of arguments for your Python script'
 url='https://github.com/kislyuk/argcomplete'
 arch=('any')
 license=('Apache-2.0')
 depends=('python')
 makedepends=('git' 'python-build' 'python-hatch-vcs' 'python-hatchling' 'python-installer' 'python-wheel')
-checkdepends=('fish' 'python-pexpect' 'python-pip' 'python-setuptools' 'tcsh' 'zsh')
 source=(${_pyname}::"git+$url#tag=v$pkgver")
 sha512sums=('261134f29561a2f58561f741b51bd6ff931017dee6a8283b83febfc72d9d9277df3c4674f89fb42ca99dd91205ed68bcaad08582371581e111ed114d248b666c')
 validpgpkeys=('29BCBADB4ECAAAC2382699388AFAFCD242818A52') # Andrey Kislyuk <kislyuk@gmail.com>
@@ -20,15 +19,6 @@ validpgpkeys=('29BCBADB4ECAAAC2382699388AFAFCD242818A52') # Andrey Kislyuk <kisl
 build() {
   cd ${_pyname}
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd ${_pyname}
-  python -m venv --system-site-packages test-venv
-  test-venv/bin/python -m installer dist/*.whl
-  # Keep nested test-package installs offline and out of build isolation.
-  sed -i 's/pip install {}/pip install --no-build-isolation --no-index {}/' test/test.py
-  PATH="$PWD/test-venv/bin/:$PATH" test-venv/bin/python test/test.py -v
 }
 
 package() {

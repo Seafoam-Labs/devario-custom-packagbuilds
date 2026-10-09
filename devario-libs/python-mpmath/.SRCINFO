@@ -1,13 +1,10 @@
 pkgbase = python-mpmath
 	pkgdesc = Python library for arbitrary-precision floating-point arithmetic.
 	pkgver = 1.4.1
-	pkgrel = 1
+	pkgrel = 2
 	url = http://mpmath.org/
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-hypothesis
-	checkdepends = python-pexpect
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

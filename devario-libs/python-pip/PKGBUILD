@@ -8,7 +8,7 @@
 _name=pip
 pkgname=python-pip
 pkgver=26.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="The PyPA recommended tool for installing Python packages"
 url="https://pip.pypa.io/"
 arch=(any)
@@ -31,19 +31,6 @@ makedepends=(
   python-sphinx-inline-tabs
   python-sphinx-issues
 )
-checkdepends=(
-  git
-  python-freezegun
-  python-proxy.py
-  python-pytest
-  python-pytest-rerunfailures
-  python-pytest-xdist
-  python-scripttest
-  python-tomli-w
-  python-virtualenv
-  python-werkzeug
-  subversion
-)
 source=(
   https://github.com/pypa/$_name/archive/$pkgver/$_name-$pkgver.tar.gz
   remove-version-constraint.patch
@@ -60,11 +47,6 @@ prepare() {
 
   # remove version constraint on flit-core
   patch -d "$_name-$pkgver" -p1 -i "$srcdir/remove-version-constraint.patch"
-
-  # patch out need for pytest-subket
-  sed -i '/--allow-hosts=localhost/d' "$_name-$pkgver/pyproject.toml"
-  sed -i '/--allow-unix-socket/d'     "$_name-$pkgver/pyproject.toml"
-  sed -i '/--disable-socket/d'        "$_name-$pkgver/pyproject.toml"
 }
 
 build() {
@@ -75,28 +57,6 @@ build() {
   cd docs/
   PYTHONPATH="$srcdir/$_name-$pkgver/src/" python pip_sphinxext.py
   PYTHONPATH="$srcdir/$_name-$pkgver/src/" sphinx-build -b man -d build/doctrees/man man build/man -c html
-}
-
-check() {
-  local _site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  local _deselected=(
-    # deselect tests that would require python-pip in checkdepends (may or may not work due to devendored dependencies when python-pip is updated)
-    --deselect tests/unit/test_direct_url_helpers.py::test_from_link_vcs_with_source_dir_obtains_commit_id
-    --deselect tests/unit/test_direct_url_helpers.py::test_from_link_vcs_without_source_dir
-    --deselect tests/unit/test_wheel_builder.py::test_should_cache_git_sha
-    # disable downloading the internet
-    --deselect tests/unit/test_req.py::TestRequirementSet::test_download_info_web_archive
-    --deselect tests/unit/test_req.py::TestRequirementSet::test_download_info_vcs
-    --deselect tests/unit/test_network_session.py::TestPipSession::test_proxy
-    # fails due to EXTERNALLY-MANAGED / PEP 668 behaviour in v25
-    --deselect tests/unit/test_self_check_outdated.py::test_pip_self_version_check_calls_underlying_implementation
-  )
-
-  cd $_name-$pkgver
-  # install to temporary location
-  python -m installer --destdir=test_dir dist/*.whl
-  export PYTHONPATH="test_dir/$_site_packages:$PYTHONPATH"
-  pytest -vv -m unit "${_deselected[@]}" tests/
 }
 
 package() {

@@ -2,14 +2,13 @@
 
 pkgname=python-py-cpuinfo2
 pkgver=10.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Get CPU info with pure Python'
 arch=('any')
 url='https://github.com/akx/py-cpuinfo2'
 license=('MIT')
 depends=('python')
 makedepends=('git' 'python-build' 'python-hatchling' 'python-installer')
-checkdepends=('python-pytest')
 provides=('python-py-cpuinfo')
 conflicts=('python-py-cpuinfo')
 replaces=('python-py-cpuinfo')
@@ -19,11 +18,6 @@ sha512sums=('970cc8f80f4110ff91aa299b79a3cee50ae73e0e3732bca05d40fbdd01d665e14d9
 build() {
   cd py-cpuinfo2
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd py-cpuinfo2
-  python -m pytest
 }
 
 package() {

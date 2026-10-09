@@ -5,7 +5,7 @@
 pkgname=python-mutatormath
 _pkgname=MutatorMath
 pkgver=3.0.1
-pkgrel=7
+pkgrel=8
 pkgdesc='Piecewise linear interpolation of multiple, arbitrarily placed, masters'
 arch=(any)
 url="https://github.com/LettError/$_pkgname"
@@ -23,13 +23,6 @@ sha256sums=('8127c1ffad1646f11a953752296c43f5d88cbd5293fff03f093d916b0bc13864')
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive"
-	export PYTHONPATH='Lib'
-	# Upstream pypi distribution doesn't have all the text fixtures so runs 0 tests, now an error in Py312
-	# python -m unittest discover
 }
 
 package() {

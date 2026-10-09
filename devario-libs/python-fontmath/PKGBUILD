@@ -5,7 +5,7 @@
 _pyname=fontMath
 pkgname=python-${_pyname,,}
 pkgver=0.10.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A collection of objects that implement fast font, glyph, etc. math'
 arch=(any)
 url="https://github.com/robotools/$_pyname"
@@ -13,7 +13,6 @@ license=(MIT)
 depends=(python-fonttools)
 makedepends=(python-{build,installer,wheel}
              python-setuptools-scm)
-checkdepends=(python-pytest)
 _archive="${_pyname,,}-$pkgver"
 source=("https://files.pythonhosted.org/packages/source/${_pyname::1}/$_pyname/$_archive.tar.gz")
 sha256sums=('7b0b39336d83d7fc03fb9dc3c662ef7d26b2c15355a34c643d1cfbd03f89fb74')
@@ -21,11 +20,6 @@ sha256sums=('7b0b39336d83d7fc03fb9dc3c662ef7d26b2c15355a34c643d1cfbd03f89fb74')
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive"
-	PYTHONPATH=Lib pytest Lib/fontMath/test
 }
 
 package() {

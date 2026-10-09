@@ -1,12 +1,10 @@
 pkgbase = python-sphinxcontrib-applehelp
 	pkgdesc = Sphinx extension which outputs Apple help books
 	pkgver = 2.0.0
-	pkgrel = 5
+	pkgrel = 6
 	url = https://github.com/sphinx-doc/sphinxcontrib-applehelp
 	arch = any
 	license = BSD-2-Clause
-	checkdepends = python-pytest
-	checkdepends = python-sphinx
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-flit-core

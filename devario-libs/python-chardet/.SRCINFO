@@ -1,14 +1,10 @@
 pkgbase = python-chardet
 	pkgdesc = Universal encoding detector for Python
 	pkgver = 6.0.0.post1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://chardet.readthedocs.io/
 	arch = any
 	license = LGPL-2.1-or-later
-	checkdepends = python-pytest
-	checkdepends = python-pytest-timeout
-	checkdepends = python-pytest-xdist
-	checkdepends = python-hypothesis
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

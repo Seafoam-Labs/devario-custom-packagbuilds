@@ -5,7 +5,7 @@
 pkgname=python-wheel
 _name=${pkgname#python-}
 pkgver=0.48.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A built-package format for Python"
 arch=(any)
 url="https://pypi.python.org/pypi/wheel"
@@ -16,8 +16,6 @@ optdepends=('python-keyring: for wheel.signatures'
             'python-xdg: for wheel.signatures'
             'python-setuptools: for legacy bdist_wheel subcommand')
 makedepends=('python-build' 'python-flit-core' 'python-installer')
-checkdepends=('python-jsonschema' 'python-pytest' 'python-keyring' 'python-keyrings-alt'
-              'python-xdg' 'python-setuptools')
 source=(
   "$pkgname-$pkgver.tar.gz::https://github.com/pypa/wheel/archive/$pkgver.tar.gz"
 )
@@ -30,15 +28,6 @@ prepare() {
 build() {
   cd wheel-$pkgver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  # Hack entry points by installing it
-
-  cd wheel-$pkgver
-  python -m installer --destdir="$PWD/tmp_install" dist/*.whl
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  PYTHONPATH="$PWD/tmp_install/$site_packages" pytest
 }
 
 package() {

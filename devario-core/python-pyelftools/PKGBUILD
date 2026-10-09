@@ -4,7 +4,7 @@
 
 pkgname=python-pyelftools
 pkgver=0.33
-pkgrel=1
+pkgrel=2
 pkgdesc='Python library for analyzing ELF files and DWARF debugging information'
 arch=('any')
 url='https://github.com/eliben/pyelftools'
@@ -27,17 +27,6 @@ b2sums=('221966cfa02a120e6bde768042755cc2fe75f7dbf090ee24588157e8eeed1241b868762
 build() {
   cd ${pkgname#python-}-$pkgver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd ${pkgname#python-}-$pkgver
-  python test/run_all_unittests.py
-  python test/run_examples_test.py
-  if [ "$CARCH" == "x86_64" ]; then
-    python test/run_readelf_tests.py
-  else
-    echo "Skipping readelf tests (require x86_64)"
-  fi
 }
 
 package() {

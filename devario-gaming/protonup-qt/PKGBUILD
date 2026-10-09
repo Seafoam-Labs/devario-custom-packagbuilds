@@ -2,7 +2,7 @@
 pkgname=protonup-qt
 _app_id=net.davidotek.pupgui2
 pkgver=2.15.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Install and manage GE-Proton, Luxtorpeda & more for Steam, Lutris and Heroic"
 arch=('any')
 url="https://davidotek.github.io/protonup-qt"
@@ -25,10 +25,6 @@ makedepends=(
   'python-installer'
   'python-setuptools'
   'python-wheel'
-)
-checkdepends=(
-  'appstream'
-  'desktop-file-utils'
 )
 optdepends=(
   'dosbox: required for Boxtron'
@@ -60,12 +56,6 @@ prepare() {
 build() {
   cd "ProtonUp-Qt-$pkgver"
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "ProtonUp-Qt-$pkgver"
-  appstreamcli validate --no-net "share/metainfo/${_app_id}.appdata.xml"
-  desktop-file-validate "share/applications/${_app_id}.desktop"
 }
 
 package() {

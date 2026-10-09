@@ -1,11 +1,10 @@
 pkgbase = python-cycler
 	pkgdesc = Composable style cycles
 	pkgver = 0.12.1
-	pkgrel = 4
+	pkgrel = 5
 	url = https://github.com/matplotlib/cycler
 	arch = any
 	license = BSD
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

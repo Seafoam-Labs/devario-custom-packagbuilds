@@ -1,11 +1,10 @@
 pkgbase = python-jaraco.test
 	pkgdesc = Testing support by jaraco
 	pkgver = 5.7.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/jaraco/jaraco.test
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

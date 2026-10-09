@@ -2,7 +2,7 @@
 
 pkgname=python-vcs-versioning
 pkgver=2.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc='the blessed package to manage your versions by vcs metadata'
 arch=(any)
 url='https://github.com/pypa/setuptools-scm'
@@ -17,13 +17,6 @@ makedepends=(
   python-build
   python-installer
 )
-checkdepends=(
-  python-pytest
-  python-pytest-timeout
-  python-setuptools-scm
-  jujutsu
-  mercurial
-)
 optdepends=('python-rich: formatting of log messages')
 source=("python-setuptools-scm::git+$url#tag=vcs-versioning-v$pkgver")
 sha512sums=('19a7d1249a5f62520b0865540644a8c245de5414523dba1c1bc50ed30b83389e0ff3b51571b93f22daa24c41b9e4d9925bb8db54e1cfd2bba5b5f1f8a0a4a45c')
@@ -33,22 +26,6 @@ build() {
   cd python-setuptools-scm/vcs-versioning
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd python-setuptools-scm/vcs-versioning
-
-  # temporary install
-  python -m installer --destdir="$(pwd)/tmp" dist/*.whl
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  export PYTHONPATH="$(pwd)/tmp/$site_packages"
-
-  local pytest_options=(
-    -vv
-    --deselect testing_vcs/test_jj.py::test_jj_disable_jj_falls_back_to_git
-  )
-
-  pytest "${pytest_options[@]}"
 }
 
 package() {

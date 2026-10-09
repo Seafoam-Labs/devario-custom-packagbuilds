@@ -1,7 +1,7 @@
 pkgbase = python-jsonschema
 	pkgdesc = JSON Schema validation including Draft 2020-12
 	pkgver = 4.26.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/python-jsonschema/jsonschema
 	arch = any
 	license = MIT

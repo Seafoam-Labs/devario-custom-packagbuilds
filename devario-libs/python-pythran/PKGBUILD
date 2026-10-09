@@ -4,7 +4,7 @@
 
 pkgname=python-pythran
 pkgver=0.19.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Ahead of Time compiler for numeric kernels'
 arch=(any)
 url='https://pythran.readthedocs.io/'
@@ -21,7 +21,6 @@ makedepends=(git
              python-build
              python-installer
              python-wheel)
-#checkdepends=(python-pytest)
 source=(git+https://github.com/serge-sans-paille/pythran#tag=$pkgver)
 sha256sums=('59afb79568edb8230620282c62ac1013252d72ef2ff13bb68fcdd6db55ce0bfb')
 
@@ -29,12 +28,6 @@ build() {
   cd pythran
   python -m build --wheel --no-isolation
 }
-
-# Takes many hours
-#check() {
-#  cd pythran-$pkgver
-#  pytest -v
-#}
 
 package() {
   cd pythran

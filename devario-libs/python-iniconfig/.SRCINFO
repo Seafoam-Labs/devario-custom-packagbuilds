@@ -1,11 +1,10 @@
 pkgbase = python-iniconfig
 	pkgdesc = brain-dead simple config-ini parsing
 	pkgver = 2.3.0
-	pkgrel = 1
+	pkgrel = 3
 	url = https://github.com/pytest-dev/iniconfig
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

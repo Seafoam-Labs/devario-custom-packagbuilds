@@ -1,11 +1,10 @@
 pkgbase = afdko
 	pkgdesc = Adobe Font Development Kit for OpenType
 	pkgver = 5.0.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/adobe-type-tools/afdko
 	arch = x86_64
 	license = Apache-2.0
-	checkdepends = python-pytest
 	makedepends = cmake
 	makedepends = cython
 	makedepends = git

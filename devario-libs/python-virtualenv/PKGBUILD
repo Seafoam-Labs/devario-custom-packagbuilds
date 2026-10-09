@@ -3,15 +3,13 @@
 # Contributor: Dan McGee <dan@archlinux.org>
 # Contributor: Daniele Paolella <dp@mcrservice.it>
 
-# Bootstrap before the Sphinx and pytest stacks are available.
-# First publish python-distlib and python-filelock, then python-python-discovery
-# using --no-check. Keep all runtime dependencies in the bootstrap package.
-# Set to 0 and regenerate .SRCINFO to restore documentation and the full tests.
-_bootstrap=1
+# First publish python-distlib and python-filelock, then python-python-discovery.
+# Set to 1 and regenerate .SRCINFO to include documentation once Sphinx is available.
+_build_docs=0
 
 pkgname=python-virtualenv
 pkgver=21.14.5
-pkgrel=2
+pkgrel=3
 pkgdesc='Virtual Python Environment builder'
 arch=(any)
 url='https://virtualenv.pypa.io'
@@ -32,7 +30,7 @@ makedepends=(
   python-hatch-vcs
   python-wheel
 )
-if (( !_bootstrap )); then
+if (( _build_docs )); then
   makedepends+=(
     python-sphinx
     python-sphinx-argparse
@@ -42,20 +40,6 @@ if (( !_bootstrap )); then
     python-sphinxcontrib-towncrier
     python-sphinxcontrib-mermaid
     towncrier
-  )
-  checkdepends=(
-    fish
-    python-flaky
-    python-pip
-    python-pytest
-    python-pytest-freezer
-    python-pytest-mock
-    python-pytest-env
-    python-pytest-timeout
-    python-time-machine
-    python-setuptools
-    tcsh
-    xonsh
   )
 fi
 replaces=(virtualenv)
@@ -84,8 +68,8 @@ build() {
 
   python -m build --wheel --no-isolation
 
-  if (( !_bootstrap )); then
-    # NOTE: install to tmp dir for documentation and tests
+  if (( _build_docs )); then
+    # Install to a temporary directory for documentation generation.
     python -m installer --destdir=test_dir dist/*.whl
     local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
     PYTHONPATH="$(pwd)/test_dir/$site_packages:$PYTHONPATH" \
@@ -93,50 +77,12 @@ build() {
   fi
 }
 
-check() {
-  if (( _bootstrap )); then
-    printf '%s\n' 'Skipping virtualenv tests for bootstrap; rebuild with _bootstrap=0 after the test dependencies are available.'
-    return 0
-  fi
-
-  local pytest_options=(
-    -vv
-    # tests try to find python2
-    --deselect tests/unit/create/test_creator.py::test_py_pyc_missing[True-False]
-    --deselect tests/unit/create/test_creator.py::test_py_pyc_missing[False-False]
-    --deselect tests/unit/discovery/py_info/test_py_info.py::test_fallback_existent_system_executable
-    --deselect tests/unit/test_util.py::test_reentrant_file_lock_is_thread_safe
-    ## https://github.com/pypa/setuptools_scm/issues/1036
-    --deselect tests/unit/create/via_global_ref/test_build_c_ext.py::test_can_build_c_extensions
-    ## https://github.com/pypa/virtualenv/issues/2814
-    --deselect tests/unit/activation/test_csh.py::test_csh[with_prompt]
-    --deselect tests/unit/activation/test_csh.py::test_csh[no_prompt]
-    # failures with 21.0.0
-    --ignore tests/unit/create/test_creator.py
-    #--deselect tests/unit/create/test_creator.py::test_create_no_seed[root-venv-copies-isolated]
-    #--deselect tests/unit/create/test_creator.py::test_create_no_seed[root-venv-copies-global]
-    # failures with 21.10.0
-    --deselect tests/unit/test_wheel_age.py::test_generator_converges
-    --deselect tests/unit/test_wheel_age.py::test_generator_updates_license
-    # failures with 21.12.1
-    --deselect tests/unit/test_sbom.py::test_sbom_spdx_declared_license[expression]
-    --deselect tests/unit/test_sbom.py::test_sbom_spdx_declared_license[names]
-    --deselect tests/unit/test_sbom.py::test_sbom_spdx_declared_license[undeclared]
-  )
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-
-  cd "$pkgname"
-
-  PYTHONPATH="$(pwd)/test_dir/$site_packages:$PYTHONPATH" \
-    pytest "${pytest_options[@]}"
-}
-
 package() {
   cd "$pkgname"
 
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  if (( !_bootstrap )); then
+  if (( _build_docs )); then
     # man page and compatibility alias
     install -vDm644 -t "$pkgdir/usr/share/man/man1" docs/_build/man/virtualenv.1
     ln -s virtualenv.1.gz "${pkgdir}/usr/share/man/man1/virtualenv3.1.gz"

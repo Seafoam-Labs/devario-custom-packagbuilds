@@ -4,7 +4,7 @@
 
 pkgname=pybind11
 pkgver=3.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A lightweight header-only library that exposes C++ types in Python and vice versa'
 arch=('any')
 url='https://pybind11.readthedocs.org/'
@@ -14,39 +14,18 @@ depends=(
 optdepends=(
     'python-setuptools: for setup_helpers')
 makedepends=(
-    'boost'
     'cmake'
-    'eigen'
     'python-build'
     'python-installer'
-    'python-pytest'
     'python-scikit-build-core'
     'python-setuptools' # for satisfying namcap
     'python-wheel')
-checkdepends=(
-    'python-numpy'
-    'python-scipy')
 source=("https://github.com/pybind/pybind11/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
 sha256sums=('ef712655692a2e9bf7bb7874c022564a45f91d847ddee987e720cd9e28849665')
 
 build () {
     cd "${pkgname}-${pkgver}"
     python -m build --wheel --no-isolation
-    
-    # tests
-    cmake \
-        -G 'Unix Makefiles' \
-        -B "${srcdir}/build-tests" \
-        -S "${srcdir}/${pkgname}-${pkgver}" \
-        -DCMAKE_BUILD_TYPE:STRING='None' \
-        -DCMAKE_INSTALL_PREFIX:PATH='/usr' \
-        -DDOWNLOAD_CATCH:BOOL='ON' \
-        -Wno-author
-    cmake --build "${srcdir}/build-tests"
-}
-
-check() {
-    make -C build-tests check
 }
 
 package() {

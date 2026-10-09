@@ -1,12 +1,10 @@
 pkgbase = python-tomlkit
 	pkgdesc = Style-preserving TOML library for Python
 	pkgver = 0.15.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/sdispater/tomlkit
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-yaml
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-wheel

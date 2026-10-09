@@ -1,7 +1,7 @@
 pkgbase = python-mutatormath
 	pkgdesc = Piecewise linear interpolation of multiple, arbitrarily placed, masters
 	pkgver = 3.0.1
-	pkgrel = 7
+	pkgrel = 8
 	url = https://github.com/LettError/MutatorMath
 	arch = any
 	license = BSD

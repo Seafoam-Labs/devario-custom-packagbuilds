@@ -1,12 +1,10 @@
 pkgbase = protonup-qt
 	pkgdesc = Install and manage GE-Proton, Luxtorpeda & more for Steam, Lutris and Heroic
 	pkgver = 2.15.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://davidotek.github.io/protonup-qt
 	arch = any
 	license = GPL-3.0-or-later
-	checkdepends = appstream
-	checkdepends = desktop-file-utils
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

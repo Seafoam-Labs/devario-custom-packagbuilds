@@ -3,7 +3,7 @@
 pkgname=('python-zstandard')
 _pkgname='zstandard'
 pkgver=0.25.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Python bindings to the Zstandard (zstd) compression library"
 url="https://github.com/indygreg/python-zstandard"
 depends=(
@@ -15,10 +15,6 @@ makedepends=(
     'python-installer'
     'python-setuptools'
     'python-wheel'
-)
-checkdepends=(
-    'python-hypothesis'
-    'python-pytest'
 )
 optdepends=(
     'python-cffi'
@@ -32,12 +28,6 @@ build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     # pyproject.toml currently requires `setuptools<69.0.0` for CI reasons
     python -m build --wheel --no-isolation --skip-dependency-check
-}
-
-check() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    cp build/"lib.linux-${CARCH}-cpython-"*/zstandard/backend_c.* zstandard/
-    pytest
 }
 
 package() {

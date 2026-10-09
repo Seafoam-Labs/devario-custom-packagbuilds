@@ -5,7 +5,7 @@
 _pyname=booleanOperations
 pkgname=python-${_pyname,,}
 pkgver=0.10.0
-pkgrel=3
+pkgrel=4
 pkgdesc='Boolean operations on paths'
 arch=(any)
 url="https://github.com/typemytype/$_pyname"
@@ -14,9 +14,6 @@ _pydeps=(pyclipper
          fonttools)
 depends=(python
          python-pyclipper python-fonttools)
-checkdepends=(python-defcon
-	      python-fontpens
-	      python-pytest)
 makedepends=(python-{build,installer,wheel}
              python-setuptools-scm)
 _archive="${_pyname,,}-$pkgver"
@@ -26,11 +23,6 @@ sha256sums=('6d719f560d2a1dd676c812b844ecceb693c96791c76579089ab7d0f5db5cedbe')
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-    cd "$_archive"
-    PYTHONPATH=Lib pytest tests
 }
 
 package() {

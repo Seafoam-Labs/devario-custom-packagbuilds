@@ -1,7 +1,7 @@
 pkgbase = python-simplejson
 	pkgdesc = Simple, fast and extensible JSON decoder/encoder
 	pkgver = 4.2.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/simplejson/simplejson
 	arch = x86_64
 	license = MIT

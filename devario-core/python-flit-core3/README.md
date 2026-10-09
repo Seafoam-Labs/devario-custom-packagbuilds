@@ -11,8 +11,7 @@ Build from the repository root:
 shelly build --isolated --no-check devario-core/python-flit-core3/PKGBUILD
 ```
 
-Use `--check` when `python-pytest` and `python-testpath` are available. The wheel
-build uses the backend in the source tree and does not require an installed Flit
+Package tests and test-only dependencies are omitted. The wheel build uses the backend in the source tree and does not require an installed Flit
 backend or `python-build`.
 
 Publish the resulting package and refresh the worker repository metadata. In a

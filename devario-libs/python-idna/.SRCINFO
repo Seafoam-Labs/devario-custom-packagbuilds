@@ -1,12 +1,10 @@
 pkgbase = python-idna
 	pkgdesc = Internationalized Domain Names in Applications (IDNA)
 	pkgver = 3.20
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/kjd/idna
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-pytest
-	checkdepends = python-hypothesis
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

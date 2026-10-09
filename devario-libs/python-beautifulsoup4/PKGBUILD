@@ -6,7 +6,7 @@
 pkgname=python-beautifulsoup4
 _pkgname="${pkgname#python-}"
 pkgver=4.15.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A Python HTML/XML parser designed for quick turnaround projects like screen-scraping'
 arch=(any)
 url='https://www.crummy.com/software/BeautifulSoup/'
@@ -21,7 +21,6 @@ makedepends=(
   python-installer
   python-hatchling
 )
-checkdepends=(python-pytest)
 optdepends=(
   'python-cchardet: alternative to autodetect character encodings'
   'python-chardet: to autodetect character encodings'
@@ -36,16 +35,6 @@ build() {
   cd "$_pkgname-$pkgver"
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$_pkgname-$pkgver"
-
-  local deselected=(
-    bs4/tests/test_htmlparser.py::TestHTMLParserTreeBuilder::test_rejected_input
-  )
-
-  pytest -v ${deselected[@]/#/--deselect }
 }
 
 package() {

@@ -1,16 +1,10 @@
 pkgbase = mypy
 	pkgdesc = Optional static typing for Python (PEP484)
 	pkgver = 2.4.0
-	pkgrel = 1
+	pkgrel = 2
 	url = http://www.mypy-lang.org/
 	arch = any
 	license = MIT
-	checkdepends = python-attrs
-	checkdepends = python-filelock
-	checkdepends = python-psutil
-	checkdepends = python-pytest
-	checkdepends = python-pytest-xdist
-	checkdepends = python-tests
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

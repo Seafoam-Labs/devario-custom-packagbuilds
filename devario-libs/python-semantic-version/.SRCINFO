@@ -1,11 +1,10 @@
 pkgbase = python-semantic-version
 	pkgdesc = A library implementing the 'SemVer' scheme
 	pkgver = 2.10.0
-	pkgrel = 9
+	pkgrel = 10
 	url = https://github.com/rbarrois/python-semanticversion
 	arch = any
 	license = BSD-2-Clause
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

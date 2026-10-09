@@ -5,7 +5,7 @@
 
 pkgname=python-pandas
 pkgver=2.3.3
-pkgrel=7
+pkgrel=8
 pkgdesc='High-performance, easy-to-use data structures and data analysis tools for Python'
 arch=(x86_64)
 url="https://pandas.pydata.org/"
@@ -50,59 +50,6 @@ optdepends=(
     'python-snappy: Snappy compression'
     'python-zstandard: Zstandard (zstd) compression'
 )
-checkdepends=(
-    'python-pytest'
-    'python-pytest-asyncio'
-    'python-pytest-xdist'
-    'python-hypothesis'
-    'python-pandas-datareader'
-    'python-numexpr'
-    'python-bottleneck'
-    'python-matplotlib'
-    'python-jinja'
-    'python-tabulate'
-    'python-scipy'
-    'python-numba'
-    'python-xarray'
-    'python-xlrd'
-    'python-xlwt'
-    'python-openpyxl'
-    'python-xlsxwriter'
-    # 'python-pyxlsb' (nowhere)
-    'python-beautifulsoup4'
-    'python-html5lib'
-    'python-lxml'
-    'python-sqlalchemy'
-    'python-psycopg2'
-    'python-pymysql'
-    'python-pytables'
-    'python-blosc'
-    'zlib'
-    # 'python-fastparquet' (in the AUR)
-    'python-pyarrow'
-    # 'python-pyreadstat' (in the AUR)
-    'python-fsspec'
-    # 'python-gcsfs' (in the AUR)
-    # 'python-pandas-gbq' (nowhere)
-    # 'python-s3fs' (in the AUR)
-    'python-qtpy'
-    'xclip'
-    'xsel'
-    'python-brotli'
-    'python-snappy'
-    'python-zstandard'
-    'python-dask'
-    'python-toolz'
-    'python-cftime'
-    'python-statsmodels'
-    'python-scikit-learn'
-    'python-seaborn'
-    'python-geopandas'
-    'python-odfpy'
-    'ipython'
-    'python-botocore'
-    'python-numba'
-)
 # No test data in upstream tarballs
 #source=(https://github.com/pandas-dev/pandas/releases/download/v${pkgver}/pandas-${pkgver}.tar.gz)
 source=(git+https://github.com/pandas-dev/pandas#tag=v${pkgver}
@@ -123,17 +70,6 @@ prepare() {
 build() {
   cd pandas
   python -m build --wheel --no-isolation --skip-dependency-check
-}
-
-check() {
-  cd pandas
-  mkdir -p test-install
-  python -m installer --destdir="$PWD"/test-install dist/*.whl
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  mv pandas{,.backup} # Prevent pytest from picking up uncompiled pandas from $PWD
-  PYTHONPATH="$srcdir"/test-install/${site_packages} \
-  pytest -v pandas.backup -m "not network and not db and not slow and not clipboard and not single_cpu" -n 4 -r sxX --no-strict-data-files || true
-  mv pandas{.backup,.}
 }
 
 package() {

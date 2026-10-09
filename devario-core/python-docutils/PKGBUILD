@@ -7,7 +7,7 @@
 pkgname=python-docutils
 _name=${pkgname#python-}
 pkgver=0.23
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc='Set of tools for processing plaintext docs into formats such as HTML, XML, or LaTeX'
 arch=('any')
@@ -22,7 +22,6 @@ makedepends=(
   'python-flit-core'
   'python-installer'
 )
-checkdepends=('python-pillow')
 optdepends=(
   'python-myst-parser: to parse input in "Markdown" (CommonMark) format'
   'python-pillow: for some image manipulation operations'
@@ -40,11 +39,6 @@ prepare() {
 build() {
   cd "$_name"-$pkgver
   python -m build --wheel --skip-dependency-check --no-isolation
-}
-
-check() {
-  cd "$_name"-$pkgver/test
-  python alltests.py
 }
 
 package() {

@@ -1,12 +1,10 @@
 pkgbase = python-babel
 	pkgdesc = A collection of tools for internationalizing Python applications
 	pkgver = 2.18.0
-	pkgrel = 1
+	pkgrel = 2
 	url = http://babel.pocoo.org/
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-pytest
-	checkdepends = python-freezegun
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

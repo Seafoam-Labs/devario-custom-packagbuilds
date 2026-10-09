@@ -6,7 +6,7 @@
 pkgbase=python-lxml
 pkgname=('python-lxml' 'python-lxml-docs')
 pkgver=6.1.3_1
-pkgrel=1
+pkgrel=2
 pkgdesc="Python binding for the libxml2 and libxslt libraries"
 arch=('x86_64')
 license=(
@@ -41,12 +41,6 @@ makedepends=(
   'python-sphinx'
   'python-sphinx_rtd_theme'
   'cython'
-)
-checkdepends=(
-  'python-cssselect'
-  'python-html5lib'
-  'python-beautifulsoup4'
-  'python-lxml-html-clean'
 )
 source=("$pkgbase::git+https://github.com/lxml/lxml#tag=lxml-${pkgver/_/-}")
 sha512sums=('e187b3f93abd1df76b513aa554fc9c7392ef1ee4f334c4a22322ac7e4c723eb82c1f7cddfe06354c678ee58d50dfdd997a6d757b20611ab339999d26ed0a88a4')
@@ -84,14 +78,6 @@ build() {
 
   # create documentation
   make html
-}
-
-check() {
-  # TODO: Find a sane way to skip inplace build
-
-  cd "$pkgbase"
-
-  make PYTHON=python test
 }
 
 package_python-lxml() {

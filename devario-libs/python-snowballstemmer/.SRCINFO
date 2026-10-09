@@ -1,7 +1,7 @@
 pkgbase = python-snowballstemmer
 	pkgdesc = Snowball stemming library collection for Python
 	pkgver = 3.1.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://snowballstem.org
 	arch = any
 	license = BSD-3-Clause

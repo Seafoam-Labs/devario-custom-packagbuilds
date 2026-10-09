@@ -1,11 +1,10 @@
 pkgbase = python-pyaml
 	pkgdesc = PyYAML-based module to produce pretty and readable YAML-serialized data
 	pkgver = 26.7.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/mk-fg/pretty-yaml
 	arch = any
 	license = WTFPL
-	checkdepends = python-unidecode
 	makedepends = git
 	makedepends = python-setuptools
 	makedepends = python-build

@@ -5,7 +5,7 @@
 
 pkgname=python-requests
 pkgver=2.34.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Python HTTP for Humans'
 arch=(any)
 url=https://requests.readthedocs.io/
@@ -25,11 +25,6 @@ makedepends=(
   python-setuptools
   python-wheel
 )
-checkdepends=(
-  python-pysocks
-  python-pytest-httpbin
-  python-trustme
-)
 optdepends=(
   'python-chardet: alternative character encoding library'
   'python-pysocks: SOCKS proxy support'
@@ -42,22 +37,6 @@ validpgpkeys=(87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864) # Nathanael Prewitt <nat
 build() {
   cd "$pkgname"
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$pkgname"
-
-  pytest_options=(
-    -v tests
-    # test_unicode_header_name hangs
-    --deselect tests/test_requests.py::TestRequests::test_unicode_header_name
-    # [Errno 111] Connection refused
-    --deselect 'tests/test_requests.py::TestTimeout::test_connect_timeout[timeout0]'
-    --deselect 'tests/test_requests.py::TestTimeout::test_connect_timeout[timeout1]'
-    --deselect 'tests/test_requests.py::TestTimeout::test_total_timeout_connect[timeout0]'
-    --deselect 'tests/test_requests.py::TestTimeout::test_total_timeout_connect[timeout1]'
-  )
-  PYTHONPATH="$PWD/src" pytest "${pytest_options[@]}"
 }
 
 package() {

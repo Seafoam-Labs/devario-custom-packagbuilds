@@ -1,12 +1,10 @@
 pkgbase = python-prettytable
 	pkgdesc = A simple Python library for easily displaying tabular data
 	pkgver = 3.18.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/jazzband/prettytable
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-pytest-lazy-fixtures
-	checkdepends = python-coverage
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

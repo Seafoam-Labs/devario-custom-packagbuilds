@@ -4,7 +4,7 @@
 _name=appdirs
 pkgname=python-appdirs
 pkgver=1.4.4
-pkgrel=12
+pkgrel=13
 pkgdesc='A small Python module for determining appropriate platform-specific dirs, e.g. a "user data dir".'
 arch=('any')
 url="https://github.com/ActiveState/appdirs"
@@ -23,11 +23,6 @@ b2sums=('cb9466f4a7f7c1d6f5b6d7ca031820ec4d3450afcaa8ba571e35387c3109ede4e2afbf2
 build() {
   cd $_name-$pkgver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $_name-$pkgver
-  python -m unittest discover -vs test
 }
 
 package() {

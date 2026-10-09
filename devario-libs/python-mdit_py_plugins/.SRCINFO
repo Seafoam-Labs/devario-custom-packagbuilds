@@ -1,12 +1,10 @@
 pkgbase = python-mdit_py_plugins
 	pkgdesc = Collection of core plugins for markdown-it-py
 	pkgver = 0.6.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/executablebooks/mdit-py-plugins
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-pytest-regressions
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-flit-core

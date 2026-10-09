@@ -1,13 +1,10 @@
 pkgbase = python-soupsieve
 	pkgdesc = A CSS4 selector implementation for Beautiful Soup
 	pkgver = 2.10
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/facelessuser/soupsieve
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-html5lib
-	checkdepends = python-lxml
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

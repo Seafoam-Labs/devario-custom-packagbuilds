@@ -1,14 +1,10 @@
 pkgbase = python-fonttools
 	pkgdesc = A library to manipulate font files from Python
 	pkgver = 4.66.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/fonttools/fonttools
 	arch = x86_64
 	license = MIT
-	checkdepends = python-brotli
-	checkdepends = python-fs
-	checkdepends = python-pytest
-	checkdepends = python-ufolib2
 	makedepends = cython
 	makedepends = python-build
 	makedepends = python-installer

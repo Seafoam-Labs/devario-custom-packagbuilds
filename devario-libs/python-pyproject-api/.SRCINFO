@@ -1,13 +1,10 @@
 pkgbase = python-pyproject-api
 	pkgdesc = API to interact with the python pyproject.toml based projects
 	pkgver = 1.11.3
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/tox-dev/pyproject-api
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-pytest-mock
-	checkdepends = python-virtualenv
 	makedepends = python-build
 	makedepends = python-hatch-vcs
 	makedepends = python-hatchling>=1.32.4

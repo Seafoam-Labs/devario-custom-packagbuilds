@@ -1,13 +1,10 @@
 pkgbase = python-python-discovery
 	pkgdesc = Python interpreter discovery
 	pkgver = 1.6.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://python-discovery.readthedocs.io
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-pytest-mock
-	checkdepends = python-setuptools
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

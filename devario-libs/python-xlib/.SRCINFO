@@ -1,13 +1,10 @@
 pkgbase = python-xlib
 	pkgdesc = A fully functional X client library for Python programs
 	pkgver = 0.33
-	pkgrel = 7
+	pkgrel = 8
 	url = https://github.com/python-xlib/python-xlib
 	arch = any
 	license = LGPL-2.1-or-later
-	checkdepends = xorg-xauth
-	checkdepends = xorg-server-xvfb
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools-scm

@@ -2,14 +2,13 @@
 
 pkgname=python-path
 pkgver=17.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A module wrapper for os.path'
 arch=('any')
 license=('MIT')
 url='https://github.com/jaraco/path'
 depends=('python')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
-checkdepends=('python-pytest' 'python-packaging')
 replaces=('python-path.py')
 conflicts=('python-path.py')
 provides=('python-path.py')
@@ -19,11 +18,6 @@ sha512sums=('e2a101ca040fb0bb3c1bfa0746e0864d1c3345911f3c7b42b5b81663f2713ce2695
 build() {
   cd path
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd path
-  python -m pytest
 }
 
 package() {

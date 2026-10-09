@@ -1,15 +1,10 @@
 pkgbase = python-mako
 	pkgdesc = A template library written in Python
 	pkgver = 1.4.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/sqlalchemy/mako
 	arch = any
 	license = MIT
-	checkdepends = python-babel
-	checkdepends = python-beaker
-	checkdepends = python-dogpile.cache
-	checkdepends = python-pygments
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

@@ -1,7 +1,7 @@
 pkgbase = python-ast-serialize
 	pkgdesc = Fast Python parser that generates a serialized AST
 	pkgver = 0.12.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/mypyc/ast_serialize
 	arch = x86_64
 	license = MIT

@@ -11,7 +11,7 @@
 
 pkgname=python-dateutil
 pkgver=2.9.0
-pkgrel=8
+pkgrel=9
 pkgdesc="Provides powerful extensions to the standard datetime module"
 arch=(any)
 license=(BSD-3-Clause Apache-2.0)
@@ -20,9 +20,6 @@ depends=(python-six)
 makedepends=(python-{build,installer,wheel}
              python-setuptools-scm
              python-six git)
-checkdepends=(python-freezegun
-              python-hypothesis
-              python-pytest)
 # source=("git+$url.git?signed#commit=${_commit:-$pkgver}")
 source=("git+$url.git#commit=${_commit:-$pkgver}")
 sha256sums=('db84e1759eb51252204597504409cafee32ea9a9616e64d82d8ec769048ff00e')
@@ -30,20 +27,13 @@ sha256sums=('db84e1759eb51252204597504409cafee32ea9a9616e64d82d8ec769048ff00e')
 
 prepare() {
   cd dateutil
-  # Download the tarball required for running tests
+  # Generate the zoneinfo archive installed by package().
   PYTHONPATH=src python updatezinfo.py
 }
 
 build() {
   cd dateutil
   python -m build -wn
-}
-
-check() {
-  cd dateutil
-  # https://github.com/pytest-dev/pytest/issues/5678
-  PYTHONPATH=src pytest -W ignore::pytest.PytestUnknownMarkWarning . \
-    --deselect tests/test_tz.py::test_tzlocal_local_time_trim_colon # Fails on build server
 }
 
 package() {

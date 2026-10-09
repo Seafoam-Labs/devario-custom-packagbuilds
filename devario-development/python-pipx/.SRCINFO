@@ -1,7 +1,7 @@
 pkgbase = python-pipx
 	pkgdesc = Install and Run Python Applications in Isolated Environments
 	pkgver = 1.15.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pypa/pipx
 	arch = any
 	license = MIT

@@ -1,13 +1,11 @@
 pkgbase = python-xmlschema
 	pkgdesc = An XML Schema validator and decoder
 	pkgver = 4.3.2
-	pkgrel = 1
+	pkgrel = 2
 	epoch = 1
 	url = https://github.com/sissaschool/xmlschema
 	arch = any
 	license = MIT
-	checkdepends = python-lxml
-	checkdepends = python-jinja
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

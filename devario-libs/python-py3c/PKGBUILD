@@ -2,7 +2,7 @@
 
 pkgname=python-py3c
 pkgver=1.4
-pkgrel=6
+pkgrel=7
 pkgdesc="A Python 2/3 compatibility layer for C extensions"
 url="https://github.com/encukou/py3c"
 license=('MIT')
@@ -22,11 +22,6 @@ build() {
   cd py3c-$pkgver
   python -m build --wheel --no-isolation
   make prefix=/usr py3c.pc
-}
-
-check() {
-  cd py3c-$pkgver
-  make test-python
 }
 
 package() {

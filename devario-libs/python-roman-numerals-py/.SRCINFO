@@ -1,11 +1,10 @@
 pkgbase = python-roman-numerals-py
 	pkgdesc = Manipulate well-formed Roman numerals
 	pkgver = 4.1.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/AA-Turner/roman-numerals/tree/master/python
 	arch = any
 	license = 0BSD OR CC0-1.0
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-flit-core

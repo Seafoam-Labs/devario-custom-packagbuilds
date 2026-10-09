@@ -1,13 +1,10 @@
 pkgbase = python-smartypants
 	pkgdesc = Python with the SmartyPants
 	pkgver = 2.0.2
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/justinmayer/smartypants.py
 	arch = any
 	license = BSD-2-Clause
-	checkdepends = python-docutils
-	checkdepends = python-pygments
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

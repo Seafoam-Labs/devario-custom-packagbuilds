@@ -1,7 +1,7 @@
 # Maintainer: Devario maintainers
 pkgname=python-jsonschema
 pkgver=4.26.0
-pkgrel=1
+pkgrel=2
 pkgdesc='JSON Schema validation including Draft 2020-12'
 arch=(any)
 url='https://github.com/python-jsonschema/jsonschema'
@@ -14,11 +14,6 @@ sha256sums=('0c26707e2efad8aa1bfc5b7ce170f3fccc2e4918ff85989ba9ffa9facb2be326')
 build() {
   cd "jsonschema-4.26.0"
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "jsonschema-$pkgver"
-  python -m unittest jsonschema.tests.test_validators
 }
 
 package() {

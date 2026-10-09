@@ -1,12 +1,10 @@
 pkgbase = python-zope-interface
 	pkgdesc = Zope Interfaces for Python 3.x
 	pkgver = 8.6
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/zopefoundation/zope.interface
 	arch = x86_64
 	license = ZPL-2.1
-	checkdepends = python-zope-event
-	checkdepends = python-zope-testing
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

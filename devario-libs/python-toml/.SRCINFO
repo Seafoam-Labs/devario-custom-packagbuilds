@@ -1,11 +1,10 @@
 pkgbase = python-toml
 	pkgdesc = A Python library for parsing and creating TOML
 	pkgver = 0.10.2
-	pkgrel = 13
+	pkgrel = 14
 	url = https://github.com/uiri/toml
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

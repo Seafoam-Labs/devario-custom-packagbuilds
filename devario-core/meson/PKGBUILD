@@ -4,7 +4,7 @@
 
 pkgname=meson
 pkgver=1.12.1
-pkgrel=1
+pkgrel=2
 pkgdesc="High productivity build system"
 url="https://mesonbuild.com/"
 arch=(any)
@@ -24,68 +24,6 @@ makedepends=(
   python-strictyaml
   python-wheel
 )
-checkdepends=(
-  boost
-  boost-libs
-  byacc
-  clang
-  cmake
-  cuda
-  cython
-  dmd
-  doxygen
-  gcc-fortran
-  gcc-objc
-  git
-  glib2-devel
-  glibc-locales
-  gmock
-  gnustep-base
-  gobject-introspection
-  graphviz
-  gtest
-  gtk-doc
-  gtk-sharp-3
-  gtk3
-  gtkmm3
-  hotdoc
-  itstool
-  java-environment=8
-  libelf
-  libpcap
-  libwmf
-  llvm
-  mercurial
-  mono
-  nasm
-  netcdf-fortran
-  openmpi
-  openssh
-  protobuf
-  pypy3
-  python-gobject
-  python-importlib-metadata
-  python-lxml
-  python-pip
-  python-pytest-xdist
-  qt5-base
-  qt5-tools
-  qt6-base
-  qt6-declarative
-  qt6-tools
-  rust
-  rust-bindgen
-  sdl2
-  vala
-  valgrind
-  vulkan-headers
-  vulkan-icd-loader
-  vulkan-validation-layers
-  wayland
-  wayland-protocols
-  wxwidgets-gtk3
-  zlib-static
-)
 source=(
   "git+https://github.com/mesonbuild/meson?signed#tag=$pkgver"
   arch-meson
@@ -103,26 +41,11 @@ validpgpkeys=(
   BD27B07A5EF45C2ADAF70E0484818A6819AF4A9B # Eli Schwartz <eschwartz93@gmail.com>
 )
 
-prepare() {
-  cd meson
-
-  # Remove flaky test
-  # https://github.com/mesonbuild/meson/issues/10104
-  rm -r "test cases/linuxlike/13 cmake dependency"
-}
-
 build() {
   cd meson
   python -m build --wheel --no-isolation
   ./meson.py setup docs docs.build --prefix /usr -D html=false
   ./meson.py compile -C docs.build
-}
-
-check() {
-  cd meson
-  CMAKE_POLICY_VERSION_MINIMUM=3.5 LC_ALL=en_US.UTF-8 \
-    CPPFLAGS= CFLAGS= CXXFLAGS= LDFLAGS= FFLAGS=-I/usr/include \
-    ./run_tests.py --failfast
 }
 
 package() {

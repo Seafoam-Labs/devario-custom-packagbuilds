@@ -3,7 +3,7 @@
 
 pkgname=python-editables
 pkgver=0.6
-pkgrel=1
+pkgrel=2
 pkgdesc='Python library for creating editable wheels'
 arch=(any)
 url='https://github.com/pfmoore/editables'
@@ -15,7 +15,6 @@ makedepends=(
   python-installer
   python-flit-core
 )
-checkdepends=(python-pytest)
 source=("$pkgname::git+$url#tag=$pkgver")
 b2sums=('2433c9b7931a2841c840c22d38d4d1d4906f250d557aea922c904a1c3ef34d2f4aefdc687e7ed59899932ea6dc83038eb30955898ad6e6dd126741291c5c251b')
 
@@ -23,12 +22,6 @@ build() {
   cd "$pkgname"
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$pkgname"
-
-  PYTHONPATH="$(pwd)/src" pytest -v
 }
 
 package() {

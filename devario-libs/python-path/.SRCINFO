@@ -1,12 +1,10 @@
 pkgbase = python-path
 	pkgdesc = A module wrapper for os.path
 	pkgver = 17.1.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/jaraco/path
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-packaging
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

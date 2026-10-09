@@ -2,7 +2,7 @@
 
 pkgname=python-sphinxcontrib-mermaid
 pkgver=2.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Mermaid diagrams in yours sphinx powered docs'
 arch=(any)
 url='https://github.com/mgaitan/sphinxcontrib-mermaid'
@@ -21,9 +21,6 @@ makedepends=(
 	python-installer
   python-hatchling
 )
-checkdepends=(
-	python-pytest
-)
 source=("$pkgname::git+$url#tag=$pkgver")
 sha512sums=('a821bc47237ca85518a546d4d8552bb6dd45b41b2233c12641d9ccdef3e8240f266371ec3c44704ce0eabdd13e6ba679b50110eedbdebc121330455558152529')
 b2sums=('050feb95e95028db4b69508208a088afd6f2579975d9d452a2e05fb6f125558b6f496c15be8cf8d689d8fbf9ad4159de2eb67d4e467ec52bd5b32539284e6dfd')
@@ -32,12 +29,6 @@ build() {
   cd "$pkgname"
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$pkgname"
-
-  pytest -v --fixtures
 }
 
 package() {

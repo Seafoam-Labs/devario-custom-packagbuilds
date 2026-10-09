@@ -1,7 +1,7 @@
 pkgbase = python-virtualenv
 	pkgdesc = Virtual Python Environment builder
 	pkgver = 21.14.5
-	pkgrel = 2
+	pkgrel = 3
 	url = https://virtualenv.pypa.io
 	arch = any
 	license = MIT

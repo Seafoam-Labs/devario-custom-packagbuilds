@@ -1,15 +1,10 @@
 pkgbase = python-setuptools-scm
 	pkgdesc = Handles managing your python package versions in scm metadata
 	pkgver = 10.3.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pypa/setuptools-scm
 	arch = any
 	license = MIT
-	checkdepends = mercurial
-	checkdepends = python-pip
-	checkdepends = python-pytest
-	checkdepends = python-pytest-timeout
-	checkdepends = python-rich
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

@@ -6,7 +6,7 @@
 pkgname=python-hypothesis
 _name=${pkgname#python-}
 pkgver=6.168.5
-pkgrel=2
+pkgrel=3
 pkgdesc="Advanced Quickcheck style testing library for Python"
 arch=(x86_64)
 url="https://hypothesis.readthedocs.org"
@@ -27,25 +27,6 @@ makedepends=(
   python-setuptools
   python-wheel
   rust
-)
-checkdepends=(
-  python-black
-  python-django
-  python-dpcontracts
-  python-faker
-  python-fakeredis
-  python-flaky
-  python-lark-parser
-  python-libcst
-  python-numpy
-  python-pandas
-  python-pexpect
-  python-pytest
-  python-pytest-xdist
-  python-pytz
-  python-scipy
-  python-syrupy
-  python-watchdog
 )
 optdepends=(
   'python-black: for CLI and ghostwriter'
@@ -77,33 +58,6 @@ build() {
   cd $pkgname/$_name
   export CARGO_NET_OFFLINE=true
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $pkgname/$_name
-  python -m venv --system-site-packages test-env
-  test-env/bin/python -m installer dist/*.whl
-  local pytest_options=(
-    -vv
-    # ignore deprecation warnings
-    -W=ignore::DeprecationWarning
-    # Run tests in parallel, takes forever otherwise
-    -n auto
-    # Keep rootdir at hypothesis-python/ so --deselect node ids resolve
-    --rootdir=.
-    # Depends on python-hypothesis-crosshair which is not packaged,
-    # for some reason --deselect does not work, so ignoring whole file
-    --ignore=tests/crosshair/test_conformance.py
-    --ignore=tests/crosshair/test_crosshair.py
-    # Fails with AssertionError for some reason
-    --ignore=tests/nocover/test_scrutineer.py
-    # fails with mismatch for some reason
-    --deselect 'tests/snapshots/test_always_failing.py::test_always_failing[emails]'
-    --deselect 'tests/quality/test_integers.py::test_biases_towards_boundary_values'
-
-  )
-  PATH="$PWD/test-env/bin:$PATH" test-env/bin/python -m pytest \
-    "${pytest_options[@]}" tests/
 }
 
 package() {

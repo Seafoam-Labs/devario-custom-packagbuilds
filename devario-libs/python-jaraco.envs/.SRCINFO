@@ -1,11 +1,10 @@
 pkgbase = python-jaraco.envs
 	pkgdesc = Classes for orchestrating Python (virtual) environments
 	pkgver = 2.6.0
-	pkgrel = 4
+	pkgrel = 5
 	url = https://github.com/jaraco/jaraco.envs
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

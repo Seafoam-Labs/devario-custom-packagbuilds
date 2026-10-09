@@ -1,14 +1,10 @@
 pkgbase = cython
 	pkgdesc = C-Extensions for Python
 	pkgver = 3.3.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://cython.org
 	arch = x86_64
 	license = Apache-2.0
-	checkdepends = gdb
-	checkdepends = python-interpreters-pep-734
-	checkdepends = python-pytest
-	checkdepends = python-tests
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

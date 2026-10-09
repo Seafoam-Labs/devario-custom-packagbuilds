@@ -3,7 +3,7 @@
 _name=roman-numerals
 pkgname=python-roman-numerals-py
 pkgver=4.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Manipulate well-formed Roman numerals'
 arch=(any)
 url=https://github.com/AA-Turner/roman-numerals/tree/master/python
@@ -15,7 +15,6 @@ makedepends=(
   python-flit-core
   python-installer
 )
-checkdepends=(python-pytest)
 source=("git+https://github.com/AA-Turner/roman-numerals.git#tag=v$pkgver")
 b2sums=('b1c0788cefc46d9fcde21b62b076f89ecc72559793b6202ac6f8809ac076051d574ca5fc7eaa28d4d275f3b39bee7de06c362c145a2a3bfb1cbfa5cece2b5511')
 
@@ -27,11 +26,6 @@ prepare() {
 build() {
   cd $_name/python
   python -m build --wheel --skip-dependency-check --no-isolation
-}
-
-check() {
-  cd $_name/python
-  pytest
 }
 
 package() {

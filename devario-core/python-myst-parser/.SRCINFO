@@ -1,16 +1,10 @@
 pkgbase = python-myst-parser
 	pkgdesc = An extended commonmark compliant parser, with bridges to docutils/sphinx
 	pkgver = 5.1.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/executablebooks/MyST-Parser
 	arch = any
 	license = MIT
-	checkdepends = python-beautifulsoup4
-	checkdepends = python-linkify-it-py
-	checkdepends = python-pytest
-	checkdepends = python-pytest-param-files
-	checkdepends = python-pytest-regressions
-	checkdepends = python-sphinx-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-flit-core

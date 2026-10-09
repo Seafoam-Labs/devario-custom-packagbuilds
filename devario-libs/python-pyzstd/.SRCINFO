@@ -1,11 +1,10 @@
 pkgbase = python-pyzstd
 	pkgdesc = Python bindings to Zstandard (zstd) compression library
 	pkgver = 0.19.1
-	pkgrel = 3
+	pkgrel = 4
 	url = https://pypi.org/project/pyzstd
 	arch = x86_64
 	license = BSD-3-Clause
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-wheel

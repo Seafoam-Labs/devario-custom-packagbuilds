@@ -1,11 +1,10 @@
 pkgbase = python-typogrify
 	pkgdesc = filters to make caring about typography on the web a bit easier
 	pkgver = 2.1.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/justinmayer/typogrify
 	arch = any
 	license = BSD-3-Clause
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-hatchling
 	makedepends = python-installer

@@ -1,7 +1,7 @@
 pkgbase = python-libcst
 	pkgdesc = A concrete syntax tree parser and serializer library for Python that preserves many aspects of Python's abstract syntax tree
 	pkgver = 1.8.6
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/Instagram/LibCST
 	arch = x86_64
 	license = MIT

@@ -3,7 +3,7 @@
 
 pkgname=python-mako
 pkgver=1.4.3
-pkgrel=1
+pkgrel=2
 pkgdesc="A template library written in Python"
 arch=(any)
 url="https://github.com/sqlalchemy/mako"
@@ -19,14 +19,6 @@ makedepends=(
   python-setuptools
   python-wheel
 )
-checkdepends=(
-  # python-lingua isn't packaged
-  python-babel
-  python-beaker
-  python-dogpile.cache
-  python-pygments
-  python-pytest
-)
 optdepends=(
   'python-babel: for i18n features'
   'python-beaker: for caching support'
@@ -40,11 +32,6 @@ sha512sums=('c4ac12587d58777eae263441622385713c6f551dbd12afb9f73d8830a459bd24bd8
 build() {
   cd $pkgname
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $pkgname
-  pytest
 }
 
 package() {

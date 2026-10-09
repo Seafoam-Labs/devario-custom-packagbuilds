@@ -1,14 +1,10 @@
 pkgbase = python-packaging
 	pkgdesc = Core utilities for Python packages
 	pkgver = 26.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pypa/packaging
 	arch = any
 	license = Apache-2.0 OR BSD-2-Clause
-	checkdepends = python-pytest
-	checkdepends = python-pretend
-	checkdepends = python-tomli-w
-	checkdepends = python-hypothesis
 	makedepends = python-build
 	makedepends = python-flit-core
 	makedepends = python-installer

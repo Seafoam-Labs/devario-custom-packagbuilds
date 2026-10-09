@@ -1,14 +1,10 @@
 pkgbase = python-pyparsing
 	pkgdesc = General parsing module for Python
 	pkgver = 3.3.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/pyparsing/pyparsing/
 	arch = any
 	license = MIT
-	checkdepends = python-jinja
-	checkdepends = python-railroad-diagrams
-	checkdepends = python-pytest
-	checkdepends = python-matplotlib
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

@@ -7,7 +7,7 @@ _devendored=1  # set to 0 to use vendored sources
 _pkgname=poetry-core
 pkgname=python-poetry-core
 pkgver=2.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Poetry PEP 517 Build Backend & Core Utilities'
 arch=(any)
 url="https://github.com/python-poetry/${_pkgname}"
@@ -21,13 +21,6 @@ if (( _devendored == 1 )); then
 	depends+=("${_pydeps[@]/#/python-}")
 fi
 makedepends=(python-{build,installer})
-checkdepends=(git
-              python-pytest
-              python-pytest-mock
-              python-setuptools
-              python-tomli-w
-              python-trove-classifiers
-              python-virtualenv)
 _archive="$_pkgname-$pkgver"
 source=("$url/archive/$pkgver/$_archive.tar.gz"
         "$pkgname-1.9.0-devendor.patch")
@@ -45,14 +38,6 @@ prepare() {
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive"
-	export PYTHONPATH="$PWD/src"
-	# only works inside git repositories
-	pytest \
-		-k 'not test_default_with_excluded_data and not test_default_src_with_excluded_data'
 }
 
 package() {

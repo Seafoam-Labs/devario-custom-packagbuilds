@@ -1,11 +1,10 @@
 pkgbase = python-sphinxcontrib-mermaid
 	pkgdesc = Mermaid diagrams in yours sphinx powered docs
 	pkgver = 2.1.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/mgaitan/sphinxcontrib-mermaid
 	arch = any
 	license = BSD-2-Clause
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

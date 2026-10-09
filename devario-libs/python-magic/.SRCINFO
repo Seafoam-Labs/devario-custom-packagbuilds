@@ -1,12 +1,11 @@
 pkgbase = python-magic
 	pkgdesc = A python wrapper for libmagic
 	pkgver = 0.4.27
-	pkgrel = 6
+	pkgrel = 7
 	epoch = 1
 	url = https://github.com/ahupp/python-magic
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

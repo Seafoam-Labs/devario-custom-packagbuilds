@@ -7,7 +7,7 @@
 pkgname=python-tox
 _name="${pkgname#python-}"
 pkgver=4.33.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Python virtualenv management and testing tool'
 arch=('any')
 url='https://tox.readthedocs.io'
@@ -32,21 +32,6 @@ makedepends=(
   'python-hatchling'
   'python-installer'
 )
-checkdepends=(
-  # 'python-devpi-process'  # NOTE: pulls in devpi-{client,server}
-  'python-diff-cover'
-  'python-distlib'
-  'python-flaky'
-  'python-pdm-backend'
-  'python-psutil'
-  'python-pytest'
-  'python-pytest-mock'
-  'python-pytest-xdist'
-  'python-re-assert'
-  'python-setuptools'
-  'python-time-machine'
-  'python-wheel'
-)
 optdepends=(
   'python-pytest: for pytest plugin to test tox and its plugins'
   'python-pytest-mock: for pytest plugin to test tox and its plugins'
@@ -59,16 +44,6 @@ build() {
   cd $_name
   python -m build --wheel --no-isolation
 }
-
-# NOTE: needs python-devpi-process to be packaged.
-# check() {
-#   local pytest_options=(
-#     -vv
-#   )
-
-#   cd $_name-$pkgver
-#   PYTHONPATH=src pytest "${pytest_options[@]}"
-# }
 
 package() {
   cd $_name

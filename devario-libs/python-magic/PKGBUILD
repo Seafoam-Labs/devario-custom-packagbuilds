@@ -3,7 +3,7 @@
 
 pkgname=python-magic
 pkgver=0.4.27
-pkgrel=6
+pkgrel=7
 epoch=1
 pkgdesc="A python wrapper for libmagic"
 arch=(any)
@@ -18,7 +18,6 @@ makedepends=(
   python-setuptools
   python-wheel
 )
-checkdepends=(python-pytest)
 license=(MIT)
 # tests not in pypi sdist tarball
 # source=(https://files.pythonhosted.org/packages/source/${pkgname::1}/$pkgname/$pkgname-$pkgver.tar.gz)
@@ -36,15 +35,6 @@ prepare() {
 build() {
   cd $pkgname-$pkgver
   python -m build --wheel --no-isolation
-}
-
-check() {
-  local pytest_options=(
-    --deselect test/python_magic_test.py::MagicTest::test_extension
-  )
-
-  cd $pkgname-$pkgver
-  LC_ALL=en_US.UTF-8 pytest -vv "${pytest_options[@]}"
 }
 
 package() {

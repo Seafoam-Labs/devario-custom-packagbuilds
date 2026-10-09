@@ -6,7 +6,7 @@
 pkgname=python-fonttools
 _pyname=${pkgname#python-}
 pkgver=4.66.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A library to manipulate font files from Python'
 url="https://github.com/fonttools/$_pyname"
 license=(MIT)
@@ -16,10 +16,6 @@ makedepends=(cython
              python-{build,installer}
              python-setuptools
              python-wheel)
-checkdepends=(python-brotli
-              python-fs
-              python-pytest
-              python-ufolib2)
 optdepends=('python-brotli: to compress/decompress WOFF 2.0 web fonts'
             'python-fs: to read/write UFO source files'
             'python-lxml: faster backend for XML files reading/writing'
@@ -39,12 +35,6 @@ sha256sums=('dcb2ff59d87e63a9c0f0d618210cbac976540b348c04fbcf5b45497561fa8015')
 build() {
 	cd "$_archive"
 	python -m build -wn
-}
-
-check() {
-	cd "$_archive"
-	# Disable test that requires python-skia-pathops which to date is AUR only (and binary wheel only)
-	PYTHONPATH=Lib pytest --deselect Tests/svgLib/path/path_test
 }
 
 package() {

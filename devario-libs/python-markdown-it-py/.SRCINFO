@@ -1,14 +1,10 @@
 pkgbase = python-markdown-it-py
 	pkgdesc = Python port of markdown-it. Markdown parsing, done right!
 	pkgver = 4.2.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/executablebooks/markdown-it-py
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = python-pytest-regressions
-	checkdepends = python-mdit_py_plugins
-	checkdepends = python-linkify-it-py
 	makedepends = python-build
 	makedepends = python-flit-core
 	makedepends = python-installer

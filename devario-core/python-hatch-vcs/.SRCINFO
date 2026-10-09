@@ -1,11 +1,10 @@
 pkgbase = python-hatch-vcs
 	pkgdesc = Hatch plugin for versioning with your preferred VCS
 	pkgver = 0.5.0
-	pkgrel = 4
+	pkgrel = 5
 	url = https://github.com/ofek/hatch-vcs
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

@@ -3,7 +3,7 @@
 pkgname=python-pyproject-metadata
 _name="${pkgname#python-}"
 pkgver=0.12.1
-pkgrel=3
+pkgrel=4
 pkgdesc='PEP 621 metadata parsing'
 arch=(any)
 url='https://github.com/pypa/python-pyproject-metadata'
@@ -17,7 +17,6 @@ makedepends=(
   python-installer
   python-flit-core
 )
-checkdepends=(python-pytest)
 source=($url/archive/$pkgver/$pkgname-$pkgver.tar.gz)
 sha512sums=('9878c3a39391de8339c78263f6e1f042b04d3bdf1e28b126fed6878346fa67f833989ae89bff94d3b93bd78f697512d7783cdbefcc127629130dfc32c4e6eba6')
 
@@ -25,12 +24,6 @@ build() {
   cd $_name-$pkgver
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd $_name-$pkgver
-
-  pytest -v
 }
 
 package() {

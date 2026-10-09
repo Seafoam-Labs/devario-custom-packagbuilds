@@ -1,11 +1,10 @@
 pkgbase = python-userpath
 	pkgdesc = Cross-platform tool for adding locations to the user PATH, no elevated privileges required!
 	pkgver = 1.9.2
-	pkgrel = 4
+	pkgrel = 5
 	url = https://github.com/ofek/userpath
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-hatchling

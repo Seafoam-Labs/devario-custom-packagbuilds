@@ -1,11 +1,10 @@
 pkgbase = python-cachetools
 	pkgdesc = Extensible memoizing collections and decorators
 	pkgver = 7.2.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/tkem/cachetools
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-setuptools
 	makedepends = python-setuptools-scm

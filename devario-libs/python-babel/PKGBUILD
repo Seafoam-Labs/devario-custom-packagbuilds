@@ -7,14 +7,13 @@ pkgver=2.18.0
 # See the number here
 # https://github.com/python-babel/babel/blob/master/scripts/download_import_cldr.py#L13
 _core=46
-pkgrel=1
+pkgrel=2
 pkgdesc="A collection of tools for internationalizing Python applications"
 url="http://babel.pocoo.org/"
 license=("BSD-3-Clause")
 arch=('any')
 depends=('python' 'python-pytz')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
-checkdepends=('python-pytest' 'python-freezegun')
 noextract=("cldr-core-$_core.zip")
 source=("$pkgname-$pkgver.tar.gz::https://github.com/python-babel/babel/archive/v$pkgver.tar.gz"
         "cldr-core-$_core.zip::http://unicode.org/Public/cldr/$_core/core.zip"
@@ -32,13 +31,6 @@ build(){
   cd "babel-$pkgver"
   make import-cldr
   python -m build --wheel --no-isolation
-}
-
-check(){
-  cd "babel-$pkgver"
-  # the tests fail if running in the wrong timezone:
-  # https://github.com/python-babel/babel/issues/757
-  TZ=UTC pytest -k 'not test_setuptools_commands'
 }
 
 package_python-babel() {

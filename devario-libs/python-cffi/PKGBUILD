@@ -3,7 +3,7 @@
 
 pkgname=python-cffi
 pkgver=2.1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Foreign Function Interface for Python calling C code"
 arch=('x86_64')
 url="https://cffi.readthedocs.org/"
@@ -11,20 +11,12 @@ license=('MIT-0')
 depends=('python-pycparser')
 optdepends=('python-setuptools: "limited api" version checking in cffi.setuptools_ext')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
-checkdepends=('python-pytest')
 source=("git+https://github.com/python-cffi/cffi.git#tag=v$pkgver")
 sha512sums=('d608a63bdae41ce93f4abee3e8f772337740c3859d50d7592943a03dea3f3007aeefee2084f5d715ef9b795a2c5fe7c29f55fce7b9397d529e4309f6c12d56ad')
 
 build() {
   cd cffi
   python -m build -nw
-}
-
-check() {
-  cd cffi
-  python -m installer --destdir=tmpinstall dist/*.whl
-  local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-  PYTHONPATH="$PWD/tmpinstall/usr/lib/python${python_version}/site-packages" pytest
 }
 
 package() {

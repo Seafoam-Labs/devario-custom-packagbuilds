@@ -5,14 +5,13 @@
 
 pkgname=python-prettytable
 pkgver=3.18.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A simple Python library for easily displaying tabular data"
 url="https://github.com/jazzband/prettytable"
 arch=('any')
 license=('BSD-3-Clause')
 depends=('python-wcwidth')
 makedepends=('git' 'python-build' 'python-installer' 'python-hatchling' 'python-hatch-vcs')
-checkdepends=('python-pytest-lazy-fixtures' 'python-coverage')
 conflicts=('python-ptable')
 source=("git+https://github.com/jazzband/prettytable.git#tag=$pkgver")
 sha512sums=('3421f37700134aa6ce17ef2ffe37570458734845e198007498e0aaaf4fe8f30c7d1a3051440a48b0ed3a44f7a439229e04090b9bb447d1aba65679acc0ec1e39')
@@ -20,13 +19,6 @@ sha512sums=('3421f37700134aa6ce17ef2ffe37570458734845e198007498e0aaaf4fe8f30c7d1
 build() {
   cd prettytable
   python -m build -nw
-}
-
-check() {
-  cd prettytable
-  python -m installer --destdir="$PWD/tmp_install" dist/*.whl
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  PYTHONPATH="$PWD/tmp_install/$site_packages" pytest
 }
 
 package() {

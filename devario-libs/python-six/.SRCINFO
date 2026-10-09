@@ -1,12 +1,10 @@
 pkgbase = python-six
 	pkgdesc = Python 2 and 3 compatibility utilities
 	pkgver = 1.17.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://pypi.python.org/pypi/six/
 	arch = any
 	license = MIT
-	checkdepends = python-pytest
-	checkdepends = tk
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer

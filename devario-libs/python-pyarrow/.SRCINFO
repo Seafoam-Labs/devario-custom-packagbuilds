@@ -1,13 +1,10 @@
 pkgbase = python-pyarrow
 	pkgdesc = Columnar in-memory analytics layer for big data — Python module.
 	pkgver = 25.0.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://arrow.apache.org
 	arch = x86_64
 	license = Apache-2.0
-	checkdepends = python-hypothesis
-	checkdepends = python-pytest
-	checkdepends = python-pytz
 	makedepends = cmake
 	makedepends = cython
 	makedepends = git

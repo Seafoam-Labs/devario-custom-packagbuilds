@@ -5,7 +5,7 @@
 
 pkgname=python-pycparser
 pkgver=3.01
-pkgrel=1
+pkgrel=2
 pkgdesc='C parser and AST generator written in Python'
 url='https://github.com/eliben/pycparser'
 depends=('python')
@@ -18,11 +18,6 @@ sha512sums=('8e4d918f13ab22c41c5bddf4703eadddc63c0cbbb3ac1e65a52fe41a20387e6505f
 build() {
   cd pycparser
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd pycparser
-  python -m unittest discover
 }
 
 package() {

@@ -1,11 +1,10 @@
 pkgbase = python-zopfli
 	pkgdesc = Python bindings to zopfli
 	pkgver = 0.4.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/fonttools/py-zopfli
 	arch = x86_64
 	license = Apache-2.0
-	checkdepends = python-pytest
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools

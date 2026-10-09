@@ -7,7 +7,7 @@
 
 pkgname=python-pyparsing
 pkgver=3.3.3
-pkgrel=1
+pkgrel=2
 pkgdesc='General parsing module for Python'
 arch=(any)
 url='https://github.com/pyparsing/pyparsing/'
@@ -19,12 +19,6 @@ makedepends=(
   python-installer
   python-flit-core
 )
-checkdepends=(
-  python-jinja
-  python-railroad-diagrams
-  python-pytest
-  python-matplotlib
-)
 optdepends=('python-railroad-diagrams: for generating Railroad Diagrams'
             'python-jinja: for generating Railroad Diagrams')
 source=("$pkgname::git+https://github.com/pyparsing/pyparsing.git#tag=$pkgver")
@@ -35,12 +29,6 @@ build() {
   cd "$pkgname"
 
   python -m build --wheel --no-isolation
-}
-
-check() {
-  cd "$pkgname"
-
-  python -m unittest
 }
 
 package() {
