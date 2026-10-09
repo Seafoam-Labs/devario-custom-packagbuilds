@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-dev-git
 _gitname=scx
 pkgver=1.1.3.r567.g52463cbd0
-pkgrel=1
+pkgrel=2
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -67,6 +67,7 @@ ed4f6461655e43c26a3b129ff0cc8c29858530dd # scx_cake: update pool serving and doc
 74170d1c8743cc56ae8f3171aa638d14ce806803 # scx_flow: proportional adapt for 4.8.11
 c07f6a41f5f5555273d1b88bfa2248abf86e24be # scx_mlfq: bump to 1.3.15
 ecb40d47dfee76543c467ee28823b5e807b59638 # scx_cake: snapshot of kernel experiment support
+6cac30d8c59bf4554104f2767ae7486469e83ec1 # scx_cake: tag experimental-patches builds with -exp
 )
 
 _reverts=(
