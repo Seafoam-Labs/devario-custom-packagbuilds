@@ -1,0 +1,29 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-ptyprocess
+_name=ptyprocess
+pkgver=0.7.0
+pkgrel=1
+pkgdesc='Run a subprocess in a pseudo terminal'
+arch=(any)
+url='https://github.com/pexpect/ptyprocess'
+license=(ISC)
+depends=(python)
+makedepends=(
+  python-build
+  python-installer
+  python-flit-core3
+)
+source=("https://files.pythonhosted.org/packages/source/p/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
