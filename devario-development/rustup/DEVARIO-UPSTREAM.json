@@ -1,0 +1,6 @@
+{
+  "name": "rustup",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rustup/-/archive/main/rustup-main.tar.gz",
+  "sha256": "b8500d558882e4fc0e3a8b9fbbba2b8358f9c109c396a970fe1da01f5137a2f2",
+  "bytes": 3031
+}

@@ -1,0 +1,7 @@
+{
+  "name": "python-gmpy2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-gmpy2.git",
+  "commit": "b4cf0cf0772b85d529f6dd370fa8e9dbcf4df226",
+  "sha256": "a1d75656754d9c89e0f0cbdc37630b324e0a6d9e58c80a1157a5e8aa5abdec12",
+  "bytes": 12628
+}

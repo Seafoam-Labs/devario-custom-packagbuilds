@@ -1,0 +1,4 @@
+[simdutf]
+source = "git"
+git = "https://github.com/simdutf/simdutf.git"
+prefix = "v"

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-fontconfig",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-fontconfig/-/archive/main/lib32-fontconfig-main.tar.gz",
+  "sha256": "e2a8bfe94bfe96f0a170631b1ea3d7458a77987d93bbd3cb005978f70ac9e564",
+  "bytes": 6020
+}

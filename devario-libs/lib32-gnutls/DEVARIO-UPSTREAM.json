@@ -1,0 +1,6 @@
+{
+  "name": "lib32-gnutls",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-gnutls/-/archive/main/lib32-gnutls-main.tar.gz",
+  "sha256": "d706a464b6ff25e5a44d291bf348a5eb8f58196c9890ae586203fc26ee225a51",
+  "bytes": 15909
+}

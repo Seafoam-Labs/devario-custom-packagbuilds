@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libpulse",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libpulse/-/archive/main/lib32-libpulse-main.tar.gz",
+  "sha256": "8b611988459838af71a991e672713015c935a8574e3ba41ee86186a782388dee",
+  "bytes": 2343
+}

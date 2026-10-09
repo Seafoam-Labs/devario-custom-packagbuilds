@@ -1,0 +1,4 @@
+[python-cbor2]
+source = "git"
+git = "https://github.com/agronholm/cbor2"
+exclude_regex = '.*(alpha|beta|pre|rc).*'

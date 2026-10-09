@@ -1,0 +1,20 @@
+pkgbase = rutabaga-ffi
+	pkgdesc = Cross-platform, open-source, Rust-based GPU paravirtualization
+	pkgver = 0.1.85
+	pkgrel = 1
+	url = https://github.com/magma-gpu/rutabaga_gfx
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = rust
+	makedepends = meson
+	makedepends = git
+	makedepends = cmake
+	makedepends = rust-bindgen
+	depends = glibc
+	depends = libgcc
+	depends = virglrenderer
+	depends = gfxstream
+	source = rutabaga-ffi-0.1.85.tar.gz::https://github.com/magma-gpu/rutabaga_gfx/archive/refs/tags/v0.1.85.tar.gz
+	sha256sums = ad71947f028786eb33f3248ea91a427b2b0a2e5f539182e03b690abf939a64ab
+
+pkgname = rutabaga-ffi

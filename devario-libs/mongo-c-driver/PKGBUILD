@@ -1,0 +1,82 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=mongo-c-driver
+pkgver=2.5.5
+pkgrel=1
+pkgdesc="A client library written in C for MongoDB"
+arch=(x86_64)
+url="https://github.com/mongodb/mongo-c-driver"
+license=(Apache-2.0)
+depends=(
+  glibc
+  libsasl
+  openssl
+  snappy
+  zstd
+)
+makedepends=(cmake)
+provides=(
+  libbson
+  libbson2.so
+  libmongoc
+  libmongoc2.so
+)
+conflicts=(
+  libbson
+  libmongoc
+)
+replaces=(
+  libbson
+  libmongoc
+)
+source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+b2sums=('e920052002463c3a3f9ab858ad82e9355768764d6874d13f13aa7bfacfe24d2fd1d18ecbd5d98e54935d7819c4c5356f0f29f7910bdba9f303c3d78dc2b17807')
+
+build() {
+  cd $pkgname-$pkgver
+  # ENABLE_STATIC=BUILD_ONLY and DENABLE_STATIC_LIBBSON_INSTALL=OFF 
+  # is required to build tests, without installing .a libs and cmake stuff for *::static.
+  cmake -S . -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev \
+    -DBUILD_VERSION="$pkgver" \
+    -DENABLE_STATIC=BUILD_ONLY \
+    -DENABLE_STATIC_LIBBSON_INSTALL=OFF \
+    -DMONGOC_INSTALL_INCLUDEDIR=include \
+    -DBSON_INSTALL_INCLUDEDIR=include \
+    -DENABLE_TESTS=ON
+  cmake --build build
+}
+
+check() {
+  cd $pkgname-$pkgver
+  cmake --build build --target check
+  export MONGOC_TEST_OFFLINE=ON
+  export MONGOC_TEST_SKIP_LIVE=ON
+  local skip_tests=(
+    mongoc/Client/exhaust_cursor/err/network/2nd_batch/pooled
+    mongoc/Client/exhaust_cursor/err/network/2nd_batch/single
+    mongoc/Client/recovering
+    mongoc/Client/ssl/reconnect/pooled
+    mongoc/ClientPool/openssl/change_ssl_opts
+    mongoc/MongoDB/handshake/null_args
+    mongoc/azure/imds/http/talk
+    mongoc/gcp/http/talk
+    # These HTTP tests skip offline, but CTest starts their fixture first.
+    mongoc/http/get
+    mongoc/http/post
+    mongoc/fixtures/simple-http-server-18000
+    mongoc/pkg-config/bson-import-static
+    mongoc/pkg-config/mongoc-import-shared
+    mongoc/pkg-config/mongoc-import-static
+  )
+  local skip_tests_pattern="${skip_tests[0]}$(printf '|%s' "${skip_tests[@]:1}")"
+  ctest --test-dir build --output-on-failure -E "$skip_tests_pattern"
+}
+
+package() {
+  cd $pkgname-$pkgver
+  DESTDIR="$pkgdir" cmake --install build
+}

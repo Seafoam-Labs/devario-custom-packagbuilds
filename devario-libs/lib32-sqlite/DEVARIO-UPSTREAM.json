@@ -1,0 +1,6 @@
+{
+  "name": "lib32-sqlite",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-sqlite/-/archive/main/lib32-sqlite-main.tar.gz",
+  "sha256": "64d6bc47d0932a416aaf5f2e5bd1b4ac7215399ccae8302f87408abe7dcf48ac",
+  "bytes": 3999
+}

@@ -1,0 +1,7 @@
+{
+  "name": "libtlsrpt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libtlsrpt.git",
+  "commit": "bc0347c79347a31159588ad27ac2367381ffd14d",
+  "sha256": "97ef7edec0bd131c51f81d11252c996c5bc85a3753464da08d1d22dee00672a9",
+  "bytes": 2065
+}

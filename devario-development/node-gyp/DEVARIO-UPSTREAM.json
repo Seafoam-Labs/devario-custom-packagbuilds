@@ -1,0 +1,6 @@
+{
+  "name": "node-gyp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/node-gyp/-/archive/main/node-gyp-main.tar.gz",
+  "sha256": "e96bf8c654f3e90ab43f7a66912cd7b6931378eed7953539d41fbcb2f48b8860",
+  "bytes": 1922
+}

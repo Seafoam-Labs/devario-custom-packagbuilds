@@ -1,0 +1,6 @@
+{
+  "name": "ethtool",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ethtool/-/archive/main/ethtool-main.tar.gz",
+  "sha256": "86b80ff986cccef34d50ff791b3df96e77446e0e245c1f57618244bdceec005d",
+  "bytes": 23206
+}

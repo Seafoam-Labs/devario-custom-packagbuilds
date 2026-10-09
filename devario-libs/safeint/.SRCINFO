@@ -1,0 +1,11 @@
+pkgbase = safeint
+	pkgdesc = class library for C++ that manages integer overflows
+	pkgver = 3.0.28
+	pkgrel = 1
+	url = https://github.com/dcleblanc/SafeInt
+	arch = any
+	license = MIT
+	source = safeint-3.0.28.tar.gz::https://github.com/dcleblanc/SafeInt/archive/refs/tags/3.0.28.tar.gz
+	sha256sums = d6b164bcea92a746e4d44132e505c7ab1816d1089ba99ebc674ccd4b70262ed5
+
+pkgname = safeint

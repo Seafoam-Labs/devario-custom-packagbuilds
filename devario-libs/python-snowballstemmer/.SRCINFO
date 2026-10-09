@@ -1,0 +1,17 @@
+pkgbase = python-snowballstemmer
+	pkgdesc = Snowball stemming library collection for Python
+	pkgver = 3.1.1
+	pkgrel = 1
+	url = https://snowballstem.org
+	arch = any
+	license = BSD-3-Clause
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	optdepends = python-pystemmer: for improved performance
+	source = https://pypi.python.org/packages/source/s/snowballstemmer/snowballstemmer-3.1.1.tar.gz
+	sha512sums = a36320c5c21b91137b6924025edac292891d3141a12cfe84fb1ee44f19980eeb35494bebf6c8cb9879c9633e06e27aa73f850157fbc074e926713ad47368b269
+
+pkgname = python-snowballstemmer

@@ -1,0 +1,4 @@
+[riscv64-linux-gnu-linux-api-headers]
+source = "archpkg"
+archpkg = "linux-api-headers"
+strip_release = true

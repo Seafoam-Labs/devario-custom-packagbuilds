@@ -1,0 +1,4 @@
+[libfreexl]
+source = 'regex'
+url = 'https://www.gaia-gis.it/fossil/freexl/index'
+regex = 'freexl-([\d.]+).tar'

@@ -1,0 +1,4 @@
+[safeint]
+source = "git"
+git = "https://github.com/dcleblanc/SafeInt.git"
+include_regex = "([0-9]+).0.([0-9a-z]*)"

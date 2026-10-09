@@ -1,0 +1,6 @@
+{
+  "name": "nvidia-settings",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-settings/-/archive/main/nvidia-settings-main.tar.gz",
+  "sha256": "011b60dc2c6c4cfd15278a346522c0e1ba515e924aa2753118292ade6225353e",
+  "bytes": 9440
+}

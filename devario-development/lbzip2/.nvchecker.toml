@@ -1,0 +1,4 @@
+[lbzip2]
+source = 'regex'
+url = 'http://ftp.debian.org/debian/pool/main/l/lbzip2/'
+regex = 'lbzip2_([\d.]+).orig'

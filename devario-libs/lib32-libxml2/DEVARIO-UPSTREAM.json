@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxml2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxml2/-/archive/main/lib32-libxml2-main.tar.gz",
+  "sha256": "2dde8c12e3f7d01345c4737ca544623467f5f50470a3768ad0beef6648941172",
+  "bytes": 2194
+}

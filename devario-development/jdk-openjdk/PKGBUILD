@@ -19,7 +19,7 @@ _securityver=0
 _updatever=35
 # pkgver=${_majorver}.${_minorver}.${_securityver}.u${_updatever}
 pkgver=${_majorver}.u${_updatever}
-pkgrel=1
+pkgrel=2
 # _git_tag=jdk-${_majorver}.${_minorver}.${_securityver}+${_updatever}
 _git_tag=jdk-${_majorver}+${_updatever}
 arch=('x86_64')
@@ -86,7 +86,7 @@ _nonheadless=(
 )
 
 _commondeps=(
-  'java-runtime-common>=3'
+  'java-runtime-common>=3-7'
   ca-certificates-utils
   freetype2
   glibc
@@ -157,7 +157,7 @@ build() {
     --with-native-debug-symbols=internal \
     --enable-unlimited-crypto \
     --disable-warnings-as-errors \
-    --with-vendor-name="Arch Linux"
+    --with-vendor-name="Devario"
 
   make images legacy-jre-image docs
 

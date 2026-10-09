@@ -1,0 +1,4 @@
+[opam]
+source = "git"
+git = "https://github.com/ocaml/opam.git"
+exclude_regex = '.*(alpha|beta|rc).*'

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libffi",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libffi/-/archive/main/lib32-libffi-main.tar.gz",
+  "sha256": "5cc0aff4e73ef3241e0042be1e879bda768abf55cca4f335ebaa7b02677693f9",
+  "bytes": 1966
+}

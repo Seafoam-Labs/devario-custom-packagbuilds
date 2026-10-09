@@ -1,7 +1,8 @@
 # Maintainer: Devario maintainers
-pkgname=maturin
+pkgbase=maturin
+pkgname=(maturin python-maturin)
 pkgver=1.15.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Build Python packages containing Rust extensions'
 arch=(x86_64)
 # Rust LTO cannot consume makepkg C LTO objects from ring.
@@ -9,7 +10,7 @@ options=(!lto)
 url='https://github.com/PyO3/maturin'
 license=('MIT OR Apache-2.0')
 depends=('python' 'gcc-libs' 'glibc' 'xz')
-makedepends=('rust')
+makedepends=('rust' 'python-build' 'python-installer' 'python-setuptools' 'python-setuptools-rust' 'python-wheel')
 source=('https://files.pythonhosted.org/packages/b9/c8/22e5e21b2679c9bce6415ca578034ca2cc9316be0642ae21e051a2d5198c/maturin-1.15.0.tar.gz')
 sha256sums=('94b26cc8e8aba61a5f2099715fe640e18c5f678e9a500408b38761263954228a')
 
@@ -23,15 +24,26 @@ build() {
   cd "maturin-1.15.0"
   export CARGO_HOME="$srcdir/cargo-home"
   cargo build --release --frozen --bin maturin
+  MATURIN_SETUP_ARGS="--frozen" python -m build --wheel --no-isolation
 }
 
 check() {
   "maturin-1.15.0/target/release/maturin" --version
 }
 
-package() {
+package_maturin() {
   cd "maturin-1.15.0"
   install -Dm755 target/release/maturin "$pkgdir/usr/bin/maturin"
+  install -Dm644 license-mit "$pkgdir/usr/share/licenses/$pkgname/license-mit"
+  install -Dm644 license-apache "$pkgdir/usr/share/licenses/$pkgname/license-apache"
+}
+
+package_python-maturin() {
+  pkgdesc='Python build backend for packages containing Rust extensions'
+  depends=("maturin=$pkgver" python)
+  cd "maturin-1.15.0"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  rm -r "$pkgdir/usr/bin"
   install -Dm644 license-mit "$pkgdir/usr/share/licenses/$pkgname/license-mit"
   install -Dm644 license-apache "$pkgdir/usr/share/licenses/$pkgname/license-apache"
 }

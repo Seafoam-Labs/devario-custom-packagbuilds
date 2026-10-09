@@ -1,0 +1,6 @@
+{
+  "name": "lib32-harfbuzz",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-harfbuzz/-/archive/main/lib32-harfbuzz-main.tar.gz",
+  "sha256": "4d9b078dc5a029abfb7b1438d1fe49389793cd4725690f1d0fe13e67f811cfa4",
+  "bytes": 32750
+}

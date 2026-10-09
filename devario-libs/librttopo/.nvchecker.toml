@@ -1,0 +1,4 @@
+[librttopo]
+source = 'git'
+git = 'https://gitea.osgeo.org/rttopo/librttopo'
+prefix = 'librttopo-'

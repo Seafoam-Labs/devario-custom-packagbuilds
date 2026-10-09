@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libvorbis",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libvorbis/-/archive/main/lib32-libvorbis-main.tar.gz",
+  "sha256": "c175ce8ad846f479dd94ab4213f4b818a30539d2c0cf44c2a4fc993480ea1a75",
+  "bytes": 4730
+}

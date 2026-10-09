@@ -1,0 +1,17 @@
+pkgbase = crypto++
+	pkgdesc = A free C++ class library of cryptographic schemes
+	pkgver = 8.9.0
+	pkgrel = 3
+	url = https://github.com/weidai11/cryptopp
+	arch = x86_64
+	license = BSL-1.0
+	makedepends = git
+	makedepends = unzip
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	source = git+https://github.com/weidai11/cryptopp.git#tag=843d74c7c97f9e19a615b8ff3c0ca06599ca501b
+	validpgpkeys = B8CC19802062211A508B2F5CCE0586AF1F8E37BD
+	b2sums = bf73e20f57257f85a85be2752e7e242562d255d48840b1f75034c45c4c660c1677bc57e6ad59fee2fe8b8f95c736b7aca2595656901b7fd171ec67417877d834
+
+pkgname = crypto++

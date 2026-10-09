@@ -1,0 +1,3 @@
+[ocaml-result]
+source = "git"
+git = "https://github.com/janestreet/result.git"

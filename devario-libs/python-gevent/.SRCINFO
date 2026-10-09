@@ -1,0 +1,32 @@
+pkgbase = python-gevent
+	pkgdesc = Python network library that uses greenlet and libenv for easy and scalable concurrency
+	pkgver = 26.9.0
+	pkgrel = 1
+	url = http://www.gevent.org
+	arch = x86_64
+	license = MIT
+	checkdepends = lsof
+	checkdepends = python-perf
+	checkdepends = python-objgraph
+	checkdepends = python-dnspython
+	checkdepends = python-requests
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	makedepends = cython
+	makedepends = python-cffi
+	depends = glibc
+	depends = c-ares
+	depends = libev
+	depends = libuv
+	depends = python-greenlet
+	depends = python-setuptools
+	depends = python-zope-event
+	depends = python-zope-interface
+	source = python-gevent::git+https://github.com/gevent/gevent#tag=26.9.0
+	sha512sums = 36db105eb5f41f3b02898f65844175797cca6d4ef6eb516f756a68292b570bf5361e5678dc8957ed3e68233952a96927f670a4731ec222a6145cd69ce67dfdcf
+	b2sums = 683ad055d6a8c51d1d8b18170bd88e6ef4a0320107fcd8084f87d345e739b0a13e77260821c567129b4f7552e9e22d952c1698cf9abb0c88eaa39c3b28e8174d
+
+pkgname = python-gevent

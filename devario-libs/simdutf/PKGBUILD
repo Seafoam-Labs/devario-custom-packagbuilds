@@ -1,0 +1,35 @@
+# Maintainer: George Hu <integral@archlinux.org>
+# Contributor: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=simdutf
+pkgver=9.2.1
+pkgrel=2
+pkgdesc="Unicode routines (UTF8, UTF16, UTF32) and Base64"
+arch=('x86_64')
+url="https://${pkgname}.github.io/${pkgname}/"
+license=('Apache-2.0 OR MIT')
+depends=('glibc' 'libgcc' 'libstdc++')
+makedepends=('cmake' 'git')
+provides=('libsimdutf.so')
+source=("git+https://github.com/${pkgname}/${pkgname}.git#tag=v${pkgver}")
+sha256sums=('47cac89e92fcfa3227dddde446c27a74e54b4f5bfd88d752936f91c3a866fb98')
+
+build() {
+	cmake -B build \
+		-S "${pkgname}" \
+		-D CMAKE_BUILD_TYPE=None \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D BUILD_SHARED_LIBS=ON \
+		-D SIMDUTF_CXX_STANDARD=20
+
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="${pkgdir}" cmake --install build
+	install -Dm644 "${pkgname}/LICENSE-MIT" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

@@ -1,0 +1,4 @@
+[festival]
+source = 'regex'
+url = 'http://festvox.org/packed/festival/2.5/'
+regex = 'festival-([\d.]+)'

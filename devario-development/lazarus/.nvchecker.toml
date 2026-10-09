@@ -1,0 +1,3 @@
+[lazarus]
+source = "git"
+git = "https://gitlab.com/freepascal.org/lazarus/lazarus.git"

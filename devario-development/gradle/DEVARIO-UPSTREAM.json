@@ -1,0 +1,6 @@
+{
+  "name": "gradle",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gradle/-/archive/main/gradle-main.tar.gz",
+  "sha256": "dc57390e2f4a51ef71c1552325fcfc6dbf837e26a31713e945cf16b324042dee",
+  "bytes": 3566
+}

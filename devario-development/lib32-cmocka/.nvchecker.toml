@@ -1,0 +1,4 @@
+[lib32-cmocka]
+source = 'git'
+git = 'https://git.cryptomilk.org/projects/cmocka.git/'
+prefix = 'cmocka-'

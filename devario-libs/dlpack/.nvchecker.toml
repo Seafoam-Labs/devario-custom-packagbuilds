@@ -1,0 +1,4 @@
+[dlpack]
+source = "git"
+git = "https://github.com/dmlc/dlpack.git"
+prefix = "v"

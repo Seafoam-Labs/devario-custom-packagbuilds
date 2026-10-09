@@ -1,0 +1,4 @@
+[ocaml-integers]
+source = "git"
+git = "https://github.com/ocamllabs/ocaml-integers.git"
+prefix = "v"

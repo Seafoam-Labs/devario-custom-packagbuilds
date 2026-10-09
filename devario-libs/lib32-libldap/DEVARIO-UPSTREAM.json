@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libldap",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libldap/-/archive/main/lib32-libldap-main.tar.gz",
+  "sha256": "8ef7c3d0e1b4cc0fda20737f278512b31d054bd50d644a334ce636e2fe79c7f9",
+  "bytes": 4620
+}

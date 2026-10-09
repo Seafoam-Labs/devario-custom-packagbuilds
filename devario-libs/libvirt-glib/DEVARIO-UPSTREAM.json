@@ -1,0 +1,6 @@
+{
+  "name": "libvirt-glib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libvirt-glib/-/archive/main/libvirt-glib-main.tar.gz",
+  "sha256": "86d4071c6b621a56f81517ab088bcf25074899ec9a8f6c0f0127ad32b132a16f",
+  "bytes": 4930
+}

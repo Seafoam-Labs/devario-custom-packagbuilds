@@ -1,0 +1,23 @@
+pkgbase = qt6-datavis3d
+	pkgdesc = Qt6 Data Visualization module
+	pkgver = 6.12.0
+	pkgrel = 1
+	url = https://www.qt.io
+	arch = x86_64
+	groups = qt6
+	license = GPL-3.0-only
+	license = LGPL-3.0-only
+	license = LicenseRef-Qt-Commercial
+	license = Qt-GPL-exception-1.0
+	makedepends = cmake
+	makedepends = git
+	makedepends = ninja
+	makedepends = qt6-declarative
+	depends = glibc
+	depends = libstdc++
+	depends = qt6-base
+	optdepends = qt6-declarative: QML bindings
+	source = git+https://code.qt.io/qt/qtdatavis3d#tag=v6.12.0
+	sha256sums = 1083ea7f83319a768f47890499c6d4cbc77f2fb0a4f3d32636267dd9938f974e
+
+pkgname = qt6-datavis3d

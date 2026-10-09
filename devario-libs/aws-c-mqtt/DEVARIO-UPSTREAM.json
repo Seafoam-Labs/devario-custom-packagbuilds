@@ -1,0 +1,6 @@
+{
+  "name": "aws-c-mqtt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-c-mqtt/-/archive/main/aws-c-mqtt-main.tar.gz",
+  "sha256": "1de070c30f1609413fd30a1256b6c4091e66f223a2485bca868586b9e59fd960",
+  "bytes": 1680
+}

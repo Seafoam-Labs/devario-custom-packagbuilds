@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libva",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libva/-/archive/main/lib32-libva-main.tar.gz",
+  "sha256": "d08e40d559ad88bb3d7762253e835ff76c6a08d7e5bd0f18220982e9ad163943",
+  "bytes": 2046
+}

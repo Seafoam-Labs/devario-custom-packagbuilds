@@ -1,0 +1,86 @@
+# Maintainer: Anatol Pomozov
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Alad Wenter <alad (at) archlinux.info>
+# Contributor: Jochen Schalanda <jochen+aur (at) schalanda.name>
+# Contributor: C. Dominik Bódi <dominik.bodi@gmx.de>
+# Contributor: Pierre Carrier <pierre@spotify.com>
+# Contributor: Thomas Dziedzic <gostrc (at) gmail>
+# Contributor: Chris Giles <Chris.G.27 (at) Gmail.com>
+# Contributor: seblu <seblu+arch (at) seblu.net>
+# Contributor: squiddo <squiddo (at) intheocean.net>
+# Contributor: dront78 <dront78 (at) gmail.com>
+# Contributor: hugelgupf <ckoch (at) cs.nmt.edu>
+
+pkgname=dpkg
+pkgver=1.23.11
+pkgrel=2
+pkgdesc='The Debian Package Manager tools'
+arch=('x86_64')
+url="https://tracker.debian.org/pkg/dpkg"
+license=('GPL-2.0-or-later')
+depends=(
+  'bzip2'
+  'glibc'
+  'libgcc'
+  'libmd'
+  'libstdc++'
+  'ncurses'
+  'perl'
+  'xz'
+  'zlib-ng'
+  'zstd'
+)
+makedepends=(
+  'git'
+  'perl-io-string'
+  'perl-timedate'
+)
+checkdepends=(
+  'perl-io-string'
+  'perl-test-pod'
+)
+options=('!emptydirs')
+install=dpkg.install
+source=(
+  "git+https://git.dpkg.org/git/dpkg/dpkg.git?signed#tag=$pkgver"
+  origin.devario
+)
+b2sums=('9e65912c25268dd00a54db9b0414055b611095bad1f82f6572864dcbe1c3d588f10af0fbaf5efedd5fe24bf01984117fa0359622ebd0a86a6b4b301bc4125595'
+        '5f0b61bc957187219413bd27801dd62189a704a4e18ce97f571346bc4a443eb0b3ebc3077f9b4fb025b1ceb8a1b63ac1be942ae6232cc01490bbcb75f844c8f3')
+validpgpkeys=('4F3E74F436050C10F5696574B972BF3EA4AE57A3') # Guillem Jover <guillem@hadrons.org>
+
+prepare() {
+  cd $pkgname
+  # Fix zsh completions install location
+  # https://gitlab.archlinux.org/archlinux/packaging/packages/dpkg/-/issues/1
+  sed -i 's|zsh/vendor-completions|zsh/site-functions|' configure.ac
+
+  ./autogen
+}
+
+build() {
+  cd $pkgname
+  CFLAGS+=' -ffat-lto-objects' \
+    ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib \
+    --disable-start-stop-daemon
+  make
+}
+
+check() {
+  cd $pkgname
+  make check
+}
+
+package() {
+  cd $pkgname
+  make DESTDIR="$pkgdir" install
+  install -vDm644 /dev/null "$pkgdir/var/lib/dpkg/status"
+  install -vDm644 /dev/null "$pkgdir/var/lib/dpkg/available"
+  install -vDm644 "$srcdir/origin.devario" "$pkgdir/etc/dpkg/origins/devario"
+  ln -vsf devario "$pkgdir/etc/dpkg/origins/default"
+}

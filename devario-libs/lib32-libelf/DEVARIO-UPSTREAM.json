@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libelf",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libelf/-/archive/main/lib32-libelf-main.tar.gz",
+  "sha256": "415f99e1ef285d654df0beaf6516a64c3f2c25a8d81a314dd7bce007eb5d15aa",
+  "bytes": 10655
+}

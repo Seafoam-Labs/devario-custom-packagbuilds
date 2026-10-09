@@ -1,0 +1,14 @@
+[Trigger]
+Type = Path
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = var/lib/texmf/devario/installedpkgs/*.dat
+Target = var/lib/texmf/devario/installedpkgs/*.dat.lua
+Target = var/lib/texmf/devario/installedpkgs/*.def
+
+[Action]
+Description = Updating TeXLive language files...
+When = PostTransaction
+Exec = /usr/share/rlpm/scripts/texlive-language
+

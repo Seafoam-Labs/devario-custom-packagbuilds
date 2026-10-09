@@ -1,0 +1,14 @@
+pkgbase = ocamlbuild
+	pkgdesc = Build tool that has built-in rules for building OCaml libraries and programs
+	pkgver = 0.16.1
+	pkgrel = 7
+	url = https://github.com/ocaml/ocamlbuild
+	arch = x86_64
+	license = GPL-2.0-only
+	depends = ocaml
+	depends = zstd
+	options = !makeflags
+	source = ocamlbuild-0.16.1.tar.gz::https://github.com/ocaml/ocamlbuild/archive/0.16.1.tar.gz
+	b2sums = ffd0dbe8421e3ec5eabb3e6ee3844c3ad22d77d4eb0d5e34dd7a8be722b78c146fc5762c16047b7050d9ce547815a58cec6091a15e783e157b1d38c2c3787b5f
+
+pkgname = ocamlbuild

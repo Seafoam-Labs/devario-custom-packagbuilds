@@ -1,0 +1,7 @@
+{
+  "name": "libgeotiff",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libgeotiff.git",
+  "commit": "9a85ea428a5496a8768208065ccf324248e7dc85",
+  "sha256": "997381e4387da884713094882f6d08a6c20562497f5550af4e27c5c4568b1b86",
+  "bytes": 1826
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxcrypt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxcrypt/-/archive/main/lib32-libxcrypt-main.tar.gz",
+  "sha256": "0a6a41e1786d851d1d87f73097eeb4e94cf5201e373e89200f8e8f9544825252",
+  "bytes": 9281
+}

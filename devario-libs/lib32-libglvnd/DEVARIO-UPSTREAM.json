@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libglvnd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libglvnd/-/archive/main/lib32-libglvnd-main.tar.gz",
+  "sha256": "30a3123e4681aa835f67f7b3a1113844d9d05e6c9c42542172e4166873d8246b",
+  "bytes": 1920
+}

@@ -1,0 +1,49 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=cava
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='Console-based Audio Visualizer with support for multiple backends'
+arch=('x86_64')
+url='https://github.com/karlstav/cava'
+license=('MIT')
+# Compile with support for (and depend on) all input/output backends for
+# simplicity's sake. One could possibly split this into one package per
+# backend, but let's start with this.
+depends=(
+  'fftw'
+  'glibc'
+  'iniparser'
+  # Input backends
+  'alsa-lib'
+  'jack'
+  'libpipewire'
+  'libpulse'
+  'portaudio'
+  'sndio'
+  # Output backends
+  'libglvnd'
+  'ncurses'
+  'sdl2'
+)
+source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+b2sums=('6de652e3029d0ec8e2b682f3c4f9377cbc6712c92be5e0d69178e562edae70c288f98784665f40c03dce9b9cd1ffeb3c866931405e56138a58c69fbe303fb667')
+
+prepare() {
+  cd $pkgname-$pkgver
+  echo "$pkgver" > version
+  autoreconf -vif
+}
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+  install -vDm644 -t "$pkgdir/usr/share/doc/$pkgname" README.md
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}

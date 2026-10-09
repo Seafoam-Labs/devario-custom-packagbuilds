@@ -1,0 +1,7 @@
+{
+  "name": "flatbuffers",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/flatbuffers.git",
+  "commit": "43abc2df8415658dda974e12c9be4d1abc6c7b3e",
+  "sha256": "dc0edc23ac5b5fcbdecd7806d83d79059ef4dfc11fada14aa9995134ab1293bd",
+  "bytes": 2163
+}

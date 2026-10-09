@@ -1,0 +1,31 @@
+pkgbase = dpkg
+	pkgdesc = The Debian Package Manager tools
+	pkgver = 1.23.11
+	pkgrel = 2
+	url = https://tracker.debian.org/pkg/dpkg
+	install = dpkg.install
+	arch = x86_64
+	license = GPL-2.0-or-later
+	checkdepends = perl-io-string
+	checkdepends = perl-test-pod
+	makedepends = git
+	makedepends = perl-io-string
+	makedepends = perl-timedate
+	depends = bzip2
+	depends = glibc
+	depends = libgcc
+	depends = libmd
+	depends = libstdc++
+	depends = ncurses
+	depends = perl
+	depends = xz
+	depends = zlib-ng
+	depends = zstd
+	options = !emptydirs
+	source = git+https://git.dpkg.org/git/dpkg/dpkg.git?signed#tag=1.23.11
+	source = origin.devario
+	validpgpkeys = 4F3E74F436050C10F5696574B972BF3EA4AE57A3
+	b2sums = 9e65912c25268dd00a54db9b0414055b611095bad1f82f6572864dcbe1c3d588f10af0fbaf5efedd5fe24bf01984117fa0359622ebd0a86a6b4b301bc4125595
+	b2sums = 5f0b61bc957187219413bd27801dd62189a704a4e18ce97f571346bc4a443eb0b3ebc3077f9b4fb025b1ceb8a1b63ac1be942ae6232cc01490bbcb75f844c8f3
+
+pkgname = dpkg

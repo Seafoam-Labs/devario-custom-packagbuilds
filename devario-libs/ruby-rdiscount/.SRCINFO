@@ -1,0 +1,18 @@
+pkgbase = ruby-rdiscount
+	pkgdesc = Fast Implementation of Gruber's Markdown in C
+	pkgver = 2.2.7.5
+	pkgrel = 1
+	url = https://dafoster.net/projects/rdiscount/
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = ruby-test-unit
+	makedepends = git
+	makedepends = ruby-rdoc
+	makedepends = ruby-rake
+	depends = ruby
+	options = !emptydirs
+	source = ruby-rdiscount::git+https://github.com/davidfstr/rdiscount#tag=2.2.7.5
+	sha512sums = 0084def64c941d3f44307c889b8327d77d9ba9c5e54da4415aedfd18dd6c93b78c21719bfa0029a45aecce9a5e1bcd1b1d9b02b1509de97f87650011d853a278
+	b2sums = dc4cf8acdecc2766adf44e5511b8cfa5e5b13b2e557a7452a2eab752d1a9790e141be149393a45a0f2b0473286c4ea964b8308049edb07b2e18cc34ec46d55d4
+
+pkgname = ruby-rdiscount

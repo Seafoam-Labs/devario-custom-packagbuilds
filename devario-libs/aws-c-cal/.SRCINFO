@@ -1,0 +1,15 @@
+pkgbase = aws-c-cal
+	pkgdesc = AWS Crypto Abstraction Layer: Cross-Platform, C99 wrapper for cryptography primitives
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/awslabs/aws-c-cal
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	depends = aws-c-common
+	depends = glibc
+	depends = openssl
+	source = https://github.com/awslabs/aws-c-cal/archive/v1.0.0/aws-c-cal-1.0.0.tar.gz
+	b2sums = 264fcb6856307945a753ee296b2d4739145e72282e1fba5aabc4b5eb93cddd76ecc1cd73487162f455f47cd01b6704d25c8a121fdd08cf85c65261a96c757ebe
+
+pkgname = aws-c-cal

@@ -1,0 +1,6 @@
+{
+  "name": "nerd-fonts",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nerd-fonts/-/archive/main/nerd-fonts-main.tar.gz",
+  "sha256": "cc5561a6c015ef28531aa28bf48c1ef250eb612cd5407045c3654889a7990bdd",
+  "bytes": 10961
+}

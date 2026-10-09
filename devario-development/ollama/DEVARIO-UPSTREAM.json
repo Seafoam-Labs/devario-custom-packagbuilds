@@ -1,0 +1,6 @@
+{
+  "name": "ollama",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ollama/-/archive/main/ollama-main.tar.gz",
+  "sha256": "0c064976aa0bcad7b1b93bfd4c4118ffa0787a10661af4c4455453cd6a8470f8",
+  "bytes": 3600
+}

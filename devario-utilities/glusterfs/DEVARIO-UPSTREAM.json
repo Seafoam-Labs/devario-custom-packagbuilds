@@ -1,0 +1,6 @@
+{
+  "name": "glusterfs",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/glusterfs/-/archive/main/glusterfs-main.tar.gz",
+  "sha256": "31d2ddb268f6eb82a227d0f664b9b14e8c2d80d8a10dfde513b121ed6a9da884",
+  "bytes": 2482
+}

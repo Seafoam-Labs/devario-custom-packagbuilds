@@ -1,0 +1,6 @@
+{
+  "name": "lib32-clang",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-clang/-/archive/main/lib32-clang-main.tar.gz",
+  "sha256": "0ea1730403ab7d5a89e7f817861307aae56a5c0e21977d484b75e20aa43688e9",
+  "bytes": 15258
+}

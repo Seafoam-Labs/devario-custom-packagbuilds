@@ -1,0 +1,15 @@
+pkgbase = vc-intrinsics
+	pkgdesc = Set of new intrinsics on top of core LLVM IR instructions that represent SIMD semantics of a program targeting GPU
+	pkgver = 0.25.0
+	pkgrel = 2
+	url = https://github.com/intel/vc-intrinsics/
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = git
+	makedepends = llvm
+	makedepends = python
+	source = git+https://github.com/intel/vc-intrinsics.git#tag=v0.25.0
+	sha256sums = af6abe889504fc5f0cc61758aa306211ec2be086858e9e39ee96d289a6c0117c
+
+pkgname = vc-intrinsics

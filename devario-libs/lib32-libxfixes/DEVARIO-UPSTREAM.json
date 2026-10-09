@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxfixes",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxfixes/-/archive/main/lib32-libxfixes-main.tar.gz",
+  "sha256": "b6cf809ef6f26f26692d7a26880c3f944eaa5ba2ccebd32fc31285705289d9ef",
+  "bytes": 9335
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libpciaccess",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libpciaccess/-/archive/main/lib32-libpciaccess-main.tar.gz",
+  "sha256": "31548fc74d34a3527a88a18db04ffbb91692b3e65eef49b335aada719c0224c4",
+  "bytes": 11460
+}

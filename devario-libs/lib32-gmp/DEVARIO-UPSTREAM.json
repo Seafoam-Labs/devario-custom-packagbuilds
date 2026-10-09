@@ -1,0 +1,6 @@
+{
+  "name": "lib32-gmp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-gmp/-/archive/main/lib32-gmp-main.tar.gz",
+  "sha256": "e4cc89fb29ca9c295718d091022c492c0f2fdc19ebdc31d053c21c907b9aea31",
+  "bytes": 3774
+}

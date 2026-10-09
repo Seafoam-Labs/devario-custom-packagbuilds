@@ -1,0 +1,6 @@
+{
+  "name": "dpkg",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/dpkg/-/archive/main/dpkg-main.tar.gz",
+  "sha256": "fa9929a1178290a23bb38df11989d2b01e0d096478880c794683fca51ae3f4eb",
+  "bytes": 5896
+}

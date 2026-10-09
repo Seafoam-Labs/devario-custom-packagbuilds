@@ -1,0 +1,14 @@
+pkgbase = ocaml-findlib
+	pkgdesc = OCaml package manager
+	pkgver = 1.9.8
+	pkgrel = 7
+	url = http://projects.camlcity.org/projects/findlib.html
+	arch = x86_64
+	license = MIT
+	depends = ocaml-compiler-libs
+	options = staticlibs
+	options = zipman
+	source = http://download.camlcity.org/download/findlib-1.9.8.tar.gz
+	b2sums = 2483d2b833d566508680a5b9b3949aef187c290ab5602ef423ede214cb57f4b8f61dfeb9cc712499d8c7d0590388bf5e481263bbc841488e1fb62e866f9b64d8
+
+pkgname = ocaml-findlib

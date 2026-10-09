@@ -1,0 +1,83 @@
+# Maintainer: Peter Jung <ptr1337@archlinux.org>
+# Contributor: Vladislav Nepogodin <nepogodin.vlad@gmail.com>
+
+pkgname=contour
+pkgver=0.7.0.8982
+pkgrel=1
+pkgdesc="Modern C++ Terminal Emulator"
+arch=(x86_64)
+url="https://github.com/contour-terminal/contour"
+license=('Apache-2.0')
+depends=(
+  fontconfig
+  freetype2
+  glibc
+  harfbuzz
+  libgcc
+  libssh2
+  libstdc++
+  libunicode
+  libutempter
+  libxcb
+  qt6-5compat
+  qt6-base
+  qt6-declarative
+  qt6-multimedia
+  qt6-shadertools
+  wayland
+  yaml-cpp
+)
+makedepends=(
+  boxed-cpp
+  catch2
+  cmake
+  extra-cmake-modules
+  git
+  libxml2
+  microsoft-gsl
+  ninja
+  python
+  range-v3
+  reflection-cpp
+)
+optdepends=('ncurses: for contour terminfo database')
+source=(
+  "$pkgname::git+$url.git#tag=v$pkgver"
+)
+sha512sums=('7c610717e8f4ef725c4187972429184163ee0af1449a041af02158be182966895f75024cd0fa2f7d786d5e9876cbe6f7fc9d0eff524be67f71e478a0f8a4e4f3')
+
+prepare() {
+  cd $pkgname
+}
+
+build() {
+  cmake -S $pkgname -Bbuild \
+    -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCONTOUR_QT_VERSION=6 \
+    -DCONTOUR_TESTING=ON
+  cmake --build build
+}
+
+check() {
+  # for running tests, it is (currently) expected to be executed
+  # from within the source code's project root directory, in order to
+  # access some test files.
+  cd $pkgname
+  ../build/src/contour/contour version
+  ../build/src/crispy/crispy_test
+  ../build/src/vtparser/vtparser_test
+  ../build/src/vtbackend/vtbackend_test
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+
+  # provided by ncurses now
+  rm -rf "${pkgdir}/usr/share/terminfo"
+
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" $pkgname/LICENSE.txt
+}
+
+# vim:set sw=2 sts=2 et:

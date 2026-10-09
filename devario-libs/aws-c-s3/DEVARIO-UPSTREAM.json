@@ -1,0 +1,6 @@
+{
+  "name": "aws-c-s3",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-c-s3/-/archive/main/aws-c-s3-main.tar.gz",
+  "sha256": "69eb3273f0369e797ca4eacea503d166ac2a23248d653518d387510fd8cbb3f8",
+  "bytes": 2115
+}

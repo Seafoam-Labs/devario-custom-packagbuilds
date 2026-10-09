@@ -1,0 +1,17 @@
+pkgbase = simdutf
+	pkgdesc = Unicode routines (UTF8, UTF16, UTF32) and Base64
+	pkgver = 9.2.1
+	pkgrel = 2
+	url = https://simdutf.github.io/simdutf/
+	arch = x86_64
+	license = Apache-2.0 OR MIT
+	makedepends = cmake
+	makedepends = git
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	provides = libsimdutf.so
+	source = git+https://github.com/simdutf/simdutf.git#tag=v9.2.1
+	sha256sums = 47cac89e92fcfa3227dddde446c27a74e54b4f5bfd88d752936f91c3a866fb98
+
+pkgname = simdutf

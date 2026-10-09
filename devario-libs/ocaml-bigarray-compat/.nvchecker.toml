@@ -1,0 +1,4 @@
+[ocaml-bigarray-compat]
+source = "git"
+git = "https://github.com/mirage/bigarray-compat.git"
+prefix = "v"

@@ -1,0 +1,6 @@
+{
+  "name": "xorg-xrandr",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/xorg-xrandr/-/archive/main/xorg-xrandr-main.tar.gz",
+  "sha256": "eed3dbce74636bc2d35d7974b799f0a63b20a295d7d7090209210da4909ff4cb",
+  "bytes": 19037
+}

@@ -1,0 +1,17 @@
+pkgbase = perl-sub-exporter
+	pkgdesc = A sophisticated exporter for custom-built routines
+	pkgver = 0.992
+	pkgrel = 1
+	url = https://metacpan.org/release/Sub-Exporter
+	arch = any
+	license = Artistic-1.0-Perl
+	license = GPL-1.0-or-later
+	depends = perl
+	depends = perl-data-optlist
+	depends = perl-params-someutil
+	depends = perl-sub-install
+	options = !emptydirs
+	source = https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Sub-Exporter-0.992.tar.gz
+	sha512sums = 1856b27b7190451737d9a260ba36aa3808fdc90a70e6cfa2aca42afd4b8b8a128c4ff0179e1658b16f6feaf1bbee237d7ac6161d2b20a89442c3966521670696
+
+pkgname = perl-sub-exporter

@@ -1,0 +1,20 @@
+pkgbase = hipfft
+	pkgdesc = rocFFT marshalling library.
+	pkgver = 10.0
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/projects/hipFFT/en/latest/index.html
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = rocm-cmake
+	makedepends = rocm-llvm
+	depends = glibc
+	depends = hip-runtime-amd
+	depends = libgcc
+	depends = rocfft
+	depends = rocm-core
+	options = !lto
+	source = hipfft-10.0.tar.gz::https://github.com/ROCm/rocm-libraries/releases/download/therock-10.0/hipfft.tar.gz
+	sha256sums = cf2cf7b650895a3abf2a84ca478006d8b4852f53d630d7db89fd1a0a948dba4d
+
+pkgname = hipfft

@@ -1,0 +1,7 @@
+{
+  "name": "apache-orc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/apache-orc.git",
+  "commit": "77c1365f19b7fdc6811e9ae30be2c2a5579bc63e",
+  "sha256": "5e13fbb0c3d3b5aabf68bc8e1a124b0800eff707c2ef15cbb09c382033b829d5",
+  "bytes": 11739
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-expat",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-expat/-/archive/main/lib32-expat-main.tar.gz",
+  "sha256": "85da7e266311396257ac7b033db964de229e604f58e08b0ae7e6296922d616fb",
+  "bytes": 6449
+}

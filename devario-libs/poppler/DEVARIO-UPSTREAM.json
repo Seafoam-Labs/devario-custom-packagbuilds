@@ -1,0 +1,6 @@
+{
+  "name": "poppler",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/poppler/-/archive/main/poppler-main.tar.gz",
+  "sha256": "ddf9be570c062264d315af36efad612e8d300ebf4bf40fa84bf166cf074f9945",
+  "bytes": 4771
+}

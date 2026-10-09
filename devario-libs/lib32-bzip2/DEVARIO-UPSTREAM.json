@@ -1,0 +1,6 @@
+{
+  "name": "lib32-bzip2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-bzip2/-/archive/main/lib32-bzip2-main.tar.gz",
+  "sha256": "a882b0dabc112206e7cb5ca7d2f3cf78a12510cf489ea5494e8bb59852edadaa",
+  "bytes": 7347
+}

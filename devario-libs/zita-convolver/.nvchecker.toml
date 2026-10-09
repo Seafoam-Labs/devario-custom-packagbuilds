@@ -1,0 +1,4 @@
+[zita-convolver]
+source = "regex"
+regex = 'zita-convolver-([\d.]+)\.tar\..*?'
+url = "https://kokkinizita.linuxaudio.org/linuxaudio/downloads/index.html"

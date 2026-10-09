@@ -1,0 +1,7 @@
+{
+  "name": "aws-sdk-cpp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-sdk-cpp.git",
+  "commit": "536c43c24f209860642f9e797c65c197329acd91",
+  "sha256": "64224aec7e48693f6bf6ff9bb61c51ff66c9ac55213f3794d587b9b5586d7348",
+  "bytes": 2951
+}

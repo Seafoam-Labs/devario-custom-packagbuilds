@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libtasn1",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libtasn1/-/archive/main/lib32-libtasn1-main.tar.gz",
+  "sha256": "8b5d3321462b68d0c859696b1a0cfe8f2b46b56e150daf69c649d8e1f8d26af2",
+  "bytes": 3010
+}

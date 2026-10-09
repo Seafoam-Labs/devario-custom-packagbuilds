@@ -1,0 +1,6 @@
+{
+  "name": "aws-c-common",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-c-common/-/archive/main/aws-c-common-main.tar.gz",
+  "sha256": "7fcb26713b0408c2d31a91398e4980beccbcd2da6e2c1aa3b3c8ad7ac08e80ea",
+  "bytes": 1705
+}

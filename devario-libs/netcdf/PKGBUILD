@@ -1,0 +1,51 @@
+# Maintainer: Ronald van Haren <ronald.archlinux.org>
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Contributor: damir <damir@archlinux.org>
+
+pkgname=netcdf
+pkgver=4.10.1
+pkgrel=1
+pkgdesc="network Common Data Form interface for array-oriented data access and corresponding library"
+arch=(x86_64)
+url="https://www.unidata.ucar.edu/software/netcdf/"
+depends=(glibc hdf5 curl libxml2 libaec blosc bzip2 libzip zlib zstd)
+makedepends=(cmake git)
+checkdepends=(unzip)
+optdepends=('netcdf-fortran: fortran bindings' 'netcdf-cxx: c++ bindings')
+options=(!makeflags)
+license=(custom)
+source=(git+https://github.com/Unidata/netcdf-c#tag=v$pkgver)
+sha256sums=('130365b47e8296fa8ac90d8c0c07953257261c3e64ee12473f68453762b3309d')
+
+prepare() {
+  # https://github.com/Unidata/netcdf-c/issues/2188 https://github.com/Unidata/netcdf-c/issues/2242
+  sed -i "/tst_remote3/d" ${pkgname}-c/ncdap_test/CMakeLists.txt
+}
+
+build() {
+  cmake -B build -S ${pkgname}-c \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DNETCDF_WITH_PLUGIN_DIR=/usr/lib/netcdf/plugin \
+    -DNETCDF_ENABLE_BYTERANGE=ON \
+    -DNETCDF_ENABLE_CDF5=ON \
+    -DNETCDF_ENABLE_DAP_LONG_TESTS=ON \
+    -DNETCDF_ENABLE_DAP_REMOTE_TESTS=ON \
+    -DNETCDF_ENABLE_EXAMPLE_TESTS=ON \
+    -DNETCDF_ENABLE_EXTRA_TESTS=ON \
+    -DNETCDF_ENABLE_FILTER_TESTING=ON \
+    -DNETCDF_ENABLE_LARGE_FILE_TESTS=ON \
+    -DNETCDF_ENABLE_UNIT_TESTS=ON \
+    -DNETCDF_ENABLE_LOGGING=ON \
+    -DNETCDF_PLUGIN_INSTALL=ON
+  make -C build
+}
+
+check() {
+  make -C build test
+}
+
+package() {
+  make -C build DESTDIR="${pkgdir}" install
+  install -Dm644 ${pkgname}-c/COPYRIGHT -t "${pkgdir}"/usr/share/licenses/${pkgname}/
+}

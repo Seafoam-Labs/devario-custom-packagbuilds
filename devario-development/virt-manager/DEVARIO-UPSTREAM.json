@@ -1,0 +1,6 @@
+{
+  "name": "virt-manager",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/virt-manager/-/archive/main/virt-manager-main.tar.gz",
+  "sha256": "c02145a6a9443d38eacb82f3e279f765f8abdc16ab21463fdcb9f066a7d7a451",
+  "bytes": 9500
+}

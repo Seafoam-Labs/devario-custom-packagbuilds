@@ -1,0 +1,5 @@
+[python-vdf]
+source="github"
+github="solsticegamestudios/vdf"
+use_max_tag=true
+prefix="v"

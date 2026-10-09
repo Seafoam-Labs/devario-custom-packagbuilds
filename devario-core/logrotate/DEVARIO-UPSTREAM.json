@@ -1,0 +1,6 @@
+{
+  "name": "logrotate",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/logrotate/-/archive/main/logrotate-main.tar.gz",
+  "sha256": "d325e5f52254df6dd4a36445977199cf07ef89eb80a872e74987e582076396c9",
+  "bytes": 7530
+}

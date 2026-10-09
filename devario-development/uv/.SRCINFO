@@ -1,0 +1,43 @@
+pkgbase = uv
+	pkgdesc = An extremely fast Python package installer and resolver written in Rust
+	pkgver = 0.12.23
+	pkgrel = 1
+	url = https://github.com/astral-sh/uv
+	arch = x86_64
+	license = MIT
+	license = Apache-2.0
+	makedepends = bzip2
+	makedepends = cargo
+	makedepends = cmake
+	makedepends = git
+	makedepends = glibc
+	makedepends = jemalloc
+	makedepends = libgcc
+	makedepends = maturin
+	makedepends = python
+	makedepends = python-installer
+	makedepends = xz
+	makedepends = zstd
+	source = git+https://github.com/astral-sh/uv.git#tag=0.12.23
+	sha256sums = 4dab6d44ce0d35a601368d411a3c1ad625b95dec7095dc5e66cdcc8d6112a134
+
+pkgname = uv
+	depends = bzip2
+	depends = libgcc
+	depends = glibc
+	depends = jemalloc
+	depends = zstd
+
+pkgname = python-uv
+	pkgdesc = An extremely fast Python package installer and resolver written in Rust - Python wrapper
+	depends = python
+	depends = uv=0.12.23
+
+pkgname = python-uv-build
+	pkgdesc = An extremely fast Python package installer and resolver written in Rust - Python build backend
+	groups = python-build-backend
+	depends = bzip2
+	depends = libgcc
+	depends = glibc
+	depends = python
+	depends = xz

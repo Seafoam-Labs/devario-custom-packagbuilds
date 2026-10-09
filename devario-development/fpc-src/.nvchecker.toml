@@ -1,0 +1,4 @@
+[fpc-src]
+source = 'regex'
+url = 'https://sourceforge.net/projects/freepascal/rss'
+regex = 'fpcbuild-([\d.]+).tar.gz'

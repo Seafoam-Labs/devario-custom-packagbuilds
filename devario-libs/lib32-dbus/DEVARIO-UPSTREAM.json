@@ -1,0 +1,6 @@
+{
+  "name": "lib32-dbus",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-dbus/-/archive/main/lib32-dbus-main.tar.gz",
+  "sha256": "eb118d6fd18539ac1a0dbff652a71600ac371f0aef871734300b7040e73f6dd5",
+  "bytes": 9902
+}

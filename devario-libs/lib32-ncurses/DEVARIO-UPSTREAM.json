@@ -1,0 +1,6 @@
+{
+  "name": "lib32-ncurses",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-ncurses/-/archive/main/lib32-ncurses-main.tar.gz",
+  "sha256": "cbfdcfff3df1472d96de1a3e76977b8ee802b23f1cfb38fa112c74ac71fbd223",
+  "bytes": 6773
+}

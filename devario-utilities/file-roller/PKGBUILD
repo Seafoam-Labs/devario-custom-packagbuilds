@@ -1,0 +1,85 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgname=file-roller
+pkgver=44.7
+pkgrel=1
+pkgdesc="Create and modify archives"
+url="https://wiki.gnome.org/Apps/FileRoller"
+arch=(x86_64)
+license=(GPL-2.0-or-later)
+depends=(
+  dconf
+  glib2
+  glibc
+  gtk4
+  hicolor-icon-theme
+  json-glib
+  libadwaita
+  libarchive
+  libgcc
+  libnautilus-extension
+  pango
+)
+makedepends=(
+  7zip
+  arj
+  binutils
+  bzip3
+  cdrtools
+  cpio
+  dpkg
+  git
+  glib2-devel
+  lhasa
+  lrzip
+  meson
+  python
+  rpmextract
+  squashfs-tools
+  unace
+  unrar
+  unzip
+  yelp-tools
+  zip
+)
+optdepends=(
+  '7zip: 7z archive support'
+  'arj: arj archive support'
+  'binutils: ar archive support'
+  'bzip3: bzip3 compression support'
+  'cdrtools: ISO image support'
+  'cpio: cpio archive support'
+  'dpkg: deb archive support'
+  'lhasa: LHA/LZA archive support'
+  'lrzip: lrzip compression support'
+  'rpmextract: rpm archive support'
+  'squashfs-tools: squashfs image support'
+  'unace: ACE archive support'
+  'unrar: better RAR archive support'
+  'unzip: better ZIP archive support'
+  'zip: better ZIP archive support'
+)
+groups=(gnome-extra)
+source=("git+https://gitlab.gnome.org/GNOME/file-roller.git#tag=$pkgver")
+b2sums=('6f3a05d08c3f0f96e54b04e725e7cb90518e25614463017fdd53e816299ecb832aaa51de606975b650af30bd4a7021fd5dd111895de5a0634b733a8a60a8219a')
+
+prepare() {
+  cd $pkgname
+}
+
+build() {
+  arch-meson $pkgname build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
+
+# vim:set sw=2 sts=-1 et:

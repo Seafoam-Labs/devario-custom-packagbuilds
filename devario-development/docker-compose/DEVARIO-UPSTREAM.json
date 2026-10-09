@@ -1,0 +1,6 @@
+{
+  "name": "docker-compose",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/docker-compose/-/archive/main/docker-compose-main.tar.gz",
+  "sha256": "6699e221a3220a4ae5802232218e0845a13c064e839d79131d339dc86e26ebc1",
+  "bytes": 2040
+}

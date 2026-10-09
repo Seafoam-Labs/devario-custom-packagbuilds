@@ -1,0 +1,4 @@
+[libspatialite]
+source = 'regex'
+url = 'https://www.gaia-gis.it/fossil/libspatialite/index'
+regex = 'libspatialite-([\d.]+).tar'

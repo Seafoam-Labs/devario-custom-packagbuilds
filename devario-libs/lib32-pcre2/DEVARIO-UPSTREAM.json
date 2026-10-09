@@ -1,0 +1,6 @@
+{
+  "name": "lib32-pcre2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-pcre2/-/archive/main/lib32-pcre2-main.tar.gz",
+  "sha256": "7c8d6f7dad56063429a79e3c9717c4c9cf58e603ead9f7a7ac157d81309eee6c",
+  "bytes": 9641
+}

@@ -1,0 +1,13 @@
+pkgbase = pastebinit
+	pkgdesc = Send anything you want directly to a pastebin from the command line
+	pkgver = 1.5.1
+	pkgrel = 2
+	url = https://launchpad.net/pastebinit
+	arch = any
+	license = GPL
+	makedepends = asciidoc
+	depends = python
+	source = pastebinit-1.5.1.tar.gz::https://github.com/felixonmars/pastebinit/archive/1.5.1.tar.gz
+	sha512sums = 02b7faa54862d240eac3a8edaae2edb895cbb476cbf89dc71514a5a0a42aa2b0d26f07e5485627d1deb61f62e37018459e4d072bd4aacc886f259fced35e352c
+
+pkgname = pastebinit

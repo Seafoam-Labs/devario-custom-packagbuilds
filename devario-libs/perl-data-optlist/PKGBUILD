@@ -1,0 +1,42 @@
+# Maintainer: Jonathan Steel <jsteel@aur.archlinux.org>
+# Contributor: Justin Davis <jrcd83@gmail.com>
+
+pkgname=perl-data-optlist
+pkgver=0.115
+pkgrel=1
+pkgdesc="Parse and validate simple name/value option pairs"
+arch=('any')
+license=('Artistic-1.0-Perl' 'GPL-1.0-or-later')
+options=('!emptydirs')
+depends=('perl-params-someutil' 'perl-scalar-list-utils' 'perl-sub-install')
+makedepends=('perl-extutils-makemaker')
+url="https://metacpan.org/release/Data-OptList"
+source=(https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Data-OptList-$pkgver.tar.gz)
+sha512sums=('7e648b64288fbffcfd79c8c90293d41350e212dc04510da54241b72f0db66a372851fa0b4a751d2cb284eda512db9b9dc11f1649ba80b163a1451b188ce9e3f2')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""  \
+      PERL_AUTOINSTALL=--skipdeps             \
+      PERL_MM_OPT="INSTALLDIRS=vendor"        \
+      PERL_MB_OPT="--installdirs vendor"      \
+      MODULEBUILDRC=/dev/null
+    cd "$srcdir"/Data-OptList-$pkgver
+
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    cd "$srcdir"/Data-OptList-$pkgver
+
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir"/Data-OptList-$pkgver
+
+  make DESTDIR="$pkgdir"/ install
+}

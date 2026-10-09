@@ -1,0 +1,5 @@
+[uasm]
+source = "git"
+git = "https://github.com/Terraspace/UASM.git"
+prefix = "v"
+exclude_regex = "v213"

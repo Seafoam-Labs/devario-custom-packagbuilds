@@ -1,0 +1,4 @@
+[rnnoise]
+source = "git"
+git = "https://gitlab.xiph.org/xiph/rnnoise.git"
+prefix = "v"

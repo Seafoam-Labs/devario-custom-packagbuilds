@@ -1,0 +1,6 @@
+{
+  "name": "rocm-opencl-runtime",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-opencl-runtime/-/archive/main/rocm-opencl-runtime-main.tar.gz",
+  "sha256": "b78a8e7947b962f425943a515d9196df634f9b71ee5b159da01a5ca34cba84ec",
+  "bytes": 3382
+}

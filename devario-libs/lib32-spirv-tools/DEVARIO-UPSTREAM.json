@@ -1,0 +1,6 @@
+{
+  "name": "lib32-spirv-tools",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-spirv-tools/-/archive/main/lib32-spirv-tools-main.tar.gz",
+  "sha256": "1022b67ad13452fd76e63be2e18303aed435dc753d709b4898aa9909bfb6a7fb",
+  "bytes": 2626
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-wayland",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-wayland/-/archive/main/lib32-wayland-main.tar.gz",
+  "sha256": "02cca394336a443edf236399ee82dfbc6cd380ca9fce2d1f8bff1403e7867901",
+  "bytes": 8182
+}

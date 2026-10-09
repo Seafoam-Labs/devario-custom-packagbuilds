@@ -1,0 +1,7 @@
+{
+  "name": "thrift",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/thrift.git",
+  "commit": "5f1f457dac598a3789499da5c28cc81bca053304",
+  "sha256": "5a58934d805c985589a3f521be096b9e241899971eb9c88f1f47c9a02976c8bf",
+  "bytes": 11764
+}

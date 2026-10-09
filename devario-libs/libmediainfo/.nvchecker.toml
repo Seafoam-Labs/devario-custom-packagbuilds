@@ -1,0 +1,4 @@
+[libmediainfo]
+source = "git"
+git = "https://github.com/MediaArea/MediaInfoLib"
+prefix = "v"

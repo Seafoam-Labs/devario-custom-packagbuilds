@@ -1,0 +1,17 @@
+pkgbase = rocprim
+	pkgdesc = Header-only library providing HIP parallel primitives
+	pkgver = 10.0
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/projects/rocPRIM/en/latest/index.html
+	arch = any
+	license = MIT
+	makedepends = cmake
+	makedepends = rocm-cmake
+	makedepends = rocm-toolchain
+	makedepends = rocm-llvm
+	depends = rocm-core
+	depends = hip-runtime-amd
+	source = rocprim-10.0.tar.gz::https://github.com/ROCm/rocm-libraries/releases/download/therock-10.0/rocprim.tar.gz
+	sha256sums = f4e864b5147f1d50d94117529dd056d0ce3ea2c747bd91a1606ac67bad87223e
+
+pkgname = rocprim

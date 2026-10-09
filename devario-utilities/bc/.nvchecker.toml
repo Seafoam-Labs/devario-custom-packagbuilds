@@ -1,0 +1,4 @@
+[bc]
+source = "regex"
+url = "https://ftp.gnu.org/gnu/bc/"
+regex = "bc-([\\d\\.]+).tar.gz"

@@ -1,0 +1,6 @@
+{
+  "name": "qemu",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qemu/-/archive/main/qemu-main.tar.gz",
+  "sha256": "a8fee27bfa5b8d89ec4befcc0a828d9e771b78fad8e9c7e443f3927e84f67eea",
+  "bytes": 17732
+}

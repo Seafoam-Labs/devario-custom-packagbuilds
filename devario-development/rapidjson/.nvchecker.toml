@@ -1,0 +1,4 @@
+[rapidjson]
+source = "git"
+git = "https://github.com/miloyip/rapidjson.git"
+prefix = "v"

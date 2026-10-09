@@ -1,0 +1,36 @@
+pkgbase = lib32-alsa-plugins
+	pkgdesc = Additional ALSA plugins (32-bit)
+	pkgver = 1.2.12
+	pkgrel = 1
+	url = https://www.alsa-project.org
+	arch = x86_64
+	license = GPL-2.0-or-later
+	license = LGPL-2.1-or-later
+	makedepends = lib32-alsa-lib
+	makedepends = lib32-dbus
+	makedepends = lib32-jack
+	makedepends = lib32-libavtp
+	makedepends = lib32-libpulse
+	makedepends = lib32-libsamplerate
+	makedepends = lib32-speexdsp
+	depends = alsa-plugins=1:1.2.12
+	depends = lib32-glibc
+	optdepends = lib32-dbus: for maemo plugin
+	optdepends = lib32-jack: for pcm_jack plugin
+	optdepends = lib32-libavtp: for pcm_aaf plugin
+	optdepends = lib32-libsamplerate: for rate_samplerate plugin
+	optdepends = lib32-libpulse: for conf_pulse, ctl_pulse and pcm_pulse plugins
+	optdepends = lib32-speexdsp: for pcm_speex and rate_speexrate plugins
+	source = https://www.alsa-project.org/files/pub/plugins/alsa-plugins-1.2.12.tar.bz2
+	source = https://www.alsa-project.org/files/pub/plugins/alsa-plugins-1.2.12.tar.bz2.sig
+	validpgpkeys = F04DF50737AC1A884C4B3D718380596DA6E59C91
+	sha512sums = b2064eb32662662f422f6e7c71f503d82c68d7a7059c8197bdd61ee08735b3ee104c6a5f9e3451e81124634514b91fc89d05d33041d9c2bb0f55b3c2ac3271b1
+	sha512sums = SKIP
+	b2sums = ee9514d7cd73881840b17d86d52d3557936ce666ae5027b423903f2dedc74b112a8592d66dd2514744057e4bcebaf5c689f39fcc9027e05106cc0a0090470f34
+	b2sums = SKIP
+
+pkgname = lib32-alsa-plugins
+	depends = alsa-plugins=1:1.2.12
+	depends = lib32-glibc
+	depends = lib32-alsa-lib
+	depends = libasound.so

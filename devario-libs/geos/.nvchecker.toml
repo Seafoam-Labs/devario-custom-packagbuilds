@@ -1,0 +1,4 @@
+[geos]
+source = 'git'
+git = 'https://github.com/libgeos/geos'
+exclude_regex = '.*(alpha|beta|rc).*'

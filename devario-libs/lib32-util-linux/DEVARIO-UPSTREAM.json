@@ -1,0 +1,6 @@
+{
+  "name": "lib32-util-linux",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-util-linux/-/archive/main/lib32-util-linux-main.tar.gz",
+  "sha256": "4ebc084b4c66c1e6159f16577f12dc3d50ec90b6f96d37943481df7f64a5c96b",
+  "bytes": 4981
+}

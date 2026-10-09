@@ -1,0 +1,34 @@
+# Maintainer: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Contributor: dibblethewrecker dibblethewrecker.at.jiwe.dot.org
+# Contributor: William Rea <sillywilly@gmail.com>
+# Contributor: Alexander Rødseth <rodseth@gmail.com>
+
+pkgname=geos
+pkgver=3.15.0
+pkgrel=1
+pkgdesc="C/C++ library for computational geometry"
+arch=(x86_64)
+url="https://libgeos.org/"
+license=(LGPL-2.1-only)
+depends=(bash glibc libgcc libstdc++)
+makedepends=(cmake)
+options=(!emptydirs)
+changelog=$pkgname.changelog
+source=(https://download.osgeo.org/$pkgname/$pkgname-$pkgver.tar.bz2)
+sha256sums=('d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e')
+
+build() {
+  cmake -B build -S $pkgname-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_DOCUMENTATION=OFF
+  make -C build
+}
+
+check() {
+  ctest --test-dir build --verbose
+}
+
+package() {
+  make -C build DESTDIR="${pkgdir}" install
+}

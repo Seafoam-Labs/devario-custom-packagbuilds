@@ -1,0 +1,7 @@
+{
+  "name": "mongo-c-driver",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mongo-c-driver.git",
+  "commit": "88bcf3791a89bb0a9548236c07db4e7157674c0a",
+  "sha256": "54bccc45fc64bd13ca8d4735a83d060c64006bc8567d4c88116bb03c51b3a064",
+  "bytes": 2355
+}

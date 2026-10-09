@@ -1,0 +1,14 @@
+pkgbase = perl-file-slurp
+	pkgdesc = Read/write/append files quickly
+	pkgver = 9999.32
+	pkgrel = 5
+	url = https://search.cpan.org/dist/File-Slurp
+	arch = any
+	license = GPL
+	license = PerlArtistic
+	depends = perl>=5.14.0
+	options = !emptydirs
+	source = https://cpan.metacpan.org/authors/id/C/CA/CAPOEIRAB/File-Slurp-9999.32.tar.gz
+	sha256sums = 4c3c21992a9d42be3a79dd74a3c83d27d38057269d65509a2f555ea0fb2bc5b0
+
+pkgname = perl-file-slurp

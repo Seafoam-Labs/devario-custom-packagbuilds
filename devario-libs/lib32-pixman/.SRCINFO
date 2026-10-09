@@ -1,0 +1,17 @@
+pkgbase = lib32-pixman
+	pkgdesc = Pixman library (32-bit)
+	pkgver = 0.46.4
+	pkgrel = 1
+	url = https://xorg.freedesktop.org
+	arch = x86_64
+	license = MIT
+	makedepends = meson
+	makedepends = gcc-multilib
+	makedepends = lib32-libpng
+	depends = lib32-gcc-libs
+	depends = lib32-glibc
+	depends = pixman
+	source = https://xorg.freedesktop.org/releases/individual/lib/pixman-0.46.4.tar.xz
+	sha512sums = 83b133e7969ba34f883f4e08dcc5d388c4397f43ce836c191c05945fe77c16ff501d531600780c12678a0d08105828a6bdeff2156b63f9c1a84087bc7f40ae9f
+
+pkgname = lib32-pixman

@@ -1,0 +1,6 @@
+{
+  "name": "lsb-release",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lsb-release/-/archive/main/lsb-release-main.tar.gz",
+  "sha256": "e5dcc4c27d96568aed05c72cf6ebfc0473deeca268fdabbfceeb6736343ed2d9",
+  "bytes": 9125
+}

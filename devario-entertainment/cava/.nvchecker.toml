@@ -1,0 +1,3 @@
+[cava]
+source = "git"
+git = "https://github.com/karlstav/cava.git"

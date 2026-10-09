@@ -1,0 +1,22 @@
+pkgbase = rocrand
+	pkgdesc = Pseudo-random and quasi-random number generator on ROCm
+	pkgver = 10.0
+	pkgrel = 3
+	url = https://rocm.docs.amd.com/projects/rocRAND/en/latest/index.html
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = rocm-cmake
+	makedepends = rocm-toolchain
+	makedepends = rocm-llvm
+	makedepends = python
+	depends = rocm-core
+	depends = hip-runtime-amd
+	depends = glibc
+	depends = libgcc
+	options = !lto
+	source = rocrand-10.0.tar.gz::https://github.com/ROCm/rocm-libraries/releases/download/therock-10.0/rocrand.tar.gz
+	sha256sums = 3d2f1f5fb990f9a31d572ef834561bc41b6b23f2207dcc415850303b78d7c467
+
+pkgname = rocrand

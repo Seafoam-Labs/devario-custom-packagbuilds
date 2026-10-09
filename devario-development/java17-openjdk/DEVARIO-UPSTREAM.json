@@ -1,0 +1,6 @@
+{
+  "name": "java17-openjdk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/java17-openjdk/-/archive/main/java17-openjdk-main.tar.gz",
+  "sha256": "265115fb86774ce24416c6740b39cf4f9fe7cda41ff00450114fd17f12b132ba",
+  "bytes": 5838
+}

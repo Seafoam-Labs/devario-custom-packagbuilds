@@ -1,0 +1,7 @@
+{
+  "name": "grpc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/grpc.git",
+  "commit": "5764feb1e17d27ffd038b8a9d526b852ea9b8a75",
+  "sha256": "861ecb694916ea3c90d054613ea2a486ed24d03932c9b4d710b5a49e5a34490f",
+  "bytes": 5783
+}

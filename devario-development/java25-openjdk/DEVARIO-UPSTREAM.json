@@ -1,0 +1,7 @@
+{
+  "name": "java25-openjdk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/java25-openjdk.git",
+  "commit": "01e5a5a9a87e07e55f918af95570afb0901175e1",
+  "sha256": "7ec36739f01687a498a2cbe865ed98ae6d61597acce83748d602eb6ba244c9dd",
+  "bytes": 5879
+}

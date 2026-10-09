@@ -1,0 +1,6 @@
+{
+  "name": "onnxruntime",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/onnxruntime/-/archive/main/onnxruntime-main.tar.gz",
+  "sha256": "2dabff47d2f3aee0926112857f1458c8abc500e0f04dfc80dd9acc652de23461",
+  "bytes": 14538
+}

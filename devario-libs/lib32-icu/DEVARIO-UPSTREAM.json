@@ -1,0 +1,6 @@
+{
+  "name": "lib32-icu",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-icu/-/archive/main/lib32-icu-main.tar.gz",
+  "sha256": "62faf643430cade259f2b84ec8be72d242f9a4bd4c9326e29b62f8691d5f86fa",
+  "bytes": 17816
+}

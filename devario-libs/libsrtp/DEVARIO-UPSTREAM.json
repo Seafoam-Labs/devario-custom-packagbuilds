@@ -1,0 +1,6 @@
+{
+  "name": "libsrtp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libsrtp/-/archive/main/libsrtp-main.tar.gz",
+  "sha256": "303cba3aa569f7df33a4352b9b4337510b496763ad49dc8fca39c5321da4520d",
+  "bytes": 2018
+}

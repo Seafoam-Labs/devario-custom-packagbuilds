@@ -1,0 +1,44 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: Thomas Weißschuh <thomas t-8ch de>
+pkgname=libnbd
+pkgver=1.24.3
+pkgrel=1
+pkgdesc="NBD client library in userspace"
+arch=('x86_64')
+url="https://gitlab.com/nbdkit/libnbd"
+license=('LGPL-2.1-or-later')
+depends=('glibc' 'gnutls' 'libxml2')
+makedepends=('perl' 'ocamlbuild' 'ocaml-findlib' 'rust' 'fuse3' 'python' 'go')
+optdepends=(
+  'fuse3: For nbdfuse support'
+  'ocaml: For OCaml bindings'
+  'python>=3: For Python bindings'
+)
+source=(
+  "https://download.libguestfs.org/libnbd/${pkgver%.*}-stable/libnbd-${pkgver}.tar.gz"{,.sig}
+)
+sha256sums=('da36e77aff952f818222a5a0e6c726b3d492405cb1934a9c81f8e4c0071bb26a'
+            'SKIP')
+validpgpkeys=('F7774FB1AD074A7E8C8767EA91738F73E1B768A0')  # Richard W.M. Jones <rjones@redhat.com>
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  autoreconf -fiv
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  export CFLAGS+=" -ffat-lto-objects"
+  ./configure --prefix=/usr --sbindir=/usr/bin
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}

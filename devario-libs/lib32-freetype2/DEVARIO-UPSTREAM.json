@@ -1,0 +1,6 @@
+{
+  "name": "lib32-freetype2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-freetype2/-/archive/main/lib32-freetype2-main.tar.gz",
+  "sha256": "ddf753984133519684b35b31ff021d91646097e1e5bd19343854608b1848ef9c",
+  "bytes": 16064
+}

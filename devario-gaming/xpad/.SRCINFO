@@ -1,0 +1,25 @@
+pkgbase = xpad
+	pkgdesc = Stickies-like notes application
+	pkgver = 5.9.0
+	pkgrel = 1
+	url = https://launchpad.net/xpad
+	arch = x86_64
+	license = GPL-3.0-or-later
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = gtksourceview4
+	depends = hicolor-icon-theme
+	depends = libappindicator
+	depends = libice
+	depends = libsm
+	depends = pango
+	source = https://launchpad.net/xpad/trunk/5.9.0/+download/xpad-5.9.0.tar.bz2
+	source = https://launchpad.net/xpad/trunk/5.9.0/+download/xpad-5.9.0.tar.bz2.asc
+	validpgpkeys = 3930646349B9DD3886D9087392BF2FCCA6F2322B
+	validpgpkeys = 8450BEE19B722715FFDB18C6683EAA45951FC552
+	validpgpkeys = 7FA67C1981CEE3140281AB04108E2CAA625FE5FE
+	b2sums = acee93d5dfe53975671c5d792e6660c07c2f0145a47da77899a4cc22c337821dc3158cb4abcbfa5beaf27572cacb570da822737ae502cf970e723b06c5a9d8a4
+	b2sums = SKIP
+
+pkgname = xpad

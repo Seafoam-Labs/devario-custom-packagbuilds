@@ -1,0 +1,6 @@
+{
+  "name": "linux-tools",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/linux-tools/-/archive/main/linux-tools-main.tar.gz",
+  "sha256": "acfe24d90c70577e178aa27785ba703d75c032120e0de925eba16d8c9ca5bf11",
+  "bytes": 9309
+}

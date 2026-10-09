@@ -1,0 +1,3 @@
+[gfxstream]
+source = "git"
+git = "https://android.googlesource.com/platform/hardware/google/gfxstream"

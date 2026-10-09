@@ -1,0 +1,6 @@
+{
+  "name": "dbus-glib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/dbus-glib/-/archive/main/dbus-glib-main.tar.gz",
+  "sha256": "fad5a617506fe6f118b3cdf338e78284078c196530e128023b6c0e7b7ba0bd5c",
+  "bytes": 9139
+}

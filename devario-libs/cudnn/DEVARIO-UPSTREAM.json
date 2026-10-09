@@ -1,0 +1,7 @@
+{
+  "name": "cudnn",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cudnn.git",
+  "commit": "05ac85e4ab4a7d82d54956698887f5f7dfa357bd",
+  "sha256": "d521865c175e01c39c9b118778fb9868271593c87a35a146c3b2777d8edf7eea",
+  "bytes": 2236
+}

@@ -1,0 +1,6 @@
+{
+  "name": "libnbd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libnbd/-/archive/main/libnbd-main.tar.gz",
+  "sha256": "395d6f53680e09837652f12bf9801524798c3f37b54d722407888676ec95401b",
+  "bytes": 5165
+}

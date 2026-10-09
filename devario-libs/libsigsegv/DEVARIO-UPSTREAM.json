@@ -1,0 +1,6 @@
+{
+  "name": "libsigsegv",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libsigsegv/-/archive/main/libsigsegv-main.tar.gz",
+  "sha256": "49e0dc5d90e1aa979dc883c0132ce51e97126d26b8997ffd177375822064190a",
+  "bytes": 5642
+}

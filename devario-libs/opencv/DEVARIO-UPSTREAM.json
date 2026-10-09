@@ -1,0 +1,6 @@
+{
+  "name": "opencv",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/opencv/-/archive/main/opencv-main.tar.gz",
+  "sha256": "d51b141f4c5eab10c315efeb64927b8bfdbfb9331c985c040d55382ae2ed6335",
+  "bytes": 10479
+}

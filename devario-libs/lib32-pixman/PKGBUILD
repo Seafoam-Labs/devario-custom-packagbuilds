@@ -1,0 +1,47 @@
+# Maintainer : Ionut Biru <ibiru@archlinux.org>
+
+_pkgbasename=pixman
+pkgname=lib32-$_pkgbasename
+pkgver=0.46.4
+pkgrel=1
+pkgdesc="Pixman library (32-bit)"
+arch=('x86_64')
+url="https://xorg.freedesktop.org"
+license=('MIT')
+depends=('lib32-gcc-libs' 'lib32-glibc' $_pkgbasename)
+makedepends=('meson' 'gcc-multilib' 'lib32-libpng')
+source=(https://xorg.freedesktop.org/releases/individual/lib/${_pkgbasename}-${pkgver}.tar.xz)
+sha512sums=('83b133e7969ba34f883f4e08dcc5d388c4397f43ce836c191c05945fe77c16ff501d531600780c12678a0d08105828a6bdeff2156b63f9c1a84087bc7f40ae9f')
+#validpgpkeys=('') # Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+build() {
+  local meson_options=(
+    --cross-file lib32
+    -D loongson-mmi=disabled
+    -D vmx=disabled
+    -D arm-simd=disabled
+    -D neon=disabled
+    -D a64-neon=disabled
+    -D rvv=disabled
+    -D mips-dspr2=disabled
+    -D gtk=disabled
+  )
+
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  arch-meson "$_pkgbasename"-"$pkgver" build "${meson_options[@]}"
+  ninja -C build
+}
+
+check() {
+  meson test -C build
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build
+  rm -rf "${pkgdir}"/usr/include
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
+}

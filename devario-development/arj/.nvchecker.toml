@@ -1,0 +1,4 @@
+[arj]
+source = 'regex'
+url = 'https://arj.sourceforge.net/'
+regex = 'arj-([\d.]+).tar'

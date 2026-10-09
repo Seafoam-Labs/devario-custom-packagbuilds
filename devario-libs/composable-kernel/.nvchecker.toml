@@ -1,0 +1,5 @@
+[composable-kernel]
+source = 'git'
+git = 'https://github.com/ROCm/rocm-libraries.git'
+include_regex = 'therock-.*'
+prefix = 'therock-'

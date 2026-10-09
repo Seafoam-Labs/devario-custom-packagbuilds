@@ -1,0 +1,94 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+
+pkgbase=lib32-libpulse
+pkgname=(
+  lib32-libpulse
+)
+pkgver=17.0+r98+gb096704c0
+pkgrel=1
+pkgdesc="A featureful, general-purpose sound server (32-bit client libraries)"
+url="https://www.freedesktop.org/wiki/Software/PulseAudio/"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  lib32-dbus
+  lib32-gcc-libs
+  lib32-glib2
+  lib32-glibc
+  lib32-libasyncns
+  lib32-libsndfile
+  lib32-libxcb
+  lib32-systemd
+  libpulse
+)
+makedepends=(
+  git
+  lib32-libx11
+  meson
+  valgrind
+)
+optdepends=('lib32-alsa-plugins: ALSA support')
+provides=("lib32-pulseaudio=$pkgver")
+conflicts=(lib32-pulseaudio)
+replaces=(lib32-pulseaudio)
+_commit=b096704c0d42c5e784deb781a07b23cfb5286a82  # master
+source=(
+  "git+https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git#commit=$_commit"
+)
+b2sums=('3b800dc84b1ccb0f1252e9c55390842d0d63c004393f3271daa7dcdcaa6b2351ca129d2a268855c57ec6c03e14bf1a571deac6c4bb89ac1e08a83cf910834490')
+
+pkgver() {
+  cd pulseaudio
+  git describe --tags | sed 's/^v//;s/[^-]*-g/r&/;s/-/+/g'
+}
+
+prepare() {
+  cd pulseaudio
+
+  # Freeze version before patching
+  ./git-version-gen doesnt-exist >.tarball-version
+}
+
+build() {
+  local meson_options=(
+    --cross-file lib32
+    -D avahi=disabled
+    -D bashcompletiondir=no
+    -D bluez5-gstreamer=disabled
+    -D bluez5=disabled
+    -D consolekit=disabled
+    -D daemon=false
+    -D doxygen=disabled
+    -D elogind=disabled
+    -D fftw=disabled
+    -D gstreamer=disabled
+    -D gtk=disabled
+    -D jack=disabled
+    -D lirc=disabled
+    -D man=false
+    -D orc=disabled
+    -D pulsedsp-location='/usr/\$LIB/pulseaudio'
+    -D soxr=disabled
+    -D speex=disabled
+    -D stream-restore-clear-old-devices=true
+    -D tcpwrap=disabled
+    -D tests=disabled
+    -D udevrulesdir=/usr/lib/udev/rules.d
+    -D webrtc-aec=disabled
+    -D zshcompletiondir=no
+  )
+
+  arch-meson pulseaudio build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_lib32-libpulse() {
+  meson install -C build --destdir "$pkgdir"
+  rm -r "$pkgdir/etc" "$pkgdir"/usr/{bin,include,share}
+}
+
+# vim:set sw=2 sts=-1 et:

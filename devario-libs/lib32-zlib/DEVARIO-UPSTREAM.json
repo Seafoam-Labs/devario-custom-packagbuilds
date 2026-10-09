@@ -1,0 +1,6 @@
+{
+  "name": "lib32-zlib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-zlib/-/archive/main/lib32-zlib-main.tar.gz",
+  "sha256": "81cb7cf09f15438f31d21ac2c97ebabc79ec16971dadf734a4892d3be4ea1536",
+  "bytes": 3452
+}

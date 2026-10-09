@@ -1,0 +1,56 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Daniel M. Capella <polyzen@archlinux.org>
+
+pkgname=python-sphinx-autodoc-typehints
+pkgver=3.13.9
+pkgrel=1
+pkgdesc='Type hints support for the Sphinx autodoc extension'
+arch=(any)
+url=https://github.com/tox-dev/sphinx-autodoc-typehints
+license=(MIT)
+depends=(
+  python
+  python-sphinx
+)
+makedepends=(
+  git
+  python-build
+  python-hatch-vcs
+  python-hatchling
+  python-installer
+)
+checkdepends=(
+  python-pytest
+  python-sphobjinv
+  python-typing_extensions
+)
+source=("$pkgname::git+$url.git#tag=$pkgver")
+sha512sums=('7e8bce6d0061e90410a3ca7ffef5085edf98e0ca0555760be56b90cc67101c9d9ac10a653bf42dddd9665e7b4ed1b996e8fd6650230a77fe720b82f8ca74b30e')
+b2sums=('5787a45d70b5d1d0cdaa9afc86a787a9533aa31acb972e35947db33cb2edf4b8762cf60118f4a527f0d9eefb1584f90cda6e02af0eafbebe249984036d49645e')
+
+build() {
+  cd "$pkgname"
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgname"
+
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m pytest -v
+}
+
+package() {
+  cd "$pkgname"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # documentation
+  install -vDm644 -t "$pkgdir/usr/share/doc/$pkgname" README.md
+
+  # license
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}

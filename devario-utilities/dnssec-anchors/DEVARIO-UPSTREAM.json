@@ -1,0 +1,6 @@
+{
+  "name": "dnssec-anchors",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/dnssec-anchors/-/archive/main/dnssec-anchors-main.tar.gz",
+  "sha256": "8b35c820629686b4ec4d8f4f8627e4158ad28d047d16fb3cf30867d59638e827",
+  "bytes": 2968
+}

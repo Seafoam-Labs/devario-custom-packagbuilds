@@ -1,0 +1,16 @@
+pkgbase = cpuinfo
+	pkgdesc = CPU INFOrmation library
+	pkgver = r843.ea6b9f1
+	pkgrel = 1
+	url = https://github.com/pytorch/cpuinfo
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = git
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = gtest
+	depends = glibc
+	source = cpuinfo::git+https://github.com/pytorch/cpuinfo#commit=ea6b9f1bb6e1001d8b21574d5bc78ddef62e499d
+	sha256sums = 879843097951d76bd8b234332ff438e2a0959e2429ddf9e74612a1558292465b
+
+pkgname = cpuinfo

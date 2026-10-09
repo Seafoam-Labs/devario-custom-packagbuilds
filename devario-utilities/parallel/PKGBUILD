@@ -1,0 +1,64 @@
+# Maintainer: Johannes Löthberg <johannes@kyriasis.com>
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Contributor: Timothy Redaelli <timothy.redaelli@gmail.com>
+# Contributor: Vianney le Clément <vleclement AT gmail·com>
+# Contributor: Peter Simons <simons@cryp.to>
+
+pkgbase=parallel
+pkgname=(parallel parallel-docs)
+pkgver=20260922
+pkgrel=1
+pkgdesc='A shell tool for executing jobs in parallel'
+arch=(any)
+url='https://www.gnu.org/software/parallel/'
+license=(GPL-3.0-only)
+source=(
+  "https://ftp.gnu.org/gnu/$pkgbase/$pkgbase-$pkgver.tar.bz2"{,.sig}
+  0001-Remove-citation-things.patch
+)
+sha512sums=('ae7bcead31b3a068900c851fc48c0239cd39d7a8310ac7cbd885ab41bee4ff6e5786bcbfeafb31bb6f445ba4142a151a464f8f9fcfbd889909e503ef18b5ee56'
+            'SKIP'
+            'b1b300c1e3b9d3d6ce84a82b366199c9e76b6bf4d4ab68106ab1225ea3d27b202ce23e59b63cefb41463ae8117d18ee6d48828027c0599eaef35090d72cc590d')
+b2sums=('ade63e84c3426f8c1bfbcc1b301f396b09f4c4e2e516497e156097c1ab32fa9791a0a50bd89eb08e2689ec9e8056974e8be4504d0dc84fa966e2d3e9f40765ea'
+        'SKIP'
+        '83c37a8a76d9ea40d6b595dd995810cf63d2fc9c2e04e2684c00925fab9a53a73d084401c463ef26a28490e984bdd5790d71236c811ad699359eb59cc84bbd14')
+validpgpkeys=('CDA01A4208C4F74506107E7BD1AB451688888888')
+
+prepare() {
+  cd "$pkgbase-$pkgver"
+
+  # remove citation warnings
+  # https://en.opensuse.org/openSUSE:Packaging_guidelines#Donation_requests
+  patch -p1 -i "$srcdir/0001-Remove-citation-things.patch"
+}
+
+build() {
+  cd "$pkgbase-$pkgver"
+
+  ./configure --prefix=/usr
+
+  make
+}
+
+package_parallel() {
+  depends=('perl' 'procps')
+  optdepends=('parallel-docs: documentation')
+
+  cd "$pkgbase-$pkgver"
+
+  make DESTDIR="$pkgdir" install
+
+  # split documentation out of main package
+  mv "$pkgdir/usr/share/doc" docs
+}
+
+package_parallel-docs() {
+  pkgdesc+=' (documentation)'
+
+  cd "$pkgbase-$pkgver"
+
+  install -vd "$pkgdir/usr/share/doc"
+  mv -v docs/* "$pkgdir/usr/share/doc"
+}
+
+# vim:set ts=2 sw=2 et:

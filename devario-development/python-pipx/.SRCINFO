@@ -1,0 +1,22 @@
+pkgbase = python-pipx
+	pkgdesc = Install and Run Python Applications in Isolated Environments
+	pkgver = 1.15.0
+	pkgrel = 1
+	url = https://github.com/pypa/pipx
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-hatchling
+	makedepends = python-wheel
+	makedepends = python-hatch-vcs
+	depends = python
+	depends = python-userpath
+	depends = python-argcomplete
+	depends = python-packaging
+	depends = python-platformdirs
+	source = git+https://github.com/pypa/pipx.git#tag=1.15.0
+	sha512sums = 583bf6961bfb8dc911c522c2e5b65d0e5420ec1aa76848edf5e03e501edae0578f79b90356bc8e7e8713822bf6253b500a43411cfd17e4d50bce36a3b3a4008d
+
+pkgname = python-pipx

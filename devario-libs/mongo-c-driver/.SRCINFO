@@ -1,0 +1,25 @@
+pkgbase = mongo-c-driver
+	pkgdesc = A client library written in C for MongoDB
+	pkgver = 2.5.5
+	pkgrel = 1
+	url = https://github.com/mongodb/mongo-c-driver
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	depends = glibc
+	depends = libsasl
+	depends = openssl
+	depends = snappy
+	depends = zstd
+	provides = libbson
+	provides = libbson2.so
+	provides = libmongoc
+	provides = libmongoc2.so
+	conflicts = libbson
+	conflicts = libmongoc
+	replaces = libbson
+	replaces = libmongoc
+	source = https://github.com/mongodb/mongo-c-driver/archive/2.5.5/mongo-c-driver-2.5.5.tar.gz
+	b2sums = e920052002463c3a3f9ab858ad82e9355768764d6874d13f13aa7bfacfe24d2fd1d18ecbd5d98e54935d7819c4c5356f0f29f7910bdba9f303c3d78dc2b17807
+
+pkgname = mongo-c-driver

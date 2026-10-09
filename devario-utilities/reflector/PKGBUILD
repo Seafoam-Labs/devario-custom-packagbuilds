@@ -1,0 +1,55 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Xyne <gro xunilhcra enyx, backwards>
+pkgname=reflector
+pkgver=2023
+pkgrel=6
+pkgdesc='A Python 3 module and script to retrieve and filter the Devario repository mirror list.'
+arch=(any)
+license=(GPL-2.0-only)
+url="https://xyne.dev/projects/reflector"
+depends=(python)
+makedepends=(python-build python-installer python-setuptools python-wheel)
+optdepends=('rsync: rate rsync mirrors')
+backup=(etc/xdg/reflector/reflector.conf)
+source=(https://xyne.dev/projects/reflector/src/reflector-2023.tar.xz{,.sig}
+        mp-fork.patch
+        devario-catalog.patch)
+
+sha512sums=('11aec550c15080695525409f11eae6d4b545df8b37a8e0727de939eefec2b2fa6aa95c5c3500a6c8a940b6060cdaf2526430ed47e01a3c6f098e1b77189eb479'
+            'SKIP'
+            '6bbb85a7e829b18ebc7451c38e7ef8ebb9c2d05dac7ab981fc8712b365867faa264eae177a0536a3ad72ffedbf5a6251fed4c6c834879b7e8ada9035ffbdb28e'
+        '73f060fdb678da5a8833555c5f8d0aeffc7b2ffcc0c12823a292e3e4fd64f4ae7bf3cb2a6cc2a5590e183d5ea1c736becd21f06e377fdd5446968760efc3424a')
+b2sums=('24ee3610eb94e4412bceba40f4763def380028683358cb1016546a4d0bb12eaa69aba4e83b7998ebb74ee6f025f9f342901d076e44302da47d0ed14b727fb9c1'
+        'SKIP'
+        '37d9980afa27eaf80796d090327c0ce0f78772d4ea8a651bd2fe37af29f002dcff434d9839f930317c4d441cf4236d60ad95676489ae0a22dbe0c37bbae765ef'
+        '8586be0cf78b97589d4f2e8263ccaffa1fd997eb23de117805f4c9b152b4088bdfaf0dd3cbe3b0010fcbdb4361dcf4bcba5c367535cc26db9cb93fddeb08ee0e')
+validpgpkeys=('D89FAAEB4CECAFD199A2F5E612C6F735F7A9A519')
+
+prepare() {
+  cd $pkgname-$pkgver
+  patch -p1 < "${srcdir}/mp-fork.patch"
+  patch -p1 < "${srcdir}/devario-catalog.patch"
+  # Keep installed manual examples aligned with the native configuration.
+  gzip -cd man/reflector.1.gz | sed -e 's/Arch Linux/Devario/g' -e 's/Pacman/Shelly/g' \
+    -e 's|/etc/pacman.d/mirrorlist|/etc/shelly.d/mirrorlist|g' > man/reflector.1
+  gzip -n -f man/reflector.1
+}
+
+build() {
+  cd $pkgname-$pkgver
+  python -m build --wheel --no-isolation
+}
+
+package ()
+{
+  cd $pkgname-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -dm755 "$pkgdir/etc/shelly.d"
+  install -Dm644 "man/${pkgname}.1.gz" "${pkgdir}/usr/share/man/man1/${pkgname}.1.gz"
+  install -Dm644 'reflector.service' "$pkgdir/usr/lib/systemd/system/reflector.service"
+  install -Dm644 'reflector.timer' "$pkgdir/usr/lib/systemd/system/reflector.timer"
+  install -Dm644 'reflector.conf' "$pkgdir/etc/xdg/reflector/reflector.conf"
+}
+
+
+# vim: set ts=2 sw=2 et:

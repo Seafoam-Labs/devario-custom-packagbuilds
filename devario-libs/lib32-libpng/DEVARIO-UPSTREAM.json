@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libpng",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libpng/-/archive/main/lib32-libpng-main.tar.gz",
+  "sha256": "db40f7578054b9e40628fba7f36ecb89363d277e92660636efe156c1f52bfa1e",
+  "bytes": 2839
+}

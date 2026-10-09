@@ -1,0 +1,6 @@
+{
+  "name": "libnfs",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libnfs/-/archive/main/libnfs-main.tar.gz",
+  "sha256": "c61dc796ee858c19171c6a844a6a6e60eb67e79c3007ec3d92add72c243902ae",
+  "bytes": 1697
+}

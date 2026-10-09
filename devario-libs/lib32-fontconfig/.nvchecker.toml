@@ -1,0 +1,3 @@
+[lib32-fontconfig]
+source = "git"
+git = "https://gitlab.freedesktop.org/fontconfig/fontconfig.git"

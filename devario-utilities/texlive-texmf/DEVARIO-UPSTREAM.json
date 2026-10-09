@@ -1,0 +1,6 @@
+{
+  "name": "texlive-texmf",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/texlive-texmf/-/archive/main/texlive-texmf-main.tar.gz",
+  "sha256": "5bfb16587f871d896e830daf726a6cb8664aebe85cbea5de8836a93ab8bb1bef",
+  "bytes": 30817
+}

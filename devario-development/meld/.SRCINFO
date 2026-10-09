@@ -1,0 +1,26 @@
+pkgbase = meld
+	pkgdesc = Compare files, directories and working copies
+	pkgver = 3.24.1
+	pkgrel = 1
+	url = https://meldmerge.org/
+	arch = any
+	license = GPL-2.0-or-later
+	makedepends = appstream
+	makedepends = git
+	makedepends = meson
+	makedepends = yelp-tools
+	depends = dconf
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = gsettings-desktop-schemas
+	depends = gtk3
+	depends = gtksourceview4
+	depends = hicolor-icon-theme
+	depends = pango
+	depends = python
+	depends = python-cairo
+	depends = python-gobject
+	source = git+https://gitlab.gnome.org/GNOME/meld.git#tag=3.24.1
+	b2sums = 400b403bd365032305d38a370dad5fe64186792eef3c3afda24de3aba47e7d05745cf6dc672a9f2cb0dfdf5789cb28cb15e2168d271f83bf746b5298919341ed
+
+pkgname = meld

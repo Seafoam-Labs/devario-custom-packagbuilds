@@ -1,0 +1,6 @@
+{
+  "name": "alsa-plugins",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/alsa-plugins/-/archive/main/alsa-plugins-main.tar.gz",
+  "sha256": "c18e082a926d33a3eef1348f356bf65bc1fda038784b352891cef14b165be312",
+  "bytes": 14979
+}

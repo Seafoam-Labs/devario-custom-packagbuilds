@@ -1,0 +1,27 @@
+pkgbase = podman-desktop
+	pkgdesc = Manage Podman and other container engines from a single UI and tray.
+	pkgver = 1.29.3
+	pkgrel = 1
+	url = https://podman-desktop.io
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = pnpm
+	makedepends = node-gyp
+	makedepends = npm
+	makedepends = nodejs-lts-krypton
+	makedepends = libvips
+	makedepends = lcms2
+	makedepends = openjpeg2
+	makedepends = glib2
+	makedepends = python-setuptools
+	makedepends = jq
+	depends = electron43
+	depends = hicolor-icon-theme
+	optdepends = podman: podman plugin
+	optdepends = docker: docker plugin
+	source = podman-desktop-1.29.3.tar.gz::https://github.com/podman-desktop/podman-desktop/archive/refs/tags/v1.29.3.tar.gz
+	source = run.sh.in
+	b2sums = ad5bc9d633f0bab56996543d2b437297e0d6e42b64d5dd90a6a467e6f6e11a37252227ea3a538ad8b8e66d2ad2860c0efa87dc2c11ab14c4ec88ebe16d1b9c53
+	b2sums = 962868734a928753a0855a701fe356511f5066057e642677328ac522429a47d5091a8849d138fb29e06b100e4fe5762eee1f6feab1d9c95b2935794ca31f0016
+
+pkgname = podman-desktop

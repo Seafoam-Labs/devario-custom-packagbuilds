@@ -1,0 +1,6 @@
+{
+  "name": "java11-openjdk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/java11-openjdk/-/archive/main/java11-openjdk-main.tar.gz",
+  "sha256": "1792b8766b65489523a7315439ba7e5483e31061ca15f428ef5fe089177ba167",
+  "bytes": 5604
+}

@@ -1,0 +1,3 @@
+[lib32-lm_sensors]
+source = "git"
+git = "https://github.com/hramrach/lm-sensors.git"

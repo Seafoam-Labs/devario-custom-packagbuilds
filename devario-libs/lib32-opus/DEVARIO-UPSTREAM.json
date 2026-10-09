@@ -1,0 +1,6 @@
+{
+  "name": "lib32-opus",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-opus/-/archive/main/lib32-opus-main.tar.gz",
+  "sha256": "ab1d14190ca4fc003f2e04576011c5f2e7ec61f5a757b9659e9fc6a1f20eaf90",
+  "bytes": 15865
+}

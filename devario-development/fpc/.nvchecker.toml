@@ -1,0 +1,3 @@
+[fpc]
+source = "git"
+git = "https://gitlab.com/freepascal.org/fpc/source.git"

@@ -1,0 +1,7 @@
+{
+  "name": "geos",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/geos.git",
+  "commit": "79ba97aba90c45cca81d22c3e18ba449f199b765",
+  "sha256": "5cd32b283f117252db32062811e168658f5f7176cf7a8fa6df0fb4c7131d5311",
+  "bytes": 2019
+}

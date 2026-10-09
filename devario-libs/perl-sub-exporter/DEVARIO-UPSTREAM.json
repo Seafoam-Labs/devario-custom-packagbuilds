@@ -1,0 +1,7 @@
+{
+  "name": "perl-sub-exporter",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/perl-sub-exporter.git",
+  "commit": "fe70be28ffb9c3b2b2d7979a796de506d0da4566",
+  "sha256": "1dc279dcd0aeae15dfbd7499b594d250bc56f602a5afd0db0da5fd02f93ca595",
+  "bytes": 1843
+}

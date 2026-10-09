@@ -1,0 +1,6 @@
+{
+  "name": "nodejs-lts-iron",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nodejs-lts-iron/-/archive/main/nodejs-lts-iron-main.tar.gz",
+  "sha256": "be211ab1dd452ae4ca8a42ecd1cc407a893e106eacef4ed87284fd0ae87a7be3",
+  "bytes": 4744
+}

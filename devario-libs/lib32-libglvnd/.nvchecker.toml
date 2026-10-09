@@ -1,0 +1,4 @@
+[lib32-libglvnd]
+source = "git"
+git = "https://gitlab.freedesktop.org/glvnd/libglvnd.git"
+prefix = "v"

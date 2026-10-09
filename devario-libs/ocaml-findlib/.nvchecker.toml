@@ -1,0 +1,4 @@
+[ocaml-findlib]
+source = 'git'
+git = 'https://github.com/ocaml/ocamlfind'
+prefix = 'findlib-'

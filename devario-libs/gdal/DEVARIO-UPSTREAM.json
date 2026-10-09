@@ -1,0 +1,6 @@
+{
+  "name": "gdal",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gdal/-/archive/main/gdal-main.tar.gz",
+  "sha256": "2c8f630afed781d52a9b44f19059a29761b183f76277aa6e9a6c825820edbc0a",
+  "bytes": 4144
+}

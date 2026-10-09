@@ -1,0 +1,15 @@
+pkgbase = marked-man
+	pkgdesc = Wrapper adding manpage output to 'marked', inspired by 'ronn'
+	pkgver = 2.1.1
+	pkgrel = 1
+	url = https://github.com/kapouer/marked-man
+	arch = any
+	license = MIT
+	makedepends = npm
+	depends = marked
+	depends = nodejs
+	noextract = marked-man-2.1.1.tgz
+	source = https://registry.npmjs.org/marked-man/-/marked-man-2.1.1.tgz
+	sha512sums = 1a7032cb295c7b164b3c028239ac7c8bf609b40cad711126c78f3963e25805519dce4097cf1d680c8a92537bcfcd1712128c2cc6e1151ad0f24ff83682e552c8
+
+pkgname = marked-man

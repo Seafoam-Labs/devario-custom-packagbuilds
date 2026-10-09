@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/lib/@ELECTRON@/electron /usr/lib/podman-desktop/resources/app.asar "$@"

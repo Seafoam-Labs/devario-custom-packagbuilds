@@ -1,0 +1,6 @@
+{
+  "name": "cmocka",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cmocka/-/archive/main/cmocka-main.tar.gz",
+  "sha256": "b0a538931f70313c23abae9971a803f974a7e33e55f53d94ec79145caa30e180",
+  "bytes": 5608
+}

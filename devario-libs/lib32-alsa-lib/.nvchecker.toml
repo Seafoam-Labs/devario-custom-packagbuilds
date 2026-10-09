@@ -1,0 +1,4 @@
+[lib32-alsa-lib]
+source = "git"
+git = "https://github.com/alsa-project/alsa-lib"
+prefix = "v"

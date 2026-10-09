@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libsamplerate",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libsamplerate/-/archive/main/lib32-libsamplerate-main.tar.gz",
+  "sha256": "dcc71651399f445826df692c18c9044617484577cf3503d02641c435297496ce",
+  "bytes": 3645
+}

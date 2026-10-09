@@ -1,0 +1,7 @@
+{
+  "name": "python-nodeenv",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-nodeenv.git",
+  "commit": "c1f536ae514685ee19803527a317d7188b725f20",
+  "sha256": "e405f92b9f4700244f60b32bc7e68b27eedac2197a062069affbb7a282c9a02e",
+  "bytes": 1867
+}

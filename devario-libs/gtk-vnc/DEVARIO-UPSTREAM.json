@@ -1,0 +1,6 @@
+{
+  "name": "gtk-vnc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gtk-vnc/-/archive/main/gtk-vnc-main.tar.gz",
+  "sha256": "71f0ceac9462ef5dd9497583f1d7c51bd639ed2bc0349c415d3fe5139aa69c25",
+  "bytes": 5318
+}

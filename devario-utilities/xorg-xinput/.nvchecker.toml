@@ -1,0 +1,8 @@
+[xorg-xinput]
+source = "gitlab"
+gitlab = "xorg/app/xinput"
+host = "gitlab.freedesktop.org"
+use_max_tag = true
+
+include_regex = ".*xinput-.*"
+prefix = "xinput-"

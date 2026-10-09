@@ -1,0 +1,7 @@
+{
+  "name": "aws-crt-cpp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-crt-cpp.git",
+  "commit": "10d46a482524a997d4280ba81904fdc335d71a5f",
+  "sha256": "57e212f219cfcf4414a9148942b4216a3cd76e920ed3560bda3ea18610d608f8",
+  "bytes": 1864
+}

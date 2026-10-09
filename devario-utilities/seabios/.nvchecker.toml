@@ -1,0 +1,4 @@
+[seabios]
+source = "git"
+git = "https://github.com/coreboot/seabios"
+prefix = "rel-"

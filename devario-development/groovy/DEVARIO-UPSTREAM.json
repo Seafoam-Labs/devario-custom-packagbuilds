@@ -1,0 +1,7 @@
+{
+  "name": "groovy",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/groovy.git",
+  "commit": "d7fa8dfc2fd751fc905b19b00b681634cec39206",
+  "sha256": "4a1a14c0e890eb4ce3f0ea58d40b6fa883af7bf90653140c8621b14378034641",
+  "bytes": 8520
+}

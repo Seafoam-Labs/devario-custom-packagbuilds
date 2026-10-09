@@ -1,0 +1,4 @@
+[cudnn]
+source = "regex"
+regex = "cudnn-linux-x86_64-([\\d.]+)"
+url = "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-x86_64/"

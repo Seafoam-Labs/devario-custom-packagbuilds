@@ -1,0 +1,5 @@
+[openai-codex]
+source = "git"
+git = "https://github.com/openai/codex.git"
+prefix = "rust-v"
+include_regex = '^rust-v\d+\.\d+\.\d+$'

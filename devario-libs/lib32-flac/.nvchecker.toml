@@ -1,0 +1,4 @@
+[lib32-flac]
+source = "git"
+git = "https://github.com/xiph/flac.git"
+include_regex = '\d+(\.\d+)*'

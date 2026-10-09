@@ -1,0 +1,6 @@
+{
+  "name": "aws-c-event-stream",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/aws-c-event-stream/-/archive/main/aws-c-event-stream-main.tar.gz",
+  "sha256": "7b972700574304ecbdf10f6e9655ece81c1ddfcdecad613bfd8f17046187a907",
+  "bytes": 1706
+}

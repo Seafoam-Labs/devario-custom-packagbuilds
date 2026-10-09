@@ -1,0 +1,19 @@
+pkgbase = python-kiwisolver
+	pkgdesc = A fast implementation of the Cassowary constraint solver
+	pkgver = 1.5.1
+	pkgrel = 1
+	url = https://github.com/nucleic/kiwi
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-cppy
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	makedepends = python-build
+	makedepends = python-installer
+	depends = python
+	source = git+https://github.com/nucleic/kiwi.git#tag=1.5.1
+	sha512sums = 520069cd6f22d072edaf4ea1f78842c64cb779c956d56692287a22ca4f5f114a1ef2bd57ea786cf678db043e35d3801d3658f2566631f3c2004ac3de3202bc82
+
+pkgname = python-kiwisolver

@@ -1,0 +1,4 @@
+[clisp]
+source = "regex"
+url = "https://gitlab.com/gnu-clisp/clisp/-/raw/master/version.sh"
+regex = 'VERSION_NUMBER=(\d+\.\d+\.\d+)'

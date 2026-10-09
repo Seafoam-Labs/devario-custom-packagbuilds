@@ -1,0 +1,4 @@
+[dblatex]
+source = 'regex'
+url = 'https://sourceforge.net/projects/dblatex/files/dblatex/'
+regex = 'dblatex-([\d.]+)'

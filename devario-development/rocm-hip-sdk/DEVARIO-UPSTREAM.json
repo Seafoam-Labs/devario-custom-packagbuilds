@@ -1,0 +1,7 @@
+{
+  "name": "rocm-hip-sdk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-hip-sdk.git",
+  "commit": "15eca67f535ce3be3f5789178a899b24a27b928e",
+  "sha256": "121ee1d2800551febb0afc305ba7c79f8cd26121c1e6a7da228c1dd3c5608f65",
+  "bytes": 2013
+}

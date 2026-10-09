@@ -1,0 +1,6 @@
+{
+  "name": "samba",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/samba/-/archive/main/samba-main.tar.gz",
+  "sha256": "544629e5063daaf469bdd38db3a27833e6309f7a7cca9e27e90780a3e3f2484b",
+  "bytes": 22409
+}

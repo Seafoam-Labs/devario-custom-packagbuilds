@@ -1,0 +1,4 @@
+[rutabaga-ffi]
+source = "git"
+git = "https://github.com/magma-gpu/rutabaga_gfx.git"
+prefix = "v"

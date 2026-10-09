@@ -1,0 +1,6 @@
+{
+  "name": "lib32-alsa-lib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-alsa-lib/-/archive/main/lib32-alsa-lib-main.tar.gz",
+  "sha256": "0a18c4b8615ac365e95743de0513e6fbf4dede3abe15e6dfae5fcf6385aca50c",
+  "bytes": 3776
+}

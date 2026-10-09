@@ -1,0 +1,6 @@
+{
+  "name": "lib32-cmocka",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-cmocka/-/archive/main/lib32-cmocka-main.tar.gz",
+  "sha256": "eab0a74ad5ae147c42bb4924aeea42be23863c84feeb9ae24d5bbe0ac718923b",
+  "bytes": 5845
+}

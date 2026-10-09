@@ -1,0 +1,6 @@
+{
+  "name": "nodejs",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nodejs/-/archive/main/nodejs-main.tar.gz",
+  "sha256": "7371a90ab05b904e4178520c837c7a8757d6fbf210f4f3ddb691707c10df7af6",
+  "bytes": 14668
+}

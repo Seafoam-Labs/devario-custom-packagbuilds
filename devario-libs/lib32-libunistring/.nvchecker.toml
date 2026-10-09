@@ -1,0 +1,4 @@
+[lib32-libunistring]
+source = "git"
+git = "https://git.savannah.gnu.org/git/libunistring.git"
+prefix = "v"

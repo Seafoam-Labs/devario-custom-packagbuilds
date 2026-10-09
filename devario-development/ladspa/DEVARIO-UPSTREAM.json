@@ -1,0 +1,6 @@
+{
+  "name": "ladspa",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ladspa/-/archive/main/ladspa-main.tar.gz",
+  "sha256": "63a8f46eda1f2aea3b908ac8bf66c80852a7012c133e5c426029d44e25e91259",
+  "bytes": 3182
+}

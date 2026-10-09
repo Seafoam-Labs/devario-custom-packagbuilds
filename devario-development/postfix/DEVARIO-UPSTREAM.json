@@ -1,0 +1,6 @@
+{
+  "name": "postfix",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/postfix/-/archive/main/postfix-main.tar.gz",
+  "sha256": "17c600b42c1242691fd48b1b3d8758a33ded1c52916195afd793c2b39c689fb2",
+  "bytes": 17684
+}

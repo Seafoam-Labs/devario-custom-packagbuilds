@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libgcrypt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libgcrypt/-/archive/main/lib32-libgcrypt-main.tar.gz",
+  "sha256": "5d84cfe32b20dc3f4e0dc05e06a04587dba1ac9294139bfdb9534d2e0d9be466",
+  "bytes": 2975
+}

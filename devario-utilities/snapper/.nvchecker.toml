@@ -1,0 +1,4 @@
+[snapper]
+source = "git"
+git = "https://github.com/openSUSE/snapper.git"
+prefix = "v"

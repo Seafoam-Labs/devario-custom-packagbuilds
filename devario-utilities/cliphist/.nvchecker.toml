@@ -1,0 +1,5 @@
+[cliphist]
+source = "github"
+github = "sentriz/cliphist"
+prefix = "v"
+use_max_tag = true

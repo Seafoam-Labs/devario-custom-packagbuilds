@@ -1,0 +1,69 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Yejun Yang <yejunx AT gmail DOT com>
+# Contributor: Michal Krenek <mikos@sg1.cz>
+
+pkgbase=libsrtp
+pkgname=(
+  libsrtp
+  libsrtp-docs
+)
+pkgver=2.8.1
+pkgrel=1
+epoch=1
+pkgdesc="Library for SRTP (Secure Realtime Transport Protocol)"
+url="https://github.com/cisco/libsrtp"
+arch=(x86_64)
+license=(BSD-3-Clause)
+depends=(
+  glibc
+  nspr
+  nss
+)
+makedepends=(
+  doxygen
+  git
+  libpcap
+  meson
+)
+checkdepends=(procps-ng)
+source=("git+https://github.com/cisco/libsrtp#tag=v$pkgver")
+b2sums=('851f9819e298063ba708eb7967a184829a9189befa2420e539efbc453441113ebda6d2da119ecc1652273c2232c88ea3666608e4ea00e1f4c0ad37c26fa775c6')
+
+prepare() {
+  cd libsrtp
+}
+
+build() {
+  local meson_options=(
+    -D crypto-library=nss
+    -D crypto-library-kdf=disabled
+  )
+
+  arch-meson libsrtp build "${meson_options[@]}"
+  meson compile -C build
+  meson compile -C build doc
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_libsrtp() {
+  provides=("libsrtp${pkgver%%.*}.so")
+
+  meson install -C build --destdir "$pkgdir"
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 libsrtp/LICENSE
+}
+
+package_libsrtp-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mkdir -p "$pkgdir/usr/share/doc"
+  cp -a build/html "$pkgdir/usr/share/doc/libsrtp"
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 libsrtp/LICENSE
+}
+
+# vim:set sw=2 sts=-1 et:

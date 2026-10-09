@@ -1,0 +1,4 @@
+[dune]
+source = "git"
+exclude_regex = ".*(pre|a|alpha|b|beta|r|rc).*"
+git = "https://github.com/ocaml/dune.git"

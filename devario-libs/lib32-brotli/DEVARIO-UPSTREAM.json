@@ -1,0 +1,6 @@
+{
+  "name": "lib32-brotli",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-brotli/-/archive/main/lib32-brotli-main.tar.gz",
+  "sha256": "b23dc01919adf8bc412a97dcff38e9bb5c9703e04f6bb34e99d6df8636f4efc4",
+  "bytes": 2025
+}

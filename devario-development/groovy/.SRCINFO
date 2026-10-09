@@ -1,0 +1,19 @@
+pkgbase = groovy
+	pkgdesc = Programming language for the Java platform, inspired by Python, Ruby and Smalltalk
+	pkgver = 6.0.0
+	pkgrel = 1
+	url = https://groovy-lang.org/
+	arch = any
+	license = Apache-2.0
+	makedepends = gendesk
+	depends = java-environment
+	optdepends = groovy-docs: html and pdf documentation for Groovy
+	source = https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-6.0.0.zip
+	source = https://downloads.apache.org/groovy/6.0.0/distribution/apache-groovy-binary-6.0.0.zip.asc
+	validpgpkeys = 34441E504A937F43EB0DAEF96A65176A0FB1CD0B
+	sha256sums = 54ab1a877f01da2ed16ed43c1ed7a8d6c36b122714c6959712700e89e6efde7c
+	sha256sums = SKIP
+	b2sums = aa41dc71b15b0384d209d705a06eb397122df0f9e13a32c7c607e8dfbabb56674ddb1c1093341448a15f87879427ed36f6f83d0bdef43e50bdc32129b5ecf513
+	b2sums = SKIP
+
+pkgname = groovy

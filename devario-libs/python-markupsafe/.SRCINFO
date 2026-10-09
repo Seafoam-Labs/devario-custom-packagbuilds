@@ -1,0 +1,19 @@
+pkgbase = python-markupsafe
+	pkgdesc = Implements a XML/HTML/XHTML Markup safe string for Python
+	pkgver = 3.0.4
+	pkgrel = 1
+	url = https://pypi.python.org/pypi/MarkupSafe
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python
+	source = git+https://github.com/pallets/markupsafe.git#tag=3.0.4
+	sha512sums = 8345bd5333b049a457e3f4466e4c7b0599bec86e13a6b0a10b3498174be5db40cf5fcbe216e6592ff639f07ed9fdc5cba0794f9ea0bd4df6c6e4a0dcfe999177
+
+pkgname = python-markupsafe

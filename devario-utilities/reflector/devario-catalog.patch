@@ -1,0 +1,261 @@
+--- a/Reflector.py
++++ b/Reflector.py
+@@ -21,7 +21,7 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ 
+ '''
+-Retrieve Arch Linux mirrors.
++Retrieve Devario mirrors.
+ '''
+ 
+ import argparse
+@@ -49,15 +49,15 @@
+ 
+ NAME = 'Reflector'
+ 
+-URL = 'https://archlinux.org/mirrors/status/json/'
++URL = 'https://repo.seafoam-labs.org/api/v1/repositories'
+ 
+ DISPLAY_TIME_FORMAT = '%Y-%m-%d %H:%M:%S UTC'
+ PARSE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+ PARSE_TIME_FORMAT_WITH_USEC = '%Y-%m-%dT%H:%M:%S.%fZ'
+ 
+-DB_SUBPATH = 'extra/os/x86_64/extra.db'
+-
+-MIRROR_URL_FORMAT = '{0}{1}/os/{2}'
++DB_SUBPATH = 'devario-core/x86_64/devario-core.db'
++
++MIRROR_URL_FORMAT = '{0}{1}/{2}'
+ MIRRORLIST_ENTRY_FORMAT = "Server = " + MIRROR_URL_FORMAT + "\n"
+ 
+ DEFAULT_CONNECTION_TIMEOUT = 5
+@@ -75,7 +75,7 @@
+ 
+ # ------------------------------- IO Functions ------------------------------- #
+ 
+-def get_cache_file(name='mirrorstatus.json'):
++def get_cache_file(name='devario-repositories.json'):
+     '''
+     Get a nearly XDG-compliant cache directory. PyXDG is not used to  avoid the
+     external dependency. It is not fully compliant because it omits the
+@@ -90,6 +90,53 @@
+     except FileExistsError:
+         pass
+     return path
++
++
++def devario_catalog_status(catalog):
++    """Adapt catalog-advertised repository coverage, not measured mirror health.
++
++    A shared $repo mirrorlist is valid only for roots advertising every Devario
++    repository in the catalog. last_sync is the oldest catalog indexing time;
++    geographical location and transport/IP health are not supplied by this API.
++    """
++    if not isinstance(catalog, list):
++        raise MirrorStatusError('expected a Devario repository catalog array')
++    repositories = set()
++    roots = {}
++    for entry in catalog:
++        name = entry.get('syncPrefix', '')
++        if not re.fullmatch(r'devario-[a-z0-9-]+', name):
++            continue
++        repositories.add(name)
++        server = entry.get('serverUrl', '')
++        suffix = '/' + name + '/$arch'
++        parsed = urllib.parse.urlparse(server)
++        if (parsed.scheme != 'https' or not parsed.netloc or parsed.query
++                or parsed.fragment or parsed.username or parsed.password
++                or any(char.isspace() for char in server)
++                or not server.endswith(suffix)):
++            raise MirrorStatusError('unsupported Devario server URL: ' + server)
++        if 'x86_64' not in entry.get('architectures', []):
++            raise MirrorStatusError('repository does not advertise x86_64: ' + name)
++        try:
++            indexed = datetime.datetime.fromisoformat(entry['lastIndexed'].replace('Z', '+00:00'))
++            if indexed.tzinfo is None:
++                raise ValueError('missing timezone')
++            indexed = indexed.astimezone(datetime.timezone.utc).strftime(PARSE_TIME_FORMAT)
++        except (KeyError, ValueError, TypeError) as err:
++            raise MirrorStatusError('invalid catalog indexing timestamp') from err
++        root = server[:-len(suffix)] + '/'
++        roots.setdefault(root, {})[name] = indexed
++    mirrors = []
++    for root, entries in sorted(roots.items()):
++        if set(entries) != repositories:
++            continue
++        mirrors.append(dict(url=root, protocol='https', last_sync=min(entries.values()),
++                            completion_pct=1.0, country='', country_code='',
++                            isos=False, ipv4=False, ipv6=False))
++    if not repositories or not mirrors:
++        raise MirrorStatusError('no common HTTPS server covers all Devario repositories')
++    return dict(urls=mirrors, last_check=max(m['last_sync'] for m in mirrors))
+ 
+ 
+ def get_mirrorstatus(
+@@ -127,7 +174,7 @@
+             with open(cache_path, 'r', encoding='utf-8') as handle:
+                 obj = json.load(handle)
+ 
+-        return obj, mtime
++        return devario_catalog_status(obj), mtime
+     except (IOError, urllib.error.URLError, socket.timeout) as err:
+         raise MirrorStatusError(
+             f'failed to retrieve mirrorstatus data: {err.__class__.__name__}: {err}'
+@@ -295,6 +342,9 @@
+     # Ensure that "mirrors" is a list that can be sorted.
+     if not isinstance(mirrors, list):
+         mirrors = list(mirrors)
++
++    if by in ('country', 'score', 'delay'):
++        raise MirrorStatusError('Devario catalog supports age or rate sorting')
+ 
+     if by == 'age':
+         mirrors.sort(key=lambda m: m['last_sync'], reverse=True)
+@@ -517,6 +567,10 @@
+         '''
+         Filter the mirrors.
+         '''
++        if (self.countries or self.delay is not None or self.isos
++                or self.ipv4 or self.ipv6 or self.min_completion_pct != 1.0):
++            raise MirrorStatusError('Devario catalog has no country, delay, IP, ISO, or health measurements')
++
+         # Filter unsynced mirrors.
+         mirrors = (m for m in mirrors if m['last_sync'])
+ 
+@@ -606,7 +660,7 @@
+ 
+     width = 80
+     colw = 11
+-    header = '# Arch Linux mirrorlist generated by Reflector #'.center(width, '#')
++    header = '# Devario mirrorlist generated by Reflector #'.center(width, '#')
+     border = '#' * len(header)
+     mirrorlist = f'{border}\n{header}\n{border}\n\n' + \
+         '\n'.join(
+@@ -615,7 +669,7 @@
+                 ('When:', time.strftime(DISPLAY_TIME_FORMAT, time.gmtime())),
+                 ('From:', url),
+                 ('Retrieved:', time.strftime(DISPLAY_TIME_FORMAT, time.gmtime(mtime))),
+-                ('Last Check:', time.strftime(DISPLAY_TIME_FORMAT, parsed_last_check))
++                ('Indexed:', time.strftime(DISPLAY_TIME_FORMAT, parsed_last_check))
+             )
+         ) + \
+         '\n\n'
+@@ -653,14 +707,7 @@
+     # TODO:
+     # Move these to another module or remove them completely Related:
+     # https://bugs.archlinux.org/task/32895
+-    REPOSITORIES = (
+-        'core',
+-        'core-testing',
+-        'extra',
+-        'extra-testing',
+-        'multilib',
+-        'multilib-testing'
+-    )
++    REPOSITORIES = ('devario-browser', 'devario-core', 'devario-development', 'devario-entertainment', 'devario-gaming', 'devario-libs', 'devario-productivity', 'devario-scx', 'devario-scx-dev', 'devario-utilities')
+     # Officially supported system architectures.
+     ARCHITECTURES = ['x86_64']
+ 
+@@ -742,7 +789,7 @@
+ 
+     def get_mirrorlist(self, mirrors=None, include_country=False, cmd=None):
+         '''
+-        Get a Pacman-formatted mirrorlist.
++        Get a Shelly-formatted mirrorlist.
+         '''
+         obj = self.get_obj().copy()
+         if mirrors is not None:
+@@ -800,7 +847,7 @@
+         length = max(len(k) for k in keys)
+         fmt = f'{{:{length:d}s}} : {{}}'
+         for mir in mirrors:
+-            print(f'{mir["url"]}$repo/os/$arch')
++            print(f'{mir["url"]}$repo/$arch')
+             for key in keys:
+                 value = mir[key]
+                 if key == 'last_sync':
+@@ -831,8 +878,8 @@
+     parser.add_argument(
+         '--cache-timeout', type=int, metavar='n', default=DEFAULT_CACHE_TIMEOUT,
+         help=(
+-            '''The cache timeout in seconds for the data retrieved from the Arch
+-            Linux Mirror Status API. The default is %(default)s. '''
++            '''The cache timeout in seconds for the data retrieved from the Devario
++            repository Mirror Status API. The default is %(default)s. '''
+         )
+     )
+ 
+@@ -1025,7 +1072,7 @@
+     Parse command-line arguments.
+     '''
+     parser = MyArgumentParser(
+-        description='retrieve and filter a list of the latest Arch Linux mirrors',
++        description='retrieve and filter a list of the latest Devario mirrors',
+         fromfile_prefix_chars='@'
+     )
+     parser = add_arguments(parser)
+--- a/reflector.conf
++++ b/reflector.conf
+@@ -1,27 +1,6 @@
+-# Reflector configuration file for the systemd service.
+-#
+-# Empty lines and lines beginning with "#" are ignored.  All other lines should
+-# contain valid reflector command-line arguments. The lines are parsed with
+-# Python's shlex modules so standard shell syntax should work. All arguments are
+-# collected into a single argument list.
+-#
+-# See "reflector --help" for details.
+-
+-# Recommended Options
+-
+-# Set the output path where the mirrorlist will be saved (--save).
+---save /etc/pacman.d/mirrorlist
+-
+-# Select the transfer protocol (--protocol).
++# Devario catalog mirrorlist. Include this file only in Devario repository
++# sections of /etc/shelly.conf: Include = /etc/shelly.d/mirrorlist
++# Catalog indexing age is not a measured synchronization delay.
++--save /etc/shelly.d/mirrorlist
+ --protocol https
+-
+-# Select the country (--country).
+-# Consult the list of available countries with "reflector --list-countries" and
+-# select the countries nearest to you or the ones that you trust. For example:
+-# --country France,Germany
+-
+-# Use only the  most recently synchronized mirrors (--latest).
+---latest 5
+-
+-# Sort the mirrors by synchronization time (--sort).
+ --sort age
+--- a/reflector.service
++++ b/reflector.service
+@@ -1,6 +1,6 @@
+ [Unit]
+-Description=Refresh Pacman mirrorlist with Reflector.
+-Documentation=https://wiki.archlinux.org/index.php/Reflector
++Description=Refresh Devario mirrorlist with Reflector.
++Documentation=man:reflector(1)
+ Wants=network-online.target
+ After=network-online.target nss-lookup.target
+ 
+@@ -26,7 +26,7 @@
+ ProtectKernelModules=true
+ ProtectSystem=strict
+ ReadOnlyPaths=/etc/xdg/reflector/reflector.conf
+-ReadWritePaths=/etc/pacman.d/mirrorlist
++ReadWritePaths=/etc/shelly.d
+ RemoveIPC=true
+ RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+ RestrictNamespaces=true
+--- a/setup.py
++++ b/setup.py
+@@ -6,7 +6,7 @@
+ setup(
+     name='Reflector',
+     version=time.strftime('%Y.%m.%d.%H.%M.%S', time.gmtime(  1687912561)),
+-    description='''A Python 3 module and script to retrieve and filter the latest Pacman mirror list.''',
++    description='''A Python 3 module and script to retrieve and filter the Devario repository mirror list.''',
+     author='Xyne',
+     author_email='gro xunilhcra enyx, backwards',
+     url='''http://xyne.dev/projects/reflector''',

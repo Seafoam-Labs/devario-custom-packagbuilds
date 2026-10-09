@@ -1,0 +1,54 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=python-mako
+pkgver=1.4.3
+pkgrel=1
+pkgdesc="A template library written in Python"
+arch=(any)
+url="https://github.com/sqlalchemy/mako"
+license=(MIT)
+depends=(
+  python
+  python-markupsafe
+)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+checkdepends=(
+  # python-lingua isn't packaged
+  python-babel
+  python-beaker
+  python-dogpile.cache
+  python-pygments
+  python-pytest
+)
+optdepends=(
+  'python-babel: for i18n features'
+  'python-beaker: for caching support'
+  'python-dogpile.cache: for caching support'
+  'python-pygments: for syntax highlighting'
+  'python-pytest: for testing utilities'
+)
+source=("$pkgname::git+$url.git#tag=rel_${pkgver//./_}")
+sha512sums=('c4ac12587d58777eae263441622385713c6f551dbd12afb9f73d8830a459bd24bd8a6b627f4733231eb52028ddf20c26833463cfca357e33adeedbd49cfa7a15')
+
+build() {
+  cd $pkgname
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd $pkgname
+  pytest
+}
+
+package() {
+  cd $pkgname
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}

@@ -1,0 +1,7 @@
+{
+  "name": "cpuinfo",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cpuinfo.git",
+  "commit": "a3e2ab2bd933b8247f11b1c37bf63e309fc8bd24",
+  "sha256": "967185a76c27219dc52f7837d90477d309c01fdc9963177d80b7729e6676d0ac",
+  "bytes": 1851
+}

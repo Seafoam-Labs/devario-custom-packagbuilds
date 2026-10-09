@@ -1,0 +1,26 @@
+pkgbase = conduit-llnl
+	pkgdesc = Simplified data exchange library for HPC simulations
+	pkgver = 0.9.9
+	pkgrel = 2
+	url = https://github.com/LLNL/conduit
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = cmake
+	makedepends = gcc-fortran
+	makedepends = ninja
+	makedepends = python-numpy
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	depends = glibc
+	depends = libgcc
+	depends = libgfortran
+	depends = libstdc++
+	depends = openmpi
+	depends = python
+	source = conduit-0.9.9-src-with-blt.tar.gz::https://github.com/LLNL/conduit/releases/download/v0.9.9/conduit-v0.9.9-src-with-blt.tar.gz
+	source = no-pip-python-modules.patch
+	b2sums = e8fe0abdf5ff9f8f5f8617b318eb8a9b12f36a6c8d05a35173de6792d92b86f66d004d22fa0c111bc9766084f5b973b13f278ec0088f5be434e25b5c63c2c09e
+	b2sums = 509e91528034cb08bd429ee4259d909785213531112072c076f16895a0074e62275aee85ed2c998af51c4ce575501c14c4e8597b2adc14dcb4f4ea0d148673e4
+
+pkgname = conduit-llnl

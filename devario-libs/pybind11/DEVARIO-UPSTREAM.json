@@ -1,0 +1,6 @@
+{
+  "name": "pybind11",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pybind11/-/archive/main/pybind11-main.tar.gz",
+  "sha256": "3fba91127ff3e2d349666859ec590f3abe080f8f22686b2bc782b892320dd613",
+  "bytes": 2175
+}

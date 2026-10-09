@@ -1,0 +1,6 @@
+{
+  "name": "lib32-systemd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-systemd/-/archive/main/lib32-systemd-main.tar.gz",
+  "sha256": "4f50b6dd14ec16ab616dd5cc78183bafe1e56ea259a3183eabd43a485c27d43a",
+  "bytes": 22924
+}

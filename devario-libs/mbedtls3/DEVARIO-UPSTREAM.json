@@ -1,0 +1,6 @@
+{
+  "name": "mbedtls3",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mbedtls3/-/archive/main/mbedtls3-main.tar.gz",
+  "sha256": "e1e623942891340bec9124961278cb8af03789a11a22c9702499c5f364930bdc",
+  "bytes": 2375
+}

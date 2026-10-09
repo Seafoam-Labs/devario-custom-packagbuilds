@@ -1,0 +1,6 @@
+{
+  "name": "spirv-llvm-translator",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/spirv-llvm-translator/-/archive/main/spirv-llvm-translator-main.tar.gz",
+  "sha256": "656afe890c2e4f78aa76305f2bd26a0e5a2503fc73f60bc97691ba6ca2b3d614",
+  "bytes": 2123
+}

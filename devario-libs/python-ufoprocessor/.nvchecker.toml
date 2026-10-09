@@ -1,0 +1,4 @@
+[python-ufoprocessor]
+source = "github"
+github = "LettError/ufoProcessor"
+use_latest_tag = true

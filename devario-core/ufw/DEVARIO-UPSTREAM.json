@@ -1,0 +1,6 @@
+{
+  "name": "ufw",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ufw/-/archive/main/ufw-main.tar.gz",
+  "sha256": "e115f30db1e96d5623abbc6bdbeb9a155061a10f611f52ec84267d59203da314",
+  "bytes": 10483
+}

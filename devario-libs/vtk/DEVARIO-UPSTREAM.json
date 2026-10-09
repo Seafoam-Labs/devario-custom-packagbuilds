@@ -1,0 +1,6 @@
+{
+  "name": "vtk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/vtk/-/archive/main/vtk-main.tar.gz",
+  "sha256": "8af7b2539a19a70759e317fbdab9fca370a4fb63d97c2ef59df58e0e9693ef5f",
+  "bytes": 10672
+}

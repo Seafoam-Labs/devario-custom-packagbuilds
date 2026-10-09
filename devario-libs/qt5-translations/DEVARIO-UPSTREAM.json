@@ -1,0 +1,6 @@
+{
+  "name": "qt5-translations",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qt5-translations/-/archive/main/qt5-translations-main.tar.gz",
+  "sha256": "6db761dbf1f19ed7b4fbda06f9dad45e675201299582641ba43c410e1a407033",
+  "bytes": 1960
+}

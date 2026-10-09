@@ -1,0 +1,19 @@
+pkgbase = git-lfs
+	pkgdesc = Git extension for versioning large files
+	pkgver = 3.8.0
+	pkgrel = 1
+	url = https://git-lfs.github.com
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = go
+	makedepends = ruby-ronn
+	makedepends = go-tools
+	makedepends = asciidoctor
+	depends = git
+	source = git+https://github.com/git-lfs/git-lfs.git#tag=v3.8.0?signed
+	validpgpkeys = 88ACE9B29196305BA9947552F1BA225C0223B187
+	validpgpkeys = 86CD3297749375BCF8206715F54FE648088335A9
+	sha256sums = 7362eec72029f67820ce775114d0df0ed961ea82f3f457c58beec74be118ac20
+
+pkgname = git-lfs

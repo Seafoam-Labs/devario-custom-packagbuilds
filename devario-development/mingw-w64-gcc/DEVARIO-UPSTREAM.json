@@ -1,0 +1,6 @@
+{
+  "name": "mingw-w64-gcc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mingw-w64-gcc/-/archive/main/mingw-w64-gcc-main.tar.gz",
+  "sha256": "d82f13d1f8f976be0d55ddb714e8b5157697f37227737309a0eb3f6ce739c543",
+  "bytes": 10833
+}

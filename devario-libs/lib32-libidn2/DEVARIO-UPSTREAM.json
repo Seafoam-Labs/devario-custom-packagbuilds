@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libidn2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libidn2/-/archive/main/lib32-libidn2-main.tar.gz",
+  "sha256": "2897ec8d7088fb4bedc36124edb0cd80f26ed9352ecd72a5dd962d5d82c7e96e",
+  "bytes": 2961
+}

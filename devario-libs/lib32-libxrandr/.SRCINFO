@@ -1,0 +1,22 @@
+pkgbase = lib32-libxrandr
+	pkgdesc = X11 RandR extension library (32-bit)
+	pkgver = 1.5.5
+	pkgrel = 1
+	url = https://xorg.freedesktop.org/
+	arch = x86_64
+	license = HPND-sell-variant
+	makedepends = xorg-util-macros
+	depends = lib32-libxext
+	depends = lib32-libxrender
+	depends = libxrandr
+	depends = lib32-libx11
+	depends = lib32-glibc
+	source = https://xorg.freedesktop.org//releases/individual/lib/libXrandr-1.5.5.tar.xz
+	source = https://xorg.freedesktop.org//releases/individual/lib/libXrandr-1.5.5.tar.xz.sig
+	validpgpkeys = 10A6D91DA1B05BD29F6DEBAC0C74F35979C486BE
+	validpgpkeys = C41C985FDCF1E5364576638B687393EE37D128F8
+	validpgpkeys = 3AB285232C46AE43D8E192F4DAB0F78EA6E7E2D2
+	sha256sums = 72b922c2e765434e9e9f0960148070bd4504b288263e2868a4ccce1b7cf2767a
+	sha256sums = SKIP
+
+pkgname = lib32-libxrandr

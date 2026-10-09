@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Antonio Rojas <arojas@archlinux.org>
+Date: Wed, 4 Jun 2025 13:56:06 +0200
+Subject: [PATCH] gpgme 2.0
+
+---
+ pgp/seahorse-gpgme.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/pgp/seahorse-gpgme.c b/pgp/seahorse-gpgme.c
+index 4d47d8d96248..e458cbd905c2 100644
+--- a/pgp/seahorse-gpgme.c
++++ b/pgp/seahorse-gpgme.c
+@@ -484,7 +484,6 @@ on_gpgme_event (void *user_data,
+ 		break;
+ 
+ 	case GPGME_EVENT_NEXT_KEY:
+-	case GPGME_EVENT_NEXT_TRUSTITEM:
+ 	default:
+ 		/* Ignore unsupported event types */
+ 		break;

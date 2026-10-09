@@ -1,0 +1,6 @@
+{
+  "name": "lib32-xcb-util-keysyms",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-xcb-util-keysyms/-/archive/main/lib32-xcb-util-keysyms-main.tar.gz",
+  "sha256": "20d458312dec73b174408885ea45fd8bbc01c41e27fa572afb73ad069fa7af2e",
+  "bytes": 1870
+}

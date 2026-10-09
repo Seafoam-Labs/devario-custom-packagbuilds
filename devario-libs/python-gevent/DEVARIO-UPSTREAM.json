@@ -1,0 +1,6 @@
+{
+  "name": "python-gevent",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-gevent/-/archive/main/python-gevent-main.tar.gz",
+  "sha256": "5a3028401bc66d05bdf02db8b1f0a709fb8709ef80431645e38cd19e09845421",
+  "bytes": 2177
+}

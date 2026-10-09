@@ -1,0 +1,6 @@
+{
+  "name": "lib32-llvm",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-llvm/-/archive/main/lib32-llvm-main.tar.gz",
+  "sha256": "5c1a6f7d87e986708c99a7191c59fa0b258c619e0dc0c69a19818e11ec12a6b0",
+  "bytes": 8650
+}

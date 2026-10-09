@@ -1,0 +1,4 @@
+[lib32-libelf]
+source = "git"
+git = "https://forge.sourceware.org/elfutils/elfutils-mirror.git"
+prefix = "elfutils-"

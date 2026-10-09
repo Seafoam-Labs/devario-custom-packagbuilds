@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxshmfence",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxshmfence/-/archive/main/lib32-libxshmfence-main.tar.gz",
+  "sha256": "e3ec9856d382de6bbd383ad8d7bad1aaa68664f94cf66818a1ccf42af89a212b",
+  "bytes": 27054
+}

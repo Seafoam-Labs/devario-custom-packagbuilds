@@ -1,0 +1,4 @@
+[python-zopfli]
+source = "git"
+git = "https://github.com/fonttools/py-zopfli.git"
+prefix = "v"

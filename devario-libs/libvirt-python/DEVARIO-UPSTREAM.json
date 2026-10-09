@@ -1,0 +1,6 @@
+{
+  "name": "libvirt-python",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libvirt-python/-/archive/main/libvirt-python-main.tar.gz",
+  "sha256": "79527435694fe6fffd0961d18cbe756746cc0c1fb011fe5402d882560d3a31cf",
+  "bytes": 6516
+}

@@ -1,0 +1,5 @@
+[ollama]
+source = "git"
+git = "https://github.com/ollama/ollama.git"
+prefix = "v"
+exclude_regex = ".*-rc.*$"

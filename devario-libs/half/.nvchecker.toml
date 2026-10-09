@@ -1,0 +1,4 @@
+[half]
+source = 'regex'
+url = 'https://sourceforge.net/projects/half/best_release.json'
+regex = 'half-([\d.]+).zip'

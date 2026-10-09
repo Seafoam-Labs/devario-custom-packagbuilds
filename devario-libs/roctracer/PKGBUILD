@@ -1,0 +1,41 @@
+# Maintainer: Torsten Keßler <tpkessler at archlinux dot org>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: acxz <akashpatel2008 at yahoo dot com>
+
+pkgname=roctracer
+pkgver=10.0
+pkgrel=1
+pkgdesc='ROCm tracer library for performance tracing'
+arch=('x86_64')
+url='https://rocm.docs.amd.com/projects/roctracer/en/latest'
+license=('MIT')
+depends=('rocm-core' 'glibc' 'libgcc' 'hip-runtime-amd' 'hsa-rocr' 'comgr')
+makedepends=('cmake' 'python-cppheaderparser' 'python-ply' 'rocm-llvm-static')
+_git='https://github.com/ROCm/rocm-systems'
+source=("$pkgname-$pkgver.tar.gz::$_git/releases/download/therock-$pkgver/$pkgname.tar.gz")
+sha256sums=('b5beb2987b1fde3b32fb482406123382e43589fb370275cd9bbb9101accc35d2')
+options=('!lto')
+
+build() {
+  local cmake_args=(
+    -Wno-dev
+    -B build
+    -S "$pkgname"
+    # https://gitlab.archlinux.org/archlinux/packaging/packages/roctracer/-/issues/6
+    -D CMAKE_BUILD_TYPE=Release
+    -D CMAKE_INSTALL_PREFIX=/opt/rocm
+    -D HIP_ROOT_DIR=/opt/rocm
+    -D Clang_DIR=/opt/rocm/lib/llvm/lib/cmake/clang
+    -D HIP_CLANG_PATH=/opt/rocm/lib/llvm/bin
+    # GCC 16 triggers -Werror=array-bounds= in libstdc++ internals via std::promise
+    -D CMAKE_CXX_FLAGS="-Wno-array-bounds"
+  )
+  cmake "${cmake_args[@]}"
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  install -Dm644 "$pkgname/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

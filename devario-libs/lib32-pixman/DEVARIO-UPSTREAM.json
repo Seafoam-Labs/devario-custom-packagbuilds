@@ -1,0 +1,6 @@
+{
+  "name": "lib32-pixman",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-pixman/-/archive/main/lib32-pixman-main.tar.gz",
+  "sha256": "ad09890a157c8e6c01463343371b7b74a5ba2117bc28d27c08ed246002fa294c",
+  "bytes": 3309
+}

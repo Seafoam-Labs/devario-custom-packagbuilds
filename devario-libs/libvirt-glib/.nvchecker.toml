@@ -1,0 +1,4 @@
+[libvirt-glib]
+source = "git"
+git = "https://gitlab.com/libvirt/libvirt-glib.git"
+prefix = "v"

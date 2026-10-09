@@ -1,0 +1,4 @@
+[easyeffects]
+source = "git"
+git = "https://github.com/wwmm/easyeffects.git"
+prefix = "v"

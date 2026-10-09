@@ -1,0 +1,6 @@
+{
+  "name": "lib32-keyutils",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-keyutils/-/archive/main/lib32-keyutils-main.tar.gz",
+  "sha256": "e391817a78b0f04577bbd81abeedabf70448fc3eefc9502acc6f7c14f06a13ea",
+  "bytes": 5065
+}

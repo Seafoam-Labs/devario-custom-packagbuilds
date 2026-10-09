@@ -1,0 +1,6 @@
+{
+  "name": "libmicrohttpd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libmicrohttpd/-/archive/main/libmicrohttpd-main.tar.gz",
+  "sha256": "0f6c55c24b551240cd437db38ad895778b6df006bb6e14998656a8450b102ac2",
+  "bytes": 9972
+}

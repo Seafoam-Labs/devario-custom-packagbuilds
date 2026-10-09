@@ -1,0 +1,6 @@
+{
+  "name": "lib32-mesa",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-mesa/-/archive/main/lib32-mesa-main.tar.gz",
+  "sha256": "2e76cf3d3e02c7ffcf322c8694e3c914f975968085d058ff09d7e84587797618",
+  "bytes": 50062
+}

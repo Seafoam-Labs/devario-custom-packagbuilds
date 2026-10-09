@@ -1,0 +1,3 @@
+[xcur2png]
+source = "git"
+git = "https://github.com/eworm-de/xcur2png.git"

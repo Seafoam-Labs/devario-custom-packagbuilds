@@ -1,0 +1,25 @@
+pkgbase = python-contourpy
+	pkgdesc = Python library for calculating contours in 2D quadrilateral grids
+	pkgver = 1.4.0
+	pkgrel = 1
+	url = https://github.com/contourpy/contourpy
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = python-matplotlib
+	checkdepends = python-pytest
+	checkdepends = python-wurlitzer
+	makedepends = git
+	makedepends = meson-python
+	makedepends = pybind11
+	makedepends = python-build
+	makedepends = python-installer
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = python
+	depends = python-numpy
+	optdepends = python-matplotlib: matplotlib renderer
+	source = git+https://github.com/contourpy/contourpy#tag=v1.4.0
+	sha256sums = 7bc10aeb2e69b7bbac2ba938799a8f73a6c11a9d4d3cef0cdd150c79307e6881
+
+pkgname = python-contourpy

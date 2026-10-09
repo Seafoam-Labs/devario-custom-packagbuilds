@@ -1,0 +1,4 @@
+[anari-sdk]
+source = "git"
+git = "https://github.com/KhronosGroup/ANARI-SDK.git"
+prefix = "v"

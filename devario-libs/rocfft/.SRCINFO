@@ -1,0 +1,22 @@
+pkgbase = rocfft
+	pkgdesc = Next generation FFT implementation for ROCm
+	pkgver = 10.0
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/projects/rocFFT/en/latest/index.html
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = rocm-cmake
+	makedepends = rocm-toolchain
+	makedepends = rocm-llvm
+	depends = rocm-core
+	depends = hip-runtime-amd
+	depends = glibc
+	depends = libgcc
+	depends = sqlite
+	options = !lto
+	source = rocfft-10.0.tar.gz::https://github.com/ROCm/rocm-libraries/releases/download/therock-10.0/rocfft.tar.gz
+	sha256sums = 88dde0f395b0bb1f31af39e5b2ebb1dc56c8d262f3b077361bd554f8a5d552b9
+
+pkgname = rocfft

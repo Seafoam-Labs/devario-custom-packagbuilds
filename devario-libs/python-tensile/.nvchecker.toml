@@ -1,0 +1,5 @@
+[python-tensile]
+source = "git"
+git = "https://github.com/ROCm/rocm-libraries.git"
+prefix = "therock-"
+include_regex = "therock-.*"

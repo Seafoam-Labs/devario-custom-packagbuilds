@@ -1,0 +1,6 @@
+{
+  "name": "opencl-headers",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/opencl-headers/-/archive/main/opencl-headers-main.tar.gz",
+  "sha256": "f39bc7b37ec8147a1de9f0c1bdf2deee885e7259cf5333ba7d9e842e296ca2fb",
+  "bytes": 2251
+}

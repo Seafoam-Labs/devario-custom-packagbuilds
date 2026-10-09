@@ -1,0 +1,3 @@
+[lib32-libdisplay-info]
+source = "git"
+git = "https://gitlab.freedesktop.org/emersion/libdisplay-info.git"

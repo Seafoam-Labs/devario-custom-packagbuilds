@@ -1,0 +1,6 @@
+{
+  "name": "lib32-vulkan-icd-loader",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-vulkan-icd-loader/-/archive/main/lib32-vulkan-icd-loader-main.tar.gz",
+  "sha256": "c276f03abab183a805877c543f631877736de0c1e792405935b08e6a77c3592a",
+  "bytes": 2091
+}

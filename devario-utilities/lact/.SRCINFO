@@ -1,0 +1,29 @@
+pkgbase = lact
+	pkgdesc = Linux GPU Configuration Tool
+	pkgver = 0.10.1
+	pkgrel = 1
+	url = https://github.com/ilya-zlobintsev/LACT
+	install = lact.install
+	arch = x86_64
+	license = MIT
+	checkdepends = fuse3
+	makedepends = cargo
+	makedepends = clang
+	makedepends = git
+	depends = hwdata
+	depends = libdisplay-info
+	depends = libgcc
+	depends = libstdc++
+	depends = glibc
+	depends = gtk4
+	depends = libadwaita
+	depends = vulkan-tools
+	depends = ocl-icd
+	source = git+https://github.com/ilya-zlobintsev/LACT.git#tag=v0.10.1
+	sha256sums = 0b46c49da3b54bc05992bbae0ef0c022da60485f411891b8d2f5e60c33ead07d
+	b2sums = 05166815dfaf40c9cc170f6c431411454b65e94072520fb26a6953542bd3da1872907c8e341b017eb5d50702640d2411fd65b8224ab4c8cde2c46c1cbe0e6a86
+
+pkgname = lact
+	provides = lact-libadwaita
+	conflicts = lact-libadwaita
+	replaces = lact-libadwaita

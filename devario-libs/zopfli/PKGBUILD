@@ -1,0 +1,53 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+
+pkgname=zopfli
+pkgver=1.0.3
+pkgrel=5
+pkgdesc="Compression algorithm library"
+arch=(x86_64)
+url=https://github.com/google/zopfli
+license=(Apache-2.0)
+depends=(
+  glibc
+  libgcc
+  libstdc++
+)
+makedepends=(
+  git
+  cmake
+  ninja
+)
+provides=(
+  libzopfli.so
+  libzopflipng.so
+)
+source=(git+${url}.git#tag=zopfli-${pkgver})
+sha512sums=('0e13565a73a91e1746175cc38b211ff24ab1d8022f1ecb7a0e2575e39fbb19b57777a599c60525ce186c5e3e33249e67c7178162075489e204091511e6d18726')
+b2sums=('1144c6c3a5eaa90ffd13c7ec2ebb080edb09456591b9602c0a839f1bb4e8ec088a3d5bf16a264a3e5f22a9da308c72da788718b6cd611a3995952e818b7977bf')
+
+build() {
+  local cmake_options=(
+    -B build
+    -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_BUILD_TYPE=None
+    -D CMAKE_POLICY_VERSION_MINIMUM=3.5
+    -D ZOPFLI_BUILD_SHARED=ON
+    -S ${pkgname}
+    -G Ninja
+    -W no-dev
+  )
+
+  cmake "${cmake_options[@]}"
+  cmake --build build --verbose
+}
+
+check() {
+  ctest --test-dir build --output-on-failure
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+  install -vDm 644 ${pkgname}/README* -t "${pkgdir}/usr/share/doc/${pkgname}/"
+}
+

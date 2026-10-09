@@ -1,0 +1,106 @@
+# Maintainer: Campbell Jones <serebit at archlinux dot org>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+
+pkgbase=ibus
+pkgname=(
+    ibus
+    libibus
+)
+pkgver=1.5.34
+pkgrel=2
+pkgdesc="Intelligent input bus for Linux/Unix"
+arch=(x86_64)
+url="https://github.com/ibus/ibus/wiki"
+license=(LGPL-2.1-or-later)
+depends=(
+    at-spi2-core
+    cairo
+    dconf
+    gdk-pixbuf2
+    glib2
+    graphene
+    gtk3
+    gtk4
+    hicolor-icon-theme
+    libdbusmenu-glib
+    libdbusmenu-gtk3
+    libnotify
+    libx11
+    libxfixes
+    libxi
+    libxkbcommon
+    pango
+    python
+    python-gobject
+    wayland
+)
+makedepends=(
+    git
+    glib2-devel
+    gobject-introspection
+    gtk-doc
+    qt5-base
+    unicode-character-database
+    unicode-cldr
+    unicode-emoji
+    vala
+    wayland-protocols
+)
+options=(!emptydirs)
+source=("git+https://github.com/ibus/ibus.git?signed#tag=$pkgver")
+b2sums=(5c577245af802b12fbc8f3f7ba281b012d342a3fec7fdaa991e316d93aa02a0c706240288ab87fd64742b21950000074f3dfabd0ede010569aa594c64198d8c3)
+validpgpkeys=(EEA94553D1CFF4B3DAEDAB54B2F99ED770DC79EC) # Takao Fujiwara <takao.fujiwara1@gmail.com>
+
+prepare() {
+    cd $pkgbase
+
+    # Fix infinite loop with GTK4 on Xorg
+    git cherry-pick -n c534999a9dbea2666864250d74e058ecfb46e76f
+
+    autoreconf -fiv
+}
+
+build() {
+    cd $pkgbase
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/ibus \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --enable-dconf \
+        --enable-wayland \
+        --enable-gtk-doc \
+        --disable-gtk2 \
+        --enable-gtk4 \
+        --disable-memconf \
+        --enable-ui \
+        --disable-python2 \
+        --with-python=python3 \
+        --with-ucd-dir=/usr/share/unicode/
+    sed -i 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    make
+}
+
+package_ibus() {
+    depends+=("libibus=$pkgver")
+
+    cd $pkgbase
+    make DESTDIR="$pkgdir" install
+    make -C src DESTDIR="$pkgdir" uninstall
+    make -C src DESTDIR="$pkgdir" install-dictDATA install-unicodeDATA
+    make -C bindings DESTDIR="$pkgdir" uninstall
+    make DESTDIR="$pkgdir" uninstall-pkgconfigDATA
+}
+
+package_libibus() {
+    pkgdesc="IBus support library"
+    depends=(libg{lib,object,io}-2.0.so)
+    optdepends=('python-gobject: for Python integration')
+    provides=(libibus-1.0.so)
+
+    cd $pkgbase
+    make -C src DESTDIR="$pkgdir" install
+    make -C src DESTDIR="$pkgdir" uninstall-dictDATA uninstall-unicodeDATA
+    make -C bindings DESTDIR="$pkgdir" install
+    make DESTDIR="$pkgdir" install-pkgconfigDATA
+}

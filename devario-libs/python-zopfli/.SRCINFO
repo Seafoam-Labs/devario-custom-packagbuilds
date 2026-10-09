@@ -1,0 +1,26 @@
+pkgbase = python-zopfli
+	pkgdesc = Python bindings to zopfli
+	pkgver = 0.4.3
+	pkgrel = 1
+	url = https://github.com/fonttools/py-zopfli
+	arch = x86_64
+	license = Apache-2.0
+	checkdepends = python-pytest
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	makedepends = zopfli
+	depends = glibc
+	depends = python
+	source = py-zopfli-0.4.3.tar.gz::https://github.com/fonttools/py-zopfli/archive/refs/tags/v0.4.3.tar.gz
+	sha512sums = b61204b769df4bb67cbc9993fee7b0a135559a01154ff68e82294b2aa66bff433bb388f230b68ab762f59ea19fc6dfaa110acb04a10cab6c325c01f367060274
+	b2sums = dc1c8c476f1a0cf8655703b102d843707c3800b2f9490975d81697c91d39b1393658842cbaee11bc552f814f35632d97e8fa27f86175e0bee96fc06325aca763
+
+pkgname = python-zopfli
+	depends = glibc
+	depends = python
+	depends = zopfli
+	depends = libzopfli.so
+	depends = libzopflipng.so

@@ -1,0 +1,6 @@
+{
+  "name": "mingw-w64-binutils",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mingw-w64-binutils/-/archive/main/mingw-w64-binutils-main.tar.gz",
+  "sha256": "e694387e774fb08f1b73c27da5f0f6be3dbe60941706ab1d586d9e2758ef995a",
+  "bytes": 37541
+}

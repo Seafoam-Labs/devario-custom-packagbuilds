@@ -1,0 +1,22 @@
+pkgbase = winetricks
+	pkgdesc = Script to install various redistributable runtime libraries in Wine.
+	pkgver = 20260125
+	pkgrel = 2
+	url = https://wiki.winehq.org/winetricks
+	arch = any
+	license = LGPL-2.1-or-later
+	depends = bash
+	depends = cabextract
+	depends = perl
+	depends = unzip
+	optdepends = zenity: GUI for GNOME desktop
+	optdepends = kdialog: GUI for KDE desktop
+	source = winetricks-20260125.tar.gz::https://github.com/Winetricks/winetricks/archive/20260125.tar.gz
+	sha512sums = ab29191c8032ba70ee8e807c7910916d47cbbdab658cdb5a1c1daa11f0eb7e219a8cd5555e4e681a154913237e4600a8c5056e8bdd9c1f44dac92f27ec875fcb
+
+pkgname = winetricks
+	depends = bash
+	depends = cabextract
+	depends = perl
+	depends = unzip
+	depends = wine

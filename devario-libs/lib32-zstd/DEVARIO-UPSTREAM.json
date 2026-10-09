@@ -1,0 +1,6 @@
+{
+  "name": "lib32-zstd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-zstd/-/archive/main/lib32-zstd-main.tar.gz",
+  "sha256": "03b3b4dac5a7a35110bc034f7b760c066e97dbfdab384dbe6d829aa2547ee0c7",
+  "bytes": 4023
+}

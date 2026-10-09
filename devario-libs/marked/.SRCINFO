@@ -1,0 +1,14 @@
+pkgbase = marked
+	pkgdesc = A markdown parser built for speed
+	pkgver = 16.3.0
+	pkgrel = 1
+	url = https://marked.js.org
+	arch = any
+	license = MIT
+	makedepends = npm
+	depends = nodejs
+	noextract = marked-16.3.0.tgz
+	source = https://registry.npmjs.org/marked/-/marked-16.3.0.tgz
+	sha512sums = 2b7531b8abba97a6e6039154c18868f027c9065b14580a282ad74680c704452a45ee070152b086b0b1fbc0369a34ecf0ab5f09cd2503ca811bfd8b2ba8c69cdf
+
+pkgname = marked

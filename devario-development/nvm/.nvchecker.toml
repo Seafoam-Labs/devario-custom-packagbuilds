@@ -1,0 +1,4 @@
+[nvm]
+source = "git"
+git = "https://github.com/nvm-sh/nvm.git"
+prefix = "v"

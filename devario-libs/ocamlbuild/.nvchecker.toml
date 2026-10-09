@@ -1,0 +1,4 @@
+[ocamlbuild]
+source = "git"
+git = "https://github.com/ocaml/ocamlbuild.git"
+include_regex = '^0\.\d+\..*$'

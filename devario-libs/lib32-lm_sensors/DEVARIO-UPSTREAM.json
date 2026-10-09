@@ -1,0 +1,6 @@
+{
+  "name": "lib32-lm_sensors",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-lm_sensors/-/archive/main/lib32-lm_sensors-main.tar.gz",
+  "sha256": "edd04e8979c36b01aa24a2974bf777d260125da43ecbd34d04d783695aa03d0b",
+  "bytes": 1833
+}

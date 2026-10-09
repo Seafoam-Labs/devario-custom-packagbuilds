@@ -1,0 +1,6 @@
+{
+  "name": "cudnn-frontend",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cudnn-frontend/-/archive/main/cudnn-frontend-main.tar.gz",
+  "sha256": "9d3c796a848749c0b93d3d83b30dd0e4cf0b0ef84b08e00c35afec911aead752",
+  "bytes": 2853
+}

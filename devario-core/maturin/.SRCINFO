@@ -1,11 +1,16 @@
 pkgbase = maturin
 	pkgdesc = Build Python packages containing Rust extensions
 	pkgver = 1.15.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/PyO3/maturin
 	arch = x86_64
 	license = MIT OR Apache-2.0
 	makedepends = rust
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-rust
+	makedepends = python-wheel
 	depends = python
 	depends = gcc-libs
 	depends = glibc
@@ -15,3 +20,8 @@ pkgbase = maturin
 	sha256sums = 94b26cc8e8aba61a5f2099715fe640e18c5f678e9a500408b38761263954228a
 
 pkgname = maturin
+
+pkgname = python-maturin
+	pkgdesc = Python build backend for packages containing Rust extensions
+	depends = maturin=1.15.0
+	depends = python

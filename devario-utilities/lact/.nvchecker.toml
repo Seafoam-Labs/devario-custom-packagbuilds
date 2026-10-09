@@ -1,0 +1,5 @@
+[lact]
+source = "github"
+github = "ilya-zlobintsev/LACT"
+prefix = "v"
+use_max_tag = true

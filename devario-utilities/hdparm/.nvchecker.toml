@@ -1,0 +1,4 @@
+[hdparm]
+source = 'regex'
+url = 'https://sourceforge.net/projects/hdparm/best_release.json'
+regex = 'hdparm-([\d.]+).tar'

@@ -1,0 +1,22 @@
+pkgbase = libmediainfo
+	pkgdesc = Shared library for MediaInfo
+	pkgver = 26.10
+	pkgrel = 1
+	url = https://mediaarea.net
+	arch = x86_64
+	license = BSD-2-Clause
+	depends = glibc
+	depends = curl
+	depends = glib2
+	depends = libmms
+	depends = libzen
+	depends = libgcc
+	depends = libstdc++
+	depends = tinyxml2
+	depends = graphviz
+	depends = zlib
+	source = libmediainfo-26.10.tar.xz::https://mediaarea.net/download/source/libmediainfo/26.10/libmediainfo_26.10.tar.xz
+	sha512sums = 5b155195d92c098c05ea7e9bd5af884350186367297535a3d533a6657bb7a1f0a307d585a10e92caaca0a0d16815c90525b9bb9de9bfc373d44f89cad7ee8c6a
+	b2sums = 5f1d92f4fe4de60bf3e0eb21f2b3bc73ecd4e75856ece7df0b864df3779c9e5301730794d849a603799b69a1e486ecf343d8670505529e0c35507a78dda40983
+
+pkgname = libmediainfo

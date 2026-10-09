@@ -1,0 +1,6 @@
+{
+  "name": "rocm-toolchain",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocm-toolchain/-/archive/main/rocm-toolchain-main.tar.gz",
+  "sha256": "509d5d16fda3d4d924a8500bf5a0a0927a6e4a72e710221c21a40a024ae5b796",
+  "bytes": 1487
+}

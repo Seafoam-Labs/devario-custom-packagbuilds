@@ -1,0 +1,6 @@
+{
+  "name": "kconfig",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kconfig/-/archive/main/kconfig-main.tar.gz",
+  "sha256": "9e0056e9d4b9b1f4cbbc0866d7ef137a21805b6896c3df27c78654ae2686cefc",
+  "bytes": 6001
+}

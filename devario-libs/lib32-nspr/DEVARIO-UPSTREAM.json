@@ -1,0 +1,6 @@
+{
+  "name": "lib32-nspr",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-nspr/-/archive/main/lib32-nspr-main.tar.gz",
+  "sha256": "a01346b11a7d267583ea6d31bd3dddc827a0e116bcc6eee4b8a22793c00d9b38",
+  "bytes": 8866
+}

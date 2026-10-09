@@ -1,0 +1,17 @@
+pkgbase = perl-data-optlist
+	pkgdesc = Parse and validate simple name/value option pairs
+	pkgver = 0.115
+	pkgrel = 1
+	url = https://metacpan.org/release/Data-OptList
+	arch = any
+	license = Artistic-1.0-Perl
+	license = GPL-1.0-or-later
+	makedepends = perl-extutils-makemaker
+	depends = perl-params-someutil
+	depends = perl-scalar-list-utils
+	depends = perl-sub-install
+	options = !emptydirs
+	source = https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Data-OptList-0.115.tar.gz
+	sha512sums = 7e648b64288fbffcfd79c8c90293d41350e212dc04510da54241b72f0db66a372851fa0b4a751d2cb284eda512db9b9dc11f1649ba80b163a1451b188ce9e3f2
+
+pkgname = perl-data-optlist

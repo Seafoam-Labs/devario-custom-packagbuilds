@@ -1,0 +1,21 @@
+pkgbase = libwmf
+	pkgdesc = A library for reading vector images in Microsoft's native Windows Metafile Format (WMF)
+	pkgver = 0.2.16
+	pkgrel = 1
+	url = https://github.com/caolanm/libwmf
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = gdk-pixbuf2
+	makedepends = git
+	depends = expat
+	depends = freetype2
+	depends = glibc
+	depends = libjpeg-turbo
+	depends = libpng
+	depends = libx11
+	depends = zlib
+	optdepends = gdk-pixbuf2: for pixbuf loader
+	source = git+https://github.com/caolanm/libwmf.git#tag=v0.2.16
+	sha256sums = 8857f71405ed84e95476c611880b722f24e09b2a73273452eafc4c4713a1c941
+
+pkgname = libwmf

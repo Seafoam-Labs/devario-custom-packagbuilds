@@ -1,0 +1,19 @@
+pkgbase = plasma-wayland-protocols
+	pkgdesc = Plasma Specific Protocols for Wayland
+	pkgver = 1.23.0
+	pkgrel = 1
+	url = https://kde.org/plasma-desktop
+	arch = any
+	license = LGPL-2.0-or-later
+	makedepends = extra-cmake-modules
+	makedepends = qt6-base
+	source = https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.23.0.tar.xz
+	source = https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-1.23.0.tar.xz.sig
+	validpgpkeys = CA1B4E348D22755A67EF4E1A6A4F2C4CDC8BC77F
+	validpgpkeys = EC5516B514543DA145169FD12276F09AF4A790F4
+	validpgpkeys = E0A3EB202F8E57528E13E72FD7574483BB57B18D
+	validpgpkeys = 0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D
+	sha256sums = 16c5ad917bde2ed795942dacba76654819ddc6a1566842325ef34e0b553ef138
+	sha256sums = SKIP
+
+pkgname = plasma-wayland-protocols

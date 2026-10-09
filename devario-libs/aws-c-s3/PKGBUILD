@@ -1,0 +1,54 @@
+# Maintainer: Anatol Pomozov
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=aws-c-s3
+pkgver=1.3.0
+pkgrel=1
+pkgdesc='C99 library implementation for communicating with the S3 service, designed for maximizing throughput on high bandwidth EC2 instances'
+arch=(x86_64)
+url='https://github.com/awslabs/aws-c-s3'
+license=(Apache-2.0)
+depends=(
+  aws-c-auth
+  aws-c-cal
+  aws-c-common
+  aws-c-http
+  aws-c-io
+  aws-checksums
+  glibc
+)
+makedepends=(cmake)
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+b2sums=('76c9e031f9647b4166dfae0be1c70ad9ef28aaf4675644c50708fd8e8a178c5fd1de496933415ceab8ef0b5ad8726ba4bcc275b466752d42f4ab765104c80ea4')
+
+build() {
+  cmake -S $pkgname-$pkgver -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_PREFIX_PATH=/usr \
+    -Wno-dev \
+    -DBUILD_SHARED_LIBS=ON \
+    -DENABLE_NET_TESTS=OFF
+  cmake --build build
+}
+
+check() {
+  local skip_tests=(
+    # These requires an AWS account with a specially configure S3 bucket.
+    parallel_read_stream_from_file_sanity_test
+    parallel_read_stream_from_large_file_test
+    test_add_user_agent_header
+    test_s3_client_get_max_active_connections
+    test_s3_client_queue_requests
+    test_s3_client_update_connections_finish_result
+    test_s3_meta_request_body_streaming
+    test_s3_request_create_destroy
+    test_s3_update_meta_requests_trigger_prepare
+  )
+  local skip_tests_pattern="${skip_tests[0]}$(printf '|%s' "${skip_tests[@]:1}")"
+  ctest --test-dir build --output-on-failure -E "$skip_tests_pattern"
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}

@@ -1,0 +1,7 @@
+{
+  "name": "python-sympy",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-sympy.git",
+  "commit": "86b9b4b75bd57f4580e329a94ddcbd3113bda07b",
+  "sha256": "f34698f49376a4150c79c71fde8b52bdaac930fa20846c4c0f4417e99ffd8d20",
+  "bytes": 2840
+}

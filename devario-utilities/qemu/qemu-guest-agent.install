@@ -1,0 +1,2 @@
+# Devario uses qemu-guest-agent.service from its first release.
+post_upgrade() { :; }

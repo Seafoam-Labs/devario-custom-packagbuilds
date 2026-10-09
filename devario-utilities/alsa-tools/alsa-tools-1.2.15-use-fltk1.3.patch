@@ -1,0 +1,32 @@
+diff --git i/hdspconf/configure.ac w/hdspconf/configure.ac
+index e11d481..1081f30 100644
+--- i/hdspconf/configure.ac
++++ w/hdspconf/configure.ac
+@@ -29,9 +29,9 @@ PIXMAP_DIR="$pixmapdir"
+ AC_SUBST(PIXMAP_DIR)
+ 
+ dnl library check
+-AC_PATH_PROG(FLTK_CONFIG, fltk-config, no)
++AC_PATH_PROG(FLTK_CONFIG, fltk-config1.3, no)
+ if test "$FLTK_CONFIG" = "no" && ! test "`hostname -f`" = "alsa.alsa-project.org"; then
+-  AC_MSG_ERROR(no fltk-config is found)
++  AC_MSG_ERROR(no fltk-config1.3 is found)
+ fi
+ FLTK_CXXFLAGS="`$FLTK_CONFIG $fltk_config_args --cxxflags` -fno-exceptions"
+ FLTK_LIBS=`$FLTK_CONFIG $fltk_config_args --ldflags`
+diff --git i/hdspmixer/configure.ac w/hdspmixer/configure.ac
+index 167e4f4..238f104 100644
+--- i/hdspmixer/configure.ac
++++ w/hdspmixer/configure.ac
+@@ -10,9 +10,9 @@ AC_PATH_X
+ AM_PATH_ALSA(1.0.0)
+ 
+ dnl library check
+-AC_PATH_PROG(FLTK_CONFIG, fltk-config, no)
++AC_PATH_PROG(FLTK_CONFIG, fltk-config1.3, no)
+ if test "$FLTK_CONFIG" = "no" && ! test "`hostname -f`" = "alsa.alsa-project.org"; then
+-    AC_MSG_ERROR(fltk-config is required)
++    AC_MSG_ERROR(fltk-config1.3 is required)
+ fi
+ FLTK_CXXFLAGS="`$FLTK_CONFIG --cxxflags` -fno-exceptions"
+ FLTK_LIBS="`$FLTK_CONFIG --ldflags`"

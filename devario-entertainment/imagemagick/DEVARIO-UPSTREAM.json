@@ -1,0 +1,6 @@
+{
+  "name": "imagemagick",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/imagemagick/-/archive/main/imagemagick-main.tar.gz",
+  "sha256": "40988f401a1e07e22edb82322a2329f108ffb86edc2e86c7a8a80feb0eb7209d",
+  "bytes": 8323
+}

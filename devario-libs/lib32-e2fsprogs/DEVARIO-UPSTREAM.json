@@ -1,0 +1,6 @@
+{
+  "name": "lib32-e2fsprogs",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-e2fsprogs/-/archive/main/lib32-e2fsprogs-main.tar.gz",
+  "sha256": "b26fb63d30d6cd747511aed4a3403faba81543cb1e5a1d321b1df3bf6698ba20",
+  "bytes": 6841
+}

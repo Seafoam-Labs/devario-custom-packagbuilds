@@ -1,0 +1,6 @@
+{
+  "name": "seabios",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/seabios/-/archive/main/seabios-main.tar.gz",
+  "sha256": "fa7335d27224a4975557a304169818661008043054ad12dfe0314e465180b325",
+  "bytes": 6017
+}

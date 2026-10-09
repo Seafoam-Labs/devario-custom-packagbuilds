@@ -1,0 +1,15 @@
+pkgbase = hipblas-common
+	pkgdesc = Common files shared by hipBLAS and hipBLASLt
+	pkgver = 10.0
+	pkgrel = 1
+	url = https://rocm.docs.amd.com/projects/hipBLAS/en/latest/index.html
+	arch = any
+	license = MIT
+	makedepends = cmake
+	makedepends = hip-runtime-amd
+	makedepends = rocm-cmake
+	depends = rocm-core
+	source = hipblas-common-10.0.tar.gz::https://github.com/ROCm/rocm-libraries/releases/download/therock-10.0/hipblas-common.tar.gz
+	sha256sums = 1428438a1dca95d4a751ed6d22267e49c54ab08a80f31c07e3e077084bce9d0a
+
+pkgname = hipblas-common

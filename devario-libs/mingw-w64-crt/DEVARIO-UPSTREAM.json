@@ -1,0 +1,6 @@
+{
+  "name": "mingw-w64-crt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mingw-w64-crt/-/archive/main/mingw-w64-crt-main.tar.gz",
+  "sha256": "ab603ef89c988c50fad02dc22564c18d71d7c1886110a884c5e917a8a746decd",
+  "bytes": 4696
+}

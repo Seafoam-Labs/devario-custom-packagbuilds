@@ -1,0 +1,21 @@
+pkgbase = openimagedenoise
+	pkgdesc = Intel(R) Open Image Denoise library
+	pkgver = 2.4.1
+	pkgrel = 2
+	url = https://openimagedenoise.github.io
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = ispc
+	makedepends = python
+	makedepends = cuda
+	makedepends = hip-runtime-amd
+	depends = intel-tbb
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	source = https://github.com/OpenImageDenoise/oidn/releases/download/v2.4.1/oidn-2.4.1.src.tar.gz
+	sha512sums = ef7f39975808f2812da147461d2f8ad310d58846bd62be801280ba2dbf7dc3ceecb73aafe9d1fb9d49cc4fec4429623b7a0f16e798e6f13aad83db4f6d862c9a
+
+pkgname = openimagedenoise

@@ -1,0 +1,4 @@
+[openvkl]
+source = "git"
+git = "https://github.com/openvkl/openvkl.git"
+prefix = "v"

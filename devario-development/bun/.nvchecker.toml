@@ -1,0 +1,5 @@
+[bun]
+source = "git"
+git = "https://github.com/oven-sh/bun.git"
+prefix = "bun-v"
+include_regex = 'bun-v(\d+\.\d+\.\d+)'

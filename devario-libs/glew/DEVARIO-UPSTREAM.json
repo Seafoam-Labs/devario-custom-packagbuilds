@@ -1,0 +1,6 @@
+{
+  "name": "glew",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/glew/-/archive/main/glew-main.tar.gz",
+  "sha256": "4ca557d2a78bbf15d1032dcb648cf761938a0ad4621b9c46f07b24e69ca9c18a",
+  "bytes": 2845
+}

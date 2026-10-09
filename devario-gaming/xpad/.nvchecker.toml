@@ -1,0 +1,4 @@
+[xpad]
+source = 'regex'
+url = 'https://launchpad.net/xpad'
+regex = 'xpad-([\d.]+).tar'

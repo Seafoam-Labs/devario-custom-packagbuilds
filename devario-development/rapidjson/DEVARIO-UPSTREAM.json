@@ -1,0 +1,7 @@
+{
+  "name": "rapidjson",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rapidjson.git",
+  "commit": "34f1a35c9f62a190b633960474f5ab4b0a47ad24",
+  "sha256": "f3f3093b44f97b8c01f77036e27bf26cb59e39a21b82f828a3bb96c6867fdad4",
+  "bytes": 2138
+}

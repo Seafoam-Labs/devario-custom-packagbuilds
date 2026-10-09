@@ -1,0 +1,6 @@
+{
+  "name": "texlive-bin",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/texlive-bin/-/archive/main/texlive-bin-main.tar.gz",
+  "sha256": "3da7c4316ae15449b9556b3b6fab85cd09d4ff587201d750f875b165f9467b44",
+  "bytes": 23257
+}

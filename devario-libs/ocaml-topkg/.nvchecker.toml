@@ -1,0 +1,3 @@
+[ocaml-topkg]
+source = "opam"
+pkg = "topkg"

@@ -1,0 +1,40 @@
+# Maintainer: Robin Candau <antiz@archlinux.org>
+# Contributor: Maxim Baz <archlinux at maximbaz dot com>
+
+pkgname=rebuild-detector
+pkgver=4.4.5
+pkgrel=2
+pkgdesc="Detects which packages need to be rebuilt"
+url="https://github.com/maximbaz/rebuild-detector"
+arch=('any')
+license=('ISC')
+depends=('binutils' 'parallel' 'python' 'bash' 'coreutils' 'findutils' 'grep' 'gawk' 'file' 'glibc' 'perl')
+makedepends=('marked-man')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
+        "${url}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz.sig")
+b2sums=('3d2aa1115b9cc69d4651ac8fe1354099388353dfe448084a05a44e5e6e682aa4b2c52cd14cfe03120a37144e51397444cdcf477f9b0b5516af2746307659f0cd'
+        'SKIP')
+validpgpkeys=('56C3E775E72B0C8B1C0C1BD0B5DB77409B11B601')
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	make docs
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+	make DESTDIR="${pkgdir}" install
+	install -Dm755 "${srcdir}/shelly-query" "${pkgdir}/usr/lib/rebuild-detector/shelly-query"
+}
+
+# Devario uses Shelly/RLPM local and sync records.
+source+=(shelly-query)
+b2sums+=('741e7b7739a2b82136592060721435e7baba4b4faa58d44e9890f9555ea451426ae0f234b2527b27f5f495344f33aa5175face430f24a909b4cdbf7fadfbeeb8')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  sed -i -e 's|pacman |/usr/lib/rebuild-detector/shelly-query |g' \
+    -e 's|pactree |/usr/lib/rebuild-detector/shelly-query tree |g' \
+    -e 's|pacconf |/usr/lib/rebuild-detector/shelly-query config |g' checkrebuild
+  sed -i 's|/libalpm/hooks|/rlpm/hooks|g' Makefile
+}

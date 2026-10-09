@@ -1,0 +1,52 @@
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgname=dbus-glib
+pkgver=0.116
+pkgrel=1
+pkgdesc='GLib bindings for D-Bus (deprecated)'
+arch=(x86_64)
+url='https://www.freedesktop.org/wiki/Software/dbus/'
+license=('AFL-2.1 OR GPL-2.0-or-later')
+depends=(
+  dbus
+  expat
+  glib2
+  glibc
+)
+makedepends=(
+  git
+  glib2-devel
+  gtk-doc
+)
+source=("git+https://gitlab.freedesktop.org/dbus/dbus-glib.git?signed#tag=$pkgname-$pkgver")
+b2sums=(ec133edc5616642fded21b940944c852f748d18bc6a8b60c3b26733a0972bd1bf974b415f438352d5826de5780757219f7c8f7553f23223fa087d82230ac8eba)
+validpgpkeys=(DA98F25C0871C49A59EAFF2C4DE8FF2A63C7CC90) # Simon McVittie
+
+prepare() {
+  cd $pkgname
+  autoreconf -fiv
+}
+
+build() {
+  cd $pkgname
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libexecdir=/usr/lib \
+    --enable-gtk-doc \
+    --enable-tests
+  make
+}
+
+check() {
+  cd $pkgname
+  make check
+}
+
+package() {
+  cd $pkgname
+  make DESTDIR="$pkgdir" install
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname/" COPYING
+}

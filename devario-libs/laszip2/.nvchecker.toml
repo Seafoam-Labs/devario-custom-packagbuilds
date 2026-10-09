@@ -1,0 +1,5 @@
+[laszip2]
+source = "git"
+git = "https://github.com/LASzip/LASzip.git"
+prefix = "v"
+include_regex = 'v2.*'

@@ -1,0 +1,258 @@
+pkgbase = texlive-texmf
+	pkgdesc = TeX Live -
+	pkgver = 2026.1
+	pkgrel = 3
+	url = https://tug.org/texlive/
+	arch = any
+	license = GPL
+	makedepends = subversion
+	depends = texlive-bin
+	options = !strip
+	source = svn://tug.org/texlive/tags/texlive-2026.1/Master/texmf-dist#revision=78408
+	source = svn://tug.org/texlive/tags/texlive-2026.1/Master/tlpkg#revision=78408
+	source = svn://tug.org/texlive/tags/texlive-2026.1/Master/bin/x86_64-linux#revision=78408
+	source = 09-texlive-fonts.conf
+	source = texmf.cnf.patch
+	source = 70-mktexlsr.hook
+	source = 71-texlive-language.hook
+	source = texlive-language.script
+	source = 72-texlive-fmtutil.hook
+	source = texlive-fmtutil.script
+	source = 73-texlive-updmap.hook
+	source = texlive-updmap.script
+	source = 80-mtxrun.hook
+	source = mtxrun.script
+	source = https://files.pythonhosted.org/packages/30/b7/4fa3729952938e6e69e2a3a51c5a74480ce7a031d344830806dde5fb2210/latexminted-0.7.1-py3-none-any.whl
+	source = minted-3.8.patch
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = 5e79c40cf3ab93348fc89e97890198601767ea2c8fea89ea76088c17a2b35962
+	sha256sums = b91ddb3a84ae13ee4030391ce113070ecb7058accc71df237fd99578ef360bd9
+	sha256sums = 95f6540c49b11f1ece8010d76b53ca90efd61e1831530562bfcde4350f6c1db1
+	sha256sums = a6d6171098837264cfe1c10f504f1ea9804053e95de44989cf1a5b1d25598dbe
+	sha256sums = bf75f196567fccaacf4768b8498b3bbbcc86f214b03c7cd63b9b65f6b3efe945
+	sha256sums = bedfb5aadf908d78c5bafad99197e3d8f8ed1d06ef98251de6c7a834b5b9e4eb
+	sha256sums = a69be6331003c475fc4a466f8ec5c8a222935e64c1092cfe647b13ecd6f8cf7e
+	sha256sums = 807f663b6602e770aed4df9c140874ce63216114e27ec32da6d6abd17677ab13
+	sha256sums = 475fb6ef72437579d35b1fb9908fd4e0f5b2f17f2641684ae76ece1b78ce6366
+	sha256sums = dceb7230f794313d3404eaecbf9c3814c9ddd2a2a08280969d8fbbab86aecd15
+	sha256sums = 98b730e917281227e29077ba5689ad78baee0af3859b55966b2604c6a85f1305
+	sha256sums = 30d49c11bfef387eb9365bc81edff3fbb4f9da49a5ae3b79ace179577f060e15
+	sha256sums = 95e97799874e82f1f30976cf266e46910c2c110ff91bc8e2405b818b0097d449
+
+pkgname = texlive-doc
+	pkgdesc = TeX Live - documentation
+
+pkgname = texlive-meta
+	pkgdesc = Metapackage to install Tex Live
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-bibtexextra
+	depends = texlive-binextra
+	depends = texlive-context
+	depends = texlive-fontsextra
+	depends = texlive-fontsrecommended
+	depends = texlive-fontutils
+	depends = texlive-formatsextra
+	depends = texlive-games
+	depends = texlive-humanities
+	depends = texlive-latex
+	depends = texlive-latexextra
+	depends = texlive-latexrecommended
+	depends = texlive-luatex
+	depends = texlive-mathscience
+	depends = texlive-metapost
+	depends = texlive-music
+	depends = texlive-pictures
+	depends = texlive-plaingeneric
+	depends = texlive-pstricks
+	depends = texlive-publishers
+	depends = texlive-xetex
+
+pkgname = texlive-basic
+	depends = texlive-bin
+	depends = perl
+	optdepends = perl-tk: for the tlmgr GUI
+	optdepends = biber: for bibliography processing
+
+pkgname = texlive-bibtexextra
+	depends = texlive-bin
+	depends = texlive-latex
+
+pkgname = texlive-binextra
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = dvisvgm
+	optdepends = ed: for texconfig
+	optdepends = dialog: for texconfig
+	optdepends = java-runtime: for utilities like arara, texplate
+	optdepends = perl-tk: for texdoctk
+	optdepends = perl-yaml-tiny: for latexindent
+	optdepends = perl-file-homedir: for latexindent
+	optdepends = perl-ipc-system-simple: for latex-git-log
+	optdepends = python: for de-macro, dviasm, pythontex
+	optdepends = texlive-latexrecommended: for pdfjam
+	optdepends = wdiff: for texdiff
+
+pkgname = texlive-context
+	depends = texlive-bin
+	depends = texlive-basic
+	optdepends = luametatex: LuaMetaTeX engine
+
+pkgname = texlive-fontsextra
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-fontsrecommended
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-fontutils
+	depends = texlive-bin
+	depends = texlive-basic
+	optdepends = ghostscript: for epstopdf
+
+pkgname = texlive-formatsextra
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-latex
+	depends = texlive-plaingeneric
+	depends = texlive-fontsrecommended
+	depends = texlive-latexrecommended
+
+pkgname = texlive-games
+	depends = texlive-bin
+	depends = texlive-latex
+
+pkgname = texlive-humanities
+	depends = texlive-bin
+	depends = texlive-latex
+
+pkgname = texlive-langarabic
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langchinese
+	depends = texlive-bin
+	depends = texlive-langcjk
+
+pkgname = texlive-langcjk
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langcyrillic
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-latex
+
+pkgname = texlive-langczechslovak
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-latex
+
+pkgname = texlive-langenglish
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langeuropean
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langfrench
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langgerman
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langgreek
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langitalian
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langjapanese
+	depends = texlive-bin
+	depends = texlive-langcjk
+
+pkgname = texlive-langkorean
+	depends = texlive-bin
+	depends = texlive-langcjk
+
+pkgname = texlive-langother
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langpolish
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-latex
+
+pkgname = texlive-langportuguese
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-langspanish
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-latex
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = dvisvgm
+
+pkgname = texlive-latexextra
+	depends = texlive-bin
+	depends = texlive-latexrecommended
+	depends = texlive-pictures
+	optdepends = java-runtime: for pdfannotextractor
+	optdepends = python-pygments: for pygmentex
+
+pkgname = texlive-latexrecommended
+	depends = texlive-bin
+	depends = texlive-latex
+
+pkgname = texlive-luatex
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-mathscience
+	depends = texlive-bin
+	depends = texlive-fontsrecommended
+	depends = texlive-latex
+
+pkgname = texlive-metapost
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-music
+	depends = texlive-bin
+	depends = texlive-latex
+	optdepends = fontforge: for scripts from the lilyglyphs package
+
+pkgname = texlive-pictures
+	depends = texlive-bin
+	depends = texlive-basic
+	optdepends = ghostscript: for epspdf
+
+pkgname = texlive-plaingeneric
+	depends = texlive-bin
+	depends = texlive-basic
+
+pkgname = texlive-pstricks
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-plaingeneric
+
+pkgname = texlive-publishers
+	depends = texlive-bin
+	depends = texlive-latex
+
+pkgname = texlive-xetex
+	depends = texlive-bin
+	depends = texlive-basic
+	depends = texlive-latex

@@ -1,0 +1,6 @@
+{
+  "name": "hipblas",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/hipblas/-/archive/main/hipblas-main.tar.gz",
+  "sha256": "d6024615662c5d84c023f3f9442f8cb2ca7155565cce23f145a779a62d031655",
+  "bytes": 2865
+}

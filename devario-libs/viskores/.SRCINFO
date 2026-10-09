@@ -1,0 +1,20 @@
+pkgbase = viskores
+	pkgdesc = A visualization library for many-threaded devices
+	pkgver = 1.2.0
+	pkgrel = 1
+	url = https://github.com/Viskores/viskores
+	arch = x86_64
+	license = LicenseRef-viskores
+	makedepends = cmake
+	makedepends = ninja
+	depends = glibc
+	depends = libgcc
+	depends = libgomp
+	depends = libstdc++
+	depends = onetbb
+	depends = openmpi
+	depends = libmpi.so
+	source = viskores-1.2.0.tar.gz::https://github.com/Viskores/viskores/archive/refs/tags/v1.2.0.tar.gz
+	b2sums = fb5edcbe14dfd3b35d6e86e9a7983c4f2c09fe21ec9edea72922602364da6edfff2b81fa24986c069b840e03675c99317a914568e6ea4552147ab3e1b0068f50
+
+pkgname = viskores

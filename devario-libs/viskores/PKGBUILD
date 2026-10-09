@@ -1,0 +1,53 @@
+# Maintainer: Jakub Klinkovský <lahwaacz at archlinux dot org>
+
+pkgname=viskores
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="A visualization library for many-threaded devices"
+arch=(x86_64)
+url="https://github.com/Viskores/viskores"
+license=(LicenseRef-viskores)
+depends=(
+  glibc
+  libgcc
+  libgomp
+  libstdc++
+  onetbb
+  openmpi libmpi.so
+)
+makedepends=(
+  cmake
+  ninja
+)
+source=(
+  $pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz
+)
+b2sums=('fb5edcbe14dfd3b35d6e86e9a7983c4f2c09fe21ec9edea72922602364da6edfff2b81fa24986c069b840e03675c99317a914568e6ea4552147ab3e1b0068f50')
+
+build() {
+  local cmake_options=(
+    -B build
+    -S $pkgname-$pkgver
+    -G Ninja
+    -W no-dev
+    -D CMAKE_BUILD_TYPE=None
+    -D CMAKE_INSTALL_PREFIX=/usr
+    # make sure the options are compatible with VTK requirements
+    # https://gitlab.kitware.com/vtk/vtk/-/blob/master/ThirdParty/viskores/vtkviskores/CMakeLists.txt
+    -D Viskores_ENABLE_OPENMP=ON
+    -D Viskores_ENABLE_TBB=ON
+    -D Viskores_ENABLE_MPI=ON
+    -D Viskores_USE_DEFAULT_TYPES_FOR_VTK=ON
+    # do not install in versioned subdirectories
+    -D Viskores_INSTALL_INCLUDE_DIR=include
+    -D Viskores_INSTALL_CONFIG_DIR=lib/cmake/viskores
+    -D Viskores_INSTALL_SHARE_DIR=share/viskores
+  )
+  cmake "${cmake_options[@]}"
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -vDm 644 $pkgname-$pkgver/LICENSE.txt -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

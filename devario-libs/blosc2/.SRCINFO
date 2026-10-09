@@ -1,0 +1,20 @@
+pkgbase = blosc2
+	pkgdesc = A fast, compressed, persistent binary data store library for C
+	pkgver = 3.3.5
+	pkgrel = 1
+	url = https://www.blosc.org
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = git
+	makedepends = cmake
+	depends = glibc
+	depends = lz4
+	depends = zlib-ng
+	depends = zstd
+	depends = zfp
+	provides = libblosc2.so
+	source = blosc2::git+https://github.com/Blosc/c-blosc2#tag=v3.3.5
+	sha512sums = 26b422c5c0f8c465ffb3dec020e88130e9b740fdd4a17db905097c346de968fead87c70af57bba3fc7ced4d0ffeeee3c22811553dfef103c6f6b436444efbee7
+	b2sums = 2b363c23ea6a7d787d98a9f4ce4e9b783764a5f39635c764adfde5ccd9a89c805e82650a1a1ac069248f4f6d0a2b966c20c7d68a4b0c5883a5685a6d15a7b0f6
+
+pkgname = blosc2

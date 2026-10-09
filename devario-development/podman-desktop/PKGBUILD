@@ -1,0 +1,69 @@
+# Maintainer: Quentin Michaud <mh4ckt3mh4ckt1c4s@archlinux.org>
+# Contributor: ZhangHua <zhanghuadedn at gmail dot com>
+# Contributor: Juliette Cordor 
+
+pkgname=podman-desktop
+pkgver=1.29.3
+pkgrel=1
+pkgdesc="Manage Podman and other container engines from a single UI and tray."
+arch=("x86_64")
+url="https://podman-desktop.io"
+license=('Apache-2.0')
+_electron=electron43
+depends=(${_electron} "hicolor-icon-theme")
+makedepends=(
+    'pnpm' 'node-gyp' 'npm' 'nodejs-lts-krypton' 'libvips' 'lcms2'
+    'openjpeg2' 'glib2' 'python-setuptools' 'jq'
+)
+optdepends=(
+    "podman: podman plugin"
+    "docker: docker plugin"
+)
+source=(${pkgname}-${pkgver}.tar.gz"::https://github.com/${pkgname}/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
+"run.sh.in")
+b2sums=('ad5bc9d633f0bab56996543d2b437297e0d6e42b64d5dd90a6a467e6f6e11a37252227ea3a538ad8b8e66d2ad2860c0efa87dc2c11ab14c4ec88ebe16d1b9c53'
+        '962868734a928753a0855a701fe356511f5066057e642677328ac522429a47d5091a8849d138fb29e06b100e4fe5762eee1f6feab1d9c95b2935794ca31f0016')
+
+prepare(){
+    cd "${srcdir}/podman-desktop-$pkgver"
+    sed -i 's/run.sh/podman-desktop/' '.flatpak.desktop'
+    npm pkg set desktopName='io.podman_desktop.PodmanDesktop'
+    
+    # Checking electron version
+    _required_electron=$(jq -r '.devDependencies.electron // .dependencies.electron' package.json | cut -d. -f1)
+    if [[ "electron$_required_electron" != "$_electron" ]]; then
+      echo "Wrong electron dependency. Change _electron to electron$_required_electron"
+      exit 1
+    fi
+
+    _elver=$(cat /usr/lib/${_electron}/version)
+    npm pkg set devDependencies.electron=${_elver}
+    export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+    export ELECTRON_OVERRIDE_DIST_PATH="/usr/lib/${_electron}"
+    pnpm install --ignore-scripts --no-frozen-lockfile
+}
+
+build(){
+    cd "${srcdir}/podman-desktop-$pkgver"
+    node_modules/.bin/cross-env MODE=production pnpm run build
+    node_modules/.bin/electron-builder build --linux --x64 --dir -c.electronDist="/usr/lib/${_electron}" -c.electronVersion="${_elver}" --config .electron-builder.config.cjs 
+
+}
+
+package(){
+    cd "${srcdir}/podman-desktop-$pkgver"
+    mkdir -p "${pkgdir}"/usr/{lib/${pkgname},bin}
+    cp -r --reflink=auto dist/linux-unpacked/resources "${pkgdir}/usr/lib/${pkgname}/resources"
+    install -Dm644 ./.flatpak-appdata.xml \
+        "${pkgdir}/usr/share/metainfo/io.podman_desktop.PodmanDesktop.metainfo.xml"
+    install -Dm644 ./.flatpak.desktop \
+        "${pkgdir}/usr/share/applications/io.podman_desktop.PodmanDesktop.desktop"
+    install -Dm644 ./buildResources/icon.svg \
+        "${pkgdir}/usr/share/icons/hicolor/scalable/apps/io.podman_desktop.PodmanDesktop.svg"
+    install -Dm644 ./buildResources/icon-512x512.png \
+        "${pkgdir}/usr/share/icons/hicolor/512x512/apps/io.podman_desktop.PodmanDesktop.png"
+    install -Dm644 ./buildResources/icon.png \
+        "${pkgdir}/usr/share/icons/hicolor/1024x1024/apps/io.podman_desktop.PodmanDesktop.png"
+    sed "s/@ELECTRON@/${_electron}/" "${srcdir}"/run.sh.in > "${pkgdir}/usr/bin/${pkgname}"
+    chmod 755 "${pkgdir}/usr/bin/${pkgname}"
+}

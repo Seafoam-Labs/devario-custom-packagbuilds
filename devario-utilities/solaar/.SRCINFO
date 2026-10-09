@@ -1,0 +1,33 @@
+pkgbase = solaar
+	pkgdesc = Linux device manager for a wide range of Logitech devices
+	pkgver = 1.1.20
+	pkgrel = 2
+	url = https://pwr-solaar.github.io/Solaar/
+	arch = any
+	license = GPL-2.0-or-later
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = gtk3
+	depends = hicolor-icon-theme
+	depends = libnotify
+	depends = python
+	depends = python-cairo
+	depends = python-dbus
+	depends = python-evdev
+	depends = python-gobject
+	depends = python-psutil
+	depends = python-pyudev
+	depends = python-typing_extensions
+	depends = python-xlib
+	depends = python-yaml
+	optdepends = libappindicator: Display tray icon
+	source = git+https://github.com/pwr-Solaar/Solaar.git?signed#tag=1.1.20
+	validpgpkeys = 2FF2ACA9D97FF7B42CF8494A1E32E75672D6A196
+	sha512sums = 0974f1f4a452d5fbb7bceb0886e3d6c9263f3dc0b46d9b49683be5b3d90749a0953ad7a090036aed91f2f02225b4b1972483f73717e5ddb19360c30be5393693
+
+pkgname = solaar

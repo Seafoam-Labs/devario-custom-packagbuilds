@@ -1,0 +1,7 @@
+{
+  "name": "miopen-hip",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/miopen-hip.git",
+  "commit": "58c10282081ad0fec3d42c1d9ec6aff63616688d",
+  "sha256": "5e1818a490a04e95026901531cade77155f8cc4265fd2d5113c5504f6ad2d970",
+  "bytes": 3637
+}

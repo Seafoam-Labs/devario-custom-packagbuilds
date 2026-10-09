@@ -1,0 +1,5 @@
+[lib32-libxss]
+source = "git"
+git = "https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
+include_regex = ".*libXScrnSaver-.*"
+prefix = "libXScrnSaver-"

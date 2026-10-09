@@ -1,0 +1,6 @@
+{
+  "name": "rocblas",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocblas/-/archive/main/rocblas-main.tar.gz",
+  "sha256": "6efac99ebbd96822463bc5b15bea88bc7b6a123487567b4d715ce069ac0a8c5e",
+  "bytes": 5212
+}

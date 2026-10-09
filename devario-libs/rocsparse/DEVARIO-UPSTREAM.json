@@ -1,0 +1,6 @@
+{
+  "name": "rocsparse",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/rocsparse/-/archive/main/rocsparse-main.tar.gz",
+  "sha256": "c517fd07336ec7bb3607d343209677a867d21d615f9366369f97efc4a0f83ecb",
+  "bytes": 3239
+}

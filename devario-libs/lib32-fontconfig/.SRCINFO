@@ -1,0 +1,31 @@
+pkgbase = lib32-fontconfig
+	pkgdesc = Library for configuring and customizing font access
+	pkgver = 2.18.3
+	pkgrel = 2
+	epoch = 2
+	url = https://www.freedesktop.org/wiki/Software/fontconfig/
+	install = fontconfig-32.install
+	arch = x86_64
+	license = HPND AND Unicode-DFS-2016
+	makedepends = git
+	makedepends = gperf
+	makedepends = meson
+	depends = fontconfig
+	depends = lib32-expat
+	depends = lib32-freetype2
+	depends = lib32-glibc
+	source = git+https://gitlab.freedesktop.org/fontconfig/fontconfig.git?signed#tag=2.18.3
+	source = fontconfig-32.hook
+	validpgpkeys = F77A64C4B5B45FF8763A278F65755979B34E1294
+	validpgpkeys = ECFFBC3A6B365E721E5BD79830757AA21971A672
+	b2sums = 7635f6d32ed8ffb5ad4a8614c5cd87949935c3743635af9749faf93dc82aab57c7e09b46132edf8939a5ce5d38ef7ee12be457aa474d74e61af04fb96fb87f1a
+	b2sums = 1cba71810c9bde6ecb6fac124e458fb7260be3ea72ade82b836e0e8e1eaa7c7df31e6e92e405fa420325cec0ce14d0f19630e777308032b0c26ec96a3d668d93
+
+pkgname = lib32-fontconfig
+	depends = fontconfig
+	depends = lib32-expat
+	depends = lib32-freetype2
+	depends = lib32-glibc
+	depends = libexpat.so
+	depends = libfreetype.so
+	provides = libfontconfig.so

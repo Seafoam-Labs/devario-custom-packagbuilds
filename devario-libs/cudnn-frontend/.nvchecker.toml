@@ -1,0 +1,5 @@
+[cudnn-frontend]
+source = "git"
+git = "https://github.com/NVIDIA/cudnn-frontend.git"
+prefix = "v"
+exclude_regex = ".*dev.*"

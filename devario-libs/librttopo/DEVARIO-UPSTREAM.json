@@ -1,0 +1,7 @@
+{
+  "name": "librttopo",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/librttopo.git",
+  "commit": "79086ae9295e16155953c816ffa520de6c861813",
+  "sha256": "75b1463efee96a7ea0e5441ab19ac3ac860be2bd7c255db10381b80e6626c4f6",
+  "bytes": 2040
+}

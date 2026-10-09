@@ -1,0 +1,26 @@
+# Maintainer: Peter Jung <ptr1337@cachyos.org>
+
+pkgname=reflection-cpp
+pkgver=0.4.0
+pkgrel=1
+pkgdesc="C++ static reflection support library"
+arch=('any')
+url="https://github.com/contour-terminal/reflection-cpp"
+license=('Apache-2.0')
+makedepends=(
+  git
+  cmake
+)
+source=("git+https://github.com/contour-terminal/reflection-cpp.git#tag=v${pkgver}")
+sha256sums=('8e0897712efcc761041e635f5721d00bb172d0d9db319609bc71eeadbd5ab7cb')
+
+build() {
+  cmake -B build -S reflection-cpp \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}

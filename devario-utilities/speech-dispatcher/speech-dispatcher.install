@@ -1,0 +1,11 @@
+post_install() {
+  # Enable socket by default
+  systemctl --global enable speech-dispatcher.socket
+}
+
+# No pre-Devario socket migration is needed.
+post_upgrade() { :; }
+
+pre_remove() {
+  systemctl --global disable speech-dispatcher.socket
+}

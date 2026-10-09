@@ -1,0 +1,15 @@
+pkgbase = go-tools
+	pkgdesc = Developer tools for the Go programming language
+	pkgver = 0.51.0
+	pkgrel = 1
+	epoch = 4
+	url = https://golang.org/
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = git
+	makedepends = go
+	depends = glibc
+	source = go-tools::git+https://go.googlesource.com/tools#tag=v0.51.0
+	sha256sums = 83ebe42505f0cdf1d8842406cf365d2c855b10e126203b7e37dbe244d6430739
+
+pkgname = go-tools

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-readline",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-readline/-/archive/main/lib32-readline-main.tar.gz",
+  "sha256": "1dba0ac74e7ddff38a8e5e659bc4df0bd9873ff909907524e0203337837bb07d",
+  "bytes": 3893
+}

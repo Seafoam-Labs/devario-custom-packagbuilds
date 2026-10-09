@@ -1,0 +1,6 @@
+[podman-desktop]
+source = "github"
+github = "podman-desktop/podman-desktop"
+prefix = "v"
+use_latest_release = true
+include_prereleases = false

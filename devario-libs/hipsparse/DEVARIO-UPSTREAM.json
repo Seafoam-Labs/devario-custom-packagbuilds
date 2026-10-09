@@ -1,0 +1,6 @@
+{
+  "name": "hipsparse",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/hipsparse/-/archive/main/hipsparse-main.tar.gz",
+  "sha256": "c9dc081c33e33dc1dabcbdac4d13c5f426e37365c1dbf4aca7a3421796d691d1",
+  "bytes": 3132
+}

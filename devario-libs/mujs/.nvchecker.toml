@@ -1,0 +1,4 @@
+[mujs]
+source = "regex"
+url = "https://mujs.com/downloads/"
+regex = "mujs-([0-9]+\\.[0-9]+\\.[0-9]+)\\.tar\\.gz"

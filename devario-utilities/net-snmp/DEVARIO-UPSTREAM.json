@@ -1,0 +1,6 @@
+{
+  "name": "net-snmp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/net-snmp/-/archive/main/net-snmp-main.tar.gz",
+  "sha256": "8f58d3bdd45dbaacdda90d749f468ce5de73efa603524c6cea6db56b636369be",
+  "bytes": 7974
+}

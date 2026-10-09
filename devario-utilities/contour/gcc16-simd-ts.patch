@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Peter Jung <ptr1337@archlinux.org>
+Date: Sat, 9 May 2026 19:36:00 +0200
+Subject: [PATCH] Use experimental SIMD TS header
+
+Image.cpp uses the Parallelism TS SIMD API names such as native_simd,
+rebind_simd_t, and static_simd_cast. GCC 16 ships a standard <simd>
+header, but that header does not provide those TS names in std, so the
+__has_include(<simd>) branch selects an incompatible API and the build
+fails.
+
+Prefer <experimental/simd>, where the used API is provided.
+---
+ src/vtbackend/Image.cpp | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/src/vtbackend/Image.cpp b/src/vtbackend/Image.cpp
+index 90ac87cd8c..94b4464b9b 100644
+--- a/src/vtbackend/Image.cpp
++++ b/src/vtbackend/Image.cpp
+@@ -10,11 +10,7 @@
+ #include <utility>
+ 
+ // clang-format off
+-#if __has_include(<simd>)
+-    #include <simd>
+-    namespace simd = std;
+-    #define VTBACKEND_SIMD_FOUND 1
+-#elif __has_include(<experimental/simd>) && !defined(__APPLE__) && !defined(__FreeBSD__)
++#if __has_include(<experimental/simd>) && !defined(__APPLE__) && !defined(__FreeBSD__)
+     #include <experimental/simd>
+     namespace simd = std::experimental;
+     #define VTBACKEND_SIMD_FOUND 1
+-- 
+2.49.0
+

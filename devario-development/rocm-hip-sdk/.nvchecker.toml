@@ -1,0 +1,5 @@
+[rocm-hip-sdk]
+source = 'github'
+github = 'ROCm/TheRock'
+use_latest_release = true
+prefix = 'therock-'

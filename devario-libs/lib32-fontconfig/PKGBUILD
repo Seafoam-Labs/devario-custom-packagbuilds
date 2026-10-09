@@ -1,0 +1,72 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgname=lib32-fontconfig
+pkgver=2.18.3
+pkgrel=2
+epoch=2
+pkgdesc="Library for configuring and customizing font access"
+url=https://www.freedesktop.org/wiki/Software/fontconfig/
+arch=(x86_64)
+license=('HPND AND Unicode-DFS-2016')
+depends=(
+  fontconfig
+  lib32-expat
+  lib32-freetype2
+  lib32-glibc
+)
+makedepends=(
+  git
+  gperf
+  meson
+)
+install=fontconfig-32.install
+source=(
+  "git+https://gitlab.freedesktop.org/fontconfig/fontconfig.git?signed#tag=$pkgver"
+  fontconfig-32.hook
+)
+b2sums=('7635f6d32ed8ffb5ad4a8614c5cd87949935c3743635af9749faf93dc82aab57c7e09b46132edf8939a5ce5d38ef7ee12be457aa474d74e61af04fb96fb87f1a'
+        '1cba71810c9bde6ecb6fac124e458fb7260be3ea72ade82b836e0e8e1eaa7c7df31e6e92e405fa420325cec0ce14d0f19630e777308032b0c26ec96a3d668d93')
+validpgpkeys=(
+  F77A64C4B5B45FF8763A278F65755979B34E1294 # Akira TAGOH <akira@tagoh.org>
+  ECFFBC3A6B365E721E5BD79830757AA21971A672 # Akira TAGOH <akira@tagoh.org>
+)
+
+prepare() {
+  cd fontconfig
+}
+
+build() {
+  local meson_options=(
+    --cross-file lib32
+    -D doc=disabled
+  )
+
+  arch-meson fontconfig build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  depends+=(
+    libexpat.so
+    libfreetype.so
+  )
+  provides+=(libfontconfig.so)
+
+  meson install -C build --destdir "$pkgdir"
+
+  rm -r "$pkgdir"/{etc,usr/{include,share},var}
+
+  mv "$pkgdir"/usr/bin/fc-cache{,-32}
+  find "$pkgdir"/usr/bin -type f -not -name '*-32' -delete
+
+  install -Dm644 *.hook -t "$pkgdir/usr/share/rlpm/hooks"
+  install -Dm644 fontconfig/COPYING -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# vim:set sw=2 sts=-1 et:

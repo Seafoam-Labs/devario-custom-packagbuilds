@@ -1,0 +1,4 @@
+[lib32-libvorbis]
+source = "git"
+git = "https://github.com/xiph/vorbis.git"
+prefix = "v"

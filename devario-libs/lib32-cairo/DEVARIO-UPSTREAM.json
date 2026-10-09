@@ -1,0 +1,6 @@
+{
+  "name": "lib32-cairo",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-cairo/-/archive/main/lib32-cairo-main.tar.gz",
+  "sha256": "2572f2500426ddd862fd0d1a2b4fff8d14b7bd4447628c906bb55c281443d6f3",
+  "bytes": 1999
+}

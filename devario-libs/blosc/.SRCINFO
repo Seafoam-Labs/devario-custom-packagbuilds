@@ -1,0 +1,19 @@
+pkgbase = blosc
+	pkgdesc = A blocking, shuffling and loss-less compression library
+	pkgver = 1.21.6
+	pkgrel = 2
+	url = https://www.blosc.org
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = git
+	makedepends = cmake
+	depends = glibc
+	depends = lz4
+	depends = snappy
+	depends = zlib
+	depends = zstd
+	source = blosc::git+https://github.com/Blosc/c-blosc#tag=v1.21.6
+	sha512sums = ea5e14ed1ece973e8cb31544cc016ae01b4f59ae7b6e6425c8703f98bda68eff8fc6382fb6e2cb4ec406db22a9229de8148df9a9aca8570f218c431866f709cc
+	b2sums = e9027864a8a2f67cda8d7f71f22cfd4c99ace91b57ca02c1de274e36c546cad7e9dcb387323ca2924c3daf006f60f1f8a918f1e8c4b5a1cc3b0e248bfd895d0d
+
+pkgname = blosc

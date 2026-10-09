@@ -1,0 +1,6 @@
+{
+  "name": "python-pip",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pip/-/archive/main/python-pip-main.tar.gz",
+  "sha256": "8c52bdc13b804e9da7721fd4d6667a10118325b0f2fad6cc9d224749fb2a9d4b",
+  "bytes": 3605
+}

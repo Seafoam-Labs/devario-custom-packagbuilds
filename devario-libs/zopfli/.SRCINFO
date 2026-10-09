@@ -1,0 +1,20 @@
+pkgbase = zopfli
+	pkgdesc = Compression algorithm library
+	pkgver = 1.0.3
+	pkgrel = 5
+	url = https://github.com/google/zopfli
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = git
+	makedepends = cmake
+	makedepends = ninja
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	provides = libzopfli.so
+	provides = libzopflipng.so
+	source = git+https://github.com/google/zopfli.git#tag=zopfli-1.0.3
+	sha512sums = 0e13565a73a91e1746175cc38b211ff24ab1d8022f1ecb7a0e2575e39fbb19b57777a599c60525ce186c5e3e33249e67c7178162075489e204091511e6d18726
+	b2sums = 1144c6c3a5eaa90ffd13c7ec2ebb080edb09456591b9602c0a839f1bb4e8ec088a3d5bf16a264a3e5f22a9da308c72da788718b6cd611a3995952e818b7977bf
+
+pkgname = zopfli

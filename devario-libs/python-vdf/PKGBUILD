@@ -1,0 +1,37 @@
+# Maintainer: Martin Rys <https://rys.rs/contact>
+# Contributor: Rhinoceros <https://aur.archlinux.org/account/rhinoceros>
+# Contributor: Abhishek Mudgal
+# Contributor: Ivan Semkin (ivan at semkin dot ru)
+
+pkgname=python-vdf
+_pkgname=vdf
+pkgver=4.0
+pkgrel=5
+pkgdesc="Library for working with Valve's VDF text format"
+arch=("any")
+url="https://github.com/solsticegamestudios/vdf"
+license=("MIT")
+depends=("python")
+makedepends=(
+	"python-build"
+	"python-installer"
+	"python-setuptools"
+)
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz")
+sha256sums=("1d778663f1158be0f70aa1cdd5b2685ae6eee14e4d11a0d96684b7ed86e89c93")
+
+build() {
+	cd "${_pkgname}-${pkgver}"
+	python -m build --wheel
+}
+
+check() {
+	cd "${_pkgname}-${pkgver}"
+	python -m unittest discover -vs .
+}
+
+package() {
+	cd "${_pkgname}-${pkgver}"
+	python -m installer --destdir="${pkgdir}" dist/*.whl
+	install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

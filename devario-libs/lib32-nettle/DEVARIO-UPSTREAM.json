@@ -1,0 +1,6 @@
+{
+  "name": "lib32-nettle",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-nettle/-/archive/main/lib32-nettle-main.tar.gz",
+  "sha256": "fec0ef531434f2cdafeccd9b88d3db9402959bf6ab1cccabcf0f79c8f18f11d0",
+  "bytes": 3822
+}

@@ -1,0 +1,7 @@
+{
+  "name": "crypto++",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/cryptoplusplus.git",
+  "commit": "1baa5d25be0158cbb1d51f6c37ee64145de84f9b",
+  "sha256": "13075b3c83aa6b00f651045ca4ee4aa6633cf5d0a6f466a44332ac5a4682e692",
+  "bytes": 3206
+}

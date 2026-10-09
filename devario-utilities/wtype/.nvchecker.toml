@@ -1,0 +1,4 @@
+[wtype]
+source = "git"
+git = "https://github.com/atx/wtype.git"
+prefix = "v"

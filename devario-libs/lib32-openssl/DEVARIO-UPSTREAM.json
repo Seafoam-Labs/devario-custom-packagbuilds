@@ -1,0 +1,6 @@
+{
+  "name": "lib32-openssl",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-openssl/-/archive/main/lib32-openssl-main.tar.gz",
+  "sha256": "d3d67ab99f1068f60d1fc79b1adecdaaaaf62bbb813c9a8194508f485ea29494",
+  "bytes": 26868
+}

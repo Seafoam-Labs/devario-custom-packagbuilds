@@ -6,7 +6,7 @@
 
 pkgname=neovim
 pkgver=0.12.5
-pkgrel=1
+pkgrel=2
 pkgdesc='Fork of Vim aiming to improve user experience, plugins, and GUIs'
 arch=(x86_64)
 url=https://neovim.io
@@ -58,7 +58,7 @@ source=(
 )
 sha512sums=('5d95079724d97a935154e2d488b004d2737ef583b30ba980abeb7543d6d8b1741ed6838f5fab7efa382f9b84229cbfba48a0e8b410de794e01ef0fd1a99377ec'
             '22662462c823de243599cdd3483e46ade4ab59b219e907468d34c18e584fe7477548e357ee2ce56bb098cf54b770b108a3511703dd486f0774a65c84af78f6aa'
-            '3c6ee1e4646d09c164a2212f9e4d2f53158ff32911b0972e060a395a8d4685334574a7ede995a81680dcc0750cd3327a78beb7904a4bb326b2399d79a8b12d5e')
+            '068c3a7804d1ee7c114050dfddb3c1c4d67299a7091a56b94a3a87956e6b3258b04f35f828eba37e09168c6859fd1e5ffe0a23cb3808bf145a78c215737b3faa')
 
 build() {
   local cmake_options=(
@@ -83,8 +83,8 @@ check() {
 }
 
 package() {
-  install -Dm644 -t "${pkgdir}"/usr/share/libalpm/hooks/ nvimdoc.hook
-  install -Dt "${pkgdir}"/usr/share/libalpm/scripts/ nvimdoc
+  install -Dm644 -t "${pkgdir}"/usr/share/rlpm/hooks/ nvimdoc.hook
+  install -Dt "${pkgdir}"/usr/share/rlpm/scripts/ nvimdoc
 
   cd ${pkgname}
   DESTDIR="${pkgdir}" cmake --install build

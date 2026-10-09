@@ -1,0 +1,31 @@
+pkgbase = fontforge
+	pkgdesc = Outline and bitmap font editor
+	pkgver = 20251009
+	pkgrel = 5
+	url = https://fontforge.github.io/
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = cmake
+	makedepends = git
+	makedepends = python-setuptools
+	makedepends = python-sphinx
+	depends = giflib
+	depends = gtk3
+	depends = gtkmm3
+	depends = libspiro
+	depends = libtiff
+	depends = libtool
+	depends = libuninameslist
+	depends = libxml2
+	depends = pango
+	depends = potrace
+	depends = python
+	depends = woff2
+	source = https://github.com/fontforge/fontforge/releases/download/20251009/fontforge-20251009.tar.xz
+	source = https://github.com/fontforge/fontforge/pull/5702.patch
+	source = fontforge-20251009-remove-pkg_resources.patch::https://github.com/fontforge/fontforge/commit/fbc4114e1af657b0889f78d24f70c4d56937d189.patch?full_index=1
+	sha256sums = 69046500185a5581b58139dfad30c0b3d8128f00ebbfddc31f2fcf877e329e52
+	sha256sums = dcabf49b2057df11c4e64999f3acb6636d5b80f7931b593cd095de80b6e1a702
+	sha256sums = 8e4c915c157af908deee9520c5747140d0042dc283a37fabc862183347439bfe
+
+pkgname = fontforge

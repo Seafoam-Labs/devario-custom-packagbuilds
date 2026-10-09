@@ -1,0 +1,6 @@
+{
+  "name": "lib32-krb5",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-krb5/-/archive/main/lib32-krb5-main.tar.gz",
+  "sha256": "6fe58295d462d549d5b2862746d98b66659f78c219a39e962e9a170b9711cfad",
+  "bytes": 9261
+}

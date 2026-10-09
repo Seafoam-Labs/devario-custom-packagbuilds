@@ -1,0 +1,38 @@
+pkgbase = bun
+	pkgdesc = Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
+	pkgver = 1.4.2
+	pkgrel = 3
+	url = https://github.com/oven-sh/bun
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = git
+	makedepends = unzip
+	makedepends = clang21
+	makedepends = cmake
+	makedepends = lld21
+	makedepends = llvm21
+	makedepends = nasm
+	makedepends = ninja
+	makedepends = rustup
+	makedepends = python
+	makedepends = ruby
+	makedepends = ruby-erb
+	makedepends = ruby-getoptlong
+	depends = glibc
+	depends = icu
+	options = !lto
+	source = git+https://github.com/oven-sh/bun.git#tag=bun-v1.4.2
+	source = bun-WebKit::git+https://github.com/oven-sh/WebKit.git#commit=2e2aa2290fac856d6f451ceacb58f7f5b44dd057
+	source = bun-webkit-typed-array-int32-conversion.patch
+	source = bun-41386.patch::https://github.com/oven-sh/bun/pull/41386.patch
+	b2sums = 1215fa3ce42744aa2f6ebfd83d267152470f8ba0565cc6a69d79bc1645fba39f62ca82a1a121d505fd2cf541c3946ce3ccf62ccf786b6d1f6ac9d1c1c992fdc6
+	b2sums = d04baec524595653bdf7b10174b8025726191ec66e50144bc28f4e3fd6e38ec4e9bfb7e500c13aaf73ebec7edd470e6e608eca5bfe582dd8c0b9b25187a50330
+	b2sums = f7b41bee31d26968154501ad62d8fdc157cac9e0f895035ba9a1ddd30caa2beb83b5cf80f6a0e52dcc1acac874fb07ef7974761764929e6e782866f1aacf35c2
+	b2sums = 78bdac9418c5eb7bcb29e6c74427799b7a09df6e3c574e614c2a9bff7d91384e4928ed0b47d7450ccd28b4c7b5babe483075cb259fbe19a3b8cb020c46d094aa
+	source_x86_64 = bun-bootstrap-x64-1.4.2.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.2/bun-linux-x64.zip
+	b2sums_x86_64 = 5a0207da75420038a27e07181adbc72cf2bdb012ab633cd41263242123bce467ff222405ea583edc9411fbb23934a3471d50af8270db4bd73e6ba8a9bd7e013d
+	source_aarch64 = bun-bootstrap-aarch64-1.4.2.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.2/bun-linux-aarch64.zip
+	b2sums_aarch64 = 125cf93108d6780ffb68807e3ff4b8de32f88d09aca425e042755f4acb5a1283a9a80803f077051eb0cb905b7bffff507590a5572a1114550bbfbfe6eeefbcee
+
+pkgname = bun

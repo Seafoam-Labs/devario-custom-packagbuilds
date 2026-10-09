@@ -1,0 +1,4 @@
+[vc-intrinsics]
+source = "git"
+git = "https://github.com/intel/vc-intrinsics.git"
+prefix = "v"

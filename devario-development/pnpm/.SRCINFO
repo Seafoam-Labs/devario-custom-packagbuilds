@@ -1,0 +1,18 @@
+pkgbase = pnpm
+	pkgdesc = Fast, disk space efficient package manager
+	pkgver = 12.10.1
+	pkgrel = 1
+	url = https://pnpm.io
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = rust
+	makedepends = pnpm
+	makedepends = npm
+	makedepends = python
+	depends = node-gyp
+	source = git+https://github.com/pnpm/pnpm.git#tag=v12.10.1?signed
+	validpgpkeys = 7B74D1299568B586BA9962B5649E4D4AF74E7DEC
+	b2sums = 83a10a56e1980d34a9126da1ed72d9103bb295e6d9ca898ab1af0b6533644b1e855b630871207cbf12a17f219c14eb375749ee337a2e605425c195beab15f0d3
+
+pkgname = pnpm

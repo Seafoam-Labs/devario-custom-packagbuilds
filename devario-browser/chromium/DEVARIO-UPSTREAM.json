@@ -1,0 +1,6 @@
+{
+  "name": "chromium",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/chromium/-/archive/main/chromium-main.tar.gz",
+  "sha256": "a5461f970531c5198f72064a04dde5aa629f8b0390bb1837e4f447b456ddb12a",
+  "bytes": 23016
+}

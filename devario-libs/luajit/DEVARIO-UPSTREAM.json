@@ -1,0 +1,6 @@
+{
+  "name": "luajit",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/luajit/-/archive/main/luajit-main.tar.gz",
+  "sha256": "50ce66f994b7d70e094c642810082ca7fc8d7b47cabfb79094c7eb610e96bf31",
+  "bytes": 2056
+}

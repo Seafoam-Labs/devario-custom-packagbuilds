@@ -1,0 +1,575 @@
+pkgbase = nerd-fonts
+	pkgdesc = Iconic font aggregator, collection, and patcher
+	pkgver = 3.5.1
+	pkgrel = 2
+	url = https://github.com/ryanoasis/nerd-fonts
+	arch = any
+	groups = nerd-fonts
+	license = MIT
+	license = OFL-1.1
+	provides = ttf-font-nerd
+	noextract = 0xproto-3.5.1.tar.xz
+	noextract = 3270-3.5.1.tar.xz
+	noextract = adwaitamono-3.5.1.tar.xz
+	noextract = agave-3.5.1.tar.xz
+	noextract = annotationmono-3.5.1.tar.xz
+	noextract = anonymouspro-3.5.1.tar.xz
+	noextract = arimo-3.5.1.tar.xz
+	noextract = atkinsonhyperlegiblemono-3.5.1.tar.xz
+	noextract = aurulent-3.5.1.tar.xz
+	noextract = bigblueterminal-3.5.1.tar.xz
+	noextract = bitstreamveramono-3.5.1.tar.xz
+	noextract = cascadiacode-3.5.1.tar.xz
+	noextract = cascadiamono-3.5.1.tar.xz
+	noextract = codenewroman-3.5.1.tar.xz
+	noextract = comicshanns-3.5.1.tar.xz
+	noextract = commitmono-3.5.1.tar.xz
+	noextract = cousine-3.5.1.tar.xz
+	noextract = daddytimemono-3.5.1.tar.xz
+	noextract = d2coding-3.5.1.tar.xz
+	noextract = dejavu-3.5.1.tar.xz
+	noextract = droid-3.5.1.tar.xz
+	noextract = envycoder-3.5.1.tar.xz
+	noextract = fantasque-3.5.1.tar.xz
+	noextract = fira-3.5.1.tar.xz
+	noextract = firamono-3.5.1.tar.xz
+	noextract = geistmono-3.5.1.tar.xz
+	noextract = go-3.5.1.tar.xz
+	noextract = gohu-3.5.1.tar.xz
+	noextract = googlesanscode-3.5.1.tar.xz
+	noextract = hack-3.5.1.tar.xz
+	noextract = hasklig-3.5.1.tar.xz
+	noextract = heavydata-3.5.1.tar.xz
+	noextract = hermit-3.5.1.tar.xz
+	noextract = iawriter-3.5.1.tar.xz
+	noextract = ibmplexmono-3.5.1.tar.xz
+	noextract = inconsolata-3.5.1.tar.xz
+	noextract = inconsolatago-3.5.1.tar.xz
+	noextract = inconsolatalgc-3.5.1.tar.xz
+	noextract = intone-3.5.1.tar.xz
+	noextract = iosevka-3.5.1.tar.xz
+	noextract = iosevkaterm-3.5.1.tar.xz
+	noextract = iosevkatermslab-3.5.1.tar.xz
+	noextract = jetbrainsmono-3.5.1.tar.xz
+	noextract = lekton-3.5.1.tar.xz
+	noextract = liberationmono-3.5.1.tar.xz
+	noextract = lilex-3.5.1.tar.xz
+	noextract = martianmono-3.5.1.tar.xz
+	noextract = meslo-3.5.1.tar.xz
+	noextract = monaspace-3.5.1.tar.xz
+	noextract = monofur-3.5.1.tar.xz
+	noextract = monoid-3.5.1.tar.xz
+	noextract = mononoki-3.5.1.tar.xz
+	noextract = mplus-3.5.1.tar.xz
+	noextract = noto-3.5.1.tar.xz
+	noextract = opendyslexic-3.5.1.tar.xz
+	noextract = overpass-3.5.1.tar.xz
+	noextract = profont-3.5.1.tar.xz
+	noextract = proggyclean-3.5.1.tar.xz
+	noextract = recursive-3.5.1.tar.xz
+	noextract = robotomono-3.5.1.tar.xz
+	noextract = sharetechmono-3.5.1.tar.xz
+	noextract = sourcecodepro-3.5.1.tar.xz
+	noextract = spacemono-3.5.1.tar.xz
+	noextract = terminus-3.5.1.tar.xz
+	noextract = tinos-3.5.1.tar.xz
+	noextract = ubuntu-3.5.1.tar.xz
+	noextract = ubuntumono-3.5.1.tar.xz
+	noextract = victormono-3.5.1.tar.xz
+	noextract = zedmono-3.5.1.tar.xz
+	options = !debug
+	options = !strip
+	source = 0xproto-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/0xProto.tar.xz
+	source = 3270-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/3270.tar.xz
+	source = adwaitamono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/AdwaitaMono.tar.xz
+	source = agave-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Agave.tar.xz
+	source = annotationmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/AnnotationMono.tar.xz
+	source = anonymouspro-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/AnonymousPro.tar.xz
+	source = arimo-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Arimo.tar.xz
+	source = atkinsonhyperlegiblemono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/AtkinsonHyperlegibleMono.tar.xz
+	source = aurulent-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/AurulentSansMono.tar.xz
+	source = bigblueterminal-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/BigBlueTerminal.tar.xz
+	source = bitstreamveramono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/BitstreamVeraSansMono.tar.xz
+	source = cascadiacode-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/CascadiaCode.tar.xz
+	source = cascadiamono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/CascadiaMono.tar.xz
+	source = codenewroman-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/CodeNewRoman.tar.xz
+	source = comicshanns-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/ComicShannsMono.tar.xz
+	source = commitmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/CommitMono.tar.xz
+	source = cousine-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Cousine.tar.xz
+	source = daddytimemono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/DaddyTimeMono.tar.xz
+	source = d2coding-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/D2Coding.tar.xz
+	source = dejavu-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/DejavuSansMono.tar.xz
+	source = droid-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/DroidSansMono.tar.xz
+	source = envycoder-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/EnvyCodeR.tar.xz
+	source = fantasque-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/FantasqueSansMono.tar.xz
+	source = fira-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/FiraCode.tar.xz
+	source = firamono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/FiraMono.tar.xz
+	source = geistmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/GeistMono.tar.xz
+	source = go-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Go-Mono.tar.xz
+	source = gohu-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Gohu.tar.xz
+	source = googlesanscode-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/GoogleSansCode.tar.xz
+	source = hack-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Hack.tar.xz
+	source = hasklig-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Hasklig.tar.xz
+	source = heavydata-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/HeavyData.tar.xz
+	source = hermit-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Hermit.tar.xz
+	source = iawriter-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/iA-Writer.tar.xz
+	source = ibmplexmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/IBMPlexMono.tar.xz
+	source = inconsolata-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Inconsolata.tar.xz
+	source = inconsolatago-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/InconsolataGo.tar.xz
+	source = inconsolatalgc-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/InconsolataLGC.tar.xz
+	source = intone-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/IntelOneMono.tar.xz
+	source = iosevka-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Iosevka.tar.xz
+	source = iosevkaterm-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/IosevkaTerm.tar.xz
+	source = iosevkatermslab-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/IosevkaTermSlab.tar.xz
+	source = jetbrainsmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/JetBrainsMono.tar.xz
+	source = lekton-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Lekton.tar.xz
+	source = liberationmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/LiberationMono.tar.xz
+	source = lilex-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Lilex.tar.xz
+	source = martianmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/MartianMono.tar.xz
+	source = meslo-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Meslo.tar.xz
+	source = monaspace-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Monaspace.tar.xz
+	source = monofur-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Monofur.tar.xz
+	source = monoid-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Monoid.tar.xz
+	source = mononoki-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Mononoki.tar.xz
+	source = mplus-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/MPlus.tar.xz
+	source = noto-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Noto.tar.xz
+	source = opendyslexic-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/OpenDyslexic.tar.xz
+	source = overpass-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Overpass.tar.xz
+	source = profont-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/ProFont.tar.xz
+	source = proggyclean-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/ProggyClean.tar.xz
+	source = recursive-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Recursive.tar.xz
+	source = robotomono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/RobotoMono.tar.xz
+	source = sharetechmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/ShareTechMono.tar.xz
+	source = sourcecodepro-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/SourceCodePro.tar.xz
+	source = spacemono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/SpaceMono.tar.xz
+	source = terminus-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Terminus.tar.xz
+	source = tinos-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Tinos.tar.xz
+	source = ubuntu-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/Ubuntu.tar.xz
+	source = ubuntumono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/UbuntuMono.tar.xz
+	source = victormono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/VictorMono.tar.xz
+	source = zedmono-3.5.1.tar.xz::https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/ZedMono.tar.xz
+	sha256sums = 3f2d36e4fa8b3af2f97b14b57c5b0f57f4c1bda5a59533fb913a9ff3344db7ce
+	sha256sums = 0be3de53807798fc5bdca90eb972225b0b3880bdd9b505121b3c06750a08b698
+	sha256sums = 409118887ec166a2342c184ade6734faf5d236a097742cb7085ff42826a1dd94
+	sha256sums = 0b29420ed47a4cc9bc2743d454ef17ea645ae31e6c348e86154d994b6ccc756e
+	sha256sums = bae334fde071ee7450cc8bbdc20fc5663a81466dce54d66f93815a48f59a308c
+	sha256sums = f84f067b4de991a14afdbd498e106239c429a553a27e76a364048638f2e1de70
+	sha256sums = 997706a5e98185d9b0b74ef9593c65c6c3bf775721ade614f0bd156aeca6bace
+	sha256sums = a0fd13eb48ff2c7522f652369d2add4d285903f600525c6bb72be5cf2448ef55
+	sha256sums = 0cb5bb092b1a8b121762c9e8da70bd2b31a4ebcbc90b85cd34d7f883d7825048
+	sha256sums = 5c2589a37394459fe2207a6e46ccb5c37a978c51c6a5a2f92985a1356be27846
+	sha256sums = a4827daaa24be2d8f7831b5a65b493fa3ec8e1e92a5076104d8377f94f1b3ada
+	sha256sums = ae598e9401e2846aa3ee364513715de0490b844a4b54f0768991f45f23aa8369
+	sha256sums = e4fe0248bbe2558e907d26b55ed287403972f946239a4ea3f7a8afd3365ad6ba
+	sha256sums = eb902759ff5bc6c4011821c566f4001139c7c571abeb8990f3a3cdfdf661da4e
+	sha256sums = 0ca2a0aac547d52a395551a19c2bed0d6ee9541feb06c90cbd48f314ec995045
+	sha256sums = 7ee1e16909f0fd05cee30db4299753c33a6134c418c828d6d8523d246ee3f836
+	sha256sums = 4fdef49cf4f77b5ba96be58f6304239573b8f679bc64af4a4ea423d5d09c5c33
+	sha256sums = d5c67428e6aefe687e3400e5086ff5ad5c5b0c166388a67ba0e94a57a9cc154e
+	sha256sums = acdc66f5df6e64a7e1d41f89930b163da5345cf45f7dd08e41a98da255002c95
+	sha256sums = 9d3f2d60faa790b101903c2984b89c11397fc63b9ce43f2dcd25ffed4fb44e5f
+	sha256sums = 8e383ba1fde4e413996dcf47fbfaecbf544a7de940147a03af61fccd9ec9b8c4
+	sha256sums = 911b420bed40268b4eb3c8fc1aedb1ccf498c3496dff645d72a5995f1e65a9a3
+	sha256sums = e7e0d7bd558a4e1cc0b448b8dfc6ae0bb7977683aaab6ddab24761e274d0a3dc
+	sha256sums = 68e3bd6164864b8b514605bc34e3a87ac401c8c48682fcce6478c70263340207
+	sha256sums = e3112075b65d9a900ef6ca562c30f1b5eb1d1a928e97de7469962ac8c45e93d6
+	sha256sums = d3ba4a7418cde16963fda0caa4f7ae866c509e0a864ec21e393455e1906e070c
+	sha256sums = d993c556cf0e7c4b2455628063a5adb441b3517a297783185c262d77900d70dd
+	sha256sums = b56a359a7562beebcc443d2a1c3f57a29e1ac7ffb47da17eca1fa028a0017b5a
+	sha256sums = b5a2a79b6ac0f021049c63b67bb42a1dcf81d5bc4e447fc6205c79d969605f42
+	sha256sums = cdd389472e10e2261520140ff1b382b4f8a226af5fd0b2735b975d31151d9c3c
+	sha256sums = 25f73bb44cf786939f6fe13914ce220ac0d8a1ffde7fc7ee87090854c0f3d83c
+	sha256sums = 5137500fe224d8f7876557352136c0c9eef94b371ccea78cdee6aa0160e2e254
+	sha256sums = 61c1a9e87216eb25b69171cd8f39098be86306ebdf65b3b3a273192f3a3bbbb0
+	sha256sums = c6df9758b24f50eed8edbd17df72b93dd68a55b87d4791f7e777b95b52848afa
+	sha256sums = 3d226683be9fc35f98683837568497f300307bc9b7aefc1617a368f190ef963a
+	sha256sums = be1903b0016d398e3dc5b25814438b8d0fa44ca9e0ac5d9775130f406345d586
+	sha256sums = 479de68fc16fc0c12de1ae1d27bf76a459a072ece092cfc3a440b6d58f7d2700
+	sha256sums = a44973ed4ae5989d07a61783febfe9ea558b14f19f9484b74f2f9f20f597b4e3
+	sha256sums = 792614cd446b3044e8043abab487cc604233b307a49ee61460b57bdc97b90f39
+	sha256sums = 3b94ea1dc3955756762f977b7677bca671947dd56bc755a6f8465a8e83b5f257
+	sha256sums = 054a4a369cdcc5d57e9bc91ea56dfefd66c71c253dcb0c0d7b72c0810373da26
+	sha256sums = a31b73c260b5466a534c0a5e53e97b871353a93d19f37a5a522d11218313f95f
+	sha256sums = 04d5e8f903693f9dd13e16f867e994834e681eb3c72c0d337a770dcda09010cf
+	sha256sums = f69eb88d4f002ca3ea053551ae91edb522671b460662874c43ece6a7b8aabbe3
+	sha256sums = 1106e496fb06fdc9bfc472c51191b5336cb56250952593f806486196efb71a66
+	sha256sums = 34ba9564bcb32c03d2d8e1404e72c5c4320fa99231ba99f4c566a24224f350a3
+	sha256sums = 804a5a458856725d45a03d96a778349e8c3c9a4a45f5df023f294e196fbe88f2
+	sha256sums = 6b6624632dc6873dfb7681c3f818e7c01ab601ab707690b6440933bbe57e2b11
+	sha256sums = 7cdb44b7cd3855a231641b3cc4cf38f434d615d12e1c475eb86232868c667dc0
+	sha256sums = 2df31b59b5144b335de6895e6f841cedfd5c2e336b3b08b004033515e4003be9
+	sha256sums = 235d997cb92171296eab51871824a9c0d1a673a01f89a88312e1c0540ae3030d
+	sha256sums = 84cf96bf81645f97eb11a410e6febad864784a0a254bba4a348d6ff9665a0114
+	sha256sums = e159e842616b340d88e402524a1f78795bb36e445a2c54967900fc462fa602dd
+	sha256sums = 818deb4370c71315986b7d7a92c0dc508dd785a8d57f7cdfa871397a3a3834ab
+	sha256sums = 5f3b8c84ea93982c28fa11d74a6b7e9d90f13f6eb3e228c4603007d9c62aea78
+	sha256sums = ee7b45d4dc481371cac12d0de5c2408826c21f3031b2ef826fb157d077f7353d
+	sha256sums = 186917bff8fe3d7aaf6a0151e7caf76ef2962f2dd825454dc42c3c7285c8f821
+	sha256sums = b7c0b6d558f92764fa26481d557ef867e6608e932d951a2aa8705b9fc6a50fd6
+	sha256sums = fb1e116c950b021c42235345a23380b4516b8bb318c57ab0085bdb33068feb56
+	sha256sums = 61f53438b240a00c87c92dc2c372db0bbb264473b36a8144ea62babf787f8383
+	sha256sums = 002de1c65aa0b1d61e71ff91ec3afc45a88cfeed26433796f00c8d264be66ffa
+	sha256sums = 50ead7bb7addce27cf4b55f4fffb669b5f1899fece675fad623a2a75a478c8c7
+	sha256sums = c7d7ac234030c008dbd7a47bc577e624b8d9ae367860c0b4ba148b33374e74a1
+	sha256sums = 80c6431f5789a72dc7464ecce3ee820cdc0f0123585befada87b13876d2fda90
+	sha256sums = 70c5b9b6fac0c3bbb645b1470171023ddccd33ed70105ef41373f7af66f01129
+	sha256sums = e84b2dbb9e6303e6ce45f0c80e6a083b31fda329fd0de0dd21fb8f851be141bd
+	sha256sums = 9c4d18e23e1ff809849fa0afec79ade67c58e22150c95ea373d22598c1ddea18
+	sha256sums = c6c52657921835862314b7edbbccf5695146c1e6c5d3507c3deab88e555215ed
+	sha256sums = 0411af0883248778335d34bbad8e400466b638d5d896e15c2eb37cd9d4518321
+
+pkgname = otf-atkinsonhyperlegiblemono-nerd
+	pkgdesc = Patched font Atkinson Hyperlegible Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = otf-aurulent-nerd
+	pkgdesc = Patched font Aurulent Sans Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = otf-codenewroman-nerd
+	pkgdesc = Patched font Code New Roman from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = otf-comicshanns-nerd
+	pkgdesc = Patched font Comic Sans (Comic Shanns) from nerd fonts library
+	license = MIT
+
+pkgname = otf-commit-mono-nerd
+	pkgdesc = Patched font Commit Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = otf-droid-nerd
+	pkgdesc = Patched font Droid Sans Mono from nerd fonts library
+	license = Apache-2.0
+	conflicts = nerd-fonts-droid-sans-mono
+	replaces = nerd-fonts-droid-sans-mono
+
+pkgname = otf-firamono-nerd
+	pkgdesc = Patched font Fira (Fura) Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-fira-mono
+	replaces = nerd-fonts-fira-mono
+
+pkgname = otf-geist-mono-nerd
+	pkgdesc = Patched font Geist Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = otf-hasklig-nerd
+	pkgdesc = Patched font Hasklig (Hasklug) from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-hasklig
+	replaces = nerd-fonts-hasklig
+
+pkgname = otf-hermit-nerd
+	pkgdesc = Patched font Hermit from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-hermit
+	replaces = nerd-fonts-hermit
+
+pkgname = otf-monaspace-nerd
+	pkgdesc = Patched font Monaspace (Monaspice) from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = otf-opendyslexic-nerd
+	pkgdesc = Patched font OpenDyslexic from nerd fonts library
+	license = Bitstream-Vera
+
+pkgname = otf-overpass-nerd
+	pkgdesc = Patched font Overpass from nerd fonts library
+	license = OFL-1.1-no-RFN
+	license = LGPL-2.1-only
+	conflicts = nerd-fonts-overpass
+	replaces = nerd-fonts-overpass
+
+pkgname = ttf-0xproto-nerd
+	pkgdesc = Patched font 0xProto from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-3270-nerd
+	pkgdesc = Patched font IBM 3270 from nerd fonts library
+	license = BSD-3-Clause
+
+pkgname = ttf-adwaitamono-nerd
+	pkgdesc = Patched font Adwaita Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-agave-nerd
+	pkgdesc = Patched font Agave from nerd fonts library
+	license = MIT
+	conflicts = nerd-fonts-agave
+	replaces = nerd-fonts-agave
+
+pkgname = ttf-annotationmono-nerd
+	pkgdesc = Patched font Annotation Mono from nerd fonts library
+	license = OFL-1.1
+
+pkgname = ttf-anonymouspro-nerd
+	pkgdesc = Patched font Anonymous Pro (Anonymice) from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-anonymous-pro
+	replaces = nerd-fonts-anonymous-pro
+
+pkgname = ttf-arimo-nerd
+	pkgdesc = Patched font Arimo from nerd fonts library
+	license = Apache-2.0
+	conflicts = nerd-fonts-arimo
+	replaces = nerd-fonts-arimo
+
+pkgname = ttf-bigblueterminal-nerd
+	pkgdesc = Patched font Big Blue Terminal from nerd fonts library
+	license = CC-BY-SA-4.0
+
+pkgname = ttf-bitstream-vera-mono-nerd
+	pkgdesc = Patched font Bitstream Vera Mono from nerd fonts library
+	license = Bitstream-Vera
+	conflicts = nerd-fonts-bitstream-vera-mono
+	replaces = nerd-fonts-bitstream-vera-mono
+
+pkgname = ttf-cascadia-code-nerd
+	pkgdesc = Patched font Cascadia Code (Caskaydia) from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-cascadia-code
+	replaces = nerd-fonts-cascadia-code
+	replaces = otf-cascadia-code-nerd
+
+pkgname = ttf-cascadia-mono-nerd
+	pkgdesc = Patched font Cascadia Mono (Caskaydia) from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = ttf-cousine-nerd
+	pkgdesc = Patched font Cousine from nerd fonts library
+	license = Apache-2.0
+
+pkgname = ttf-d2coding-nerd
+	pkgdesc = Patched font D2Coding from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-daddytime-mono-nerd
+	pkgdesc = Patched font Daddy Time Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-dejavu-nerd
+	pkgdesc = Patched font Dejavu Sans Mono from nerd fonts library
+	license = Bitstream-Vera
+	conflicts = nerd-fonts-dejavu-complete
+	replaces = nerd-fonts-dejavu-complete
+
+pkgname = ttf-envycoder-nerd
+	pkgdesc = Patched font Envy Code R from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = ttf-fantasque-nerd
+	pkgdesc = Patched font Fantasque Sans Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-fantasque-sans-mono
+	replaces = nerd-fonts-fantasque-sans-mono
+
+pkgname = ttf-firacode-nerd
+	pkgdesc = Patched font Fira (Fura) Code from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-fira-code
+	replaces = nerd-fonts-fira-code
+
+pkgname = ttf-go-nerd
+	pkgdesc = Patched font Go Mono from nerd fonts library
+	license = BSD-3-Clause-Clear
+	conflicts = nerd-fonts-go-mono
+	replaces = nerd-fonts-go-mono
+
+pkgname = ttf-gohu-nerd
+	pkgdesc = Patched font Gohufont from nerd fonts library
+	license = WTFPL
+
+pkgname = ttf-googlesanscode-nerd
+	pkgdesc = Patched font Google Sans Code from nerd fonts library
+	license = OFL-1.1
+
+pkgname = ttf-hack-nerd
+	pkgdesc = Patched font Hack from nerd fonts library
+	license = MIT
+	license = Bitstream-Vera
+	conflicts = nerd-fonts-hack
+	replaces = nerd-fonts-hack
+
+pkgname = ttf-heavydata-nerd
+	pkgdesc = Patched font Heavy Data from nerd fonts library
+	license = LicenseRef-Vic-Fieger-License
+
+pkgname = ttf-iawriter-nerd
+	pkgdesc = Patched font iA Writer (iM Writing) from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = ttf-ibmplex-mono-nerd
+	pkgdesc = Patched font IBM Plex Mono (Blex) from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-ibm-plex-mono
+	replaces = nerd-fonts-ibm-plex-mono
+
+pkgname = ttf-inconsolata-go-nerd
+	pkgdesc = Patched font Inconsolata Go from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-inconsolata-go
+	replaces = nerd-fonts-inconsolata-go
+
+pkgname = ttf-inconsolata-lgc-nerd
+	pkgdesc = Patched font Inconsolata LGC from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-inconsolatalgc
+	replaces = nerd-fonts-inconsolatalgc
+
+pkgname = ttf-inconsolata-nerd
+	pkgdesc = Patched font Inconsolata from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-inconsolata
+	replaces = nerd-fonts-inconsolata
+
+pkgname = ttf-intone-nerd
+	pkgdesc = Patched font Intone (Intel One) from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = ttf-iosevka-nerd
+	pkgdesc = Patched font Iosevka from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-iosevka
+	replaces = nerd-fonts-iosevka
+
+pkgname = ttf-iosevkaterm-nerd
+	pkgdesc = Patched font Iosevka Term from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-iosevkatermslab-nerd
+	pkgdesc = Patched font Iosevka Term Slab from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-jetbrains-mono-nerd
+	pkgdesc = Patched font JetBrains Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-jetbrains-mono
+	replaces = nerd-fonts-jetbrains-mono
+
+pkgname = ttf-lekton-nerd
+	pkgdesc = Patched font Lekton from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-liberation-mono-nerd
+	pkgdesc = Patched font Liberation Mono from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-liberation-mono
+	replaces = nerd-fonts-liberation-mono
+
+pkgname = ttf-lilex-nerd
+	pkgdesc = Patched font Lilex from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-martian-mono-nerd
+	pkgdesc = Patched font Martian Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-meslo-nerd
+	pkgdesc = Patched font Meslo LG from nerd fonts library
+	license = Apache-2.0
+	conflicts = nerd-fonts-meslo
+	replaces = nerd-fonts-meslo
+
+pkgname = ttf-monofur-nerd
+	pkgdesc = Patched font Monofur from nerd fonts library
+	license = LicenseRef-Monofur-Free-License
+	conflicts = nerd-fonts-monofur
+	replaces = nerd-fonts-monofur
+
+pkgname = ttf-monoid-nerd
+	pkgdesc = Patched font Monoid from nerd fonts library
+	license = MIT
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-monoid
+	replaces = nerd-fonts-monoid
+
+pkgname = ttf-mononoki-nerd
+	pkgdesc = Patched font Mononoki from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-mononoki
+	replaces = nerd-fonts-mononoki
+
+pkgname = ttf-mplus-nerd
+	pkgdesc = Patched font MPlus from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-mplus
+	replaces = nerd-fonts-mplus
+
+pkgname = ttf-noto-nerd
+	pkgdesc = Patched font Noto from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-noto
+	replaces = nerd-fonts-noto
+
+pkgname = ttf-profont-nerd
+	pkgdesc = Patched font ProFont from nerd fonts library
+	license = MIT
+	conflicts = nerd-fonts-profont
+	replaces = nerd-fonts-profont
+
+pkgname = ttf-proggyclean-nerd
+	pkgdesc = Patched font ProggyClean from nerd fonts library
+	license = MIT
+
+pkgname = ttf-recursive-nerd
+	pkgdesc = Patched font Recursive Mono (Rec Mono) from nerd fonts library
+	license = OFL-1.1-no-RFN
+
+pkgname = ttf-roboto-mono-nerd
+	pkgdesc = Patched font Roboto Mono from nerd fonts library
+	license = Apache-2.0
+	conflicts = nerd-fonts-roboto-mono
+	replaces = nerd-fonts-roboto-mono
+
+pkgname = ttf-sharetech-mono-nerd
+	pkgdesc = Patched font Share Tech Mono (Shure Tech Mono) from nerd fonts library
+	license = OFL-1.1-RFN
+
+pkgname = ttf-sourcecodepro-nerd
+	pkgdesc = Patched font Source Code Pro from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-source-code-pro
+	replaces = nerd-fonts-source-code-pro
+
+pkgname = ttf-space-mono-nerd
+	pkgdesc = Patched font Space Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = nerd-fonts-source-space-mono
+	replaces = nerd-fonts-source-space-mono
+
+pkgname = ttf-terminus-nerd
+	pkgdesc = Patched font Terminus (Terminess) from nerd fonts library
+	license = OFL-1.1-RFN
+	conflicts = nerd-fonts-terminus
+	replaces = nerd-fonts-terminus
+
+pkgname = ttf-tinos-nerd
+	pkgdesc = Patched font Tinos from nerd fonts library
+	license = Apache-2.0
+	conflicts = nerd-fonts-source-tinos
+	replaces = nerd-fonts-source-tinos
+
+pkgname = ttf-ubuntu-mono-nerd
+	pkgdesc = Patched font Ubuntu Mono from nerd fonts library
+	license = LicenseRef-Ubuntu-Font-License-1.0
+	conflicts = nerd-fonts-ubuntu-mono
+	conflicts = ttf-ubuntumono-nerd
+	replaces = nerd-fonts-ubuntu-mono
+	replaces = ttf-ubuntumono-nerd
+
+pkgname = ttf-ubuntu-nerd
+	pkgdesc = Patched font Ubuntu from nerd fonts library
+	license = LicenseRef-Ubuntu-Font-License-1.0
+	conflicts = nerd-fonts-ubuntu
+	replaces = nerd-fonts-ubuntu
+
+pkgname = ttf-victor-mono-nerd
+	pkgdesc = Patched font Victor Mono from nerd fonts library
+	license = OFL-1.1-no-RFN
+	conflicts = ttf-nerd-fonts-victor-mono
+	replaces = ttf-nerd-fonts-victor-mono
+
+pkgname = ttf-zed-mono-nerd
+	pkgdesc = Patched font Zed Mono from nerd fonts library
+	license = OFL-1.1-no-RFN

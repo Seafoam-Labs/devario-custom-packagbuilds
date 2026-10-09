@@ -1,0 +1,78 @@
+pkgbase = vim
+	pkgdesc = Vi Improved, a highly configurable, improved version of the vi text editor
+	pkgver = 9.2.1164
+	pkgrel = 4
+	url = https://www.vim.org
+	arch = x86_64
+	license = custom:vim
+	makedepends = gawk
+	makedepends = git
+	makedepends = glibc
+	makedepends = gpm
+	makedepends = gtk3
+	makedepends = libcanberra
+	makedepends = libgcrypt
+	makedepends = libxt
+	makedepends = lua
+	makedepends = perl
+	makedepends = python
+	makedepends = ruby
+	makedepends = tcl
+	makedepends = zlib
+	source = git+https://github.com/vim/vim.git?signed#tag=v9.2.1164
+	source = vimrc
+	source = devario.vim
+	source = vimdoc.hook
+	validpgpkeys = 4F19708816918E19AAE19DEEF3F92DA383FDDE09
+	sha256sums = d29eb6542b930e0a5454ca19d8d09612bb2c67250705d28a8e0e5e82039f6b84
+	sha256sums = d2512ea3fff82c84fd138e226f668c91227b5ca3334e06e34158fb8f6f79c897
+	sha256sums = 81d3ee85641ca22953100769d1a28af4663d66e771dda4fbb9446e637b99a2fd
+	sha256sums = 8e9656934d9d7793063230d15a689e10455e6db9b9fe73afa0f294792795d8ae
+
+pkgname = vim
+	depends = vim-runtime=9.2.1164-4
+	depends = gpm
+	depends = acl
+	depends = glibc
+	depends = libgcrypt
+	depends = zlib
+	optdepends = python: Python language support
+	optdepends = ruby: Ruby language support
+	optdepends = lua: Lua language support
+	optdepends = perl: Perl language support
+	optdepends = tcl: Tcl language support
+	provides = xxd
+	provides = vim-minimal
+	provides = vim-plugin-runtime
+	conflicts = gvim
+	conflicts = vim-minimal
+	replaces = vim-minimal
+
+pkgname = gvim
+	pkgdesc = Vi Improved, a highly configurable, improved version of the vi text editor (with advanced features, such as a GUI)
+	depends = vim-runtime=9.2.1164-4
+	depends = gpm
+	depends = libxt
+	depends = gtk3
+	depends = glibc
+	depends = libgcrypt
+	depends = zlib
+	depends = libcanberra
+	depends = pixman
+	optdepends = python: Python language support
+	optdepends = ruby: Ruby language support
+	optdepends = lua: Lua language support
+	optdepends = perl: Perl language support
+	optdepends = tcl: Tcl language support
+	provides = vim=9.2.1164-4
+	provides = xxd
+	provides = vim-plugin-runtime
+	conflicts = vim-minimal
+	conflicts = vim
+
+pkgname = vim-runtime
+	pkgdesc = Vi Improved, a highly configurable, improved version of the vi text editor (shared runtime)
+	optdepends = sh: support for some tools and macros
+	optdepends = python: demoserver example tool
+	optdepends = gawk: mve tools support
+	backup = etc/vimrc

@@ -1,0 +1,6 @@
+{
+  "name": "riscv64-linux-gnu-binutils",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/riscv64-linux-gnu-binutils/-/archive/main/riscv64-linux-gnu-binutils-main.tar.gz",
+  "sha256": "c398232c214738574324d1e64ae9433dcce4ecb2570f9151c9b89d0bacd5b9e7",
+  "bytes": 2243
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-pipewire",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-pipewire/-/archive/main/lib32-pipewire-main.tar.gz",
+  "sha256": "3d129830ce2142bf163cbf568ed6c769a318ec117d477bfc3acafb0ce103ee42",
+  "bytes": 3101
+}

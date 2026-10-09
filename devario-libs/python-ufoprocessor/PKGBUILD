@@ -1,0 +1,39 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+# Contributor: Mark Wagie <mark dot wagie at tutanota dot com>
+
+pkgname=python-ufoprocessor
+_name=ufoProcessor
+pkgver=1.14.1
+pkgrel=2
+pkgdesc='library to process and generate UFO files based on fontTools.designSpaceLib'
+arch=(any)
+url="https://github.com/LettError/$_name"
+license=(MIT)
+depends=(python-mutatormath
+         python-fontparts)
+makedepends=(python-{build,installer,wheel}
+             python-setuptools-scm)
+# checkdepends=(python-pytest)
+_archive="$_name-$pkgver"
+# https://github.com/LettError/ufoProcessor/issues/56
+# source=("https://pypi.org/packages/source/${_name:0:1}/$_name/$_archive.zip")
+source=("$url/archive/$pkgver/$_archive.tar.gz")
+sha256sums=('19d94385c15f9b12116ee5e5e5b951f177fc2648f4c72bc1de8f3c2b05116239')
+
+build() {
+	cd "$_archive"
+	export SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver"
+	python -m build -wn
+}
+
+check() {
+	cd "$_archive"
+	# Tests assume remote control of Glyphs, not a CLI runner!
+	# PYTHONPATH=Lib pytest
+}
+
+package() {
+	cd "$_archive"
+	python -m installer -d "$pkgdir/" dist/*.whl
+	install -Dm0644 -t "$pkgdir/usr/share/licenses/$pkgname/" LICENSE
+}

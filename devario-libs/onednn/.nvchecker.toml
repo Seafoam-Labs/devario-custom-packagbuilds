@@ -1,0 +1,5 @@
+[onednn]
+source = "git"
+git = "https://github.com/oneapi-src/oneDNN.git"
+prefix = "v"
+exclude_regex = '.*(2021).*'

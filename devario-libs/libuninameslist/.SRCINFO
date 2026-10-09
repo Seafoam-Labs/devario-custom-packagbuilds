@@ -1,0 +1,12 @@
+pkgbase = libuninameslist
+	pkgdesc = Large, sparse array mapping each unicode code point to the annotation data for it
+	pkgver = 20260918
+	pkgrel = 1
+	url = https://github.com/fontforge/libuninameslist
+	arch = x86_64
+	license = BSD-3-Clause
+	license = GPL-2.0-only
+	source = https://github.com/fontforge/libuninameslist/releases/download/20260918/libuninameslist-dist-20260918.tar.gz
+	sha256sums = deb2ec02640c232a4bc333c2cd301ee6b286914eeeb0ccc31ccafe326aed0029
+
+pkgname = libuninameslist

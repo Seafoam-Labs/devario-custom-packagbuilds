@@ -1,0 +1,6 @@
+{
+  "name": "riscv64-linux-gnu-gcc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/riscv64-linux-gnu-gcc/-/archive/main/riscv64-linux-gnu-gcc-main.tar.gz",
+  "sha256": "51e2615feeb72fa126d6d19a07b595dc383a0830ba26937c7c58f79bfc4bab6b",
+  "bytes": 2889
+}

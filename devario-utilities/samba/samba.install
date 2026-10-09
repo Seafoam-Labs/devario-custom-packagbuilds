@@ -1,0 +1,2 @@
+# Devario starts after this obsolete upstream migration.
+post_upgrade() { :; }

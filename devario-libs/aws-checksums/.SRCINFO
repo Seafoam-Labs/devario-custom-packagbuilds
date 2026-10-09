@@ -1,0 +1,14 @@
+pkgbase = aws-checksums
+	pkgdesc = Cross-Platform HW accelerated CRC32c and CRC32 with fallback to efficient SW implementations.
+	pkgver = 1.0.1
+	pkgrel = 1
+	url = https://github.com/awslabs/aws-checksums
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	depends = aws-c-common
+	depends = glibc
+	source = https://github.com/awslabs/aws-checksums/archive/v1.0.1/aws-checksums-1.0.1.tar.gz
+	b2sums = 8fa377825f116e2e75618db1a62bf208ea7834d3d1913583f1a070458a4ada7c8c82cc826b8dbe10eeaa7dc63b23a047597dd79a50e4a63ab7671d4d365c88d9
+
+pkgname = aws-checksums

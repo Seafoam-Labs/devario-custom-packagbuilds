@@ -1,0 +1,7 @@
+{
+  "name": "conduit-llnl",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/conduit-llnl.git",
+  "commit": "1fc770a53eabb711f830c4bb085dd4292c911d26",
+  "sha256": "bc02f8eb697be8cad4c1ab6190cdf7337f1d05b5c586aaaec7e158d0d9045996",
+  "bytes": 3973
+}

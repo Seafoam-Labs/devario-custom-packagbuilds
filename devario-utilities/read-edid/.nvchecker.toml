@@ -1,0 +1,4 @@
+[read-edid]
+source = 'regex'
+url = 'http://www.polypux.org/projects/read-edid/'
+regex = "read-edid-([\\d+\\.]*).tar.gz"

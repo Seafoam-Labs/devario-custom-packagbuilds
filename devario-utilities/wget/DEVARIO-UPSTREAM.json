@@ -1,0 +1,6 @@
+{
+  "name": "wget",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wget/-/archive/main/wget-main.tar.gz",
+  "sha256": "cb6f8decf14bbacefe7b6e5e7af3f5218842e52e726a342e63ce27cded44f535",
+  "bytes": 22643
+}

@@ -1,0 +1,77 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Michel Brabants <michel.linux@tiscali.be>
+
+pkgname=seahorse
+pkgver=47.0.1
+pkgrel=6
+epoch=1
+pkgdesc="GNOME application for managing PGP keys"
+url="https://wiki.gnome.org/Apps/Seahorse"
+arch=(x86_64)
+license=(GPL-2.0-or-later)
+depends=(
+  dconf
+  libgcc
+  gcr
+  gdk-pixbuf2
+  glib2
+  glibc
+  gpgme
+  gtk3
+  hicolor-icon-theme
+  libhandy
+  libldap
+  libpwquality
+  libsecret
+  libsoup3
+  org.freedesktop.secrets
+)
+makedepends=(
+  git
+  glib2-devel
+  gobject-introspection
+  meson
+  vala
+  yelp-tools
+)
+provides=(x11-ssh-askpass)
+source=(
+  "git+https://gitlab.gnome.org/GNOME/seahorse.git?signed#tag=${pkgver/[a-z]/.&}"
+  0001-Fix-search-provider.patch
+  0002-gpgme-2.0.patch
+)
+b2sums=('e8d8fae487e872c180ee1e8743a95a58445f89b41471067c065745c052703f57b003b49364f350a4fe76fdcdf0ce38b7c8b16baab4a86120dcc90906b5aab390'
+        '4f73b079299a9ee6a30112fca1d83b1e65add00fc61d004dd07819f63e8e670446fc1c7d7717cd8bce14f05a78f2dea981f492b9f95d4e9203e575eac12bbffb'
+        '0ee583101a7adacc813b8b07b6038643dcd16b219ac1731bc906a0c6364c93cb904ec3cc78cca7e13362e4aef0ed3d680f8bfff948c1de1e8759c9b555a7a5aa')
+validpgpkeys=('A7C626E13F9AD776776BD9CA1D8A57CF2E8D36A3') # Niels De Graef (nielsdg) <nielsdegraef@gmail.com>
+
+prepare() {
+  cd seahorse
+
+  # Fix symbolic icon name
+  # https://gitlab.gnome.org/GNOME/seahorse/-/merge_requests/230
+  git cherry-pick -n c6fcd381425b638c16eeab7e5858bddf7de76b9f
+
+  # Fix search provider
+  # https://gitlab.gnome.org/GNOME/seahorse/-/merge_requests/250
+  git apply -3 ../0001-Fix-search-provider.patch
+
+  # Fix build with gpgme 2.0
+  git apply -3 ../0002-gpgme-2.0.patch
+}
+
+build() {
+  arch-meson seahorse build -D manpage=true
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
+
+# vim:set sw=2 sts=-1 et:

@@ -1,0 +1,3 @@
+[logrotate]
+source = "git"
+git = "https://github.com/logrotate/logrotate.git"

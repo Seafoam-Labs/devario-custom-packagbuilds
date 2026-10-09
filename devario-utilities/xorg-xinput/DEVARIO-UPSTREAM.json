@@ -1,0 +1,6 @@
+{
+  "name": "xorg-xinput",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/xorg-xinput/-/archive/main/xorg-xinput-main.tar.gz",
+  "sha256": "68d601c4ee8cd647920df16979c01ab15971c3655c68c3713781ad627ec9f323",
+  "bytes": 3014
+}

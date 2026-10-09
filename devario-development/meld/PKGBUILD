@@ -1,0 +1,52 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+# Contributor: Douglas Soares de Andrade <douglas@archlinux.org>
+
+pkgname=meld
+pkgver=3.24.1
+pkgrel=1
+pkgdesc="Compare files, directories and working copies"
+url="https://meldmerge.org/"
+license=(GPL-2.0-or-later)
+arch=(any)
+depends=(
+  dconf
+  gdk-pixbuf2
+  glib2
+  gsettings-desktop-schemas
+  gtk3
+  gtksourceview4
+  hicolor-icon-theme
+  pango
+  python
+  python-cairo
+  python-gobject
+)
+makedepends=(
+  appstream
+  git
+  meson
+  yelp-tools
+)
+source=("git+https://gitlab.gnome.org/GNOME/meld.git#tag=$pkgver")
+b2sums=('400b403bd365032305d38a370dad5fe64186792eef3c3afda24de3aba47e7d05745cf6dc672a9f2cb0dfdf5789cb28cb15e2168d271f83bf746b5298919341ed')
+
+prepare() {
+  cd meld
+}
+
+build() {
+  arch-meson meld build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
+
+# vim:set sw=2 sts=-1 et:

@@ -1,0 +1,21 @@
+pkgbase = ocaml-ctypes
+	pkgdesc = Library for binding to C libraries using pure OCaml
+	pkgver = 0.24.0
+	pkgrel = 2
+	url = https://github.com/ocamllabs/ocaml-ctypes
+	arch = x86_64
+	license = MIT
+	makedepends = ocaml-findlib
+	makedepends = ocaml-compiler-libs
+	makedepends = dune
+	depends = ocaml
+	depends = libffi
+	depends = ocaml-integers
+	depends = ocaml-bigarray-compat
+	options = !strip
+	options = !makeflags
+	options = !debug
+	source = ocaml-ctypes-0.24.0.tar.gz::https://github.com/yallop/ocaml-ctypes/archive/refs/tags/0.24.0.tar.gz
+	sha512sums = 0fa640f00e2960a8ceae3bb9835c5318d3718e748f40adc3f0a50dcb9b38a696de2442f2e75a6ce2356bab7e7eb5edea5486a757e553c17207191a49ceaa307d
+
+pkgname = ocaml-ctypes

@@ -1,0 +1,20 @@
+pkgbase = python-zope-interface
+	pkgdesc = Zope Interfaces for Python 3.x
+	pkgver = 8.6
+	pkgrel = 1
+	url = https://github.com/zopefoundation/zope.interface
+	arch = x86_64
+	license = ZPL-2.1
+	checkdepends = python-zope-event
+	checkdepends = python-zope-testing
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	makedepends = git
+	depends = glibc
+	depends = python
+	source = git+https://github.com/zopefoundation/zope.interface.git#tag=8.6
+	sha512sums = f41c9f41c55e4cceaa507c02f49d9f115b1a868ccca7fb3e868aea82bd4de268ce96cc42a48e81ff1f53300312f7d9c01ce3467ab8ffb2c9602d55b8fe2b8d50
+
+pkgname = python-zope-interface

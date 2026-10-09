@@ -1,0 +1,7 @@
+{
+  "name": "python-simplejson",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-simplejson.git",
+  "commit": "f92cbe8fadc00dd1e7fb4ae5e76ce869a8d9bb6c",
+  "sha256": "bf05394cc4fcbd8931f86d90f75466c5c8cf6911e1a3d2a9deded9c2d51e8181",
+  "bytes": 1804
+}

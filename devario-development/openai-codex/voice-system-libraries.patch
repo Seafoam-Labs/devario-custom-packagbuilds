@@ -1,0 +1,23 @@
+--- a/realtime-webrtc/src/session.rs
++++ b/realtime-webrtc/src/session.rs
+@@ -182,7 +182,7 @@
+     } else if cfg!(windows) {
+         ("bin/codex-voice-host.exe", "bin/gstreamer-1.0-0.dll")
+     } else {
+-        ("bin/codex-voice-host", "lib/libgstreamer-1.0.so.0")
++        ("bin/codex-voice-host", "/usr/lib/libgstreamer-1.0.so.0")
+     };
+     voice.join(helper).is_file() && voice.join(runtime).is_file()
+ }
+--- a/voice-host/src/runtime.rs
++++ b/voice-host/src/runtime.rs
+@@ -128,7 +128,7 @@
+-fn private_file(root: &Path, relative: &str) -> io::Result<PathBuf> {
++fn private_file(_root: &Path, relative: &str) -> io::Result<PathBuf> {
+-    let path = root.join(relative);
++    let path = Path::new("/usr").join(relative).canonicalize()?;
+     if path.canonicalize()? != path || !path.is_file() {
+         return Err(runtime_error());
+     }
+     Ok(path)
+ }

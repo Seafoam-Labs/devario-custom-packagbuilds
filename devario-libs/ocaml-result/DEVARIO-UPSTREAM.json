@@ -1,0 +1,7 @@
+{
+  "name": "ocaml-result",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ocaml-result.git",
+  "commit": "8bea23dd693a06cf9415762843b2e0f327cd15b5",
+  "sha256": "535424b41a21c03c4fe8396f1b9446248875429827cbace1fe17e3a1a96115f3",
+  "bytes": 1654
+}

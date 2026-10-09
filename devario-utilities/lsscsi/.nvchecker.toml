@@ -1,0 +1,4 @@
+[lsscsi]
+source = 'regex'
+url = 'http://sg.danny.cz/scsi/lsscsi.html'
+regex = 'lsscsi-([\d.]+).tgz'

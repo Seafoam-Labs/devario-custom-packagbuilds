@@ -1,0 +1,14 @@
+pkgbase = read-edid
+	pkgdesc = Program that can get information from a PNP monitor
+	pkgver = 3.0.2
+	pkgrel = 5
+	url = http://www.polypux.org/projects/read-edid/
+	arch = x86_64
+	license = GPL
+	makedepends = cmake
+	depends = libx86>=0.99
+	source = http://www.polypux.org/projects/read-edid/read-edid-3.0.2.tar.gz
+	md5sums = 016546e438bf6c98739ff74061df9854
+	sha256sums = c7c6d8440f5b90f98e276829271ccea5b2ff5a3413df8a0f87ec09f834af186f
+
+pkgname = read-edid

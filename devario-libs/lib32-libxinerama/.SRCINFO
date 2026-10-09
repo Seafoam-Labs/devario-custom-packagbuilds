@@ -1,0 +1,17 @@
+pkgbase = lib32-libxinerama
+	pkgdesc = X11 Xinerama extension library (32-bit)
+	pkgver = 1.1.6
+	pkgrel = 1
+	url = https://xorg.freedesktop.org/
+	arch = x86_64
+	license = MIT
+	makedepends = xorg-util-macros
+	makedepends = gcc-multilib
+	depends = lib32-libxext
+	depends = libxinerama
+	depends = lib32-libx11
+	depends = lib32-glibc
+	source = https://xorg.freedesktop.org//releases/individual/lib/libXinerama-1.1.6.tar.xz
+	sha512sums = 64bff837941625120da43b8876db4204bc5740bcf3147997fc4df1475f90d6d9e3f9caa8748c7ebbf69d681be8e5ab4bc40f82c56c367dddcec3ab27d1c71573
+
+pkgname = lib32-libxinerama

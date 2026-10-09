@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libx11",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libx11/-/archive/main/lib32-libx11-main.tar.gz",
+  "sha256": "c22cd408934489279cf654e4df75acf0056dd4edff18f71906133a035074c268",
+  "bytes": 21638
+}

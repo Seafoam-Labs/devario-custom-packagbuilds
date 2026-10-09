@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: ISC
+"""Read-only package queries for checkrebuild against Shelly/RLPM databases."""
+import glob
+import os
+from pathlib import Path
+import re
+import sys
+import tarfile
+
+
+def fields(text):
+    result = {}
+    key = None
+    for line in text.splitlines():
+        if line.startswith('%') and line.endswith('%'):
+            key = line.strip('%')
+            result[key] = []
+        elif line and key:
+            result[key].append(line)
+    return result
+
+
+def config(path, state=None, seen=None):
+    state = state if state is not None else {'section': 'options', 'repos': {}, 'dbpath': '/var/lib/shelly'}
+    seen = seen if seen is not None else set()
+    path = Path(path)
+    if path in seen:
+        return state
+    seen.add(path)
+    if not path.exists():
+        return state
+    for raw in path.read_text().splitlines():
+        line = raw.split('#', 1)[0].strip()
+        if not line:
+            continue
+        if line.startswith('[') and line.endswith(']'):
+            state['section'] = line[1:-1]
+            if state['section'] != 'options':
+                state['repos'].setdefault(state['section'], [])
+        elif '=' in line:
+            key, value = map(str.strip, line.split('=', 1))
+            if key == 'Include':
+                for included in sorted(glob.glob(value)):
+                    config(included, state, seen)
+            elif key == 'DBPath' and state['section'] == 'options':
+                state['dbpath'] = value
+            elif key == 'Server' and state['section'] != 'options':
+                state['repos'][state['section']].append(value)
+    return state
+
+
+def load_local(dbpath):
+    local = dbpath / 'local'
+    if not local.is_dir():
+        raise ValueError(f'Shelly local database does not exist: {local}')
+    packages = {}
+    for record in sorted(local.iterdir()):
+        if not (record / 'desc').is_file():
+            continue
+        item = fields((record / 'desc').read_text())
+        if not item.get('NAME'):
+            raise ValueError(f'Missing package name in {record}/desc')
+        files = record / 'files'
+        item['FILES'] = fields(files.read_text()).get('FILES', []) if files.exists() else []
+        packages[item['NAME'][0]] = item
+    return packages
+
+
+def load_sync(dbpath, repos):
+    result = {}
+    for repo in repos:
+        path = dbpath / 'sync' / (repo + '.db')
+        if not path.exists():
+            continue
+        packages = {}
+        with tarfile.open(path) as archive:
+            for member in archive:
+                if member.isfile() and member.name.endswith('/desc'):
+                    item = fields(archive.extractfile(member).read().decode())
+                    packages[item['NAME'][0]] = item
+        result[repo] = packages
+    return result
+
+
+def main(args):
+    cfg = config(os.environ.get('DEVARIO_REBUILD_CONFIG', '/etc/shelly.conf'))
+    dbpath = Path(os.environ.get('DEVARIO_REBUILD_DBPATH', cfg['dbpath']))
+    if args[0] == 'config':
+        if args[1:] == ['--repo-list']:
+            print('\n'.join(cfg['repos']))
+        else:
+            repo = args[1].removeprefix('--repo=')
+            print('\n'.join(cfg['repos'].get(repo, [])))
+        return 0
+    local = load_local(dbpath)
+    if args[0] == 'tree':
+        target = args[-1]
+        names = {target}
+        if target in local:
+            names.update(re.split('[<>=]', p, maxsplit=1)[0] for p in local[target].get('PROVIDES', []))
+        print(target)
+        for name, item in local.items():
+            if name != target and any(re.split('[<>=]', d, maxsplit=1)[0] in names for d in item.get('DEPENDS', [])):
+                print(name)
+        return 0
+    flag, *targets = args
+    if flag == '-Qq':
+        print('\n'.join(local))
+    elif flag == '-Qql':
+        for name in targets:
+            if name not in local:
+                raise ValueError(f'Package is not installed: {name}')
+            for file in local[name]['FILES']:
+                print('/' + file.lstrip('/'))
+    elif flag in ('-Qqo', '-Qo'):
+        matched = set()
+        for target in targets:
+            target = os.path.abspath(target).lstrip('/')
+            for name, item in local.items():
+                if any(f.rstrip('/') == target.rstrip('/') for f in item['FILES']):
+                    if flag == '-Qo':
+                        print(f'/{target} is owned by {name} {item["VERSION"][0]}')
+                    else:
+                        matched.add(name)
+        if flag == '-Qqo' and matched:
+            print('\n'.join(sorted(matched)))
+        if not matched and flag == '-Qqo':
+            return 1
+    elif flag in ('-Sl', '-Qqm'):
+        sync = load_sync(dbpath, cfg['repos'])
+        if flag == '-Qqm':
+            known = {name for packages in sync.values() for name in packages}
+            for name in local:
+                if name not in known:
+                    print(name)
+        else:
+            for repo in targets or sync:
+                for name, item in sync.get(repo, {}).items():
+                    print(repo, name, item['VERSION'][0])
+    else:
+        raise ValueError(f'Unsupported query: {flag}')
+    return 0
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main(sys.argv[1:]))
+    except (OSError, ValueError, tarfile.TarError, IndexError) as error:
+        print(f'checkrebuild: {error}', file=sys.stderr)
+        sys.exit(2)

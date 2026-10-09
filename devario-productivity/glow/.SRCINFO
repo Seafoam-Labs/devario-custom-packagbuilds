@@ -1,0 +1,15 @@
+pkgbase = glow
+	pkgdesc = Command-line markdown renderer
+	pkgver = 3.0.0
+	pkgrel = 2
+	url = https://github.com/charmbracelet/glow
+	arch = x86_64
+	license = MIT
+	makedepends = git
+	makedepends = go
+	depends = glibc
+	options = !lto
+	source = git+https://github.com/charmbracelet/glow.git#tag=v3.0.0
+	b2sums = 63a972f3b64da121fb54b90cb9aae937c227e6f880d20d8f670933724cc9547148b6afed86f62acce6552ac6e85b979a412b657c7db062b6bae38f8e42bf7f0c
+
+pkgname = glow

@@ -1,0 +1,4 @@
+[xerces-c]
+source = 'regex'
+url = 'https://xerces.apache.org/xerces-c/releases.html'
+regex = 'alt="Xerces-C\+\+ ([0-9\.]+)"'

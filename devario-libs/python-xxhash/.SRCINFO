@@ -1,0 +1,21 @@
+pkgbase = python-xxhash
+	pkgdesc = Python binding for xxHash
+	pkgver = 4.0.1
+	pkgrel = 1
+	url = https://github.com/ifduyue/python-xxhash
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = glibc
+	depends = python
+	depends = xxhash
+	source = python-xxhash::git+https://github.com/ifduyue/python-xxhash.git#tag=v4.0.1
+	source = test_interpreters.patch
+	b2sums = f55a09689d1baeb8ba309300157577629dd6771298e3ea2a005459bb6fbe813f69929a0406e4084f7b1de6093ad991810dbc32c5e874d7bb08ce86a970dadb72
+	b2sums = e0f340fc85ab1726f7b8fca1473dfc2cf576574d90799db7e4f20010df1d24c4d17e47b7dedaf79a3aa5f9ba52f4acebd06cd0755934c1acc1ead5bc55ba459e
+
+pkgname = python-xxhash

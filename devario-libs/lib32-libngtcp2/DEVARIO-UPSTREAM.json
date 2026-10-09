@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libngtcp2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libngtcp2/-/archive/main/lib32-libngtcp2-main.tar.gz",
+  "sha256": "a27ace7b5885a3085951968dd6beb530049adb774fc183c8c98382ebd5280416",
+  "bytes": 5358
+}

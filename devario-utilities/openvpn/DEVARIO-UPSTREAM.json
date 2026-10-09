@@ -1,0 +1,6 @@
+{
+  "name": "openvpn",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/openvpn/-/archive/main/openvpn-main.tar.gz",
+  "sha256": "4376071038a49abaa1869ad6a9e02aa000ca45a1961d76a0822059074a94a574",
+  "bytes": 18053
+}

@@ -1,0 +1,7 @@
+{
+  "name": "java8-openjdk",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/java8-openjdk.git",
+  "commit": "59910fdfea0a99878dca4ccd9dac16acac727a6b",
+  "sha256": "2adce464e312e7c6b1948dbf8ad23e2531e74cbb1a0d1ae600b7362a2965e9a3",
+  "bytes": 5366
+}

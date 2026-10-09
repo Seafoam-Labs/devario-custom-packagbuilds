@@ -1,0 +1,4 @@
+[zopfli]
+source = "git"
+git = "https://github.com/google/zopfli.git"
+prefix = "zopfli-"

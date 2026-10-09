@@ -1,0 +1,26 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+    ".SRCINFO",
+    ".nvchecker.toml",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "uasm-nocolor",
+]
+SPDX-FileCopyrightText = "uasm contributors"
+SPDX-License-Identifier = "CC-BY-SA-3.0"
+
+[[annotations]]
+path = [
+    "repro-date.patch",
+    "add-missing-header.patch",
+    "add-modern-ish-defines.patch",
+]
+SPDX-FileCopyrightText = "uasm contributors"
+SPDX-License-Identifier = "Watcom-1.0"

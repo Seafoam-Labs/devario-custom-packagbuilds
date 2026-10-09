@@ -1,0 +1,3 @@
+[ocaml-stdlib-shims]
+source = "git"
+git = "https://github.com/ocaml/stdlib-shims.git"

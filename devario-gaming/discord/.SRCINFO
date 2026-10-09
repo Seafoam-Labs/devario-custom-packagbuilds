@@ -1,0 +1,25 @@
+pkgbase = discord
+	pkgdesc = All-in-one voice and text chat for gamers
+	pkgver = 1.0.161
+	pkgrel = 1
+	epoch = 1
+	url = https://discord.com
+	arch = x86_64
+	license = LicenseRef-custom
+	depends = libnotify
+	depends = libxss
+	depends = nspr
+	depends = nss
+	depends = gtk3
+	depends = hicolor-icon-theme
+	optdepends = libpulse: PulseAudio support
+	optdepends = libappindicator-gtk3: Systray indicator support
+	optdepends = xdg-utils: For opening URLs and files
+	source = https://dl.discordapp.net/apps/linux/1.0.161/discord-1.0.161.tar.gz
+	source = LICENSE-1.0.161.html::https://discordapp.com/terms
+	source = OSS-LICENSES-1.0.161.html::https://discordapp.com/licenses
+	sha512sums = df72f5b80f35eed108030c41d7d77b3f01e0527dd99fb66861d6d2708d7090d453456ffda365b9589560169e86a6100786c74629948f53988ef9bc49555fc265
+	sha512sums = SKIP
+	sha512sums = SKIP
+
+pkgname = discord

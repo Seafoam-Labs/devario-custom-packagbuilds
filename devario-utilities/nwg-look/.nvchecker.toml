@@ -1,0 +1,4 @@
+[nwg-look]
+source = "git"
+git = "https://github.com/nwg-piotr/nwg-look.git"
+prefix = "v"

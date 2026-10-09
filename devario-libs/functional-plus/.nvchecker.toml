@@ -1,0 +1,4 @@
+[functional-plus]
+source = "git"
+git = "https://github.com/Dobiasd/FunctionalPlus.git"
+prefix = "v"

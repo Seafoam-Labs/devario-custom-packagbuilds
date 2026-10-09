@@ -1,0 +1,4 @@
+[java-hamcrest]
+source = "git"
+git = "https://github.com/hamcrest/JavaHamcrest.git"
+prefix = "v"

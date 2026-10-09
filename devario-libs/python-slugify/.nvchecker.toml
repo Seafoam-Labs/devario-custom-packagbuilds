@@ -1,0 +1,4 @@
+[python-slugify]
+source = "git"
+git = "https://github.com/un33k/python-slugify.git"
+prefix = "v"

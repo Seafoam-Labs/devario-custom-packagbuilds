@@ -1,0 +1,7 @@
+{
+  "name": "hipblaslt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/hipblaslt.git",
+  "commit": "c0604d6e9eebcb7eded93a2e7f5ff92c29928232",
+  "sha256": "9910e320522eaa1ad5c940f75f2ef542bcf6772d8a2389cf1cbbe9ef925c8c66",
+  "bytes": 4456
+}

@@ -1,0 +1,4 @@
+[rkcommon]
+source = "git"
+git = "https://github.com/ospray/rkcommon.git"
+prefix = "v"

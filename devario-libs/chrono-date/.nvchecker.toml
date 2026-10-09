@@ -1,0 +1,4 @@
+[chrono-date]
+source = "git"
+git = "https://github.com/HowardHinnant/date.git"
+prefix = "v"

@@ -1,0 +1,14 @@
+pkgbase = wtype
+	pkgdesc = xdotool type for wayland
+	pkgver = 0.4
+	pkgrel = 2
+	url = https://github.com/atx/wtype
+	arch = x86_64
+	license = MIT
+	makedepends = meson
+	depends = libxkbcommon
+	depends = wayland
+	source = https://github.com/atx/wtype/archive/v0.4/wtype-v0.4.tar.gz
+	b2sums = 90973cf1373795004c7f5ec0f5d20b93896c2a9abab9037edc75b9d4af2a14d2acf8fa22df444ea8cbd6594af396522912dd87fa80dd96c04dbfb206ddec69d1
+
+pkgname = wtype

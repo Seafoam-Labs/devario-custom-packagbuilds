@@ -1,0 +1,6 @@
+{
+  "name": "nodejs-lts-krypton",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/nodejs-lts-krypton/-/archive/main/nodejs-lts-krypton-main.tar.gz",
+  "sha256": "5b422e47d0f625cd5d31450fa317cf58a83894448916215ea5c5ce5f4a3c79dc",
+  "bytes": 19682
+}

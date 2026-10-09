@@ -1,0 +1,6 @@
+{
+  "name": "mingw-w64-headers",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mingw-w64-headers/-/archive/main/mingw-w64-headers-main.tar.gz",
+  "sha256": "521edd266e521a084a60d73c18f1f9d3a7d74795cf48c3536d0d621a190d44ae",
+  "bytes": 4590
+}

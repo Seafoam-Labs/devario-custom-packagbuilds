@@ -1,0 +1,6 @@
+{
+  "name": "mingw-w64-winpthreads",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mingw-w64-winpthreads/-/archive/main/mingw-w64-winpthreads-main.tar.gz",
+  "sha256": "72d865e36f7072890a3e8ba2b79d117b16aa526ef88bb870186aa85300c55e7d",
+  "bytes": 4701
+}

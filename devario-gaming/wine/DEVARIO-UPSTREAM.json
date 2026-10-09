@@ -1,0 +1,6 @@
+{
+  "name": "wine",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wine/-/archive/main/wine-main.tar.gz",
+  "sha256": "7020ff99602602af88df692abfcb2f81d456899448f692f500b87f3f13d32dfe",
+  "bytes": 7241
+}

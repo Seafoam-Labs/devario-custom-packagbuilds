@@ -1,0 +1,14 @@
+pkgbase = fast_float
+	pkgdesc = Fast and exact implementation of the C++ from_chars functions for float and double types
+	pkgver = 8.3.1
+	pkgrel = 1
+	url = https://github.com/fastfloat/fast_float
+	arch = any
+	license = Apache-2.0 OR BSL-1.0 OR MIT
+	makedepends = cmake
+	makedepends = doctest
+	makedepends = git
+	source = git+https://github.com/fastfloat/fast_float.git#tag=v8.3.1
+	b2sums = ab9dcd558c2f998e2407b67243de45dfbe2deb05a32f86fc9f9557b20ce08ba4438c5e1b2a034aff5e12d465794dd0496239a54b73b870dde17527bc4c95fc0d
+
+pkgname = fast_float

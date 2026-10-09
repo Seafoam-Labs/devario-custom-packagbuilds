@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libgpg-error",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libgpg-error/-/archive/main/lib32-libgpg-error-main.tar.gz",
+  "sha256": "58376ef766375442f9018c06275fd24393995df89af1186eae686df4048d637f",
+  "bytes": 3488
+}

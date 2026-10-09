@@ -1,0 +1,6 @@
+{
+  "name": "lib32-flac",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-flac/-/archive/main/lib32-flac-main.tar.gz",
+  "sha256": "83b61d345ff64b51ce4e1e343f840c6ab13d78593537df11fd23de15bf99c1a0",
+  "bytes": 2240
+}

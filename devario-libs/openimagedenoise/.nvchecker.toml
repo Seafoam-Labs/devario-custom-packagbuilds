@@ -1,0 +1,4 @@
+[openimagedenoise]
+source = "git"
+git = "https://github.com/OpenImageDenoise/oidn.git"
+prefix = "v"

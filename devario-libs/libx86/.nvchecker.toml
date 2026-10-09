@@ -1,0 +1,4 @@
+[libx86]
+source = "git"
+git = "https://gitlab.archlinux.org/grawlinson/libx86.git"
+prefix = "v"

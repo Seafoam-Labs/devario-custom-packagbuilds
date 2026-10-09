@@ -1,0 +1,5 @@
+[libvirt]
+source = 'git'
+git = "https://github.com/libvirt/libvirt.git"
+include_regex = 'v\d+\.\d+(\.\d+)?'
+prefix = 'v'

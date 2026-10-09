@@ -1,0 +1,6 @@
+{
+  "name": "lib32-acl",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-acl/-/archive/main/lib32-acl-main.tar.gz",
+  "sha256": "cff47c9bd5075161dd7f71f24d0772589971f4869b715f8eb3b945e51eb2e225",
+  "bytes": 12858
+}

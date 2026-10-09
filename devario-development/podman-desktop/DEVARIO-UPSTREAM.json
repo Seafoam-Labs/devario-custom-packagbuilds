@@ -1,0 +1,6 @@
+{
+  "name": "podman-desktop",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/podman-desktop/-/archive/main/podman-desktop-main.tar.gz",
+  "sha256": "c0bd40fbf61232b3951b043d74e3a186b1be1b7ba0ddcec3ed27a08d95dc8ea2",
+  "bytes": 2725
+}

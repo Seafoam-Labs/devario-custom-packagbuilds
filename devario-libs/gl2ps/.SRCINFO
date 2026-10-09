@@ -1,0 +1,17 @@
+pkgbase = gl2ps
+	pkgdesc = an OpenGL to PostScript printing library
+	pkgver = 1.4.3
+	pkgrel = 1
+	url = https://geuz.org/gl2ps/
+	arch = x86_64
+	license = LGPL-2.0-or-later
+	makedepends = git
+	makedepends = cmake
+	makedepends = texlive-latex
+	makedepends = texlive-latexrecommended
+	depends = libpng
+	depends = libgl
+	source = git+https://gitlab.onelab.info/gl2ps/gl2ps.git#tag=gl2ps_1_4_3
+	sha512sums = 686efbe1ac252adda811bcd06c7629e3737e18c2f8e910d9c212127f092912988c47fb0f51e5c6215fe1bce80ecac6c78e46b4b33d5b84755daba684170ffa8c
+
+pkgname = gl2ps

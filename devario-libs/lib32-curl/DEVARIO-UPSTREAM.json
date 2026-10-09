@@ -1,0 +1,6 @@
+{
+  "name": "lib32-curl",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-curl/-/archive/main/lib32-curl-main.tar.gz",
+  "sha256": "f09192dd4183f2bd7707c29ef90726c5f99ac23643dbeda58e82d4273952ec02",
+  "bytes": 5397
+}

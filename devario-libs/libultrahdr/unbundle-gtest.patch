@@ -1,0 +1,48 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -548,32 +548,7 @@ if(UHDR_BUILD_JAVA)
+ endif()
+ 
+ if(UHDR_BUILD_TESTS)
+-  # gtest and gmock
+-  set(GTEST_TARGET_NAME googletest)
+-  set(GTEST_PREFIX_DIR ${CMAKE_CURRENT_BINARY_DIR}/${GTEST_TARGET_NAME})
+-  set(GTEST_SOURCE_DIR ${THIRD_PARTY_DIR}/${GTEST_TARGET_NAME})
+-  set(GTEST_BINARY_DIR ${GTEST_PREFIX_DIR}/src/${GTEST_TARGET_NAME}-build)
+-  set(GTEST_INCLUDE_DIRS
+-      ${GTEST_SOURCE_DIR}/googletest/include
+-      ${GTEST_SOURCE_DIR}/googlemock/include)
+-  set(GTEST_LIB ${CMAKE_STATIC_LIBRARY_PREFIX}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+-  set(GTEST_LIB_MAIN ${CMAKE_STATIC_LIBRARY_PREFIX}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+-  if(IS_MULTI)
+-    set(GTEST_LIB_PREFIX ${GTEST_BINARY_DIR}/lib/$<CONFIG>/)
+-  else()
+-    set(GTEST_LIB_PREFIX ${GTEST_BINARY_DIR}/lib/)
+-  endif()
+-  set(GTEST_BOTH_LIBRARIES ${GTEST_LIB_PREFIX}${GTEST_LIB} ${GTEST_LIB_PREFIX}${GTEST_LIB_MAIN})
+-  ExternalProject_Add(${GTEST_TARGET_NAME}
+-      GIT_REPOSITORY https://github.com/google/googletest
+-      GIT_TAG v1.14.0
+-      PREFIX ${GTEST_PREFIX_DIR}
+-      SOURCE_DIR ${GTEST_SOURCE_DIR}
+-      BINARY_DIR ${GTEST_BINARY_DIR}
+-      CMAKE_ARGS ${UHDR_CMAKE_ARGS}
+-      BUILD_BYPRODUCTS ${GTEST_BOTH_LIBRARIES}
+-      INSTALL_COMMAND ""
+-  )
++  find_package(GTest)
+ endif()
+ 
+ if(UHDR_BUILD_BENCHMARK)
+@@ -820,9 +795,9 @@ if(UHDR_BUILD_TESTS)
+     target_link_options(ultrahdr_unit_test PRIVATE -fsanitize=fuzzer-no-link)
+   endif()
+   if(UHDR_ENABLE_SMPTE2094_50)
+-    target_link_libraries(ultrahdr_unit_test ${UHDR_CORE_LIB_NAME} ${GTEST_BOTH_LIBRARIES} smpte2094_50_utils ${PRIVATE_LINK_LIBS})
++    target_link_libraries(ultrahdr_unit_test ${UHDR_CORE_LIB_NAME} GTest::gtest_main smpte2094_50_utils ${PRIVATE_LINK_LIBS})
+   else()
+-    target_link_libraries(ultrahdr_unit_test ${UHDR_CORE_LIB_NAME} ${GTEST_BOTH_LIBRARIES} ${PRIVATE_LINK_LIBS})
++    target_link_libraries(ultrahdr_unit_test ${UHDR_CORE_LIB_NAME} GTest::gtest_main ${PRIVATE_LINK_LIBS})
+   endif()
+   if(LIBHEIF_LIB_PREFIX)
+     set_target_properties(ultrahdr_unit_test PROPERTIES BUILD_RPATH "${LIBHEIF_LIB_PREFIX}")

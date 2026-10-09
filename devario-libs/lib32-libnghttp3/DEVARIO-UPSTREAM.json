@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libnghttp3",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libnghttp3/-/archive/main/lib32-libnghttp3-main.tar.gz",
+  "sha256": "c6a7452d4b95ac042455c7bb78f1e2af10dfd1b7687ecf0e14600642e18018c2",
+  "bytes": 3874
+}

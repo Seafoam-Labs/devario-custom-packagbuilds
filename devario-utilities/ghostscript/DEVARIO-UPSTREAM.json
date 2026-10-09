@@ -1,0 +1,6 @@
+{
+  "name": "ghostscript",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ghostscript/-/archive/main/ghostscript-main.tar.gz",
+  "sha256": "ac173b8f92ce32493cfe438c5e839e48f197836dc7a1cc451bdd70fdf3a81742",
+  "bytes": 16709
+}

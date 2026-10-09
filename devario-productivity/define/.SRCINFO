@@ -1,0 +1,18 @@
+pkgbase = define
+	pkgdesc = Terminal dictionary
+	pkgver = 1.74
+	pkgrel = 2
+	url = https://github.com/SethDusek/define
+	arch = any
+	license = BSD
+	makedepends = python-setuptools
+	depends = gstreamer
+	depends = python
+	depends = python-requests
+	optdepends = hunspell
+	optdepends = dictd
+	conflicts = define-git
+	source = https://github.com/SethDusek/define/archive/1.74.tar.gz
+	md5sums = 6354dee0228a69eca2c00941cace52e2
+
+pkgname = define

@@ -1,0 +1,3 @@
+[lib32-libsamplerate]
+source = "git"
+git = "https://github.com/libsndfile/libsamplerate.git"

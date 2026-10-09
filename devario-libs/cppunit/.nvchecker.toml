@@ -1,0 +1,4 @@
+[cppunit]
+source = "git"
+git = "https://git.libreoffice.org/cppunit"
+prefix = "cppunit-"

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxcb",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxcb/-/archive/main/lib32-libxcb-main.tar.gz",
+  "sha256": "8c4bfa990512d0defdff3d8d27126b74f274dcda4669e30ff22ef9d086b657dc",
+  "bytes": 11275
+}

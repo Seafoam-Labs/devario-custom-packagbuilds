@@ -1,0 +1,6 @@
+{
+  "name": "riscv64-linux-gnu-linux-api-headers",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/riscv64-linux-gnu-linux-api-headers/-/archive/main/riscv64-linux-gnu-linux-api-headers-main.tar.gz",
+  "sha256": "eb0db5d3bea0ca1331f16ea06ad4c124d5df56c8c0cc8cafeb4e0b94bcc37084",
+  "bytes": 7383
+}

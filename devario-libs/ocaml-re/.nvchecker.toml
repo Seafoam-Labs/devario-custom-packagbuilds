@@ -1,0 +1,3 @@
+[ocaml-re]
+source = "git"
+git = "https://github.com/ocaml/ocaml-re.git"

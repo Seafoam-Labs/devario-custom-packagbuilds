@@ -1,0 +1,3 @@
+[qt5pas]
+source = "git"
+git = "https://gitlab.com/freepascal.org/lazarus/lazarus.git"

@@ -1,0 +1,23 @@
+pkgbase = qt6-remoteobjects
+	pkgdesc = Inter-process communication (IPC) module developed for Qt
+	pkgver = 6.12.0
+	pkgrel = 1
+	url = https://www.qt.io
+	arch = x86_64
+	groups = qt6
+	license = GPL-3.0-only
+	license = LGPL-3.0-only
+	license = LicenseRef-Qt-Commercial
+	license = Qt-GPL-exception-1.0
+	makedepends = cmake
+	makedepends = git
+	makedepends = ninja
+	makedepends = qt6-declarative
+	depends = glibc
+	depends = libstdc++
+	depends = qt6-base
+	optdepends = qt6-declarative: QML bindings
+	source = git+https://code.qt.io/qt/qtremoteobjects#tag=v6.12.0
+	sha256sums = 5da23bed3d5d37176afe7ed2d3e8cf3875536624dd2bc7f4806c152afed0c566
+
+pkgname = qt6-remoteobjects

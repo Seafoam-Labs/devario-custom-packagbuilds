@@ -1,0 +1,25 @@
+pkgbase = python-python-discovery
+	pkgdesc = Python interpreter discovery
+	pkgver = 1.6.1
+	pkgrel = 1
+	url = https://python-discovery.readthedocs.io
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-mock
+	checkdepends = python-setuptools
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-hatchling
+	makedepends = python-hatch-vcs
+	depends = python
+	depends = python-filelock
+	source = python-python-discovery::git+https://github.com/tox-dev/python-discovery#tag=1.6.1
+	source = no-vermin.patch
+	sha512sums = e1a81d245455a6d54cc7d87ae9d1a88b8062495a9efd3d0e676cd239ff35a703b801568fe0025baf803f2a144ee9b936b0171793f86a48af2ea2f2eb812982ef
+	sha512sums = c9057e2e74dde6819b2f43cf6f29c6f0903da9f12784fc1e84fc24b972a8d114fb55c60630f65106cee1e2c02e043ddfff08f5729c98d3e35a32c0b83ec184cd
+	b2sums = 8f708cfd4204aaa3cff0c0089e5acf4496bab456c88204f223365fff4d1ae69251a0f4ebef81366c2acdc62962210a0219c2eb9fb0106ae47076c4876b2ec131
+	b2sums = e23fac44ff0fe6dc0eb4f19da9bef5410c0e4d03b2992d2f79eba45a4b69c81173c11feb13e84d8d440938b67aa65f3ada6fe6583f627f828a83fa70863ec507
+
+pkgname = python-python-discovery

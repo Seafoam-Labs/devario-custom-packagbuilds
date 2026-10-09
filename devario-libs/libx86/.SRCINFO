@@ -1,0 +1,14 @@
+pkgbase = libx86
+	pkgdesc = A library for real-mode x86 calls with an emulated x86 processor
+	pkgver = 1.1.1
+	pkgrel = 1
+	url = https://gitlab.archlinux.org/grawlinson/libx86
+	arch = x86_64
+	license = MIT
+	makedepends = git
+	depends = glibc
+	source = libx86::git+https://gitlab.archlinux.org/grawlinson/libx86#tag=v1.1.1
+	sha512sums = 115d0a458dbc78dc7ada8a88f7766f63aa83663efee77c00869be1d6fc788d3a4f132ce7319b4a0e8e895650d1a3c0b3f3fa4d4a967acada4dcc6247d4933590
+	b2sums = 56b3d66fb96d14e9a1c08b7e4543a44a9b3179d410ed46921ec36ddaf5e284173686789b994ec36554308528ff67b5d048bd3735cca77167cebdfb1316cd05ee
+
+pkgname = libx86

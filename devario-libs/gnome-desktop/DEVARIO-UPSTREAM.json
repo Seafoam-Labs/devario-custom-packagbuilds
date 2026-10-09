@@ -1,0 +1,6 @@
+{
+  "name": "gnome-desktop",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gnome-desktop/-/archive/main/gnome-desktop-main.tar.gz",
+  "sha256": "bddfec2541e5ce654f7da27772ce55b4ba853d2fc636eefd5be7e8af4978f910",
+  "bytes": 2824
+}

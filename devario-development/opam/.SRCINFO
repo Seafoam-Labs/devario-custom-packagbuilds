@@ -1,0 +1,22 @@
+pkgbase = opam
+	pkgdesc = OCaml package manager
+	pkgver = 2.6.1
+	pkgrel = 1
+	url = https://opam.ocaml.org/
+	arch = x86_64
+	license = LGPL-2.1-only
+	makedepends = git
+	depends = bubblewrap
+	depends = libgcc
+	depends = libstdc++
+	depends = glibc
+	depends = ocaml-compiler-libs
+	depends = unzip
+	optdepends = darcs: For downloading packages with darcs
+	optdepends = git: For downloading packages with git
+	optdepends = mercurial: For downloading packages with mercurial
+	optdepends = rsync: For downloading packages with rsync
+	source = https://github.com/ocaml/opam/releases/download/2.6.1/opam-full-2.6.1.tar.gz
+	b2sums = 27a33f25322fcf326b36921840744dbf4d63b3b4b4943d6198e43afa34a7b7f28e78207de40d6c4bd38fcd7135c453430b3f96c6afdac958e694a3d4dd627231
+
+pkgname = opam

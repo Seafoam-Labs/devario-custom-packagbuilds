@@ -1,0 +1,17 @@
+pkgbase = python-imagesize
+	pkgdesc = Analyzes JPEG/JPEG 2000/PNG/GIF/TIFF/SVG/Netpbm/WebP image headers and returns image size or DPI
+	pkgver = 2.0.1
+	pkgrel = 1
+	url = https://github.com/shibukawa/imagesize_py
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = git+https://github.com/shibukawa/imagesize_py.git#tag=2.0.1
+	b2sums = d46f612b97ed5576ce33c3012c5ce44380fcce0c52ee50fa81236cab0563aaad5c1e0159e6e6bdd548653cc76081bf00fb13777b2d4ad9d6737d0362948f67b8
+
+pkgname = python-imagesize

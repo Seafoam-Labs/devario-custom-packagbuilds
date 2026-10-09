@@ -1,0 +1,6 @@
+{
+  "name": "xorg-xauth",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/xorg-xauth/-/archive/main/xorg-xauth-main.tar.gz",
+  "sha256": "e807df7379c9d011e01fd40abff5fbc79803e5ee2703c1ae943c134f5064d0ab",
+  "bytes": 16653
+}

@@ -1,0 +1,6 @@
+{
+  "name": "vim",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/vim/-/archive/main/vim-main.tar.gz",
+  "sha256": "28d30a610904788506feb4b590822135e6e1d00cf1ec4e43a6f26dfb536c9867",
+  "bytes": 7526
+}

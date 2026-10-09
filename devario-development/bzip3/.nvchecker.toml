@@ -1,0 +1,4 @@
+[bzip3]
+source = "github"
+github = "kspalaiologos/bzip3"
+use_max_tag = true

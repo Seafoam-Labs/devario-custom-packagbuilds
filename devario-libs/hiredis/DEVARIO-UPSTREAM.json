@@ -1,0 +1,6 @@
+{
+  "name": "hiredis",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/hiredis/-/archive/main/hiredis-main.tar.gz",
+  "sha256": "d7b0250329bb3c7783fa78f67be9051ade1cffb59d8bc556bf149dcbd02ced5e",
+  "bytes": 1628
+}

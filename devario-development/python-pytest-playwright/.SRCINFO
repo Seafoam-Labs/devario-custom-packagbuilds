@@ -1,0 +1,19 @@
+pkgbase = python-pytest-playwright
+	pkgdesc = Pytest plugin to write end-to-end browser tests with Playwright
+	pkgver = 0.9.0
+	pkgrel = 1
+	url = https://github.com/microsoft/playwright-pytest
+	arch = any
+	license = Apache-2.0
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = python
+	depends = python-pytest
+	depends = python-slugify
+	source = git+https://github.com/microsoft/playwright-pytest#tag=v0.9.0
+	sha256sums = cfc94203ac69920dbb0cb2db1b788a048f82e5ca648c0be0f2a54e4c6457a69d
+
+pkgname = python-pytest-playwright

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxxf86vm",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxxf86vm/-/archive/main/lib32-libxxf86vm-main.tar.gz",
+  "sha256": "1145647a232be9b9bd086d23efb3c205b53b2efbfc3c1624523908f67ebe7d06",
+  "bytes": 7200
+}

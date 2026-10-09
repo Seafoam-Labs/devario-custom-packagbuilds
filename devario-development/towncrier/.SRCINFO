@@ -1,0 +1,20 @@
+pkgbase = towncrier
+	pkgdesc = Utility to produce useful, summarised news files for your project
+	pkgver = 26.9.0
+	pkgrel = 1
+	url = https://github.com/twisted/towncrier
+	arch = any
+	license = MIT
+	checkdepends = python-twisted
+	checkdepends = mercurial
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-hatchling
+	depends = python
+	depends = python-click
+	depends = python-jinja
+	source = git+https://github.com/twisted/towncrier.git#tag=26.9.0
+	sha512sums = f95e7ae5453c25aa5805f04b7a7e42639897f146c8426c9ec6f164a73a43650189008e73f94aaed944708825f97c3212629556db972726988cf5e1328c45a5ec
+
+pkgname = towncrier

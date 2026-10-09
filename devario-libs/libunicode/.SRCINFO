@@ -1,0 +1,19 @@
+pkgbase = libunicode
+	pkgdesc = Unicode and UTF-8 C++ library
+	pkgver = 0.9.2
+	pkgrel = 1
+	url = https://github.com/contour-terminal/libunicode
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = git
+	makedepends = ninja
+	makedepends = python
+	makedepends = unicode-character-database
+	depends = libstdc++
+	depends = libgcc
+	depends = glibc
+	source = git+https://github.com/contour-terminal/libunicode.git#tag=v0.9.2
+	sha256sums = 7b5eb50bb22f999c858d538f095eb7dffbac729814e380d5fa6a98537b0bce9b
+
+pkgname = libunicode

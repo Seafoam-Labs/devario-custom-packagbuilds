@@ -1,0 +1,6 @@
+{
+  "name": "lib32-nss",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-nss/-/archive/main/lib32-nss-main.tar.gz",
+  "sha256": "45154871d9e1f54ac77bf53281542a831691faa5a7c066e8e0af446cd8843c65",
+  "bytes": 8362
+}

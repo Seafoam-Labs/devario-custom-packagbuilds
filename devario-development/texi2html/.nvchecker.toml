@@ -1,0 +1,4 @@
+[texi2html]
+source = "regex"
+regex = "texi2html-(\\d+.\\d+)"
+url = "https://download.savannah.gnu.org/releases/texi2html/"

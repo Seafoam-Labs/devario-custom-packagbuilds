@@ -1,0 +1,3 @@
+[protontricks]
+source = "git"
+git = "https://github.com/Matoking/protontricks.git"

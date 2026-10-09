@@ -1,0 +1,7 @@
+[gl2ps]
+source = 'git'
+git = 'https://gitlab.onelab.info/gl2ps/gl2ps'
+prefix = 'gl2ps_'
+include_regex = 'gl2ps_.*'
+from_pattern = '_'
+to_pattern = '.'

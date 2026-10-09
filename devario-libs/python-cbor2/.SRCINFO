@@ -1,0 +1,24 @@
+pkgbase = python-cbor2
+	pkgdesc = Pure Python CBOR (de)serializer with extensive tag support
+	pkgver = 6.1.5
+	pkgrel = 1
+	url = https://github.com/agronholm/cbor2
+	arch = x86_64
+	license = MIT
+	checkdepends = python-hypothesis
+	checkdepends = python-pytest
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-rust
+	makedepends = python-setuptools-scm
+	makedepends = python-toml
+	makedepends = python-wheel
+	depends = glibc
+	depends = libgcc
+	depends = python
+	source = https://github.com/agronholm/cbor2/archive/refs/tags/6.1.5/cbor2-6.1.5.tar.gz
+	sha512sums = 37b103521be8729765c42fc8b3c58d6d6102e2323f3364e40ce7852f7ad0b6ad3c5c87ffe75e80aa751d16c55b50c8d824b699adbe8021d85afcf21df1f1c8e3
+	b2sums = 2b2582918f86d8ce821c977b95a06a1fd9379a1cb03deaf20c8525676395d7279d77905737ce49863ee89c94110c9a0305df4f03900efd10fc450ea8474bb232
+
+pkgname = python-cbor2

@@ -1,0 +1,2 @@
+# Devario starts with the current OVMF layout.
+post_upgrade() { :; }

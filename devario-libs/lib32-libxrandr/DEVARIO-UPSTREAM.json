@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxrandr",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxrandr/-/archive/main/lib32-libxrandr-main.tar.gz",
+  "sha256": "d5b2a05073fb32b20da22425769a9a392624b1a21ddaf58d284d6d366b237098",
+  "bytes": 12660
+}

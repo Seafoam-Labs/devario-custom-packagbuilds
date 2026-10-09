@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libnghttp2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libnghttp2/-/archive/main/lib32-libnghttp2-main.tar.gz",
+  "sha256": "e21791b14676f6cc6e880090c35067732cbf62048b477df86aa5dcf400982d68",
+  "bytes": 5287
+}

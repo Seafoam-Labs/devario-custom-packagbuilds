@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libdrm",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libdrm/-/archive/main/lib32-libdrm-main.tar.gz",
+  "sha256": "3b29646dcd605128ba4699294cf2af34710b781ee446f8a4795aea1e3afffb83",
+  "bytes": 20186
+}

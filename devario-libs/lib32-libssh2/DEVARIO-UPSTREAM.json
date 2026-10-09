@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libssh2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libssh2/-/archive/main/lib32-libssh2-main.tar.gz",
+  "sha256": "b08e52c198d49cf4eaba187646ddcdf9201d60a1f5958c78593e6270521b271a",
+  "bytes": 9249
+}

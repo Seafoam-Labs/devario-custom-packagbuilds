@@ -1,0 +1,7 @@
+{
+  "name": "xerces-c",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/xerces-c.git",
+  "commit": "6876fa847394f1bd95702890a59ed769b9373848",
+  "sha256": "91e8dc1716258daaf08405a1cb59d4fc65fc4a16c365169607a2c4fc08506362",
+  "bytes": 1675
+}

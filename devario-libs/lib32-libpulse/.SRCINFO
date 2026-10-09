@@ -1,0 +1,28 @@
+pkgbase = lib32-libpulse
+	pkgdesc = A featureful, general-purpose sound server (32-bit client libraries)
+	pkgver = 17.0+r98+gb096704c0
+	pkgrel = 1
+	url = https://www.freedesktop.org/wiki/Software/PulseAudio/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = git
+	makedepends = lib32-libx11
+	makedepends = meson
+	makedepends = valgrind
+	depends = lib32-dbus
+	depends = lib32-gcc-libs
+	depends = lib32-glib2
+	depends = lib32-glibc
+	depends = lib32-libasyncns
+	depends = lib32-libsndfile
+	depends = lib32-libxcb
+	depends = lib32-systemd
+	depends = libpulse
+	optdepends = lib32-alsa-plugins: ALSA support
+	provides = lib32-pulseaudio=17.0+r98+gb096704c0
+	conflicts = lib32-pulseaudio
+	replaces = lib32-pulseaudio
+	source = git+https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git#commit=b096704c0d42c5e784deb781a07b23cfb5286a82
+	b2sums = 3b800dc84b1ccb0f1252e9c55390842d0d63c004393f3271daa7dcdcaa6b2351ca129d2a268855c57ec6c03e14bf1a571deac6c4bb89ac1e08a83cf910834490
+
+pkgname = lib32-libpulse
