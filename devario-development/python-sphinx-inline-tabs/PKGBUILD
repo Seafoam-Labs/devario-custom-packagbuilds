@@ -3,13 +3,13 @@
 _pkgname=sphinx-inline-tabs
 pkgname=python-$_pkgname
 pkgver=2023.04.21
-pkgrel=5
+pkgrel=6
 pkgdesc='Add inline tabbed content to your Sphinx documentation'
 arch=('any')
 url='https://github.com/pradyunsg/sphinx-inline-tabs'
 license=('MIT')
 depends=('python-sphinx')
-makedepends=('git' 'python-build' 'python-installer' 'python-flit-core')
+makedepends=('git' 'python-build' 'python-installer' 'python-flit-core3')
 source=(git+$url#tag=$pkgver
         docutils-0.22.patch)
 sha512sums=('71fd0451da69fa50756e6528862891f51948e46ca17d3314e200ced7aaf4a08f9f21a1c6ba2634bac3e6155fd4736de4ce2c4510062064fbdadf4d3d46bee608'

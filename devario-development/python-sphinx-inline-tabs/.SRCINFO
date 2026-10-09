@@ -1,14 +1,14 @@
 pkgbase = python-sphinx-inline-tabs
 	pkgdesc = Add inline tabbed content to your Sphinx documentation
 	pkgver = 2023.04.21
-	pkgrel = 5
+	pkgrel = 6
 	url = https://github.com/pradyunsg/sphinx-inline-tabs
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-flit-core
+	makedepends = python-flit-core3
 	depends = python-sphinx
 	source = git+https://github.com/pradyunsg/sphinx-inline-tabs#tag=2023.04.21
 	source = docutils-0.22.patch
