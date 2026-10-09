@@ -1,0 +1,9 @@
+[Trigger]
+Type = Package
+Operation = Remove
+Target = lib32-gtk3
+
+[Action]
+Description = Removing 32-bit GTK 3 input method module cache...
+When = PreTransaction
+Exec = /usr/bin/rm --force /usr/lib32/gtk-3.0/3.0.0/immodules.cache

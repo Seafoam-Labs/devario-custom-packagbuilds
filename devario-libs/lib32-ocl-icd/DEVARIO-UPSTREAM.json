@@ -1,0 +1,6 @@
+{
+  "name": "lib32-ocl-icd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-ocl-icd/-/archive/main/lib32-ocl-icd-main.tar.gz",
+  "sha256": "eda92f2adc3a86590d98824a2e34ae1df2258ad648412f1b3679b1e999e278ce",
+  "bytes": 1919
+}

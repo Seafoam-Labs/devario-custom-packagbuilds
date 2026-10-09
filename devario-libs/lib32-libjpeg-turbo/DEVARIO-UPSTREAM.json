@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libjpeg-turbo",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libjpeg-turbo/-/archive/main/lib32-libjpeg-turbo-main.tar.gz",
+  "sha256": "292ba4bceff60f9dc65906641de3da162c6cbc759519d111d17f1b6fcd0cc347",
+  "bytes": 3829
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-gtk3",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-gtk3/-/archive/main/lib32-gtk3-main.tar.gz",
+  "sha256": "8c997363a067489614929688e24f5b0b851c1d25fb9b51e1365ddb515f492c8e",
+  "bytes": 13650
+}

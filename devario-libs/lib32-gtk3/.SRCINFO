@@ -1,0 +1,57 @@
+pkgbase = lib32-gtk3
+	pkgdesc = GObject-based multi-platform GUI toolkit (32-bit)
+	pkgver = 3.24.52
+	pkgrel = 1
+	epoch = 1
+	url = https://www.gtk.org/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = meson
+	makedepends = sassc
+	makedepends = wayland-protocols
+	depends = gtk3
+	depends = lib32-at-spi2-core
+	depends = lib32-cairo
+	depends = lib32-colord
+	depends = lib32-fontconfig
+	depends = lib32-fribidi
+	depends = lib32-gdk-pixbuf2
+	depends = lib32-glib2
+	depends = lib32-glibc
+	depends = lib32-harfbuzz
+	depends = lib32-libcups
+	depends = lib32-libepoxy
+	depends = lib32-libgl
+	depends = lib32-librsvg
+	depends = lib32-libx11
+	depends = lib32-libxcomposite
+	depends = lib32-libxcursor
+	depends = lib32-libxdamage
+	depends = lib32-libxext
+	depends = lib32-libxfixes
+	depends = lib32-libxi
+	depends = lib32-libxinerama
+	depends = lib32-libxkbcommon
+	depends = lib32-libxrandr
+	depends = lib32-pango
+	depends = lib32-wayland
+	depends = lib32-zlib
+	source = git+https://gitlab.gnome.org/GNOME/gtk.git#tag=3.24.52
+	source = gtk-query-immodules-3.0-32.hook
+	source = gtk-remove-immodules-cache-32.hook
+	source = 0001-Allow-disabling-legacy-Tracker-search.patch
+	b2sums = b351d0e48b074ea0b6d75dd8b47bd5ff5897dce01b2c69894a5d20fff0205b8cfc4603ce556331fdf3afe4f0380c58212ebac7cd832c9b6d3fd05cbf822250d8
+	b2sums = 707f28d0b2158c9f9b2d50eb5d245f580feef99852c55f996aaa9ccb0eda40c4f2958b3429ccc8ed442a27bb5be44fe4f8bd1284aa71afd4ee780b5a369ca4ed
+	b2sums = 81564af5baa09f8cb8c19070b276e78c45d47635a615dd43256a2e9404f36edaf4c1b514d247f51ac16302721a7d2146bee19f2ee0656027bb8c02df0ce19955
+	b2sums = 72075b7a95b61dacae009310f5884ea4474c2fd248f5cb65d6cc5fdfe2c0e55ea6f954f77d818ff27f531fba61baca13d178b93310a95459e629a9ec11b053c0
+
+pkgname = lib32-gtk3
+	optdepends = evince: Default print preview command
+	provides = libgailutil-3.so
+	provides = libgdk-3.so
+	provides = libgtk-3.so
+	provides = libgailutil-3.so=0-32
+	provides = libgdk-3.so=0-32
+	provides = libgtk-3.so=0-32
