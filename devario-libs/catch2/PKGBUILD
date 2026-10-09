@@ -5,7 +5,7 @@
 
 pkgname=catch2
 pkgver=3.16.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Modern, C++-native, header-only, test framework for unit-tests, TDD and BDD"
 arch=('x86_64')
 url="https://github.com/catchorg/catch2"
@@ -21,7 +21,6 @@ source=(${pkgname}::"git+https://github.com/catchorg/Catch2#tag=v${pkgver}?signe
 sha512sums=('2e1d461eeebe132137af0a9ac8006c928cf99b2de21c223d0cfef4a4ec69c8363339e42062bbe9e6a45a36f00d98d7c73205593811f25c55c8ea5d6a9a572325')
 # Upstream keeps a MAINTAINERS.md as trustpath
 validpgpkeys=(
-  FC5D2FD9051354DBF834F9FD56FB686C9DFC8E2C # Chris Thrasher
   E29C46F3B8A7502860793B7DECC9C20E314B2360 # Martin Hořeňovský
 )
 
