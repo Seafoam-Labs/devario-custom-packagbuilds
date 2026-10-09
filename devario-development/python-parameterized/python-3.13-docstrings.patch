@@ -1,0 +1,14 @@
+--- a/parameterized/test.py
++++ b/parameterized/test.py
+@@ -409,8 +409,9 @@
+ 
+         More"""
+         self._assert_docstring(
+-            "Documentation [with foo=%r].\n\n"
+-            "        More" %(foo, )
++            "Documentation [with foo=%r].\n\n%s" % (
++                foo, "More" if sys.version_info >= (3, 13) else "        More"
++            )
+         )
+ 
+     @parameterized.expand([param("foo")])

@@ -1,0 +1,6 @@
+{
+  "name": "python-pytest-xdist",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pytest-xdist/-/archive/main/python-pytest-xdist-main.tar.gz",
+  "sha256": "b28279d967ff14985e8da38991326ea9aa08e068c1a70cdbeab36465a2ba227a",
+  "bytes": 1928
+}

@@ -1,0 +1,23 @@
+pkgbase = python-pytest-subprocess
+	pkgdesc = Pytest plugin to fake subprocess
+	pkgver = 1.6.0
+	pkgrel = 1
+	url = https://github.com/aklajnert/pytest-subprocess
+	arch = any
+	license = MIT
+	checkdepends = python-anyio
+	checkdepends = python-docutils
+	checkdepends = python-pygments
+	checkdepends = python-pytest-asyncio
+	checkdepends = python-pytest-rerunfailures
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	depends = python-pytest
+	source = git+https://github.com/aklajnert/pytest-subprocess.git#tag=1.6.0
+	b2sums = 6f0e3e3fcf3f80df9f1ea66de552bdd3c7354d1b848ae55f1d1148a3a623e15569675aa8c62b22567e94ea88142d6d22ab867d9c789d4db69e223a2530604013
+
+pkgname = python-pytest-subprocess
