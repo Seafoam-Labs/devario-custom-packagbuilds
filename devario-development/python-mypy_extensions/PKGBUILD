@@ -4,13 +4,13 @@
 
 pkgname=python-mypy_extensions
 pkgver=1.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Experimental type system extensions for programs checked with the mypy typechecker'
 url="http://www.mypy-lang.org/"
 arch=('any')
 license=('MIT')
 depends=('python')
-makedepends=('python-build' 'python-installer' 'python-wheel' 'python-flit-core')
+makedepends=('python-build' 'python-installer' 'python-wheel' 'python-flit-core3')
 source=("$pkgname-$pkgver.tar.gz::https://pypi.org/packages/source/m/mypy_extensions/mypy_extensions-$pkgver.tar.gz")
 sha256sums=('52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558')
 
