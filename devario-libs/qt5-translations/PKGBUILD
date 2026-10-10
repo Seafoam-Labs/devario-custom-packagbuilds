@@ -1,26 +1,23 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Adapted for Devario from Arch Linux packaging.
 
 pkgname=qt5-translations
-_basever=5.15.19
+# Keep the version fixed to the pinned commit; no full Git history is needed.
 pkgver=5.15.19
-pkgrel=1
+pkgrel=2
 _commit=388e4f32ed4b28d92bd61b917ba0e6b910e2784d
 arch=('any')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
 pkgdesc='A cross-platform application and UI framework (Translations)'
 depends=()
-makedepends=('git' 'qt5-tools')
+# Build after qt5-base, qt5-declarative, and qt5-tools have been published.
+makedepends=('git' 'qt5-base' 'qt5-tools')
 groups=('qt5')
 _pkgfqn=${pkgname/5-/}
 source=(kde-$_pkgfqn::git+https://invent.kde.org/qt/qt/$_pkgfqn#commit=$_commit)
 sha256sums=('b6bfe46012a1c8a20c908d04e430f72670dd5c4278b59a3a0845227e020530e1')
-
-pkgver() {
-  cd kde-$_pkgfqn
-  echo "$_basever+kde+r"`git rev-list --count v$_basever-lts-lgpl..$_commit` | sed -e 's|+kde+r0||'
-}
 
 prepare() {
   mkdir -p build
@@ -29,7 +26,7 @@ prepare() {
 build() {
   cd build
 
-  qmake ../kde-$_pkgfqn
+  qmake-qt5 ../kde-$_pkgfqn
   make
 }
 

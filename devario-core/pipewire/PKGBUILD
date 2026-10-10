@@ -1,4 +1,5 @@
 # Adapted for Devario: advertise versioned SONAME provisions beside Shelly's bare ones.
+# User socket setup is best-effort in isolated roots without systemctl.
 # Packaging source: https://gitlab.archlinux.org/archlinux/packaging/packages/pipewire/-/commit/850c1958c6adc0cf0a189d1c4528f5910e1069e4
 # Maintainer: David Runge <dvzrv@archlinux.org>
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
@@ -33,7 +34,7 @@ pkgname=(
   pulse-native-provider
 )
 pkgver=1.6.9
-pkgrel=2
+pkgrel=3
 epoch=1
 pkgdesc="Low-latency audio/video router and processor"
 url="https://pipewire.org"

@@ -1,14 +1,24 @@
-post_install() {
-  # Enable socket by default
-  systemctl --global enable pipewire-pulse.socket
-}
+_pipewire_pulse_socket() {
+  # Socket defaults are optional in build roots without systemd's tools.
+  if ! command -v systemctl >/dev/null 2>&1; then
+    printf 'pipewire-pulse: skipping socket %s; systemctl is unavailable\n' "$1" >&2
+    return 0
+  fi
 
-post_upgrade() {
-  if (( $(vercmp $2 0.3.16-1) < 0)); then
-    systemctl --global enable pipewire-pulse.socket
+  # Keep diagnostics (including masks), but do not fail package setup for
+  # optional user-service configuration. Never start a service here.
+  if ! systemctl --global "$1" pipewire-pulse.socket; then
+    printf 'pipewire-pulse: could not %s pipewire-pulse.socket; retry systemctl --global %s pipewire-pulse.socket on the target system\n' "$1" "$1" >&2
   fi
 }
 
+post_install() {
+  _pipewire_pulse_socket enable
+}
+
+# No upgrade action: preserve the administrator's socket state. The old
+# pre-0.3.16 migration predates Devario and required Arch's vercmp utility.
+
 pre_remove() {
-  systemctl --global disable pipewire-pulse.socket
+  _pipewire_pulse_socket disable
 }

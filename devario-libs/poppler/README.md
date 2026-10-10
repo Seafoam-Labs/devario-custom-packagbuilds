@@ -15,7 +15,7 @@ CUPS support. `libcups` supplies `cups/cups.h`, `libcups.so`, and `cups-config`;
 the daemon and filters are not needed to compile Qt. This preserves Poppler's
 Qt bindings and Qt printing support.
 
-With the other prerequisites available, build/publish `qt5-base` (release 2)
+With the other prerequisites available, build/publish `qt5-base` (release 3)
 and `qt6-base` (release 3) using the updated recipes, then build Poppler,
 `libcupsfilters`, `cups-filters`, and finally `cups`. Provision the client-only
 `libcups` package before Qt. Use the updated Qt recipes on the worker; an older

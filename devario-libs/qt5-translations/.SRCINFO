@@ -1,7 +1,7 @@
 pkgbase = qt5-translations
 	pkgdesc = A cross-platform application and UI framework (Translations)
 	pkgver = 5.15.19
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.qt.io
 	arch = any
 	groups = qt5
@@ -10,6 +10,7 @@ pkgbase = qt5-translations
 	license = FDL
 	license = custom
 	makedepends = git
+	makedepends = qt5-base
 	makedepends = qt5-tools
 	source = kde-qttranslations::git+https://invent.kde.org/qt/qt/qttranslations#commit=388e4f32ed4b28d92bd61b917ba0e6b910e2784d
 	sha256sums = b6bfe46012a1c8a20c908d04e430f72670dd5c4278b59a3a0845227e020530e1
