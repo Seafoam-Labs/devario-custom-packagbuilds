@@ -1,7 +1,7 @@
 pkgbase = python-lxml
 	pkgdesc = Python binding for the libxml2 and libxslt libraries
 	pkgver = 6.1.3_1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://lxml.de/
 	arch = x86_64
 	license = BSD-3-Clause
@@ -18,7 +18,6 @@ pkgbase = python-lxml
 	makedepends = python-pygments
 	makedepends = python-sphinx
 	makedepends = python-sphinx_rtd_theme
-	makedepends = cython
 	depends = glibc
 	depends = python
 	depends = libxslt
@@ -28,9 +27,13 @@ pkgbase = python-lxml
 	optdepends = python-html5lib: support for html5lib parser
 	optdepends = python-lxml-docs: offline docs
 	optdepends = python-lxml-html-clean: enable htmlclean feature
+	noextract = cython-3.2.9-py3-none-any.whl
 	source = python-lxml::git+https://github.com/lxml/lxml#tag=lxml-6.1.3-1
+	source = https://files.pythonhosted.org/packages/00/ec/e61deec9bcfbb0e1b36f8b5ba75cb44644419b4bfd0fdd666bffd21d9579/cython-3.2.9-py3-none-any.whl
 	sha512sums = e187b3f93abd1df76b513aa554fc9c7392ef1ee4f334c4a22322ac7e4c723eb82c1f7cddfe06354c678ee58d50dfdd997a6d757b20611ab339999d26ed0a88a4
+	sha512sums = 334be85af95100ef008e8cc4193f2721977c92210eed68b86a402be6f2284b93d25f3d085ce338444272964f49924ddb10cee26b35c94388cea40e9b07cb1ced
 	b2sums = f0be7875dcdd82ed0a8f0ffbadce65fd2bde0ef73c7176435b018e4127d0c5d37389726c04ee6af468210821a863f289f83fc79b0c1f728abcddde08c4ccf295
+	b2sums = 801f668c4a64a4d0faa1d5dac03eb3b9c3c1856ba9adf472a0b0542ee15f0b8b27858cf29a2175684217520e940feec88a17b72a2771d682400c77d178767683
 
 pkgname = python-lxml
 

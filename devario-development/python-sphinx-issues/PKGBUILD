@@ -3,13 +3,13 @@
 pkgname=python-sphinx-issues
 _pyname=${pkgname/python-/}
 pkgver=5.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Sphinx extension for linking to your project's issue tracker"
 url='https://github.com/sloria/sphinx-issues'
 arch=('any')
 license=('MIT')
 depends=('python' 'python-sphinx')
-makedepends=('python-build' 'python-installer' 'python-flit-core')
+makedepends=('python-build' 'python-installer' 'python-flit-core3')
 source=(https://github.com/sloria/sphinx-issues/archive/${pkgver}/${_pyname}-${pkgver}.tar.gz)
 sha512sums=('5b846525e6464c095bc5579a01bbd94ae6650cd2f6055c77910115bf60114a674ab8614ad5320186b9658616e629dd45b085081f7c9b585d6b2c85ea228ceee6')
 
