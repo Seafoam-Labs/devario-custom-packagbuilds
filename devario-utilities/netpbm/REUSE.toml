@@ -24,10 +24,8 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "netpbm-CAN-2005-2471.patch",
-    "netpbm-build-manpages.patch",
     "netpbm-security-code.patch",
     "netpbm-security-scripts.patch",
-    "reproducible-man-gzip.patch",
 ]
 SPDX-FileCopyrightText = "netpbm contributors"
 SPDX-License-Identifier = "0BSD"
