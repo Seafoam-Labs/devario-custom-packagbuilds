@@ -17,7 +17,7 @@ class PipeWireScriptlets(unittest.TestCase):
         env = dict(os.environ, PATH=str(root / 'bin'), TEST_ROOT=str(root))
         result = subprocess.run(
             [BASH, '-e', '-c', prelude + '\nsource "$1"; '
-             'if declare -F "$2" >/dev/null; then "$2" 1:1.6.9-3 1:1.6.9-2; fi',
+             'if declare -F "$2" >/dev/null; then "$2" 1:1.6.9-2 1:1.6.9-1; fi',
              'fixture', str(RECIPE / (package + '.install')), action],
             env=env, capture_output=True, text=True,
         )

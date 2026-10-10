@@ -44,7 +44,7 @@ and dependency resolution against the remote worker catalog have not run.
 
 ## Isolated-root scriptlets
 
-The `pipewire` recipe produces the PipeWire split packages at `1:1.6.9-3`.
+The `pipewire` recipe produces the PipeWire split packages at `1:1.6.9-2`.
 The `pipewire` and `pipewire-pulse` install scriptlets enable their user
 sockets by default when `systemctl` is available. They do not start services.
 
@@ -53,9 +53,14 @@ library depends on `systemd-libs`. An isolated build root can therefore lack
 `systemctl`. Previously the unconditional command could return 127, which
 Shelly treats as `ScriptletFailed` and aborts provisioning, even when the
 installed PipeWire files are sufficient to build the consuming package.
-The reported Pearl failure identifies this scriptlet, but does not include
-the underlying command error; earlier worker output is needed to confirm
-which `systemctl` failure occurred there.
+
+Confirmed against the published `pipewire-1:1.6.9-1` archive, whose `.INSTALL`
+line 3 is the unguarded `systemctl --global enable pipewire.socket`. A worker
+build of `devario-libs/qt6-multimedia` installed PipeWire as package 331 of
+354, before `systemd` itself, and aborted with
+`.INSTALL: line 3: systemctl: command not found`, reported as
+`BootstrapPackageSetupFailed` inside `IsolatedBootstrapFailed`. The build root
+never reached `prepare()`, so no consumer-specific error exists.
 
 Socket setup is now best-effort: missing tools and unsuccessful enable/disable
 commands produce diagnostics without failing package installation or removal.
@@ -65,10 +70,10 @@ unchanged.
 
 Rebuild this recipe and publish the matching split outputs together, including
 `libpipewire`, `pipewire`, `pipewire-audio`, and `pipewire-pulse` when used.
-Their exact-version dependencies must all resolve to release 3. Refresh the
-worker repository metadata, then retry Pearl in a fresh isolated build root.
-Editing these source files does not repair the scriptlets in release 2 binary
-packages already in the repository or worker cache.
+Their exact-version dependencies must all resolve to release 2. Refresh the
+worker repository metadata, then retry the blocked consumers in a fresh
+isolated build root. Editing these source files does not repair the scriptlets
+in the release 1 binary packages already in the repository or worker cache.
 
 If socket setup was skipped on a desktop installation, inspect the diagnostic
 and enable the desired sockets after systemd tools are installed:
