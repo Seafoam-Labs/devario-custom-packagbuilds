@@ -51,7 +51,9 @@ b2sums=('2275e4996869614dcf65ca6f874ea1a7bc87df5dfce7d8899eff4e7f551a2409650e4c1
 
 prepare() {
   cd $pkgname/$_name/rust/
-  cargo fetch --locked --target host-tuple
+  # no --target here, a filtered fetch prunes cfg-gated crates (half needs crunchy
+  # only under spirv) that the offline build still has to resolve
+  cargo fetch --locked
 }
 
 build() {
