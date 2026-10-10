@@ -3,7 +3,7 @@
 
 pkgname=python-cryptography
 pkgver=50.0.2
-pkgrel=2
+pkgrel=3
 pkgdesc="A package designed to expose cryptographic recipes and primitives to Python developers"
 arch=('x86_64')
 url="https://github.com/pyca/cryptography"
@@ -25,6 +25,7 @@ makedepends=(
   'python-maturin'
   'python-setuptools'
   'python-wheel'
+  'rust'
 )
 source=(
   "git+https://github.com/pyca/cryptography.git#tag=$pkgver"

@@ -1,7 +1,7 @@
 pkgbase = python-cryptography
 	pkgdesc = A package designed to expose cryptographic recipes and primitives to Python developers
 	pkgver = 50.0.2
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/pyca/cryptography
 	arch = x86_64
 	license = Apache-2.0
@@ -15,6 +15,7 @@ pkgbase = python-cryptography
 	makedepends = python-maturin
 	makedepends = python-setuptools
 	makedepends = python-wheel
+	makedepends = rust
 	depends = glibc
 	depends = libgcc
 	depends = openssl
