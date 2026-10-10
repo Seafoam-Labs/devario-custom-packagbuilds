@@ -16,7 +16,9 @@ provides=(libcanberra-pulse libcanberra{,-gtk3}.so)
 replaces=("libcanberra-pulse<0.30+2+gc0620e4-4")
 options=(libtool)
 _commit=c0620e432650e81062c1967cc669829dbd29b310  # master
-source=("git+https://git.0pointer.net/clone/libcanberra.git#commit=$_commit"
+# Fetch only from Seafoam Labs: git.0pointer.net no longer serves git, and the
+# distinct cache name keeps an old 0pointer libcanberra cache from being reused.
+source=("seafoam-libcanberra::git+https://github.com/Seafoam-Labs/libcanberra.git#commit=$_commit"
         40-libcanberra-gtk-module.sh
         libcanberra-multi-backend.patch)
 sha256sums=('SKIP'
@@ -24,12 +26,12 @@ sha256sums=('SKIP'
             'de146cae3e40a16b38c8edb4f1a3a423c64eb9c5000e36c316b677e9909c9b06')
 
 pkgver() {
-  cd libcanberra
+  cd "$srcdir/seafoam-libcanberra"
   git describe --tags | sed 's/^v//;s/[^-]*-g/r&/;s/-/+/g'
 }
 
 prepare() {
-  cd libcanberra
+  cd "$srcdir/seafoam-libcanberra"
 
   # https://bugs.archlinux.org/task/71341
   # https://bugs.freedesktop.org/show_bug.cgi?id=51662
@@ -39,7 +41,7 @@ prepare() {
 }
 
 build() {
-  cd libcanberra
+  cd "$srcdir/seafoam-libcanberra"
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
       --disable-static --with-builtin=dso --enable-null --disable-oss \
       --enable-alsa --enable-pulse \
@@ -49,7 +51,7 @@ build() {
 }
 
 package() {
-  cd libcanberra
+  cd "$srcdir/seafoam-libcanberra"
 
   make -j1 DESTDIR="$pkgdir" install
 
