@@ -1,0 +1,6 @@
+{
+  "name": "libcamera",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libcamera/-/archive/main/libcamera-main.tar.gz",
+  "sha256": "b84d12e54e1de298000f9326def03ec3e7f7cbe1764968cb470904b436608a9b",
+  "bytes": 7409
+}

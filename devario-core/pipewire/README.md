@@ -1,5 +1,49 @@
 # PipeWire package setup in isolated roots
 
+## Build prerequisites
+
+The full split build requires dependencies for every enabled backend, even
+when the immediate consumer only needs PipeWire's core libraries. Repeated
+entries in a worker's `IncompleteDependencyPlan` can refer to the same missing
+package across split outputs; they are not additional distinct dependencies.
+Review success does not mean these dependencies are published.
+
+For the reported missing packages, build and publish the following recipes
+with their declared prerequisites available:
+
+| Required package | Recipe | Notes |
+| --- | --- | --- |
+| `cdparanoia` | [devario-utilities/cdparanoia](../../devario-utilities/cdparanoia/PKGBUILD) | Publish first to satisfy the installed `gst-plugins-base` package's runtime dependency. |
+| `libcanberra` | [devario-libs/libcanberra](../../devario-libs/libcanberra/PKGBUILD) | Existing recipe; publish its output. |
+| `libcamera` | [devario-libs/libcamera](../../devario-libs/libcamera/PKGBUILD) | New recipe, 0.7.2-4; publish the `libcamera-ipa` split with the library. |
+| `libffado` | [devario-libs/libffado](../../devario-libs/libffado/PKGBUILD) | New recipe, 2.5.0-2; can build before JACK2. |
+| `onnxruntime` | [devario-development/onnxruntime](../../devario-development/onnxruntime/PKGBUILD) | Publish `onnxruntime-cpu`, which provides `onnxruntime`. Select one runtime provider, not all mutually conflicting variants. |
+| `roc-toolkit` | [devario-libs/roc-toolkit](../../devario-libs/roc-toolkit/PKGBUILD) | New recipe, 0.4.0-3. |
+| `rtkit` | [devario-core/rtkit](../rtkit/PKGBUILD) | New recipe, 0.14-2; uses `tinyxxd` for the build-time `xxd` utility. |
+
+The four new recipes retain upstream patches, signatures/keys where present,
+and archive provenance in `DEVARIO-UPSTREAM.json`. The FFADO recipe removes
+the optional JACK build dependency to avoid `jack2 -> libffado -> jack2`.
+FFADO's source only probes JACK's version for API selection; it does not link
+to JACK. The recipe selects the set-buffer-size API supported by JACK2 1.9.22
+and declares `which` for that optional probe.
+
+These are full-feature recipes. For example, libcamera also builds its Qt 6
+tools and documentation, and the existing ONNX Runtime recipe builds CPU and
+GPU variants. Their own declared dependencies must be provisioned too; this
+list addresses the worker's reported missing packages, not a complete source
+bootstrap of an empty repository.
+
+Refresh the worker's repository metadata after publication, resolve PipeWire
+again, then build/publish the matching PipeWire splits and retry Pearl. Local
+recipes alone do not satisfy `not_in_repositories`.
+
+New-recipe validation: Bash syntax, makepkg/Shelly metadata agreement, bundled
+patch checksums, and FFADO source archive checksums were checked. Full builds
+and dependency resolution against the remote worker catalog have not run.
+
+## Isolated-root scriptlets
+
 The `pipewire` recipe produces the PipeWire split packages at `1:1.6.9-3`.
 The `pipewire` and `pipewire-pulse` install scriptlets enable their user
 sockets by default when `systemctl` is available. They do not start services.
