@@ -5,7 +5,7 @@
 pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
 pkgver=5.15.19+kde+r96
-pkgrel=1
+pkgrel=2
 _commit=fbed962c3195ab3952fa54d40e012ad1a4fdc42b
 arch=('x86_64')
 url='https://www.qt.io'
@@ -16,8 +16,10 @@ depends=('libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-renderutil' 'libgl' 'fontc
          'tslib' 'libinput' 'libxkbcommon-x11' 'libproxy' 'libcups' 'double-conversion' 'md4c')
 depends+=('dbus' 'glib2' 'glibc' 'icu' 'libgcc' 'libice' 'libpng' 'libsm' 'libstdc++'
           'libx11' 'libxcb' 'libxkbcommon' 'openssl' 'pcre2' 'systemd-libs' 'zlib' 'zstd')
+# libcups supplies the CUPS headers and library. The cups daemon pulls in
+# cups-filters -> libcupsfilters -> poppler -> qt5-base/qt6-base.
 makedepends=('mariadb-libs' 'unixodbc' 'postgresql-libs' 'alsa-lib' 'gst-plugins-base-libs'
-             'gtk3' 'libpulse' 'cups' 'freetds' 'vulkan-headers' 'git' 'perl' 'pkgconf' 'python')
+             'gtk3' 'libpulse' 'freetds' 'vulkan-headers' 'git' 'perl' 'pkgconf' 'python')
 optdepends=('qt5-svg: to use SVG icon themes'
             'qt5-wayland: to run Qt applications in a Wayland session'
             'postgresql-libs: PostgreSQL driver'
@@ -60,6 +62,7 @@ build() {
     -nomake examples \
     -no-rpath \
     -dbus-linked \
+    -cups \
     -system-harfbuzz \
     -journald \
     -libproxy \
