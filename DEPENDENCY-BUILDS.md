@@ -767,6 +767,39 @@ Full libxml++, PyQt5, Qt5 module, and libffado builds have not been run. No host
 packages were installed and no packages were published. Adding recipes alone
 does not satisfy the worker's `not_in_repositories` checks.
 
+## Qt5 Multimedia GStreamer dependency plan (2026-10-10)
+
+Retry [qt5-multimedia](devario-libs/qt5-multimedia/PKGBUILD) with release
+`5.15.19+kde+r2-2`. The previous recipe required the full `gst-plugins-bad`
+bundle at build time, pulling in its 15 unpublished runtime dependencies:
+`faac`, `faad2`, `libavtp`, `libdc1394`, `liblrdf`, `libmpcdec`, `mjpegtools`,
+`neon`, `qrencode`, `rtmpdump`, `soundtouch`, `wildmidi`, `zbar`, `zvbi`, and
+`zxing-cpp`.
+
+The pinned Qt source's photography configure test uses
+`gst/interfaces/photography.h` and `-lgstphotography-1.0`; its camerabin backend
+also links this library. These development files and the shared library belong
+to [gst-plugins-bad-libs](https://archlinux.org/packages/extra/x86_64/gst-plugins-bad-libs/files/).
+The recipe now requires `gst-plugins-bad-libs` at runtime (which also installs it
+for the build), and retains `gst-plugins-bad` as an optional camera/plugin
+dependency. No Qt features are disabled. Using the full optional bundle still
+requires publishing its missing dependencies.
+
+The earlier libffado catalog check above stopped at published packages and
+therefore missed this broken transitive dependency chain. A recursive check of
+published runtime requirements using the cached 2026-10-10 repository catalogs
+reproduced all 15 worker errors with the old Qt recipe. With the corrected
+recipe, all 191 packages reached from its runtime and build requirements
+resolve, including version constraints and provisions. Installed dependencies'
+own build/check requirements and optional dependencies are not installation
+requirements and were excluded.
+
+Validation: `bash -n` passed, `.SRCINFO` was regenerated with makepkg and matches
+Shelly's output, and Shelly review completed with only the existing dynamic
+command warning in `pkgver()`. No full Qt build or repository publication was
+performed. Upload the updated recipe and `.SRCINFO`, refresh the worker's
+recipe metadata, and retry `qt5-multimedia` before continuing the libffado plan.
+
 ## Git LFS man pages after the Ruby 4.0 upgrade (2026-10-10)
 
 The published `asciidoctor` 2.0.26-1 package contains its gem and gemspec under
