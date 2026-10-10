@@ -4,7 +4,7 @@
 
 pkgname=roctracer
 pkgver=10.0
-pkgrel=1
+pkgrel=2
 pkgdesc='ROCm tracer library for performance tracing'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/roctracer/en/latest'
@@ -17,6 +17,10 @@ sha256sums=('b5beb2987b1fde3b32fb482406123382e43589fb370275cd9bbb9101accc35d2')
 options=('!lto')
 
 build() {
+  # HIP_ROOT_DIR only guides CMake; Clang also needs the ROCm prefix when
+  # invoked from /opt/rocm/lib/llvm/bin by the HIP test build commands.
+  export ROCM_PATH=/opt/rocm
+
   local cmake_args=(
     -Wno-dev
     -B build

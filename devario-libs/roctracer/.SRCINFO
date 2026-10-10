@@ -1,7 +1,7 @@
 pkgbase = roctracer
 	pkgdesc = ROCm tracer library for performance tracing
 	pkgver = 10.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://rocm.docs.amd.com/projects/roctracer/en/latest
 	arch = x86_64
 	license = MIT
