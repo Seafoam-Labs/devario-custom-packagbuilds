@@ -5,7 +5,7 @@
 
 pkgname=rocblas
 pkgver=7.2.4
-pkgrel=3
+pkgrel=4
 pkgdesc='Next generation BLAS implementation for ROCm platform'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rocBLAS/en/latest/index.html'
@@ -60,6 +60,10 @@ prepare() {
 }
 
 build() {
+  # Clang's HIP target probes must find the runtime under /opt/rocm,
+  # even though the compiler is installed in /opt/rocm/lib/llvm/bin.
+  export ROCM_PATH=/opt/rocm
+
   # Compile source code for supported GPU archs in parallel
   export HIPCC_COMPILE_FLAGS_APPEND="-parallel-jobs=$(nproc)"
   export HIPCC_LINK_FLAGS_APPEND="-parallel-jobs=$(nproc)"
@@ -80,7 +84,7 @@ build() {
     -D CMAKE_TOOLCHAIN_FILE=toolchain-linux.cmake
     -D CMAKE_CXX_FLAGS="${CXXFLAGS} -fcf-protection=none"
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
-    -D CMAKE_PREFIX_PATH=/opt/rocm/llvm/lib/cmake/llvm
+    -D CMAKE_PREFIX_PATH="/opt/rocm;/opt/rocm/lib/llvm"
     -D amd_comgr_DIR=/opt/rocm/lib/cmake/amd_comgr
     # Enable rocblas-bench and rocblas-gemm-tune
     -D BUILD_CLIENTS_BENCHMARKS=ON
