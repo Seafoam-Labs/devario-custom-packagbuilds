@@ -46,7 +46,7 @@ package() {
   cd $pkgname
   python -m installer --destdir="$pkgdir" dist/*.whl
   install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
-  install -vDm 644 {{CHANGES,RELEASE}.txt,README.rst} -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -vDm 644 {CHANGES,RELEASE}.txt README.rst -t "$pkgdir/usr/share/doc/$pkgname/"
 
   # remove docbook dirs
   find "$pkgdir" -name 'docbook' -type d -exec rm -frv {} +
