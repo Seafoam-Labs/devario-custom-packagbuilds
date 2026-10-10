@@ -1,0 +1,57 @@
+# Maintainer: Devario maintainers
+pkgname=python-pydata-sphinx-theme
+_name=pydata_sphinx_theme
+pkgver=0.23.0
+pkgrel=1
+pkgdesc='Bootstrap-based Sphinx theme from the PyData community'
+arch=(any)
+url='https://github.com/pydata/pydata-sphinx-theme'
+license=(BSD-3-Clause MIT CC-BY-4.0 OFL-1.1)
+depends=(
+  'python>=3.11'
+  python-accessible-pygments
+  python-babel
+  python-beautifulsoup4
+  python-docutils
+  python-jinja
+  'python-pygments>=2.7'
+  python-requests
+  python-soupsieve
+  'python-sphinx>=8.2'
+  'python-sphinx<10'
+)
+makedepends=(
+  nodejs
+  npm
+  python-build
+  python-installer
+  'python-sphinx-theme-builder>=0.3.2'
+)
+source=("https://files.pythonhosted.org/packages/source/p/pydata-sphinx-theme/$_name-$pkgver.tar.gz")
+sha256sums=('f9e647e0bb3f1d8eaa6d866248812711211313627cc4ae76b5f88a17a4be38ce')
+
+prepare() {
+  cd "$_name-$pkgver"
+  # Use the packaged Node.js instead of downloading a separate runtime.
+  local node_ver=$(node --version)
+  sed -i "s/^node-version = .*/node-version = \"${node_ver#v}\"/" pyproject.toml
+}
+
+build() {
+  cd "$_name-$pkgver"
+  STB_USE_SYSTEM_NODE=true python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 node_modules/bootstrap/LICENSE \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-bootstrap"
+  install -Dm644 node_modules/@popperjs/core/LICENSE.md \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-popper"
+  install -Dm644 node_modules/compare-versions/LICENSE \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-compare-versions"
+  install -Dm644 node_modules/@fortawesome/fontawesome-free/LICENSE.txt \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-fontawesome"
+}

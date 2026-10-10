@@ -1,13 +1,13 @@
 pkgbase = python-mdurl
 	pkgdesc = URL utilities for markdown-it
 	pkgver = 0.1.2
-	pkgrel = 10
+	pkgrel = 11
 	url = https://github.com/executablebooks/mdurl
 	arch = any
 	license = MIT
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-flit-core
+	makedepends = python-flit-core3
 	makedepends = python-wheel
 	depends = python
 	source = python-mdurl-0.1.2.tar.gz::https://github.com/executablebooks/mdurl/archive/0.1.2.tar.gz

@@ -1,0 +1,24 @@
+# Maintainer: Devario maintainers
+pkgname=python-diagnostic
+_name=diagnostic
+pkgver=3.0.0
+pkgrel=1
+pkgdesc='Rich diagnostic messages for Python applications'
+arch=(any)
+url='https://github.com/pradyunsg/diagnostic'
+license=(MIT)
+depends=('python>=3.10' python-docutils python-markdown-it-py python-rich)
+makedepends=(python-build python-flit-core3 python-installer)
+source=("https://files.pythonhosted.org/packages/source/d/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('5c80d7f77706dca775cc85d7b0492e4e96385dade2103052cf06cf6ab105b855')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

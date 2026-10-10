@@ -1,0 +1,36 @@
+# Maintainer: Devario maintainers
+pkgname=python-sphobjinv
+_name=sphobjinv
+pkgver=2.4
+pkgrel=1
+pkgdesc='Inspect and manipulate Sphinx object inventories'
+arch=(any)
+url='https://github.com/bskinn/sphobjinv'
+license=(MIT)
+depends=(
+  'python>=3.10'
+  'python-attrs>=19.2'
+  python-certifi
+  'python-jsonschema>=3.1.1'
+)
+makedepends=(
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+source=("https://files.pythonhosted.org/packages/source/s/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('44d57e7e87e17d8c7b053c853dcc36f80cbf7d1fc152d57634fd7bcae38ca48a')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 src/sphobjinv/_vendored/fuzzywuzzy/LICENSE.txt \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-fuzzywuzzy.txt"
+}

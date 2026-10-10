@@ -1,0 +1,16 @@
+pkgbase = npm
+	pkgdesc = JavaScript package manager
+	pkgver = 12.2.0
+	pkgrel = 2
+	url = https://www.npmjs.com
+	arch = any
+	license = Artistic-2.0
+	makedepends = git
+	makedepends = jq
+	depends = nodejs>=20.17.0
+	optdepends = git: for dependencies using Git URL's
+	options = !zipman
+	source = npm-cli::git+https://github.com/npm/cli.git#tag=v12.2.0
+	b2sums = 3e6d7ec073d6224de8eb0115e6f7ffce00d6e8f1da1b77d8dc5b200706dedabd2e500a901c3e3b45e3530a08ad907cf52a92048e530a8dbf2ec0bedf1e90d9ad
+
+pkgname = npm

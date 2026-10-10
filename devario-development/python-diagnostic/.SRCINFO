@@ -1,0 +1,18 @@
+pkgbase = python-diagnostic
+	pkgdesc = Rich diagnostic messages for Python applications
+	pkgver = 3.0.0
+	pkgrel = 1
+	url = https://github.com/pradyunsg/diagnostic
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-flit-core3
+	makedepends = python-installer
+	depends = python>=3.10
+	depends = python-docutils
+	depends = python-markdown-it-py
+	depends = python-rich
+	source = https://files.pythonhosted.org/packages/source/d/diagnostic/diagnostic-3.0.0.tar.gz
+	sha256sums = 5c80d7f77706dca775cc85d7b0492e4e96385dade2103052cf06cf6ab105b855
+
+pkgname = python-diagnostic

@@ -3,16 +3,13 @@
 
 pkgname=npm
 pkgver=12.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='JavaScript package manager'
 arch=(any)
 url=https://www.npmjs.com
 license=(Artistic-2.0)
 depends=(
-  node-gyp
   'nodejs>=20.17.0'
-  nodejs-nopt
-  semver
 )
 makedepends=(
   git
@@ -55,8 +52,8 @@ package() {
   # Remove superfluous scripts
   rm -r bin/{node-gyp-bin,np{m,x}{,.{cmd,ps1}}}
 
-  # Experimental dedup
-  rm -r node_modules/{node-gyp,nopt,semver}
+  # Keep bundled node-gyp, nopt and semver: their standalone recipes need npm
+  # to build, so depending on them here creates a bootstrap cycle.
 
   cd man
   # Workaround for https://github.com/npm/cli/issues/780
