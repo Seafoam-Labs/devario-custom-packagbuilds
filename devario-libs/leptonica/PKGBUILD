@@ -1,0 +1,50 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Christoph Drexler <chrdr at gmx dot at>
+
+pkgname=leptonica
+pkgver=1.87.0
+pkgrel=2
+pkgdesc='Software that is broadly useful for image processing and image analysis applications'
+arch=(x86_64)
+url='http://www.leptonica.com'
+_url="https://github.com/DanBloomberg/$pkgname"
+license=(custom)
+# Each .so requirement is written in the form its published provider actually advertises:
+# published libpng and zlib carry only bare provisions, the rest carry versioned ones.
+depends=(giflib 'libgif.so=7-64'
+         libjpeg-turbo 'libjpeg.so=8-64'
+         libpng libpng16.so
+         libtiff 'libtiff.so=6-64'
+         libwebp 'libwebp.so=7-64' 'libwebpmux.so=3-64'
+         openjpeg2 # libopenjp2.so
+         zlib libz.so)
+# Shelly keeps bare .so provisions, so declare the SONAME src/Makefile.am sets (-version-info 6:0:0).
+provides=(libleptonica.so 'libleptonica.so=6-64')
+_archive="$pkgname-$pkgver"
+source=("$_url/archive/$pkgver/$_archive.tar.gz")
+sha256sums=('fa2b40c5caea96d1bb93a97486262aed8731b69ce25a84a6bf5d25323e33f631')
+
+prepare() {
+  cd "$_archive"
+  ./autogen.sh
+}
+
+build() {
+  cd "$_archive"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$_archive"
+  make DESTDIR="$pkgdir" install
+  _verify_soname "$pkgdir/usr/lib/libleptonica.so" libleptonica.so.6 || return 1
+  install -Dm0644 -t "$pkgdir/usr/share/licenses/leptonica/" leptonica-license.txt
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

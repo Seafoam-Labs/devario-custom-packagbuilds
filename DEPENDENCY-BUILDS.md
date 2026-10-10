@@ -648,3 +648,61 @@ These are native staged builds and metadata audits, not signed release builds.
 Clean isolated package builds, signed publication, a fresh repository audit,
 and the ISO rebuild remain required before the reported ISO failure is fixed
 in published artifacts.
+
+## mupdf dependency chain
+
+`devario-utilities/mupdf` fails `--resolve-dependencies` on six names. Four new
+`devario-libs` recipes cover the three that had no recipe plus the OCR data
+`tesseract` requires at install time; `unzip`, `zint` and `zxing-cpp` already
+have recipes that are simply not published yet.
+
+```sh
+shelly build --isolated --check ./devario-libs/cmark-gfm/PKGBUILD
+shelly build --isolated --check ./devario-libs/leptonica/PKGBUILD
+# Publish leptonica before tesseract, which depends on it globally.
+shelly build --isolated --check ./devario-libs/tesseract/PKGBUILD
+shelly build --isolated --check ./devario-libs/tesseract-data/PKGBUILD
+shelly build --isolated --check ./devario-utilities/unzip/PKGBUILD
+shelly build --isolated --check ./devario-libs/zint/PKGBUILD
+# Publish zint before zxing-cpp, which depends on it globally.
+shelly build --isolated --check ./devario-libs/zxing-cpp/PKGBUILD
+```
+
+`tesseract` and `tesseract-data` require each other, but only through
+`depends+=()` inside `package_*()`. Shelly plans global `depends` plus
+makedepends, so neither side enters the other's build root and the cycle
+resolves at install time as it does in Arch. For the same reason
+`tesseract-data` can be built before `tesseract` is published.
+
+`leptonica` declares each `.so` requirement in the form its published provider
+actually advertises. Published `libpng` and `zlib` carry only bare provisions,
+so `libpng16.so` and `libz.so` stay bare; porting either provider to an explicit
+versioned provision would let those two match the rest.
+
+Still blocked: `zxing-cpp` makedepends on `opencv`, whose global makedepends
+include `java-environment`. Nothing published provides `java-environment` or
+`java-runtime`, and every local JDK recipe pins `java-environment` to its own
+version, so `zxing-cpp` and therefore `mupdf` cannot build until that bootstrap
+is resolved. Every other recipe above is buildable now.
+
+Validation on 2026-10-10:
+
+- All four source checksums were recomputed from downloaded upstream tarballs and
+  match the official Arch recipes. The 668 MiB `tessdata` archive is used in full
+  only as a source; two files are installed from it.
+- `bash -n`, regenerated `.SRCINFO`, and `shelly build --review-only --json` all
+  passed for the four recipes, with no review findings.
+- `tesseract-data` was rejected by Shelly review while it still used upstream's
+  `pkgname=("${_langs[@]/#/tesseract-data-}")` array expansion
+  (`UnsupportedArrayExpansion`); the two packages are now written out explicitly.
+- Every `depends`, `makedepends` and `checkdepends` entry in the four `.SRCINFO`
+  files, at pkgbase and per-package level, resolves against the published
+  repositories once the four recipes and their declared provisions are counted as
+  available.
+- The three SONAME values in the explicit provisions come from the sources:
+  `SOVERSION` in cmark-gfm's `src/` and `extensions/` CMakeLists, and
+  `-version-info 6:0:0` in leptonica's `src/Makefile.am`. Each `package()`
+  re-checks ELF64 and the SONAME before packaging.
+
+No isolated build, publication, or `mupdf` build has been performed for this
+change.

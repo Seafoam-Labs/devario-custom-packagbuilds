@@ -1,0 +1,43 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Andreas Hauser <andy-aur@splashground.de>
+
+# Upstream packages ~120 languages through a generated package_ loop. Shelly cannot
+# resolve the array expansion that builds pkgname from it, so the two packages a bare
+# tesseract install needs are written out: osd is required by name and eng provides the
+# virtual 'tessdata'. The 668 MiB source carries every language if the rest is wanted.
+pkgbase=tesseract-data
+pkgname=(tesseract-data-osd tesseract-data-eng)
+_pkgname=tessdata
+epoch=2
+pkgver=4.1.0
+pkgrel=1
+pkgdesc='Tesseract OCR data'
+arch=(any)
+url="https://github.com/tesseract-ocr/$_pkgname"
+license=(Apache)
+_archive="$_pkgname-$pkgver"
+source=("$url/archive/$pkgver/$_archive.tar.gz")
+sha256sums=('990fffb9b7a9b52dc9a2d053a9ef6852ca2b72bd8dfb22988b0b990a700fd3c7')
+
+build() {
+	:
+}
+
+# osd is a pseudo-language data set that is required all the time, by itself
+# it is not sufficient to provide a language as the virtual 'tessdata' package
+# nor is it included in the group
+package_tesseract-data-osd() {
+	pkgdesc+=" (osd)"
+	cd "$_archive"
+	install -Dm0644 -t "$pkgdir/usr/share/$_pkgname/" osd.*
+}
+
+package_tesseract-data-eng() {
+	pkgdesc+=" (eng)"
+	depends=(tesseract)
+	provides=($_pkgname)
+	groups=($pkgbase)
+	cd "$_archive"
+	install -Dm0644 -t "$pkgdir/usr/share/$_pkgname/" eng.*
+}
