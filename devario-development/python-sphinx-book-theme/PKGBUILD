@@ -1,0 +1,59 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=python-sphinx-book-theme
+pkgver=1.4.0
+pkgrel=2
+pkgdesc='A clean book theme for scientific explanations and documentation with Sphinx'
+arch=('any')
+url="https://github.com/executablebooks/sphinx-book-theme"
+license=('BSD-3-Clause')
+depends=(
+  'python>=3.11'
+  'python-docutils'
+  'python-pydata-sphinx-theme>=0.20'
+  'python-pydata-sphinx-theme<0.24'
+  'python-sphinx>=8.2'
+)
+makedepends=(
+  'nodejs'
+  'npm'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-sphinx-theme-builder'
+  'python-wheel'
+)
+checkdepends=(
+  'python-pytest'
+  'python-pytest-regressions'
+)
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+b2sums=('504ab2f81ffeea61d8c0d7ff0ad2c7959024debd022e41531d082e3c5019f1dbe64cbb540c81d1db87afd9889a1ac0898ed2b5a7884e9df85dc045754711167b')
+
+prepare() {
+  cd ${pkgname#python-}-$pkgver
+  # Use the packaged Node runtime, as in python-pydata-sphinx-theme.
+  local node_ver=$(node --version)
+  sed -i "s/^node-version = .*/node-version = \"${node_ver#v}\"/" pyproject.toml
+  # Devario ships PyData 0.23; keep wheel and package requirements aligned.
+  sed -i 's/pydata-sphinx-theme==0.20.0/pydata-sphinx-theme>=0.20,<0.24/' pyproject.toml
+}
+
+build() {
+  cd ${pkgname#python-}-$pkgver
+  STB_USE_SYSTEM_NODE=true python -m build --wheel --no-isolation
+}
+
+check() {
+  cd ${pkgname#python-}-$pkgver
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  # Other tests require python-myst-nb which is not in the repos.
+  test-env/bin/python -m pytest tests/test_locale_convert.py
+}
+
+package() {
+  cd ${pkgname#python-}-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}
