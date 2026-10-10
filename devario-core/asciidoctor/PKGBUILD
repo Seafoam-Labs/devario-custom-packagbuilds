@@ -6,13 +6,15 @@
 
 pkgname='asciidoctor'
 pkgver=2.0.26
-pkgrel=1
+pkgrel=2
 pkgdesc='An implementation of AsciiDoc in Ruby'
 arch=('any')
 url='https://asciidoctor.org'
 license=('MIT')
 depends=(
-  ruby
+  # The gem is installed in Ruby's versioned default directory.
+  'ruby>=4.0'
+  'ruby<4.1'
 )
 makedepends=(
   git
@@ -52,7 +54,7 @@ prepare() {
 build() {
   cd "${pkgname}"
 
-  local _gemdir="$(gem env gemdir)"
+  local _gemdir="$(ruby -e 'puts Gem.default_dir')"
 
   gem build --verbose "${pkgname}.gemspec"
 
@@ -95,7 +97,7 @@ build() {
 check() {
   cd "${pkgname}"
 
-  local _gemdir="$(gem env gemdir)"
+  local _gemdir="$(ruby -e 'puts Gem.default_dir')"
 
   # Exclude two tests that require unpackaged Gem open-uri-cached
   GEM_HOME="tmp_install/${_gemdir}" rake test \
@@ -105,7 +107,7 @@ check() {
 package() {
   cd "${pkgname}"
 
-  local _gemdir="$(gem env gemdir)"
+  local _gemdir="$(ruby -e 'puts Gem.default_dir')"
 
   install --verbose -D --mode=0644 "tmp_install${_gemdir}/gems/${pkgname}-${pkgver}/man/asciidoctor.1" "${pkgdir}/usr/share/man/man1/asciidoctor.1"
 

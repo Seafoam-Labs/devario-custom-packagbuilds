@@ -706,3 +706,88 @@ Validation on 2026-10-10:
 
 No isolated build, publication, or `mupdf` build has been performed for this
 change.
+
+## Libffado dependency plan (2026-10-10)
+
+The worker's `IncompleteDependencyPlan` for `libxml++`, `dbus-c++`,
+`libconfig`, and `python-pyqt5` requires publishing those packages before
+retrying libffado. Their dependency names are correct. Thirteen recipes were
+added from the official Arch packaging repositories, retaining their source
+checksums, patches, and licensing files. Each recipe records its packaging
+archive in `DEVARIO-UPSTREAM.json`.
+
+The additions include PyQt5's SIP tools, Python OpenGL bindings, and five Qt5
+modules. Libffado retains its mixer support. Against the inspected
+`devario-core`, `devario-libs`, `devario-development`, and `devario-utilities`
+repository catalogs, six existing recipes also need publication. The following
+order covers the unpublished prerequisites; publish each recipe's outputs and
+refresh the worker's repository metadata before building its consumers.
+
+| Order | Recipe | Status |
+| --- | --- | --- |
+| 1 | [dbus-c++](devario-libs/dbus-c++/PKGBUILD) | Added |
+| 2 | [libconfig](devario-libs/libconfig/PKGBUILD) | Added |
+| 3 | [libxml++](devario-libs/libxml++/PKGBUILD) | Added; also produces libxml++-docs |
+| 4 | [sip](devario-development/sip/PKGBUILD) | Added |
+| 5 | [pyqt-builder](devario-development/pyqt-builder/PKGBUILD) | Added |
+| 6 | [pyopengl](devario-libs/pyopengl/PKGBUILD) | Added; produces python-opengl |
+| 7 | [python-pyqt5-sip](devario-libs/python-pyqt5-sip/PKGBUILD) | Added |
+| 8 | [qt5-multimedia](devario-libs/qt5-multimedia/PKGBUILD) | Added |
+| 9 | [qt5-serialport](devario-libs/qt5-serialport/PKGBUILD) | Added |
+| 10 | [chrpath](devario-development/chrpath/PKGBUILD) | Existing, unpublished |
+| 11 | [flite](devario-development/flite/PKGBUILD) | Existing, unpublished |
+| 12 | [libsonic](devario-libs/libsonic/PKGBUILD) | Existing, unpublished |
+| 13 | [espeak-ng](devario-utilities/espeak-ng/PKGBUILD) | Existing, unpublished |
+| 14 | [speech-dispatcher](devario-utilities/speech-dispatcher/PKGBUILD) | Existing, unpublished; publish libspeechd too |
+| 15 | [qt5-speech](devario-libs/qt5-speech/PKGBUILD) | Added |
+| 16 | [qt5-svg](devario-libs/qt5-svg/PKGBUILD) | Added |
+| 17 | [qt5-x11extras](devario-libs/qt5-x11extras/PKGBUILD) | Existing, unpublished |
+| 18 | [qt5-xmlpatterns](devario-libs/qt5-xmlpatterns/PKGBUILD) | Added |
+| 19 | [pyqt5](devario-libs/pyqt5/PKGBUILD) | Added; produces python-pyqt5 |
+| 20 | [libffado](devario-libs/libffado/PKGBUILD) | Retry after prerequisites are published |
+
+The dependency-name/provision check recursively included runtime, build, and
+check requirements. It found no remaining missing names or cycles among these
+unpublished recipes once the catalog's published providers were included.
+This is a catalog check, not an isolated-worker build or an ABI audit.
+
+Validation:
+
+- All thirteen new recipes passed `bash -n` and `makepkg --verifysource`,
+  including their pinned Git sources and local patches.
+- `.SRCINFO` was generated with makepkg and checked against Shelly's metadata.
+  Shelly omits the explicit empty `depends` field for libxml++-docs; the other
+  emitted fields match. The Qt5 `pkgver()` functions were reviewed before
+  metadata generation.
+- `dbus-c++`, `libconfig`, `python-pyqt5-sip`, and `python-opengl` completed
+  local builds and staged packaging. The C++ libraries expose
+  `libdbus-c++-1.so.0` and `libconfig++.so.15`.
+
+Full libxml++, PyQt5, Qt5 module, and libffado builds have not been run. No host
+packages were installed and no packages were published. Adding recipes alone
+does not satisfy the worker's `not_in_repositories` checks.
+
+## Git LFS man pages after the Ruby 4.0 upgrade (2026-10-10)
+
+The published `asciidoctor` 2.0.26-1 package contains its gem and gemspec under
+`/usr/lib/ruby/gems/3.4.0`. The published Ruby 4.0.7 runtime searches
+`/usr/lib/ruby/gems/4.0.0`, so its launcher fails with
+`Gem::GemNotFoundException` during Git LFS's `make man` target.
+
+Build and publish [asciidoctor](devario-core/asciidoctor/PKGBUILD) 2.0.26-2
+with Ruby 4.0 first. Refresh worker metadata, then rebuild
+[git-lfs](devario-development/git-lfs/PKGBUILD) 3.8.0-2. Asciidoctor now
+requires `ruby>=4.0` and `ruby<4.1`, and uses `Gem.default_dir` so an inherited
+`GEM_HOME` cannot select its package installation directory. Git LFS requires
+`asciidoctor>=2.0.26-2` to prevent reuse of the stale package. A future Ruby
+minor-version upgrade requires rebuilding Asciidoctor and updating this range.
+
+The failure was reproduced with the published packages in a temporary mount
+namespace. Asciidoctor's sources passed both declared checksums; its build and
+manual staged package function completed using Ruby 4.0.7. The rebuilt launcher
+then ran without gem-path overrides, and Git LFS v3.8.0's complete `make man`
+target passed, producing 36 man pages plus HTML documentation. The makepkg
+fakeroot packaging attempt encountered an ownership-preservation error in the
+local namespace, so staged packaging was rerun without fakeroot. The full
+Asciidoctor test suite and Git LFS Go build/tests were not rerun; no host package
+installation or repository publication was performed.
