@@ -55,7 +55,9 @@ prepare() {
 
 build() {
   cd ${pkgname}3-$pkgver
-  python -m build --wheel --no-isolation
+  # the build root has no texmf ls-R (TeX Live's package hooks never run there), so drop TEXMF's !! ls-R-only marks and let kpsewhich search the disk
+  TEXMF='{$TEXMFAUXTREES$TEXMFCONFIG,$TEXMFVAR,$TEXMFHOME,$TEXMFLOCAL,$TEXMFSYSCONFIG,$TEXMFSYSVAR,$TEXMFDIST}' \
+    python -m build --wheel --no-isolation
 }
 
 package() {
