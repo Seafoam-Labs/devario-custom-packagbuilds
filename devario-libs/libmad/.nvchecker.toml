@@ -1,0 +1,4 @@
+[libmad]
+source = 'regex'
+url = 'https://sourceforge.net/projects/mad/files/libmad/'
+regex = 'files/libmad/([\w.]+)/'

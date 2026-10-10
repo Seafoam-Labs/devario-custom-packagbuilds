@@ -1,0 +1,49 @@
+# Maintainer: Christian Hesse <mail@eworm.de>
+# Contributor: andreas_baumann <abaumann@yahoo.com>
+# Contributor: zhuqin <zhuqin83@gmail.com>
+
+pkgname=gengetopt
+pkgver=2.23.1
+pkgrel=2
+pkgdesc='A tool to write command line option parsing code for C programs'
+arch=('x86_64')
+url='https://www.gnu.org/software/gengetopt/gengetopt.html'
+license=('GPL-3.0-or-later')
+options=('!docs' '!makeflags')
+depends=('glibc'
+         'libgcc' 'libgcc_s.so'
+         'libstdc++' 'libstdc++.so')
+# The release archive includes generated code and bundled gnulib.
+# Building from Git would require gengetopt itself and gengen.
+makedepends=('help2man')
+validpgpkeys=('92C05C30F5E5A772B04D459150248D1A100E6AE6'  # Gray Wolf <wolf@wolfsden.cz>
+              'CD7AB2B200F374043F92E5D42485C3A5CF0FF62F') # Gray Wolf <wolf@wolfsden.cz>
+source=("https://ftp.gnu.org/gnu/gengetopt/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('3b9def48422bd45f78af95936200b7f9287369a3db76c4907c42fe10f4922ab6'
+            'SKIP')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  # Avoid expanding glibc's type-generic macros in bundled gnulib declarations.
+  sed -i 's/void \*bsearch (/void *(bsearch) (/' gl/stdlib.in.h
+  sed -i 's/void \*memchr (/void *(memchr) (/' gl/string.in.h
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+
+  ./configure \
+    --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+}

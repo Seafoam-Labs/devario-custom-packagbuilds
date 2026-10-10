@@ -1,0 +1,103 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Contributor: David Runge <dvzrv@archlinux.org>
+# Contributor: Eric Bélanger <eric@archlinux.org>
+
+pkgname=sox
+pkgver=14.8.0.1
+pkgrel=2
+pkgdesc='The Swiss Army knife of sound processing tools'
+arch=(x86_64)
+url='https://codeberg.org/sox_ng/sox_ng/'
+license=(GPL-2.0-only)
+depends=(
+  glibc
+  ffmpeg
+  file
+  gsm
+  libao
+  libid3tag
+  libltdl
+  libmad
+  libgcc
+  libgomp
+  libpng
+  opusfile
+  twolame
+  wavpack
+  zlib
+)
+makedepends=(
+  alsa-lib
+  flac
+  fftw
+  lame
+  libpulse
+  libsndfile
+  libvorbis
+  libogg
+  opencore-amr
+  speexdsp
+)
+checkdepends=(time)
+optdepends=(
+  'alsa-lib: alsa plugin'
+  'flac: flac plugin'
+  'fftw: fftw support'
+  'lame: mp3 plugin'
+  'libpulse: pulse plugin'
+  'libsndfile: caf, fap, mat4, mat5, paf, pvf, sd2, sndfile, w64 and xi plugins'
+  'libvorbis: vorbis plugin'
+  'libogg: ogg plugin'
+  'opencore-amr: amr_nb and amr_wb plugins'
+  'speexdsp: speexdsp plugin/effect'
+)
+provides=(libsox.so libsox_ng.so)
+source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/sox_ng/sox_ng/archive/sox_ng-$pkgver.tar.gz")
+sha512sums=('9bd019f71e57bac4e0b9c55f2c3b20c71275526b01eb94e464fcbb3297ff05129ac52489a5595087e00ccd6197299e7debc67a9c6a90b63249b8479ed5d1efbb')
+
+prepare() {
+  cd sox_ng
+
+  autoreconf -vfi
+}
+
+build() {
+  cd sox_ng
+
+  local configure_flags=(
+    --prefix=/usr
+    --sysconfdir=/etc
+    --localstatedir=/var
+    --enable-replace
+    --with-distro="Devario"
+    --with-ffmpeg
+  )
+
+  ./configure "${configure_flags[@]}"
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make all README
+}
+
+check() (
+  cd sox_ng/src
+
+  export DESTDIR="${PWD}/tmp"
+  mkdir -p "${DESTDIR}"
+
+  export LD_LIBRARY_PATH="${DESTDIR}/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+  make sox_sample_test
+  make install
+  make installcheck
+)
+
+package() {
+  cd sox_ng
+
+  make DESTDIR="${pkgdir}" install
+
+  # documentation
+  install -vDm644 \
+    -t "$pkgdir/usr/share/doc/$pkgname" \
+    AUTHORS ChangeLog README
+}

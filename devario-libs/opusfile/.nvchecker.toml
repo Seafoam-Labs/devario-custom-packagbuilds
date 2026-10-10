@@ -1,0 +1,4 @@
+[opusfile]
+source = "git"
+git = "https://gitlab.xiph.org/xiph/opusfile.git"
+prefix = "v"
