@@ -15,16 +15,16 @@ license=(LGPL)
 depends=(lib32-glibc libasyncns)
 makedepends=(git lynx)
 _commit=68cd5aff1467638c086f1bedcc750e34917168e4  # master
-source=("git+https://git.0pointer.net/clone/libasyncns.git#commit=$_commit")
+# Fetch only from Seafoam Labs. Use a distinct cache name so an old
+# libasyncns source cache from 0pointer is not reused.
+source=("seafoam-libasyncns::git+https://github.com/Seafoam-Labs/libasyncns.git#commit=$_commit")
 sha256sums=('SKIP')
 
-pkgver() {
-  cd libasyncns
-  git describe --tags | sed 's/^v//;s/[^-]*-g/r&/;s/-/+/g'
-}
+# No pkgver(): the mirror tags the pinned commit v0.8-r3, so git describe
+# would shorten the version to 0.8+r3. Keep the value Arch computes upstream.
 
 prepare() {
-  cd libasyncns
+  cd "$srcdir/seafoam-libasyncns"
 
   # Fix libdir
   sed -i '/^libdir=/s:/lib:/lib32:' *.pc.in
@@ -33,7 +33,7 @@ prepare() {
 }
 
 build() {
-  cd libasyncns
+  cd "$srcdir/seafoam-libasyncns"
 
   export CC="gcc -m32"
   export CXX="g++ -m32"
@@ -47,7 +47,7 @@ build() {
 }
 
 package() {
-  cd libasyncns
+  cd "$srcdir/seafoam-libasyncns"
   make DESTDIR="$pkgdir" install
   rm -r "$pkgdir"/usr/{include,share}
 }

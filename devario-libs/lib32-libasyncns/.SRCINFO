@@ -10,7 +10,7 @@ pkgbase = lib32-libasyncns
 	makedepends = lynx
 	depends = lib32-glibc
 	depends = libasyncns
-	source = git+https://git.0pointer.net/clone/libasyncns.git#commit=68cd5aff1467638c086f1bedcc750e34917168e4
+	source = seafoam-libasyncns::git+https://github.com/Seafoam-Labs/libasyncns.git#commit=68cd5aff1467638c086f1bedcc750e34917168e4
 	sha256sums = SKIP
 
 pkgname = lib32-libasyncns
