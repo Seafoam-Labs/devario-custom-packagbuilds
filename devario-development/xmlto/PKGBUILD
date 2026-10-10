@@ -12,7 +12,8 @@ url="https://pagure.io/xmlto/"
 license=('GPL')
 depends=('libxslt')
 makedepends=('docbook-xsl')
-source=("https://pagure.io/xmlto/archive/${pkgver}/xmlto-${pkgver}.tar.gz")
+# upstream release tarball: the pagure.io git archive endpoint 404s for every tag
+source=("https://releases.pagure.org/xmlto/xmlto-${pkgver}.tar.gz")
 md5sums=('556f2642cdcd005749bd4c08bc621c37')
 sha256sums=('40504db68718385a4eaa9154a28f59e51e59d006d1aa14f5bc9d6fded1d6017a')
 
