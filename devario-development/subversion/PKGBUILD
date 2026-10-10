@@ -28,12 +28,12 @@ depends=(
   'sqlite'
   'zlib'
 )
-makedepends=('apache' 'python' 'python-py3c' 'perl' 'swig' 'java-environment>=8'
+# Devario: drop javahl, no published java-environment to build the JNI bindings against
+makedepends=('apache' 'python' 'python-py3c' 'perl' 'swig'
              'libsecret' 'ruby' 'ruby-nkf' 'python-setuptools')
 optdepends=('libsecret: for GNOME Keyring for auth credentials'
             'bash-completion: for svn bash completion'
             'python: for some hook scripts'
-            'java-environment: for Java support'
             'ruby: for some hook scripts')
 checkdepends=('ruby-test-unit')
 provides=('svn')
@@ -92,8 +92,6 @@ build() {
   cd ${pkgname}-${pkgver}
   ./configure --prefix=/usr \
               --with-apxs \
-              --enable-javahl \
-              --with-jdk=/usr/lib/jvm/default \
               --with-gnome-keyring \
               --with-apache-libexecdir=/usr/lib/httpd/modules \
               --with-ruby-sitedir=/usr/lib/ruby/vendor_ruby \
@@ -103,7 +101,7 @@ build() {
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make LT_LDFLAGS="-L$Fdestdir/usr/lib"
   make swig_pydir=$site_packages/libsvn \
-    swig_pydir_extra=$site_packages/svn swig-py swig-pl javahl swig-rb
+    swig_pydir_extra=$site_packages/svn swig-py swig-pl swig-rb
 
   # https://stackoverflow.com/questions/14351272/undefined-method-exists-for-fileclass-nomethoderror
   sed -i "s|File.exists?|File.exist?|" subversion/bindings/swig/ruby/test/*.rb
@@ -112,7 +110,7 @@ build() {
 check() {
   cd ${pkgname}-${pkgver}
   export LANG=C LC_ALL=C
-  make check-swig-py check check-swig-pl check-swig-rb CLEANUP=yes # check-javahl
+  make check-swig-py check check-swig-pl check-swig-rb CLEANUP=yes
 }
 
 package() {
@@ -124,7 +122,7 @@ package() {
   make DESTDIR="${pkgdir}" INSTALLDIRS=vendor \
     swig_pydir=$site_packages/libsvn \
     swig_pydir_extra=$site_packages/svn \
-    install install-swig-py install-swig-pl install-javahl install-swig-rb
+    install install-swig-py install-swig-pl install-swig-rb
 
   install -dm755 "${pkgdir}"/usr/share/subversion
   cp -a tools/hook-scripts "${pkgdir}"/usr/share/subversion/

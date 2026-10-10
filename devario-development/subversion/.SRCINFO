@@ -11,7 +11,6 @@ pkgbase = subversion
 	makedepends = python-py3c
 	makedepends = perl
 	makedepends = swig
-	makedepends = java-environment>=8
 	makedepends = libsecret
 	makedepends = ruby
 	makedepends = ruby-nkf
@@ -34,7 +33,6 @@ pkgbase = subversion
 	optdepends = libsecret: for GNOME Keyring for auth credentials
 	optdepends = bash-completion: for svn bash completion
 	optdepends = python: for some hook scripts
-	optdepends = java-environment: for Java support
 	optdepends = ruby: for some hook scripts
 	provides = svn
 	options = !makeflags
