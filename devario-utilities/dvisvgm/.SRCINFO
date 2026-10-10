@@ -8,6 +8,7 @@ pkgbase = dvisvgm
 	makedepends = autoconf-archive
 	makedepends = git
 	makedepends = python
+	makedepends = python-lxml
 	depends = brotli
 	depends = freetype2
 	depends = ghostscript

@@ -20,9 +20,11 @@ depends=(brotli
          xxhash
          zlib)
 optdepends=('mupdf-tools: to process PDF files')
+# opt2cpp.py needs lxml, and make re-runs it at install time once the .deps files exist
 makedepends=(autoconf-archive
              git
-             python)
+             python
+             python-lxml)
 source=(git+https://github.com/mgieseki/dvisvgm#tag=$pkgver)
 sha256sums=('4dce7f3eedbd9c150010a7790649d0cbfbe2a4be6ef2cd1349d11df255894923')
 
