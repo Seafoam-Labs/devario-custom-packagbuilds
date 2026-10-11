@@ -1,5 +1,37 @@
 # Missing dependency builds for Shelly
 
+## rocSOLVER dependency plan (2026-10-10)
+
+The worker's `IncompleteDependencyPlan` reports `rocblas` and `rocsparse`
+missing from both its repositories and build environment. Both recipes already
+exist here, and rocSOLVER's dependency names match their package outputs.
+The subsequent rocSPARSE dependency plan also reports `rocprim` missing.
+Its existing recipe produces `rocprim` `10.0-1`; no dependency rename is
+needed. rocSPARSE requires both rocPRIM and rocBLAS, so build and publish in
+this order (skip prerequisites already available in the worker repository):
+
+| Order | Recipe | Release |
+| --- | --- | --- |
+| 1 | [rocprim](devario-libs/rocprim/PKGBUILD) | `10.0-1` |
+| 2 | [rocblas](devario-libs/rocblas/PKGBUILD) | `7.2.4-5` |
+| 3 | [rocsparse](devario-libs/rocsparse/PKGBUILD) | `7.2.4-1` |
+| 4 | [rocsolver](devario-libs/rocsolver/PKGBUILD) | `7.2.4-1` |
+
+rocPRIM requires `rocm-core` and `hip-runtime-amd`, plus `cmake`, `rocm-cmake`,
+`rocm-toolchain`, and `rocm-llvm` at build time. Make these available in its
+isolated root before building it.
+
+Use the updated rocBLAS recipe described below. Publish each dependency's
+built archive to the worker's enabled `devario-libs` repository and refresh
+its repository metadata before starting the next recipe. If the archives are
+already published, check that the worker enables that repository and has
+refreshed its metadata. Uploading recipes alone does not make their binary
+packages available to an isolated build.
+
+Validation: all four recipes pass `bash -n`, and Shelly-generated metadata
+matches their checked-in `.SRCINFO` files. No recipe changes are needed for
+this reported dependency failure. Builds and publication were not performed.
+
 ## rocBLAS bundled Tensile selection (2026-10-10)
 
 Retry [rocblas](devario-libs/rocblas/PKGBUILD) with release `7.2.4-5`.
@@ -735,6 +767,22 @@ No isolated build, publication, or `mupdf` build has been performed for this
 change.
 
 ## Libffado dependency plan (2026-10-10)
+
+Retry `libxml++` with release `3.2.6-2`. Its tutorial generation needs
+`docbook-xsl`, now explicitly listed in `makedepends`. This package supplies
+the stylesheet and XML catalog mapping for
+`http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl`. Without
+that mapping, the HTML generation step exits with code 4 after the library
+has already linked. Keep both the library and documentation split outputs.
+
+Validation reproduced the same exit-4 failure using the pinned 3.2.6 tutorial
+helper with XML catalogs disabled. With the installed DocBook catalog, the
+same helper generated all seven tutorial HTML pages while `xsltproc --nonet`
+prohibited network access. Shell syntax passed and `.SRCINFO` was regenerated
+with makepkg, preserving the documentation package's empty dependencies.
+Shelly's metadata agrees apart from omitting that empty override.
+A full isolated build was not run. Upload the updated recipe and
+metadata, ensure `docbook-xsl` is available to the worker, and retry.
 
 The worker's `IncompleteDependencyPlan` for `libxml++`, `dbus-c++`,
 `libconfig`, and `python-pyqt5` requires publishing those packages before

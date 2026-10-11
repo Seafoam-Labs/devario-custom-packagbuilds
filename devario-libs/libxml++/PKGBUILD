@@ -7,7 +7,7 @@ pkgname=(
   libxml++-docs
 )
 pkgver=3.2.6
-pkgrel=1
+pkgrel=2
 pkgdesc="C++ bindings to libxml2"
 url="https://libxmlplusplus.github.io/libxmlplusplus/"
 arch=(x86_64)
@@ -20,6 +20,7 @@ depends=(
   libxml2
 )
 makedepends=(
+  docbook-xsl
   git
   glibmm-docs
   meson
