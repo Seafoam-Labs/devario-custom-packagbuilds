@@ -5,7 +5,7 @@
 
 pkgname=hipblaslt
 pkgver=7.2.4
-pkgrel=3
+pkgrel=5
 pkgdesc='General matrix-matrix operations beyond a traditional BLAS library'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/hipBLASLt/en/latest/index.html'
@@ -80,7 +80,9 @@ build() {
     -D CMAKE_CXX_COMPILER=amdclang++
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
     -D HIPBLASLT_ENABLE_CLIENT=OFF
-    # -D GPU_TARGETS="$(rocm-supported-gfx -e gfx906,gfx950,gfx1010,gfx1012,gfx1031,gfx1035,gfx1152,gfx1153)"
+    -D HIPBLASLT_ENABLE_ROCROLLER=OFF
+    # RX 7000/9000 discrete GPUs and Strix Halo APUs.
+    -D GPU_TARGETS="gfx1100;gfx1101;gfx1102;gfx1151;gfx1200;gfx1201"
   )
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
