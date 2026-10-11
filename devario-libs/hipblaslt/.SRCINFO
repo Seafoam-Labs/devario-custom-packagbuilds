@@ -1,7 +1,7 @@
 pkgbase = hipblaslt
 	pkgdesc = General matrix-matrix operations beyond a traditional BLAS library
 	pkgver = 7.2.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://rocm.docs.amd.com/projects/hipBLASLt/en/latest/index.html
 	arch = x86_64
 	license = MIT
@@ -40,9 +40,11 @@ pkgbase = hipblaslt
 	source = hipblaslt-Don-t-fetch-deps-for-rocroller.patch
 	source = rocroller-Always-fetch-libdivide-if-it-s-not-install.patch
 	source = hipblaslt-7.2.3-cstdint-include.patch
+	source = rocroller-gcc16-noinline.patch
 	sha256sums = b476acbcd0f4017c800e4b05533e6dfb875bde32242729c8df557d4624379623
 	sha256sums = 81c0f9ac1872e34555c2f9d64eecec75c42fd8813c4acf54cd665b03e59cb752
 	sha256sums = b845a96fee02651f2cad2417fc9e8522ab143849b2049b0010d17401e6000e52
 	sha256sums = 337feb845674f8ec6015c902b27bd01bc51f530035cda769b7dea5ad12d41920
+	sha256sums = 4d0719d36102e977b7ee7e96c6a1e3c0e9078cc385d2f0ffe5c3c4c4cf777807
 
 pkgname = hipblaslt

@@ -1,0 +1,27 @@
+HIP's host headers define __noinline__ as a macro, which breaks the GNU
+attribute with the same name in GCC 16's <format>, included by <chrono>.
+Save and restore the macro so HIP annotations remain available afterwards.
+
+diff --git a/shared/rocroller/lib/include/rocRoller/Utilities/Timer.hpp b/shared/rocroller/lib/include/rocRoller/Utilities/Timer.hpp
+--- a/shared/rocroller/lib/include/rocRoller/Utilities/Timer.hpp
++++ b/shared/rocroller/lib/include/rocRoller/Utilities/Timer.hpp
+@@ -30,12 +30,19 @@
+ 
+ #pragma once
+ 
++// HIP's __noinline__ macro collides with libstdc++ attributes in <format>.
++// Preserve it for HIP code after parsing the standard library headers.
++#pragma push_macro("__noinline__")
++#undef __noinline__
++
+ #include <atomic>
+ #include <chrono>
+ #include <map>
+ #include <memory>
+ #include <string>
+ 
++#pragma pop_macro("__noinline__")
++
+ #ifdef ROCROLLER_ENABLE_TIMERS
+ #define TIMER(V, N) rocRoller::Timer V(N);
+ #define TIC(V) V.tic();
