@@ -19,6 +19,15 @@ _dirname="rocm-libraries-rocm-$pkgver/projects/$pkgname"
 options=(!lto !buildflags !strip)
 
 build() {
+  # hip::device links with --hip-link, which makes the clang driver append
+  # -lamdhip64 itself. The driver has to infer the ROCm installation to emit
+  # the matching -L, and it cannot here: amdclang++ really lives in
+  # /opt/rocm/lib/llvm/bin, so walking up from the compiler lands on /opt/rocm/lib
+  # instead of /opt/rocm. Normally /etc/profile.d/rocm.sh exports ROCM_PATH, but
+  # Shelly's build shell does not source profile.d. Without it the link fails
+  # with "unable to find library -lamdhip64". rocblas carries the same export.
+  export ROCM_PATH=/opt/rocm
+
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   local cmake_args=(

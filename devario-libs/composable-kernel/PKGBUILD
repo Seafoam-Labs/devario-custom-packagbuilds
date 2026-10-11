@@ -23,6 +23,16 @@ prepare() {
 }
 
 build() {
+  # amdclang++ lives in /opt/rocm/bin, which rocm-core only puts on PATH through
+  # /etc/profile.d/rocm.sh. Shelly's build shell does not source profile.d, so
+  # CMake cannot resolve the bare compiler name below.
+  export PATH="/opt/rocm/bin:$PATH"
+  # CK links a shared library against HIP, and clang's driver has to infer the
+  # ROCm root to emit the -L that pairs with the -lamdhip64 that --hip-link
+  # adds. Walking up from /opt/rocm/lib/llvm/bin lands on /opt/rocm/lib, so
+  # point it at the real prefix. rocsparse and rocblas need the same export.
+  export ROCM_PATH=/opt/rocm
+
   local _cmake_args=(
     -Wno-dev
     -G Ninja
@@ -42,6 +52,11 @@ build() {
 }
 
 package() {
+  # The CMake cache holds CMAKE_CXX_COMPILER as the bare name "amdclang++", and
+  # each PKGBUILD function runs in its own shell under Shelly, so a regeneration
+  # during install would fail to find it again.
+  export PATH="/opt/rocm/bin:$PATH"
+
   DESTDIR="$pkgdir" cmake --install build
 
   install -Dm644 "$_dirname/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
