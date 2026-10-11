@@ -1,5 +1,67 @@
 # Missing dependency builds for Shelly
 
+## rocThrust and its dependency builds (2026-10-10)
+
+[rocthrust](devario-libs/rocthrust/PKGBUILD) now packages `10.0-1` from the
+checksum-pinned `therock-10.0` component archive, matching the existing
+[rocprim](devario-libs/rocprim/PKGBUILD) `10.0-1` recipe. Both component
+archives report library version `4.6.0`; `10.0` is their release archive
+version. The rocThrust recipe requires `rocprim>=10.0`, explicitly selects
+the installed rocPRIM package, and installs headers and CMake targets into
+`/opt/rocm`. Tests, examples, and benchmarks are disabled for this package.
+The source is the component archive rather than the entire ROCm libraries
+repository.
+
+All required ROCm dependency recipes already exist. Build the following in
+stage order, skipping packages already published to the worker's enabled
+repositories. Build each split recipe once and publish its outputs before
+starting dependent stages.
+
+| Stage | Recipe | Required outputs / release |
+| --- | --- | --- |
+| 1 | [rocm-core](devario-core/rocm-core/PKGBUILD) | `rocm-core` `7.2.4-1` |
+| 1 | [rocm-toolchain](devario-development/rocm-toolchain/PKGBUILD) | `rocm-toolchain` `0.4.0-2`, providing `rocm-supported-gfx` |
+| 2 | [rocm-cmake](devario-core/rocm-cmake/PKGBUILD) | `rocm-cmake` `7.2.4-1` |
+| 3 | [rocm-llvm](devario-core/rocm-llvm/PKGBUILD) | `2:7.2.4-3`: `rocm-llvm`, `rocm-llvm-libs`, `rocm-mlir-libs`, `rocm-llvm-tools`, `rocm-llvm-headers`, `rocm-llvm-static`, `rocm-device-libs`, and `comgr` |
+| 3 | [rocprofiler-register](devario-core/rocprofiler-register/PKGBUILD) | `rocprofiler-register` `7.2.4-1` |
+| 4 | [hsa-rocr](devario-core/hsa-rocr/PKGBUILD) | `hsa-rocr` `7.2.4-2` (also provides `hsakmt-roct`) |
+| 5 | [rocminfo](devario-core/rocminfo/PKGBUILD) | `rocminfo` `7.2.4-1` |
+| 6 | [hip-runtime](devario-core/hip-runtime/PKGBUILD) | `hip-runtime-amd` `7.2.4-2` |
+| 7 | [rocprim](devario-libs/rocprim/PKGBUILD) | `rocprim` `10.0-1` |
+| 8 | [rocthrust](devario-libs/rocthrust/PKGBUILD) | `rocthrust` `10.0-1` |
+
+Use an existing base development environment and provision the ordinary
+runtime/build dependencies declared by these recipes: `bash`, `cmake`,
+`cuda`, `fmt`, `gcc-libs`, `git`, `glibc`, `google-glog`, `libdrm`, `libedit`,
+`libelf`, `libffi`, `libgcc`, `libstdc++`, `libxml2`, `mesa`, `ncurses`,
+`ninja`, `numactl`, `patchelf`, `pciutils`, `perl`, `python`,
+`python-cppheaderparser`, `python-prettytable`, `python-pyaml`,
+`python-pyelftools`, `xxd`, `zlib`, and `zstd`. Resolve their ordinary
+dependencies from the worker repositories. The existing
+[tinyxxd](devario-core/tinyxxd/PKGBUILD) recipe provides `xxd`.
+The HIP split recipe builds both AMD and NVIDIA outputs, so it needs `cuda`
+at build time even when only `hip-runtime-amd` is wanted.
+
+This order assumes checks are disabled (`shelly build --no-check` or
+`makepkg --nocheck`): rocm-cmake's checks need an existing rocm-llvm package.
+rocThrust itself needs `rocm-core`, `hip-runtime-amd`, and `rocprim` at
+runtime, plus `cmake`, `rocm-cmake`, `rocm-toolchain`, and `rocm-llvm` to
+build. rocRAND, Google Test, Google Benchmark, and SQLite are dependencies
+of optional upstream client builds and are not needed for the packaged
+headers. Refresh repository metadata after publishing each stage; recipe
+uploads alone do not supply dependencies to an isolated build root.
+
+Validation: all ten recipes pass `bash -n` and regenerate their checked-in
+`.SRCINFO` exactly; Shelly and makepkg agree on the updated rocThrust
+metadata. Both component archive SHA-256 checksums were verified. The
+rocPRIM and rocThrust `build()` and `package()` functions completed in a
+temporary root using packaged ROCm `7.2.4` dependencies, with `gfx1030` as
+the validation target. An external CMake consumer found `rocthrust 4.6`,
+linked its object target to `roc::rocthrust`, and compiled host/device
+vector, sort, and reduction code for `gfx1030`. No GPU execution, full
+toolchain rebuild, binary package publication, or host installation was
+performed.
+
 ## rocSOLVER dependency plan (2026-10-10)
 
 The worker's `IncompleteDependencyPlan` reports `rocblas` and `rocsparse`
