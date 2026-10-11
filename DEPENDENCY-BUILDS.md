@@ -1,5 +1,32 @@
 # Missing dependency builds for Shelly
 
+## rocBLAS bundled Tensile selection (2026-10-10)
+
+Retry [rocblas](devario-libs/rocblas/PKGBUILD) with release `7.2.4-5`.
+Its previous configuration set `BUILD_WITH_PIP=OFF`, which bypasses the
+`Tensile_TEST_LOCAL_PATH` handling in the
+[pinned upstream CMakeLists](https://github.com/ROCm/rocm-libraries/blob/dabb6df2b988f8eabed1e2fecefaaf4e818bc7ef/projects/rocblas/CMakeLists.txt).
+CMake instead found the system `python-tensile` package's Tensile 4.47.0,
+which fails rocBLAS's exact 4.45.0 requirement.
+
+The recipe now sets `Tensile_DIR` and `Tensile_ROOT` to the matching Tensile
+4.45.0 already included in the pinned ROCm source tree. `PYTHONPATH` puts
+that source tree first so its generator cannot import a different installed
+Tensile. The unused `python-tensile`, `python-virtualenv`, and `python-wheel`
+build requirements are removed; `python-rich`, declared by bundled Tensile's
+`requirements.txt`, is added. The exact version check remains enforced, and
+`BUILD_WITH_PIP=OFF` still prevents configure-time installation.
+
+Validation: shell syntax and metadata checks passed; makepkg and Shelly emit
+matching `.SRCINFO`. Shelly review reports only the existing dynamic-command
+warnings for CPU count and GPU target detection. A focused CMake project using
+the pinned Tensile sources and temporary ROCm 7.2.4 packages successfully ran
+`find_package(Tensile 4.45.0 EXACT REQUIRED HIP LLVM)` and generated the
+`TensileHost` target for `gfx1030`. The bundled Python module reported 4.45.0,
+and `TensileCreateLibrary --help` completed with its Python dependencies.
+Full rocBLAS compilation and GPU kernel generation were not run. Upload the
+updated recipe and `.SRCINFO`, refresh worker recipe metadata, and retry.
+
 Build and publish `devario-installer/devario-base` 3-15 before the next ISO
 rebuild to include `devario-productivity` and `devario-libs` in `/etc/shelly.conf`.
 The default configuration no longer includes `devario-scx`.
@@ -799,6 +826,60 @@ Shelly's output, and Shelly review completed with only the existing dynamic
 command warning in `pkgver()`. No full Qt build or repository publication was
 performed. Upload the updated recipe and `.SRCINFO`, refresh the worker's
 recipe metadata, and retry `qt5-multimedia` before continuing the libffado plan.
+
+## Qt5 Speech dependency plan (2026-10-10)
+
+The worker's `IncompleteDependencyPlan` for `qt5-multimedia`, `flite`, and
+`speech-dispatcher` requires building and publishing their existing recipes
+before retrying [qt5-speech](devario-libs/qt5-speech/PKGBUILD). The repeated
+`not_in_repositories` and `not_in_environment` entries refer to the same three
+requirements. Uploading recipe files alone does not make their binary packages
+available to an isolated build.
+
+Use this subset of the libffado build order above, skipping prerequisites
+already available in the worker's repositories:
+
+| Order | Recipe | Required publication |
+| --- | --- | --- |
+| 1 | [qt5-multimedia](devario-libs/qt5-multimedia/PKGBUILD) | `qt5-multimedia` 5.15.19+kde+r2-2, including the GStreamer dependency correction above |
+| 2 | [chrpath](devario-development/chrpath/PKGBUILD) | Before flite |
+| 3 | [flite](devario-development/flite/PKGBUILD) | Before qt5-speech |
+| 4 | [libsonic](devario-libs/libsonic/PKGBUILD) | Before espeak-ng |
+| 5 | [espeak-ng](devario-utilities/espeak-ng/PKGBUILD) | Before speech-dispatcher |
+| 6 | [speech-dispatcher](devario-utilities/speech-dispatcher/PKGBUILD) | Publish both `speech-dispatcher` and `libspeechd` 0.12.1-4 |
+| 7 | [qt5-speech](devario-libs/qt5-speech/PKGBUILD) | Retry after all three reported requirements resolve |
+
+Publish each prerequisite and refresh the worker's repository metadata before
+building its consumers. Speech Dispatcher's runtime package requires the exact
+matching `libspeechd` release, which contains the headers, shared library, and
+pkg-config file. Flite and Speech Dispatcher remain build requirements even
+though selecting their TTS backends is optional at runtime.
+
+Validation: all seven recipes passed `bash -n`; their checked-in `.SRCINFO`
+files match fresh `makepkg --printsrcinfo` output. No recipe change is needed
+for this error. No isolated build or repository publication was performed.
+
+## Libsonic shared-library compilation (2026-10-10)
+
+Retry [libsonic](devario-libs/libsonic/PKGBUILD) with release `0.2.0-3`.
+The bundled `ldflags.patch` removed upstream's `-fPIC`, causing the worker's
+shared-library link to fail with `R_X86_64_PC32` relocations against `stderr`.
+The patch now preserves `-fPIC` while retaining the worker's compiler flags.
+It also passes the SONAME option separately from `LDFLAGS`, so linking does
+not depend on the last linker flag's format. Both patch checksums and
+`.SRCINFO` are updated.
+
+Validation: source and patch SHA-512/BLAKE2 checksums passed, as did shell
+syntax and metadata generation. Native compilation and staged packaging
+succeeded with the worker's reported compiler/linker flags. The resulting
+library has SONAME `libsonic.so.0` and no text relocations; the staged CLI
+processed a generated WAV file at twice its original speed. Shelly review
+completed with dynamic-command warnings for Makefile expressions in the
+patch. No isolated worker build or publication was performed.
+
+Upload the complete updated recipe directory, including `ldflags.patch` and
+`.SRCINFO`, refresh worker recipe metadata, and rebuild. Publish libsonic
+before continuing with espeak-ng and speech-dispatcher.
 
 ## Git LFS man pages after the Ruby 4.0 upgrade (2026-10-10)
 

@@ -5,7 +5,7 @@
  endif
  #CFLAGS=-Wall -g -ansi -fPIC -pthread
 -CFLAGS=-Wall -O3 -ansi -fPIC -pthread
-+CFLAGS+=-ansi -pthread
++CFLAGS+=-ansi -fPIC -pthread
  LIB_TAG=0.2.0
  CC=gcc
  PREFIX=/usr
@@ -23,7 +23,7 @@
  
  libsonic.so.$(LIB_TAG): sonic.o
 -	$(CC) $(CFLAGS) -shared -Wl,-$(SONAME),libsonic.so.0 sonic.o -o libsonic.so.$(LIB_TAG)
-+	$(CC) $(CFLAGS) -shared $(LDFLAGS),-$(SONAME),libsonic.so.0 sonic.o -o libsonic.so.$(LIB_TAG)
++	$(CC) $(CFLAGS) -shared $(LDFLAGS) -Wl,-$(SONAME),libsonic.so.0 sonic.o -o libsonic.so.$(LIB_TAG)
  	ln -sf libsonic.so.$(LIB_TAG) libsonic.so
  	ln -sf libsonic.so.$(LIB_TAG) libsonic.so.0
  
