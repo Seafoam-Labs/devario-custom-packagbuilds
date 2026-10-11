@@ -1,8 +1,8 @@
 pkgbase = jdk-bootstrap
-	pkgdesc = Temporary Eclipse Temurin JDK for bootstrapping the source-built OpenJDK
-	pkgver = 21.0.12.1
+	pkgdesc = Temporary Eclipse Temurin JDKs for bootstrapping the source-built OpenJDK
+	pkgver = 20260825
 	pkgrel = 1
-	url = https://adoptium.net/temurin/releases/?version=21
+	url = https://adoptium.net/temurin/releases/
 	arch = x86_64
 	license = LicenseRef-Java
 	depends = alsa-lib
@@ -12,17 +12,70 @@ pkgbase = jdk-bootstrap
 	depends = libxi
 	depends = libxrender
 	depends = libxtst
+	options = !strip
+	options = !debug
+	options = !lto
+	source = https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u504-b01/OpenJDK8U-jdk_x64_linux_hotspot_8u504b01.tar.gz
+	source = https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u504-b01/OpenJDK8U-jdk_x64_linux_hotspot_8u504b01.tar.gz.sig
+	source = https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.32.1%2B1/OpenJDK11U-jdk_x64_linux_hotspot_11.0.32.1_1.tar.gz
+	source = https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.32.1%2B1/OpenJDK11U-jdk_x64_linux_hotspot_11.0.32.1_1.tar.gz.sig
+	source = https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz
+	source = https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz.sig
+	source = https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz
+	source = https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sig
+	source = https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz
+	source = https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz.sig
+	validpgpkeys = 3B04D753C9050D9A5D343F39843C48A565F8F04B
+	sha256sums = 9c70e102f527ac674ac2fe9c7d47b9a04e2d19842ba5ab8e9b33f368bbadfaea
+	sha256sums = SKIP
+	sha256sums = 5c3f68887c325d36d852ba534303e1f5f1f5cae7d6cc1e951d73e0d8e98a058d
+	sha256sums = SKIP
+	sha256sums = 3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e
+	sha256sums = SKIP
+	sha256sums = ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94
+	sha256sums = SKIP
+	sha256sums = dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e
+	sha256sums = SKIP
+
+pkgname = jdk8-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 8 for bootstrapping the source-built OpenJDK
+	depends = alsa-lib
+	depends = glibc
+	depends = libx11
+	depends = libxext
+	depends = libxi
+	depends = libxrender
+	depends = libxtst
+	depends = libgcc
+	provides = java-environment=8
+	conflicts = jdk8-openjdk
+	conflicts = jre8-openjdk
+	conflicts = jre8-openjdk-headless
+
+pkgname = jdk11-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 11 for bootstrapping the source-built OpenJDK
+	provides = java-environment=11
+	conflicts = jdk11-openjdk
+	conflicts = jre11-openjdk
+	conflicts = jre11-openjdk-headless
+
+pkgname = jdk17-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 17 for bootstrapping the source-built OpenJDK
+	provides = java-environment=17
+	conflicts = jdk17-openjdk
+	conflicts = jre17-openjdk
+	conflicts = jre17-openjdk-headless
+
+pkgname = jdk21-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 21 for bootstrapping the source-built OpenJDK
 	provides = java-environment=21
 	conflicts = jdk21-openjdk
 	conflicts = jre21-openjdk
 	conflicts = jre21-openjdk-headless
-	options = !strip
-	options = !debug
-	options = !lto
-	source = https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz
-	source = https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sig
-	validpgpkeys = 3B04D753C9050D9A5D343F39843C48A565F8F04B
-	sha256sums = ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94
-	sha256sums = SKIP
 
-pkgname = jdk-bootstrap
+pkgname = jdk25-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 25 for bootstrapping the source-built OpenJDK
+	provides = java-environment=25
+	conflicts = jdk25-openjdk
+	conflicts = jre25-openjdk
+	conflicts = jre25-openjdk-headless

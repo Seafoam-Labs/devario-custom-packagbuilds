@@ -1,28 +1,89 @@
-# Official Eclipse Temurin binaries used only to bootstrap the source-built OpenJDK package.
-pkgname=jdk-bootstrap
-pkgver=21.0.12.1
+# Official Eclipse Temurin binaries used only to bootstrap the source-built OpenJDK packages.
+pkgbase=jdk-bootstrap
+pkgname=(jdk8-bootstrap jdk11-bootstrap jdk17-bootstrap jdk21-bootstrap jdk25-bootstrap)
+pkgver=20260825
 pkgrel=1
-pkgdesc='Temporary Eclipse Temurin JDK for bootstrapping the source-built OpenJDK'
+pkgdesc='Temporary Eclipse Temurin JDKs for bootstrapping the source-built OpenJDK'
 arch=('x86_64')
-url='https://adoptium.net/temurin/releases/?version=21'
+url='https://adoptium.net/temurin/releases/'
 license=('LicenseRef-Java')
 depends=('alsa-lib' 'glibc' 'libx11' 'libxext' 'libxi' 'libxrender' 'libxtst')
-# Major-version provision only: the JDK recipes pin java-environment=<major> exactly.
-provides=('java-environment=21')
-conflicts=('jdk21-openjdk' 'jre21-openjdk' 'jre21-openjdk-headless')
-# Preserve the prebuilt image exactly as distributed.
+# Each split provides java-environment=<major> exactly: the JDK recipes pin their own major.
+# Preserve the prebuilt images exactly as distributed.
 options=('!strip' '!debug' '!lto')
 # Adoptium GPG Key (DEB/RPM Signing Key) <temurin-dev@eclipse.org>
 validpgpkeys=('3B04D753C9050D9A5D343F39843C48A565F8F04B')
 source=(
+  "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u504-b01/OpenJDK8U-jdk_x64_linux_hotspot_8u504b01.tar.gz"{,.sig}
+  "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.32.1%2B1/OpenJDK11U-jdk_x64_linux_hotspot_11.0.32.1_1.tar.gz"{,.sig}
+  "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz"{,.sig}
   "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz"{,.sig}
+  "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz"{,.sig}
 )
-sha256sums=('ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94' 'SKIP')
+sha256sums=(
+  '9c70e102f527ac674ac2fe9c7d47b9a04e2d19842ba5ab8e9b33f368bbadfaea' 'SKIP'
+  '5c3f68887c325d36d852ba534303e1f5f1f5cae7d6cc1e951d73e0d8e98a058d' 'SKIP'
+  '3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e' 'SKIP'
+  'ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94' 'SKIP'
+  'dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e' 'SKIP'
+)
 
-package() {
+package_jdk8-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 8 for bootstrapping the source-built OpenJDK'
+  depends+=('libgcc')
+  provides=('java-environment=8')
+  conflicts=('jdk8-openjdk' 'jre8-openjdk' 'jre8-openjdk-headless')
+
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk8u504-b01" "$pkgdir/usr/lib/jvm/java-8-openjdk"
+  install -Dm644 "$srcdir/jdk8u504-b01/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$srcdir/jdk8u504-b01/ASSEMBLY_EXCEPTION" \
+    "$pkgdir/usr/share/licenses/$pkgname/ASSEMBLY_EXCEPTION"
+}
+
+package_jdk11-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 11 for bootstrapping the source-built OpenJDK'
+  provides=('java-environment=11')
+  conflicts=('jdk11-openjdk' 'jre11-openjdk' 'jre11-openjdk-headless')
+
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk-11.0.32.1+1" "$pkgdir/usr/lib/jvm/java-11-openjdk"
+  install -Dm644 "$srcdir/jdk-11.0.32.1+1/legal/java.base/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_jdk17-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 17 for bootstrapping the source-built OpenJDK'
+  provides=('java-environment=17')
+  conflicts=('jdk17-openjdk' 'jre17-openjdk' 'jre17-openjdk-headless')
+
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk-17.0.20.1+1" "$pkgdir/usr/lib/jvm/java-17-openjdk"
+  install -Dm644 "$srcdir/jdk-17.0.20.1+1/legal/java.base/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_jdk21-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 21 for bootstrapping the source-built OpenJDK'
+  provides=('java-environment=21')
+  conflicts=('jdk21-openjdk' 'jre21-openjdk' 'jre21-openjdk-headless')
+
   install -d "$pkgdir/usr/lib/jvm"
   cp -a "$srcdir/jdk-21.0.12.1+1" "$pkgdir/usr/lib/jvm/java-21-openjdk"
+  # Single owner: /usr/lib/jvm/default is one shared path, so only one split ships it.
   ln -s java-21-openjdk "$pkgdir/usr/lib/jvm/default"
   install -Dm644 "$srcdir/jdk-21.0.12.1+1/legal/java.base/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_jdk25-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 25 for bootstrapping the source-built OpenJDK'
+  provides=('java-environment=25')
+  conflicts=('jdk25-openjdk' 'jre25-openjdk' 'jre25-openjdk-headless')
+
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk-25.0.4.1+1" "$pkgdir/usr/lib/jvm/java-25-openjdk"
+  install -Dm644 "$srcdir/jdk-25.0.4.1+1/legal/java.base/LICENSE" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
