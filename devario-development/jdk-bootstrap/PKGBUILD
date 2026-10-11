@@ -1,0 +1,28 @@
+# Official Eclipse Temurin binaries used only to bootstrap the source-built OpenJDK package.
+pkgname=jdk-bootstrap
+pkgver=21.0.12.1
+pkgrel=1
+pkgdesc='Temporary Eclipse Temurin JDK for bootstrapping the source-built OpenJDK'
+arch=('x86_64')
+url='https://adoptium.net/temurin/releases/?version=21'
+license=('LicenseRef-Java')
+depends=('alsa-lib' 'glibc' 'libx11' 'libxext' 'libxi' 'libxrender' 'libxtst')
+# Major-version provision only: the JDK recipes pin java-environment=<major> exactly.
+provides=('java-environment=21')
+conflicts=('jdk21-openjdk' 'jre21-openjdk' 'jre21-openjdk-headless')
+# Preserve the prebuilt image exactly as distributed.
+options=('!strip' '!debug' '!lto')
+# Adoptium GPG Key (DEB/RPM Signing Key) <temurin-dev@eclipse.org>
+validpgpkeys=('3B04D753C9050D9A5D343F39843C48A565F8F04B')
+source=(
+  "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz"{,.sig}
+)
+sha256sums=('ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94' 'SKIP')
+
+package() {
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk-21.0.12.1+1" "$pkgdir/usr/lib/jvm/java-21-openjdk"
+  ln -s java-21-openjdk "$pkgdir/usr/lib/jvm/default"
+  install -Dm644 "$srcdir/jdk-21.0.12.1+1/legal/java.base/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
