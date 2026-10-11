@@ -5,7 +5,7 @@ _cpanname=SGMLSpm
 pkgname=perl-sgmls
 epoch=1
 pkgver=1.1
-pkgrel=14
+pkgrel=15
 pkgdesc="A Post-Processor for SGMLS and NSGMLS"
 arch=('any')
 url="https://search.cpan.org/dist/SGMLSpm"
@@ -22,11 +22,16 @@ prepare() {
 
 prepareEnvironment() {
 	cd "$srcdir/$_cpanname-$pkgver"
+	# DESTDIR is deliberately not set here. Exporting it through PERL_MM_OPT
+	# makes MakeMaker bake the path into the generated Makefile while build()
+	# runs, and $pkgdir is not the same value in every function under Shelly,
+	# so package() would install into the build()-time directory while its own
+	# $pkgdir points elsewhere. Pass DESTDIR to "make install" instead.
 	export \
 		PERL_MM_USE_DEFAULT=1 \
 		PERL_AUTOINSTALL=--skipdeps \
-		PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='"$pkgdir"'" \
-		PERL_MB_OPT="--installdirs vendor --destdir '"$pkgdir"'" \
+		PERL_MM_OPT="INSTALLDIRS=vendor" \
+		PERL_MB_OPT="--installdirs vendor" \
 		MODULEBUILDRC=/dev/null
 }
 
@@ -43,7 +48,7 @@ check() {
 
 package() {
 	prepareEnvironment
-	make install
+	make DESTDIR="$pkgdir" install
 
 	# FS#51874
 	ln -sv /usr/bin/vendor_perl/sgmlspl.pl "$pkgdir"/usr/bin/sgmlspl

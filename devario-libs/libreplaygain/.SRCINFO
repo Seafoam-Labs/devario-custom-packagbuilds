@@ -1,7 +1,7 @@
 pkgbase = libreplaygain
 	pkgdesc = A library to adjust audio gain
 	pkgver = 475
-	pkgrel = 5
+	pkgrel = 6
 	url = https://www.musepack.net/index.php?pg=src
 	arch = x86_64
 	license = LGPL

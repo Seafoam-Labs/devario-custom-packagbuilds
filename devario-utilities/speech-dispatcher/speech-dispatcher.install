@@ -1,5 +1,8 @@
 post_install() {
-  # Enable socket by default
+  # Enable socket by default. Skip silently when systemctl is absent: in an
+  # isolated build root speech-dispatcher can be installed before systemd, and
+  # ALPM treats a failing scriptlet as fatal, which aborts root provisioning.
+  command -v systemctl >/dev/null 2>&1 || return 0
   systemctl --global enable speech-dispatcher.socket
 }
 
@@ -7,5 +10,6 @@ post_install() {
 post_upgrade() { :; }
 
 pre_remove() {
+  command -v systemctl >/dev/null 2>&1 || return 0
   systemctl --global disable speech-dispatcher.socket
 }
