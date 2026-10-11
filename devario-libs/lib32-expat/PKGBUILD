@@ -12,6 +12,7 @@ url=https://libexpat.github.io/
 _url="https://github.com/libexpat/libexpat"
 license=(MIT)
 depends=(
+  lib32-gcc-libs
   "expat=$pkgver"
   lib32-glibc
 )

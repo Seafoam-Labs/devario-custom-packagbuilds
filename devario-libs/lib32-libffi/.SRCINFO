@@ -5,6 +5,7 @@ pkgbase = lib32-libffi
 	url = https://sourceware.org/libffi/
 	arch = x86_64
 	license = MIT
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = libffi=3.8.0
 	provides = libffi.so

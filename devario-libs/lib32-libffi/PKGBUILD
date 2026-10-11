@@ -10,7 +10,7 @@ arch=(x86_64)
 url=https://sourceware.org/libffi/
 _url="https://github.com/libffi/libffi"
 license=(MIT)
-depends=(lib32-glibc $_name=$pkgver)
+depends=(lib32-gcc-libs lib32-glibc $_name=$pkgver)
 provides=(libffi.so)
 source=($_name-$pkgver.tar.gz::$_url/archive/refs/tags/v$pkgver.tar.gz)
 sha256sums=('bf40d752d8f5fd4505bcd1c7d4208ea87fd12c91f087e359651c776748352dc0')

@@ -5,6 +5,7 @@ pkgbase = lib32-zlib
 	url = https://www.zlib.net/
 	arch = x86_64
 	license = Zlib
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = zlib
 	provides = libz.so

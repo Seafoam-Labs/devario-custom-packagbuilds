@@ -7,6 +7,7 @@ pkgbase = lib32-expat
 	license = MIT
 	makedepends = cmake
 	makedepends = git
+	depends = lib32-gcc-libs
 	depends = expat=2.9.0
 	depends = lib32-glibc
 	provides = libexpat.so

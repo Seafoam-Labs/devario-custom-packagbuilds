@@ -11,6 +11,7 @@ arch=(x86_64)
 license=(Zlib)
 url="https://www.zlib.net/"
 depends=(
+  lib32-gcc-libs
   lib32-glibc
   $_name
 )
