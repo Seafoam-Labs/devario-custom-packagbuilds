@@ -953,3 +953,46 @@ fakeroot packaging attempt encountered an ownership-preservation error in the
 local namespace, so staged packaging was rerun without fakeroot. The full
 Asciidoctor test suite and Git LFS Go build/tests were not rerun; no host package
 installation or repository publication was performed.
+
+## Libffado provisioning: PyQt5 `/usr/sbin` conflict (2026-10-10)
+
+The published `python-pyqt5-5.15.11-8` archive contains a real `usr/sbin/`
+directory and `pylupdate5`, `pyrcc5`, and `pyuic5` beneath it. The published
+`filesystem-2025.10.12-1` owns `usr/sbin` as a symlink to `bin`. This is a
+directory/symlink conflict during isolated-root provisioning, before libffado
+compilation. Both archives were downloaded and matched their repository
+SHA-256 checksums. The generic `Package: rlpm` error labels the backend; it
+does not name the conflicting package.
+
+SIP 6.17 defaults its scripts directory to the directory of `sys.executable`.
+[PyQt5](devario-libs/pyqt5/PKGBUILD) release `5.15.11-9` now passes
+`--scripts-dir /usr/bin` explicitly. [Libffado](devario-libs/libffado/PKGBUILD)
+release `2.5.0-3` requires `python-pyqt5>=5.15.11-9` during the build so the
+worker cannot reuse the conflicting archive. Both `.SRCINFO` files are updated.
+
+Rebuild and publish `python-pyqt5` from the updated `devario-libs/pyqt5`
+recipe, refresh the worker's repository and recipe metadata, then retry
+libffado in a fresh isolated root. Do not overwrite the filesystem symlink.
+
+Validation: Bash syntax and makepkg/Shelly metadata agree. PyQt5 review has
+no findings; libffado retains its existing warning about the Python
+site-packages lookup. The PyQt5 source and bundled patch checksums passed.
+With checksum-verified SIP 6.17 and PyQt-builder 1.20 packages extracted into
+`/tmp`, a QtCore-only configuration generated the Makefiles, and the real
+`install_scripts` target staged all three executables under `usr/bin` without
+creating `usr/sbin`. Full PyQt5 compilation, isolated provisioning, libffado
+compilation, and publication were not performed.
+
+Alternatively, the published `5.15.11-8` archive can be repacked without
+recompilation: move the three scripts from `usr/sbin` to `usr/bin`, remove
+the real `usr/sbin` directory, update the Python dist-info `RECORD` paths,
+bump the package version to `5.15.11-9`, and regenerate `.MTREE`. A local
+unsigned archive was prepared this way, preserving the original compiler
+environment and PKGBUILD hash in `.BUILDINFO` with a repacking note. All 833
+non-metadata payload files remain byte-identical, and all 888 manifest paths
+and 836 file checksums were verified. Its SHA-256 is
+`57ffea3e4f19262c7a5b33d22282b387b4e04b23131e29dc680cb0b51fb29526`.
+Sign and publish that archive through the normal repository process, then
+refresh the worker and retry libffado. The original archive's signature
+cannot be reused for the repacked archive. This alternative was not installed
+or tested in an isolated root.

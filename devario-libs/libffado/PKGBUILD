@@ -5,7 +5,7 @@
 
 pkgname=libffado
 pkgver=2.5.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Driver for FireWire audio devices"
 arch=(x86_64)
 url="https://www.ffado.org/"
@@ -26,7 +26,7 @@ makedepends=(
   dbus-c++
   # JACK consumes FFADO. Its version probe is optional, not a build input.
   libconfig
-  python-pyqt5
+  'python-pyqt5>=5.15.11-9'
   python-setuptools
   scons
   which

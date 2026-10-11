@@ -1,7 +1,7 @@
 pkgbase = pyqt5
 	pkgdesc = A set of Python bindings for the Qt5 toolkit
 	pkgver = 5.15.11
-	pkgrel = 8
+	pkgrel = 9
 	url = https://riverbankcomputing.com/software/pyqt/intro
 	arch = x86_64
 	groups = pyqt5
