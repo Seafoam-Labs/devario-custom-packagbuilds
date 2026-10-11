@@ -3,7 +3,7 @@
 pkgbase=lib32-libxcrypt
 pkgname=(lib32-libxcrypt lib32-libxcrypt-compat)
 pkgver=4.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Modern library for one-way hashing of passwords (32-bit)'
 arch=('x86_64')
 url='https://github.com/besser82/libxcrypt/'
@@ -15,21 +15,34 @@ source=("${url}/releases/download/v${pkgver}/libxcrypt-${pkgver}.tar.xz"{,.asc})
 sha256sums=('71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071'
             'SKIP')
 
+prepare() {
+  cd "${srcdir}/libxcrypt-${pkgver}"
+
+  # glibc >= 2.43 preserves const in strchr's C23 return type. The buffer
+  # here is writable; avoid introducing const through its argument cast.
+  # Same fix the 64-bit libxcrypt recipe carries.
+  # https://www.linuxfromscratch.org/lfs/view/13.0-systemd/chapter08/libxcrypt.html
+  sed -i 's/strchr ((const char \*)/strchr ((char *)/' \
+    lib/crypt-sm3-yescrypt.c lib/crypt-gost-yescrypt.c
+}
+
 build() {
   export CC="gcc -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
   mkdir build-libxcrypt build-libxcrypt-compat
   cd "${srcdir}/build-libxcrypt/"
+  # Keep compiler warnings, but do not make new toolchain warnings fatal.
   "${srcdir}/libxcrypt-${pkgver}"/configure \
     --prefix=/usr \
     --libdir=/usr/lib32 \
     --libexecdir=/usr/lib32 \
     --disable-static \
+    --disable-werror \
     --enable-hashes=strong,glibc \
     --enable-obsolete-api=no \
     --disable-failure-tokens
-  make 
+  make
 
   cd "${srcdir}/build-libxcrypt-compat/"
   "${srcdir}/libxcrypt-${pkgver}"/configure \
@@ -37,10 +50,11 @@ build() {
     --libdir=/usr/lib32 \
     --libexecdir=/usr/lib32 \
     --disable-static \
+    --disable-werror \
     --enable-hashes=strong,glibc \
     --enable-obsolete-api=glibc \
     --disable-failure-tokens
-  make 
+  make
 }
 
 package_lib32-libxcrypt() {

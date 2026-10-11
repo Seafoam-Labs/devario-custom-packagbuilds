@@ -5,17 +5,32 @@
 _pkgbasename=gmp
 pkgname=lib32-$_pkgbasename
 pkgver=6.3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A free library for arbitrary precision arithmetic (32-bit)"
 arch=('x86_64')
 url="https://gmplib.org/"
 depends=('lib32-gcc-libs' $_pkgbasename)
 makedepends=(gcc-multilib)
 license=('LGPL3' 'GPL')
-source=(https://gmplib.org/download/gmp/gmp-${pkgver}.tar.lz{,.sig})
+source=(https://gmplib.org/download/gmp/gmp-${pkgver}.tar.lz{,.sig}
+        gmp-gcc-15.patch)
 sha512sums=('b70f3603ab40270fa6e9a7ee1dc0f91477e45803d3ee2f22af924af89dcd18b483c900685310c9e69cee91dc1b6dec00cfec6a8a111022d0122b5427209a4a2d'
-            'SKIP')
+            'SKIP'
+            '85e367507f49288f14c929717ffc71c3b553315c95682bf2464422c3f778f5d1eae3ef30af23653b7046fb921b5862c26cdcde9fe909dd4209d589e633e8853c')
 validpgpkeys=('343C2FF0FBEE5EC2EDBEF399F3599FF828C67298') # Niels Möller
+
+prepare() {
+  cd "${_pkgbasename}-${pkgver}"
+
+  # Upstream GMP 6.3.0 declares `void g(){}` in an acinclude.m4 compiler probe
+  # and calls it with six arguments. GCC 15+ defaults to C23, where an empty
+  # parameter list means (void), so the probe fails to compile and configure
+  # aborts with "could not find a working compiler". This is the same patch the
+  # 64-bit gmp recipe carries (upstream hg 8e7bb4ae7a18); autoreconf is needed
+  # to regenerate configure from the patched acinclude.m4.
+  patch -p1 < ../gmp-gcc-15.patch
+  autoreconf -vif
+}
 
 build() {
   export CC="gcc -m32"
