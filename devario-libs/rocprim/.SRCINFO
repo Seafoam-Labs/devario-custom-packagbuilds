@@ -1,7 +1,7 @@
 pkgbase = rocprim
 	pkgdesc = Header-only library providing HIP parallel primitives
 	pkgver = 10.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://rocm.docs.amd.com/projects/rocPRIM/en/latest/index.html
 	arch = any
 	license = MIT

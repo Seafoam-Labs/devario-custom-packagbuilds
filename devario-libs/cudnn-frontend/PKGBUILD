@@ -33,6 +33,14 @@ prepare() {
 }
 
 build() {
+	# CUDA installs into /opt/cuda, which lands on PATH and the loader search
+	# list only through /etc/profile.d/cuda.sh and /etc/ld.so.conf.d/cuda.conf.
+	# Shelly's build shell sources neither, so without this CMake's
+	# FindCUDAToolkit cannot resolve nvcc and aborts with "Could not find nvcc
+	# executable in path". The explicit CUDAToolkit_ROOT keeps the probe away
+	# from any host CUDA install.
+	export CUDA_PATH=/opt/cuda
+	export PATH="/opt/cuda/bin:$PATH"
 	local cmake_args=(
 		-Wno-dev
 		-G Ninja
@@ -40,6 +48,7 @@ build() {
 		-S ${pkgbase}-${pkgver}
 		-D CMAKE_BUILD_TYPE=None
 		-D CMAKE_INSTALL_PREFIX=/usr
+		-D CUDAToolkit_ROOT=/opt/cuda
 	)
 	echo "Build C++ library"
 	cmake "${cmake_args[@]}"
@@ -58,6 +67,12 @@ package_cudnn-frontend() {
 		cuda
 		cudnn
 	)
+	# Each PKGBUILD function runs in its own shell under Shelly, so the CUDA
+	# PATH/CUDA_PATH set in build() is gone here. The cached CMake generator
+	# and compiler paths are absolute, but re-exporting keeps any reconfigure
+	# from failing to find nvcc again.
+	export CUDA_PATH=/opt/cuda
+	export PATH="/opt/cuda/bin:$PATH"
 	DESTDIR="${pkgdir}" cmake --install build
 	cd ${pkgbase}-${pkgver}
 	install -Dm644 LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE

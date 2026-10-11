@@ -19,6 +19,13 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
 
 build() {
   cd ${_pkgname}-${pkgver}
+  # The GitHub tarball has no .git, so setuptools-scm cannot derive a version and
+  # aborts with LookupError. The top-level export above does not survive into this
+  # function: Shelly runs each PKGBUILD function in its own shell. The chroot's
+  # setuptools-scm delegates to vcs_versioning, which is what raises, so set both
+  # spellings of the pretend-version variable.
+  export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
+  export VCS_VERSIONING_PRETEND_VERSION=$pkgver
   python -m build --wheel --no-isolation
 }
 

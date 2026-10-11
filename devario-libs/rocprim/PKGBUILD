@@ -4,7 +4,7 @@
 
 pkgname=rocprim
 pkgver=10.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Header-only library providing HIP parallel primitives'
 arch=('any')
 url='https://rocm.docs.amd.com/projects/rocPRIM/en/latest/index.html'
@@ -16,6 +16,11 @@ source=("$pkgname-$pkgver.tar.gz::$_git/releases/download/therock-$pkgver/$pkgna
 sha256sums=('f4e864b5147f1d50d94117529dd056d0ce3ea2c747bd91a1606ac67bad87223e')
 
 build() {
+  # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
+  # /etc/profile.d/rocm.sh. Shelly's build shell does not source profile.d, so
+  # CMake cannot resolve the bare compiler names below.
+  export PATH="/opt/rocm/bin:$PATH"
+
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   export CC=amdclang
@@ -35,6 +40,11 @@ build() {
 }
 
 package() {
+  # The CMake cache holds CMAKE_CXX_COMPILER as the bare name "amdclang++", and
+  # each PKGBUILD function runs in its own shell under Shelly, so a regeneration
+  # during install would fail to find it again.
+  export PATH="/opt/rocm/bin:$PATH"
+
   DESTDIR="$pkgdir" cmake --install build
 
   install -Dm644 "$pkgname/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
