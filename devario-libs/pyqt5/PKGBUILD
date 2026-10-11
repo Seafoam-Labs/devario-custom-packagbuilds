@@ -9,7 +9,7 @@ pkgbase=pyqt5
 pkgname=('python-pyqt5')
 pkgdesc="A set of Python bindings for the Qt5 toolkit"
 pkgver=5.15.11
-pkgrel=7
+pkgrel=8
 arch=('x86_64')
 url="https://riverbankcomputing.com/software/pyqt/intro"
 license=('GPL')
@@ -30,8 +30,15 @@ makedepends=('sip' 'pyqt-builder' 'python-opengl' 'python-dbus'
              'qt5-multimedia' 'qt5-tools' 'qt5-serialport' 'qt5-speech' 'qt5-svg'
              'qt5-x11extras' 'qt5-xmlpatterns' 'qt5-declarative')
 conflicts=('pyqt5-common')
-source=("https://pypi.python.org/packages/source/P/PyQt5/PyQt5-$pkgver.tar.gz")
-sha256sums=('fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52')
+source=("https://pypi.python.org/packages/source/P/PyQt5/PyQt5-$pkgver.tar.gz"
+        sip-6.17-dbus.patch)
+sha256sums=('fda45743ebb4a27b4b1a51c6d8ef455c4c1b5d610c90d2934c7802b5c1557c52'
+            'd72235aa94589aad39f6afcf78336dcdfa859cc91540e5316cf626bb25005762')
+
+prepare() {
+  cd PyQt5-$pkgver
+  patch -p1 -i "$srcdir/sip-6.17-dbus.patch"
+}
 
 build() {
   cd PyQt5-$pkgver

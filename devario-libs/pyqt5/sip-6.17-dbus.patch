@@ -1,0 +1,19 @@
+--- a/project.py
++++ b/project.py
+@@ -221,9 +221,15 @@
+                 self._add_plugin('qmlscene', "qmlscene", 'pyqt5qmlplugin',
+                         'PyQt5', others_debug)
+ 
++    def verify_configuration(self, tool):
++        super().verify_configuration(tool)
++
++        # SIP 6.17 needs the validated ABI version when creating a buildable
++        # that uses the limited API.
+         # Add the dbus-python support.
+         if self.dbus_python:
+-            self._add_dbus(others_debug)
++            self._add_dbus(self.py_debug or any(
++                    bindings.debug for bindings in self.bindings.values()))
+ 
+     def _add_composite_module(self):
+         """ Add the bindings for the composite module. """
