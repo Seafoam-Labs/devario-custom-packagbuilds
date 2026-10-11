@@ -39,6 +39,11 @@ sha512sums=('12d66fadc174463757da75571bd7ac352ed985e36a1cec0d8d1747d53815243cab1
             'd32021038017cec10a94dbf8666918b6b9555ca11758cf43d922b461e49cbbc2fc9c71e1d42297248b2eae3d90f349ccfa7043e4a18cea99c422496f26db344c'
             '9054a13f13a0d04bffefb2e5c1bcabfcd7b11e4d83d9180f65e0a09eeb8fea407d8c4e1e1e9b79191ba99e4eb372dbbb3189dd30833170c64cdb4484ca559441')
 
+# Shelly refuses a second source archive writing a path the first created, and
+# both zips unpack to ${pkgbase}-${pkgver}/. The wrapper consumes the -all zip
+# as a file through distributionUrl, so leave it unextracted.
+noextract=("${pkgbase}-${pkgver}-all.zip")
+
 prepare() {
   cd ${pkgbase}-${pkgver}
   # remove adoptium references because we want to use our java implementation
