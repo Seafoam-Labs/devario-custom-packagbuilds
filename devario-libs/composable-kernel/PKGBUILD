@@ -43,9 +43,17 @@ build() {
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
     # CK doesn't support all targets
     # -D GPU_ARCHS="$(rocm-supported-gfx)"
-    -D GPU_ARCHS="gfx908;gfx90a;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
+    # Every instance is compiled once per target and the device backend
+    # dominates that cost, so all nine archs need ~30h against the builder's
+    # 5h limit. One generic target still covers all of RDNA3: gfx1100-1103 and
+    # gfx1150-1153.
+    -D GPU_ARCHS="gfx11-generic"
     -D BUILD_DEV=OFF
     -D INSTANCES_ONLY=ON
+    # The profiler is added outside the GPU_ARCHS guard, so it builds unless
+    # disabled, and its sources pull in every instance header. Disabling it
+    # costs only the ckProfiler binary.
+    -D BUILD_CK_PROFILER=OFF
   )
   cmake "${_cmake_args[@]}"
   cmake --build build
