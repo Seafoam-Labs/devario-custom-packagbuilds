@@ -3,7 +3,7 @@
 
 pkgname=java-hamcrest
 pkgver=3.0
-pkgrel=3
+pkgrel=4
 pkgdesc='Java matcher objects library'
 arch=(any)
 url='https://github.com/hamcrest/JavaHamcrest'
@@ -12,6 +12,14 @@ makedepends=(git gradle java-environment)
 depends=(java-runtime-headless)
 source=("git+$url#tag=v$pkgver")
 b2sums=('758e2c85426a6b31aef52da1656deca219383c07e0beb612279c23d33bcf0b0ffa1d76c37a1230854dbfd827e1ae8449af77db16221595993ed83ea8898b848a')
+
+prepare() {
+  cd JavaHamcrest
+
+  # Bnd 6.4.0 calls Jar.getConvention(), which was removed in Gradle 9.
+  sed -i "s/id 'biz.aQute.bnd.builder' version '6.4.0'/id 'biz.aQute.bnd.builder' version '7.4.0'/" \
+    hamcrest/hamcrest.gradle
+}
 
 build() {
   cd JavaHamcrest
