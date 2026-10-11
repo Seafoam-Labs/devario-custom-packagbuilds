@@ -11,8 +11,8 @@ hooks under RLPM.
 ## Devario's hook contract
 
 The active configuration in
-[devario-os/packages/devario-base/shelly.conf](../Devario/devario-os/packages/devario-base/shelly.conf)
-and both ISO transaction configurations specifies:
+`devario-os/packages/devario-base/shelly.conf` in the devario-os checkout and
+both ISO transaction configurations specifies:
 
 ```ini
 HookDirMode = Replace
@@ -64,9 +64,9 @@ to install `/usr/share/rlpm/hooks/rebuild-detector.hook`.
   and Shelly review parsing. The 908-recipe expansion report remains passing.
 
 Run `python tests/test-hook-layout.py` to repeat the local hook checks. The
-[audit summary](audits/hook-layout-2026-10-08/summary.json),
-[hook inventory](audits/hook-layout-2026-10-08/hooks.json), and
-[recipe validation](audits/hook-layout-2026-10-08/validation.json) retain the
-evidence. The inventory covers checked-in recipe material; full rebuilt
-archives and the published binary repositories still need their file-path
-audit before deployment, as `devario-os` already does during ISO staging.
+audit summary, `summary.json`; the hook inventory, `hooks.json`; and the recipe
+validation, `validation.json`, recorded the evidence. The hook audit outputs
+were generated on 2026-10-08 and are not retained in this repository. The
+inventory covered checked-in recipe material; full rebuilt archives and the
+published binary repositories still need their file-path audit before
+deployment, as `devario-os` already does during ISO staging.

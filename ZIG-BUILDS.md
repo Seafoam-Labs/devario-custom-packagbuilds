@@ -8,23 +8,23 @@ signing keys. Copy whole directories to the worker.
 
 | Recipe | Version | Outputs relevant to this build |
 | --- | --- | --- |
-| [gcc](gcc/PKGBUILD) (existing) | `16.2.1+r23+gd564253eb6c8-2` | GCC compiler/runtime set, `libgccjit`, and `lib32-gcc-libs` |
-| [rhash](rhash/PKGBUILD) | `1.4.6-2` | `rhash`, providing `librhash.so=1-64` |
-| [jsoncpp](jsoncpp/PKGBUILD) | `1.9.8-2` | `jsoncpp`, providing `libjsoncpp.so=27-64`; also `jsoncpp-doc` |
-| [libuv](libuv/PKGBUILD) | `1.53.0-1` | `libuv` |
-| [cppdap](cppdap/PKGBUILD) | `1.58.0-3` | `cppdap` |
-| [emacs](emacs/PKGBUILD) | `31.1-2` | `emacs`, `emacs-nox`, `emacs-wayland` |
-| [cmake](cmake/PKGBUILD) | `4.4.3-2` | `cmake` |
-| [ninja](ninja/PKGBUILD) | `1.13.2-3` | `ninja` |
-| [python-build](python-build/PKGBUILD) | `1.6.0-1` | `python-build` |
-| [python-installer](python-installer/PKGBUILD) | `1.0.1-1` | `python-installer` |
-| [python-wheel](python-wheel/PKGBUILD) | `0.48.0-1` | `python-wheel` |
-| [python-setuptools](python-setuptools/PKGBUILD) | `1:84.0.0-3` | `python-setuptools` |
-| [python-psutil](python-psutil/PKGBUILD) | `7.2.2-1` | `python-psutil` |
-| [python-sphinx](python-sphinx/PKGBUILD) | `9.1.0-1` | `python-sphinx` |
-| [python-myst-parser](python-myst-parser/PKGBUILD) | `5.1.0-1` | `python-myst-parser` |
+| [gcc](devario-core/gcc/PKGBUILD) (existing) | `16.2.1+r23+gd564253eb6c8-2` | GCC compiler/runtime set, `libgccjit`, and `lib32-gcc-libs` |
+| [rhash](devario-core/rhash/PKGBUILD) | `1.4.6-2` | `rhash`, providing `librhash.so=1-64` |
+| [jsoncpp](devario-core/jsoncpp/PKGBUILD) | `1.9.8-2` | `jsoncpp`, providing `libjsoncpp.so=27-64`; also `jsoncpp-doc` |
+| [libuv](devario-core/libuv/PKGBUILD) | `1.53.0-1` | `libuv` |
+| [cppdap](devario-core/cppdap/PKGBUILD) | `1.58.0-3` | `cppdap` |
+| [emacs](devario-core/emacs/PKGBUILD) | `31.1-2` | `emacs`, `emacs-nox`, `emacs-wayland` |
+| [cmake](devario-core/cmake/PKGBUILD) | `4.4.3-2` | `cmake` |
+| [ninja](devario-core/ninja/PKGBUILD) | `1.13.2-3` | `ninja` |
+| [python-build](devario-core/python-build/PKGBUILD) | `1.6.0-1` | `python-build` |
+| [python-installer](devario-core/python-installer/PKGBUILD) | `1.0.1-1` | `python-installer` |
+| [python-wheel](devario-core/python-wheel/PKGBUILD) | `0.48.0-1` | `python-wheel` |
+| [python-setuptools](devario-core/python-setuptools/PKGBUILD) | `1:84.0.0-3` | `python-setuptools` |
+| [python-psutil](devario-core/python-psutil/PKGBUILD) | `7.2.2-1` | `python-psutil` |
+| [python-sphinx](devario-core/python-sphinx/PKGBUILD) | `9.1.0-1` | `python-sphinx` |
+| [python-myst-parser](devario-core/python-myst-parser/PKGBUILD) | `5.1.0-1` | `python-myst-parser` |
 | [llvm21](devario-core/llvm21/PKGBUILD) | `21.1.8-1.1` | `llvm21`, `llvm21-libs` |
-| [compiler-rt21](compiler-rt21/PKGBUILD) | `21.1.8-1` | `compiler-rt21`, including 32-bit runtimes |
+| [compiler-rt21](devario-core/compiler-rt21/PKGBUILD) | `21.1.8-1` | `compiler-rt21`, including 32-bit runtimes |
 | [clang21](devario-core/clang21/PKGBUILD) | `21.1.8-1` | `clang21` |
 | [lld21](devario-core/lld21/PKGBUILD) | `21.1.8-1` | `lld21` |
 | [zig](devario-core/zig/PKGBUILD) (existing) | `0.16.0-1` | `zig` |
@@ -47,7 +47,7 @@ There is no single linear build order from an empty root: `cppdap` needs CMake
 while CMake depends on `cppdap`, and Python build tools require existing
 versions of themselves. Seed the worker with CMake, `python-build`,
 `python-installer`, `python-setuptools`, `python-wheel`, and `python-flit-core`
-from the bootstrap repository. See [gcc/README.md](gcc/README.md) for GCC's
+from the bootstrap repository. See [gcc/README.md](devario-core/gcc/README.md) for GCC's
 additional compiler bootstrap requirements, including Ada, D, Rust, and
 matching multilib packages. The Python recipes retain the regular rebuild
 path and omit the unused alternative interpreter-bootstrap branch.
@@ -163,7 +163,7 @@ The Setuptools recipe downloaded from Arch had an incorrect Git checksum.
 The corrected recipe pins the archive checksum previously verified against
 Jason R. Coombs' signed `v84.0.0` tag. Python recipes do not require a PGP key
 at build time. See
-[python-setuptools/README.md](python-setuptools/README.md) for the fingerprint
+[python-setuptools/README.md](devario-core/python-setuptools/README.md) for the fingerprint
 and resolved commit. JsonCpp and RHash have explicit Shelly ABI provisions
 with ELF64/SONAME checks, following this repository's existing conventions.
 

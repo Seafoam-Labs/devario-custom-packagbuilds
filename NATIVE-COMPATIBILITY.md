@@ -38,17 +38,17 @@ To use the generated list, an administrator can add
 `Include = /etc/shelly.d/mirrorlist` to the intended Devario repository sections.
 Existing direct server settings are not changed by this package.
 
-The [adaptation log](audits/application-expansion-2026-10-08/adaptations.json)
-and [native audit report](audits/application-expansion-2026-10-08/native-compatibility-audit.json)
-record the affected recipes. Changed recipes have updated release numbers,
-bundled-source checksums, and `.SRCINFO` metadata.
+The adaptation log, `adaptations.json`, and the native audit report,
+`native-compatibility-audit.json`, recorded the affected recipes. The expansion
+audit outputs were generated on 2026-10-08 and are not retained in this
+repository. Changed recipes have updated release numbers, bundled-source
+checksums, and `.SRCINFO` metadata.
 
 ## Conflicting alternatives
 
 The source set contains **21 declared conflict pairs** whose current versions
-are mutually exclusive. See
-[package-alternatives.json](audits/application-expansion-2026-10-08/package-alternatives.json).
-These are installation choices, including:
+are mutually exclusive; `package-alternatives.json` listed them. These are
+installation choices, including:
 
 - JDK, JRE, and headless JRE outputs for the same Java version;
 - Vim and GVim;
@@ -72,9 +72,11 @@ Arch repositories or require an Arch installation.
 All 908 recipes pass metadata comparison, shell syntax, and Shelly review
 parsing; all 564 bundled-source checksum checks pass. Required dependency
 resolution remains complete against the saved Devario repository snapshot.
-Seven native Java/Reflector fixture tests pass, and Reflector's actual
-`prepare()`, wheel build, and `package()` were exercised in temporary staging
-directories. No host configuration was changed.
+All seven native Java/Reflector fixture tests ran on 2026-10-08 with the
+upstream archive and catalog present; measured on 2026-10-11 without them, one
+passes and six skip. Reflector's actual `prepare()`, wheel build, and
+`package()` were exercised in temporary staging directories. No host
+configuration was changed.
 
 To repeat the native fixtures with the checksum-pinned upstream archive:
 

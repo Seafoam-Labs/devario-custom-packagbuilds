@@ -6,8 +6,8 @@ Each stage below lists every package by name, with its build recipe and bootstra
 
 ## Follow this sequence
 
-1. Start with a working Devario builder and the published dependency packages recorded in the [repository snapshot](audits/application-expansion-2026-10-08/repository-snapshot.json). This is an expansion of that repository, not a build from an empty system.
-2. Read [bootstrap-order.txt](audits/application-expansion-2026-10-08/bootstrap-order.txt). Make the required seed packages available to the isolated builder before starting each flagged group. An installed host tool alone does not satisfy a dependency inside an isolated root.
+1. Start with a working Devario builder and the published dependency packages recorded in `repository-snapshot.json`. This is an expansion of that repository, not a build from an empty system.
+2. Read `bootstrap-order.txt`. Make the required seed packages available to the isolated builder before starting each flagged group. An installed host tool alone does not satisfy a dependency inside an isolated root.
 3. Build **stage 01**, then **02**, continuing through **28**. Independent groups within a stage may run in parallel in separate roots. The group numbers preserve the earlier manifest identifiers; follow stage order in this plan.
 4. Publish completed dependency packages to the builder repository and refresh its metadata before provisioning dependent groups. For a cyclic group, retain its working seeds until all replacement packages have been built and the group can be published together.
 5. Use `--no-check` for this queue. Build split recipes once and publish their outputs; install only compatible alternatives in each root. Test-only and optional dependency expansions are separate.
@@ -18,7 +18,7 @@ If a bootstrap group cannot be provisioned, stop that group and its dependents. 
 
 **1329 package outputs from 908 recipes.** Every package is listed individually below. Rows sharing a recipe are split outputs: **build that recipe once**, then publish its outputs. The scope remains 896 new recipes plus 12 reused existing recipes.
 
-Work through stages 01–28. Publish dependencies and refresh the builder repository before the next stage. Independent groups within a stage can build in parallel. A bootstrap label means the group needs seed packages before it can build; see [bootstrap-order.txt](audits/application-expansion-2026-10-08/bootstrap-order.txt).
+Work through stages 01–28. Publish dependencies and refresh the builder repository before the next stage. Independent groups within a stage can build in parallel. A bootstrap label means the group needs seed packages before it can build; see `bootstrap-order.txt`.
 
 Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#stage-04) · [05](#stage-05) · [06](#stage-06) · [07](#stage-07) · [08](#stage-08) · [09](#stage-09) · [10](#stage-10) · [11](#stage-11) · [12](#stage-12) · [13](#stage-13) · [14](#stage-14) · [15](#stage-15) · [16](#stage-16) · [17](#stage-17) · [18](#stage-18) · [19](#stage-19) · [20](#stage-20) · [21](#stage-21) · [22](#stage-22) · [23](#stage-23) · [24](#stage-24) · [25](#stage-25) · [26](#stage-26) · [27](#stage-27) · [28](#stage-28)
 
@@ -1566,23 +1566,24 @@ The additional single-recipe seed groups are:
 | 04 / G479 | `pnpm` | `pnpm` |
 | 17 / G111 | `vala` | `vala` |
 
-[bootstrap-order.txt](audits/application-expansion-2026-10-08/bootstrap-order.txt) lists all 25 groups, their member recipes, and exact internal dependency constraints. Those seeds must come from a working, compatible bootstrap set or separately prepared bootstrap recipes. This plan identifies the prerequisites; it does not supply or build the seed binaries.
+`bootstrap-order.txt` listed all 25 groups, their member recipes, and exact internal dependency constraints. Those seeds must come from a working, compatible bootstrap set or separately prepared bootstrap recipes. This plan identifies the prerequisites; it does not supply or build the seed binaries.
 
 ## Files to use
 
-- [Full readable queue](audits/application-expansion-2026-10-08/build-stages.txt): every recipe, grouped by stage.
-- [Package TSV](audits/application-expansion-2026-10-08/package-build-stages.tsv): one row per package, with its stage and build recipe.
-- [Builder TSV](audits/application-expansion-2026-10-08/build-stages.tsv): stages, predecessor groups, bootstrap blockers, and requested outputs.
-- [Application index](audits/application-expansion-2026-10-08/application-build-stages.tsv): the stage and source directory for each of the 114 requested packages.
-- [Bootstrap queue](audits/application-expansion-2026-10-08/bootstrap-order.txt): seed requirements in stage order.
-- [Alternative packages](audits/application-expansion-2026-10-08/package-alternatives.json): JDK/JRE, Node.js, Vim/GVim, Lazarus and OpenCV installation choices.
+The expansion audit outputs were generated on 2026-10-08 and are not retained in
+this repository:
+
+- Full readable queue, `build-stages.txt`: every recipe, grouped by stage.
+- Package TSV, `package-build-stages.tsv`: one row per package, with its stage and build recipe.
+- Builder TSV, `build-stages.tsv`: stages, predecessor groups, bootstrap blockers, and requested outputs.
+- Application index, `application-build-stages.tsv`: the stage and source directory for each of the 114 requested packages.
+- Bootstrap queue, `bootstrap-order.txt`: seed requirements in stage order.
+- Alternative packages, `package-alternatives.json`: JDK/JRE, Node.js, Vim/GVim, Lazarus and OpenCV installation choices.
 
 The separate Neovim and isolation-builder Texinfo hook repairs are outside the 908-recipe application manifest. Texinfo uses dependencies present in the saved repository snapshot; Neovim requires its own dependency plan. TeX Live’s hook correction is included in the main queue. See [the hook guide](HOOK-BUILDS.md).
 
 All 3,730 recorded dependency edges were checked: every dependency outside its own group is in an earlier stage. Current PKGBUILD hashes match the audited manifest. The plan remains tied to the saved repository/provider snapshot; re-resolve it if dependency metadata, available providers, or recipes change. Full builds were not run to create this order.
 
-To regenerate the stage files from the same audited graph:
-
-```sh
-python audits/application-expansion-2026-10-08/write-build-stages.py
-```
+The stage files came from the audited graph, which is not retained.
+`LATEST-BUILD-ORDER.tsv` is the machine-readable build-order list that survives
+in this repository.

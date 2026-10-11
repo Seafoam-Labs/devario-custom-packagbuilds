@@ -57,10 +57,10 @@ linker support, and a compiler that can use them.
 
 | Recipe | Version | Packages needed here |
 | --- | --- | --- |
-| [linux-api-headers](linux-api-headers/PKGBUILD) | `7.2-1` | Linux userspace API headers |
-| [glibc](glibc/PKGBUILD) | `2.44+r50+g1848099f063e-1` | `glibc`, `lib32-glibc`; also produces `glibc-locales` |
-| [binutils](binutils/PKGBUILD) | `2.47-4` | assembler, linker and binary utilities |
-| [gcc](gcc/PKGBUILD) (existing) | `16.2.1+r23+gd564253eb6c8-2` | `gcc`, `lib32-gcc-libs` and the native runtime packages |
+| linux-api-headers, published in devario-core (no local recipe) | `7.2-1` | Linux userspace API headers |
+| [glibc](devario-core/glibc/PKGBUILD) | `2.44+r50+g1848099f063e-1` | `glibc`, `lib32-glibc`; also produces `glibc-locales` |
+| [binutils](devario-core/binutils/PKGBUILD) | `2.47-4` | assembler, linker and binary utilities |
+| [gcc](devario-core/gcc/PKGBUILD) (existing) | `16.2.1+r23+gd564253eb6c8-2` | `gcc`, `lib32-gcc-libs` and the native runtime packages |
 
 `lib32-gcc-libs` is already an output of the GCC split recipe. Build that recipe
 as a whole: `package_gcc()` stages files used by the other packaging functions.
@@ -111,7 +111,7 @@ bash check-multilib.sh
 bash check-multilib.sh clang clang++
 ```
 
-The script lives at [compiler-rt21/check-multilib.sh](compiler-rt21/check-multilib.sh).
+The script lives at [compiler-rt21/check-multilib.sh](devario-core/compiler-rt21/check-multilib.sh).
 It compiles and links 32-bit C and C++ programs, verifies ELF32, then exercises
 pthreads, C++ exceptions, and the dynamic loader. A failure means the root's
 toolchain is still incomplete or inconsistent. Passing is a prerequisite, not

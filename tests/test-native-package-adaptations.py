@@ -26,7 +26,7 @@ do_unset
    result=subprocess.run(['bash','-c',code,'fixture',str(stage/'usr/bin/devario-java'),str(jvm)],check=True,capture_output=True,text=True)
    self.assertEqual(result.stdout.splitlines(),['java-21-openjdk','java-17-openjdk'])
    self.assertFalse((jvm/'default').is_symlink())
-@unittest.skipUnless(os.environ.get('DEVARIO_REFLECTOR_ARCHIVE'),'Set DEVARIO_REFLECTOR_ARCHIVE')
+@unittest.skipUnless(os.environ.get('DEVARIO_REFLECTOR_ARCHIVE') and (AUDIT/'repository-catalog.json').exists(),'Set DEVARIO_REFLECTOR_ARCHIVE and audits/application-expansion-2026-10-08/repository-catalog.json')
 class Reflector(unittest.TestCase):
  @classmethod
  def setUpClass(cls):

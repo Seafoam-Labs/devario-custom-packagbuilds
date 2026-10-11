@@ -424,15 +424,15 @@ versioned tools and declares `libLLVM.so=22.1-64` explicitly for Shelly.
 | [ministream](devario-core/ministream/PKGBUILD) | `ministream` 0.99.1, providing `libministream.so=1-64` for consumers such as libadwaita |
 | [inter-font](devario-core/inter-font/PKGBUILD) | `inter-font`, supplying the Pearl installer’s Inter font family |
 | [glycin](devario-core/glycin/PKGBUILD) | `glycin` 2.2.1 for gdk-pixbuf requiring `glycin-2 >= 2.2.alpha.7`; also produces GTK4 integration and documentation |
-| [gtksourceview5](gtksourceview5/PKGBUILD) | `gtksourceview5` (also produces documentation) |
-| [enchant](enchant/PKGBUILD) | `enchant` |
-| [hunspell](hunspell/PKGBUILD) | `hunspell` |
-| [jq](jq/PKGBUILD) | `jq` |
-| [numactl](numactl/PKGBUILD) | `numactl` |
-| [gcc](gcc/PKGBUILD) | `libgcc`, `libstdc++`, `libgomp`, `libgfortran`, `libquadmath`, plus the matching compiler suite |
-| [dbus](dbus/PKGBUILD) | `dbus`, providing `libdbus-1.so=3-64` |
-| [glib2](glib2/PKGBUILD) | `glib2`, providing `libglib-2.0.so=0-64` (also produces development tools and documentation) |
-| [nvidia-utils](nvidia-utils/PKGBUILD) | `nvidia-utils`, providing `opengl-driver`, `vulkan-driver`, and `nvidia-libgl` |
+| [gtksourceview5](devario-core/gtksourceview5/PKGBUILD) | `gtksourceview5` (also produces documentation) |
+| [enchant](devario-core/enchant/PKGBUILD) | `enchant` |
+| [hunspell](devario-core/hunspell/PKGBUILD) | `hunspell` |
+| [jq](devario-core/jq/PKGBUILD) | `jq` |
+| [numactl](devario-core/numactl/PKGBUILD) | `numactl` |
+| [gcc](devario-core/gcc/PKGBUILD) | `libgcc`, `libstdc++`, `libgomp`, `libgfortran`, `libquadmath`, plus the matching compiler suite |
+| [dbus](devario-core/dbus/PKGBUILD) | `dbus`, providing `libdbus-1.so=3-64` |
+| [glib2](devario-core/glib2/PKGBUILD) | `glib2`, providing `libglib-2.0.so=0-64` (also produces development tools and documentation) |
+| [nvidia-utils](devario-core/nvidia-utils/PKGBUILD) | `nvidia-utils`, providing `opengl-driver`, `vulkan-driver`, and `nvidia-libgl` |
 
 For the gdk-pixbuf error finding glycin 2.1.0, follow the
 [glycin build guide](devario-core/glycin/README.md). Build and publish glycin
@@ -444,7 +444,7 @@ isolated build, follow the [ministream build guide](devario-core/ministream/READ
 Build and publish ministream to the worker repository first, refresh its
 database, and retry the dependent package in a fresh isolated root.
 
-For NVIDIA's binary utilities, see the [nvidia-utils build guide](nvidia-utils/README.md)
+For NVIDIA's binary utilities, see the [nvidia-utils build guide](devario-core/nvidia-utils/README.md)
 for separate validation results and driver integration requirements. This recipe
 produces only `nvidia-utils 615.71.09-2`; the matching `615.71.09` kernel driver
 must be supplied separately. Make `libglvnd`, `egl-wayland`, `egl-wayland2`,
@@ -475,7 +475,7 @@ shelly build --isolated --check ./hunspell/PKGBUILD
 
 Repeat with the directory names in the table. Run the GCC recipe once to produce
 all five requested GCC runtime packages. Its full compiler bootstrap takes much
-more time and disk space than the other recipes; see [gcc/README.md](gcc/README.md).
+more time and disk space than the other recipes; see [gcc/README.md](devario-core/gcc/README.md).
 
 The isolated root must have access to repositories containing the declared build
 dependencies. Build and publish the GCC outputs together, then build the other

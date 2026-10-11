@@ -49,19 +49,19 @@ library for ELF64 and the corresponding SONAME, failing if it does not match.
 
 | Recipe | Package version | Required provision |
 | --- | --- | --- |
-| [curl](curl/PKGBUILD) | `8.22.0-2` | `libcurl.so=4-64` |
-| [gpgme](gpgme/PKGBUILD) | `2.2.0-2` | `libgpgme.so=45-64` |
-| [libarchive](libarchive/PKGBUILD) | `3.8.9-2` | `libarchive.so=13-64` |
+| [curl](devario-core/curl/PKGBUILD) | `8.22.0-2` | `libcurl.so=4-64` |
+| [gpgme](devario-core/gpgme/PKGBUILD) | `2.2.0-2` | `libgpgme.so=45-64` |
+| [libarchive](devario-core/libarchive/PKGBUILD) | `3.8.9-2` | `libarchive.so=13-64` |
 | [openssl](devario-core/openssl/PKGBUILD) | `3.6.4-3` | `libcrypto.so=3-64`, `libssl.so=3-64` |
 | [libgit2](devario-core/libgit2/PKGBUILD) | `1:1.9.7-2` | `libgit2.so=1.9-64` |
 | [libssh2](devario-core/libssh2/PKGBUILD) | `1.11.1-8` | `libssh2.so=1-64` |
 | [sqlite](devario-core/sqlite/PKGBUILD) | `3.53.4-2` | `libsqlite3.so=0-64` |
-| [xz](xz/PKGBUILD) | `5.8.4-2` | `liblzma.so=5-64` |
-| [mpfr](mpfr/PKGBUILD) | `4.2.2-2` | `libmpfr.so=6-64` |
-| [ncurses](ncurses/PKGBUILD) | `6.6-3` | `libncursesw.so=6-64` |
-| [readline](readline/PKGBUILD) | `8.3.6-2` | `libreadline.so=8-64` |
-| [xxhash](xxhash/PKGBUILD) | `0.8.4-2` | `libxxhash.so=0-64` |
-| [zstd](zstd/PKGBUILD) | `1.5.7-6` | `libzstd.so=1-64` |
+| [xz](devario-core/xz/PKGBUILD) | `5.8.4-2` | `liblzma.so=5-64` |
+| [mpfr](devario-core/mpfr/PKGBUILD) | `4.2.2-2` | `libmpfr.so=6-64` |
+| [ncurses](devario-core/ncurses/PKGBUILD) | `6.6-3` | `libncursesw.so=6-64` |
+| [readline](devario-core/readline/PKGBUILD) | `8.3.6-2` | `libreadline.so=8-64` |
+| [xxhash](devario-core/xxhash/PKGBUILD) | `0.8.4-2` | `libxxhash.so=0-64` |
+| [zstd](devario-core/zstd/PKGBUILD) | `1.5.7-6` | `libzstd.so=1-64` |
 
 The recipes also retain the bare library provides. OpenSSL continues to provide
 `libcrypto.so`, `libcrypto.so=3-64`, `libssl.so`, and `libssl.so=3-64`. Curl also builds Arch's
