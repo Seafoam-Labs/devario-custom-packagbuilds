@@ -9,7 +9,7 @@
 
 pkgname=ragel
 pkgver=7.0.4
-pkgrel=1
+pkgrel=2
 pkgdesc="Compiles finite state machines from regular languages into executable C, C++, Objective-C, or D code"
 arch=('x86_64')
 url="https://www.colm.net/open-source/ragel/"
@@ -50,6 +50,20 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+
+  # Isolated builds do not run TeX Live's installation hooks. Search the
+  # installed trees without ls-R indexes and generate TeX data as the build user.
+  export TEXMFCONFIG="$srcdir/texmf-config"
+  export TEXMFVAR="$srcdir/texmf-var"
+  export TEXMF='{$TEXMFAUXTREES$TEXMFCONFIG,$TEXMFVAR,$TEXMFHOME,$TEXMFLOCAL,$TEXMFSYSCONFIG,$TEXMFSYSVAR,$TEXMFDIST}'
+  mkdir -p "$TEXMFCONFIG/web2c" "$TEXMFVAR"
+  cat /usr/share/texmf-dist/web2c/fmtutil-hdr.cnf \
+    /var/lib/texmf/devario/installedpkgs/*.fmts > "$TEXMFCONFIG/web2c/fmtutil.cnf"
+  cat /usr/share/texmf-dist/web2c/updmap-hdr.cfg \
+    /var/lib/texmf/devario/installedpkgs/*.maps > "$TEXMFCONFIG/web2c/updmap.cfg"
+  fmtutil-user --cnffile "$TEXMFCONFIG/web2c/fmtutil.cnf" --byfmt pdflatex
+  updmap-user --cnffile "$TEXMFCONFIG/web2c/updmap.cfg" --nohash
+
   ./configure --prefix=/usr --with-colm=/usr
   make
 }

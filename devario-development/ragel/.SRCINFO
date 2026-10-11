@@ -1,7 +1,7 @@
 pkgbase = ragel
 	pkgdesc = Compiles finite state machines from regular languages into executable C, C++, Objective-C, or D code
 	pkgver = 7.0.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.colm.net/open-source/ragel/
 	arch = x86_64
 	license = MIT
