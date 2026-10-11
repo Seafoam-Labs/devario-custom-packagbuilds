@@ -3,31 +3,38 @@
 # Contributor: Markus Näther <naetherm@informatik.uni-freiburg.de>
 
 pkgname=rocthrust
-pkgver=7.2.4
+pkgver=10.0
 pkgrel=1
 pkgdesc='Port of the Thrust parallel algorithm library atop HIP/ROCm'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rocThrust/en/latest/index.html'
 license=('Apache-2.0')
-depends=('rocm-core' 'hip-runtime-amd' 'rocprim')
+depends=('rocm-core' 'hip-runtime-amd' 'rocprim>=10.0')
 makedepends=('cmake' 'rocm-cmake' 'rocm-toolchain' 'rocm-llvm')
-_git='https://github.com/ROCm/rocm-libraries/'
-source=("rocm-libraries-$pkgver.tar.gz::https://github.com/ROCm/rocm-libraries/archive/refs/tags/rocm-$pkgver.tar.gz")
-sha256sums=('50a4090b4ad18b34c375f666e5f71816cf55f89bc2175dc3eba9a7b80f65a15d')
-_dirname="rocm-libraries-rocm-$pkgver/projects/$pkgname"
+_git='https://github.com/ROCm/rocm-libraries'
+source=("$pkgname-$pkgver.tar.gz::$_git/releases/download/therock-$pkgver/$pkgname.tar.gz")
+sha256sums=('87faeb3bb91a7471cdb2aa098209fee6f4cd019badf358fd8e616b0cd23225b1')
 
 build() {
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   local cmake_args=(
     -Wno-dev
-    -S "$_dirname"
+    -S "$pkgname"
     -B build
     -D CMAKE_BUILD_TYPE=None
-    -D CMAKE_CXX_COMPILER=amdclang++
+    -D CMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++
+    -D CMAKE_PREFIX_PATH=/opt/rocm
     -D GPU_TARGETS="$(rocm-supported-gfx)"
     -D CMAKE_CXX_FLAGS="${CXXFLAGS} -fcf-protection=none"
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
+    -D ROCPRIM_FETCH_METHOD=PACKAGE
+    # Only the headers and CMake targets are packaged. Client builds pull in
+    # additional dependencies (rocRAND, Google Test, Google Benchmark, SQLite).
+    -D BUILD_TEST=OFF
+    -D BUILD_HIPSTDPAR_TEST=OFF
+    -D BUILD_EXAMPLE=OFF
+    -D BUILD_BENCHMARK=OFF
   )
   cmake "${cmake_args[@]}"
   cmake --build build
