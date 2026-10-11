@@ -11,6 +11,7 @@ url="https://github.com/json-c/json-c/wiki"
 license=(MIT)
 arch=(x86_64)
 depends=(
+  lib32-gcc-libs
   lib32-glibc
   json-c
 )

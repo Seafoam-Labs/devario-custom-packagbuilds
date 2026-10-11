@@ -7,6 +7,7 @@ pkgbase = lib32-libxau
 	license = custom
 	makedepends = pkgconf
 	makedepends = xorgproto
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = libxau
 	provides = libXau.so
