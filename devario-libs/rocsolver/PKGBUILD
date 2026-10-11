@@ -48,8 +48,10 @@ build() {
         -D CMAKE_CXX_FLAGS="${CXXFLAGS} -fcf-protection=none"
         -D CMAKE_INSTALL_PREFIX=/opt/rocm
         -D ROCSOLVER_EMBED_FMT=ON
-        # gfx950 lacks support for 128 bit atomics
-        -D AMDGPU_TARGETS=$(rocm-supported-gfx -e gfx950)
+        # Device code is emitted once per target, so the 22 arch list from
+        # rocm-supported-gfx dominates the compile. One generic target still
+        # covers all of RDNA3: gfx1100-1103 and gfx1150-1153.
+        -D AMDGPU_TARGETS="gfx11-generic"
     )
     cmake "${cmake_args[@]}"
     cmake --build build
