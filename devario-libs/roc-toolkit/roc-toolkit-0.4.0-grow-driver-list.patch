@@ -1,0 +1,48 @@
+Allow the backend driver list to grow beyond its inline capacity.
+
+SoX-ng with FFmpeg can register more than 256 format aliases. NoopArena
+rejects the allocation when the inline array fills, causing a panic during
+BackendMap initialization. Keep an arena owned by the map for overflow.
+
+--- a/src/internal_modules/roc_sndio/backend_map.cpp
++++ b/src/internal_modules/roc_sndio/backend_map.cpp
+@@ -15,7 +15,7 @@
+ 
+ BackendMap::BackendMap()
+     : backends_(core::NoopArena)
+-    , drivers_(core::NoopArena) {
++    , drivers_(driver_arena_) {
+     register_backends_();
+     register_drivers_();
+ 
+--- a/src/internal_modules/roc_sndio/backend_map.h
++++ b/src/internal_modules/roc_sndio/backend_map.h
+@@ -12,6 +12,7 @@
+ #ifndef ROC_SNDIO_BACKEND_MAP_H_
+ #define ROC_SNDIO_BACKEND_MAP_H_
+ 
++#include "roc_core/heap_arena.h"
+ #include "roc_core/noncopyable.h"
+ #include "roc_core/optional.h"
+ #include "roc_core/singleton.h"
+@@ -83,6 +84,9 @@
+ 
+     core::Optional<WavBackend> wav_backend_;
+ 
++    // SoX format aliases can exceed the inline driver capacity.
++    core::HeapArena driver_arena_;
++
+     core::Array<IBackend*, MaxBackends> backends_;
+     core::Array<DriverInfo, MaxDrivers> drivers_;
+ };
+--- a/src/internal_modules/roc_sndio/driver.h
++++ b/src/internal_modules/roc_sndio/driver.h
+@@ -20,7 +20,7 @@
+ 
+ class IBackend;
+ 
+-//! Maximum number of drivers.
++//! Number of drivers stored inline before allocating from the arena.
+ static const size_t MaxDrivers = 256;
+ 
+ //! Driver type.
