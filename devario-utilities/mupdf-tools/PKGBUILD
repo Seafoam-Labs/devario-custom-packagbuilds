@@ -1,0 +1,78 @@
+# Based on the Arch Linux MuPDF package by Robin Candau and contributors.
+
+pkgname=mupdf-tools
+pkgver=1.28.5
+pkgrel=4
+pkgdesc='Tools for PDF and XPS documents: mutool, muraster, and mupdf-x11-curl'
+arch=('x86_64')
+url='https://mupdf.com'
+license=('AGPL-3.0-or-later')
+depends=('brotli' 'cmark-gfm' 'curl' 'freetype2' 'glibc' 'gumbo-parser'
+         'harfbuzz' 'jbig2dec' 'leptonica' 'libarchive' 'libgcc' 'libstdc++' 'libjpeg-turbo'
+         'libx11' 'libxext' 'openjpeg2' 'openssl' 'tesseract' 'zlib')
+makedepends=('git' 'pkgconf' 'python' 'unzip')
+
+# Match the submodule commits recorded by the MuPDF release.
+_mujs_commit=2c61a7bed7e7625c03c6e82e644a711ac4471c1e
+_lcms2_commit=d69c64417c4a33a4629957fc0e08f4f4c5abcc3d
+_extract_commit=8750ac39c30a0d65119b426b5a491c5b8e8bf674
+source=("git+https://github.com/ArtifexSoftware/mupdf.git#tag=${pkgver}"
+        "git+https://github.com/ArtifexSoftware/mujs.git#commit=${_mujs_commit}"
+        "git+https://github.com/ArtifexSoftware/thirdparty-lcms2.git#commit=${_lcms2_commit}"
+        "git+https://github.com/ArtifexSoftware/extract.git#commit=${_extract_commit}"
+        'mupdf-1.28.0-system-cmark-gfm.patch')
+sha256sums=('df52f6ff1eb0e177df1eb6679995e9157ef634057bd4d086e928a63a28d87e2a'
+            '58d9c8ca3e8c35ad2c39b62f48060faaafc65026999a9f56ebd8056ccee6cb14'
+            '537cd68e65b5baee5a4bfd716331fd43d2917312bea4bfdd82b3bc9fabf3580c'
+            '6b24c9b79dddb2ad67955ecb8415ab7508b0f22089cb3b02f6b83b9378e939ca'
+            '3adc9329648bf22a66f45c4a171260fe3bdd7868a3ab9f998819bd5bd06c44bf')
+
+prepare() {
+  cd "${srcdir}/mupdf"
+  patch -Np1 -i "${srcdir}/mupdf-1.28.0-system-cmark-gfm.patch"
+
+  # Initialize only the bundled dependencies we need, using local sources.
+  git submodule init thirdparty/mujs thirdparty/lcms2 thirdparty/extract
+  git config submodule.thirdparty/mujs.url "${srcdir}/mujs"
+  git config submodule.thirdparty/lcms2.url "${srcdir}/thirdparty-lcms2"
+  git config submodule.thirdparty/extract.url "${srcdir}/extract"
+  git -c protocol.file.allow=always submodule update --no-fetch \
+    thirdparty/mujs thirdparty/lcms2 thirdparty/extract
+
+  cat > user.make <<'EOF'
+USE_SYSTEM_LIBS := yes
+USE_SYSTEM_CMARK_GFM := yes
+USE_SYSTEM_LCMS2 := no
+USE_SYSTEM_MUJS := no
+USE_TESSERACT := yes
+HAVE_GLUT := no
+EOF
+}
+
+build() {
+  cd "${srcdir}/mupdf"
+  # Embed MuPDF in the tools so this recipe does not need the libmupdf split.
+  make shared=no build=release \
+    XCFLAGS="${CFLAGS}" XCXXFLAGS="${CXXFLAGS}" XLDFLAGS="${LDFLAGS}" \
+    tools extra-apps
+}
+
+check() {
+  cd "${srcdir}/mupdf"
+  build/release/mutool -v
+  # Exercise PDF creation, parsing, and rasterization without an X server.
+  printf '%%%%MediaBox 0 0 72 72\n0 0 72 72 re\nf\n' > smoke-test.txt
+  build/release/mutool create -o smoke-test.pdf smoke-test.txt
+  build/release/mutool info smoke-test.pdf
+  build/release/mutool draw -F png -o smoke-test.png smoke-test.pdf
+  build/release/muraster -F pgm -o smoke-test.pgm smoke-test.pdf
+  test -s smoke-test.png
+  test -s smoke-test.pgm
+}
+
+package() {
+  cd "${srcdir}/mupdf"
+  install -Dm755 build/release/{mutool,muraster,mupdf-x11-curl} -t "${pkgdir}/usr/bin"
+  install -Dm644 docs/man/mutool.1 -t "${pkgdir}/usr/share/man/man1"
+  install -Dm644 README CHANGES COPYING -t "${pkgdir}/usr/share/doc/${pkgname}"
+}

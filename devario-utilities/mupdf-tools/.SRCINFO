@@ -1,0 +1,42 @@
+pkgbase = mupdf-tools
+	pkgdesc = Tools for PDF and XPS documents: mutool, muraster, and mupdf-x11-curl
+	pkgver = 1.28.5
+	pkgrel = 4
+	url = https://mupdf.com
+	arch = x86_64
+	license = AGPL-3.0-or-later
+	makedepends = git
+	makedepends = pkgconf
+	makedepends = python
+	makedepends = unzip
+	depends = brotli
+	depends = cmark-gfm
+	depends = curl
+	depends = freetype2
+	depends = glibc
+	depends = gumbo-parser
+	depends = harfbuzz
+	depends = jbig2dec
+	depends = leptonica
+	depends = libarchive
+	depends = libgcc
+	depends = libstdc++
+	depends = libjpeg-turbo
+	depends = libx11
+	depends = libxext
+	depends = openjpeg2
+	depends = openssl
+	depends = tesseract
+	depends = zlib
+	source = git+https://github.com/ArtifexSoftware/mupdf.git#tag=1.28.5
+	source = git+https://github.com/ArtifexSoftware/mujs.git#commit=2c61a7bed7e7625c03c6e82e644a711ac4471c1e
+	source = git+https://github.com/ArtifexSoftware/thirdparty-lcms2.git#commit=d69c64417c4a33a4629957fc0e08f4f4c5abcc3d
+	source = git+https://github.com/ArtifexSoftware/extract.git#commit=8750ac39c30a0d65119b426b5a491c5b8e8bf674
+	source = mupdf-1.28.0-system-cmark-gfm.patch
+	sha256sums = df52f6ff1eb0e177df1eb6679995e9157ef634057bd4d086e928a63a28d87e2a
+	sha256sums = 58d9c8ca3e8c35ad2c39b62f48060faaafc65026999a9f56ebd8056ccee6cb14
+	sha256sums = 537cd68e65b5baee5a4bfd716331fd43d2917312bea4bfdd82b3bc9fabf3580c
+	sha256sums = 6b24c9b79dddb2ad67955ecb8415ab7508b0f22089cb3b02f6b83b9378e939ca
+	sha256sums = 3adc9329648bf22a66f45c4a171260fe3bdd7868a3ab9f998819bd5bd06c44bf
+
+pkgname = mupdf-tools
