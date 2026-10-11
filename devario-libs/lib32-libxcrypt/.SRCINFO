@@ -6,6 +6,7 @@ pkgbase = lib32-libxcrypt
 	arch = x86_64
 	license = LGPL
 	makedepends = gcc-multilib
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = libxcrypt
 	source = https://github.com/besser82/libxcrypt//releases/download/v4.5.2/libxcrypt-4.5.2.tar.xz

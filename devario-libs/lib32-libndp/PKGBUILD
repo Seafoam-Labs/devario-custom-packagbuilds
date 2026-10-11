@@ -10,6 +10,7 @@ url="http://libndp.org/"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
 depends=(
+  lib32-gcc-libs
   lib32-glibc
   libndp
 )

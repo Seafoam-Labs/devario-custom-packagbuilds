@@ -8,7 +8,7 @@ pkgdesc='Ogg bitstream and framing library (32-bit)'
 arch=(x86_64)
 url=https://www.xiph.org/ogg/
 license=(BSD)
-depends=(lib32-glibc libogg)
+depends=(lib32-gcc-libs lib32-glibc libogg)
 makedepends=(
   cmake
   git

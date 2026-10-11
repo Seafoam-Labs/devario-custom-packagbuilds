@@ -6,6 +6,7 @@ pkgbase = lib32-libnghttp3
 	arch = x86_64
 	license = MIT
 	makedepends = git
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = libnghttp3
 	provides = libnghttp3.so

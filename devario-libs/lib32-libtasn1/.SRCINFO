@@ -6,6 +6,7 @@ pkgbase = lib32-libtasn1
 	arch = x86_64
 	license = GPL-3.0-or-later AND LGPL-2.1-or-later
 	makedepends = gcc-multilib
+	depends = lib32-gcc-libs
 	depends = lib32-glibc
 	depends = libtasn1
 	provides = libtasn1.so
