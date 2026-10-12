@@ -113,29 +113,47 @@ full build order; this does not omit dependencies declared in `makedepends`.
 | 12 | [gl2ps](devario-libs/gl2ps/PKGBUILD) |
 | 18 | [gdal](devario-libs/gdal/PKGBUILD) |
 | 19 | [liblas](devario-libs/liblas/PKGBUILD), [pdal](devario-libs/pdal/PKGBUILD), [python-matplotlib](devario-libs/python-matplotlib/PKGBUILD) |
-| 22 | [opencascade](devario-development/opencascade/PKGBUILD), then [vtk](devario-libs/vtk/PKGBUILD), with the seed requirement below |
+| 22 | [opencascade](devario-development/opencascade/PKGBUILD) as the seed, then [vtk](devario-libs/vtk/PKGBUILD), then opencascade again |
 
 Publish completed dependencies and refresh the worker's repository metadata
 before provisioning their consumers. In particular, ADIOS2 needs mpi4py and
 ParaView Catalyst; OSPRay needs Open Image Denoise; GDAL needs PROJ and netCDF;
 libLAS and PDAL need GDAL. Build split recipes once and publish their outputs.
 
-Stage 22 is cycle G364: OpenCascade requires VTK at runtime and builds with
-`USE_VTK=ON`, while VTK needs OpenCascade to build its OCCT I/O module.
-An existing compatible VTK binary package and its runtime dependencies must
-be available inside the isolated root to build OpenCascade first. Publish
-OpenCascade, retain that VTK seed, then build the full VTK recipe. Rebuild
-OpenCascade against the resulting VTK when the seed used a different ABI,
-and keep the final published pair ABI-compatible. If no compatible seed is
-available, this group needs a separate bootstrap build; merely reordering
-these two full recipes cannot resolve the cycle. Do not bypass dependency
-checks or remove dependencies from the full recipe to force it through.
+OpenCascade and VTK need each other to build: OpenCascade's IVtk toolkits link
+VTK at runtime, while VTK's OCCT I/O module needs OpenCascade at configure
+time. Shelly resolves both arrays before the build starts, so an isolated root
+can provision neither recipe while both are unpublished, and reordering the two
+full recipes cannot break that. OpenCascade is the seeded side because its VTK
+use is additive: upstream excludes only TKIVtk and TKIVtkDraw when `USE_VTK=OFF`
+and unsets the whole `3RDPARTY_VTK` cache group, so the recipe's
+`3RDPARTY_VTK_INCLUDE_DIR` is inert and needs no edit, and TKDraw's one
+`HAVE_VTK` site at this tag is a string in a DRAW version command. The excluded
+toolkits are the only VTK consumers in the tree: `src/TKIVtk/EXTERNLIB` names
+`CSF_VTK`, `vtkCommonCore` and `vtkRenderingCore`, so IVtk links VTK and VTK
+cannot consume IVtk. The seed therefore ships every toolkit VTK's OCCT I/O
+module needs.
+
+Build OpenCascade with VTK support off, publish it, build and publish VTK
+against that seed, then restore `USE_VTK=ON` and the `vtk` depends and republish
+OpenCascade with one `pkgrel` bump. Nothing between the seed and the republish
+can consume IVtk, and no recipe here does. Do not leave the seed published once
+VTK is available.
 
 Validation: VTK and all 19 reported dependency recipes pass `bash -n`, and
 all 20 checked-in `.SRCINFO` files exactly match fresh
-`makepkg --printsrcinfo` output. No recipe changes, isolated builds, binary
-publication, or live worker repository checks were performed. The worker
-must have these binary prerequisites available before retrying VTK.
+`makepkg --printsrcinfo` output. Isolated builds, binary publication, and the
+worker's repository state were not checked on 2026-10-11.
+
+Re-queried against the packages API on 2026-10-12, neither `vtk` nor
+`opencascade` is published. The seed is reachable now: all sixteen of
+OpenCascade's remaining `depends` and `makedepends` are published, and VTK's
+sixty-nine pkgbase entries leave only `liblas` and `opencascade` unsatisfied.
+`gl2ps` published the same morning, `onnxruntime` comes from the
+`onnxruntime-cpu`, `-cuda` and `-rocm` splits, `java-environment=11` from
+`jdk11-openjdk`, and `liblas`'s own eight entries are all published, so it
+needs no unblocking before VTK. No isolated build was run for the seed, so the
+worker's first OpenCascade attempt is its first real check.
 
 ## rocThrust and its dependency builds (2026-10-10)
 

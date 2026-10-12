@@ -23,7 +23,6 @@ pkgbase = opencascade
 	depends = libx11
 	depends = tcl
 	depends = tk
-	depends = vtk
 	source = opencascade::git+https://github.com/Open-Cascade-SAS/OCCT.git#tag=V7_9_3
 	source = vtk-9.7-x11-macros.patch
 	source = opencascade.sh

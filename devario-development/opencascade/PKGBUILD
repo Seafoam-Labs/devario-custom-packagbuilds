@@ -25,7 +25,7 @@ depends=(
   libx11
   tcl
   tk
-  vtk
+  # vtk returns with USE_VTK=ON once vtk is published
 )
 makedepends=(
   git
@@ -60,8 +60,6 @@ pkgver() {
 }
 
 build() {
-  # TODO: Maybe remove VTK support as VTK now also depends on opencascade which
-  # gives us a circular dependency.
   local cmake_options=(
     -B build
     -S "$pkgname"
@@ -70,7 +68,8 @@ build() {
     -D CMAKE_INSTALL_PREFIX=/usr
     -D BUILD_RELEASE_DISABLE_EXCEPTIONS=OFF
     -D USE_FFMPEG=OFF
-    -D USE_VTK=ON
+    # no published vtk to link IVtk against, since vtk build-depends on this
+    -D USE_VTK=OFF
     -D USE_RAPIDJSON=ON
     -D USE_TBB=OFF
     -D USE_FREEIMAGE=OFF
