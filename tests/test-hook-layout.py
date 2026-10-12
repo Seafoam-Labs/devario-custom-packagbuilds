@@ -57,6 +57,14 @@ class HookLayout(unittest.TestCase):
         hooks = [line.split('=', 1)[1].strip().rstrip('/') for line in lines if re.match(r'HookDir\s*=', line)]
         self.assertEqual(hooks, ['/usr/share/rlpm/hooks', '/etc/shelly.d/hooks'])
 
+    def test_recipes_reading_texlive_fragments_match_the_helper_write_path(self):
+        writer = (ROOT / 'devario-utilities/texlive-texmf/PKGBUILD').read_text()
+        written = set(re.findall(r'install -Dm644 \$1\.(?:fmts|maps) -t "\$pkgdir"(/\S+)$', writer, re.M))
+        self.assertEqual(written, {'/var/lib/texmf/devario/installedpkgs'})
+        for recipe in sorted(ROOT.glob('devario-*/*/PKGBUILD')) + sorted(ROOT.glob('isolation-builder/*/PKGBUILD')):
+            for directory in re.findall(r'(/var/lib/texmf[^"\s]*)/\*\.(?:fmts|maps)', recipe.read_text()):
+                self.assertIn(directory, written, str(recipe))
+
     def test_neovim_hook_and_helper_install_together(self):
         recipe = ROOT / 'devario-development/neovim'
         with tempfile.TemporaryDirectory() as tmp:

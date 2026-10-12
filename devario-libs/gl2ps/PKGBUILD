@@ -22,6 +22,17 @@ prepare() {
 build() {
   cd build
   export FORCE_SOURCE_DATE=1 # make pdftex adhere to SOURCE_DATE_EPOCH
+  # TeX Live's hooks never run in a build root, so there is no ls-R and TEXMF's !! ls-R-only marks would block every lookup
+  export TEXMF='{$TEXMFAUXTREES$TEXMFCONFIG,$TEXMFVAR,$TEXMFHOME,$TEXMFLOCAL,$TEXMFSYSCONFIG,$TEXMFSYSVAR,$TEXMFDIST}'
+  export TEXMFCONFIG="$PWD/texmf-config" TEXMFVAR="$PWD/texmf-var"
+  mkdir -p "$TEXMFCONFIG/web2c"
+  # the packaged fmtutil.cnf holds no format entries, so rebuild it and updmap.cfg from the collection fragments and generate both per-user
+  cat /usr/share/texmf-dist/web2c/fmtutil-hdr.cnf /var/lib/texmf/devario/installedpkgs/*.fmts \
+    > "$TEXMFCONFIG/web2c/fmtutil.cnf"
+  cat /usr/share/texmf-dist/web2c/updmap-hdr.cfg /var/lib/texmf/devario/installedpkgs/*.maps \
+    > "$TEXMFCONFIG/web2c/updmap.cfg"
+  fmtutil-user --byfmt pdflatex
+  updmap-user
   cmake ../gl2ps \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr
