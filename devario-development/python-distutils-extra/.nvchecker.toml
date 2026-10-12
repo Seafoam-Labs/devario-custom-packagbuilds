@@ -1,0 +1,5 @@
+[python-distutils-extra]
+source = "regex"
+regex = 'Latest version is \d+\.\d+'
+url = "https://launchpad.net/python-distutils-extra"
+prefix = "Latest version is "
