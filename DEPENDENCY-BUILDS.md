@@ -1,5 +1,60 @@
 # Missing dependency builds for Shelly
 
+## VTK dependency plan (2026-10-11)
+
+The worker reports 19 distinct missing build dependencies for
+[vtk](devario-libs/vtk/PKGBUILD) `9.7.1-2`. Each appears twice because it is
+absent from both the enabled binary repositories and the isolated environment.
+All 19 already have recipes here, with package names matching VTK's
+`makedepends`. Uploading recipes alone does not satisfy these requirements.
+The modules enabled by this recipe require these dependencies during the
+build, even where they are optional for users of the resulting package.
+
+Build and publish the following prerequisites in the stages from
+[the repository build order](LATEST-BUILD-ORDER.md). This table is a subset
+for the reported failure, not a complete transitive dependency queue: provision
+each recipe's own runtime/build requirements first, using the full order when
+those packages are also unpublished. Skip outputs already available from the
+worker's enabled repositories. Use `--no-check` for this queue, as in the
+full build order; this does not omit dependencies declared in `makedepends`.
+
+| Stage | Recipes to build and publish |
+| --- | --- |
+| 01 | [cli11](devario-development/cli11/PKGBUILD), [openvr](devario-development/openvr/PKGBUILD), [proj](devario-libs/proj/PKGBUILD), [utf8cpp](devario-development/utf8cpp/PKGBUILD), [viskores](devario-libs/viskores/PKGBUILD) |
+| 02 | [netcdf](devario-libs/netcdf/PKGBUILD) |
+| 03 | [cgns](devario-development/cgns/PKGBUILD) |
+| 04 | [openimagedenoise](devario-libs/openimagedenoise/PKGBUILD) |
+| 05 | [python-mpi4py](devario-libs/python-mpi4py/PKGBUILD) |
+| 06 | [paraview-catalyst](devario-libs/paraview-catalyst/PKGBUILD) |
+| 07 | [adios2](devario-development/adios2/PKGBUILD), [openvdb](devario-libs/openvdb/PKGBUILD) |
+| 09 | [ospray](devario-development/ospray/PKGBUILD) |
+| 12 | [gl2ps](devario-libs/gl2ps/PKGBUILD) |
+| 18 | [gdal](devario-libs/gdal/PKGBUILD) |
+| 19 | [liblas](devario-libs/liblas/PKGBUILD), [pdal](devario-libs/pdal/PKGBUILD), [python-matplotlib](devario-libs/python-matplotlib/PKGBUILD) |
+| 22 | [opencascade](devario-development/opencascade/PKGBUILD), then [vtk](devario-libs/vtk/PKGBUILD), with the seed requirement below |
+
+Publish completed dependencies and refresh the worker's repository metadata
+before provisioning their consumers. In particular, ADIOS2 needs mpi4py and
+ParaView Catalyst; OSPRay needs Open Image Denoise; GDAL needs PROJ and netCDF;
+libLAS and PDAL need GDAL. Build split recipes once and publish their outputs.
+
+Stage 22 is cycle G364: OpenCascade requires VTK at runtime and builds with
+`USE_VTK=ON`, while VTK needs OpenCascade to build its OCCT I/O module.
+An existing compatible VTK binary package and its runtime dependencies must
+be available inside the isolated root to build OpenCascade first. Publish
+OpenCascade, retain that VTK seed, then build the full VTK recipe. Rebuild
+OpenCascade against the resulting VTK when the seed used a different ABI,
+and keep the final published pair ABI-compatible. If no compatible seed is
+available, this group needs a separate bootstrap build; merely reordering
+these two full recipes cannot resolve the cycle. Do not bypass dependency
+checks or remove dependencies from the full recipe to force it through.
+
+Validation: VTK and all 19 reported dependency recipes pass `bash -n`, and
+all 20 checked-in `.SRCINFO` files exactly match fresh
+`makepkg --printsrcinfo` output. No recipe changes, isolated builds, binary
+publication, or live worker repository checks were performed. The worker
+must have these binary prerequisites available before retrying VTK.
+
 ## rocThrust and its dependency builds (2026-10-10)
 
 [rocthrust](devario-libs/rocthrust/PKGBUILD) now packages `10.0-1` from the
