@@ -169,8 +169,15 @@ build() {
 check() {
 	cd "${srcdir}/build"
 
-	# Check if sendmail was configured correctly (FS#47600)
-	sapi/cli/php -n -r 'echo ini_get("sendmail_path");' | grep -q '/usr/bin/sendmail'
+	# Check if sendmail was configured correctly (FS#47600). Arch greps for the
+	# literal /usr/bin/sendmail, but PHP_PROG_SENDMAIL is an AC_PATH_PROG over
+	# $PATH first (build/php.m4), and this chroot resolves /usr/sbin ahead of
+	# /usr/bin -- the same reason pkg-config, cc, c++ and ld all report
+	# /usr/sbin in the build log. PHP therefore bakes in /usr/sbin/sendmail,
+	# which under merged /usr is the same postfix binary. Require an executable
+	# rather than one spelling: it still fails when no sendmail was found,
+	# because AC_PATH_PROG's fallback default would not exist on disk.
+	test -x "$(sapi/cli/php -n -r 'echo ini_get("sendmail_path");' | cut -d' ' -f1)"
 
 	export REPORT_EXIT_STATUS=1
 	export NO_INTERACTION=1
