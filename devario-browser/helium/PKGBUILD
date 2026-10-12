@@ -9,7 +9,7 @@
 _pkgname="helium"
 pkgname="${_pkgname}-browser-bin"
 _binaryname="helium-browser"
-pkgver=0.18.3.1
+pkgver=0.19.2.1
 pkgrel=1
 pkgdesc="Private, fast, and honest web browser based on Chromium (Latest/Stable)"
 arch=('x86_64' 'aarch64')
@@ -26,7 +26,7 @@ optdepends=('pipewire: WebRTC desktop sharing under Wayland'
 	'upower: Battery Status API support')
 conflicts=('helium-browser-beta-bin')
 provides=("helium-browser-beta-bin=${pkgver}")
-source=('0001-update-wrapper-arch.patch'
+source=('0001-update-wrapper-devario.patch'
         '0002-align-desktop-entry.patch'
         "LICENSE.ungoogled_chromium::https://raw.githubusercontent.com/imputnet/helium-linux/${pkgver}/LICENSE.ungoogled_chromium")
 source_x86_64=("${_pkgname}-${pkgver}-x86_64_linux.tar.xz::https://github.com/imputnet/helium-linux/releases/download/${pkgver}/${_pkgname}-${pkgver}-x86_64_linux.tar.xz"
@@ -34,18 +34,18 @@ source_x86_64=("${_pkgname}-${pkgver}-x86_64_linux.tar.xz::https://github.com/im
 source_aarch64=("${_pkgname}-${pkgver}-arm64_linux.tar.xz::https://github.com/imputnet/helium-linux/releases/download/${pkgver}/${_pkgname}-${pkgver}-arm64_linux.tar.xz"
                 "${_pkgname}-${pkgver}-arm64_linux.tar.xz.asc::https://github.com/imputnet/helium-linux/releases/download/${pkgver}/${_pkgname}-${pkgver}-arm64_linux.tar.xz.asc")
 validpgpkeys=('BE677C1989D35EAB2C5F26C9351601AD01D6378E') # Helium <helium@imput.net>
-sha256sums=('3846be557da5202267fc4d8a45572f4cedcd95e82d4e62e998c4486fed311314'
+sha256sums=('7d0f40e942d5d21a9bd63fd92b978699f975ac78f6f6b86bc1aad461e1613f7c'
             'b1253d30764b6586b05161b793b728ffee442cebf875e2074eedf2da5140036f'
             '9539b394e4179952698894bd62ef6566b6804ab0ff360dcf3a511cfaf7f78c4d')
-sha256sums_x86_64=('89bd962ca5e5159916a4c4befa5a9a08f540d2d8cd794f2f955e8d5d4a463bf2'
+sha256sums_x86_64=('707cf319e3a3d2aa061ca15d754877bd18b8b289208738c829fcb0873bc7ecdb'
                    'SKIP')
-sha256sums_aarch64=('4b7b744e55c40272fb34b148aead7e36b8d8d08d044131f4572f4fa95d14ec92'
+sha256sums_aarch64=('6cb0205b8b4fd8eba47fea38b2fcd3bd73e515bc5606abe2aaf7586a57a3e68b'
                     'SKIP')
 prepare() {
   # Get architecture specific directory
   _archdir="${_pkgname}-${pkgver}-$([[ $CARCH == "aarch64" ]] && echo "arm64" || echo "x86_64")_linux"
-  # Patch bundled wrapper for Arch Linux
-  patch -d "${srcdir}/${_archdir}" -p1 -i "${srcdir}/0001-update-wrapper-arch.patch"
+  # Patch bundled wrapper for Devario
+  patch -d "${srcdir}/${_archdir}" -p1 -i "${srcdir}/0001-update-wrapper-devario.patch"
   # Patch bundled .desktop file to use "helium-browser"
   patch -d "${srcdir}/${_archdir}" -p1 -i "${srcdir}/0002-align-desktop-entry.patch"
 }
