@@ -11,15 +11,9 @@ url="https://cgns.github.io/"
 license=(Zlib)
 depends=(
   glibc
-  glu
   hdf5
   libgcc
   libgfortran
-  libglvnd
-  libx11
-  libxmu
-  tcl
-  tk
 )
 makedepends=(
   cmake
@@ -29,11 +23,19 @@ source=("https://github.com/$_pkgname/$_pkgname/archive/v$pkgver/$pkgname-$pkgve
 sha512sums=('b9b11324b6f7bbfbf0355f5c2c3d1caa745c1fc51bb061fd715fbf69273032ba507a67396dd41ae0a1f9029b48ca13ec129d158a34606a04cc4a436001ddbeab')
 
 build() {
+  # CGNS_BUILD_CGNSTOOLS is off, a deliberate deviation from Arch. The tools'
+  # vendored TkOGL widget is Tcl/Tk 8-era code: it uses _ANSI_ARGS_ and
+  # Tk_Offset (both removed in Tcl/Tk 9), defines its prototypes in K&R form,
+  # and calls Tk_ConfigureWidget with the pre-9 (int argc, char **argv)
+  # signature. Upstream has since cleaned tkogl up on develop, but no release
+  # carries it yet -- v4.5.2 is current -- so there is nothing to bump to.
+  # Arch still builds against tk 8.6.16; this repo ships tk 9.0.1.
+  # vtk is the only consumer here and links libcgns, not the tools.
   cmake -B build -S ${_pkgname}-${pkgver} \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -Wno-dev \
-    -DCGNS_BUILD_CGNSTOOLS=ON \
+    -DCGNS_BUILD_CGNSTOOLS=OFF \
     -DCGNS_BUILD_SHARED=ON \
     -DCGNS_ENABLE_64BIT=ON \
     -DCGNS_ENABLE_FORTRAN=ON \
@@ -53,6 +55,4 @@ check() {
 package() {
   DESTDIR="$pkgdir" cmake --install build
   install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" $_pkgname-$pkgver/license.txt
-  # Remove broken .desktop files
-  rm "$pkgdir/usr/bin/"*.desktop
 }

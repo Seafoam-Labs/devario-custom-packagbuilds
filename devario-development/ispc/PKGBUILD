@@ -4,7 +4,7 @@
 
 pkgname=ispc
 pkgver=1.31.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Compiler for high-performance SIMD programming on the CPU"
 arch=(x86_64)
 url="https://ispc.github.io/"
@@ -19,9 +19,7 @@ depends=(
   onetbb
 )
 makedepends=(cmake git level-zero-headers level-zero-loader lib32-glibc llvm openmp python vc-intrinsics)
-checkdepends=(intel-compute-runtime)
 optdepends=(
-    'intel-compute-runtime: GPU support'
     'level-zero-loader: GPU support'
     'openmp: GPU support'
 )
@@ -31,10 +29,16 @@ source=(
   git+https://github.com/$pkgname/$pkgname#tag=v$pkgver
   $pkgname-benchmark::git+https://github.com/google/benchmark.git
   $pkgname-googletest::git+https://github.com/google/googletest.git
+  0001-llvm24-version-constant.patch
+  0002-llvm24-allow-building.patch
+  0003-llvm23-aarch64-cpu-extensions.patch
 )
 sha256sums=('d4d0f309f4951e18f3296e8df496aed81a4a41f1652091a6addf247b192a8f88'
             'SKIP'
-            'SKIP')
+            'SKIP'
+            '3021cd48e624c5983e159d2d07ec84205cdfff186e2781bf70a816cf893becbd'
+            '6ec8f36642b5ab9636963721cb59a089636761b6a970124bb0471f8a2e2a33b0'
+            '3595a804d5526b2f7263f6ac4995d65ea39494f1bb5fb368876b4e1a86ca5cba')
 
 prepare() {
   cd $pkgname
@@ -43,10 +47,13 @@ prepare() {
   git config submodule.ispcrt/tests/vendor/google/googletest.url "$srcdir/$pkgname-googletest"
   git -c protocol.file.allow=always submodule update
 
-# Support LLVM 23
-  git cherry-pick -n 63ac821ed7c5c10cdfc41effedc5ce357deac4ae \
-                     db61d25379b4627f3c0f695412233012632b5729 \
-                     32217788b98b6e8d532799d7b10792fb7c1c732c
+  # Support LLVM 23. Upstream carries these as commits 63ac821, db61d25 and
+  # 32217788, which are reachable by SHA but are not the tip of any branch,
+  # tag or pull ref, so a fresh clone does not contain them and cherry-picking
+  # fails with "bad object". Applied as vendored patches instead.
+  patch -Np1 -i "$srcdir/0001-llvm24-version-constant.patch"
+  patch -Np1 -i "$srcdir/0002-llvm24-allow-building.patch"
+  patch -Np1 -i "$srcdir/0003-llvm23-aarch64-cpu-extensions.patch"
 }
 
 build() {

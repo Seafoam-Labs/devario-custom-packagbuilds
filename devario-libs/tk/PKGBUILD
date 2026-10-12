@@ -3,7 +3,7 @@
 
 pkgname=tk
 pkgver=9.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc='A windowing toolkit for use with tcl'
 arch=(x86_64)
 url="http://tcl.sourceforge.net/"
@@ -38,7 +38,15 @@ package() {
 	cd "$_archive/unix"
 	make INSTALL_ROOT="$pkgdir" install install-private-headers
 	ln -sf wish${pkgver%.*} "$pkgdir/usr/bin/wish"
-	ln -sf libtk${pkgver%.*}.so "$pkgdir/usr/lib/libtk.so"
+	# Tk 9 names the shared library libtcl9tk9.0.so, not libtk9.0.so, so
+	# deriving it from $pkgver produces a dangling symlink. CMake's
+	# find_library(TK_LIBRARY NAMES tk ...) matches libtk.so but rejects it
+	# because the target is missing, which is what made cgns fail with
+	# "The path and library needs to be defined for: TK". Take the filename
+	# the build itself recorded instead of reconstructing it.
+	local _tk_lib_file
+	_tk_lib_file=$(sed -n "s/^TK_LIB_FILE='\(.*\)'$/\1/p" "$pkgdir/usr/lib/tkConfig.sh")
+	ln -sf "$_tk_lib_file" "$pkgdir/usr/lib/libtk.so"
 	install -Dm0644 -t "$pkgdir/usr/share/licenses/$pkgname/" license.terms
 
 	# install private headers (FS#14388, FS#47616)

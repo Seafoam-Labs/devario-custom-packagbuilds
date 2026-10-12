@@ -36,6 +36,7 @@ build () {
       -DRAPIDJSON_BUILD_CXX11=ON \
       -DRAPIDJSON_ENABLE_INSTRUMENTATION_OPT=OFF \
       -DDOC_INSTALL_DIR=/usr/share/doc/${pkgname} \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       ..
 
   make

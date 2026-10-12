@@ -1,0 +1,23 @@
+From 63ac821ed7c5c10cdfc41effedc5ce357deac4ae Mon Sep 17 00:00:00 2001
+From: Abel Bernabeu <abel.bernabeu.ctr@bolt.graphics>
+Date: Tue, 22 Sep 2026 17:17:30 +0200
+Subject: [PATCH] Add the ISPC_LLVM_24_0 version constant
+
+Needed by the LLVM 24 compatibility changes that follow. No functional
+change: LATEST_SUPPORTED_LLVM stays at 23.
+---
+ src/ispc_version.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/ispc_version.h b/src/ispc_version.h
+index 08b9d07cf56..eae563bd7b7 100644
+--- a/src/ispc_version.h
++++ b/src/ispc_version.h
+@@ -19,6 +19,7 @@
+ #define ISPC_LLVM_21_0 210000
+ #define ISPC_LLVM_22_0 220000
+ #define ISPC_LLVM_23_0 230000
++#define ISPC_LLVM_24_0 240000
+ 
+ #define OLDEST_SUPPORTED_LLVM ISPC_LLVM_20_0
+ #define LATEST_SUPPORTED_LLVM ISPC_LLVM_23_0

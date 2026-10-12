@@ -1,7 +1,7 @@
 pkgbase = libgeotiff
 	pkgdesc = A TIFF based interchange format for georeferenced raster imagery
 	pkgver = 1.7.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/OSGeo/libgeotiff
 	arch = x86_64
 	license = LicenseRef-libgeotiff
@@ -11,6 +11,8 @@ pkgbase = libgeotiff
 	depends = proj
 	depends = zlib
 	source = https://github.com/OSGeo/libgeotiff/archive/1.7.4/libgeotiff-1.7.4.tar.gz
+	source = testlistgeo-no-corners-for-eqc.patch
 	sha256sums = c581ff502c6b1dc012fad1031d95293ea5f5ff250d9502de382aced8c7d28565
+	sha256sums = d0aff849bb3f2a44f39d0b6b0960e03e21f8a66e796b4b7831ada314dc347afa
 
 pkgname = libgeotiff

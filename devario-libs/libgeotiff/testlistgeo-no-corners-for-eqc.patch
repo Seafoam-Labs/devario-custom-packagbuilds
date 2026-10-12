@@ -1,0 +1,46 @@
+--- a/test/testlistgeo
++++ b/test/testlistgeo
+@@ -203,11 +203,11 @@
+ echo "" >>${OUT}
+ 
+ echo "Testing listgeo ProjectedCSTypeGeoKey_4087_equidistant_cylindrical.tif" >> ${OUT}
+-$EXE ${DATA_DIR}/ProjectedCSTypeGeoKey_4087_equidistant_cylindrical.tif >>${OUT}
++$EXE -no_corners ${DATA_DIR}/ProjectedCSTypeGeoKey_4087_equidistant_cylindrical.tif >>${OUT}
+ echo "" >>${OUT}
+ 
+ echo "Testing listgeo equidistant_cylindrical.tif" >> ${OUT}
+-$EXE ${DATA_DIR}/equidistant_cylindrical.tif >>${OUT}
++$EXE -no_corners ${DATA_DIR}/equidistant_cylindrical.tif >>${OUT}
+ echo "" >>${OUT}
+ 
+ echo "Testing listgeo pixel_is_point_wgs84.tif" >> ${OUT}
+--- a/test/testlistgeo_out.dist
++++ b/test/testlistgeo_out.dist
+@@ -1915,13 +1915,6 @@
+ Prime Meridian: 8901/Greenwich (0.000000/  0d 0' 0.00"E)
+ Projection Linear Units: 9001/metre (1.000000m)
+ 
+-Corner Coordinates:
+-Upper Left    (  440720.000, 3751320.000)  (  3d57'32.60"E, 33d41'55.25"N)
+-Lower Left    (  440720.000, 3751260.000)  (  3d57'32.60"E, 33d41'53.31"N)
+-Upper Right   (  440780.000, 3751320.000)  (  3d57'34.54"E, 33d41'55.25"N)
+-Lower Right   (  440780.000, 3751260.000)  (  3d57'34.54"E, 33d41'53.31"N)
+-Center        (  440750.000, 3751290.000)  (  3d57'33.57"E, 33d41'54.28"N)
+-
+ Testing listgeo equidistant_cylindrical.tif
+ Geotiff_Information:
+    Version: 1
+@@ -1966,13 +1959,6 @@
+ Prime Meridian: 8901/Greenwich (0.000000/  0d 0' 0.00"E)
+ Projection Linear Units: 9001/metre (1.000000m)
+ 
+-Corner Coordinates:
+-Upper Left    (  440720.000, 3751320.000)  (  3d57'32.60"E, 33d41'55.25"N)
+-Lower Left    (  440720.000, 3751260.000)  (  3d57'32.60"E, 33d41'53.31"N)
+-Upper Right   (  440780.000, 3751320.000)  (  3d57'34.54"E, 33d41'55.25"N)
+-Lower Right   (  440780.000, 3751260.000)  (  3d57'34.54"E, 33d41'53.31"N)
+-Center        (  440750.000, 3751290.000)  (  3d57'33.57"E, 33d41'54.28"N)
+-
+ Testing listgeo pixel_is_point_wgs84.tif
+ Geotiff_Information:
+    Version: 1

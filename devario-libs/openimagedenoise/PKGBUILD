@@ -17,13 +17,31 @@ build() {
   cd oidn-$pkgver
 
   export CXXFLAGS+=" -fcf-protection=none"
+  # nvcc lives in /opt/cuda/bin, which only /etc/profile.d/cuda.sh puts on PATH
+  # and Shelly's build shell does not source profile.d. The CUDA device is a
+  # separate ExternalProject whose own find_package(CUDAToolkit) runs later,
+  # during ninja, so it needs both PATH here and the explicit root below.
+  export CUDA_PATH=/opt/cuda
+  export PATH="/opt/cuda/bin:/opt/rocm/bin:$PATH"
+  # The HIP device sub-build compiles and links HIP code, and clang has to be
+  # told where the ROCm runtime lives -- walking up from the compiler lands on
+  # /opt/rocm/lib/llvm instead of /opt/rocm.
+  export ROCM_PATH=/opt/rocm
 
+  # OIDN_DEVICE_HIP_COMPILER must be passed explicitly. Upstream looks for
+  # "clang++" under ${ROCM_PATH}/bin and ${ROCM_PATH}/llvm/bin with
+  # NO_DEFAULT_PATH, so $PATH is never consulted and neither candidate exists
+  # here: rocm-llvm installs to /opt/rocm/lib/llvm and only symlinks the
+  # amdclang* names into /opt/rocm/bin. amdclang++ is the ROCm clang++ and is
+  # the path rocrand and rocblas already build with.
   cmake \
     -B build \
     -G Ninja \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DOIDN_DEVICE_CUDA=ON \
     -DOIDN_DEVICE_HIP=ON \
+    -DCUDAToolkit_ROOT=/opt/cuda \
+    -DOIDN_DEVICE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
     -DCMAKE_BUILD_TYPE=Release
   ninja -C build
 }

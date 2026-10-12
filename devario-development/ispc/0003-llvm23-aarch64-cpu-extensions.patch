@@ -1,0 +1,33 @@
+From 32217788b98b6e8d532799d7b10792fb7c1c732c Mon Sep 17 00:00:00 2001
+From: "claude[bot]" <41898282+claude[bot]@users.noreply.github.com>
+Date: Thu, 2 Jul 2026 14:40:03 +0000
+Subject: [PATCH] Fix #3159: Adapt to LLVM 23 API change for AArch64 CPU
+ extensions
+
+LLVM trunk (23.0) removed CpuInfo::getImpliedExtensions() method.
+Access the DefaultExtensions field directly for LLVM 23+, while
+maintaining backward compatibility with LLVM 22 and earlier.
+
+Co-authored-by: aneshlya <aneshlya@users.noreply.github.com>
+---
+ src/ispc.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/ispc.cpp b/src/ispc.cpp
+index f08f9c8c756..be19dc6c2d4 100644
+--- a/src/ispc.cpp
++++ b/src/ispc.cpp
+@@ -156,7 +156,13 @@ static std::vector<llvm::StringRef> lGetARMTargetFeatures(Arch arch, const std::
+                 return {};
+             }
+             using CpuExtensionsType = llvm::AArch64::ExtensionBitset;
++#if ISPC_LLVM_VERSION >= ISPC_LLVM_23_0
++            // LLVM 23 removed CpuInfo::getImpliedExtensions(); access the
++            // DefaultExtensions field directly (llvm/llvm-project#206422).
++            CpuExtensionsType cpuExtensions = cpuInfo->DefaultExtensions;
++#else
+             CpuExtensionsType cpuExtensions = cpuInfo->getImpliedExtensions();
++#endif
+             llvm::AArch64::getExtensionFeatures(cpuExtensions, targetFeatures);
+         } else {
+             UNREACHABLE();

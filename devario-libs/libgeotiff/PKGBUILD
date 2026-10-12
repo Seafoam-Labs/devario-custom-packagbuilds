@@ -7,7 +7,7 @@
 
 pkgname=libgeotiff
 pkgver=1.7.4
-pkgrel=1
+pkgrel=2
 pkgdesc="A TIFF based interchange format for georeferenced raster imagery"
 arch=(x86_64)
 url="https://github.com/OSGeo/libgeotiff"
@@ -19,11 +19,19 @@ depends=(
   proj
   zlib
 )
-source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('c581ff502c6b1dc012fad1031d95293ea5f5ff250d9502de382aced8c7d28565')
+source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz"
+        'testlistgeo-no-corners-for-eqc.patch')
+sha256sums=('c581ff502c6b1dc012fad1031d95293ea5f5ff250d9502de382aced8c7d28565'
+            'd0aff849bb3f2a44f39d0b6b0960e03e21f8a66e796b4b7831ada314dc347afa')
 
 prepare() {
   cd $pkgname-$pkgver/$pkgname
+  # PROJ 9.8 (commit 6a529ad) added the ellipsoidal Equidistant Cylindrical
+  # path, EPSG method 1028, which is what EPSG:4087 actually specifies. The
+  # shipped testlistgeo reference still encodes the old spherical result, so
+  # stop asserting those two files' corners -- the same remedy upstream applied
+  # for Cassini Soldner when PROJ 9.1.1 changed its formulas (468e2a1).
+  patch -Np1 -i "$srcdir/testlistgeo-no-corners-for-eqc.patch"
   autoreconf -vfi
 }
 
