@@ -1,0 +1,6 @@
+{
+  "name": "gstreamer",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gstreamer/-/archive/main/gstreamer-main.tar.gz",
+  "sha256": "8c4146358866ac11690c9188363a476d9f6c365e52abb1b60b5f423f9af3d172",
+  "bytes": 31340
+}

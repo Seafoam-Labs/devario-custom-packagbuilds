@@ -1,0 +1,6 @@
+{
+  "name": "vulkan-validation-layers",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/vulkan-validation-layers/-/archive/main/vulkan-validation-layers-main.tar.gz",
+  "sha256": "137b6679516421083558af5545a618d87d4228c1468abe2bcee4aa7940c8eefe",
+  "bytes": 2062
+}

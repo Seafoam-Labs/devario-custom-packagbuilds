@@ -1,0 +1,20 @@
+pkgbase = vulkan-utility-libraries
+	pkgdesc = Vulkan Utility Libraries
+	pkgver = 1.4.363.0
+	pkgrel = 1
+	url = https://www.vulkan.org/
+	arch = x86_64
+	groups = vulkan-devel
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = git
+	makedepends = ninja
+	makedepends = python
+	makedepends = vulkan-headers
+	depends = glibc
+	depends = vulkan-icd-loader
+	options = !lto
+	source = git+https://github.com/KhronosGroup/Vulkan-Utility-Libraries#tag=vulkan-sdk-1.4.363.0
+	b2sums = 22851420b0291e30a909c6b57186170d2d76cc34176198531b3178b260af5e93cb8999f3e617650af0a3fd6f21fc60fb3bd60187ac5fb7b46defa00016786a6f
+
+pkgname = vulkan-utility-libraries
