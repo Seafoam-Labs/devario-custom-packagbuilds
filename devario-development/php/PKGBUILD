@@ -18,7 +18,7 @@ pkgname=('php'
          'php-tidy'
          'php-xsl')
 pkgver=8.5.11
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('PHP-3.01')
 url='https://www.php.net/'
@@ -123,6 +123,8 @@ build() {
 
 	EXTENSION_DIR=/usr/lib/php/modules
 	export EXTENSION_DIR
+	# Keep the compiled-in sendmail path independent of the build root's PATH.
+	export PROG_SENDMAIL=/usr/bin/sendmail
 
 	mkdir "${srcdir}/build"
 	cd "${srcdir}/build"
@@ -160,7 +162,12 @@ check() {
 	cd "${srcdir}/build"
 
 	# Check if sendmail was configured correctly (FS#47600)
-	sapi/cli/php -n -r 'echo ini_get("sendmail_path");' | grep -q '/usr/bin/sendmail'
+	local _sendmail_path
+	_sendmail_path=$(sapi/cli/php -n -r 'echo ini_get("sendmail_path");') || return 1
+	if [[ ${_sendmail_path} != /usr/bin/sendmail && ${_sendmail_path} != '/usr/bin/sendmail '* ]]; then
+		printf 'Unexpected sendmail_path: "%s" (expected /usr/bin/sendmail)\n' "${_sendmail_path}" >&2
+		return 1
+	fi
 
 	export REPORT_EXIT_STATUS=1
 	export NO_INTERACTION=1

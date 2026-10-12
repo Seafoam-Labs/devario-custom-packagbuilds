@@ -1,5 +1,39 @@
 # Missing dependency builds for Shelly
 
+## Thrift: Emacs Tree-sitter dependency (2026-10-11)
+
+The worker's `IncompleteDependencyPlan: emacs-nox: libtree-sitter.so
+(unsatisfied_dependency)` occurs while provisioning Thrift's build
+dependencies. [Thrift](devario-libs/thrift/PKGBUILD) uses `emacs-nox` to
+byte-compile `contrib/thrift.el`; Emacs in turn requires the Tree-sitter
+shared library. Keep both dependency declarations.
+
+The existing [tree-sitter recipe](devario-development/tree-sitter/PKGBUILD)
+`0.26.9-1` and its `.SRCINFO` already declare `libtree-sitter.so` in the
+`tree-sitter` output's `provides`. The separate `tree-sitter-cli` output
+does not provide this library.
+
+1. Build and publish `tree-sitter` from that split recipe (stage 01),
+   provisioning its own build dependencies first. Ensure the library output
+   is included in the worker's enabled binary repository.
+2. Refresh the worker's repository metadata and resolve `emacs-nox` with
+   its full runtime dependencies. If Emacs is not yet published, build
+   [the Emacs recipe](devario-core/emacs/PKGBUILD) after Tree-sitter and
+   publish its `emacs-nox` output. Install only one Emacs variant in the root.
+3. Retry `devario-libs/thrift` (stage 05), then its consumers such as Arrow.
+
+If Tree-sitter is already published, check that the worker sees its library
+output and `provides` metadata. Match the built Emacs package's actual ABI
+requirement: the local host's cached repository metadata lists
+`libtree-sitter.so=0.26-64` for both Tree-sitter's provision and Emacs's
+dependency. This host metadata does not establish worker availability.
+Uploading recipes alone cannot supply the missing binary dependency.
+
+Validation: Tree-sitter, core Emacs, and Thrift pass `bash -n`; all three
+checked-in `.SRCINFO` files exactly match fresh `makepkg --printsrcinfo`
+output. No recipe changes, isolated builds, binary publication, or live
+worker repository checks were performed.
+
 ## Arrow dependency plan (2026-10-11)
 
 The worker reports `grpc`, `re2`, and `thrift` missing from both its enabled
