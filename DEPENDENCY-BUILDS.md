@@ -134,26 +134,28 @@ toolkits are the only VTK consumers in the tree: `src/TKIVtk/EXTERNLIB` names
 cannot consume IVtk. The seed therefore ships every toolkit VTK's OCCT I/O
 module needs.
 
-Build OpenCascade with VTK support off, publish it, build and publish VTK
-against that seed, then restore `USE_VTK=ON` and the `vtk` depends and republish
-OpenCascade with one `pkgrel` bump. Nothing between the seed and the republish
-can consume IVtk, and no recipe here does. Do not leave the seed published once
-VTK is available.
+The seed ran: OpenCascade published as `1:7.9.3-4` with VTK support off, and
+the recipe is now restored to upstream `USE_VTK=ON` with the `vtk` depends and
+`pkgrel=5`. Nothing between the seed and the republish can consume IVtk, and no
+recipe here does. Do not queue `1:7.9.3-5` before VTK publishes: its global
+`vtk` depends is what the seed removed, so an earlier attempt fails dependency
+resolution and leaves the seed as the published package.
 
 Validation: VTK and all 19 reported dependency recipes pass `bash -n`, and
 all 20 checked-in `.SRCINFO` files exactly match fresh
 `makepkg --printsrcinfo` output. Isolated builds, binary publication, and the
 worker's repository state were not checked on 2026-10-11.
 
-Re-queried against the packages API on 2026-10-12, neither `vtk` nor
-`opencascade` is published. The seed is reachable now: all sixteen of
-OpenCascade's remaining `depends` and `makedepends` are published, and VTK's
-sixty-nine pkgbase entries leave only `liblas` and `opencascade` unsatisfied.
+Re-queried against the packages API on 2026-10-12, `opencascade` `1:7.9.3-4` is
+published in devario-development as the seed and `vtk` is not. The seed's
+repository record carries the nine non-VTK depends and its file list contains no
+IVtk path, so `USE_VTK=OFF` took effect. Those 67 `libTK*` kits are the ones VTK
+links; the republish adds only libTKIVtk and libTKIVtkDraw.
 `gl2ps` published the same morning, `onnxruntime` comes from the
 `onnxruntime-cpu`, `-cuda` and `-rocm` splits, `java-environment=11` from
-`jdk11-openjdk`, and `liblas`'s own eight entries are all published, so it
-needs no unblocking before VTK. No isolated build was run for the seed, so the
-worker's first OpenCascade attempt is its first real check.
+`jdk11-openjdk`, and with `liblas` published at 09:26 all 69 of VTK's pkgbase
+entries resolve. VTK was still in the worker queue when this restore was
+committed.
 
 ## rocThrust and its dependency builds (2026-10-10)
 
