@@ -1,5 +1,53 @@
 # Missing dependency builds for Shelly
 
+## Arrow dependency plan (2026-10-11)
+
+The worker reports `grpc`, `re2`, and `thrift` missing from both its enabled
+binary repositories and isolated environment when provisioning
+[arrow](devario-libs/arrow/PKGBUILD) `25.0.1-7`. All three recipes already
+exist and produce the required package names. Arrow selects system
+dependencies with `ARROW_DEPENDENCY_SOURCE=SYSTEM`; its dependency
+declarations do not need renaming or removal.
+
+Build and publish these prerequisites in the stages from
+[the repository build order](LATEST-BUILD-ORDER.md), skipping packages
+already available to the worker:
+
+| Stage | Recipe | Required output / release |
+| --- | --- | --- |
+| 01 | [re2](devario-libs/re2/PKGBUILD) | `re2` `2:2025.11.05-7` |
+| 05 | [thrift](devario-libs/thrift/PKGBUILD) | `thrift` `0.22.0-6` |
+| 11 | [grpc](devario-libs/grpc/PKGBUILD) | `grpc` `1.84.0-2` |
+| 12 | [arrow](devario-libs/arrow/PKGBUILD) | `arrow` `25.0.1-7` |
+
+Publish re2 before building gRPC, which also requires it. Build each split
+recipe once: Thrift also builds Python bindings, and gRPC builds Python and
+PHP bindings plus its CLI. Provision each recipe's full build requirements,
+including Thrift's `emacs-nox` and `qt5-base`, and gRPC's `php`, `php-legacy`,
+and Python build tools. The gRPC recipe requires the installed protobuf
+version to match its pinned `36.1`. This table covers the reported missing
+packages, not their complete transitive dependency closure.
+
+RE2 release `2:2025.11.05-7` moves `gtest` and `benchmark` from
+`checkdepends` to `makedepends`: `RE2_BUILD_TESTING=ON` requires both during
+`build()`, even when the worker skips `check()`. The previous release could
+fail CMake configuration because `benchmarkConfig.cmake` was missing.
+Build and publish [benchmark](devario-libs/benchmark/PKGBUILD) first if it
+is unavailable to the worker. The reported build already found GTest
+`1.18.0`; keep that dependency available as well. Upload the updated RE2
+recipe and `.SRCINFO` and retry.
+
+Publish the resulting binary packages to the worker's enabled repository
+and refresh its repository metadata before provisioning consumers. If the
+packages are already published, check repository enablement and refresh
+the worker's metadata before retrying Arrow. Uploading recipes alone does
+not supply the missing binaries.
+
+Validation: all four recipes pass `bash -n`, and their checked-in
+`.SRCINFO` files exactly match fresh `makepkg --printsrcinfo` output.
+RE2's dependency metadata and release were updated; no isolated builds,
+binary publication, or live worker repository checks were performed.
+
 ## VTK dependency plan (2026-10-11)
 
 The worker reports 19 distinct missing build dependencies for
