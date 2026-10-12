@@ -122,7 +122,9 @@ package() {
   cd ImageMagick
   make DESTDIR="$pkgdir" install
 
-  find "$pkgdir/usr/lib/perl5" -name '*.so' -exec chrpath -d {} +
+  # Shelly virtualizes chown but not chmod, so chrpath needs the 0555 modules writable.
+  find "$pkgdir/usr/lib/perl5" -name '*.so' -exec chmod u+w {} + \
+    -exec chrpath -d {} + -exec chmod a-w {} +
   rm "$pkgdir"/etc/ImageMagick-*/type-{apple,urw-base35,windows}.xml
   rm "$pkgdir"/usr/lib/*.la
 
