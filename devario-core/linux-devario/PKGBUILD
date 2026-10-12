@@ -77,6 +77,9 @@ _processor_opt=generic_v3
 # Build a debug package with non-stripped vmlinux
 : "${_build_debug:=no}"
 
+### Enable LRU_MARIE
+: "${_lru_marie:=yes}"
+
 _pkgsuffix=devario
 
 pkgbase="linux-$_pkgsuffix"
@@ -85,8 +88,8 @@ _minor=10
 #_minorc=$((_minor+1))
 #_rcver=rc8
 pkgver=${_major}.${_minor}
-_tagrel=1
-pkgrel=1.1
+_tagrel=2
+pkgrel=1.2
 _srcname=devario-${_major}.${_minor}-${_tagrel}
 pkgdesc='Linux EEVDF by Devario with other patches and improvements.'
 _kernver="$pkgver-$pkgrel"
@@ -223,6 +226,14 @@ prepare() {
     esac
 
     echo "Selecting '$_hugepage' TRANSPARENT_HUGEPAGE config..."
+
+    ### Enable LRU_MARIE
+    if [ "$_lru_marie" = "yes" ]; then
+        echo "Enabling LRU_MARIE..."
+        scripts/config -e LRU_MARIE \
+            -e LRU_MARIE_DEFAULT_ON \
+            -e LRU_MARIE_DEFRAG
+    fi
 
     ### Optionally use running kernel's config
     # code originally by nous; http://aur.archlinux.org/packages.php?ID=40191
@@ -451,5 +462,5 @@ for _p in "${pkgname[@]}"; do
     }"
 done
 
-b2sums=('bafc6af2d2684068fe34d94ccca16cb4c060addf89a411a71f36a5d9162c2770530591ae100270391f153cccd185357b5254aa5c0a34c7d383fedf80dc072027'
-        '1ed27157f89f455735bafb3550b15b45549d476820815e28e8d06aab5327e87760f9d49fee27edf2745c68abb4fa0f7831c8c7a64d2b3428cf98d376d4c736d5')
+b2sums=('3b8184a7b27aa00e881d31d78e2bb9b9d903ebe513679ddca8af3d62f5c48f4cf9d8a2d7675ba4ac1e0fa91df2d8de617416817613929ee1ae68258285c325de'
+        '1506254be3d2ee47d6c157edd19a35ead52d32ce1b7b44fd9b884641c19ee6c360b9b524fed360b96eef3a5673b886fcb7604e483d92b80d5dcc7538a1812ae2')
