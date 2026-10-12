@@ -76,13 +76,13 @@ _pkgsuffix=devario-lts
 
 pkgbase="linux-$_pkgsuffix"
 _major=6.18
-_minor=55
+_minor=56
 #_minorc=$((_minor+1))
 #_rcver=rc8
 pkgver=${_major}.${_minor}
-_tagrel=2
+_tagrel=1
 # Devario rebuild 1 of the upstream release, with a baseline x86-64 target.
-pkgrel=1.3
+pkgrel=1.1
 _stable=${_major}.${_minor}
 #_stable=${_major}
 #_stablerc=${_major}-${_rcver}
@@ -456,5 +456,5 @@ for _p in "${pkgname[@]}"; do
     }"
 done
 
-b2sums=('dcca890fd9a163a137e19c1778c046110121c1e9a17e67706a52750a7f0f4eddfbd7eb8e8a10694e182efa04912a2a25635d8bbd6e8d41bf2bae2fc3e961d104'
+b2sums=('6d5e68b5cc71601056c418a8763e6132a9b18ca9a11164493a7811c0d6f8e64bbb32355f393e168647c76a74e9166dc374bdbc190bb3a3cef74bd0eec8277743'
         'b00a2da0b7ba5639ed62806773644c6d90171b976a709dc386aa270edd9200ac6b50d535e5cb50e744fdadceaffd53e441930a5a1fba29c1a928fc286d495d24')
