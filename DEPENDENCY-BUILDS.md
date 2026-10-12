@@ -1,5 +1,108 @@
 # Missing dependency builds for Shelly
 
+## Arrow dependency plan (2026-10-11)
+
+The worker reports `grpc`, `re2`, and `thrift` missing from both its enabled
+binary repositories and isolated environment when provisioning
+[arrow](devario-libs/arrow/PKGBUILD) `25.0.1-7`. All three recipes already
+exist and produce the required package names. Arrow selects system
+dependencies with `ARROW_DEPENDENCY_SOURCE=SYSTEM`; its dependency
+declarations do not need renaming or removal.
+
+Build and publish these prerequisites in the stages from
+[the repository build order](LATEST-BUILD-ORDER.md), skipping packages
+already available to the worker:
+
+| Stage | Recipe | Required output / release |
+| --- | --- | --- |
+| 01 | [re2](devario-libs/re2/PKGBUILD) | `re2` `2:2025.11.05-7` |
+| 05 | [thrift](devario-libs/thrift/PKGBUILD) | `thrift` `0.22.0-6` |
+| 11 | [grpc](devario-libs/grpc/PKGBUILD) | `grpc` `1.84.0-2` |
+| 12 | [arrow](devario-libs/arrow/PKGBUILD) | `arrow` `25.0.1-7` |
+
+Publish re2 before building gRPC, which also requires it. Build each split
+recipe once: Thrift also builds Python bindings, and gRPC builds Python and
+PHP bindings plus its CLI. Provision each recipe's full build requirements,
+including Thrift's `emacs-nox` and `qt5-base`, and gRPC's `php`, `php-legacy`,
+and Python build tools. The gRPC recipe requires the installed protobuf
+version to match its pinned `36.1`. This table covers the reported missing
+packages, not their complete transitive dependency closure.
+
+RE2 release `2:2025.11.05-7` moves `gtest` and `benchmark` from
+`checkdepends` to `makedepends`: `RE2_BUILD_TESTING=ON` requires both during
+`build()`, even when the worker skips `check()`. The previous release could
+fail CMake configuration because `benchmarkConfig.cmake` was missing.
+Build and publish [benchmark](devario-libs/benchmark/PKGBUILD) first if it
+is unavailable to the worker. The reported build already found GTest
+`1.18.0`; keep that dependency available as well. Upload the updated RE2
+recipe and `.SRCINFO` and retry.
+
+Publish the resulting binary packages to the worker's enabled repository
+and refresh its repository metadata before provisioning consumers. If the
+packages are already published, check repository enablement and refresh
+the worker's metadata before retrying Arrow. Uploading recipes alone does
+not supply the missing binaries.
+
+Validation: all four recipes pass `bash -n`, and their checked-in
+`.SRCINFO` files exactly match fresh `makepkg --printsrcinfo` output.
+RE2's dependency metadata and release were updated; no isolated builds,
+binary publication, or live worker repository checks were performed.
+
+## VTK dependency plan (2026-10-11)
+
+The worker reports 19 distinct missing build dependencies for
+[vtk](devario-libs/vtk/PKGBUILD) `9.7.1-2`. Each appears twice because it is
+absent from both the enabled binary repositories and the isolated environment.
+All 19 already have recipes here, with package names matching VTK's
+`makedepends`. Uploading recipes alone does not satisfy these requirements.
+The modules enabled by this recipe require these dependencies during the
+build, even where they are optional for users of the resulting package.
+
+Build and publish the following prerequisites in the stages from
+[the repository build order](LATEST-BUILD-ORDER.md). This table is a subset
+for the reported failure, not a complete transitive dependency queue: provision
+each recipe's own runtime/build requirements first, using the full order when
+those packages are also unpublished. Skip outputs already available from the
+worker's enabled repositories. Use `--no-check` for this queue, as in the
+full build order; this does not omit dependencies declared in `makedepends`.
+
+| Stage | Recipes to build and publish |
+| --- | --- |
+| 01 | [cli11](devario-development/cli11/PKGBUILD), [openvr](devario-development/openvr/PKGBUILD), [proj](devario-libs/proj/PKGBUILD), [utf8cpp](devario-development/utf8cpp/PKGBUILD), [viskores](devario-libs/viskores/PKGBUILD) |
+| 02 | [netcdf](devario-libs/netcdf/PKGBUILD) |
+| 03 | [cgns](devario-development/cgns/PKGBUILD) |
+| 04 | [openimagedenoise](devario-libs/openimagedenoise/PKGBUILD) |
+| 05 | [python-mpi4py](devario-libs/python-mpi4py/PKGBUILD) |
+| 06 | [paraview-catalyst](devario-libs/paraview-catalyst/PKGBUILD) |
+| 07 | [adios2](devario-development/adios2/PKGBUILD), [openvdb](devario-libs/openvdb/PKGBUILD) |
+| 09 | [ospray](devario-development/ospray/PKGBUILD) |
+| 12 | [gl2ps](devario-libs/gl2ps/PKGBUILD) |
+| 18 | [gdal](devario-libs/gdal/PKGBUILD) |
+| 19 | [liblas](devario-libs/liblas/PKGBUILD), [pdal](devario-libs/pdal/PKGBUILD), [python-matplotlib](devario-libs/python-matplotlib/PKGBUILD) |
+| 22 | [opencascade](devario-development/opencascade/PKGBUILD), then [vtk](devario-libs/vtk/PKGBUILD), with the seed requirement below |
+
+Publish completed dependencies and refresh the worker's repository metadata
+before provisioning their consumers. In particular, ADIOS2 needs mpi4py and
+ParaView Catalyst; OSPRay needs Open Image Denoise; GDAL needs PROJ and netCDF;
+libLAS and PDAL need GDAL. Build split recipes once and publish their outputs.
+
+Stage 22 is cycle G364: OpenCascade requires VTK at runtime and builds with
+`USE_VTK=ON`, while VTK needs OpenCascade to build its OCCT I/O module.
+An existing compatible VTK binary package and its runtime dependencies must
+be available inside the isolated root to build OpenCascade first. Publish
+OpenCascade, retain that VTK seed, then build the full VTK recipe. Rebuild
+OpenCascade against the resulting VTK when the seed used a different ABI,
+and keep the final published pair ABI-compatible. If no compatible seed is
+available, this group needs a separate bootstrap build; merely reordering
+these two full recipes cannot resolve the cycle. Do not bypass dependency
+checks or remove dependencies from the full recipe to force it through.
+
+Validation: VTK and all 19 reported dependency recipes pass `bash -n`, and
+all 20 checked-in `.SRCINFO` files exactly match fresh
+`makepkg --printsrcinfo` output. No recipe changes, isolated builds, binary
+publication, or live worker repository checks were performed. The worker
+must have these binary prerequisites available before retrying VTK.
+
 ## rocThrust and its dependency builds (2026-10-10)
 
 [rocthrust](devario-libs/rocthrust/PKGBUILD) now packages `10.0-1` from the

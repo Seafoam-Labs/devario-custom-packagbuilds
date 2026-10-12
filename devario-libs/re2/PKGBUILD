@@ -5,7 +5,7 @@
 # Contributor: Alexandre Bique <bique.alexandre@gmail.com>
 
 pkgname=re2
-pkgrel=6
+pkgrel=7
 epoch=2
 pkgver=2025.11.05
 pkgdesc="Fast, safe, thread-friendly regular expression engine"
@@ -17,8 +17,8 @@ depends=(
     'glibc'
     'libgcc'
 )
-checkdepends=('gtest' 'benchmark')
-makedepends=('git' 'cmake')
+# RE2_BUILD_TESTING=ON compiles tests during build(), even when check() is skipped.
+makedepends=('git' 'cmake' 'gtest' 'benchmark')
 provides=('libre2.so')
 source=("$pkgname::git+https://github.com/google/re2.git#tag=${pkgver//./-}")
 sha256sums=('13cb4ba61567d496fc8ed0bc31369e81bbe9ef34ce8c7dffe5219093a576e385')
