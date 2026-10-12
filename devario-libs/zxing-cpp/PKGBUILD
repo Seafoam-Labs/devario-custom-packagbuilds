@@ -26,6 +26,10 @@ source=(git+https://github.com/zxing-cpp/zxing-cpp#tag=v$pkgver)
 sha256sums=('dd2e3cf7e1077acbcf74c98ec8e8487f3828396e006e2d37e9773fb8ec584a64')
 
 build() {
+  # The builder's LDFLAGS omit --as-needed, so ld keeps every OpenCV module and must
+  # resolve the vtk and hdf5 DT_NEEDED that opencv leaves to its optdepends.
+  LDFLAGS+=" -Wl,--as-needed"
+
   cmake -B build -S $pkgname \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=None \

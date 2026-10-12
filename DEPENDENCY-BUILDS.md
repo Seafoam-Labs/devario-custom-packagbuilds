@@ -957,11 +957,14 @@ actually advertises. Published `libpng` and `zlib` carry only bare provisions,
 so `libpng16.so` and `libz.so` stay bare; porting either provider to an explicit
 versioned provision would let those two match the rest.
 
-Still blocked: `zxing-cpp` makedepends on `opencv`, whose global makedepends
-include `java-environment`. Nothing published provides `java-environment` or
-`java-runtime`, and every local JDK recipe pins `java-environment` to its own
-version, so `zxing-cpp` and therefore `mupdf` cannot build until that bootstrap
-is resolved. Every other recipe above is buildable now.
+`zxing-cpp` no longer waits on `java-environment`, and published `opencv` installs
+into the isolated root. Its first worker build failed one step later, at the link of
+the `ZXingOpenCV` demo: the builder's `LDFLAGS` lack the `--as-needed` Arch carries, so
+ld kept every OpenCV module and had to resolve the `vtk` and `hdf5` references that
+`opencv` leaves to its optdepends. The recipe appends that flag. Naming `vtk`, `hdf5`
+and `openmpi` in `makedepends` also links, but only by pulling the whole VTK and MPI
+closure into the root for a binary that is never installed. Probe-verified against the
+published `opencv` archive; no isolated worker build has run since.
 
 Validation on 2026-10-10:
 
