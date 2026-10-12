@@ -1,7 +1,7 @@
 pkgbase = tidy
 	pkgdesc = A tool to tidy down your HTML code to a clean style
 	pkgver = 5.8.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://www.html-tidy.org/
 	arch = x86_64
 	license = custom

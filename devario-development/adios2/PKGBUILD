@@ -3,7 +3,7 @@
 
 pkgname=adios2
 pkgver=2.12.1
-pkgrel=6
+pkgrel=7
 pkgdesc="The Adaptable Input/Output System version 2"
 arch=(x86_64)
 url="https://adios2.readthedocs.io/en/latest/"
@@ -67,6 +67,15 @@ prepare() {
 }
 
 build() {
+  # CUDA installs into /opt/cuda, which only /etc/profile.d/cuda.sh puts on PATH
+  # and /etc/ld.so.conf.d/cuda.conf puts on the loader search list. Shelly's
+  # build shell sources neither, so FindCUDAToolkit cannot resolve nvcc and
+  # cmake/DetectOptions.cmake aborts with "Could not find `nvcc` executable in
+  # any searched paths". The explicit CUDAToolkit_ROOT also keeps the probe away
+  # from any host CUDA install.
+  export CUDA_PATH=/opt/cuda
+  export PATH="/opt/cuda/bin:$PATH"
+
   # In general, we want to list all real archs (sm_XX) and the latest virtual arch (compute_XX) for future PTX compatibility.
   # Valid values can be discovered from nvcc --help
   local cuda_archs="75;80;86;87;88;89;90;100;103;110;120;121;121-virtual"
@@ -78,6 +87,14 @@ build() {
     -W no-dev
     -DCMAKE_BUILD_TYPE=None
     -DCMAKE_INSTALL_PREFIX=/usr
+    -DCUDAToolkit_ROOT=/opt/cuda
+    # The cuda package replaces /opt/cuda/lib64/cmake with a symlink to the whole
+    # of /usr/lib/cmake, so every config there is also reachable under the
+    # /opt/cuda prefix. Catalyst pulls Conduit in via find_dependency(), and
+    # conduit's exported config derives its root by walking up from its own file
+    # location -- resolving it through /opt/cuda yields a non-existent
+    # /opt/cuda/include/conduit/. Pin the real config dir to keep it at /usr.
+    -DConduit_DIR=/usr/lib/cmake/conduit
     -DCMAKE_CUDA_ARCHITECTURES="$cuda_archs"
     # Compile source code for supported GPU archs in parallel
     -DCMAKE_CUDA_FLAGS="--threads $(nproc)"
