@@ -1,8 +1,13 @@
 # Fastfetch for Devario
 
-`2.69.0-3` adds native Shelly package detection and Devario's persistent
-Fastfetch defaults to the upstream `2.69.0-1` recipe. All three ASCII fish
-designs are included; bold (option 3) is the default.
+`2.69.0-4` combines native Shelly package detection with Devario's PNG fish
+logo and bordered Fastfetch layout. The three ASCII fish designs remain
+available as alternatives. The recipe is based on upstream `2.69.0-1`.
+
+ImageMagick, Chafa, and zlib are runtime dependencies. Ghostty can display the
+PNG through the Kitty graphics protocol; terminals without image support can
+use Chafa's text rendering. The build enables image support and `check()`
+rejects binaries missing ImageMagick 7, Chafa, or zlib support.
 
 The source patch queries `shelly list standard --show-hidden --json` and
 counts installed package records. Shelly resolves its own configuration and
@@ -20,7 +25,8 @@ handling, and disabled detection using a PATH without Pacman.
 
 The package installs the configuration and logos in
 `/usr/share/devario/fastfetch/`, matching the Devario OS image. The default
-`devario-fish.txt` is a copy of `fish-bold.txt`. The system configuration at
+logo is `devario-logo.png`; the legacy `devario-fish.txt` remains a copy of
+`fish-bold.txt`. The system configuration at
 `/etc/xdg/fastfetch/config.jsonc` links to the shared configuration, so plain
 `fastfetch` uses the same branding as the Devario terminal welcome display.
 The ISO supplies the Bash/Fish startup hooks; this package supplies their
@@ -29,8 +35,8 @@ configuration and artwork without editing users' shell startup files.
 Try the other designs with:
 
 ```sh
-fastfetch --logo /usr/share/devario/fastfetch/fish-striped.txt
-fastfetch --logo /usr/share/devario/fastfetch/fish-compact.txt
+fastfetch --logo-type file --logo /usr/share/devario/fastfetch/fish-striped.txt
+fastfetch --logo-type file --logo /usr/share/devario/fastfetch/fish-compact.txt
 ```
 
 For a persistent personal selection, copy the system configuration to
@@ -49,8 +55,9 @@ shelly build --isolated --check ./devario-core/fastfetch/PKGBUILD
 Shelly's static review may flag the backticks in the striped and compact
 ASCII art as dynamic commands. These files are installed as non-executable
 text and read by Fastfetch's `file` logo renderer; they are never sourced by
-a shell. `check()` runs the upstream tests, Shelly regression fixtures, and
-renders all three logos with the bundled configuration.
+a shell. `check()` runs the upstream tests, Shelly regression fixtures,
+checks image features, and renders all three text logos with the bundled
+configuration.
 
 Older ISO installations can already contain these paths as unowned overlay
 files. Before the first package upgrade, reconcile those specific files with

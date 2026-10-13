@@ -4,23 +4,21 @@
 
 pkgname=fastfetch
 pkgver=2.69.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A feature-rich and performance oriented neofetch like system information tool"
 url="https://github.com/fastfetch-cli/fastfetch"
 arch=('x86_64')
 license=('MIT')
-depends=('glibc' 'shelly' 'yyjson')
+depends=('chafa' 'glibc' 'imagemagick' 'shelly' 'yyjson' 'zlib')
 checkdepends=('python')
-makedepends=('chafa' 'cmake' 'dbus' 'dconf' 'ddcutil' 'efl' 'imagemagick' 'libglvnd' 'libpulse'
+makedepends=('cmake' 'dbus' 'dconf' 'ddcutil' 'efl' 'libglvnd' 'libpulse'
              'libva' 'libvdpau' 'libxcb' 'libxrandr' 'lua' 'ocl-icd' 'opencl-headers' 'quickjs-ng'
-             'sqlite' 'vulkan-headers' 'vulkan-icd-loader' 'wayland' 'xfconf' 'zlib')
-optdepends=('chafa: Image output as ascii art'
-            'dbus: Bluetooth, Player & Media detection'
+             'sqlite' 'vulkan-headers' 'vulkan-icd-loader' 'wayland' 'xfconf')
+optdepends=('dbus: Bluetooth, Player & Media detection'
             'dconf: Needed for values that are only stored in DConf + Fallback for GSettings'
             'ddcutil: Brightness detection of external displays'
             'glib2: Output for values that are only stored in GSettings'
             'hwdata: GPU output'
-            'imagemagick: Image output using sixel or kitty graphics protocol'
             'libdrm: Displays detection'
             'libelf: st term font detection and fast path of systemd version detection'
             'libglvnd: OpenGL module'
@@ -33,11 +31,11 @@ optdepends=('chafa: Image output as ascii art'
             'quickjs-ng: JavaScript scripting in format section of JSON config'
             'python: Needed for zsh and fish completions'
             'sqlite: Needed for Sqlite integration and Soar packages count'
-            'vulkan-icd-loader: Vulkan module & fallback for GPU output'
-            'zlib: Faster image output when using kitty graphics protocol')
+            'vulkan-icd-loader: Vulkan module & fallback for GPU output')
 source=(
   "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
   'devario-config.jsonc'
+  'devario-logo.png'
   'fish-striped.txt'
   'fish-compact.txt'
   'fish-bold.txt'
@@ -46,7 +44,8 @@ source=(
 )
 sha256sums=(
   'd0e42faf307e39e7b531d632745a56e4eb558a6545f557280099c622562355ee'
-  '13f80ab8156bbb62c3b473960c540552083130028f666ee818f24e50c5789c44'
+  'bd28994f73b20723efa85d070ef53c8905d03ea6990cbeecb224ea173c673fea'
+  '21dcc8a853a546bdd989005c7bebdc2df2f39046e39f2d275d39d78f8f02c7b8'
   '4b9e7758bc4be9cf4162b6e0bb932ca62a250172c360002a051c72c60b1299bf'
   '30a6f7ca42a9cec786cd373ab71a79dafc57ba757115472d98cdd6cb2358de41'
   '813af34960dfd84ed2597e25ef9b6de4cc3bd6f9de47158b23b2e066ea029c6e'
@@ -66,7 +65,10 @@ build() {
 		-DBUILD_TESTS='ON' \
 		-DENABLE_SQLITE3='ON' \
 		-DENABLE_RPM='OFF' \
+		-DENABLE_IMAGE_LOGO='ON' \
+		-DENABLE_IMAGEMAGICK7='ON' \
 		-DENABLE_IMAGEMAGICK6='OFF' \
+		-DENABLE_CHAFA='ON' \
 		-DENABLE_SYSTEM_YYJSON='ON' \
 		-DPACKAGES_DISABLE_APK='ON' \
 		-DPACKAGES_DISABLE_DPKG='ON' \
@@ -93,11 +95,20 @@ check() {
 	ctest --test-dir build --output-on-failure || return 1
 	python "${srcdir}/test-shelly.py" build/fastfetch \
 		"${srcdir}/${pkgname}-${pkgver}/src/modules/packages/option.h" || return 1
+	# CMake can silently omit image backends when development libraries are missing.
+	local features feature
+	features="$(build/fastfetch --list-features)" || return 1
+	for feature in imagemagick7 chafa zlib; do
+		if ! grep -Fxq "$feature" <<< "$features"; then
+			printf 'Required Fastfetch image feature missing: %s\n' "$feature" >&2
+			return 1
+		fi
+	done
 	# Exercise the bundled configuration with each logo before packaging.
 	local logo
 	for logo in striped compact bold; do
 		build/fastfetch --config "${srcdir}/devario-config.jsonc" \
-			--logo "${srcdir}/fish-${logo}.txt" --pipe false >/dev/null || return 1
+			--logo-type file --logo "${srcdir}/fish-${logo}.txt" --pipe false >/dev/null || return 1
 	done
 }
 
@@ -106,10 +117,11 @@ package() {
 
 	local assets="${pkgdir}/usr/share/devario/fastfetch" logo
 	install -Dm644 "${srcdir}/devario-config.jsonc" "${assets}/config.jsonc"
+	install -Dm644 "${srcdir}/devario-logo.png" "${assets}/devario-logo.png"
 	for logo in striped compact bold; do
 		install -Dm644 "${srcdir}/fish-${logo}.txt" "${assets}/fish-${logo}.txt"
 	done
-	# Keep the path used by existing Devario shell startup files; option 3 is default.
+	# Keep the text-logo path used by older Devario configurations.
 	install -Dm644 "${srcdir}/fish-bold.txt" "${assets}/devario-fish.txt"
 	install -dm755 "${pkgdir}/etc/xdg/fastfetch"
 	ln -s ../../../usr/share/devario/fastfetch/config.jsonc \
