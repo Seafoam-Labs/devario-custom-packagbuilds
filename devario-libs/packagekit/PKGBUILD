@@ -4,7 +4,7 @@
 pkgbase='packagekit'
 pkgname=('packagekit' 'libpackagekit-glib')
 pkgver=1.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A system designed to make installation and updates of packages easier'
 arch=('x86_64')
 url='https://www.freedesktop.org/software/PackageKit/'
@@ -51,6 +51,10 @@ package_packagekit() {
                 'etc/PackageKit/alpm.d/repos.list')
 
         meson install -C build --destdir "$pkgdir"
+
+        # an isolated build root has no system bus, and a failing PostTransaction hook aborts root provisioning
+        sed -i "s,posttrans > /dev/null',posttrans > /dev/null 2>\&1 || true'," \
+                "$pkgdir/usr/share/libalpm/hooks/90-packagekit-refresh.hook"
 
         # move away for libpackagekit-glib
         mkdir -p libpackagekit/usr/{lib,share}
