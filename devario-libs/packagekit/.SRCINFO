@@ -11,6 +11,7 @@ pkgbase = packagekit
 	makedepends = gobject-introspection
 	makedepends = intltool
 	makedepends = meson
+	makedepends = pacman
 	makedepends = polkit
 	makedepends = python-setuptools
 	makedepends = sqlite
