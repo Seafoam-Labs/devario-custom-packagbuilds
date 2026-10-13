@@ -33,7 +33,9 @@ b2sums=('333b4e7f0fcc0cb984975718011a81bde55f02ed4fa0e0bc69d2fd553e520b9e0cf5153
 build() {
   cd vala-$pkgver
 
-  ./configure --prefix=/usr
+  # configure wants girdir from gobject-introspection-1.0.pc, a checkdepend
+  # the worker's --no-check never installs; pin the system gir location instead
+  ./configure --prefix=/usr GI_GIRDIR=/usr/share/gir-1.0
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make
 }
