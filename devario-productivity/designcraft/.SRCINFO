@@ -1,0 +1,25 @@
+pkgbase = designcraft
+	pkgdesc = Page layout and desktop publishing editor, written from scratch in pure Rust
+	pkgver = 0.6.0
+	pkgrel = 1
+	url = https://github.com/storytold/designcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = rust
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = vulkan-icd-loader
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/designcraft/archive/v0.6.0/designcraft-0.6.0.tar.gz
+	sha256sums = 9bbef8e8ec3cc3f4bd7c6412fecac7ff0e124e636d797697c6cfa62757c1eabe
+
+pkgname = designcraft

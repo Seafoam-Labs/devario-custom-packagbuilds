@@ -1,0 +1,25 @@
+pkgbase = wordcraft
+	pkgdesc = Clean-room reimplementation of Microsoft Word for documents and .docx
+	pkgver = 0.6.1
+	pkgrel = 1
+	url = https://github.com/storytold/wordcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = rust
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = vulkan-icd-loader
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/wordcraft/archive/v0.6.1/wordcraft-0.6.1.tar.gz
+	sha256sums = da04df66c0637b7fd9d8b1b0079f8cf91aa8a04dec12fa5426adaca386945a88
+
+pkgname = wordcraft

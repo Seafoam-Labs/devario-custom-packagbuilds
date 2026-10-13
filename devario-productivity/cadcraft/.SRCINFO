@@ -1,0 +1,26 @@
+pkgbase = cadcraft
+	pkgdesc = Clean-room computer-aided design and drafting app for 2D drawings (DXF/DWG)
+	pkgver = 0.6.2
+	pkgrel = 1
+	url = https://github.com/storytold/cadcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = vulkan-icd-loader
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/cadcraft/archive/v0.6.2/cadcraft-0.6.2.tar.gz
+	sha256sums = 4582855972d4a112f838a67414204ba01e3acd178b3891cf5a15d767fa610e28
+
+pkgname = cadcraft

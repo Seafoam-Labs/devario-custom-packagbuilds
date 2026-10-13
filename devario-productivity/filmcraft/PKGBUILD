@@ -1,0 +1,89 @@
+# Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
+#
+# Non-linear video editor for picture, color and sound, in pure Rust.
+# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
+#
+# Upstream builds the wasm app (`apps/filmcraft-web`) from the same workspace, so the
+# build targets the two native crates explicitly rather than the whole workspace.
+# Requires rust >= 1.95 (workspace `rust-version`).
+
+pkgname=filmcraft
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="Non-linear video editor for picture, color and sound, in pure Rust"
+arch=('x86_64' 'aarch64')
+url="https://github.com/storytold/filmcraft"
+license=('MIT OR Apache-2.0')
+depends=(
+    'glibc'
+    'libgcc'
+    'libxkbcommon'
+    'vulkan-icd-loader'
+    'alsa-lib'
+  )
+makedepends=(
+    'rust'
+    'alsa-lib'
+  )
+optdepends=(
+    'libglvnd: EGL/GL rendering when no Vulkan loader is present'
+    'wayland: Wayland windowing support'
+    'libx11: X11 windowing support'
+    'libxcursor: themed cursor rendering under X11'
+    'libxi: pen tablet and touch input under X11'
+    'libxrandr: multi-monitor and DPI change handling'
+    'mesa: Vulkan drivers for GPU rendering'
+    'xdg-desktop-portal: native file dialogs and system dark/light theme'
+  )
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('361974da27af2eb67c2feb8fc0b3812a336dd0511ec63e73f44dde0d26fdeaca')
+
+# Tag commit and release date, baked into the binary's build provenance
+# (`option_env!("FILMCRAFT_BUILD_SHA")` / `FILMCRAFT_BUILD_DATE`) and into the AppStream
+# metadata below. Fixed rather than derived from the clock so rebuilds match.
+_commit=2ff3f5e266838700c292a35aaf762e3d4dcef980
+_releasedate=2026-10-10
+_appid=ai.storyteller.filmcraft
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  export FILMCRAFT_BUILD_SHA="$_commit"
+  export FILMCRAFT_BUILD_DATE="$_releasedate"
+
+  cargo build --release --frozen -p filmcraft -p filmcraft-cli
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  install -Dm755 "target/release/filmcraft" "$pkgdir/usr/bin/filmcraft"
+  install -Dm755 "target/release/filmcraft-cli" "$pkgdir/usr/bin/filmcraft-cli"
+
+  install -Dm644 "packaging/linux/$_appid.desktop" \
+    "$pkgdir/usr/share/applications/$_appid.desktop"
+  install -Dm644 "packaging/linux/$_appid.mime.xml" \
+    "$pkgdir/usr/share/mime/packages/$_appid.xml"
+
+  # The metainfo ships as a template; upstream substitutes the same two tokens.
+  sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
+    "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
+  install -Dm644 "$_appid.metainfo.xml" \
+    "$pkgdir/usr/share/metainfo/$_appid.metainfo.xml"
+
+  install -dm755 "$pkgdir/usr/share/icons/hicolor"
+  cp -a assets/app-icon/hicolor/. "$pkgdir/usr/share/icons/hicolor/"
+
+  install -Dm644 "README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "NOTICE" "$pkgdir/usr/share/doc/$pkgname/NOTICE"
+  install -Dm644 "ATTRIBUTION.md" "$pkgdir/usr/share/doc/$pkgname/ATTRIBUTION.md"
+
+  install -Dm644 LICENSE-MIT "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
+  install -Dm644 LICENSE-APACHE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-APACHE"
+}

@@ -1,0 +1,93 @@
+# Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
+#
+# PDF reader and editor: comment, fill, sign, redact, combine and split.
+# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
+#
+# Upstream builds the wasm app (`apps/pdfcraft-web`) from the same workspace, so the
+# build targets the two native crates explicitly rather than the whole workspace.
+# Requires rust >= 1.95 (workspace `rust-version`).
+# The workspace pins shared crates (`craft-libs`) to a git revision, so
+# `prepare()` needs network access to clone them; `--frozen` then keeps the
+# build offline and reproducible against Cargo.lock.
+
+pkgname=pdfcraft
+pkgver=0.7.1
+pkgrel=1
+pkgdesc="PDF reader and editor: comment, fill, sign, redact, combine and split"
+arch=('x86_64' 'aarch64')
+url="https://github.com/storytold/pdfcraft"
+license=('MIT OR Apache-2.0')
+depends=(
+    'glibc'
+    'libgcc'
+    'libxkbcommon'
+    'vulkan-icd-loader'
+  )
+makedepends=(
+    'git'
+    'rust'
+    'cmake'
+  )
+optdepends=(
+    'libglvnd: EGL/GL rendering when no Vulkan loader is present'
+    'wayland: Wayland windowing support'
+    'libx11: X11 windowing support'
+    'libxcursor: themed cursor rendering under X11'
+    'libxi: pen tablet and touch input under X11'
+    'libxrandr: multi-monitor and DPI change handling'
+    'mesa: Vulkan drivers for GPU rendering'
+    'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'libcups: printing support'
+  )
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('92b7640b9899fccbe6b1aa5e4ced405cdc5826e443764e512fd253ee5341b5d6')
+
+# Tag commit and release date, baked into the binary's build provenance
+# (`option_env!("PDFCRAFT_BUILD_SHA")` / `PDFCRAFT_BUILD_DATE`) and into the AppStream
+# metadata below. Fixed rather than derived from the clock so rebuilds match.
+_commit=7163ba3dee8becfff6871c9a65d0d8314314742b
+_releasedate=2026-10-12
+_appid=ai.storyteller.pdfcraft
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  export PDFCRAFT_BUILD_SHA="$_commit"
+  export PDFCRAFT_BUILD_DATE="$_releasedate"
+
+  cargo build --release --frozen -p pdfcraft -p pdfcraft-cli
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  install -Dm755 "target/release/pdfcraft" "$pkgdir/usr/bin/pdfcraft"
+  install -Dm755 "target/release/pdfcraft-cli" "$pkgdir/usr/bin/pdfcraft-cli"
+
+  install -Dm644 "packaging/linux/$_appid.desktop" \
+    "$pkgdir/usr/share/applications/$_appid.desktop"
+  install -Dm644 "packaging/linux/$_appid.mime.xml" \
+    "$pkgdir/usr/share/mime/packages/$_appid.xml"
+
+  # The metainfo ships as a template; upstream substitutes the same two tokens.
+  sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
+    "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
+  install -Dm644 "$_appid.metainfo.xml" \
+    "$pkgdir/usr/share/metainfo/$_appid.metainfo.xml"
+
+  install -dm755 "$pkgdir/usr/share/icons/hicolor"
+  cp -a assets/app-icon/hicolor/. "$pkgdir/usr/share/icons/hicolor/"
+
+  install -Dm644 "README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "NOTICE" "$pkgdir/usr/share/doc/$pkgname/NOTICE"
+  install -Dm644 "ATTRIBUTION.md" "$pkgdir/usr/share/doc/$pkgname/ATTRIBUTION.md"
+
+  install -Dm644 LICENSE-MIT "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
+  install -Dm644 LICENSE-APACHE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-APACHE"
+}
