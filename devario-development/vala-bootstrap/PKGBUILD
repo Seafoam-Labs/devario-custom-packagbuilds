@@ -1,0 +1,45 @@
+# Upstream's dist tarball, used only to bootstrap the self-hosting vala build.
+pkgname=vala
+pkgver=0.56.19
+pkgrel=1
+pkgdesc='Compiler for the GObject type system (bootstrap seed)'
+url='https://wiki.gnome.org/Projects/Vala'
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  bash
+  gcc
+  glib2
+  glibc
+  graphviz
+  gtk-doc
+  pkg-config
+  ttf-font
+)
+makedepends=(
+  help2man
+  libxslt
+)
+provides=(
+  libvala{,doc}-${pkgver%.*}.so
+  valadoc
+)
+# upstream publishes no tarball signature; the checksum pins the source
+source=(
+  "https://download.gnome.org/sources/vala/${pkgver%.*}/vala-$pkgver.tar.xz"
+)
+b2sums=('333b4e7f0fcc0cb984975718011a81bde55f02ed4fa0e0bc69d2fd553e520b9e0cf5153d2a3c56540d471526249f923764ecd43117e2739930b095c2e1f02829')
+
+build() {
+  cd vala-$pkgver
+
+  ./configure --prefix=/usr
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+package() {
+  make -C vala-$pkgver DESTDIR="$pkgdir" install
+}
+
+# vim:set sw=2 sts=-1 et:
