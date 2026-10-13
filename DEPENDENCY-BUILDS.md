@@ -77,6 +77,38 @@ syntax, generated `.SRCINFO`, and Shelly review pass with no findings;
 no recipe change is needed for these two missing dependency names. Its
 isolated build and publication remain worker steps.
 
+After the user reported building the prerequisites, a live public-index check
+on 2026-10-13 found `cmocka-2.0.2-1` and `rpcsvc-proto-1.4.4-2` in
+`devario-development`, and `quota-tools-1:4.11-1` in `devario-core`.
+However, libcbor was absent from both the origin and mirror
+`devario-libs.db` indexes, the core/development indexes, and the
+[public libcbor search](https://repo.seafoam-labs.org/api/v1/packages?q=libcbor).
+This confirms a public availability gap, but does not establish whether the
+libcbor job failed during building, signing, publication, or repository sync.
+Inspect that job's final output and artifact/publication status before
+rebuilding or changing dependency declarations. Refreshing worker metadata
+alone cannot expose a package absent from its upstream index.
+
+The libcbor job log subsequently showed `DownloadSizeMismatch` during
+`shellystrap` provisioning, followed by `IsolatedBootstrapFailed`. Compilation
+never started. In this log, “Publishing downloads” means publishing verified
+bootstrap downloads into the build-root cache, not publishing libcbor to a
+repository. `Package: rlpm` names the backend, not the failing archive.
+The download implementation processes the batch before returning its first
+failure, so the final successful `which` entry does not identify that archive.
+
+On 2026-10-13, a dependency traversal of current core/development/libs indexes
+and Shelly's RLPM bootstrap targets plus libcbor's dependencies resolved 175
+packages, matching the log's total. All 175 public mirror payloads were then
+downloaded and matched their indexed byte counts and SHA-256 hashes (about
+509 MB total). This does not establish which metadata or mirror the worker
+used at failure time, nor does it verify package signatures or provisioning.
+Retry libcbor in a fresh isolated job against current metadata. If it still
+fails, retain the full download log and worker repository configuration to
+identify the failed filename and compare its expected/actual size and hash.
+Do not change libcbor's dependency declarations or disable integrity checks
+to work around this provisioning failure.
+
 Copy each complete recipe directory, including `keys/` where present, and
 refresh the worker's repository metadata after publishing each prerequisite
 stage. Then retry:
