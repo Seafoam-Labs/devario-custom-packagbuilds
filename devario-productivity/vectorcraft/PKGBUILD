@@ -1,14 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Vector illustration editor for SVG and PDF, written from scratch in pure Rust.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/vectorcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.95 (workspace `rust-version`).
-# The workspace pins shared crates (`craft-libs`) to a git revision, so
-# `prepare()` needs network access to clone them; `--frozen` then keeps the
-# build offline and reproducible against Cargo.lock.
 
 pkgname=vectorcraft
 pkgver=0.10.0
@@ -40,9 +30,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('9ca49806783b983a016a0621b89e517331553f1d7a7c8ac1478ebd2d2a4c391a')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("VECTORCRAFT_BUILD_SHA")` / `VECTORCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=71174477cc056020fe712ae59901d76b870ca9d9
 _releasedate=2026-10-12
 _appid=ai.storyteller.vectorcraft
@@ -73,7 +60,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

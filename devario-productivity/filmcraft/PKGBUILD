@@ -1,11 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Non-linear video editor for picture, color and sound, in pure Rust.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/filmcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.95 (workspace `rust-version`).
 
 pkgname=filmcraft
 pkgver=0.6.0
@@ -38,9 +31,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('361974da27af2eb67c2feb8fc0b3812a336dd0511ec63e73f44dde0d26fdeaca')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("FILMCRAFT_BUILD_SHA")` / `FILMCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=2ff3f5e266838700c292a35aaf762e3d4dcef980
 _releasedate=2026-10-10
 _appid=ai.storyteller.filmcraft
@@ -71,7 +61,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

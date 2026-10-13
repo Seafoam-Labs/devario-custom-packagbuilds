@@ -1,11 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Non-destructive photo library and raw developer, written from scratch in pure Rust.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/lightcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.90 (workspace `rust-version`).
 
 pkgname=lightcraft
 pkgver=0.6.0
@@ -36,9 +29,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('c346ce2e50cf50ce691925fc0fe57a07e316dc66195be6749755dec84546e6d9')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("LIGHTCRAFT_BUILD_SHA")` / `LIGHTCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=9e6c4c6fc9c7a7f192ce846c00ceb531e0f64dda
 _releasedate=2026-10-10
 _appid=ai.storyteller.lightcraft
@@ -69,7 +59,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

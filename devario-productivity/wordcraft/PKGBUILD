@@ -1,11 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Clean-room reimplementation of Microsoft Word for documents and .docx.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/wordcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.90 (workspace `rust-version`).
 
 pkgname=wordcraft
 pkgver=0.6.1
@@ -36,9 +29,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('da04df66c0637b7fd9d8b1b0079f8cf91aa8a04dec12fa5426adaca386945a88')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("WORDCRAFT_BUILD_SHA")` / `WORDCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=7dfa6b0ee2aeeafec004c51fdd2ab9a697da3cc4
 _releasedate=2026-10-12
 _appid=ai.storyteller.wordcraft
@@ -69,7 +59,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

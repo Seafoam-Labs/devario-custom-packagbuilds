@@ -1,11 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Clean-room reimplementation of Microsoft PowerPoint for slide decks.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/deckcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.90 (workspace `rust-version`).
 
 pkgname=deckcraft
 pkgver=0.5.0
@@ -38,9 +31,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('113b5d6e6c6ff3724b3adbf59f4146933d02fe6fc65b46612b13f2f4cc23d753')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("DECKCRAFT_BUILD_SHA")` / `DECKCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=a98df49b21632d69a3da994d35df1ea91dab41af
 _releasedate=2026-10-10
 _appid=ai.storyteller.deckcraft
@@ -71,7 +61,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

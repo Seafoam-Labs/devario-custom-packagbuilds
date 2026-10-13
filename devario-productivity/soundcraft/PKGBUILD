@@ -1,14 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Clean-room reimplementation of Avid Pro Tools: multitrack audio and MIDI.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/soundcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.90 (workspace `rust-version`).
-# The workspace pins shared crates (`craft-libs`) to a git revision, so
-# `prepare()` needs network access to clone them; `--frozen` then keeps the
-# build offline and reproducible against Cargo.lock.
 
 pkgname=soundcraft
 pkgver=0.6.1
@@ -44,9 +34,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('f5a1250a79096029cf5147aafb9bb0da53f57671844ae71abede5336cb0c33d8')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("SOUNDCRAFT_BUILD_SHA")` / `SOUNDCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=6cf896e76c0ec82a11bf2494f209cfe7c8507f74
 _releasedate=2026-10-12
 _appid=ai.storyteller.soundcraft
@@ -77,7 +64,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \

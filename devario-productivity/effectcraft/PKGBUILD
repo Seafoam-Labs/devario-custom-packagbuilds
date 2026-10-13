@@ -1,14 +1,4 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
-#
-# Motion graphics and visual effects compositor, written from scratch in pure Rust.
-# Part of the ArtCraft "Crafting Apps" family: https://getartcraft.com
-#
-# Upstream builds the wasm app (`apps/effectcraft-web`) from the same workspace, so the
-# build targets the two native crates explicitly rather than the whole workspace.
-# Requires rust >= 1.95 (workspace `rust-version`).
-# The workspace pins shared crates (`filmcraft`) to a git revision, so
-# `prepare()` needs network access to clone them; `--frozen` then keeps the
-# build offline and reproducible against Cargo.lock.
 
 pkgname=effectcraft
 pkgver=0.8.0
@@ -42,9 +32,6 @@ optdepends=(
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 sha256sums=('2cf9187c0175e0439c738b651840b7cd52935a50cf4ae717a847e3f61829432d')
 
-# Tag commit and release date, baked into the binary's build provenance
-# (`option_env!("EFFECTCRAFT_BUILD_SHA")` / `EFFECTCRAFT_BUILD_DATE`) and into the AppStream
-# metadata below. Fixed rather than derived from the clock so rebuilds match.
 _commit=f953cd2855bf36beffa6a4d608e9bf4b226e9442
 _releasedate=2026-10-11
 _appid=ai.storyteller.effectcraft
@@ -75,7 +62,6 @@ package() {
   install -Dm644 "packaging/linux/$_appid.mime.xml" \
     "$pkgdir/usr/share/mime/packages/$_appid.xml"
 
-  # The metainfo ships as a template; upstream substitutes the same two tokens.
   sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
     "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
   install -Dm644 "$_appid.metainfo.xml" \
