@@ -17,7 +17,7 @@ dependencies first. Recipes in the same stage do not depend on one another.
 | 1 | [ddcutil](devario-core/ddcutil/PKGBUILD) | `3.0.2-1` | Fastfetch |
 | 1 | [quickjs-ng](devario-core/quickjs-ng/PKGBUILD) | `0.17.0-1` | Fastfetch |
 | 1 | [lua52](devario-core/lua52/PKGBUILD) | `5.2.4-8` | EFL |
-| 1 | [scim](devario-core/scim/PKGBUILD) | `1.4.18-5` | EFL |
+| 1 | [scim](devario-core/scim/PKGBUILD) | `1.4.18-6` | EFL |
 | 1 | [xfce4-dev-tools](devario-core/xfce4-dev-tools/PKGBUILD) | `4.20.0-2` | libxfce4util, Xfconf |
 | 2 | [efl](devario-core/efl/PKGBUILD) | `1.28.1-4` | Fastfetch |
 | 2 | [libxfce4util](devario-core/libxfce4util/PKGBUILD) | `4.20.1-1` | Xfconf |
@@ -34,11 +34,26 @@ The inventory comparison uses the saved 2026-10-08 catalogs; the worker's
 current enabled repositories remain authoritative for binary availability
 and version constraints.
 
+The existing [i2c-tools recipe](devario-utilities/i2c-tools/PKGBUILD),
+`4.4-4`, supplies ddcutil's I2C dependency. Build and publish it before
+ddcutil if its binary is unavailable:
+
+```sh
+shelly build --isolated --check ./devario-utilities/i2c-tools/PKGBUILD
+```
+
+SCIM `1.4.18-6` patches the IMdkit transport address callback with its
+three-argument prototype and removes the obsolete function-pointer cast
+from the table's null sentinel. This fixes the GCC 16 errors in
+`i18nMethod.c` without changing compiler defaults or suppressing diagnostics.
+See GCC's [C23 porting notes](https://gcc.gnu.org/gcc-15/porting_to.html)
+for the changed meaning of empty parameter lists.
+
 All nine imports retain upstream source pins, checksums, attribution, and
 packaging licenses. Copy each entire recipe directory to the worker:
 Lua 5.2 includes its shared-library patch, pkg-config template, and license;
-SCIM includes its installation scriptlet; Chafa includes the public key for
-its signed Git tag. These recipes retain Fastfetch's optional detection
+SCIM includes its callback patch and installation scriptlet; Chafa includes
+the public key for its signed Git tag. These recipes retain Fastfetch's optional detection
 features and do not require the Pacman executable.
 
 For example, after publishing the prerequisites:
@@ -57,6 +72,15 @@ Chafa's signed Git tag also passes verification with its bundled public key.
 Their declared runtime, build, and
 check dependency names resolve to a local recipe or a saved binary-catalog
 provider. Isolated builds and signed binary publication remain worker steps.
+
+SCIM validation: reproduced the original failure with GCC 16, then passed
+the patched recipe's full build and staged install using the worker's
+optimization and linker flags. The affected translation unit also passes
+C17 and C23 syntax checks with incompatible-pointer diagnostics treated as
+errors, including the optional TCP and DECnet table entries. SCIM's source
+and patch checksums, metadata, and Shelly review pass. The existing
+`i2c-tools` recipe passes shell syntax, metadata comparison, bundled-file
+checksum verification, and Shelly review.
 
 ## Thrift: Emacs Tree-sitter dependency (2026-10-11)
 

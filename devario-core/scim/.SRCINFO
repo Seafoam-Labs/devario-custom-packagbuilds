@@ -1,7 +1,7 @@
 pkgbase = scim
 	pkgdesc = Input method user interface and development platform
 	pkgver = 1.4.18
-	pkgrel = 5
+	pkgrel = 6
 	url = https://github.com/scim-im/scim
 	install = install
 	arch = x86_64
@@ -12,6 +12,8 @@ pkgbase = scim
 	backup = etc/scim/config
 	backup = etc/scim/global
 	source = scim-1.4.18.tar.gz::https://github.com/scim-im/scim/archive/1.4.18.tar.gz
+	source = 0001-imdkit-prototype-transport-address-callback.patch
 	sha512sums = 9a6090fc1ab950905a9c54d6678ce3d2a44297d1a992a3e933b0466688638e6cf470c1682daa58a6fbb6de3216b649273faf7edff1ac0ecca1c2c77fc19108fb
+	sha512sums = c05309334898f9b45e4689311f5caac93193cb5eb1170f998014abb90aeb7b8d548eb485e3982631b29d0473102198f1c6437a4b3739fd6ecdc48eebf394b757
 
 pkgname = scim

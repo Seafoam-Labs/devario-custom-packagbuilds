@@ -1,0 +1,35 @@
+Subject: [PATCH] IMdkit: give the transport address callback a prototype
+
+In C23 an empty parameter list means no arguments. Match the existing
+_Xi18nCheckXAddress and _Xi18nCheckTransAddress signatures so GCC 15 and
+later can compile the transport table and its three-argument call.
+
+--- a/modules/FrontEnd/IMdkit/Xi18n.h
++++ b/modules/FrontEnd/IMdkit/Xi18n.h
+@@ -69,11 +69,13 @@
+ #define I18N_SET	1
+ #define I18N_GET	2
+ 
+-typedef struct
++struct _Xi18nCore;
++
++typedef struct _TransportSW
+ {
+     char        *transportname;
+     int         namelen;
+-    Bool        (*checkAddr) ();
++    Bool        (*checkAddr) (struct _Xi18nCore *, struct _TransportSW *, char *);
+ } TransportSW;
+ 
+ typedef struct _XIMPending
+--- a/modules/FrontEnd/IMdkit/i18nMethod.c
++++ b/modules/FrontEnd/IMdkit/i18nMethod.c
+@@ -89,7 +89,7 @@
+ #ifdef DNETCONN
+     {"decnet",          6, _Xi18nCheckTransAddress},
+ #endif
+-    {(char *) NULL,     0, (Bool (*) ()) NULL}
++    {(char *) NULL,     0, NULL}
+ };
+ 
+ static Bool GetInputStyles (Xi18n i18n_core, XIMStyles **p_style)
