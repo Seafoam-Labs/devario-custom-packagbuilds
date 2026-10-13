@@ -1,0 +1,5 @@
+[kexec-tools]
+source = "git"
+git = "https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git"
+prefix = "v"
+exclude_regex = "v200[0-9]{5}.*|.*-rc.*"

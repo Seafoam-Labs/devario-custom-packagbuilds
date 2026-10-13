@@ -1,0 +1,16 @@
+pkgbase = kexec-tools
+	pkgdesc = Load another kernel from the currently executing Linux kernel
+	pkgver = 2.0.32
+	pkgrel = 1
+	url = https://kernel.org/pub/linux/utils/kernel/kexec/
+	arch = x86_64
+	license = GPL-2.0-or-later
+	makedepends = git
+	depends = xz
+	depends = zlib
+	depends = zstd
+	source = git+https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git?signed#tag=v2.0.32
+	validpgpkeys = E27CD9A1F5ACC2FF4BFE7285D7CF64696A374FBE
+	b2sums = d0633ece7e8309aa88992675cda1f6ebba9027e49831e78e27b61cc6ee668a63bc158f56311b728ca09b76366b8d3c554c3a991092bed379e440f0b86c7b4d00
+
+pkgname = kexec-tools

@@ -1,5 +1,98 @@
 # Missing dependency builds for Shelly
 
+## Systemd: quota, kexec, FIDO2 and PE dependencies (2026-10-13)
+
+The worker's `IncompleteDependencyPlan` for `devario-core/systemd` names
+four missing binary packages: `quota-tools`, `kexec-tools`, `libfido2`, and
+`python-pefile`. The repeated entries correspond to systemd's six split
+outputs and the repository/environment checks. Uploading a recipe does not
+satisfy these checks; its binary must be published in an enabled worker
+repository before systemd is provisioned.
+
+Recipes for quota-tools, kexec-tools, and libfido2 are now included, imported
+from their Arch packaging repositories with source checksums, signing keys,
+attribution, and packaging licenses intact:
+[quota-tools](https://gitlab.archlinux.org/archlinux/packaging/packages/quota-tools),
+[kexec-tools](https://gitlab.archlinux.org/archlinux/packaging/packages/kexec-tools),
+and [libfido2](https://gitlab.archlinux.org/archlinux/packaging/packages/libfido2).
+The existing python-pefile recipe needs no change.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Entries in the same stage may be built independently.
+
+| Stage | Recipe | Release | Needed by |
+| --- | --- | --- | --- |
+| 1, if missing | [rpcsvc-proto](devario-development/rpcsvc-proto/PKGBUILD) | `1.4.4-2` | quota-tools |
+| 1, if missing | [libcbor](devario-libs/libcbor/PKGBUILD) | `0.14.0-1` | libfido2 |
+| 2 | [quota-tools](devario-core/quota-tools/PKGBUILD) | `1:4.11-1` | systemd |
+| 2 | [kexec-tools](devario-core/kexec-tools/PKGBUILD) | `2.0.32-1` | systemd |
+| 2 | [libfido2](devario-libs/libfido2/PKGBUILD) | `1.17.0-1` | systemd |
+| 2 | [python-pefile](devario-libs/python-pefile/PKGBUILD) | `2024.8.26-2` | systemd and systemd-ukify |
+| 3 | [systemd](devario-core/systemd/PKGBUILD) | `262-9` | Full split package set |
+
+`rpcsvc-proto` and `libcbor` were absent from the saved 2026-10-08 binary
+catalogs; all other direct dependency names of the four recipes were present.
+The worker's current repositories are authoritative. Libcbor also needs
+`cmocka` for its build/tests. Libfido2 needs existing `systemd` and
+`systemd-libs` packages: use the existing systemd seed and the
+[systemd-libs bootstrap procedure](ABI-BUILDS.md#libfido2-and-bpf-build-root-providers)
+if the library provider is unavailable. Building the full systemd recipe
+first would reintroduce the dependency cycle.
+
+The subsequent quota-tools worker failure confirms that `rpcsvc-proto` is
+missing from its repositories and environment. Its existing `1.4.4-2`
+recipe declares only `glibc` as a package dependency and uses the standard
+base-devel tools (including Autoconf and Automake). Build it first:
+
+```sh
+shelly build --isolated --check ./devario-development/rpcsvc-proto/PKGBUILD
+```
+
+Publish the resulting `rpcsvc-proto` binary to a repository enabled on the
+worker and refresh its metadata before retrying quota-tools:
+
+```sh
+shelly build --isolated --check ./devario-core/quota-tools/PKGBUILD
+```
+
+The rpcsvc-proto recipe passes shell syntax, generated `.SRCINFO` comparison,
+and Shelly review with no findings; no recipe change is needed for this
+dependency-plan error. Its isolated build and publication remain worker steps.
+
+The subsequent libfido2 worker failure confirms that `libcbor` is also
+missing. Both `libcbor` and `libcbor.so` are satisfied by the single libcbor
+binary: its existing recipe explicitly declares `provides=('libcbor.so')`.
+Build and publish it before retrying libfido2:
+
+```sh
+shelly build --isolated --check ./devario-libs/libcbor/PKGBUILD
+# Publish libcbor and refresh the worker's repository metadata first.
+shelly build --isolated --check ./devario-libs/libfido2/PKGBUILD
+```
+
+Libcbor requires `glibc`, `cmake`, and `cmocka`. If cmocka is unavailable on
+the worker, build and publish the existing
+[cmocka recipe](devario-development/cmocka/PKGBUILD) first. Libcbor's shell
+syntax, generated `.SRCINFO`, and Shelly review pass with no findings;
+no recipe change is needed for these two missing dependency names. Its
+isolated build and publication remain worker steps.
+
+Copy each complete recipe directory, including `keys/` where present, and
+refresh the worker's repository metadata after publishing each prerequisite
+stage. Then retry:
+
+```sh
+shelly build --isolated --check ./devario-core/systemd/PKGBUILD
+```
+
+Validation: all four dependency recipes pass `bash -n`, generated `.SRCINFO`
+comparison, and Shelly review with no findings. Downloaded sources pass all
+declared checksums; kexec-tools' signed tag and libfido2's detached signature
+verify with the bundled keys. Libfido2 verification reports that the signing
+key has expired, while accepting the source signature. Every direct dependency name resolves to a
+local recipe or saved binary-catalog provider. Isolated builds and binary
+publication have not been performed.
+
 ## Fastfetch: image, display, JavaScript and Xfce dependencies (2026-10-13)
 
 The worker reports `chafa`, `ddcutil`, `efl`, `quickjs-ng`, and `xfconf`
