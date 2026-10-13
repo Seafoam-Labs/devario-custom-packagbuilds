@@ -1,0 +1,28 @@
+# Maintainer: Devario maintainers
+# SPDX-License-Identifier: GPL-3.0-or-later
+pkgname=devario-plymouth-theme
+pkgver=1.0.0
+pkgrel=2
+pkgdesc='Static Devario fish boot splash with password and message prompts'
+arch=('any')
+url='https://github.com/Seafoam-Labs/devario-os'
+license=('GPL-3.0-or-later' 'CC-BY-SA-4.0')
+depends=('plymouth>=26.134.222')
+source=('devario.plymouth' 'devario.script' 'logo.png'
+        'ARTWORK-LICENSE.md' 'TRADEMARKS.md')
+sha256sums=(
+  '456fcfe74369acc5a7e4c21558c455134ab9d89214144fc5d2a7dfc003de6630'
+  '8400b57af1e878553beaf2bb0bb359bc853d0d9c9b3ee427f69e8e33a776ac3f'
+  '21dcc8a853a546bdd989005c7bebdc2df2f39046e39f2d275d39d78f8f02c7b8'
+  'eb2e00ed2f66310c2e8ac4f27bedc917ee34928fbdb209e95f9b7dd6c050511e'
+  '9e4deec6fe25e7608e3d0772003e5682395ad05d003c282f922f44501a98e778'
+)
+
+package() {
+  local file
+  for file in devario.plymouth devario.script logo.png; do
+    install -Dm644 "$srcdir/$file" "$pkgdir/usr/share/plymouth/themes/devario/$file"
+  done
+  install -Dm644 "$srcdir/ARTWORK-LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/ARTWORK-LICENSE.md"
+  install -Dm644 "$srcdir/TRADEMARKS.md" "$pkgdir/usr/share/licenses/$pkgname/TRADEMARKS.md"
+}

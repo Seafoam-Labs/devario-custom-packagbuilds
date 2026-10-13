@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -euo pipefail
+# Preserve Devario's kernel discovery, fallback images and boot-entry updates.
+exec /usr/lib/devario/boot-update

@@ -1,0 +1,55 @@
+# Adapted for Devario from Arch Linux's Plymouth package.
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+# Contributors: Taijian, Sebastian Lau, Damian01w, Padfoot
+# SPDX-License-Identifier: 0BSD
+
+pkgname=plymouth
+pkgver=26.134.222
+pkgrel=1
+pkgdesc='Graphical boot splash screen with Devario dracut integration'
+arch=('x86_64')
+url='https://www.freedesktop.org/wiki/Software/Plymouth/'
+license=('GPL-2.0-or-later' 'GPL-3.0-or-later')
+depends=('adwaita-fonts' 'bash' 'cairo' 'devario-boot' 'fontconfig' 'freetype2'
+         'glib2' 'glibc' 'libdrm' 'libevdev' 'libpng' 'libx11' 'libxkbcommon'
+         'pango' 'systemd-libs' 'xkeyboard-config')
+makedepends=('docbook-xsl' 'gettext' 'gtk3' 'libxslt' 'meson' 'ninja'
+             'pkgconf' 'python' 'systemd')
+optdepends=('gtk3: X11 renderer for theme previews'
+            'devario-plymouth-theme: static Devario fish logo')
+backup=('etc/logrotate.d/bootlog' 'etc/plymouth/plymouthd.conf')
+source=("https://www.freedesktop.org/software/plymouth/releases/plymouth-${pkgver}.tar.xz"
+        '0001-preserve-console-keymap.patch'
+        'plymouth-update-initrd')
+sha256sums=(
+  '6ee1068216c5047923fabf0f6aa583e9d77cab383077358df3fc22f2ee398bb0'
+  '2bce24f4a59a73553ee7db7f15d023e87128e2f91a58918c5a9e0e9e1ef8b6f9'
+  'edfc5a0f009a4fb6b78575a215e6faf65bdb16e8f62ffbcc82f92070815291b2'
+)
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  # Upstream cea90be39d263e388003a07d125b469c0803d55c, also used by Arch.
+  patch -Np1 -i "$srcdir/0001-preserve-console-keymap.patch"
+  # Use fonts already shipped by Devario.
+  sed -i 's/Cantarell/Adwaita Sans/g;
+          /TitleFont=Adwaita/a MonospaceFont=Adwaita Mono 12' \
+    scripts/keymap-render.py themes/*/*.plymouth.desktop
+  install -m755 "$srcdir/plymouth-update-initrd" scripts/plymouth-update-initrd
+}
+
+build() {
+  meson setup build "${pkgname}-${pkgver}" \
+    --prefix=/usr --bindir=bin --sbindir=bin --libdir=lib --libexecdir=lib \
+    --sysconfdir=/etc --localstatedir=/var --buildtype=plain --wrap-mode=nodownload \
+    -D release-file=/etc/os-release -D runstatedir=/run \
+    -D drm=true -D udev=enabled -D systemd-integration=true \
+    -D pango=enabled -D freetype=enabled -D gtk=enabled -D docs=true
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  # /run is a runtime tmpfs, never package its contents.
+  rm -rf "$pkgdir/run"
+}

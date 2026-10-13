@@ -1,0 +1,135 @@
+# SPDX-FileCopyrightText: Devario contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Static artwork. Refresh only adjusts layout when a display changes size.
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+logo_source = Image("logo.png");
+logo_sprite = Sprite();
+prompt_sprite = Sprite();
+entry_sprite = Sprite();
+message_sprite = Sprite();
+prompt_sprite.SetOpacity(0);
+entry_sprite.SetOpacity(0);
+message_sprite.SetOpacity(0);
+prompt_text = "";
+entry_text = "";
+message_text = "";
+layout_width = 0;
+layout_height = 0;
+layout_x = -1;
+layout_y = -1;
+
+fun fit_text(text)
+{
+  local.image = Image.Text(text, 1, 1, 1, 1, "Adwaita Sans 16");
+  local.limit = Window.GetWidth() * 0.90;
+  if (image.GetWidth() > limit)
+    image = image.Scale(limit, image.GetHeight() * limit / image.GetWidth());
+  return image;
+}
+
+fun place_text(sprite, text, fraction)
+{
+  if (text == "")
+    {
+      sprite.SetOpacity(0);
+      return;
+    }
+  local.image = fit_text(text);
+  sprite.SetImage(image);
+  sprite.SetPosition(Window.GetX() + (Window.GetWidth() - image.GetWidth()) / 2,
+                     Window.GetY() + Window.GetHeight() * fraction, 10);
+  sprite.SetOpacity(1);
+}
+
+fun layout()
+{
+  local.width = Window.GetWidth();
+  local.height = Window.GetHeight();
+  if (width < 1 || height < 1) return;
+
+  # Keep the original aspect ratio, cap the width, and leave room for prompts.
+  local.target_width = Math.Min(420, width * 0.55);
+  local.scale = Math.Min(target_width / logo_source.GetWidth(),
+                         height * 0.40 / logo_source.GetHeight());
+  local.image = logo_source.Scale(Math.Max(1, Math.Int(logo_source.GetWidth() * scale)),
+                                  Math.Max(1, Math.Int(logo_source.GetHeight() * scale)));
+  logo_sprite.SetImage(image);
+  logo_sprite.SetPosition(Window.GetX() + (width - image.GetWidth()) / 2,
+                          Window.GetY() + (height - image.GetHeight()) / 2, 0);
+  place_text(prompt_sprite, prompt_text, 0.74);
+  place_text(entry_sprite, entry_text, 0.82);
+  place_text(message_sprite, message_text, 0.92);
+  global.layout_width = width;
+  global.layout_height = height;
+  global.layout_x = Window.GetX();
+  global.layout_y = Window.GetY();
+}
+
+fun refresh()
+{
+  if (layout_width != Window.GetWidth() || layout_height != Window.GetHeight() ||
+      layout_x != Window.GetX() || layout_y != Window.GetY())
+    layout();
+}
+
+fun display_normal()
+{
+  global.prompt_text = "";
+  global.entry_text = "";
+  layout();
+}
+
+fun display_password(prompt, bullets)
+{
+  global.prompt_text = prompt;
+  if (prompt_text == "") global.prompt_text = "Unlock disk";
+  # Only the bullet count is received; never display secret input.
+  global.entry_text = "";
+  for (local.i = 0; i < Math.Min(bullets, 32); i++)
+    global.entry_text += "*";
+  global.entry_text += "_";
+  layout();
+}
+
+fun display_question(prompt, contents)
+{
+  global.prompt_text = prompt;
+  global.entry_text = contents + "_";
+  layout();
+}
+
+fun display_message(text)
+{
+  global.message_text = text;
+  layout();
+}
+
+# Plymouth also exposes a unified prompt callback in newer releases.
+fun display_prompt(prompt, contents, is_secret)
+{
+  if (is_secret)
+    display_password(prompt, String(contents).Length());
+  else
+    display_question(prompt, contents);
+}
+
+fun hide_message(text)
+{
+  if (message_text == text)
+    {
+      global.message_text = "";
+      message_sprite.SetOpacity(0);
+    }
+}
+
+Plymouth.SetRefreshFunction(refresh);
+Plymouth.SetDisplayNormalFunction(display_normal);
+Plymouth.SetDisplayPasswordFunction(display_password);
+Plymouth.SetDisplayQuestionFunction(display_question);
+Plymouth.SetDisplayPromptFunction(display_prompt);
+Plymouth.SetDisplayHotplugFunction(layout);
+Plymouth.SetDisplayMessageFunction(display_message);
+Plymouth.SetHideMessageFunction(hide_message);
+layout();

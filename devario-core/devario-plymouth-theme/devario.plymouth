@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[Plymouth Theme]
+Name=Devario
+Description=Static Devario fish on black, with disk-unlock and message prompts.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/devario
+ScriptFile=/usr/share/plymouth/themes/devario/devario.script
+MonospaceFont=Adwaita Mono 12
+ConsoleLogBackgroundColor=0x00000000

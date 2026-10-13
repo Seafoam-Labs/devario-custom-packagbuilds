@@ -1,0 +1,21 @@
+pkgbase = devario-plymouth-theme
+	pkgdesc = Static Devario fish boot splash with password and message prompts
+	pkgver = 1.0.0
+	pkgrel = 2
+	url = https://github.com/Seafoam-Labs/devario-os
+	arch = any
+	license = GPL-3.0-or-later
+	license = CC-BY-SA-4.0
+	depends = plymouth>=26.134.222
+	source = devario.plymouth
+	source = devario.script
+	source = logo.png
+	source = ARTWORK-LICENSE.md
+	source = TRADEMARKS.md
+	sha256sums = 456fcfe74369acc5a7e4c21558c455134ab9d89214144fc5d2a7dfc003de6630
+	sha256sums = 8400b57af1e878553beaf2bb0bb359bc853d0d9c9b3ee427f69e8e33a776ac3f
+	sha256sums = 21dcc8a853a546bdd989005c7bebdc2df2f39046e39f2d275d39d78f8f02c7b8
+	sha256sums = eb2e00ed2f66310c2e8ac4f27bedc917ee34928fbdb209e95f9b7dd6c050511e
+	sha256sums = 9e4deec6fe25e7608e3d0772003e5682395ad05d003c282f922f44501a98e778
+
+pkgname = devario-plymouth-theme
