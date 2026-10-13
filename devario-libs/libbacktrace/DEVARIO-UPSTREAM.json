@@ -1,0 +1,6 @@
+{
+  "name": "libbacktrace",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libbacktrace/-/archive/main/libbacktrace-main.tar.gz",
+  "sha256": "3921f000822b7c620a435a56e706ebfaebdd9bfb5c29ead9508ea93a799d65a0",
+  "bytes": 1712
+}

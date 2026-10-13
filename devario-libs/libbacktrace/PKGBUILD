@@ -1,0 +1,61 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+pkgname=libbacktrace
+pkgver=1.0.git1
+_gitcommit=1db85642e3fca189cf4e076f840a45d6934b2456
+pkgrel=1
+pkgdesc="A C library that may be linked into a C/C++ program to produce symbolic backtraces"
+arch=('x86_64')
+url="https://github.com/ianlancetaylor/libbacktrace"
+license=('BSD-3-Clause')
+depends=(
+  'libgcc'
+  'zlib'
+)
+makedepends=('git' 'libunwind')
+# Shelly keeps bare .so provisions unversioned; add the SONAME form
+provides=(
+  'libbacktrace.so'
+  'libbacktrace.so=0-64'
+)
+# Pin the commit Arch builds from and hash it; Arch's ref floats and sits on SKIP
+source=(
+  "git+https://github.com/ianlancetaylor/libbacktrace.git#commit=${_gitcommit}"
+  "libbacktrace-92.patch::https://patch-diff.githubusercontent.com/raw/ianlancetaylor/libbacktrace/pull/92.patch"
+)
+sha256sums=(
+  '3c5ebe9ae7a92e2f2e451211ee0c544ac9f035aa28c7195fe36fd9911088abcb'
+  '680dbbf1db9953d4aeef2205274d2c3672d150a106f782c368d628623173dd1f'
+)
+
+prepare() {
+  cd "libbacktrace"
+
+  patch -Np1 -i "$srcdir"/libbacktrace-92.patch
+}
+
+build() {
+  cd "libbacktrace"
+
+  autoreconf -fi
+  ./configure \
+    --prefix="/usr" \
+    --enable-shared \
+    --with-system-libunwind
+  make
+}
+
+package() {
+  cd "libbacktrace"
+
+  make DESTDIR="$pkgdir" install
+
+  _verify_soname "$pkgdir/usr/lib/libbacktrace.so" libbacktrace.so.0 || return 1
+
+  install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
