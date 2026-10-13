@@ -22,8 +22,10 @@ Publish Plymouth to the worker's enabled repository and refresh its metadata
 before building `devario-plymouth-theme`. All direct build/runtime dependency
 names were present in the public `devario-core` database on 2026-10-13.
 
-Installing the package does not add `splash` to boot arguments or rebuild the
-initramfs. Follow the adjacent theme's README to integrate it with the image.
+Devario OS enables this package in its live and installed boot profiles.
+`devario-boot` 1-10 adds `splash` to installed boot arguments and rebuilds
+installed initramfs images when Plymouth or the Devario theme is updated.
+The ISO overlay selects the theme; see the adjacent theme's README.
 
 Validation: the release checksum and patch were verified; a native compilation
 and package archive build succeeded using existing host libraries, with

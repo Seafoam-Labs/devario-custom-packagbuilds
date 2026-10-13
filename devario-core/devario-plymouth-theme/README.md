@@ -39,25 +39,17 @@ its isolated build; they are intentionally retained unchanged.
 
 ## Enable in Devario OS
 
-1. Add `plymouth` and `devario-plymouth-theme` to `iso/packages.x86_64` and the
-   repository seed list. Publish both packages before building the ISO.
-2. In the image overlay, set `/etc/plymouth/plymouthd.conf` to:
+Devario OS includes both packages in its ISO and repository seed lists. Its
+late image overlay selects `Theme=devario` in `/etc/plymouth/plymouthd.conf`;
+Calamares copies that configuration and the theme into the installed system.
+Both dracut profiles explicitly include Plymouth, and BIOS, UEFI, loopback,
+network, and installed boot entries request `quiet splash`. Pearl waits for
+Plymouth to release the display before starting the greeter.
 
-   ```ini
-   [Daemon]
-   Theme=devario
-   ```
-
-3. Append `add_dracutmodules+=" plymouth "` to both `live.conf` and
-   `installed.conf` in `packages/devario-boot`, then update that package's
-   checksums, metadata and release. Devario passes an empty `--confdir` to
-   dracut, so `/etc/dracut.conf.d/` alone does not configure its image builder.
-4. Add `splash` alongside `quiet` in the installed kernel-command-line
-   generator. Add `quiet splash` to the live ISO GRUB kernel command line.
-5. Rebuild the boot package and ISO. Check the greeter handoff and encrypted
-   installation unlock on real hardware. Keep a boot entry without `splash`,
-   with `plymouth.enable=0 rd.plymouth=0`, for affected devices; do not disable
-   graphics modesetting just to bypass the splash.
+Build and publish `devario-boot` 1-10 or newer with Plymouth and this theme,
+then rebuild the ISO. The boot package also rebuilds installed initramfs
+images when either Plymouth package is installed or upgraded. Check the
+splash, greeter handoff and encrypted-root unlock in real boot testing.
 
 On an installed Devario system with those boot changes deployed, select and
 rebuild with:
