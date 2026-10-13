@@ -24,6 +24,10 @@ b2sums=('05c86b6716157e6add403fa1e04a561bec50107c9daca2fbcc49c55480b1dff3ee3ce66
 build() {
   local _platform_flags=()
 
+  # gcc 16 misfires -Warray-bounds on HandlerCont.cpp's CMyComPtr reassignment; upstream builds with -Werror
+  CFLAGS+=' -Wno-error=array-bounds'
+  CXXFLAGS+=' -Wno-error=array-bounds'
+
   case $CARCH in
     x86_64)
       _platform_flags=(PLATFORM=x64 IS_X64=1 MY_ASM=uasm USE_ASM=1)
