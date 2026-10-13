@@ -1,0 +1,12 @@
+{
+  "signer_fingerprint": "72ECF46A56B4AD39C907BBB71646B01B86E50310",
+  "signer_identity": "Yarn Packaging <yarn@dan.cx>",
+  "components": [
+    {
+      "release_tag": "v1.22.22",
+      "asset_url": "https://github.com/yarnpkg/yarn/releases/download/v1.22.22/yarn-v1.22.22.tar.gz",
+      "sha256": "88268464199d1611fcf73ce9c0a6c4d44c7d5363682720d8506f6508addf36a0",
+      "signature_url": "https://github.com/yarnpkg/yarn/releases/download/v1.22.22/yarn-v1.22.22.tar.gz.asc"
+    }
+  ]
+}

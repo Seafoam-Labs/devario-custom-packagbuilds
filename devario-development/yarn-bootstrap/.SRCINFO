@@ -1,0 +1,18 @@
+pkgbase = yarn
+	pkgdesc = Fast, reliable, and secure dependency management (bootstrap seed)
+	pkgver = 1.22.22
+	pkgrel = 1
+	url = https://classic.yarnpkg.com/
+	arch = any
+	license = BSD-2-Clause
+	depends = nodejs
+	options = !strip
+	options = !debug
+	options = !lto
+	source = https://github.com/yarnpkg/yarn/releases/download/v1.22.22/yarn-v1.22.22.tar.gz
+	source = https://github.com/yarnpkg/yarn/releases/download/v1.22.22/yarn-v1.22.22.tar.gz.asc
+	validpgpkeys = 72ECF46A56B4AD39C907BBB71646B01B86E50310
+	b2sums = a81ec778e774f85da6d5802d4abbc579f1c9194f6e2681ef239cc336e4ec2b502b412f303fa4a8c61dda08a00444e120487e04aa19e89113f844c0db4fd54098
+	b2sums = SKIP
+
+pkgname = yarn

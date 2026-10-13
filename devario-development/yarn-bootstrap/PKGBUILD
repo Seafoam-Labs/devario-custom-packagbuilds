@@ -1,0 +1,32 @@
+# Upstream's prebuilt release, used only to bootstrap the self-hosting yarn build.
+pkgname=yarn
+pkgver=1.22.22
+pkgrel=1
+pkgdesc='Fast, reliable, and secure dependency management (bootstrap seed)'
+arch=(any)
+url=https://classic.yarnpkg.com/
+license=(BSD-2-Clause)
+depends=(nodejs)
+# Preserve the prebuilt release exactly as distributed.
+options=('!strip' '!debug' '!lto')
+# Yarn Packaging <yarn@dan.cx>
+validpgpkeys=('72ECF46A56B4AD39C907BBB71646B01B86E50310')
+source=(
+  "https://github.com/yarnpkg/yarn/releases/download/v$pkgver/yarn-v$pkgver.tar.gz"{,.asc}
+)
+b2sums=('a81ec778e774f85da6d5802d4abbc579f1c9194f6e2681ef239cc336e4ec2b502b412f303fa4a8c61dda08a00444e120487e04aa19e89113f844c0db4fd54098'
+        'SKIP')
+
+package() {
+  local mod_dir=/usr/lib/node_modules/$pkgname
+  install -d "$pkgdir"/{usr/bin,$mod_dir/bin}
+  ln -s $mod_dir/bin/yarn.js "$pkgdir"/usr/bin/yarn
+  ln -s $mod_dir/bin/yarn.js "$pkgdir"/usr/bin/yarnpkg
+
+  cd yarn-v$pkgver
+  cp -r lib "$pkgdir"/$mod_dir
+  install -t "$pkgdir"/$mod_dir/bin bin/yarn.js
+  install -m644 -t "$pkgdir"/$mod_dir package.json
+  install -Dm644 -t "$pkgdir"/usr/share/doc/$pkgname README.md
+  install -Dm644 -t "$pkgdir"/usr/share/licenses/$pkgname LICENSE
+}
