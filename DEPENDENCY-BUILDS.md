@@ -1,5 +1,63 @@
 # Missing dependency builds for Shelly
 
+## Fastfetch: image, display, JavaScript and Xfce dependencies (2026-10-13)
+
+The worker reports `chafa`, `ddcutil`, `efl`, `quickjs-ng`, and `xfconf`
+as both `not_in_repositories` and `not_in_environment` while provisioning
+`devario-core/fastfetch`. These are five missing binary packages. Recipes
+for all five are now under `devario-core`, together with four missing
+prerequisite recipes needed by EFL and Xfconf.
+
+Build and publish in this order, provisioning each recipe's other declared
+dependencies first. Recipes in the same stage do not depend on one another.
+
+| Stage | Recipe | Release | Needed by |
+| --- | --- | --- | --- |
+| 1 | [chafa](devario-core/chafa/PKGBUILD) | `1.18.3-1` | Fastfetch |
+| 1 | [ddcutil](devario-core/ddcutil/PKGBUILD) | `3.0.2-1` | Fastfetch |
+| 1 | [quickjs-ng](devario-core/quickjs-ng/PKGBUILD) | `0.17.0-1` | Fastfetch |
+| 1 | [lua52](devario-core/lua52/PKGBUILD) | `5.2.4-8` | EFL |
+| 1 | [scim](devario-core/scim/PKGBUILD) | `1.4.18-5` | EFL |
+| 1 | [xfce4-dev-tools](devario-core/xfce4-dev-tools/PKGBUILD) | `4.20.0-2` | libxfce4util, Xfconf |
+| 2 | [efl](devario-core/efl/PKGBUILD) | `1.28.1-4` | Fastfetch |
+| 2 | [libxfce4util](devario-core/libxfce4util/PKGBUILD) | `4.20.1-1` | Xfconf |
+| 3 | [xfconf](devario-core/xfconf/PKGBUILD) | `4.20.0-2` | Fastfetch |
+| 4 | [fastfetch](devario-core/fastfetch/PKGBUILD) | `2.69.0-3` | Devario terminal welcome |
+
+Other prerequisites already have local recipes but were absent from the
+saved binary catalogs: `gtk-doc`, `libavif`, `libheif`, `i2c-tools`,
+`libspectre`, `poppler`, `texlive-basic`, `texlive-fontutils`, and `vala`.
+Check their availability on the worker before starting the stages above.
+The two TeX Live outputs come from `devario-utilities/texlive-texmf`.
+Use the existing Vala bootstrap workflow if Vala is not yet available.
+The inventory comparison uses the saved 2026-10-08 catalogs; the worker's
+current enabled repositories remain authoritative for binary availability
+and version constraints.
+
+All nine imports retain upstream source pins, checksums, attribution, and
+packaging licenses. Copy each entire recipe directory to the worker:
+Lua 5.2 includes its shared-library patch, pkg-config template, and license;
+SCIM includes its installation scriptlet; Chafa includes the public key for
+its signed Git tag. These recipes retain Fastfetch's optional detection
+features and do not require the Pacman executable.
+
+For example, after publishing the prerequisites:
+
+```sh
+shelly build --isolated --check ./devario-core/quickjs-ng/PKGBUILD
+```
+
+Publish the resulting binaries to the worker's enabled repository and refresh
+its metadata between stages, then retry Fastfetch's dependency plan.
+Uploading recipes alone does not satisfy `not_in_repositories`.
+
+Validation: all nine recipes pass shell syntax, generated `.SRCINFO`
+comparison, Shelly review parsing, and downloaded-source checksum validation.
+Chafa's signed Git tag also passes verification with its bundled public key.
+Their declared runtime, build, and
+check dependency names resolve to a local recipe or a saved binary-catalog
+provider. Isolated builds and signed binary publication remain worker steps.
+
 ## Thrift: Emacs Tree-sitter dependency (2026-10-11)
 
 The worker's `IncompleteDependencyPlan: emacs-nox: libtree-sitter.so

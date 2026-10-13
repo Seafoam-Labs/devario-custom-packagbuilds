@@ -1,0 +1,226 @@
+--- a/src/common/processing.h
++++ b/src/common/processing.h
+@@ -25,6 +25,10 @@
+ #define FF_PROCESS_INHERIT_STDIN ((FFNativeFD) -1)
+ const char* ffProcessSpawn(char* const argv[], bool useStdErr, FFNativeFD stdinFd, FFProcessHandle* outHandle);
+ const char* ffProcessReadOutput(FFProcessHandle* handle, FFstrbuf* buffer); // Destroys handle internally
++#ifndef _WIN32
++// Like ffProcessReadOutput, with the exit status (-1 if unavailable).
++const char* ffProcessReadOutputWithStatus(FFProcessHandle* handle, FFstrbuf* buffer, int* exitStatus);
++#endif
+ 
+ static inline const char* ffProcessAppendStdOut(FFstrbuf* buffer, char* const argv[]) {
+     FFProcessHandle handle;
+--- a/src/common/impl/processing_linux.c
++++ b/src/common/impl/processing_linux.c
+@@ -161,7 +161,10 @@
+     return nullptr;
+ }
+ 
+-const char* ffProcessReadOutput(FFProcessHandle* handle, FFstrbuf* buffer) {
++const char* ffProcessReadOutputWithStatus(FFProcessHandle* handle, FFstrbuf* buffer, int* exitStatus) {
++    if (exitStatus) {
++        *exitStatus = -1;
++    }
+     assert(handle->pipeRead != -1);
+     assert(handle->pid != -1);
+ 
+@@ -198,6 +201,9 @@
+                 if (!WIFEXITED(stat_loc)) {
+                     return "child process exited abnormally";
+                 }
++                if (exitStatus) {
++                    *exitStatus = WEXITSTATUS(stat_loc);
++                }
+                 if (WEXITSTATUS(stat_loc) == 127) {
+                     return "command not found";
+                 }
+@@ -211,6 +217,10 @@
+     }
+ 
+     return "read(childPipeFd, str, FF_PIPE_BUFSIZ) failed";
++}
++
++const char* ffProcessReadOutput(FFProcessHandle* handle, FFstrbuf* buffer) {
++    return ffProcessReadOutputWithStatus(handle, buffer, nullptr);
+ }
+ 
+ void ffProcessGetInfoLinux(pid_t pid, FFstrbuf* processName, FFstrbuf* exe, const char** exeName, FFstrbuf* exePath) {
+--- a/src/detection/packages/packages.h
++++ b/src/detection/packages/packages.h
+@@ -47,6 +47,7 @@
+     uint32_t rum;
+     uint32_t scoopGlobal;
+     uint32_t scoopUser;
++    uint32_t shelly;
+     uint32_t snap;
+     uint32_t soar;
+     uint32_t sorcery;
+@@ -56,6 +57,7 @@
+     uint32_t all; // Make sure this goes last
+ 
+     FFstrbuf pacmanBranch;
++    const char* shellyError;
+ } FFPackagesResult;
+ 
+ #if FF_PACKAGES_REMOVE_DISABLED
+--- a/src/detection/packages/packages.c
++++ b/src/detection/packages/packages.c
+@@ -8,6 +8,9 @@
+ 
+ const char* ffDetectPackages(FFPackagesResult* result, FFPackagesOptions* options) {
+     ffDetectPackagesImpl(result, options);
++    if (result->shellyError) {
++        return result->shellyError;
++    }
+ 
+     for (uint32_t i = 0; i < offsetof(FFPackagesResult, all) / sizeof(uint32_t); ++i) {
+         result->all += ((uint32_t*) result)[i];
+--- a/src/detection/packages/packages_linux.c
++++ b/src/detection/packages/packages_linux.c
+@@ -1,6 +1,7 @@
+ #include "packages.h"
+ #include "common/io.h"
+ #include "common/parsing.h"
++#include "common/processing.h"
+ #include "common/properties.h"
+ #include "common/settings.h"
+ #include "common/strutil.h"
+@@ -419,6 +420,45 @@
+     ffStrbufSubstrBefore(baseDir, baseDirLength);
+ 
+     return num_elements;
++}
++
++// Query the supported Shelly interface so DBPath, RootDir and Includes are
++// resolved by Shelly itself. Never fall back to a stale Pacman database.
++static const char* getShellyPackages(uint32_t* count) {
++    FF_STRBUF_AUTO_DESTROY output = ffStrbufCreate();
++    FFProcessHandle handle;
++    const char* error = ffProcessSpawn((char* const[]) {
++        "shelly", "list", "standard", "--show-hidden", "--json", nullptr
++    }, false, ffGetNullFD(), &handle);
++    if (error) {
++        return "Failed to start Shelly package query";
++    }
++    int exitStatus;
++    error = ffProcessReadOutputWithStatus(&handle, &output, &exitStatus);
++    if (error || exitStatus != 0) {
++        return "Shelly package query failed";
++    }
++    yyjson_doc* doc = yyjson_read(output.chars, output.length, YYJSON_READ_NOFLAG);
++    if (!doc) {
++        return "Shelly returned invalid package JSON";
++    }
++    yyjson_val* root = yyjson_doc_get_root(doc);
++    if (!yyjson_is_arr(root) || yyjson_arr_size(root) > UINT32_MAX) {
++        yyjson_doc_free(doc);
++        return "Shelly package JSON must be an array";
++    }
++    size_t index, length;
++    yyjson_val* package;
++    yyjson_arr_foreach(root, index, length, package) {
++        yyjson_val* name = yyjson_obj_get(package, "Name");
++        if (!yyjson_is_obj(package) || !yyjson_is_str(name) || yyjson_get_len(name) == 0) {
++            yyjson_doc_free(doc);
++            return "Shelly returned an invalid package record";
++        }
++    }
++    *count = (uint32_t) yyjson_arr_size(root);
++    yyjson_doc_free(doc);
++    return nullptr;
+ }
+ 
+ static uint32_t getPacmanPackages(FFstrbuf* baseDir) {
+@@ -640,6 +680,12 @@
+ }
+ 
+ void ffDetectPackagesImpl(FFPackagesResult* result, FFPackagesOptions* options) {
++    if (FF_PACKAGES_IS_ENABLED(options, SHELLY)) {
++        result->shellyError = getShellyPackages(&result->shelly);
++        if (result->shellyError) {
++            return;
++        }
++    }
+     FF_STRBUF_AUTO_DESTROY baseDir = ffStrbufCreateA(512);
+     ffStrbufAppendS(&baseDir, FASTFETCH_TARGET_DIR_ROOT);
+ 
+--- a/src/modules/packages/option.h
++++ b/src/modules/packages/option.h
+@@ -43,6 +43,7 @@
+     FF_PACKAGES_FLAG_INSTALLRELEASE_BIT = UINT64_C(1) << 36U,
+     FF_PACKAGES_FLAG_CRUX_BIT = UINT64_C(1) << 37U,
+     FF_PACKAGES_FLAG_RUM_BIT = UINT64_C(1) << 38U,
++    FF_PACKAGES_FLAG_SHELLY_BIT = UINT64_C(1) << 39U,
+ } FFPackagesFlags;
+ static_assert(sizeof(FFPackagesFlags) == sizeof(uint64_t), "");
+ 
+--- a/src/modules/packages/packages.c
++++ b/src/modules/packages/packages.c
+@@ -132,6 +132,7 @@
+         } else {
+             FF_PRINT_PACKAGE_NAME(scoopUser, "scoop")
+         }
++        FF_PRINT_PACKAGE_NAME(shelly, "Shelly")
+         FF_PRINT_PACKAGE(snap)
+         FF_PRINT_PACKAGE(soar)
+         FF_PRINT_PACKAGE(sorcery)
+@@ -204,6 +205,7 @@
+                 FF_ARG(hpkgAll, "hpkg-all"),
+                 FF_ARG(nixAll, "nix-all"),
+                 FF_ARG(counts.all, "all"),
++                FF_ARG(counts.shelly, "shelly"),
+             }));
+     }
+ 
+@@ -345,6 +347,7 @@
+                             if (false)
+                                 ;
+                             FF_TEST_PACKAGE_NAME(SCOOP)
++                            FF_TEST_PACKAGE_NAME(SHELLY)
+                             FF_TEST_PACKAGE_NAME(SNAP)
+                             FF_TEST_PACKAGE_NAME(SOAR)
+                             FF_TEST_PACKAGE_NAME(SORCERY)
+@@ -423,6 +426,7 @@
+     FF_TEST_PACKAGE_NAME(RPM)
+     FF_TEST_PACKAGE_NAME(RUM)
+     FF_TEST_PACKAGE_NAME(SCOOP)
++    FF_TEST_PACKAGE_NAME(SHELLY)
+     FF_TEST_PACKAGE_NAME(SNAP)
+     FF_TEST_PACKAGE_NAME(SOAR)
+     FF_TEST_PACKAGE_NAME(SORCERY)
+@@ -494,6 +498,7 @@
+     FF_APPEND_PACKAGE_COUNT(rum)
+     FF_APPEND_PACKAGE_COUNT(scoopGlobal)
+     FF_APPEND_PACKAGE_COUNT(scoopUser)
++    FF_APPEND_PACKAGE_COUNT(shelly)
+     FF_APPEND_PACKAGE_COUNT(snap)
+     FF_APPEND_PACKAGE_COUNT(soar)
+     FF_APPEND_PACKAGE_COUNT(sorcery)
+@@ -607,6 +612,7 @@
+         { "Total number of all hpkg packages", "hpkg-all" },
+         { "Total number of all nix packages", "nix-all" },
+         { "Number of all packages", "all" },
++        { "Number of Shelly packages", "shelly" },
+     })),
+     .defaultOrder = 14,
+ };
+--- a/doc/json_schema.json
++++ b/doc/json_schema.json
+@@ -449,7 +449,7 @@
+             "type": "string"
+         },
+         "packagesFormat": {
+-            "description": "Output format for the `Packages` module. See Wiki for formatting syntax\n    1. {am-system}: Number of am-system packages\n    2. {am-user}: Number of am-user (aka appman) packages\n    3. {appimage}: Number of appimage packages\n    4. {apk}: Number of apk packages\n    5. {brew}: Number of brew packages\n    6. {brew-cask}: Number of brew-cask packages\n    7. {cards}: Number of cards packages\n    8. {choco}: Number of choco packages\n    9. {crux}: Number of crux packages\n    10. {dpkg}: Number of dpkg packages\n    11. {emerge}: Number of emerge packages\n    12. {eopkg}: Number of eopkg packages\n    13. {flatpak-system}: Number of flatpak-system app packages\n    14. {flatpak-user}: Number of flatpak-user app packages\n    15. {guix-home}: Number of guix-home packages\n    16. {guix-system}: Number of guix-system packages\n    17. {guix-user}: Number of guix-user packages\n    18. {hpkg-system}: Number of hpkg-system packages\n    19. {hpkg-user}: Number of hpkg-user packages\n    20. {install-release}: Number of install-release packages\n    21. {kiss}: Number of kiss packages\n    22. {linglong}: Number of linglong packages\n    23. {lpkg}: Number of lpkg packages\n    24. {lpkgbuild}: Number of lpkgbuild packages\n    25. {macports}: Number of macports packages\n    26. {mport}: Number of mport packages\n    27. {moss}: Number of moss packages\n    28. {nix-default}: Number of nix-default packages\n    29. {nix-system}: Number of nix-system packages\n    30. {nix-user}: Number of nix-user packages\n    31. {opkg}: Number of opkg packages\n    32. {pacman}: Number of pacman packages\n    33. {pacman-branch}: Pacman branch on manjaro\n    34. {pacstall}: Number of pacstall packages\n    35. {paludis}: Number of paludis packages\n    36. {pisi}: Number of pisi packages\n    37. {pkg}: Number of pkg packages\n    38. {pkgsrc}: Number of pkgsrc packages\n    39. {pkgtool}: Number of pkgtool packages\n    40. {porg}: Number of porg packages\n    41. {rpm}: Number of rpm packages\n    42. {rum}: Number of rum overlay packages\n    43. {scoop-global}: Number of scoop-global packages\n    44. {scoop-user}: Number of scoop-user packages\n    45. {snap}: Number of snap packages\n    46. {soar}: Number of soar packages\n    47. {sorcery}: Number of sorcery packages\n    48. {winget}: Number of winget packages\n    49. {xbps}: Number of xbps packages\n    50. {brew-all}: Total number of all brew packages\n    51. {flatpak-all}: Total number of all flatpak app packages\n    52. {guix-all}: Total number of all guix packages\n    53. {hpkg-all}: Total number of all hpkg packages\n    54. {nix-all}: Total number of all nix packages\n    55. {all}: Number of all packages",
++            "description": "Output format for the `Packages` module. See Wiki for formatting syntax\n    1. {am-system}: Number of am-system packages\n    2. {am-user}: Number of am-user (aka appman) packages\n    3. {appimage}: Number of appimage packages\n    4. {apk}: Number of apk packages\n    5. {brew}: Number of brew packages\n    6. {brew-cask}: Number of brew-cask packages\n    7. {cards}: Number of cards packages\n    8. {choco}: Number of choco packages\n    9. {crux}: Number of crux packages\n    10. {dpkg}: Number of dpkg packages\n    11. {emerge}: Number of emerge packages\n    12. {eopkg}: Number of eopkg packages\n    13. {flatpak-system}: Number of flatpak-system app packages\n    14. {flatpak-user}: Number of flatpak-user app packages\n    15. {guix-home}: Number of guix-home packages\n    16. {guix-system}: Number of guix-system packages\n    17. {guix-user}: Number of guix-user packages\n    18. {hpkg-system}: Number of hpkg-system packages\n    19. {hpkg-user}: Number of hpkg-user packages\n    20. {install-release}: Number of install-release packages\n    21. {kiss}: Number of kiss packages\n    22. {linglong}: Number of linglong packages\n    23. {lpkg}: Number of lpkg packages\n    24. {lpkgbuild}: Number of lpkgbuild packages\n    25. {macports}: Number of macports packages\n    26. {mport}: Number of mport packages\n    27. {moss}: Number of moss packages\n    28. {nix-default}: Number of nix-default packages\n    29. {nix-system}: Number of nix-system packages\n    30. {nix-user}: Number of nix-user packages\n    31. {opkg}: Number of opkg packages\n    32. {pacman}: Number of pacman packages\n    33. {pacman-branch}: Pacman branch on manjaro\n    34. {pacstall}: Number of pacstall packages\n    35. {paludis}: Number of paludis packages\n    36. {pisi}: Number of pisi packages\n    37. {pkg}: Number of pkg packages\n    38. {pkgsrc}: Number of pkgsrc packages\n    39. {pkgtool}: Number of pkgtool packages\n    40. {porg}: Number of porg packages\n    41. {rpm}: Number of rpm packages\n    42. {rum}: Number of rum overlay packages\n    43. {scoop-global}: Number of scoop-global packages\n    44. {scoop-user}: Number of scoop-user packages\n    45. {snap}: Number of snap packages\n    46. {soar}: Number of soar packages\n    47. {sorcery}: Number of sorcery packages\n    48. {winget}: Number of winget packages\n    49. {xbps}: Number of xbps packages\n    50. {brew-all}: Total number of all brew packages\n    51. {flatpak-all}: Total number of all flatpak app packages\n    52. {guix-all}: Total number of all guix packages\n    53. {hpkg-all}: Total number of all hpkg packages\n    54. {nix-all}: Total number of all nix packages\n    55. {all}: Number of all packages\n    56. {shelly}: Number of Shelly packages",
+             "type": "string"
+         },
+         "physicaldiskFormat": {
+@@ -3833,6 +3833,7 @@
+                                                         "rpm",
+                                                         "rum",
+                                                         "scoop",
++                                                        "shelly",
+                                                         "snap",
+                                                         "soar",
+                                                         "sorcery",
