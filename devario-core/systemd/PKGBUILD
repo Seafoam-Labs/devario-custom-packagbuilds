@@ -20,7 +20,7 @@ pkgname=('systemd'
 # way or another. We use proper version for pacman here (no dash for rc
 # release!), and change in source array below.
 pkgver=262
-pkgrel=8
+pkgrel=9
 arch=('x86_64')
 license=('LGPL-2.1-or-later')
 url='https://www.github.com/systemd/systemd'
@@ -151,6 +151,11 @@ build() {
 
     -Dapparmor=enabled
     -Dbootloader=enabled
+    # Seafoam Labs accents using the UEFI text palette (not exact brand RGB).
+    # Bright colors are foreground-only; use cyan for selection backgrounds.
+    -Defi-color-entry=lightcyan,black
+    -Defi-color-highlight=black,cyan
+    -Defi-color-edit=black,cyan
     -Dxenctrl=disabled
     -Dbpf-framework=enabled
     -Dima=false
