@@ -1,0 +1,6 @@
+{
+  "name": "qt6-wayland",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qt6-wayland/-/archive/main/qt6-wayland-main.tar.gz",
+  "sha256": "3228cae281753de0ce39f20411de5f64329e37b1c5b100dcf32aafad6bf8aaa1",
+  "bytes": 1985
+}
