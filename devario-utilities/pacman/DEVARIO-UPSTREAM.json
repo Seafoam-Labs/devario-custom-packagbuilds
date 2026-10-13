@@ -1,0 +1,6 @@
+{
+  "name": "pacman",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/archive/main/pacman-main.tar.gz",
+  "sha256": "95b9513c8f19b777e13b5637b789d6a4b72b3b0a96d6391612606d4c51a3f574",
+  "bytes": 17356
+}
