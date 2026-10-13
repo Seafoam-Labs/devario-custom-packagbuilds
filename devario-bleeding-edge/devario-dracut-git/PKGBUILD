@@ -1,0 +1,178 @@
+# Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
+# Maintainer: Giancarlo Razzolini <grazzolini@archlinux.org>
+# Contributor: SoulHarsh007 <admin@soulharsh007.dev>
+# Maintainer: Devario maintainers
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+pkgname=devario-dracut-git
+_pkgname=dracut
+pkgver=112.r190.g16c0eadb0
+pkgrel=1
+pkgdesc="An event driven initramfs infrastructure"
+arch=('x86_64')
+url="https://github.com/dracut-ng/dracut"
+license=('GPL-2.0-or-later')
+depends=(
+  'bash'
+  'coreutils'
+  'cpio'
+  'filesystem'
+  'findutils'
+  'gawk'
+  'grep'
+  'kmod'
+  'pkgconf'
+  'procps-ng'
+  'sed'
+  'systemd'
+  'tpm2-tools'
+  'util-linux'
+)
+makedepends=(
+  'asciidoctor'
+  'bash-completion'
+  'git'
+  'rust'
+)
+optdepends=(
+  'binutils: --uefi option support'
+  'biosdevname: BIOS network device renaming'
+  'bluez: bluetooth (keyboard)'
+  'btrfs-progs: scan for Btrfs on block devices'
+  'busybox: allows use of busybox (on your own risk)'
+  'bzip2: bzip2 compression'
+  'cifs-utils: support CIFS'
+  'connman: support for connman networking'
+  'cryptsetup: support for encrypted with LUKS filesystems'
+  'dash: allows use of dash (on your own risk)'
+  'dbus: dbus-daemon dracut module'
+  'dbus-broker: dbus-broker dracut module'
+  'dhclient: legacy networking support'
+  'dmraid: dmraid dracut module support'
+  'e2fsprogs: ext2/3/4 filesystem support'
+  'elfutils: strip binaries to reduce initramfs size'
+  'erofs-utils: support for building an erofs initramfs'
+  'f2fs-tools: fsfs filesystem support'
+  'fuse3: live on NTFS (dmsquash-live-ntfs module)'
+  'gnupg: gpg for crypto operations and smartcards'
+  'gzip: gzip compression'
+  'iproute2: legacy networking support'
+  'iputils: networking support'
+  'jq: NVMe-oF support (nvmf module)'
+  'lvm2: support Logical Volume Manager'
+  'lzop: lzop compression'
+  'mdadm: support MD devices, also known as software RAID devices'
+  'memstrack: memstrack module support'
+  'multipath-tools: multipath dracut module support'
+  'nbd: support network block devices'
+  'ndctl: NVDIMM support'
+  'networkmanager: networkmanager support'
+  'nfs-utils: support NFS'
+  'ntfs-3g: live on NTFS (dmsquash-live-ntfs module)'
+  'nvme-cli: NVMe-oF support (nvmf module)'
+  'open-iscsi: support iSCSI (iscsi module)'
+  'openssh: install ssh and scp along with config files and specified keys (ssh-client module)'
+  'pigz: faster gzip compression'
+  'plymouth: plymouth boot splash'
+  'qrencode: systemd-bsod'
+  'rng-tools: enable rngd service to help generating entropy early during boot'
+  'rsyslog: enable logging with rsyslog'
+  'sbsigntools: uefi_secureboot_cert/key configuration option support'
+  'systemd-ukify: Unified Kernel Image'
+  'squashfs-tools: support for building a squashed initramfs'
+  'tar: live tar image'
+  'tpm2-tools: tpm2 support for e.g. LUKS'
+  'xz: xz compression'
+)
+# package() replaces these with versioned provides (the release part of
+# pkgver, e.g. dracut=112), which are only known after pkgver() has run.
+provides=('initramfs' 'dracut' 'devario-dracut')
+conflicts=('dracut' 'devario-dracut' 'dracut-git')
+backup=('etc/dracut.conf' 'etc/devario-dracut.conf')
+source=("${_pkgname}::git+${url}"
+  "dracut-rebuild"
+  "dracut-install"
+  "dracut-remove"
+  "90-dracut-install.hook"
+  "60-dracut-remove.hook"
+  "devario-dracut.conf"
+  "snapshot-overlay.sh"
+  "module-setup.sh")
+
+sha512sums=('SKIP'
+            'fbdda211d2272e638a9bb9c3dd7e09a45ecba545581054662c9a5ea2baacba2abcd07221e5dfe2cb573e1207540318ad2a390b786cdd8426e116ac70c9a534ef'
+            'e21d0e87957eeeede8d8c14561630ed534c31c83e02c47473ad10c8b08ed7b5ff28647b8eff1242c9d5c0e123ab046d7a0ef664191032062dd56a333b7536599'
+            '13e3faab40ae0e13f7933fcf5e1b028b4af2010d91b5d6c4dcda164bc9ab62cdcdde21f4945f28f564546a8700bd285cca6a19f1575fcf1925dbde54fba9078a'
+            '2ec828cbbd5d25f9f059aaa11abea2bbd0f3af29b2bcc8722ef21742a48a9c4e06facc388fb426b1eb5ee7297e5c60d5e73e7d81718cc288573a3fb77b35d9e3'
+            '1ae3d1866c2131e76cdbbf69ecd85cb5520e71fdde190ae1137a4202e0ec17e91205f1e4291bef0f9d80d5d1fed908a1acab94660b30ef4804b34decc20f19db'
+            'c1381a1f0941f061f5e2fe4c45eb205e6759abbcc25e5f2c73de4c633ccf48274868104421086a987368ad1417e4fb7520cf311c2527319af9156b1148527cce'
+            'ee103a605f1378dd7077fa33b710ba41ff7bd72befc0e211d9ccfe8ca5db74173bbd0566ec2929cd6bbafa4c2c287bd88a7b544edf0bbeca56181ae4382def09'
+            '461231a756b6bc250fb973a5b4b6fbc0b2d6f8dae0dbc89a37bab17745dcfe38d9ae6cfe58bd4b9c4661e5f0024577ad9e4aa1d3c16169e7a83744da4b9068a5')
+
+_backports=(
+)
+
+_reverts=(
+)
+
+pkgver() {
+  cd "${_pkgname}"
+  git describe --tags --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${_pkgname}"
+
+  local _c _l
+  for _c in "${_backports[@]}"; do
+    if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+    git log --oneline "${_l}" "${_c}"
+    git cherry-pick --mainline 1 --no-commit "${_c}"
+  done
+  for _c in "${_reverts[@]}"; do
+    if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+    git log --oneline "${_l}" "${_c}"
+    git revert --mainline 1 --no-commit "${_c}"
+  done
+
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    echo "Applying patch $src..."
+    patch -Np1 < "../$src"
+  done
+
+  # remove dracut modules not meant for arch x86_64
+  for f in cms cio_ignore ppcmac zipl \
+    dasd dasd_mod dasd_rules dcssblk fcoe* \
+    qeth_rules zfcp zfcp_rules znet; do
+    rm -rf "modules.d/[0-9][0-9]$f"
+  done
+}
+
+build() {
+  cd "${_pkgname}"
+
+  ./configure  \
+    --sysconfdir=/etc
+
+  make
+}
+
+package() {
+  provides=('initramfs' "dracut=${pkgver%%.r*}" "devario-dracut=${pkgver%%.r*}")
+
+  cd "${_pkgname}"
+
+  DESTDIR="$pkgdir" make install
+  install -Dm644 "${srcdir}/90-dracut-install.hook" "${pkgdir}/usr/share/rlpm/hooks/90-dracut-install.hook"
+  install -Dm644 "${srcdir}/60-dracut-remove.hook"  "${pkgdir}/usr/share/rlpm/hooks/60-dracut-remove.hook"
+  install -Dm755 "${srcdir}/dracut-install"         "${pkgdir}/usr/share/rlpm/scripts/dracut-install"
+  install -Dm755 "${srcdir}/dracut-remove"          "${pkgdir}/usr/share/rlpm/scripts/dracut-remove"
+  install -Dm755 "${srcdir}/dracut-rebuild"         "${pkgdir}/usr/bin/dracut-rebuild"
+  install -Dm644 "${srcdir}/devario-dracut.conf"    "${pkgdir}/etc/devario-dracut.conf"
+  install -Dm755 "${srcdir}/snapshot-overlay.sh"    "${pkgdir}/usr/lib/dracut/modules.d/91btrfs-snapshot-overlay/snapshot-overlay.sh"
+  install -Dm755 "${srcdir}/module-setup.sh"        "${pkgdir}/usr/lib/dracut/modules.d/91btrfs-snapshot-overlay/module-setup.sh"
+}

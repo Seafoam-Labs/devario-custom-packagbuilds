@@ -1,0 +1,98 @@
+#!/bin/bash -e
+
+all=0
+lines=()
+# Read the optional config file for automation
+if [[ -f /etc/devario-dracut.conf ]]; then
+	source /etc/devario-dracut.conf
+elif [[ -f /etc/dracut-cachyos.conf ]]; then
+	# Compatibility with the pre-rename configuration path
+	source /etc/dracut-cachyos.conf
+fi
+
+nvidia_modules="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+amd_modules="amdgpu"
+intel_modules="i915 xe"
+
+# Add every module from the given list that exists for ${kver}.
+# Usage: add_early_kms <label> <module>...
+add_early_kms() {
+	local label=$1 module
+	local found=()
+	shift
+	for module in "$@"; do
+		if modinfo -k "${kver}" "${module}" &> /dev/null; then
+			found+=("${module}")
+		fi
+	done
+	if (( ${#found[@]} )); then
+		echo ":: Including ${label} modules (${found[*]}) for ${pkgbase} (${kver})"
+		extra_args+=(--add-drivers " ${found[*]} ")
+	else
+		echo ":: ${label} modules not found for ${kver}, skipping early KMS"
+	fi
+}
+
+while IFS= read -r line || [[ -n "$line" ]]; do
+	if [[ "${line}" != */vmlinuz ]]; then
+		# triggers when it's a change to dracut files
+		all=1
+		continue
+	fi
+
+	lines+=("/${line%/vmlinuz}")
+done
+
+if (( all )); then
+	shopt -s nullglob
+	lines=(/usr/lib/modules/*)
+fi
+
+[[ ${DRACUT_QUIET} == "true" ]] && DRACUT_EXTRA_PARAMS=" --quiet"
+
+for line in "${lines[@]}"; do
+	# Shelly maintains its own database. A leftover modules directory is not
+	# a bootable kernel unless its package metadata and image are both present.
+	if [[ ! -s "${line}/pkgbase" || ! -s "${line}/vmlinuz" ]]; then
+		echo ":: Skipping ${line}: missing kernel pkgbase or vmlinuz" >&2
+		continue
+	fi
+
+	pkgbase="$(<"${line}/pkgbase")"
+	kver="${line##*/}"
+	if [[ ! "$pkgbase" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ || ! "$kver" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]]; then
+		echo ":: Invalid kernel metadata in ${line}" >&2
+		exit 1
+	fi
+	# Also copy the image during a rebuild triggered by firmware or dracut.
+	install -Dm644 "${line}/vmlinuz" "/boot/vmlinuz-${pkgbase}"
+
+	extra_args=()
+	if [[ ${NVIDIA_EARLY_KMS} == "true" ]]; then
+		if modinfo -k "${kver}" nvidia &> /dev/null; then
+			echo ":: Including NVIDIA modules for ${pkgbase} (${kver})"
+			extra_args+=(--add-drivers " ${nvidia_modules} ")
+		else
+			echo ":: NVIDIA modules not found for ${kver}, skipping early KMS"
+		fi
+	fi
+	if [[ ${AMD_EARLY_KMS} == "true" ]]; then
+		add_early_kms AMD ${amd_modules}
+	fi
+	if [[ ${INTEL_EARLY_KMS} == "true" ]]; then
+		add_early_kms Intel ${intel_modules}
+	fi
+
+	echo ":: Building initramfs for ${pkgbase} (${kver})"
+	dracut --force --hostonly --no-hostonly-cmdline${DRACUT_EXTRA_PARAMS} "${extra_args[@]}" /boot/initramfs-${pkgbase}.img "${kver}"
+
+	if [[ ${NO_DRACUT_FALLBACK} != "true" ]]; then
+		echo ":: Building fallback initramfs for ${pkgbase} (${kver})"
+		dracut --force --no-hostonly${DRACUT_EXTRA_PARAMS} "${extra_args[@]}" "/boot/initramfs-${pkgbase}-fallback.img" "${kver}"
+	fi
+
+	if [[ ${BUILD_UKI} == "true" ]]; then
+		echo ":: Building UKI for ${pkgbase} (${kver})"
+		dracut --hostonly --uefi${DRACUT_EXTRA_PARAMS} "${extra_args[@]}" "/boot/EFI/Linux/${pkgbase}.efi" --kver "$kver" --force
+	fi
+done
