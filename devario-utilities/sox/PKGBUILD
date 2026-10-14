@@ -3,8 +3,8 @@
 # Contributor: Eric Bélanger <eric@archlinux.org>
 
 pkgname=sox
-pkgver=14.8.0.1
-pkgrel=2
+pkgver=14.8.1
+pkgrel=1
 pkgdesc='The Swiss Army knife of sound processing tools'
 arch=(x86_64)
 url='https://codeberg.org/sox_ng/sox_ng/'
@@ -53,7 +53,7 @@ optdepends=(
 )
 provides=(libsox.so libsox_ng.so)
 source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/sox_ng/sox_ng/archive/sox_ng-$pkgver.tar.gz")
-sha512sums=('9bd019f71e57bac4e0b9c55f2c3b20c71275526b01eb94e464fcbb3297ff05129ac52489a5595087e00ccd6197299e7debc67a9c6a90b63249b8479ed5d1efbb')
+sha512sums=('5f8c3d6e915736f4d13db817cf2ff98a4a6a5ed294ea2a14c5077d9fe0d428d219a152449ce0d6bb724ae38f854c21a3720c5febe04ab0c3d760d033c59c0444')
 
 prepare() {
   cd sox_ng
