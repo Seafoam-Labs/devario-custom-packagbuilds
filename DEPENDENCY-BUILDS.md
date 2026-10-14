@@ -1,5 +1,55 @@
 # Missing dependency builds for Shelly
 
+## Imake, Yasm and WASI C++ dependencies (2026-10-13)
+
+The repeated `not_in_repositories` and `not_in_environment` entries for
+`imake`, `yasm`, `wasi-libc++`, and `wasi-libc++abi` identify four missing
+binary packages. Three newly imported recipes supply them; the WASI recipe
+produces both C++ outputs. The additional `xorg-font-util` recipe supplies
+an otherwise missing imake build prerequisite.
+
+The imports retain the source pins, checksums, patches, signing keys,
+attribution, and packaging licenses from Arch's
+[imake](https://gitlab.archlinux.org/archlinux/packaging/packages/imake),
+[yasm](https://gitlab.archlinux.org/archlinux/packaging/packages/yasm),
+[wasi-libcplusplus](https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libcplusplus),
+and [xorg-font-util](https://gitlab.archlinux.org/archlinux/packaging/packages/xorg-font-util)
+packaging repositories. Copy each complete recipe directory to the worker.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1, if missing | [xorg-util-macros](devario-development/xorg-util-macros/PKGBUILD) | `1.20.2-1` | X.Org build macros |
+| 1, if missing | [xmlto](devario-development/xmlto/PKGBUILD) | `0.0.29-1` | Yasm documentation |
+| 1 | [wasi-libc++](devario-core/wasi-libc++/PKGBUILD) | `23.1.1-1` | Both `wasi-libc++` and `wasi-libc++abi` |
+| 2 | [xorg-font-util](devario-development/xorg-font-util/PKGBUILD) | `1.4.2-1` | Imake build prerequisite |
+| 2 | [yasm](devario-development/yasm/PKGBUILD) | `1.3.0-9` | Assembler |
+| 3 | [imake](devario-development/imake/PKGBUILD) | `1.0.11-1` | X.Org build utilities |
+
+For each recipe, run `shelly build --isolated --check ./path/to/PKGBUILD`,
+publish its binary outputs to an enabled worker repository, and refresh
+the worker's metadata before the next dependent stage. Publish both WASI
+outputs together: `wasi-libc++` requires the matching
+`wasi-libc++abi=23.1.1-1` package. Then retry the original blocked build.
+Uploading recipes alone does not satisfy the repository checks.
+
+The saved 2026-10-08 catalogs lack `xorg-util-macros`, `xorg-font-util`, and
+`xmlto`; the worker's current enabled repositories are authoritative.
+All other direct dependency names of these recipes resolve to saved binary
+providers or the WASI split output. WASI requires existing `wasi-libc` and
+`wasi-compiler-rt` packages, plus the LLVM tools and `wasm-component-ld`.
+Those providers are in the saved catalogs. If absent on the worker, restore
+compatible seed packages before rebuilding: the existing WASI libc/runtime
+recipes have a dependency cycle. Yasm's checked build also requires systemd.
+
+Validation: the four imports pass shell syntax checks, generated `.SRCINFO`
+comparison, and Shelly review with no findings. All downloaded sources and
+bundled patches pass their declared checksums; the X.Org and LLVM source
+signatures pass verification with the bundled keys. Isolated builds and
+binary publication have not been performed.
+
 ## Systemd: quota, kexec, FIDO2 and PE dependencies (2026-10-13)
 
 The worker's `IncompleteDependencyPlan` for `devario-core/systemd` names
