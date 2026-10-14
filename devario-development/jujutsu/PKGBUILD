@@ -7,7 +7,7 @@
 pkgname=jujutsu
 _pkgname=jj
 pkgver=0.46.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Git-compatible VCS that is both simple and powerful'
 arch=(x86_64)
 url="https://github.com/jj-vcs/$_pkgname"
@@ -54,7 +54,7 @@ build() {
 }
 
 check() {
-	cd "$_archive"
+	_srcenv
 	export useNextest=false
 	local skipped=(
 		test_diff_command # relies on config of external command
