@@ -14,6 +14,8 @@ pkgrel=2
 arch=(x86_64)
 url="https://www.samba.org"
 license=('GPL-3.0-or-later')
+# Shelly installs no package_*() depends, so gpgme must be a makedepend or
+# configure aborts the AD DC build.
 makedepends=(
   acl
   dateutils
@@ -21,6 +23,7 @@ makedepends=(
   docbook-xsl
   glusterfs
   gnutls
+  gpgme
   jansson
   krb5
   libbsd

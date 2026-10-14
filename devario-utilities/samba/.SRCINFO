@@ -11,6 +11,7 @@ pkgbase = samba
 	makedepends = docbook-xsl
 	makedepends = glusterfs
 	makedepends = gnutls
+	makedepends = gpgme
 	makedepends = jansson
 	makedepends = krb5
 	makedepends = libbsd
