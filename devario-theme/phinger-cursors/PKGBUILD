@@ -1,0 +1,24 @@
+# Maintainer: Devario maintainers
+
+pkgname=phinger-cursors
+pkgver=2.2
+pkgrel=1
+pkgdesc='Phinger cursors in light, dark, and left-handed variants'
+arch=('any')
+url='https://github.com/phisch/phinger-cursors'
+license=('CC-BY-SA-4.0')
+options=('!strip')
+source=(
+  "phinger-cursors-2.2-phinger-cursors-variants.tar.bz2::$url/releases/download/v2.2/phinger-cursors-variants.tar.bz2"
+  "phinger-cursors-2.2-phinger-cursors.tar.gz::$url/archive/refs/tags/v2.2.tar.gz"
+)
+sha256sums=(
+  '46d4cfc30a38c19cada3339027b5a78f7b0bf74f3220eba7001c4fdd9d5a6e56'
+  '2f2a081ebd219d43af13f75d80563c617781196ffc4de32e7668b80a064eca62'
+)
+
+package() {
+  install -d "$pkgdir/usr/share/icons"
+  cp -r phinger-cursors-{dark,light}{,-left} "$pkgdir/usr/share/icons/"
+  install -Dm644 "phinger-cursors-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

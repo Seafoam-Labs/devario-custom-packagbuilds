@@ -1,5 +1,249 @@
 # Missing dependency builds for Shelly
 
+## Neovim's remaining closure (2026-10-14)
+
+`devario-development/neovim` named twelve more unsatisfied dependency names
+with no recipe in the tree or on `origin/main`: `lua51-lpeg`, `lua51-mpack`,
+`msgpack-c`, `libvterm`, `unibilium` together with its `libunibilium.so`
+provider, and the `tree-sitter-c`, `-lua`, `-markdown`, `-query`, `-vim` and
+`-vimdoc` grammar packages. Thirteen Arch pkgbases supply them, because two
+of the twelve are split names: `lua51-lpeg` comes from `lpeg` and
+`lua51-mpack` from `lua-mpack`.
+
+Two of the thirteen became necessary on the way in, both because Shelly
+plans global depends and makedepends. `lua-mpack` carries a global
+`depends=('libmpack')`, a different project from `msgpack-c`, so an
+unsatisfied `libmpack` blocks that whole pkgbase exactly as `lua51` once
+blocked `libluv`. `lpeg` has `luarocks` in `makedepends` and runs `luarocks
+install` inside `_package()`, so it cannot be packaged without it. Neither
+name is published or packaged today.
+
+The imports keep Arch's source pins, checksums, signing keys and packaging
+licenses from Arch's
+[lpeg](https://gitlab.archlinux.org/archlinux/packaging/packages/lpeg),
+[lua-mpack](https://gitlab.archlinux.org/archlinux/packaging/packages/lua-mpack),
+[libmpack](https://gitlab.archlinux.org/archlinux/packaging/packages/libmpack),
+[msgpack-c](https://gitlab.archlinux.org/archlinux/packaging/packages/msgpack-c),
+[libvterm](https://gitlab.archlinux.org/archlinux/packaging/packages/libvterm),
+[unibilium](https://gitlab.archlinux.org/archlinux/packaging/packages/unibilium),
+[luarocks](https://gitlab.archlinux.org/archlinux/packaging/packages/luarocks)
+and grammar packages. `lpeg`, `libmpack`, `lua-mpack`, `msgpack-c`,
+`libvterm` and `unibilium` are shared libraries or Lua modules and sit in
+`devario-libs` beside `libluv` and `msgpack-cxx`; `luarocks` and the six
+grammars sit in `devario-development` beside `tree-sitter` and `neovim`.
+Nine of the thirteen generated `.SRCINFO` files regenerate byte-identical to
+Arch's own.
+
+Four of the thirteen are shared libraries and so depart from Arch's text.
+Shelly publishes a declared provision exactly as written while Arch's makepkg
+silently versions a bare one, so `unibilium`, `msgpack-c`, `libvterm` and
+`libmpack` name the SONAME form beside the bare one and refuse to package an
+unexpected ELF class or soname. The four versions were read from Arch's built
+`libvterm-0.3.3-2`, `unibilium-2.1.4-1`, `msgpack-c-7.0.2-1` and
+`libmpack-1.0.5-4` archives, from `.PKGINFO` and `readelf`, not from recipe
+text. The six grammars carry versioned sonames as well, but nothing links
+them by `.so` name, so they stay verbatim.
+
+`msgpack-c` departs once more. Its `build()` passed
+`-DMSGPACK_BUILD_TESTS=ON` and `test/CMakeLists.txt` opens with
+`FIND_PACKAGE (GTest REQUIRED)`, so the worker's `--no-check` mode dies at
+configure before compiling anything because `gtest` is a `checkdepend` and
+never installs. The option is now `OFF`, and the `check()` and
+`checkdepends=('gtest')` that then had nothing to run are gone, the way
+`systemd-libs` disables its suite.
+
+Build and publish in this order. Everything in a stage is independent of its
+peers.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | [libmpack](devario-libs/libmpack/PKGBUILD) | `1.0.5-4` | msgpack in C |
+| 1 | [luarocks](devario-development/luarocks/PKGBUILD) | `3.13.0-5` | the build tool `lpeg` packages through |
+| 1 | [unibilium](devario-libs/unibilium/PKGBUILD) | `2.1.4-1` | terminfo parser, `libunibilium.so` |
+| 1 | [msgpack-c](devario-libs/msgpack-c/PKGBUILD) | `7.0.2-1` | serialization library |
+| 1 | [libvterm](devario-libs/libvterm/PKGBUILD) | `0.3.3-2` | terminal emulator library |
+| 1 | [tree-sitter-c](devario-development/tree-sitter-c/PKGBUILD) | `0.24.1-2` | C grammar |
+| 1 | [tree-sitter-lua](devario-development/tree-sitter-lua/PKGBUILD) | `0.5.0-3` | Lua grammar |
+| 1 | [tree-sitter-markdown](devario-development/tree-sitter-markdown/PKGBUILD) | `0.5.3-2` | Markdown grammar, two libraries |
+| 1 | [tree-sitter-query](devario-development/tree-sitter-query/PKGBUILD) | `0.8.0-2` | query grammar |
+| 1 | [tree-sitter-vim](devario-development/tree-sitter-vim/PKGBUILD) | `0.8.1-3` | Vimscript grammar |
+| 1 | [tree-sitter-vimdoc](devario-development/tree-sitter-vimdoc/PKGBUILD) | `4.1.0-2` | Vim help grammar |
+| 2 | [lpeg](devario-libs/lpeg/PKGBUILD) | `1.1.0-5` | five outputs, needs `luarocks` |
+| 2 | [lua-mpack](devario-libs/lua-mpack/PKGBUILD) | `1.0.13-2` | five outputs, needs `libmpack` |
+| 3 | [neovim](devario-development/neovim/PKGBUILD) | `0.12.5-2` | the consumer |
+
+Verified on this machine: all thirteen sources download and match their
+declared checksums, and `shelly build --review-only --json` reports no
+findings for twelve of them. `luarocks` reports only `warning` findings, all
+of them its own shipped hooks and completion files calling `luarocks`, which
+is that package's job. Its tarball signature verifies against the imported
+`keys/pgp/8460980B2B79786DE0C7FCC83FD8F43C2BB3C478.asc`, which is not in this
+host's keyring, so that import belongs to the account that invokes Shelly.
+
+`luarocks` is the one recipe that departs in its file layout as well. It ships
+five manifest-rebuild hooks, and Arch installs them under
+`usr/share/libalpm/hooks`. This tree's hook contract puts package hooks in
+`/usr/share/rlpm/hooks`, which is what `HookDirMode = Replace` leaves the
+installed system reading, so an `usr/share/libalpm` hook is dead there; the
+five land under `usr/share/rlpm/hooks` instead, as `neovim` and `texinfo`
+already do, and `tests/test-hook-layout.py` is what holds that line. The move
+also takes them out of the worker's way: the hook directory a build root scans
+is compiled into the shelly binary, and this host's `shelly 3.1.6` carries
+`/usr/share/libalpm/hooks`, so a hook left at Arch's path could fire during
+root provisioning, which is how `packagekit`'s hook once killed a consumer's
+build. Neither destination is reached by the `luarocks` transaction itself: the
+published splits ship no `usr/lib/luarocks` paths, so the hooks' path trigger
+never matches, and the scriptlet's `post_install` is guarded by a directory
+test that the package never creates.
+
+Nothing here is published yet, so neovim's plan still reports these names
+missing until stages 1 and 2 land. Two install-time gaps survive: published
+`lua51-luarocks` and `lua52-luarocks` depend on `lua51-compat53` and
+`lua52-compat53`, which no repository carries and no recipe packages.
+Neither reaches neovim or `lpeg`, which need only the `luarocks` command.
+`tests/test-hook-layout.py` still fails, on `devario-libs/packagekit` line 57,
+which shipped that way before this batch.
+
+## Libluv for Neovim (2026-10-14)
+
+`devario-development/neovim` names `libluv`, which no Devario repository
+publishes and for which this tree carried no recipe. Arch builds `libluv` as
+a six-output pkgbase, one shared library plus a module per Lua series, and
+its global `makedepends` cover every series, including `lua51` and `lua53`,
+neither of which this tree packages. Three new recipes close the set.
+
+The imports are Arch's
+[libluv](https://gitlab.archlinux.org/archlinux/packaging/packages/libluv),
+[lua51](https://gitlab.archlinux.org/archlinux/packaging/packages/lua51) and
+[lua53](https://gitlab.archlinux.org/archlinux/packaging/packages/lua53)
+recipe directories copied verbatim, patches, checksums and packaging licenses
+included. `lua51` and `lua53` sit beside the existing `lua52` recipe in
+`devario-core`; `libluv` is a shared library and lands in `devario-libs`.
+
+Only `libluv` departs from Arch's text: `package_libluv()` declares
+`libluv.so` and `libluv.so=1-64` and refuses to publish an unexpected ELF
+class or SONAME, because Shelly publishes a declared provision exactly as
+written. A host build of the shared-library configuration reproduces Arch's
+`libluv.so.1`, whose only recorded needs are `libuv.so.1` and `libc.so.6`.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | [lua51](devario-core/lua51/PKGBUILD) | `5.1.5-13` | Lua 5.1 interpreter and headers |
+| 1 | [lua53](devario-core/lua53/PKGBUILD) | `5.3.6-4` | Lua 5.3 interpreter and headers |
+| 2 | [libluv](devario-libs/libluv/PKGBUILD) | `1.52.1-1` | libuv bindings, six outputs |
+
+Every other `libluv` prerequisite is already published: `lua` 5.5.1, `lua52`,
+`lua54`, `luajit`, `libuv`, `cmake` and `ninja`. The module builds read
+`/usr/bin/lua<ver>` and `/usr/include/lua<ver>`, and the probe-built `lua51`
+and `lua53` archives supply those paths the way the published `lua52` and
+`lua54` already do.
+
+The twelve names that still kept neovim out are in the section above.
+
+## Kitty terminal, Slang, and their closure (2026-10-14)
+
+The `kitty` terminal recipe needs four names that no Devario repository
+publishes: `librsync` as a hard dependency of the installed package, and
+`shader-slang`, `simde`, and `ttf-nerd-fonts-symbols-mono` as makedepends.
+`shader-slang` in turn needs `miniz` and `unordered_dense`. Six newly
+imported recipes supply the whole set.
+
+The imports retain the source pins, checksums, patches, signing keys,
+attribution, and packaging licenses from Arch's
+[librsync](https://gitlab.archlinux.org/archlinux/packaging/packages/librsync),
+[miniz](https://gitlab.archlinux.org/archlinux/packaging/packages/miniz),
+[unordered_dense](https://gitlab.archlinux.org/archlinux/packaging/packages/unordered_dense),
+[simde](https://gitlab.archlinux.org/archlinux/packaging/packages/simde),
+[ttf-nerd-fonts-symbols](https://gitlab.archlinux.org/archlinux/packaging/packages/ttf-nerd-fonts-symbols),
+and
+[shader-slang](https://gitlab.archlinux.org/archlinux/packaging/packages/shader-slang)
+packaging repositories, and `kitty` itself is
+[Arch's recipe](https://gitlab.archlinux.org/archlinux/packaging/packages/kitty)
+copied the same way. Copy each complete recipe directory to the worker.
+
+Only `librsync` departs from Arch's text: it adds the versioned
+`librsync.so=2-64` provision and a SONAME check, because Shelly publishes a
+declared provision exactly as written. The other five are unmodified.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | [unordered_dense](devario-libs/unordered_dense/PKGBUILD) | `5.3.2-1` | Header-only map for Slang |
+| 1 | [miniz](devario-libs/miniz/PKGBUILD) | `3.1.2-1` | Zip codec for Slang |
+| 1 | [simde](devario-libs/simde/PKGBUILD) | `0.8.2-1` | SIMD headers for kitty |
+| 1 | [librsync](devario-libs/librsync/PKGBUILD) | `1:2.3.4-2` | kitty delta transport |
+| 1 | [ttf-nerd-fonts-symbols](devario-libs/ttf-nerd-fonts-symbols/PKGBUILD) | `3.5.1-1` | Symbols font, three outputs |
+| 2 | [shader-slang](devario-core/shader-slang/PKGBUILD) | `2026.18.2-2` | Slang compiler for kitty |
+| 3 | [kitty](devario-utilities/kitty/PKGBUILD) | `0.49.2-1` | Terminal, terminfo, shell integration |
+
+For each recipe, run `shelly build --isolated --check ./path/to/PKGBUILD`,
+publish its binary outputs to an enabled worker repository, and refresh the
+worker's metadata before the next dependent stage. Publish all three
+`ttf-nerd-fonts-symbols` outputs before the kitty build that names
+`ttf-nerd-fonts-symbols-mono`, and publish the three kitty outputs
+together: `kitty` requires the matching `kitty-terminfo` and
+`kitty-shell-integration` packages. Uploading recipes alone does not
+satisfy the repository checks.
+
+Every other dependency name of these seven recipes resolves to a published
+package. `python3` and `libgl` resolve through the published `python` and
+`libglvnd` provisions, and kitty's three optdepends are already published.
+
+## Imake, Yasm and WASI C++ dependencies (2026-10-13)
+
+The repeated `not_in_repositories` and `not_in_environment` entries for
+`imake`, `yasm`, `wasi-libc++`, and `wasi-libc++abi` identify four missing
+binary packages. Three newly imported recipes supply them; the WASI recipe
+produces both C++ outputs. The additional `xorg-font-util` recipe supplies
+an otherwise missing imake build prerequisite.
+
+The imports retain the source pins, checksums, patches, signing keys,
+attribution, and packaging licenses from Arch's
+[imake](https://gitlab.archlinux.org/archlinux/packaging/packages/imake),
+[yasm](https://gitlab.archlinux.org/archlinux/packaging/packages/yasm),
+[wasi-libcplusplus](https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libcplusplus),
+and [xorg-font-util](https://gitlab.archlinux.org/archlinux/packaging/packages/xorg-font-util)
+packaging repositories. Copy each complete recipe directory to the worker.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1, if missing | [xorg-util-macros](devario-development/xorg-util-macros/PKGBUILD) | `1.20.2-1` | X.Org build macros |
+| 1, if missing | [xmlto](devario-development/xmlto/PKGBUILD) | `0.0.29-1` | Yasm documentation |
+| 1 | [wasi-libc++](devario-core/wasi-libc++/PKGBUILD) | `23.1.1-1` | Both `wasi-libc++` and `wasi-libc++abi` |
+| 2 | [xorg-font-util](devario-development/xorg-font-util/PKGBUILD) | `1.4.2-1` | Imake build prerequisite |
+| 2 | [yasm](devario-development/yasm/PKGBUILD) | `1.3.0-9` | Assembler |
+| 3 | [imake](devario-development/imake/PKGBUILD) | `1.0.11-1` | X.Org build utilities |
+
+For each recipe, run `shelly build --isolated --check ./path/to/PKGBUILD`,
+publish its binary outputs to an enabled worker repository, and refresh
+the worker's metadata before the next dependent stage. Publish both WASI
+outputs together: `wasi-libc++` requires the matching
+`wasi-libc++abi=23.1.1-1` package. Then retry the original blocked build.
+Uploading recipes alone does not satisfy the repository checks.
+
+The saved 2026-10-08 catalogs lack `xorg-util-macros`, `xorg-font-util`, and
+`xmlto`; the worker's current enabled repositories are authoritative.
+All other direct dependency names of these recipes resolve to saved binary
+providers or the WASI split output. WASI requires existing `wasi-libc` and
+`wasi-compiler-rt` packages, plus the LLVM tools and `wasm-component-ld`.
+Those providers are in the saved catalogs. If absent on the worker, restore
+compatible seed packages before rebuilding: the existing WASI libc/runtime
+recipes have a dependency cycle. Yasm's checked build also requires systemd.
+
+Validation: the four imports pass shell syntax checks, generated `.SRCINFO`
+comparison, and Shelly review with no findings. All downloaded sources and
+bundled patches pass their declared checksums; the X.Org and LLVM source
+signatures pass verification with the bundled keys. Isolated builds and
+binary publication have not been performed.
+
 ## Systemd: quota, kexec, FIDO2 and PE dependencies (2026-10-13)
 
 The worker's `IncompleteDependencyPlan` for `devario-core/systemd` names

@@ -1,0 +1,22 @@
+# Maintainer: Devario maintainers
+
+pkgname=whitesur-cursors
+pkgver=2025.04.05
+pkgrel=1
+pkgdesc='WhiteSur macOS-style cursors'
+arch=('any')
+url='https://github.com/vinceliuice/WhiteSur-cursors'
+license=('GPL-3.0-only')
+options=('!strip')
+source=(
+  "whitesur-cursors-2025.04.05-whitesur-cursors.tar.gz::$url/archive/e190baf618ed95ee217d2fd45589bd309b37672b.tar.gz"
+)
+sha256sums=(
+  '35c817c2c26bc4d2c06801cfe6c924a068ad771d3846c5203b04d1c893dd5664'
+)
+
+package() {
+  cd 'WhiteSur-cursors-e190baf618ed95ee217d2fd45589bd309b37672b'
+  install -d "$pkgdir/usr/share/icons"
+  cp -r dist "$pkgdir/usr/share/icons/WhiteSur-cursors"
+}

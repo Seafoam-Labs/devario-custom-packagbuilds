@@ -1,0 +1,4 @@
+[firefox]
+source = "regex"
+url = "https://archive.mozilla.org/pub/firefox/releases/"
+regex = '/releases/(\d+(?:\.\d+)*)/'

@@ -1,0 +1,20 @@
+# Maintainer: Devario maintainers
+
+pkgname=numix-circle-icon-theme
+pkgver=26.02.21
+pkgrel=1
+pkgdesc='Circular application icons for the Numix theme'
+arch=('any')
+url='https://github.com/numixproject/numix-icon-theme-circle'
+license=('GPL-3.0-or-later')
+depends=('gtk-update-icon-cache' 'numix-icon-theme')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/26.02.21.tar.gz")
+sha256sums=('0a64821bc9ce005be4d2d2786bcbbfb0e908932e1c3c4cf65859da2cccd598ba')
+
+package() {
+  cd "numix-icon-theme-circle-26.02.21"
+  install -d "$pkgdir/usr/share/icons"
+  # Panel links resolve into the required numix-icon-theme package.
+  cp -r Numix-Circle Numix-Circle-Light "$pkgdir/usr/share/icons/"
+}

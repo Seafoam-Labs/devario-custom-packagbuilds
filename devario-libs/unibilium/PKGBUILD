@@ -1,0 +1,43 @@
+
+pkgname=unibilium
+pkgver=2.1.4
+pkgrel=1
+pkgdesc='A terminfo parsing library'
+arch=('x86_64')
+url='https://github.com/neovim/unibilium'
+depends=('glibc')
+# Shelly keeps a declared provision verbatim; add the SONAME form.
+provides=('libunibilium.so' 'libunibilium.so=4-64')
+license=('LGPL3')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/neovim/unibilium/archive/v$pkgver.tar.gz")
+sha512sums=('e1d351b7f4c13825c415f3b8078abd538863614a8aa443e3c5e5b85110372084ff4385c4b17eb7a546807188265285ca4b6493b6db9670d490f7743b89f11c4f')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+
+  autoreconf -fi  
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+
+  ./configure \
+    --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+
+  make test
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+
+  # Shelly preserves bare .so provisions; reject an unexpected library.
+  LC_ALL=C readelf -h "${pkgdir}"/usr/lib/libunibilium.so | grep -E 'Class:[[:space:]]+ELF64' >/dev/null || return 1
+  LC_ALL=C readelf -d "${pkgdir}"/usr/lib/libunibilium.so | grep -F 'Library soname: [libunibilium.so.4]' >/dev/null || return 1
+}

@@ -1,0 +1,37 @@
+pkgbase = sonora
+	pkgdesc = A native music streaming client, built with Rust and GPUI
+	pkgver = 0.43.0
+	pkgrel = 1
+	url = https://github.com/sonorahq/sonora
+	arch = x86_64
+	arch = aarch64
+	license = GPL-3.0-or-later
+	depends = glibc
+	depends = alsa-lib
+	depends = dbus
+	depends = fontconfig
+	depends = hicolor-icon-theme
+	depends = libxcb
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = sqlite
+	depends = vulkan-icd-loader
+	depends = wayland
+	optdepends = vulkan-radeon: Vulkan driver for AMD GPUs
+	optdepends = vulkan-intel: Vulkan driver for Intel GPUs
+	optdepends = nvidia-utils: Vulkan driver for NVIDIA GPUs
+	optdepends = pipewire-alsa: audio output through PipeWire
+	optdepends = pulseaudio-alsa: audio output through PulseAudio
+	optdepends = webkit2gtk-4.1: sign in to YouTube Music through a browser window
+	provides = sonora=0.43.0
+	conflicts = sonora
+	options = !strip
+	options = !debug
+	source = https://github.com/sonorahq/sonora/archive/refs/tags/v0.43.0/sonora-0.43.0.tar.gz
+	sha256sums = 9d680654b494e8010508a78d207edf30fc440abaebd9c9efcc940d68fab10e1b
+	source_x86_64 = sonora-0.43.0-x86_64::https://github.com/sonorahq/sonora/releases/download/v0.43.0/sonora-v0.43.0-x86_64-unknown-linux-gnu
+	sha256sums_x86_64 = b5e20b2dbcda152740ee95dbab4cf2a46b0002a75089a1e6bab061180c5ae91d
+	source_aarch64 = sonora-0.43.0-aarch64::https://github.com/sonorahq/sonora/releases/download/v0.43.0/sonora-v0.43.0-aarch64-unknown-linux-gnu
+	sha256sums_aarch64 = baa35793be20eaca6e2150e5a31011ec158fb98d41c9db0c62697881279d171e
+
+pkgname = sonora

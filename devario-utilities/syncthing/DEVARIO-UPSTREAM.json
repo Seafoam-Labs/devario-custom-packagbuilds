@@ -1,0 +1,6 @@
+{
+  "name": "syncthing",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/syncthing/-/archive/main/syncthing-main.tar.gz",
+  "sha256": "4890d4c8f609a055dd70f6a4a63c432ddf94a078289d99984baedfc0e8173554",
+  "bytes": 12347
+}

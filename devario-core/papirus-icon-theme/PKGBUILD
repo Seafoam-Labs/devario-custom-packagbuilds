@@ -1,0 +1,16 @@
+# Maintainer: Devario maintainers
+
+pkgname=papirus-icon-theme
+pkgver=20260801
+pkgrel=1
+pkgdesc='Papirus SVG icon theme'
+arch=('any')
+url='https://github.com/PapirusDevelopmentTeam/papirus-icon-theme'
+license=('GPL-3.0-only')
+depends=('gtk-update-icon-cache')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('646f622e9e7e9e65eef9d0ab58999d4920ddb33d98e6a75232627cfe3bd508f9')
+
+package() {
+  make -C "$srcdir/$pkgname-$pkgver" DESTDIR="$pkgdir" PREFIX=/usr install
+}

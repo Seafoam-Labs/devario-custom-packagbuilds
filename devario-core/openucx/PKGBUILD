@@ -2,8 +2,8 @@
 
 _name=ucx
 pkgname=openucx
-pkgver=1.20.1
-pkgrel=4
+pkgver=1.22.0
+pkgrel=1
 pkgdesc="Communication framework for data-centric and high-performance applications"
 arch=(x86_64)
 url="https://openucx.org/"
@@ -38,7 +38,7 @@ source=(
   $pkgname-$pkgver.tar.gz::https://github.com/openucx/$_name/archive/refs/tags/v$pkgver.tar.gz
   ucx-conf.patch
 )
-b2sums=('f6fd229ebd2984cefc7742fc7cc2ddb1022815ed00efb528e94454493cd734642ae7bf6315abfdc37187649836fa8ddc06087a8fdb51fa9f2b5bd136eb97a694'
+b2sums=('7935cc8d8034ffe446695b2928edec0605a06da2bf47fcb6215b85be47b6203d34be08d845df5f663ac3304f9a043b0df4aef9dbf6b1768b564ac3310ab97901'
         '2b3b4575ce64b947ecc42c9055934bcd7e5feb30031c6504f8cc3057cfc138b28c2826a6cc55be56d186e09e20c6201dacfc308647d9b62a5d33688348d15a68')
 
 prepare() {
@@ -58,7 +58,8 @@ build() {
     --with-rc
     --with-ud
     --with-dc
-    --with-mlx5-dv
+    # the gda module needs DOCA GPUNetIO headers vendored as a git submodule, absent from the release archive
+    --without-gda
     --enable-mt
   )
 

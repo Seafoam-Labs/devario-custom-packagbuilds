@@ -1,0 +1,13 @@
+pkgbase = unordered_dense
+	pkgdesc = A fast and densely stored hashmap and hashset
+	pkgver = 5.3.2
+	pkgrel = 1
+	url = https://github.com/martinus/unordered_dense
+	arch = any
+	license = MIT
+	makedepends = cmake
+	makedepends = git
+	source = git+https://github.com/martinus/unordered_dense.git#tag=v5.3.2
+	sha256sums = ab107b6a90cb699afac0abfe2cf275ba345534f9b8c83fd9bca40589ff6b82ba
+
+pkgname = unordered_dense
