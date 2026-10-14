@@ -3,8 +3,14 @@
 Seed for `../mingw-w64-gcc`, which is one side of a cycle: it depends on `mingw-w64-crt` and
 `mingw-w64-winpthreads`, and both of those name `mingw-w64-gcc` in `makedepends`, so the worker plan
 cannot provision any of the three while none is published. This recipe builds the stage-1 cross
-compiler and publishes it as `mingw-w64-gcc 16.2.0-1`; crt and winpthreads then build over it, and
+compiler and publishes it as `mingw-w64-gcc 16.2.0-1.1`; crt and winpthreads then build over it, and
 the real recipe follows at `16.2.0-2`.
+
+`package()` drops `/usr/share` because `install-gcc` writes host-side info pages, `gcc.mo` locale
+files, and the man7 licence pages that the native `gcc` package owns. Shelly's isolated root pulls
+`gcc` for base-devel alongside this seed, so shipping those files fails provisioning with
+`FileConflicts` before `prepare()` runs, which is what the first `16.2.0-1` publish did. The real
+recipe removes the same tree.
 
 Stage 1 follows the documented mingw-w64 bootstrap order: build `all-gcc` and `all-target-libgcc`
 only, then crt, then winpthreads, then the full compiler. `mingw-w64-crt`'s configure runs

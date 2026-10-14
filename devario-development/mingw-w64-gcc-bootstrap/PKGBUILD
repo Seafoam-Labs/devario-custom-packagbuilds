@@ -3,7 +3,7 @@
 
 pkgname=mingw-w64-gcc
 pkgver=16.2.0
-pkgrel=1
+pkgrel=1.1
 pkgdesc="Cross GCC for the MinGW-w64 cross-compiler (bootstrap seed)"
 arch=('x86_64')
 url="https://gcc.gnu.org"
@@ -67,4 +67,7 @@ package() {
     make DESTDIR="$pkgdir" install-gcc install-target-libgcc
     ln -s ${_arch}-gcc "$pkgdir"/usr/bin/${_arch}-cc
   done
+  # install-gcc writes host-side info/locale/man pages that the native gcc
+  # package owns, so a build root holding both dies on file conflicts.
+  rm -r "$pkgdir"/usr/share
 }
