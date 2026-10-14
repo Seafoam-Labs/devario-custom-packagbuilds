@@ -1,0 +1,17 @@
+pkgbase = msgpack-c
+	pkgdesc = An efficient object serialization library
+	pkgver = 7.0.2
+	pkgrel = 1
+	url = https://msgpack.org/
+	arch = x86_64
+	license = BSL-1.0
+	makedepends = cmake
+	makedepends = doxygen
+	makedepends = graphviz
+	depends = glibc
+	provides = libmsgpack-c.so
+	provides = libmsgpack-c.so=2-64
+	source = msgpack-c-7.0.2.tar.gz::https://github.com/msgpack/msgpack-c/archive/c-7.0.2.tar.gz
+	b2sums = d347d430473ee2a153a779446555e1de89bba90936365e9171505eb179c828b15f3952b24e720061c33da75bb115d690e57d419b3bc691611ca435ec97d83710
+
+pkgname = msgpack-c

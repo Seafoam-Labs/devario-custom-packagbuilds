@@ -1,0 +1,6 @@
+{
+  "name": "tree-sitter-vim",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/tree-sitter-vim/-/archive/main/tree-sitter-vim-main.tar.gz",
+  "sha256": "396434a2ed0a161bcdcf83c0a8d2a68da85fd43d95855eaac55958fc30516006",
+  "bytes": 1815
+}

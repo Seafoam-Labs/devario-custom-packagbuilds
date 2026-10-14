@@ -1,0 +1,47 @@
+# Maintainer: Konstantin Gizdov <arch at kge dot pw>
+# Maintainer: Torsten Keßler <tpkessler at archlinux dot org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Baptiste Jonglez
+# Contributor: Leen Jewel <leenjewel@gmail.com>
+# Contributor: Auguste Pop <auguste [at] gmail [dot] com>
+
+pkgname=msgpack-c
+pkgver=7.0.2
+pkgrel=1
+pkgdesc='An efficient object serialization library'
+arch=("x86_64")
+url='https://msgpack.org/'
+license=('BSL-1.0')
+depends=('glibc')
+makedepends=(
+  'cmake'
+  'doxygen'
+  'graphviz'
+)
+# Shelly keeps a declared provision verbatim; add the SONAME form.
+provides=(libmsgpack-c.so 'libmsgpack-c.so=2-64')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/msgpack/msgpack-c/archive/c-$pkgver.tar.gz")
+b2sums=('d347d430473ee2a153a779446555e1de89bba90936365e9171505eb179c828b15f3952b24e720061c33da75bb115d690e57d419b3bc691611ca435ec97d83710')
+
+build() {
+  cd $pkgname-c-$pkgver
+  # Shelly builds with --no-check, so the suite's checkdepends never install.
+  cmake -S . -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -Wno-dev \
+    -DBUILD_SHARED_LIBS=ON \
+    -DMSGPACK_ENABLE_STATIC=OFF \
+    -DMSGPACK_BUILD_EXAMPLES=OFF \
+    -DMSGPACK_BUILD_TESTS=OFF
+  cmake --build build
+}
+
+package() {
+  cd $pkgname-c-$pkgver
+  DESTDIR="$pkgdir" cmake --install build
+
+  # Shelly preserves bare .so provisions; reject an unexpected library.
+  LC_ALL=C readelf -h "$pkgdir"/usr/lib/libmsgpack-c.so | grep -E 'Class:[[:space:]]+ELF64' >/dev/null || return 1
+  LC_ALL=C readelf -d "$pkgdir"/usr/lib/libmsgpack-c.so | grep -F 'Library soname: [libmsgpack-c.so.2]' >/dev/null || return 1
+}
