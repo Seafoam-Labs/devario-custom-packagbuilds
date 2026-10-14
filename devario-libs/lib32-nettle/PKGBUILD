@@ -11,7 +11,7 @@ pkgdesc="A low-level cryptographic library (32-bit)"
 arch=('x86_64')
 url="https://www.lysator.liu.se/~nisse/nettle/"
 license=('LGPL-3.0-or-later OR GPL-2.0-or-later')
-depends=('lib32-glibc' 'lib32-gmp' $_pkgbasename=$pkgver)
+depends=('lib32-gcc-libs' 'lib32-glibc' 'lib32-gmp' $_pkgbasename=$pkgver)
 makedepends=(gcc-multilib)
 provides=('libnettle.so' 'libhogweed.so')
 source=(https://ftp.gnu.org/gnu/nettle/$_pkgbasename-$pkgver.tar.gz{,.sig})

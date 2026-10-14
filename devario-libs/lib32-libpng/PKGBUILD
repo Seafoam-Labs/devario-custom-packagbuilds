@@ -13,7 +13,7 @@ pkgdesc='A collection of routines used to create PNG format graphics files (32-b
 arch=('x86_64')
 url='http://www.libpng.org/pub/png/libpng.html'
 license=('libpng-2.0')
-depends=('lib32-zlib' $_pkgbasename)
+depends=('lib32-gcc-libs' 'lib32-zlib' $_pkgbasename)
 makedepends=('git')
 provides=('libpng16.so')
 source=("git+https://github.com/pnggroup/libpng.git?signed#tag=v${pkgver}")

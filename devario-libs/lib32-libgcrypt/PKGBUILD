@@ -17,7 +17,7 @@ license=(
     'LicenseRef-scancode-public-domain'
     'LicenseRef-OCB1'
 )
-depends=('lib32-libgpg-error' 'lib32-glibc' $_pkgbasename)
+depends=('lib32-gcc-libs' 'lib32-libgpg-error' 'lib32-glibc' $_pkgbasename)
 makedepends=(gcc-multilib libtool-multilib)
 source=(https://gnupg.org/ftp/gcrypt/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.bz2{,.sig})
 sha1sums=('2907251e1dc68001fcdbeb0b73c2233fdd2dd786'

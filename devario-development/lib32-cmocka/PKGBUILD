@@ -9,6 +9,7 @@ url='https://cmocka.org/'
 arch=(x86_64)
 license=(Apache-2.0)
 depends=(
+  lib32-gcc-libs
   cmocka
   lib32-glibc
 )

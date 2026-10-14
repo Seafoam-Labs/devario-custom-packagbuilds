@@ -10,7 +10,7 @@ pkgdesc="OpenCL ICD Bindings (32-bit)"
 arch=('x86_64')
 url="https://github.com/OCL-dev/ocl-icd"
 license=('BSD-2-Clause')
-depends=('lib32-glibc')
+depends=('lib32-gcc-libs' 'lib32-glibc')
 makedepends=('ruby' 'lib32-mesa' 'opencl-headers>=2.1' 'gcc-multilib')
 checkdepends=()
 provides=('lib32-opencl-icd-loader')

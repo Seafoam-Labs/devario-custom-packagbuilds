@@ -12,7 +12,7 @@ pkgdesc="A C library for executing name service queries asynchronously (32-bit)"
 url="https://0pointer.net/lennart/projects/libasyncns/"
 arch=(x86_64)
 license=(LGPL)
-depends=(lib32-glibc libasyncns)
+depends=(lib32-gcc-libs lib32-glibc libasyncns)
 makedepends=(git lynx)
 _commit=68cd5aff1467638c086f1bedcc750e34917168e4  # master
 # Fetch only from Seafoam Labs. Use a distinct cache name so an old

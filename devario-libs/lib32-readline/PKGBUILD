@@ -13,7 +13,7 @@ pkgdesc="GNU readline library (32-bit)"
 arch=(x86_64)
 url="https://tiswww.case.edu/php/chet/readline/rltop.html"
 license=('GPL-3.0-or-later')
-depends=('lib32-glibc' 'lib32-ncurses' $_pkgbasename)
+depends=('lib32-gcc-libs' 'lib32-glibc' 'lib32-ncurses' $_pkgbasename)
 makedepends=('gcc-multilib')
 source=(
   https://ftp.gnu.org/gnu/readline/readline-$_basever.tar.gz{,.sig}

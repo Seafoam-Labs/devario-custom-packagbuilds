@@ -13,7 +13,7 @@ pkgdesc="A library which provides a secure layer over a reliable transport layer
 arch=('x86_64')
 license=('GPL-3.0-or-later AND LGPL-2.1-or-later')
 url="https://gnutls.org/"
-depends=('lib32-nettle' 'libnettle.so' 'libhogweed.so'
+depends=('lib32-gcc-libs' 'lib32-nettle' 'libnettle.so' 'libhogweed.so'
          'lib32-p11-kit' 'libp11-kit.so' 'lib32-libtasn1' 'libtasn1.so'
          'lib32-libidn2' 'gnutls' 'lib32-brotli' 'lib32-zstd'
          'lib32-zlib')

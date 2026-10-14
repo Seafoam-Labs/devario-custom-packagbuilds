@@ -12,6 +12,7 @@ license=(
   'BSD-3-Clause WITH PCRE2-exception'
 )
 depends=(
+  lib32-gcc-libs
   lib32-glibc
   "$_name=$pkgver"
 )

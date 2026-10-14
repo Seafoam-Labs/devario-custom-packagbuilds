@@ -9,7 +9,7 @@ pkgdesc='Miscellaneous system utilities for Linux (32-bit)'
 url='https://github.com/util-linux/util-linux'
 arch=('x86_64')
 makedepends=('git' 'meson' 'lib32-libxcrypt' 'lib32-ncurses')
-depends=('util-linux-libs' 'lib32-glibc')
+depends=('lib32-gcc-libs' 'util-linux-libs' 'lib32-glibc')
 provides=('libuuid.so' 'libblkid.so' 'libfdisk.so' 'libmount.so' 'libsmartcols.so')
 license=(
   'BSD-2-Clause'
