@@ -23,22 +23,26 @@ depends=(
 )
 makedepends=(
   gyp
-  mercurial
   perl
   python
 )
+
+# Shelly supports HTTPS archives, but not Arch's hg+https source protocol.
+# The tarball digest is published in Mozilla's adjacent SHA256SUMS file.
 source=(
-  "hg+https://hg.mozilla.org/projects/nss#tag=NSS_${pkgver//./_}_RTM"
+  "https://archive.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/nss-${pkgver}.tar.gz"
   0001-Hack-mpi_x86.s-to-work-with-fno-plt.patch
 )
-b2sums=('43415cf6bfbf8c7bda54bfad9fc55f23d609e5e1139f1bb6d84633a127ad6d1db2dd13b7494330c8a191aa7f901e227a0b986a1f29281fb8f35dc6031ac14c57'
-        '6d7bfcfc2b7681ca24b220b8f07d55e305342ee4e3475a221f71d21c83b5a5e998ef9e2779ca1c76d9075a80de0f42a7f97565ab568dc47530ee2accc9eec966')
+sha256sums=(
+  'ca0005bc77e9255d9942103e6f9756cfe311a3df72afa99860709e386eb3c167'
+  '723f990cf2d3689badf16e9fea4772c9a2011369506a5a57c496a17aabd6b7e4'
+)
 
 prepare() {
-  cd nss
+  cd "nss-${pkgver}/nss"
 
   # https://bugzilla.mozilla.org/show_bug.cgi?id=1382942
-  patch -Np1 -i ../0001-Hack-mpi_x86.s-to-work-with-fno-plt.patch
+  patch -Np1 -i "${srcdir}/0001-Hack-mpi_x86.s-to-work-with-fno-plt.patch"
 }
 
 build() {
@@ -51,13 +55,15 @@ build() {
     --target ia32
   )
 
-  cd nss
+  cd "nss-${pkgver}/nss"
   ./build.sh "${buildsh_options[@]}"
 }
 
 package_lib32-nss() {
   local nsprver="$(i686-pc-linux-gnu-pkg-config --modversion nspr)"
   local libdir=/usr/lib32 includedir=/usr/include/nss
+
+  cd "nss-${pkgver}"
 
   sed nss/pkg/pkg-config/nss.pc.in \
     -e "s,%prefix%,/usr,g" \
