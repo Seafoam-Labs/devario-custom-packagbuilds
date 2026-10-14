@@ -1,12 +1,12 @@
 pkgbase = neovim
 	pkgdesc = Fork of Vim aiming to improve user experience, plugins, and GUIs
-	pkgver = 0.12.5
-	pkgrel = 2
+	pkgver = 0.12.6
+	pkgrel = 1
 	url = https://neovim.io
 	arch = x86_64
 	license = Apache-2.0
 	license = LicenseRef-vim
-	makedepends = cmake
+	makedepends = cmake>=3.16
 	makedepends = git
 	makedepends = ninja
 	makedepends = lua51-mpack
@@ -36,10 +36,10 @@ pkgbase = neovim
 	provides = nvim
 	provides = vim-plugin-runtime
 	backup = etc/xdg/nvim/sysinit.vim
-	source = git+https://github.com/neovim/neovim.git#tag=v0.12.5
+	source = git+https://github.com/neovim/neovim.git#tag=v0.12.6
 	source = nvimdoc
 	source = nvimdoc.hook
-	sha512sums = 5d95079724d97a935154e2d488b004d2737ef583b30ba980abeb7543d6d8b1741ed6838f5fab7efa382f9b84229cbfba48a0e8b410de794e01ef0fd1a99377ec
+	sha512sums = 8306453602859b5d5d664e10d007f6d0edcd8be2c03e9e4767ae32e66e84e7e4611fc994911bb0f62f9b0aee7f71b76cf5ff45c12b5f2b35313d078aecea0c5a
 	sha512sums = 22662462c823de243599cdd3483e46ade4ab59b219e907468d34c18e584fe7477548e357ee2ce56bb098cf54b770b108a3511703dd486f0774a65c84af78f6aa
 	sha512sums = 068c3a7804d1ee7c114050dfddb3c1c4d67299a7091a56b94a3a87956e6b3258b04f35f828eba37e09168c6859fd1e5ffe0a23cb3808bf145a78c215737b3faa
 
