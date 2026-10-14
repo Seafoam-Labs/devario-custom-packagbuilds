@@ -1,0 +1,95 @@
+# Maintainer: Peter Jung ptr1337 <admin@ptr1337.dev>
+# Maintainer: Piotr Górski <lucjan.lucjanov@gmail.com>
+# Contributor: Tejun Heo <tj@kernel.org>
+
+# Available profiles: “release”, “release-tiny”, “release-fast“
+# See: https://github.com/sched-ext/scx/blob/main/Cargo.toml
+_mode=release
+
+pkgname=scx-scheds
+_gitname=scx
+pkgver=1.1.3
+pkgrel=1.1
+pkgdesc='sched_ext schedulers and tools'
+url='https://github.com/sched-ext/scx'
+arch=('x86_64')
+license=('GPL-2.0-only')
+depends=(
+  libseccomp
+  libelf
+  zlib
+)
+makedepends=(
+  cargo
+  clang
+  git
+  llvm
+  llvm-libs
+)
+optdepends=(
+'scx-tools: scx_loader, scxctl and scxtui - A DBUS Interface for Managing sched_ext Schedulers '
+)
+options=(!lto)
+source=("git+https://github.com/sched-ext/scx#tag=v$pkgver")
+sha256sums=('282b4a9365fc2635ba554ee46f6decbe78f1d06340a8dee3f1573931e8a3973a')
+
+_backports=(
+6624f0f178e233b2f733825e5e08549048ca3700 # scx_cake: nightly squash — R.28 per-task geometry + veto trade priced (2026-08-19)
+bdbf5eec541fdd48ed825d8e07cebdf5aad10e63 # scx_cake: remove build-host topology baking — one binary runs on all hardware
+18dbe236217a907a4f165bb89e8f75a3fda9ab46 # PANDEMONIUMv5.19.0:
+)
+
+_reverts=(
+)
+
+prepare() {
+  cd $_gitname
+
+  local _c _l
+   for _c in "${_backports[@]}"; do
+     if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+     git log --oneline "${_l}" "${_c}"
+     git cherry-pick --mainline 1 --no-commit "${_c}"
+   done
+   for _c in "${_reverts[@]}"; do
+     if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+     git log --oneline "${_l}" "${_c}"
+     git revert --mainline 1 --no-commit "${_c}"
+   done
+
+  local src
+   for src in "${source[@]}"; do
+     src="${src%%::*}"
+     src="${src##*/}"
+     [[ $src = *.patch ]] || continue
+     echo "Applying patch $src..."
+     patch -Np1 < "../$src"
+   done
+
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd $_gitname
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build \
+     --profile=$_mode \
+     --frozen \
+     --workspace \
+     --exclude scx_rlfifo \
+     --exclude scx_characterize \
+     --exclude xtask \
+     --exclude vmlinux_docify \
+     --exclude scx_arena_selftests
+}
+
+package() {
+  cd $_gitname
+
+  # Install all built executables (skip .so and .d files)
+  find target/$_mode \
+    -maxdepth 1 -type f -executable ! -name '*.so' \
+    -exec install -Dm755 -t "$pkgdir/usr/bin/" {} +
+}
