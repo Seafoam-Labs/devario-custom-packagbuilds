@@ -1,0 +1,28 @@
+# Maintainer: Devario maintainers
+
+pkgname=xorg-xcursorgen
+pkgver=1.0.9
+pkgrel=1
+pkgdesc='Create Xcursor files from PNG images'
+arch=('x86_64')
+url='https://gitlab.freedesktop.org/xorg/app/xcursorgen'
+license=('HPND-sell-variant')
+depends=('glibc' 'libx11' 'libxcursor' 'libpng')
+makedepends=('meson' 'ninja' 'pkgconf' 'xorgproto')
+groups=('xorg-apps' 'xorg')
+source=("https://xorg.freedesktop.org/releases/individual/app/xcursorgen-$pkgver.tar.xz")
+sha256sums=('0cc9e156ac84ca16ea902710af35e0faffa51d13797071e3b4b6cc7cbd493bbc')
+
+build() {
+  meson setup "xcursorgen-$pkgver" build \
+    --prefix=/usr \
+    --buildtype=plain \
+    --wrap-mode=nodownload
+  meson compile -C build
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build --no-rebuild
+  install -Dm644 "xcursorgen-$pkgver/COPYING" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}
