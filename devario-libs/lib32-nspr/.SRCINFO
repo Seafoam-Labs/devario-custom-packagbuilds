@@ -6,6 +6,7 @@ pkgbase = lib32-nspr
 	arch = x86_64
 	license = MPL-2.0
 	makedepends = git
+	makedepends = lib32-gcc-libs
 	makedepends = zip
 	depends = lib32-glibc
 	depends = nspr

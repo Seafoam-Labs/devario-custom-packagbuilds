@@ -18,6 +18,8 @@ depends=(
 )
 makedepends=(
   git
+  # the -m32 link of config/now needs lib32-gcc-libs for /usr/lib32/libgcc_s.so.1
+  lib32-gcc-libs
   zip
 )
 source=(
