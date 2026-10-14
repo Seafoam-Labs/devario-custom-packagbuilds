@@ -1,0 +1,37 @@
+# Maintainer: Devario maintainers
+# SPDX-License-Identifier: GPL-2.0-or-later
+pkgname=fpc-bootstrap
+pkgver=3.2.2
+pkgrel=1
+pkgdesc="Prebuilt Free Pascal compiler used only to bootstrap fpc from source"
+arch=('x86_64')
+url="https://www.freepascal.org/"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+options=(!strip)
+_prefix=/usr/lib/fpc-bootstrap
+_components=(base utils-fpcm utils-fpcmkcfg)
+source=("https://downloads.sourceforge.net/project/freepascal/Linux/${pkgver}/fpc-${pkgver}.x86_64-linux.tar")
+sha512sums=('534df830a951824525044479ded23ef1e61b104c0dd65c837ad0d8d9ced9eb7349925a3f759756aa95ae17e567d8b1cd5c7e2092d3c665eaac578845b48aa467')
+
+prepare() {
+  cd "${srcdir}"/fpc-${pkgver}.x86_64-linux
+  local c
+  for c in "${_components[@]}"; do
+    tar -xf binary.x86_64-linux.tar "${c}.x86_64-linux.tar.gz"
+  done
+}
+
+package() {
+  local _p="${pkgdir}${_prefix}"
+  local c
+  install -dm755 "${_p}"
+  for c in "${_components[@]}"; do
+    tar -xzf "${srcdir}"/fpc-${pkgver}.x86_64-linux/"${c}.x86_64-linux.tar.gz" -C "${_p}"
+  done
+  rm -rf "${_p}"/man
+
+  ln -s "../lib/fpc/${pkgver}/ppcx64" "${_p}"/bin/ppcx64
+
+  "${_p}/lib/fpc/${pkgver}/samplecfg" "${_p}/lib/fpc/${pkgver}" "${_p}/lib/fpc/etc"
+  find "${_p}/lib/fpc/etc" -type f -exec sed -i "s|${pkgdir}||g" {} +
+}

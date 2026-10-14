@@ -15,7 +15,7 @@ url="http://www.freepascal.org/"
 license=('GPL' 'LGPL' 'custom')
 backup=("etc/fpc.cfg")
 depends=('ncurses' 'zlib' 'expat' 'binutils' 'make')
-makedepends=(fpc)
+makedepends=('fpc-bootstrap')
 options=(zipman libtool staticlibs)
 source=("https://downloads.sourceforge.net/project/freepascal/Source/${pkgver}/fpcbuild-${pkgver}.tar.gz"
         honor_SOURCE_DATE_EPOCH_in_date.patch
@@ -32,6 +32,7 @@ prepare() {
 
 build() {
   cd "${srcdir}"/fpcbuild-${pkgver}
+  export PATH="/usr/lib/fpc-bootstrap/bin:${PATH}"
   pushd fpcsrc/compiler
   fpcmake -Tall
   popd
@@ -42,6 +43,7 @@ package() {
   cd "${srcdir}"/fpcbuild-${pkgver}
 
   export HOME="${srcdir}"
+  export PATH="/usr/lib/fpc-bootstrap/bin:${PATH}"
 
   make -j1 PREFIX="${pkgdir}"/usr NO_MAN_COMPRESS=1 install
 
