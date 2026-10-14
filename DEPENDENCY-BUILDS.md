@@ -1,5 +1,48 @@
 # Missing dependency builds for Shelly
 
+## Libluv for Neovim (2026-10-14)
+
+`devario-development/neovim` names `libluv`, which no Devario repository
+publishes and for which this tree carried no recipe. Arch builds `libluv` as
+a six-output pkgbase, one shared library plus a module per Lua series, and
+its global `makedepends` cover every series, including `lua51` and `lua53`,
+neither of which this tree packages. Three new recipes close the set.
+
+The imports are Arch's
+[libluv](https://gitlab.archlinux.org/archlinux/packaging/packages/libluv),
+[lua51](https://gitlab.archlinux.org/archlinux/packaging/packages/lua51) and
+[lua53](https://gitlab.archlinux.org/archlinux/packaging/packages/lua53)
+recipe directories copied verbatim, patches, checksums and packaging licenses
+included. `lua51` and `lua53` sit beside the existing `lua52` recipe in
+`devario-core`; `libluv` is a shared library and lands in `devario-libs`.
+
+Only `libluv` departs from Arch's text: `package_libluv()` declares
+`libluv.so` and `libluv.so=1-64` and refuses to publish an unexpected ELF
+class or SONAME, because Shelly publishes a declared provision exactly as
+written. A host build of the shared-library configuration reproduces Arch's
+`libluv.so.1`, whose only recorded needs are `libuv.so.1` and `libc.so.6`.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | [lua51](devario-core/lua51/PKGBUILD) | `5.1.5-13` | Lua 5.1 interpreter and headers |
+| 1 | [lua53](devario-core/lua53/PKGBUILD) | `5.3.6-4` | Lua 5.3 interpreter and headers |
+| 2 | [libluv](devario-libs/libluv/PKGBUILD) | `1.52.1-1` | libuv bindings, six outputs |
+
+Every other `libluv` prerequisite is already published: `lua` 5.5.1, `lua52`,
+`lua54`, `luajit`, `libuv`, `cmake` and `ninja`. The module builds read
+`/usr/bin/lua<ver>` and `/usr/include/lua<ver>`, and the probe-built `lua51`
+and `lua53` archives supply those paths the way the published `lua52` and
+`lua54` already do.
+
+Neovim still cannot build after this lands. Its own closure leaves twelve
+names unsatisfied with no recipe in the tree or on `origin/main`:
+`lua51-lpeg`, `lua51-mpack`, `msgpack-c`, `libvterm`, `unibilium` together
+with its `libunibilium.so` provider, and the `tree-sitter-c`, `-lua`,
+`-markdown`, `-query`, `-vim` and `-vimdoc` grammar packages.
+
 ## Kitty terminal, Slang, and their closure (2026-10-14)
 
 The `kitty` terminal recipe needs four names that no Devario repository
