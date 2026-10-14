@@ -61,6 +61,11 @@ package_ttf-nerd-fonts-symbols-common() {
     "$pkgdir"/usr/share/licenses/ttf-nerd-fonts-symbols-common/LICENSE
 }
 
-for _pkgname in "${pkgname[@]/*-common}"; do
-  eval "package_$_pkgname() { _package $_pkgname; }"
-done
+# Shelly resolves split-package functions statically, so declare both here.
+package_ttf-nerd-fonts-symbols() {
+  _package ttf-nerd-fonts-symbols
+}
+
+package_ttf-nerd-fonts-symbols-mono() {
+  _package ttf-nerd-fonts-symbols-mono
+}
