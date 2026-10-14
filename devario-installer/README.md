@@ -22,11 +22,11 @@ live user and Calamares-created accounts.
 | [seafoam-keyring](seafoam-keyring/PKGBUILD) | Legacy; excluded from the default ISO |
 | [devario-boot](devario-boot/PKGBUILD) | After devario-dracut; before devario-base |
 | [devario-base](devario-base/PKGBUILD) | After filesystem, boot, devario-keyring, Fish, and Shadow |
-| [devario-aqueous-desktop](devario-aqueous-desktop/PKGBUILD) | After the five Aqueous 1.0.2-1 components, bolt, boltctl, and python-pyudev |
+| [devario-aqueous-desktop](devario-aqueous-desktop/PKGBUILD) | After the five Aqueous components >=1.0.2, bolt, boltctl, and python-pyudev |
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |
 
-`devario-filesystem` 1-2 and `devario-aqueous-desktop` 1-12 are synchronized
+`devario-filesystem` 1-2 and `devario-aqueous-desktop` 1-13 are synchronized
 with the current OS checkout, including the Devario display name and eGPU
 supporting files. Bolt and boltctl are built together by
 [`devario-core/bolt`](../devario-core/bolt/PKGBUILD).
