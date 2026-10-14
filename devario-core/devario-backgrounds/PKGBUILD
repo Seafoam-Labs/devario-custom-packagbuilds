@@ -1,0 +1,19 @@
+# Maintainer: Devario maintainers
+# SPDX-License-Identifier: GPL-3.0-or-later
+pkgname=devario-backgrounds
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='Devario desktop backgrounds from the Seafoam Labs asset collection'
+arch=('any')
+url='https://github.com/Seafoam-Labs/Assets'
+license=('CC-BY-SA-4.0')
+source=("chel.png::https://raw.githubusercontent.com/Seafoam-Labs/Assets/main/chel.png"
+        "chel_scuba.png::https://raw.githubusercontent.com/Seafoam-Labs/Assets/main/chel_scuba.png")
+sha256sums=('SKIP' 'SKIP')
+
+package() {
+  local file
+  for file in chel.png chel_scuba.png; do
+    install -Dm644 "$srcdir/$file" "$pkgdir/usr/share/backgrounds/devario-backgrounds/$file"
+  done
+}

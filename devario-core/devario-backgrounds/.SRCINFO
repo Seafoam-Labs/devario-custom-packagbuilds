@@ -1,0 +1,13 @@
+pkgbase = devario-backgrounds
+	pkgdesc = Devario desktop backgrounds from the Seafoam Labs asset collection
+	pkgver = 1.1.0
+	pkgrel = 1
+	url = https://github.com/Seafoam-Labs/Assets
+	arch = any
+	license = CC-BY-SA-4.0
+	source = chel.png::https://raw.githubusercontent.com/Seafoam-Labs/Assets/main/chel.png
+	source = chel_scuba.png::https://raw.githubusercontent.com/Seafoam-Labs/Assets/main/chel_scuba.png
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = devario-backgrounds
