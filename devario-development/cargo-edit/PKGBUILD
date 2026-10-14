@@ -4,7 +4,7 @@
 
 pkgname=cargo-edit
 pkgver=0.13.13
-pkgrel=1
+pkgrel=2
 pkgdesc='Managing cargo dependencies from the command line'
 url='https://github.com/killercup/cargo-edit/releases'
 arch=('x86_64')
@@ -28,6 +28,9 @@ _srcenv() {
 
 prepare() {
   _srcenv
+  # cargo changed "latest compatible" -> "highest compatible" in lock output
+  sed -i 's/to latest compatible versions/to highest compatible versions/' \
+    tests/cargo-upgrade/*/stderr.term.svg
   cargo fetch --locked --target host-tuple
 }
 
