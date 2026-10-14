@@ -55,13 +55,11 @@ package() {
 
   mkdir -p "${pkgdir}"/etc
   "${pkgdir}"/usr/lib/fpc/${pkgver}/samplecfg "${pkgdir}/usr/lib/fpc/${pkgver}" "${pkgdir}"/etc
-  "${pkgdir}"/usr/lib/fpc/${pkgver}/samplecfg "/usr/lib/fpc/${pkgver}" "${pkgdir}"/etc
-  cp "${srcdir}/.fp/fp."{cfg,ini} "${pkgdir}/usr/lib/fpc/${pkgver}/ide/text/"
 
   # use -fPIC by default
   echo -e "#ifdef cpux86_64\n# for x86_64 use -fPIC by default\n-Cg\n#endif" >> "${pkgdir}/etc/fpc.cfg"
 
   mv "${pkgdir}"/usr/man "${pkgdir}"/usr/share/
 
-  find "${pkgdir}"/etc/ -type f -exec sed -i "s|"${pkgdir}"||g" {} \;
+  find "${pkgdir}"/etc/ "${pkgdir}"/usr/lib/fpc/${pkgver}/ide/ -type f -exec sed -i "s|"${pkgdir}"||g" {} \;
 }
