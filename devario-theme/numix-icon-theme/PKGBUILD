@@ -1,0 +1,22 @@
+# Maintainer: Devario maintainers
+
+pkgname=numix-icon-theme
+pkgver=25.12.15
+pkgrel=1
+pkgdesc='Numix base icon theme'
+arch=('any')
+url='https://github.com/numixproject/numix-icon-theme'
+license=('GPL-3.0-or-later')
+depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
+optdepends=('adwaita-icon-theme: fallback icons' 'breeze-icons: fallback icons')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/25.12.15.tar.gz")
+sha256sums=('20db3921eecb024139dbf0c20b32101b48f464a56c5072cb2fd7d41581e1816d')
+
+package() {
+  cd "numix-icon-theme-25.12.15"
+  install -d "$pkgdir/usr/share/icons"
+  cp -r Numix Numix-Light "$pkgdir/usr/share/icons/"
+  # Omit upstream aliases whose target icons are absent.
+  find "$pkgdir/usr/share/icons" -xtype l -delete
+}

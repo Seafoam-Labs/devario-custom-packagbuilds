@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+
+pkgname=catppuccin-cursors
+pkgver=2.0.0
+pkgrel=1
+pkgdesc='Catppuccin cursors with light and dark variants of all four flavors'
+arch=('any')
+url='https://github.com/catppuccin/cursors'
+license=('GPL-2.0-only')
+options=('!strip')
+source=(
+  "catppuccin-cursors-2.0.0-catppuccin-frappe-dark-cursors.zip::$url/releases/download/v2.0.0/catppuccin-frappe-dark-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-frappe-light-cursors.zip::$url/releases/download/v2.0.0/catppuccin-frappe-light-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-latte-dark-cursors.zip::$url/releases/download/v2.0.0/catppuccin-latte-dark-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-latte-light-cursors.zip::$url/releases/download/v2.0.0/catppuccin-latte-light-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-macchiato-dark-cursors.zip::$url/releases/download/v2.0.0/catppuccin-macchiato-dark-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-macchiato-light-cursors.zip::$url/releases/download/v2.0.0/catppuccin-macchiato-light-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-mocha-dark-cursors.zip::$url/releases/download/v2.0.0/catppuccin-mocha-dark-cursors.zip"
+  "catppuccin-cursors-2.0.0-catppuccin-mocha-light-cursors.zip::$url/releases/download/v2.0.0/catppuccin-mocha-light-cursors.zip"
+)
+sha256sums=(
+  'a3eaea75b6c8fd6908716b5e8bc769da581f2246a39a7d1a1f9d5c1ee4d72608'
+  'c0df379cb2413c38451b0f990a42879489ef85dac2e108498802f7032d2bfd7e'
+  '0b39cfc2d367cdde6b876a1afb649da8cc56c1d8ddd7b50abbe9ef53dc5f9699'
+  '4c0752cfa2da6c4cbcfe9539ca92585144b34651f22acf6cecf18850cb938880'
+  '206ea3995f859baef5f4f7bd2669ecd16a60d70d9d4241b7eea7a89b0dde7572'
+  'a1d55b07dddfca4678cb300b5b75618de66d730cc22cedaba1ed6f2952a7db1c'
+  'a4d976491bdb1b1311b2de88327cad3f1c66c2d9da896e0c56362a660c802585'
+  '29e530a7e228396c9e4e35fc4b457fb4e77d2872e0ba88cd1ac4bce3099414e3'
+)
+
+package() {
+  install -d "$pkgdir/usr/share/icons"
+  cp -r catppuccin-{frappe,latte,macchiato,mocha}-{dark,light}-cursors "$pkgdir/usr/share/icons/"
+}

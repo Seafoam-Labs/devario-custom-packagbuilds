@@ -1,0 +1,28 @@
+# Maintainer: Devario maintainers
+
+pkgname=whitesur-icon-theme
+pkgver=2025.02.10
+pkgrel=1
+pkgdesc='macOS Big Sur style WhiteSur icon theme'
+arch=('any')
+url='https://github.com/vinceliuice/WhiteSur-icon-theme'
+license=('GPL-3.0-only')
+depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
+optdepends=('breeze-icons: fallback icons')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v2025-02-10.tar.gz")
+sha256sums=('b94a3db27bd746c267b882a957f863e3ef62eebec7d21c4436b90913597386a6')
+
+prepare() {
+  cd "WhiteSur-icon-theme-2025-02-10"
+  # Package-manager hooks generate caches after installation.
+  sed -i '/^[[:space:]]*gtk-update-icon-cache /d' install.sh
+}
+
+package() {
+  cd "WhiteSur-icon-theme-2025-02-10"
+  install -d "$pkgdir/usr/share/icons"
+  bash install.sh -d "$pkgdir/usr/share/icons"
+  # Upstream creates an absolute link into the staging directory.
+  ln -sfn 32 "$pkgdir/usr/share/icons/WhiteSur/preferences/22"
+}

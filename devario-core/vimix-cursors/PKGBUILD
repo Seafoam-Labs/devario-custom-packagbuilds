@@ -1,0 +1,24 @@
+# Maintainer: Devario maintainers
+
+pkgname=vimix-cursors
+pkgver=2020.02.24
+pkgrel=1
+pkgdesc='Vimix cursors in dark and white variants'
+arch=('any')
+url='https://github.com/vinceliuice/Vimix-cursors'
+license=('GPL-3.0-only')
+options=('!strip')
+source=(
+  "vimix-cursors-2020.02.24-vimix-cursors.tar.gz::$url/archive/refs/tags/2020-02-24.tar.gz"
+)
+sha256sums=(
+  '69298d02264b5b15239c340f8fa899f91574c0eac49ad5745e8e588315423618'
+)
+
+package() {
+  cd 'Vimix-cursors-2020-02-24'
+  install -d "$pkgdir/usr/share/icons"
+  # Use these exact directory names as the Xcursor theme identifiers.
+  cp -r dist "$pkgdir/usr/share/icons/Vimix"
+  cp -r dist-white "$pkgdir/usr/share/icons/Vimix-white"
+}

@@ -1,0 +1,22 @@
+# Maintainer: Devario maintainers
+
+pkgname=morewaita-icon-theme
+pkgver=50.1
+pkgrel=1
+pkgdesc='Additional Adwaita-style application and file icons'
+arch=('any')
+url='https://github.com/somepaulo/MoreWaita'
+license=('GPL-3.0-only')
+depends=('gtk-update-icon-cache' 'adwaita-icon-theme' 'adwaita-icon-theme-legacy')
+makedepends=('meson' 'ninja')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v50.1.tar.gz")
+sha256sums=('000e858d346e64bfdb87fb305e8046e09f5554385cf9c213fe648887fe218940')
+
+build() {
+  meson setup "MoreWaita-50.1" build --prefix=/usr --buildtype=plain
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build --no-rebuild
+}

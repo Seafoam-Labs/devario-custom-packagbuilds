@@ -1,0 +1,27 @@
+# Maintainer: Devario maintainers
+
+pkgname=google-cursors
+pkgver=2.0.0
+pkgrel=1
+pkgdesc='GoogleDot cursors in black, blue, red, and white'
+arch=('any')
+url='https://github.com/ful1e5/Google_Cursor'
+license=('GPL-3.0-only')
+options=('!strip')
+source=(
+  "google-cursors-2.0.0-GoogleDot-Black.tar.gz::$url/releases/download/v2.0.0/GoogleDot-Black.tar.gz"
+  "google-cursors-2.0.0-GoogleDot-Blue.tar.gz::$url/releases/download/v2.0.0/GoogleDot-Blue.tar.gz"
+  "google-cursors-2.0.0-GoogleDot-Red.tar.gz::$url/releases/download/v2.0.0/GoogleDot-Red.tar.gz"
+  "google-cursors-2.0.0-GoogleDot-White.tar.gz::$url/releases/download/v2.0.0/GoogleDot-White.tar.gz"
+)
+sha256sums=(
+  'f9d84dccabfac08626a1a48cdbc4af909154988f3d66d39013a844fcafbd00e3'
+  '55cfacf39c71d4a1668c1fe6be7c1a5d138f9f68e08df0cea96af4e2422f729d'
+  '2db37d92d2fd0e9b6144c6560e29f61189c4c96cefd41f2f5b1d440a1befd50d'
+  'cd369380d6d597fdee01fc72981109bf61933db96efc3b27b49dc88763b3cdb0'
+)
+
+package() {
+  install -d "$pkgdir/usr/share/icons"
+  cp -r GoogleDot-{Black,Blue,Red,White} "$pkgdir/usr/share/icons/"
+}

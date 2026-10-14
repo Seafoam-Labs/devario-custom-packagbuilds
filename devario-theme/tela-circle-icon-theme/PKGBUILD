@@ -1,0 +1,30 @@
+# Maintainer: Devario maintainers
+
+pkgname=tela-circle-icon-theme
+pkgver=2026.07.07
+pkgrel=1
+pkgdesc='Flat and colorful Tela Circle icon theme'
+arch=('any')
+url='https://github.com/vinceliuice/Tela-circle-icon-theme'
+license=('GPL-3.0-or-later')
+depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
+optdepends=('adwaita-icon-theme: fallback icons' 'breeze-icons: fallback icons')
+options=('!strip')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/2026-07-07.tar.gz")
+sha256sums=('0a8aee6e95f19ff96cc497d804c75e2af4271a5e6472c55891fb8ac5b099b59b')
+
+prepare() {
+  cd "Tela-circle-icon-theme-2026-07-07"
+  # Package-manager hooks generate caches after installation.
+  sed -i '/^[[:space:]]*gtk-update-icon-cache /d' install.sh
+  # Keep the payload independent of the build host's distribution.
+  sed -i '/^if command -v lsb_release /,/^fi$/c\ICON_VERSION=normal' install.sh
+}
+
+package() {
+  cd "Tela-circle-icon-theme-2026-07-07"
+  install -d "$pkgdir/usr/share/icons"
+  bash install.sh -d "$pkgdir/usr/share/icons"
+  # Omit upstream aliases whose target icons are absent.
+  find "$pkgdir/usr/share/icons" -xtype l -delete
+}
