@@ -878,12 +878,12 @@ OS-owned live USB and installer recipes are in
 
 | Directory | Version | Build/publish order |
 | --- | --- | --- |
-| `devario-filesystem` | 1-1 | Before OS metapackages |
+| `devario-filesystem` | 1-2 | Before OS metapackages; identifies the OS as Devario |
 | `devario-keyring` | 20260923-2 | Before OS metapackages |
 | `seafoam-keyring` | 20260923-1 | Before OS metapackages |
 | `devario-boot` | 1-7 | Before devario-base; requires published devario-dracut |
 | `devario-base` | 3-12 | After filesystem, boot, devario-keyring, Fish, and Shadow |
-| `devario-aqueous-desktop` | 1-8 | Requires the five published Aqueous 1.0.0-1 components |
+| `devario-aqueous-desktop` | 1-12 | Requires the five published Aqueous 1.0.2-1 components, `bolt`, `boltctl`, and `python-pyudev` |
 | `ckbcomp` | 1.248-1 | Before Calamares |
 | `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |
 

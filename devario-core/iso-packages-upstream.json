@@ -18,7 +18,7 @@
     "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/composefs"
   },
   "devario-aqueous-desktop": {
-    "changes": "Pin all five Aqueous components to 1.0.0-1; package release 8.",
+    "changes": "Synchronized with the local devario-os working tree on 2026-10-14: release 1-12, Aqueous 1.0.2-1 components, stable pearl-greeter, current desktop dependencies, scoped graphics startup, per-app GPU selection, and PCI hot-plug monitoring. Includes local changes beyond the original import commit.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-aqueous-desktop",
     "recipeDirectory": "devario-installer/devario-aqueous-desktop",
@@ -39,6 +39,7 @@
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "devario-filesystem": {
+    "changes": "Synchronized with the local devario-os working tree on 2026-10-14: release 1-2, NAME and PRETTY_NAME set to Devario; edition metadata retained. Includes local changes beyond the original import commit.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-filesystem",
     "recipeDirectory": "devario-installer/devario-filesystem",
