@@ -1,0 +1,25 @@
+pkgbase = faugus-launcher
+	pkgdesc = A simple and lightweight app for running Windows games using UMU-Launcher
+	pkgver = 2.4.4
+	pkgrel = 1
+	url = https://github.com/Faugus/faugus-launcher
+	arch = any
+	license = MIT
+	makedepends = meson>=1.2.0
+	makedepends = gettext
+	depends = python-gobject
+	depends = python-requests
+	depends = python-pillow
+	depends = python-vdf
+	depends = python-psutil
+	depends = python-dbus
+	depends = icoextract
+	depends = gtk4
+	depends = libadwaita
+	depends = libmanette
+	provides = faugus-launcher
+	conflicts = faugus-launcher
+	source = https://github.com/Faugus/faugus-launcher/archive/refs/tags/2.4.4.tar.gz
+	sha256sums = 68194b24e98cddf4efc32fb7bbdb67a5aec84f53a25e8a04d36ce9851de54e9b
+
+pkgname = faugus-launcher
