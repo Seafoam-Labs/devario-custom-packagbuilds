@@ -1,0 +1,15 @@
+pkgbase = lazygit
+	pkgdesc = Simple terminal UI for git commands
+	pkgver = 0.66.1
+	pkgrel = 1
+	url = https://github.com/jesseduffield/lazygit
+	arch = x86_64
+	license = MIT
+	makedepends = go>=1.25.0
+	depends = git
+	depends = glibc
+	source = https://github.com/jesseduffield/lazygit/archive/v0.66.1/lazygit-0.66.1.tar.gz
+	sha256sums = 75d82496e7e99a4ae58279efd37186ee5d10de9bb751077775487639c07185af
+	b2sums = 27559e3da7fe6cbf1bd32a232151be863e1238f94a55d5227d8c114e7ca2fa04cb5d2dbb889d893c86c02896020d54a0b835b6fdbebf8434d593f28459194862
+
+pkgname = lazygit
