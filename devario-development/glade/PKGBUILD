@@ -11,7 +11,7 @@ license=(GPL LGPL)
 depends=(gtk3 libxml2)
 makedepends=(gtk-doc glib2-devel gobject-introspection itstool docbook-xsl git meson gjs
              python-gobject webkit2gtk-4.1 python-setuptools)
-checkdepends=(xorg-server-xvfb)
+checkdepends=(xorg-server-xvfb gsettings-desktop-schemas)
 optdepends=('devhelp: development help'
             'gjs: gjs module'
             'python-gobject: python module'
