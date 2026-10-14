@@ -1,0 +1,8 @@
+{
+  "name": "intel-metee",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/intel-metee.git",
+  "retrieved": "2026-10-14",
+  "sha256": "eebc173cf3198dcc249bb92285d9d1031c80f435f6bbe1274a5a5bbb8fbf0eb6",
+  "bytes": 1321,
+  "commit": "8de919fb415b13bc686e23da45c398dae06d7ec4"
+}

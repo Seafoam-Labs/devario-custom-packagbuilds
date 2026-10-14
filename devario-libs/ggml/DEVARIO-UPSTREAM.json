@@ -1,0 +1,8 @@
+{
+  "name": "ggml",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ggml.git",
+  "retrieved": "2026-10-14",
+  "sha256": "ce16f8ef0fd1efc608cfbef8eab69ea0be02f056de2e2f338101342032f51123",
+  "bytes": 4055,
+  "commit": "7ac712eb099d0c3de01fbc4aabba7c92fa80ddee"
+}

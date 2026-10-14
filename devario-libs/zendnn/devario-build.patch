@@ -1,0 +1,79 @@
+--- a/cmake/ExternProjAOCLUTILS.cmake
++++ b/cmake/ExternProjAOCLUTILS.cmake
+@@ -22,7 +22,7 @@
+   message(DEBUG "${ZENDNNL_MSG_PREFIX}Configurig AOCL-UTILS...")
+ 
+   # adding pthread to cxx flags is a manylinux docker requirement.
+-  list(APPEND AU_CMAKE_ARGS "-DAU_BUILD_EXAMPLES=ON")
++  list(APPEND AU_CMAKE_ARGS "-DAU_BUILD_EXAMPLES=OFF")
+   list(APPEND AU_CMAKE_ARGS "-DAU_BUILD_DOCS=OFF")
+   list(APPEND AU_CMAKE_ARGS "-DAU_BUILD_TESTS=OFF")
+   list(APPEND AU_CMAKE_ARGS "-DAU_BUILD_STATIC_LIBS=ON")
+--- a/cmake/ExternProjJSON.cmake
++++ b/cmake/ExternProjJSON.cmake
+@@ -20,6 +20,7 @@
+ if(ZENDNNL_DEPENDS_JSON)
+ 
+   message(DEBUG "${ZENDNNL_MSG_PREFIX}Configurig JSON...")
++  list(APPEND JSON_CMAKE_ARGS "-DJSON_BuildTests=OFF")
+   list(APPEND JSON_CMAKE_ARGS "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+   list(APPEND JSON_CMAKE_ARGS "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+   list(APPEND JSON_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>")
+--- a/cmake/ExternProjLIBXSMM.cmake
++++ b/cmake/ExternProjLIBXSMM.cmake
+@@ -23,7 +23,7 @@
+ 
+   if (NOT ZENDNNL_LIBXSMM_INJECTED)
+     list(APPEND LIBXSMM_MAKE_ARGS "NOFORTRAN=1")
+-    list(APPEND LIBXSMM_MAKE_ARGS "BLAS=0")
++    list(APPEND LIBXSMM_MAKE_ARGS "BLAS=0" "AVX=0" "STATIC=1" "PIC=PIC")
+ 
+     message(DEBUG "${ZENDNNL_MSG_PREFIX}LIBXSMM_MAKE_ARGS=${LIBXSMM_MAKE_ARGS}")
+ 
+@@ -54,6 +54,7 @@
+         SOURCE_DIR   "${LIBXSMM_ROOT_DIR}"
+         BINARY_DIR   "${CMAKE_CURRENT_BINARY_DIR}/libxsmm"
+         INSTALL_DIR  "${CMAKE_INSTALL_PREFIX}/deps/libxsmm"
++        CONFIGURE_COMMAND ""
+         BUILD_COMMAND   make -f ${LIBXSMM_ROOT_DIR}/Makefile -j${NPROC} ${LIBXSMM_MAKE_ARGS}
+         INSTALL_COMMAND make -f ${LIBXSMM_ROOT_DIR}/Makefile PREFIX=<INSTALL_DIR> ${LIBXSMM_MAKE_ARGS} install
+       )
+@@ -66,6 +67,7 @@
+         GIT_REPOSITORY   ${LIBXSMM_GIT_REPO}
+         GIT_TAG          ${LIBXSMM_GIT_TAG}
+         GIT_PROGRESS     ${LIBXSMM_GIT_PROGRESS}
++        CONFIGURE_COMMAND ""
+         BUILD_COMMAND   make -f ${LIBXSMM_ROOT_DIR}/Makefile -j${NPROC} ${LIBXSMM_MAKE_ARGS}
+         INSTALL_COMMAND make -f ${LIBXSMM_ROOT_DIR}/Makefile PREFIX=<INSTALL_DIR> ${LIBXSMM_MAKE_ARGS} install
+         UPDATE_DISCONNECTED TRUE
+--- a/zendnnl/CMakeLists.txt
++++ b/zendnnl/CMakeLists.txt
+@@ -71,7 +71,7 @@
+ 
+ # global cxx flags
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=1")
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mavx2 -mavx512f -mavx512vl -mavx512bf16")
+ endif()
+--- a/cmake/FindLIBXSMM.cmake
++++ b/cmake/FindLIBXSMM.cmake
+@@ -44,7 +44,7 @@
+ 
+ # Validate findings
+ include(FindPackageHandleStandardArgs)
+-if(LIBXSMM_LIB-NOTFOUND)
++if(NOT LIBXSMM_LIB)
+   find_package_handle_standard_args(LIBXSMM
+     DEFAULT_MSG
+     LIBXSMM_ARCHIVE_LIB
+@@ -61,7 +61,7 @@
+ 
+ # Define imported targets
+ if(LIBXSMM_FOUND)
+-  if(LIBXSMM_LIB-NOTFOUND)
++  if(NOT LIBXSMM_LIB)
+     message(STATUS "libxsmm shared library not found.")
+   else()
+     add_library(libxsmm::libxsmm SHARED IMPORTED GLOBAL)

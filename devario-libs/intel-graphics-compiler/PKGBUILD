@@ -1,0 +1,108 @@
+# Maintainer: Daniel Bermond <dbermond@archlinux.org>
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Maintainer: Torsten Keßler <tpkessler@archlinux.org>
+
+pkgname=intel-graphics-compiler
+pkgver=2.41.5
+_llvmver=22.1.8
+_vciver=0.25.0
+_spirv_tools_commit=f80351511e9c4672e284842c7b124315c511078a
+_spirv_headers_commit=575b6512579ebde466ed3dfc04e413439d14d95d
+_spirv_llvm_commit=27afcfe385cf542197dfde8c658e1f5ff53fc2fc
+_opencl_clang_commit=b953eceebb0abc6ea954a14545420e3f97540a77
+pkgrel=1
+epoch=1
+pkgdesc='Intel Graphics Compiler for OpenCL'
+arch=('x86_64')
+url='https://github.com/intel/intel-graphics-compiler/'
+license=('MIT' 'Apache-2.0 WITH LLVM-exception')
+depends=(
+    'glibc'
+    'libgcc'
+    'libstdc++'
+    'zlib'
+    'zstd')
+makedepends=(
+    'cmake'
+    'git'
+    'python'
+    'python-mako'
+    'python-yaml')
+provides=("intel-opencl-clang=${_llvmver%.*}")
+conflicts=('intel-opencl-clang')
+replaces=('intel-opencl-clang')
+# upstream do not support LTO
+# https://github.com/intel/intel-graphics-compiler/issues/362#issuecomment-4089628783
+options=('!emptydirs' '!lto')
+source=("https://github.com/intel/intel-graphics-compiler/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+        "git+https://github.com/intel/vc-intrinsics.git#tag=v${_vciver}"
+        "git+https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git#commit=${_spirv_llvm_commit}"
+        "git+https://github.com/KhronosGroup/SPIRV-Tools.git#commit=${_spirv_tools_commit}"
+        "git+https://github.com/KhronosGroup/SPIRV-Headers.git#commit=${_spirv_headers_commit}"
+        "git+https://github.com/intel/opencl-clang.git#commit=${_opencl_clang_commit}"
+        "git+https://github.com/llvm/llvm-project.git#tag=llvmorg-${_llvmver}"
+        '010-intel-graphics-compiler-disable-werror.patch')
+sha256sums=('a7853d0c32d2cfd6dabd338af6c109d22486a45cf52c376f038d6ab274441767'
+            'af6abe889504fc5f0cc61758aa306211ec2be086858e9e39ee96d289a6c0117c'
+            '587da20520635f105126f62e60576d6276d9555e70dda10d3b7ea98f18e5fdab'
+            '104e1e45413cb4e4a0f513a067c33ea15cdac3e553634be346096c11111bd614'
+            '496b5e84549096e19cc33e99d13978a493b4bf7a3c3bfa19cf4a7ec17be70df5'
+            'cab1c3d13c417fd78017e4d5388a87c0f54c137aedf30861119a7f2a397f445c'
+            '22acb48afcad5f242c5d3fb4da5686d6e0db60b9ac600eb23bb32dc4135ac596'
+            '74b79a64b70a4217627340f30c044838a78829c2dc57d2cc9ad3e492dda01531')
+
+prepare() {
+    # rename to prevent SPIRV-LLVM-Translator from being included
+    # twice by the build process, which causes the build to fail
+    mv SPIRV-LLVM-Translator{,-IGC-LLVM}
+
+    ln -s "${srcdir}/SPIRV-LLVM-Translator-IGC-LLVM"  "${srcdir}/llvm-project/llvm/projects/llvm-spirv"
+    ln -s "${srcdir}/opencl-clang" "${srcdir}/llvm-project/llvm/projects/opencl-clang"
+    
+    patch -d "intel-graphics-compiler-${pkgver}" -Np1 -i "${srcdir}/010-intel-graphics-compiler-disable-werror.patch"
+}
+
+build() {
+    # Prevent IGC to load LLVM 23+ symbols
+    export CFLAGS+=' -fno-semantic-interposition'
+    export CXXFLAGS+=' -fno-semantic-interposition'
+    export LDFLAGS+=' -Wl,-Bsymbolic'
+    
+    # fix error: "_FORTIFY_SOURCE" redefined [-Werror]
+    # note: upstream forces _FORTIFY_SOURCE=2
+    export CFLAGS="${CFLAGS/-Wp,-D_FORTIFY_SOURCE=?/}"
+    export CXXFLAGS="${CXXFLAGS/-Wp,-D_FORTIFY_SOURCE=?/}"
+
+    export GIT_COMMITTER_NAME='builduser'
+    export GIT_COMMITTER_EMAIL='builduser@devario.local'
+    
+    cmake -B build -S "${pkgname}-${pkgver}" \
+        -G 'Unix Makefiles' \
+        -DCCLANG_FROM_SYSTEM=OFF \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_SKIP_RPATH=YES \
+        -DIGC_OPTION__CLANG_MODE=Source \
+        -DIGC_OPTION__LINK_KHRONOS_SPIRV_TRANSLATOR=ON \
+        -DIGC_OPTION__LLD_MODE=Source \
+        -DIGC_OPTION__LLVM_MODE=Source \
+        -DIGC_OPTION__LLVM_PREFERRED_VERSION="${_llvmver}" \
+        -DIGC_OPTION__SPIRV_TOOLS_MODE=Source \
+        -DIGC_OPTION__USE_PREINSTALLED_SPIRV_HEADERS=OFF \
+        -DIGC_OPTION__VC_INTRINSICS_MODE=Source \
+        -Wno-author
+    cmake --build build
+}
+
+package() {
+    DESTDIR="$pkgdir" cmake --install build
+    install -D -m644 "${pkgname}-${pkgver}"/LICENSE.md -t "${pkgdir}/usr/share/licenses/${pkgname}"
+    mv "${pkgdir}/usr/include"/opencl-c{,-base}.h "${pkgdir}/usr/include/igc"
+    mv "${pkgdir}/usr/lib/igc${pkgver%%.*}/NOTICES.txt" "${pkgdir}/usr/share/licenses/${pkgname}"
+    
+    # additional files for opencl-clang
+    install -D -m644 opencl-clang/opencl_clang.h -t "${pkgdir}/usr/include/cclang"
+    install -D -m644 opencl-clang/LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-opencl-clang"
+    ln -s "libopencl-clang.so.${_llvmver%.*}" "${pkgdir}/usr/lib/libopencl-clang.so"
+}

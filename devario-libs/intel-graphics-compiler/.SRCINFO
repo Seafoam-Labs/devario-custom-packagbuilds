@@ -1,0 +1,42 @@
+pkgbase = intel-graphics-compiler
+	pkgdesc = Intel Graphics Compiler for OpenCL
+	pkgver = 2.41.5
+	pkgrel = 1
+	epoch = 1
+	url = https://github.com/intel/intel-graphics-compiler/
+	arch = x86_64
+	license = MIT
+	license = Apache-2.0 WITH LLVM-exception
+	makedepends = cmake
+	makedepends = git
+	makedepends = python
+	makedepends = python-mako
+	makedepends = python-yaml
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = zlib
+	depends = zstd
+	provides = intel-opencl-clang=22.1
+	conflicts = intel-opencl-clang
+	replaces = intel-opencl-clang
+	options = !emptydirs
+	options = !lto
+	source = https://github.com/intel/intel-graphics-compiler/archive/v2.41.5/intel-graphics-compiler-2.41.5.tar.gz
+	source = git+https://github.com/intel/vc-intrinsics.git#tag=v0.25.0
+	source = git+https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git#commit=27afcfe385cf542197dfde8c658e1f5ff53fc2fc
+	source = git+https://github.com/KhronosGroup/SPIRV-Tools.git#commit=f80351511e9c4672e284842c7b124315c511078a
+	source = git+https://github.com/KhronosGroup/SPIRV-Headers.git#commit=575b6512579ebde466ed3dfc04e413439d14d95d
+	source = git+https://github.com/intel/opencl-clang.git#commit=b953eceebb0abc6ea954a14545420e3f97540a77
+	source = git+https://github.com/llvm/llvm-project.git#tag=llvmorg-22.1.8
+	source = 010-intel-graphics-compiler-disable-werror.patch
+	sha256sums = a7853d0c32d2cfd6dabd338af6c109d22486a45cf52c376f038d6ab274441767
+	sha256sums = af6abe889504fc5f0cc61758aa306211ec2be086858e9e39ee96d289a6c0117c
+	sha256sums = 587da20520635f105126f62e60576d6276d9555e70dda10d3b7ea98f18e5fdab
+	sha256sums = 104e1e45413cb4e4a0f513a067c33ea15cdac3e553634be346096c11111bd614
+	sha256sums = 496b5e84549096e19cc33e99d13978a493b4bf7a3c3bfa19cf4a7ec17be70df5
+	sha256sums = cab1c3d13c417fd78017e4d5388a87c0f54c137aedf30861119a7f2a397f445c
+	sha256sums = 22acb48afcad5f242c5d3fb4da5686d6e0db60b9ac600eb23bb32dc4135ac596
+	sha256sums = 74b79a64b70a4217627340f30c044838a78829c2dc57d2cc9ad3e492dda01531
+
+pkgname = intel-graphics-compiler

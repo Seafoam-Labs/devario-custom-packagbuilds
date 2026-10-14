@@ -1,0 +1,33 @@
+pkgbase = intel-compute-runtime
+	pkgdesc = Intel(R) Graphics Compute Runtime for oneAPI Level Zero and OpenCL(TM) Driver
+	pkgver = 26.35.39758.10
+	pkgrel = 1
+	url = https://github.com/intel/compute-runtime/
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = igsc<1.0.0
+	makedepends = level-zero-headers
+	makedepends = libnl>=3.0.0
+	makedepends = libnl<4.0.0
+	makedepends = libva
+	makedepends = systemd-libs
+	depends = glibc
+	depends = intel-gmmlib
+	depends = intel-graphics-compiler
+	depends = libgcc
+	depends = libstdc++
+	optdepends = igsc<1.0.0: for discrete GPU firmware enumeration through Level Zero
+	optdepends = libdrm: for cl_intel_va_api_media_sharing OpenCL extension
+	optdepends = libnl>=3.0.0: for using Fabric related APIs in Level Zero
+	optdepends = libnl<4.0.0: for using Fabric related APIs in Level Zero
+	optdepends = libva: for cl_intel_va_api_media_sharing OpenCL extension
+	optdepends = systemd-libs: for using Sysman events API in Level Zero
+	provides = level-zero-driver
+	provides = opencl-driver
+	source = https://github.com/intel/compute-runtime/archive/26.35.39758.10/intel-compute-runtime-26.35.39758.10.tar.gz
+	source = 010-intel-compute-runtime-disable-werror.patch
+	sha256sums = c904eb932c82e2a00e9f41dcdf5a560d4869efcc6c22826b733437cf16196e84
+	sha256sums = df9794f17f30ff8d7567a8bc4a953b2aeb0a5ebec393ff552a3a958b186fe304
+
+pkgname = intel-compute-runtime

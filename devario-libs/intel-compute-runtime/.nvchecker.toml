@@ -1,0 +1,5 @@
+[intel-compute-runtime]
+source = "github"
+github = "intel/compute-runtime"
+include_regex = "([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)"
+use_latest_release = true

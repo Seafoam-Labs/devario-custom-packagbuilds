@@ -1,0 +1,4 @@
+[igsc]
+source = "git"
+git = "https://github.com/intel/igsc.git"
+prefix = "V"

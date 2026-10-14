@@ -1,0 +1,91 @@
+# Maintainer: Devario packaging team
+pkgname=zendnn
+pkgver=6.0.1.git1f399a7
+pkgrel=1
+pkgdesc='AMD ZenDNN inference library with its pinned private math dependencies'
+arch=(x86_64)
+url=https://github.com/amd/ZenDNN
+license=(Apache-2.0 BSD-3-Clause MIT)
+depends=(glibc libgcc libstdc++ libgomp libatomic)
+makedepends=(cmake gcc make python)
+options=(!buildflags !lto staticlibs)
+# Match the revision selected by GGML 0.26.0, rather than an unrelated release.
+_commit=1f399a75cc0993778374a51bea49b64a57879595
+_aocldlp=b3db7f5800aca3ba3ce5bdfab10f557c5b896e5a
+_libxsmm=eedaa03d49a1dffe6048711598bc5a4da5a86008
+source=(
+  "ZenDNN-$_commit.tar.gz::https://codeload.github.com/amd/ZenDNN/tar.gz/$_commit"
+  "aocl-dlp-$_aocldlp.tar.gz::https://codeload.github.com/amd/aocl-dlp/tar.gz/$_aocldlp"
+  'aocl-utils-5.3.tar.gz::https://codeload.github.com/amd/aocl-utils/tar.gz/5.3'
+  'oneDNN-3.12.tar.gz::https://codeload.github.com/oneapi-src/oneDNN/tar.gz/v3.12'
+  "libxsmm-$_libxsmm.tar.gz::https://codeload.github.com/libxsmm/libxsmm/tar.gz/$_libxsmm"
+  'json-3.12.0.tar.gz::https://codeload.github.com/nlohmann/json/tar.gz/v3.12.0'
+  'devario-build.patch'
+  'zendnn.conf'
+)
+
+sha256sums=(
+  '8f8d10918db0613153e2df17e9e1396e80fc873aae1ba102d73e4fd1d720076a'
+  '6dd38c5d0f9d356626bd66e95b1ca936cc45ac68d866c9f1d2864b2dabe1d797'
+  '0e29afbbda3b81528380d2dbf7dae1ed6825d8c69e0abfcce53cc6cf90430e69'
+  'efa94db6e8395daaef8e307a48e9527bbaab58a64b44e5d59a3662b4b155099d'
+  '3b33f68dfaab8343a79ef3da2ab7ab6f4eb65a6205d64d49b05c2772eee65e42'
+  '4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187'
+  '21b5402fc0a1b99ea4ea76f023d53c8348f81252759de54e059f3e1b92674afa'
+  'eac0b2f1b70b2700233e7d61a8afb39eb2544a142464862f87005120fc1265b0'
+)
+
+prepare() {
+  patch -d "ZenDNN-$_commit" -Np1 -i "$srcdir/devario-build.patch"
+  mkdir -p "ZenDNN-$_commit/dependencies"
+}
+
+build() {
+  # Serialize the external projects; each project gets the requested jobs.
+  # This avoids five nested builds each spawning all 16 threads on a 3800X.
+  local jobs=${CMAKE_BUILD_PARALLEL_LEVEL:-8}
+  cmake -S "ZenDNN-$_commit" -B build -G 'Unix Makefiles' \
+    -DZENDNNL_BINARY_DIR="$srcdir/build" \
+    -DZENDNNL_INSTALL_PREFIX="$srcdir/staging/opt/zendnn" \
+    -DZENDNNL_BUILD_SYS_NPROC="$jobs" \
+    -DZENDNNL_VERBOSE_MAKEFILE=OFF \
+    -DZENDNNL_MESSAGE_LOG_LEVEL=STATUS \
+    -DZENDNNL_BUILD_EXAMPLES=OFF \
+    -DZENDNNL_BUILD_DOXYGEN=OFF \
+    -DZENDNNL_BUILD_GTEST=OFF \
+    -DZENDNNL_BUILD_BENCHDNN=OFF \
+    -DZENDNNL_DEPENDS_FBGEMM=OFF \
+    -DZENDNNL_DEPENDS_PARLOOPER=OFF \
+    -DZENDNNL_LIB_BUILD_ARCHIVE=OFF \
+    -DZENDNNL_LIB_BUILD_SHARED=ON \
+    -DZENDNNL_LOCAL_AOCLDLP=ON -DAOCLDLP_ROOT_DIR="$srcdir/aocl-dlp-$_aocldlp" \
+    -DZENDNNL_LOCAL_AOCLUTILS=ON -DAOCLUTILS_ROOT_DIR="$srcdir/aocl-utils-5.3" \
+    -DZENDNNL_LOCAL_ONEDNN=ON -DONEDNN_ROOT_DIR="$srcdir/oneDNN-3.12" \
+    -DZENDNNL_LOCAL_LIBXSMM=ON -DLIBXSMM_ROOT_DIR="$srcdir/libxsmm-$_libxsmm" \
+    -DZENDNNL_LOCAL_JSON=ON -DJSON_ROOT_DIR="$srcdir/json-3.12.0"
+  cmake --build build --target zendnnl --parallel 1
+}
+
+package() {
+  install -d "$pkgdir/opt"
+  cp -a staging/opt/zendnn "$pkgdir/opt/"
+  # ExternalProject installs during build(); relocate its SDK metadata.
+  python - "$pkgdir/opt/zendnn" "$srcdir" <<'PY'
+from pathlib import Path
+import sys
+for p in Path(sys.argv[1]).rglob('*'):
+    if p.is_file() and p.suffix in {'.cmake', '.pc', '.env'}:
+        text = p.read_text().replace(sys.argv[2] + '/staging/opt/zendnn', '/opt/zendnn')
+        text = text.replace(sys.argv[2] + '/build/libxsmm', '/opt/zendnn/deps/libxsmm')
+        p.write_text(text)
+PY
+  # The math archives are absorbed into libzendnnl.so; no private runtime
+  # library search path is needed. Do not register oneDNN/AOCL globally.
+  install -Dm644 "$srcdir/zendnn.conf" "$pkgdir/etc/ld.so.conf.d/zendnn.conf"
+  install -Dm644 "ZenDNN-$_commit/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/ZenDNN"
+  install -Dm644 "aocl-dlp-$_aocldlp/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/AOCL-DLP"
+  install -Dm644 aocl-utils-5.3/LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/AOCL-Utils"
+  install -Dm644 oneDNN-3.12/LICENSE "$pkgdir/usr/share/licenses/$pkgname/oneDNN"
+  install -Dm644 "libxsmm-$_libxsmm/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LIBXSMM"
+  install -Dm644 json-3.12.0/LICENSE.MIT "$pkgdir/usr/share/licenses/$pkgname/nlohmann-json"
+}

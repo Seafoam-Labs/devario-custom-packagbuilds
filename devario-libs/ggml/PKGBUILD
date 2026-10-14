@@ -1,0 +1,94 @@
+# Based on Arch Linux packaging by Maxime Gauduin <alucryd@archlinux.org>.
+# Devario: CPU, CUDA, Vulkan, ZenDNN and OpenVINO backends.
+pkgbase=ggml
+pkgname=(ggml ggml-cuda ggml-vulkan ggml-zendnn ggml-openvino)
+pkgver=0.26.0
+pkgrel=3
+pkgdesc='Tensor library for machine learning'
+arch=(x86_64)
+url=https://github.com/ggml-org/ggml
+license=(MIT)
+depends=(glibc libgcc libstdc++)
+makedepends=(cmake git ninja cuda nccl shaderc spirv-headers
+             vulkan-headers vulkan-icd-loader 'zendnn=6.0.1.git1f399a7' openvino
+             onetbb ocl-icd opencl-headers)
+# Each CPU backend selects its own ISA; do not inherit host-native flags.
+options=(!buildflags !lto)
+source=(git+https://github.com/ggml-org/ggml.git#tag=v${pkgver})
+b2sums=('203856692e049060844664d52340be47db0a31770be6f7b9965ce573d6b7ffe68a7890abb01df8a0371f0d7bbd7e01b4155231ee065e8dbc2af7fb0a13da5784')
+
+build() {
+  local cmake_options=(
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_LIBDIR=lib
+    -DCMAKE_SKIP_INSTALL_RPATH=ON
+    -DBUILD_SHARED_LIBS=ON
+    -DGGML_NATIVE=OFF
+    -DGGML_BACKEND_DL=ON
+    -DGGML_BACKEND_DIR=/usr/lib/ggml
+    -DGGML_CPU=ON
+    -DGGML_CPU_ALL_VARIANTS=ON
+    -DGGML_CUDA=ON
+    -DGGML_CUDA_NCCL=ON
+    -DGGML_VULKAN=ON
+    -DGGML_ZENDNN=ON
+    -DZENDNN_ROOT=/opt/zendnn
+    -DGGML_OPENVINO=ON
+    -DGGML_BUILD_TESTS=OFF
+    -DGGML_BUILD_EXAMPLES=OFF
+  )
+  # Optional deliberate target reduction for local builds. The default uses
+  # upstream's non-native CUDA architecture list for the installed toolkit.
+  if [[ -n ${DEVARIO_CUDA_ARCHITECTURES:-} ]]; then
+    cmake_options+=("-DCMAKE_CUDA_ARCHITECTURES=${DEVARIO_CUDA_ARCHITECTURES}")
+  fi
+  cmake -S ggml -B build -G Ninja "${cmake_options[@]}"
+  cmake --build build
+  DESTDIR="$srcdir/staging" cmake --install build
+}
+
+package_ggml() {
+  depends+=(libgomp)
+  provides=("ggml-cpu=$pkgver")
+  optdepends=(
+    'ggml-cuda: NVIDIA CUDA backend'
+    'ggml-vulkan: Vulkan GPU backend'
+    'ggml-zendnn: AMD ZenDNN CPU backend'
+    'ggml-openvino: OpenVINO Intel GPU backend'
+  )
+  cp -a staging/usr "$pkgdir/"
+  rm "$pkgdir"/usr/lib/ggml/libggml-{cuda,vulkan,zendnn,openvino}.so
+  install -Dm644 ggml/LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+_package_backend() {
+  install -Dm755 "staging/usr/lib/ggml/libggml-$1.so" -t "$pkgdir/usr/lib/ggml"
+  install -Dm644 ggml/LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+package_ggml-cuda() {
+  pkgdesc+=' (CUDA backend)'
+  depends+=("ggml=$pkgver-$pkgrel" cuda nccl)
+  optdepends=('nvidia-utils: NVIDIA userspace driver; requires a matching kernel module')
+  _package_backend cuda
+}
+
+package_ggml-vulkan() {
+  pkgdesc+=' (Vulkan backend)'
+  depends+=("ggml=$pkgver-$pkgrel" vulkan-icd-loader)
+  optdepends=('vulkan-driver: Vulkan driver for your GPU')
+  _package_backend vulkan
+}
+
+package_ggml-zendnn() {
+  pkgdesc+=' (ZenDNN backend)'
+  depends+=("ggml=$pkgver-$pkgrel" libgomp 'zendnn=6.0.1.git1f399a7')
+  _package_backend zendnn
+}
+
+package_ggml-openvino() {
+  pkgdesc+=' (OpenVINO backend)'
+  depends+=("ggml=$pkgver-$pkgrel" ocl-icd onetbb openvino openvino-intel-gpu-plugin)
+  _package_backend openvino
+}

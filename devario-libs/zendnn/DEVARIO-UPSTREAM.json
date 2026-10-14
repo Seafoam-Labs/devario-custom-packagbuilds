@@ -1,0 +1,6 @@
+{
+  "name": "zendnn",
+  "url": "https://github.com/amd/ZenDNN",
+  "commit": "1f399a75cc0993778374a51bea49b64a57879595",
+  "note": "Revision selected by GGML v0.26.0; private dependencies pinned in PKGBUILD."
+}

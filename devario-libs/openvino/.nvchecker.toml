@@ -1,0 +1,4 @@
+[openvino]
+source = "github"
+github = "openvinotoolkit/openvino"
+use_latest_release = true

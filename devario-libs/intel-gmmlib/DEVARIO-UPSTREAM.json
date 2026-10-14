@@ -1,0 +1,8 @@
+{
+  "name": "intel-gmmlib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/intel-gmmlib.git",
+  "retrieved": "2026-10-14",
+  "sha256": "0e42351c8f4e0d73529ff99981b7d2b36d51127fab7a0b1c1ee556eadd660102",
+  "bytes": 1034,
+  "commit": "ba2e9ce0580f2ac08fff6193b006da6dfa61d307"
+}

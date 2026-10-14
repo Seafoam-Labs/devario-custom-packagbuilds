@@ -1,5 +1,95 @@
 # Missing dependency builds for Shelly
 
+## llama.cpp inference backends (2026-10-14)
+
+Added nine package bases for CPU, CUDA, Vulkan, ZenDNN, and OpenVINO.
+The live Devario catalog was checked before adding recipes: shaderc, glslang,
+Mesa/Vulkan drivers, opencl-nvidia, CUDA, CCCL, NCCL, oneTBB, and the common
+build tools are already published. They do not need duplicate recipes.
+The catalog and dependency-provider results are recorded in
+[`audits/llama-backends-2026-10-14.json`](audits/llama-backends-2026-10-14.json).
+This distinguishes published packages from recipes that still need building.
+
+| Recipe | Outputs and role |
+| --- | --- |
+| [llama-cpp](devario-development/llama-cpp/PKGBUILD) | CLI, server, web UI, tools, and libllama; uses system GGML |
+| [ggml](devario-libs/ggml/PKGBUILD) | `ggml` with CPU dispatch, plus `ggml-cuda`, `ggml-vulkan`, `ggml-zendnn`, and `ggml-openvino` |
+| [zendnn](devario-libs/zendnn/PKGBUILD) | ZenDNN and its checksum-pinned private math dependencies |
+| [openvino](devario-libs/openvino/PKGBUILD) | C++ runtime and `openvino-intel-gpu-plugin`; Intel CPU/NPU plugins disabled |
+| [intel-graphics-compiler](devario-libs/intel-graphics-compiler/PKGBUILD) | Intel GPU compiler |
+| [intel-gmmlib](devario-libs/intel-gmmlib/PKGBUILD) | Intel GPU memory manager |
+| [intel-metee](devario-libs/intel-metee/PKGBUILD) | Management transport library and documentation |
+| [igsc](devario-libs/igsc/PKGBUILD) | GPU firmware-management library required when building the compute runtime |
+| [intel-compute-runtime](devario-libs/intel-compute-runtime/PKGBUILD) | Intel OpenCL/Level Zero GPU driver |
+
+Build/publish dependency order, after satisfying each recipe's existing Devario
+dependencies:
+
+1. `intel-metee`, `intel-gmmlib`, `intel-graphics-compiler`, and `zendnn`
+   can be prepared independently. Build `igsc` after `intel-metee`.
+2. Build `intel-compute-runtime` after `intel-graphics-compiler`,
+   `intel-gmmlib`, and `igsc`.
+3. Build/publish `openvino` and `openvino-intel-gpu-plugin`. The GPU plugin
+   runtime dependencies are supplied by the Intel graphics packages above.
+4. Build `ggml` after `zendnn` and `openvino`, with the existing CUDA and
+   Vulkan SDK packages installed. Publish all five split outputs together.
+5. Build `llama-cpp` against GGML 0.26.0. The backend packages require the
+   exact matching GGML package release; rebuild them together on upgrades.
+
+CPU users install `llama-cpp` and its normal dependencies. GPU/alternative
+CPU backends are optional additions. `ggml-openvino` requires the Intel GPU
+plugin and its graphics driver dependencies. Use `llama-cli --list-devices`
+to find its devices; `GGML_OPENVINO_DEVICE` selects a listed OpenVINO device
+when multiple Intel GPUs are present. A matching NVIDIA kernel module is
+required for CUDA; a GPU ICD is required for Vulkan. The server units are
+installed but not enabled automatically.
+
+GGML builds with `GGML_NATIVE=OFF` and runtime-dispatched CPU variants, so
+the 3800X build host does not restrict the distributed CPU binaries to Zen 2.
+CUDA uses upstream's non-native architecture list for the installed toolkit.
+For a deliberately narrower local build, set `DEVARIO_CUDA_ARCHITECTURES`
+to a CMake architecture list; doing so changes the GPUs that package supports.
+The installed CUDA 13.4 host compiler guard accepts GCC through version 16.
+
+ZenDNN is pinned to the revision selected by GGML 0.26.0. Its AOCL-DLP,
+AOCL-Utils, oneDNN 3.12, LIBXSMM, and JSON sources are explicit, checksummed
+inputs. Its private SDK lives under `/opt/zendnn`, preserving the existing
+system oneDNN package. Only the ZenDNN library directory is added to the
+loader configuration. The build serializes dependency projects and defaults
+each project's parallelism to eight jobs; `CMAKE_BUILD_PARALLEL_LEVEL`
+overrides that limit. All math dependency downloads happen in source
+acquisition, not implicitly inside CMake. The optional FBGEMM, parlooper,
+benchmarks, and documentation builds are disabled.
+
+OpenVINO builds only the Intel GPU hardware plugin. Its Intel CPU and NPU
+plugins, their private submodule downloads, and the separate NPU compiler
+and driver recipes are omitted. Native GGML CPU dispatch and AMD ZenDNN
+remain available. Python bindings, conversion utilities, and their
+training-framework dependencies are omitted. Relevant upstream source pins,
+patches, signing keys, and recipe licensing are retained;
+`DEVARIO-UPSTREAM.json` records the imported recipe revisions.
+
+For a Ryzen 7 3800X (8 cores/16 threads), 96 GB RAM, and SSD storage, allow
+roughly 2–5 hours for the five GGML backends plus llama.cpp when their
+dependencies are already installed. This is a planning estimate, not a
+benchmark. A first source build of the Intel GPU compiler and OpenVINO
+can extend that to an overnight or longer job; the graphics compiler
+includes a substantial LLVM build. Start the large compiler builds one at a
+time with 8–12 jobs. RAM capacity does not remove the CPU-time cost.
+
+Validation includes shell syntax, generated `.SRCINFO`, bundled-source
+checksums, Shelly review parsing, and split-package ownership fixtures:
+`python tests/test-llama-packaging.py`. GGML's CPU variants and llama.cpp's
+CLI/server compiled against staged system GGML; the UI was disabled for
+this compile check. ZenDNN and all five private dependencies built, its
+`package()` staged successfully, and GGML's ZenDNN module linked and loaded.
+Two focused CPU ADD cases and two ZenDNN F32 matrix-multiplication cases
+passed numerical checks. The ZenDNN checks disabled adaptive fallback to
+exercise its kernels on small tensors. These are build-host smoke checks,
+not performance measurements or verification on a Ryzen 3800X.
+The audit records the checks and their limits. These recipes have not been
+published or verified by a full isolated build of every GPU dependency.
+
 ## Aqueous desktop dependency plan (2026-10-14)
 
 `devario-aqueous-desktop` 1-13 accepts each of its five Aqueous components

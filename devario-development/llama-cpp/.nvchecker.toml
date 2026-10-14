@@ -1,0 +1,5 @@
+[llama-cpp]
+source = "github"
+github = "ggml-org/llama.cpp"
+use_latest_release = true
+prefix = "v"

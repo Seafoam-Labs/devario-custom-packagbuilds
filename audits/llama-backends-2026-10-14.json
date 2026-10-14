@@ -1,0 +1,705 @@
+{
+  "date": "2026-10-14",
+  "catalog": "https://repo.seafoam-labs.org/api/v1/packages",
+  "architecture": "x86_64",
+  "requested_backends": [
+    "CPU",
+    "CUDA",
+    "Vulkan",
+    "ZenDNN",
+    "OpenVINO"
+  ],
+  "packages": [
+    {
+      "recipe": "devario-development/llama-cpp",
+      "outputs": [
+        "llama-cpp"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ggml=0.26.0": {
+          "recipe": "devario-libs/ggml",
+          "status": "recipe available"
+        },
+        "git": {
+          "package": "git",
+          "version": "2.56.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ninja": {
+          "package": "ninja",
+          "version": "1.13.2-3",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "npm": {
+          "package": "npm",
+          "version": "12.2.0-2",
+          "repository": "devario-development",
+          "status": "published"
+        },
+        "openssl": {
+          "package": "openssl",
+          "version": "3.6.4-3",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "5d0fb8a4e2fd447c768c16085c6b2890adc65a129b2d3dd1a9b356c1a49dbb63",
+      "review_findings": [
+        {
+          "tool": "npm",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "  npm ci --ignore-scripts",
+          "message": "'npm' is invoked in build() \u2014 this fetches/executes external code outside Shelly's control."
+        },
+        {
+          "tool": "npm",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "  npm run build",
+          "message": "'npm' is invoked in build() \u2014 this fetches/executes external code outside Shelly's control."
+        }
+      ],
+      "recipe_sha256": "7157f62756794af0ca745b8da6d4512f560e1bc42d381500ac5e557e7606727f"
+    },
+    {
+      "recipe": "devario-libs/ggml",
+      "outputs": [
+        "ggml",
+        "ggml-cuda",
+        "ggml-vulkan",
+        "ggml-zendnn",
+        "ggml-openvino"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "cuda": {
+          "package": "cuda",
+          "version": "13.4.2-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ggml=0.26.0-3": {
+          "recipe": "devario-libs/ggml",
+          "status": "recipe available"
+        },
+        "git": {
+          "package": "git",
+          "version": "2.56.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgomp": {
+          "package": "libgomp",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "nccl": {
+          "package": "nccl",
+          "version": "2.32.3-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ninja": {
+          "package": "ninja",
+          "version": "1.13.2-3",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ocl-icd": {
+          "package": "ocl-icd",
+          "version": "2.3.5-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "onetbb": {
+          "package": "onetbb",
+          "version": "2023.1.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "opencl-headers": {
+          "package": "opencl-headers",
+          "version": "2:2026.05.29-1",
+          "repository": "devario-libs",
+          "status": "published"
+        },
+        "openvino": {
+          "recipe": "devario-libs/openvino",
+          "status": "recipe available"
+        },
+        "openvino-intel-gpu-plugin": {
+          "recipe": "devario-libs/openvino",
+          "status": "recipe available"
+        },
+        "shaderc": {
+          "package": "shaderc",
+          "version": "2026.4-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "spirv-headers": {
+          "package": "spirv-headers",
+          "version": "1.4.363.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "vulkan-headers": {
+          "package": "vulkan-headers",
+          "version": "1.4.364-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "vulkan-icd-loader": {
+          "package": "vulkan-icd-loader",
+          "version": "1.4.364-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "zendnn=6.0.1.git1f399a7": {
+          "recipe": "devario-libs/zendnn",
+          "status": "recipe available"
+        }
+      },
+      "review_digest": "349cac10c56ab52ee1aac56072e437a94b2da90925796f40a43277e0743de92c",
+      "review_findings": [],
+      "recipe_sha256": "ac350059a1ff05106496ab260c263d9b005dc1d789295df7f681c740a2d6de6d"
+    },
+    {
+      "recipe": "devario-libs/zendnn",
+      "outputs": [
+        "zendnn"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "gcc": {
+          "package": "gcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libatomic": {
+          "package": "libatomic",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgomp": {
+          "package": "libgomp",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "make": {
+          "package": "make",
+          "version": "4.4.1-3",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "python": {
+          "package": "python",
+          "version": "3.14.8-1",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "5ab927ca8650b3f687be46855254c83eb12c57fab27d0cbc827967f1c281523b",
+      "review_findings": [],
+      "recipe_sha256": "6e978ba99a0b566ae1b30352f14f8267b29b3c5e586b6d0032297bc7587057af"
+    },
+    {
+      "recipe": "devario-libs/openvino",
+      "outputs": [
+        "openvino",
+        "openvino-intel-gpu-plugin"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "flatbuffers": {
+          "package": "flatbuffers",
+          "version": "25.12.19-4",
+          "repository": "devario-libs",
+          "status": "published"
+        },
+        "git": {
+          "package": "git",
+          "version": "2.56.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "git-lfs": {
+          "package": "git-lfs",
+          "version": "3.8.0-2",
+          "repository": "devario-development",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "intel-compute-runtime": {
+          "recipe": "devario-libs/intel-compute-runtime",
+          "status": "recipe available"
+        },
+        "level-zero-headers": {
+          "package": "level-zero-headers",
+          "version": "1.32.0-1",
+          "repository": "devario-development",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "ocl-icd": {
+          "package": "ocl-icd",
+          "version": "2.3.5-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "onetbb": {
+          "package": "onetbb",
+          "version": "2023.1.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "openvino=2026.4.1": {
+          "recipe": "devario-libs/openvino",
+          "status": "recipe available"
+        },
+        "patchelf": {
+          "package": "patchelf",
+          "version": "0.19.2-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "pugixml": {
+          "package": "pugixml",
+          "version": "1.16-1",
+          "repository": "devario-libs",
+          "status": "published"
+        },
+        "python": {
+          "package": "python",
+          "version": "3.14.8-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "snappy": {
+          "package": "snappy",
+          "version": "1.3.1-1",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "38409a3e50e482b2f7ce628eb22018b4b924a7dba9154ada557eee7353658552",
+      "review_findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "git -C openvino lfs pull \"$(printf '%s' \"${source[0]/git+/}\" | sed 's/#.*$//')\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "prepare",
+          "matchedLine": "git -C openvino lfs pull \"$(printf '%s' \"${source[0]/git+/}\" | sed 's/#.*$//')\"",
+          "message": "Dynamic command construction detected in prepare() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "recipe_sha256": "dc201434b410a6c393e0a35abfaf28a1085a93600e344e69438a4d971fedce3e"
+    },
+    {
+      "recipe": "devario-libs/intel-compute-runtime",
+      "outputs": [
+        "intel-compute-runtime"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "igsc<1.0.0": {
+          "recipe": "devario-libs/igsc",
+          "status": "recipe available"
+        },
+        "intel-gmmlib": {
+          "recipe": "devario-libs/intel-gmmlib",
+          "status": "recipe available"
+        },
+        "intel-graphics-compiler": {
+          "recipe": "devario-libs/intel-graphics-compiler",
+          "status": "recipe available"
+        },
+        "level-zero-headers": {
+          "package": "level-zero-headers",
+          "version": "1.32.0-1",
+          "repository": "devario-development",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libnl<4.0.0": {
+          "package": "libnl",
+          "version": "3.12.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libnl>=3.0.0": {
+          "package": "libnl",
+          "version": "3.12.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libva": {
+          "package": "libva",
+          "version": "2.24.1-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "systemd-libs": {
+          "package": "systemd-libs",
+          "version": "262-9",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "fef676cd769cbe3fdc33fd5247530cf48cb0365d6a020fe040f0eb07a3bbcdf2",
+      "review_findings": [
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "-DNEO_OCL_VERSION_MINOR=\"$(printf \"$pkgver\" | cut -d . -f2)\" \\",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "build",
+          "matchedLine": "-DNEO_VERSION_BUILD=\"$(printf \"$pkgver\" | cut -d . -f3)\" \\",
+          "message": "Dynamic command construction detected in build() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        },
+        {
+          "tool": "<dynamic-command>",
+          "severity": "warning",
+          "hook": "package",
+          "matchedLine": "ln -s \"$(find \"${pkgdir}/usr/lib\" -regex '.*libze_intel_gpu.so.[0-9]*' -exec basename {} \\;)\" \"${pkgdir}/usr/lib/libze_intel_gpu.so\"",
+          "message": "Dynamic command construction detected in package() \u2014 the effective command is computed at runtime and cannot be statically resolved."
+        }
+      ],
+      "recipe_sha256": "569d5f455edc11e6eb199497fc145005dc68e3cfe9ce7f0bc7583c93816800bb"
+    },
+    {
+      "recipe": "devario-libs/intel-graphics-compiler",
+      "outputs": [
+        "intel-graphics-compiler"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "git": {
+          "package": "git",
+          "version": "2.56.0-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "python": {
+          "package": "python",
+          "version": "3.14.8-1",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "python-mako": {
+          "package": "python-mako",
+          "version": "1.4.3-2",
+          "repository": "devario-libs",
+          "status": "published"
+        },
+        "python-yaml": {
+          "package": "python-yaml",
+          "version": "6.0.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "zlib": {
+          "package": "zlib",
+          "version": "1:1.3.2-4",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "zstd": {
+          "package": "zstd",
+          "version": "1.5.7-6",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "860738348d50857043b0d1ea1f49b588b88005cc43de780e2f67e768d4551781",
+      "review_findings": [],
+      "recipe_sha256": "01f0facd805e29e24c65cfed1e3c6a53cef060a170c40a2c370e61f83a857a68"
+    },
+    {
+      "recipe": "devario-libs/igsc",
+      "outputs": [
+        "igsc"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "intel-metee": {
+          "recipe": "devario-libs/intel-metee",
+          "status": "recipe available"
+        },
+        "systemd": {
+          "package": "systemd",
+          "version": "262-9",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "systemd-libs": {
+          "package": "systemd-libs",
+          "version": "262-9",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "40b18daf7909ac39230259f7e1cfc60ae3d9176996f4e45a0bea51fc3030dd57",
+      "review_findings": [],
+      "recipe_sha256": "e915a020c43a4892844ae66029dfd767bab9207ba901b211e4674507a4784215"
+    },
+    {
+      "recipe": "devario-libs/intel-gmmlib",
+      "outputs": [
+        "intel-gmmlib"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libgcc": {
+          "package": "libgcc",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "libstdc++": {
+          "package": "libstdc++",
+          "version": "16.2.1+r23+gd564253eb6c8-2",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "ce92cfc9436387caa20636e3067a11ffcc2894dd05a0ddedbec18336ee5100c3",
+      "review_findings": [],
+      "recipe_sha256": "0e42351c8f4e0d73529ff99981b7d2b36d51127fab7a0b1c1ee556eadd660102"
+    },
+    {
+      "recipe": "devario-libs/intel-metee",
+      "outputs": [
+        "intel-metee",
+        "intel-metee-doc"
+      ],
+      "dependencies": {
+        "cmake": {
+          "package": "cmake",
+          "version": "4.4.3-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "doxygen": {
+          "package": "doxygen",
+          "version": "1.18.0-3",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "glibc": {
+          "package": "glibc",
+          "version": "2.44+r50+g1848099f063e-2",
+          "repository": "devario-core",
+          "status": "published"
+        },
+        "graphviz": {
+          "package": "graphviz",
+          "version": "16.1.0-2",
+          "repository": "devario-core",
+          "status": "published"
+        }
+      },
+      "review_digest": "fb7f7765b4e63baa6d1ee429a55e300b150e6bfa92087cb6942e624d4693f5a2",
+      "review_findings": [],
+      "recipe_sha256": "eebc173cf3198dcc249bb92285d9d1031c80f435f6bbe1274a5a5bbb8fbf0eb6"
+    }
+  ],
+  "validation": {
+    "bash_syntax": "passed for all 9 recipes",
+    "srcinfo": "regenerated modified recipes; verified current for all 9 recipes",
+    "bundled_source_checksums": "9 passed",
+    "ggml_split_package_fixtures": "2 passed",
+    "full_isolated_build": "not performed",
+    "shelly_review": "all 9 recipes parsed; warnings for npm and shell expansions are retained in per-recipe findings",
+    "published_version_constraints": "passed",
+    "ggml_cpu_build": "passed: all dispatched x86_64 CPU variants, GCC 16.2.1",
+    "ggml_cpu_smoke": "ADD/MUL_MAT support probe and 2 focused ADD numerical cases passed",
+    "llama_cpp_build": "CLI and server compiled and --version passed against staged system GGML; UI disabled for this check",
+    "openvino_patches": "all three retained patches applied to the pinned source archive after removing NPU-only hunks",
+    "zendnn_build": "passed: full pinned dependency build, shared library and package() staged under /tmp; no host install",
+    "intel_source_checksums": "intel-metee, intel-gmmlib, igsc and intel-compute-runtime archives verified",
+    "intel_compute_runtime_patch": "dry-run passed against checksum-verified source",
+    "zendnn_relocation": "passed: no build paths in installed CMake/pkg-config/environment metadata; runtime dependencies resolved",
+    "zendnn_source_archives": "all six checksum-pinned archives downloaded and used in build",
+    "zendnn_backend": "GGML module compiled, linked, loaded; 2 focused F32 matrix multiplication cases passed with adaptive fallback disabled",
+    "gpu_execution": "not tested",
+    "openvino_graphics_only": "Intel GPU enabled; Intel CPU and NPU disabled; full OpenVINO build not performed"
+  },
+  "intel_scope": "Intel graphics only: OpenVINO GPU plugin and its driver/compiler dependencies. Intel CPU/NPU plugins and NPU packages excluded."
+}

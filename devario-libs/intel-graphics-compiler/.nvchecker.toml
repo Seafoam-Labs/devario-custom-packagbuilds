@@ -1,0 +1,6 @@
+[intel-graphics-compiler]
+source = "github"
+github = "intel/intel-graphics-compiler"
+prefix = "v"
+include_regex = "v([0-9]+\\.[0-9]+\\.[0-9]+)"
+use_latest_release = true

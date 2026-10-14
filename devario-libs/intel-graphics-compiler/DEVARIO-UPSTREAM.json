@@ -1,0 +1,8 @@
+{
+  "name": "intel-graphics-compiler",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/intel-graphics-compiler.git",
+  "retrieved": "2026-10-14",
+  "sha256": "cdda40585194d34a04faf20848607024c74749db3e25bda6e20ac442774f463b",
+  "bytes": 4789,
+  "commit": "5b6be42fd62e32601def37c80d1e5b2fca7b1e55"
+}

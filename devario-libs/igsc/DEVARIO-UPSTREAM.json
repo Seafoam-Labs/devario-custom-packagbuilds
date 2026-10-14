@@ -1,0 +1,8 @@
+{
+  "name": "igsc",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/igsc.git",
+  "retrieved": "2026-10-14",
+  "sha256": "d00b51f450d6d4d4ae39902901c8256c8baa0e9350f6a9ef101c599fcf0ce61c",
+  "bytes": 880,
+  "commit": "97bfbf711b64ce7cd2daa69386421725c6c7f850"
+}

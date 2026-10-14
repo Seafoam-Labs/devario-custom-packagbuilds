@@ -1,0 +1,57 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+
+pkgname=llama-cpp
+pkgver=0.6.0
+pkgrel=2
+pkgdesc='LLM inference in C/C++'
+arch=(x86_64)
+url=https://github.com/ggml-org/llama.cpp
+license=(MIT)
+depends=(
+  'ggml=0.26.0'
+  glibc
+  libgcc
+  libstdc++
+  openssl
+)
+makedepends=(
+  cmake
+  git
+  ninja
+  npm
+)
+source=(git+https://github.com/ggml-org/llama.cpp.git#tag=v${pkgver}
+        llama-server-system.service
+        llama-server-user.service)
+b2sums=('e62f131cbf9fbaa223ba86753a80b1212d912d839ee5cf62970f7696f769f687b2fc0319da4e8b74e60348dcfac3a0ef700f4ac62901f053b6b6a176e4af13ef'
+        '1be8149b527a245ef35ef5ec0f93d50187608636905f78d7d28c090105db4a11ca2eed9871622bd78d44087acaef9d1d6012c6db58ba6c4451c0967c44d1a958'
+        'a9414c96f069d0aaa287eb0f9c1f30c751612e53901014e38d4ef1b6c71eb98be1036b02413620ddcdbecb5d3830f4c0c83c6e1812b8a63b70e6fe9f3d2a137c')
+
+build() {
+  pushd "./llama.cpp/tools/ui"
+  npm ci --ignore-scripts
+  npm run build
+  popd
+
+  cmake -S llama.cpp -B build -G Ninja \
+      -DCMAKE_BUILD_TYPE=None \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DLLAMA_BUILD_APP=OFF \
+      -DLLAMA_BUILD_EXAMPLES=ON \
+      -DLLAMA_BUILD_SERVER=ON \
+      -DLLAMA_BUILD_TESTS=OFF \
+      -DLLAMA_BUILD_TOOLS=ON \
+      -DLLAMA_BUILD_UI=ON \
+      -DLLAMA_USE_SYSTEM_GGML=ON
+  cmake --build build
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+  install -Dm 644 llama.cpp/LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -Dm 644 llama-server-system.service "${pkgdir}"/usr/lib/systemd/system/llama-server.service
+  install -Dm 644 llama-server-user.service "${pkgdir}"/usr/lib/systemd/user/llama-server.service
+  sed -i "s/%PKGVER%/$pkgver/g" "${pkgdir}"/usr/lib/systemd/*/llama-server.service
+  mkdir -p "${pkgdir}"/usr/share/llama/models
+}

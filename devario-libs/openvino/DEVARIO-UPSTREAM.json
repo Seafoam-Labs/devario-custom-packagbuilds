@@ -1,0 +1,8 @@
+{
+  "name": "openvino",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/openvino.git",
+  "retrieved": "2026-10-14",
+  "sha256": "e7cb6b678833956f78462269ec44d797eb10063dcccf30eb5ac9ac6ef97a3ddf",
+  "bytes": 13600,
+  "commit": "55dae254a60ccd304e7f76dc3d8b0b9b5d129247"
+}

@@ -1,0 +1,17 @@
+pkgbase = igsc
+	pkgdesc = Intel graphics system controller firmware update library
+	pkgver = 0.9.5
+	pkgrel = 14
+	url = https://github.com/intel/igsc/
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = systemd
+	depends = glibc
+	depends = intel-metee
+	depends = systemd-libs
+	provides = libigsc.so
+	source = https://github.com/intel/igsc/archive/V0.9.5/igsc-0.9.5.tar.gz
+	sha256sums = 516a099239ad0541598be87025556c878c0d11c6d43e09115d2bb2e24508b6ec
+
+pkgname = igsc

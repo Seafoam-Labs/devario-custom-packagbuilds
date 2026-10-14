@@ -1,0 +1,8 @@
+{
+  "name": "intel-compute-runtime",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/intel-compute-runtime.git",
+  "retrieved": "2026-10-14",
+  "sha256": "569d5f455edc11e6eb199497fc145005dc68e3cfe9ce7f0bc7583c93816800bb",
+  "bytes": 3219,
+  "commit": "007a192cb2bd3fd144cd621278df34a77babf676"
+}

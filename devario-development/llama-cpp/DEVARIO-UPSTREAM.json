@@ -1,0 +1,8 @@
+{
+  "name": "llama-cpp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/llama-cpp.git",
+  "retrieved": "2026-10-14",
+  "sha256": "627d54c566b6b39b510e732c46a2d1fbd323397c53ff8f805ffbb261e56e1ab3",
+  "bytes": 1922,
+  "commit": "c3e85f5a4bc79ed5f97c59bd31027f50ee06c9f0"
+}
