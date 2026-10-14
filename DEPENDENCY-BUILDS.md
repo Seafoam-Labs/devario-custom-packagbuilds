@@ -1,5 +1,56 @@
 # Missing dependency builds for Shelly
 
+## Kitty terminal, Slang, and their closure (2026-10-14)
+
+The `kitty` terminal recipe needs four names that no Devario repository
+publishes: `librsync` as a hard dependency of the installed package, and
+`shader-slang`, `simde`, and `ttf-nerd-fonts-symbols-mono` as makedepends.
+`shader-slang` in turn needs `miniz` and `unordered_dense`. Six newly
+imported recipes supply the whole set.
+
+The imports retain the source pins, checksums, patches, signing keys,
+attribution, and packaging licenses from Arch's
+[librsync](https://gitlab.archlinux.org/archlinux/packaging/packages/librsync),
+[miniz](https://gitlab.archlinux.org/archlinux/packaging/packages/miniz),
+[unordered_dense](https://gitlab.archlinux.org/archlinux/packaging/packages/unordered_dense),
+[simde](https://gitlab.archlinux.org/archlinux/packaging/packages/simde),
+[ttf-nerd-fonts-symbols](https://gitlab.archlinux.org/archlinux/packaging/packages/ttf-nerd-fonts-symbols),
+and
+[shader-slang](https://gitlab.archlinux.org/archlinux/packaging/packages/shader-slang)
+packaging repositories, and `kitty` itself is
+[Arch's recipe](https://gitlab.archlinux.org/archlinux/packaging/packages/kitty)
+copied the same way. Copy each complete recipe directory to the worker.
+
+Only `librsync` departs from Arch's text: it adds the versioned
+`librsync.so=2-64` provision and a SONAME check, because Shelly publishes a
+declared provision exactly as written. The other five are unmodified.
+
+Build and publish in this order, satisfying the other declared dependencies
+before each build. Recipes in the same stage can be built independently.
+
+| Stage | Recipe | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | [unordered_dense](devario-libs/unordered_dense/PKGBUILD) | `5.3.2-1` | Header-only map for Slang |
+| 1 | [miniz](devario-libs/miniz/PKGBUILD) | `3.1.2-1` | Zip codec for Slang |
+| 1 | [simde](devario-libs/simde/PKGBUILD) | `0.8.2-1` | SIMD headers for kitty |
+| 1 | [librsync](devario-libs/librsync/PKGBUILD) | `1:2.3.4-2` | kitty delta transport |
+| 1 | [ttf-nerd-fonts-symbols](devario-libs/ttf-nerd-fonts-symbols/PKGBUILD) | `3.5.1-1` | Symbols font, three outputs |
+| 2 | [shader-slang](devario-core/shader-slang/PKGBUILD) | `2026.18.2-2` | Slang compiler for kitty |
+| 3 | [kitty](devario-utilities/kitty/PKGBUILD) | `0.49.2-1` | Terminal, terminfo, shell integration |
+
+For each recipe, run `shelly build --isolated --check ./path/to/PKGBUILD`,
+publish its binary outputs to an enabled worker repository, and refresh the
+worker's metadata before the next dependent stage. Publish all three
+`ttf-nerd-fonts-symbols` outputs before the kitty build that names
+`ttf-nerd-fonts-symbols-mono`, and publish the three kitty outputs
+together: `kitty` requires the matching `kitty-terminfo` and
+`kitty-shell-integration` packages. Uploading recipes alone does not
+satisfy the repository checks.
+
+Every other dependency name of these seven recipes resolves to a published
+package. `python3` and `libgl` resolve through the published `python` and
+`libglvnd` provisions, and kitty's three optdepends are already published.
+
 ## Imake, Yasm and WASI C++ dependencies (2026-10-13)
 
 The repeated `not_in_repositories` and `not_in_environment` entries for

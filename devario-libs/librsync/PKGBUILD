@@ -1,0 +1,54 @@
+# Maintainer: Evangelos Foutras <foutrelis@archlinux.org>
+# Contributor: Alessio 'mOLOk' Bolognino <themolok@gmail.com>
+# Contributor: Christoph 'delmonico' Neuroth <delmonico@gmx.net>
+
+pkgname=librsync
+pkgver=2.3.4
+pkgrel=2
+epoch=1
+pkgdesc="Library for calculating and applying network deltas"
+arch=('x86_64')
+url="https://github.com/librsync/librsync"
+license=('LGPL')
+depends=('popt')
+makedepends=('cmake')
+# Shelly keeps bare .so provisions unversioned; add the SONAME form
+provides=('librsync.so' 'librsync.so=2-64')
+source=(https://github.com/$pkgname/$pkgname/archive/v$pkgver/$pkgname-$pkgver.tar.gz)
+sha256sums=('a0dedf9fff66d8e29e7c25d23c1f42beda2089fb4eac1b36e6acd8a29edfbd1f')
+
+prepare() {
+  cd $pkgname-$pkgver
+  mkdir build
+}
+
+build() {
+  cd $pkgname-$pkgver/build
+
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    ..
+  make
+}
+
+check() {
+  cd $pkgname-$pkgver/build
+  make check
+}
+
+package() {
+  cd $pkgname-$pkgver/build
+  make DESTDIR="$pkgdir" install
+
+  _verify_soname "$pkgdir/usr/lib/librsync.so" librsync.so.2 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set ts=2 sw=2 et:
