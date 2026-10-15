@@ -25,7 +25,7 @@ depends=(
 makedepends=(
   git
   lib32-libglvnd
-  lib32-mesa
+  # no lib32-mesa: gl.pc comes from lib32-libglvnd, --cross-file lib32 from meson
   meson
 )
 optdepends=(

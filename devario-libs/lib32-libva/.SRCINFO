@@ -7,7 +7,6 @@ pkgbase = lib32-libva
 	license = MIT
 	makedepends = git
 	makedepends = lib32-libglvnd
-	makedepends = lib32-mesa
 	makedepends = meson
 	depends = lib32-glibc
 	depends = lib32-libdrm
