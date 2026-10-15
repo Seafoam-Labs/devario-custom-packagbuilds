@@ -27,9 +27,6 @@ build() {
 }
 
 package() {
-  # lib32-libglvnd needs lib32-mesa for indirect rendering
-  depends=('lib32-libxext' 'libglvnd' 'lib32-mesa' 'lib32-opengl-driver')
-
   meson install -C build --destdir "$pkgdir"
 
   rm -r "$pkgdir"/usr/include

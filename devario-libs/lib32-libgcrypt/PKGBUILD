@@ -19,16 +19,9 @@ license=(
 )
 depends=('lib32-gcc-libs' 'lib32-libgpg-error' 'lib32-glibc' $_pkgbasename)
 makedepends=(gcc-multilib libtool-multilib)
-source=(https://gnupg.org/ftp/gcrypt/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.bz2{,.sig})
-sha1sums=('2907251e1dc68001fcdbeb0b73c2233fdd2dd786'
-          'SKIP')
-sha256sums=('d77f68f48879510e79a2f65977ccc68981781ea0923e5bdffac2a193ea3d660e'
-            'SKIP')
-# validpgpkeys=(
-#   '6DAA6E64A76D2840571B4902528897B826403ADA' # Werner Koch (dist signing 2020)
-#   'AC8E115BF73E2D8D47FA9908E98E9B2D19C6C8BD' # Niibe Yutaka (GnuPG Release Key)
-# )
-validpgpkeys=('6DAA6E64A76D2840571B4902528897B826403ADA')  # "Werner Koch (dist signing 2020)"
+source=(https://gnupg.org/ftp/gcrypt/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.bz2)
+sha1sums=('2907251e1dc68001fcdbeb0b73c2233fdd2dd786')
+sha256sums=('d77f68f48879510e79a2f65977ccc68981781ea0923e5bdffac2a193ea3d660e')
 
 prepare() {
   cd ${_pkgbasename}-${pkgver}

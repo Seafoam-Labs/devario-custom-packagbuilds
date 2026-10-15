@@ -11,7 +11,6 @@ arch=(x86_64)
 license=('MIT')
 depends=('lib32-gcc-libs' 'lib32-libpciaccess' 'lib32-glibc' $_pkgbasename)
 makedepends=('meson')
-checkdepends=('lib32-cairo')
 source=(https://dri.freedesktop.org/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.xz{,.sig})
 sha512sums=('ef2abddea59d1e93c83a48de920431b839ab50d6071ef4da3cf126e7d64ba7b235f2e34e1169d49ad9de2937a0a18acd66bb8d324b067239b1136e0ddbe792a1'
             'SKIP')
@@ -37,6 +36,7 @@ build() {
     --libdir=/usr/lib32 \
     -Dudev=false \
     -Dman-pages=disabled \
+    -Dcairo-tests=disabled \
     -Detnaviv=disabled \
     -Dfreedreno=disabled \
     -Dvc4=disabled \

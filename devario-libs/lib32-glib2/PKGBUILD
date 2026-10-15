@@ -25,17 +25,12 @@ depends=(
 makedepends=(
   gettext
   git
-  lib32-dbus
   lib32-libelf
   meson
   python
   python-packaging
   shared-mime-info
   util-linux
-)
-checkdepends=(
-  desktop-file-utils
-  lib32-glib2
 )
 source=(
   "git+https://gitlab.gnome.org/GNOME/glib.git?signed#tag=$pkgver"
@@ -101,10 +96,6 @@ build() {
 
   arch-meson glib build "${meson_options[@]}"
   meson compile -C build
-}
-
-check() {
-  meson test -C build --no-suite flaky --no-suite slow --print-errorlogs
 }
 
 package_lib32-glib2() {

@@ -48,6 +48,7 @@ build() {
     -D CMAKE_BUILD_TYPE=None
     -D CMAKE_INSTALL_LIBDIR=lib32
     -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_POLICY_VERSION_MINIMUM=3.5
     -D ENABLE_MPEG=OFF
     -S $_name-$pkgver
     -W no-dev
@@ -57,6 +58,7 @@ build() {
     -D CMAKE_BUILD_TYPE=None
     -D CMAKE_INSTALL_LIBDIR=lib32
     -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_POLICY_VERSION_MINIMUM=3.5
     -D ENABLE_MPEG=OFF
     -S $_name-$pkgver
     -W no-dev

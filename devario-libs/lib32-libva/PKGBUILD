@@ -25,7 +25,6 @@ depends=(
 makedepends=(
   git
   lib32-libglvnd
-  lib32-mesa
   meson
 )
 optdepends=(

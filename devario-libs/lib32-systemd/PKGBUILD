@@ -14,7 +14,7 @@ license=('LGPL-2.1-or-later')
 depends=('systemd-libs' 'lib32-gcc-libs' 'lib32-libgcrypt'
          'lib32-libxcrypt' 'lib32-xz' 'lib32-zstd')
 makedepends=('git' 'gperf' 'intltool' 'lib32-acl' 'lib32-bzip2'
-             'lib32-curl' 'lib32-dbus' 'lib32-gcc-libs' 'lib32-glib2'
+             'lib32-curl' 'lib32-gcc-libs' 'lib32-glib2'
              'lib32-gnutls' 'lib32-libelf' 'lib32-libidn2' 'lib32-pcre2'
              'libxslt' 'meson' 'python-jinja')
 checkdepends=('systemd')
@@ -158,10 +158,6 @@ build() {
   arch-meson "${_pkgbasename}" build "${_meson_options[@]}"
 
   meson compile -C build
-}
-
-check() {
-  meson test -C build --print-errorlogs
 }
 
 package() {

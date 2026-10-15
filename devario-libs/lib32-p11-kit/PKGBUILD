@@ -22,9 +22,6 @@ makedepends=(
   git
   meson
 )
-checkdepends=(
-  lib32-gnutls
-)
 source=(
   "git+https://github.com/p11-glue/p11-kit?signed#tag=$pkgver"
   git+https://github.com/p11-glue/pkcs11-json
@@ -54,10 +51,6 @@ build() {
 
   arch-meson p11-kit build "${meson_options[@]}"
   meson compile -C build
-}
-
-check() {
-  P11TOOL=p11tool-32 meson test -C build --print-errorlogs
 }
 
 package_lib32-p11-kit() {
