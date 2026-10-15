@@ -31,12 +31,14 @@ b2sums=('71b1e8a1644a94fff019abc6bf98c557df84994293f1e9bc651ad3ad3f0afeb24f54b8c
 validpgpkeys=('31D95CAB6D80D262244A1750A47620E801E47E95')  # David Seifert soap@gentoo.org
 
 build() {
+  # CMake 4 dropped policy compatibility below 3.5; the source floors at 3.1.
   local cmake_options=(
     -B build
     -D BUILD_SHARED_LIBS=ON
     -D CMAKE_BUILD_TYPE=None
     -D CMAKE_INSTALL_LIBDIR=lib32
     -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_POLICY_VERSION_MINIMUM=3.5
     -S $_name-$pkgver
     -W no-dev
   )

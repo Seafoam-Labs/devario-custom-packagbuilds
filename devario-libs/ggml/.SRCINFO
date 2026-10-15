@@ -19,6 +19,7 @@ pkgbase = ggml
 	makedepends = onetbb
 	makedepends = ocl-icd
 	makedepends = opencl-headers
+	makedepends = opencl-clhpp
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++

@@ -42,6 +42,7 @@ build() {
   export LDFLAGS+=" -m32"
   export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
 
+  # CMake 4 dropped policy compatibility below 3.5; the source floors at 3.1.
   local cmake_options=(
     -B build
     -D BUILD_SHARED_LIBS=ON
