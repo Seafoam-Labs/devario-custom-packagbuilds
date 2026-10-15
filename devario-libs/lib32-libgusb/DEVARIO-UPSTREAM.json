@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libgusb",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libgusb/-/archive/main/lib32-libgusb-main.tar.gz",
+  "sha256": "8b221654c057d36d34d351c82e42ffb6fe49ceff9285ed4c297010fcf0ae2c81",
+  "bytes": 1759
+}

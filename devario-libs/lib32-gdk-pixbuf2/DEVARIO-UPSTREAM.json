@@ -1,0 +1,6 @@
+{
+  "name": "lib32-gdk-pixbuf2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-gdk-pixbuf2/-/archive/main/lib32-gdk-pixbuf2-main.tar.gz",
+  "sha256": "831d6e7bf7bf64b8c00e3fd3ca1d0401be14c21fd98eabe47b6deff4e608290c",
+  "bytes": 2599
+}

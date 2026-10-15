@@ -1,0 +1,60 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Jameson Pugh <imntreal@gmail.com>
+
+pkgbase=lib32-json-glib
+pkgname=(
+  lib32-json-glib
+)
+pkgver=1.10.8
+pkgrel=1
+pkgdesc="JSON library built on GLib (32-bit)"
+url="https://gnome.pages.gitlab.gnome.org/json-glib/"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  json-glib
+  lib32-glib2
+  lib32-glibc
+)
+makedepends=(
+  git
+  glib2-devel
+  meson
+)
+source=("git+https://gitlab.gnome.org/GNOME/json-glib.git?signed#tag=$pkgver")
+b2sums=('fddbe1c61075a56c58d82338423f051653623c124cb0898d50711a13aaae510e5b98874849defe420494e795e453fb9018feec768a2bb928c27caefadcc26739')
+validpgpkeys=(
+  53EF3DC3B63E2899271BD26322E8091EEA11BBB7 # Emmanuele Bassi <ebassi@gnome.org>
+)
+
+prepare() {
+  cd json-glib
+}
+
+build() {
+  local meson_options=(
+    --cross-file lib32
+    -D documentation=disabled
+    -D gtk_doc=disabled
+    -D installed_tests=false
+    -D introspection=disabled
+  )
+
+  arch-meson json-glib build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_lib32-json-glib() {
+  depends+=(libg{lib,object,io}-2.0.so)
+  provides+=(libjson-glib-1.0.so)
+
+  meson install -C build --destdir "$pkgdir"
+
+  rm -r "$pkgdir"/usr/{bin,include,share}
+}
+
+# vim:set sw=2 sts=-1 et:

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libusb",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libusb/-/archive/main/lib32-libusb-main.tar.gz",
+  "sha256": "c03c930732e68f3cbf559439ee6a15413fdb63d39ec5fbd3bcb360cc030e6c14",
+  "bytes": 2109
+}

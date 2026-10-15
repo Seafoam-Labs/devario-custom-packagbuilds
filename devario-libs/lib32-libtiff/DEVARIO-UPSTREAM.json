@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libtiff",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libtiff/-/archive/main/lib32-libtiff-main.tar.gz",
+  "sha256": "e980394d507979349068a94199b01e745287034f17877ae018525264f5887f02",
+  "bytes": 11150
+}

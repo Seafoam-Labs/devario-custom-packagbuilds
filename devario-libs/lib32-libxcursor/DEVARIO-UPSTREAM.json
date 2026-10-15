@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxcursor",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxcursor/-/archive/main/lib32-libxcursor-main.tar.gz",
+  "sha256": "95088068893511c04efc953032e16bb803d2dd96ab6f6c100b880e39aada6437",
+  "bytes": 8496
+}

@@ -1,0 +1,70 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: jtts <jussaar@mbnet.fi>
+# Contributor: josephgbr <rafael.f.f1@gmail.com>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+pkgname=lib32-colord
+pkgver=1.4.8
+pkgrel=1
+pkgdesc="System daemon for managing color devices (client library, 32-bit)"
+url="https://www.freedesktop.org/software/colord/"
+arch=(x86_64)
+license=(GPL-2.0-or-later)
+depends=(
+  lib32-gcc-libs
+  lib32-glib2
+  lib32-glibc
+  lib32-lcms2
+  lib32-systemd
+  libcolord
+)
+makedepends=(
+  bash-completion
+  git
+  gobject-introspection
+  lib32-libgudev
+  lib32-libgusb
+  lib32-sqlite
+  meson
+  vala
+)
+provides=(libcolord.so)
+options=(!emptydirs)
+source=("git+https://github.com/hughsie/colord?signed#tag=$pkgver")
+b2sums=('451c9571241278fb3347dd928370f3e350645c1cb2736beda37e7e5d3c1d374d49626298f0ab96d457de6ec3633fda1057d992aa833bf4f8042e29fcc4162a66')
+validpgpkeys=(
+  163EB50119225DB3DF8F49EA17ACBA8DFA970E17 # Richard Hughes <richard@hughsie.com>
+)
+
+prepare() {
+  cd colord
+}
+
+build() {
+  local meson_options=(
+    --cross-file lib32
+    -D bash_completion=false
+    -D daemon=false
+    -D docs=false
+    -D introspection=false
+    -D libcolordcompat=true
+    -D man=false
+  )
+
+  arch-meson colord build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  rm -r "${pkgdir}"/usr/{bin,include,lib,share}
+  rm "${pkgdir}"/usr/lib32/libcolor{dprivate,hug}*
+  rm "${pkgdir}"/usr/lib32/pkgconfig/colorhug.pc
+}
+
+# vim:set sw=2 sts=-1 et:

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libgudev",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libgudev/-/archive/main/lib32-libgudev-main.tar.gz",
+  "sha256": "2d54ac3045d4fbc587b0264f0af4db9656acee15f35c4764662077bec5113050",
+  "bytes": 1978
+}

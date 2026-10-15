@@ -1,0 +1,85 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: jtts <jussaar@mbnet.fi>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=lib32-librsvg
+pkgname=(
+  lib32-librsvg
+)
+pkgver=2.63.2
+pkgrel=1
+epoch=2
+pkgdesc="SVG rendering library (32-bit)"
+url="https://gitlab.gnome.org/GNOME/librsvg"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  lib32-cairo
+  lib32-fontconfig
+  lib32-freetype2
+  lib32-gcc-libs
+  lib32-gdk-pixbuf2
+  lib32-glib2
+  lib32-glibc
+  lib32-harfbuzz
+  lib32-libxml2
+  lib32-pango
+  librsvg
+)
+makedepends=(
+  cargo-c
+  git
+  gobject-introspection
+  lib32-rust-libs
+  llvm
+  meson
+  rust
+)
+checkdepends=(ttf-dejavu)
+source=(
+  # librsvg tags use SSH signatures which makepkg doesn't understand
+  "git+https://gitlab.gnome.org/GNOME/librsvg.git#tag=$pkgver"
+)
+b2sums=('014b5d80429df08e73fd17b0e0c65f5e246b0aae02465409f8073956b48845034f63d76e7cc53170ff5d2eb2565756df10e60abe20f0ee743b09704d05f27830')
+
+# Use debug
+export CARGO_PROFILE_RELEASE_DEBUG=2 CARGO_PROFILE_RELEASE_STRIP=false
+
+# Use LTO
+export CARGO_PROFILE_RELEASE_LTO=true CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+
+prepare() {
+  cd librsvg
+
+  cargo fetch --locked --target i686-unknown-linux-gnu
+}
+
+build() {
+  local meson_options=(
+    --cross-file=lib32
+    -D avif=disabled
+    -D docs=disabled
+    -D introspection=disabled
+    -D pixbuf-loader=enabled
+    -D triplet=i686-unknown-linux-gnu
+    -D vala=disabled
+  )
+
+  arch-meson librsvg build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs --no-rebuild
+}
+
+package_lib32-librsvg() {
+  provides=(librsvg-${pkgver%%.*}.so)
+
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+
+  rm -r "$pkgdir"/usr/{bin,include,share}
+}
+
+# vim:set sw=2 sts=-1 et:
