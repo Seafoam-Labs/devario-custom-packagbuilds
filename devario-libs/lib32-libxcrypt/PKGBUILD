@@ -3,7 +3,7 @@
 pkgbase=lib32-libxcrypt
 pkgname=(lib32-libxcrypt lib32-libxcrypt-compat)
 pkgver=4.5.2
-pkgrel=2
+pkgrel=3
 pkgdesc='Modern library for one-way hashing of passwords (32-bit)'
 arch=('x86_64')
 url='https://github.com/besser82/libxcrypt/'
@@ -72,4 +72,6 @@ package_lib32-libxcrypt-compat() {
   cd build-libxcrypt-compat/
   make DESTDIR="${pkgdir}" install
   rm -rf "${pkgdir}"/usr/{include,lib32/{lib*.so,pkgconfig},share}
+  # The builder keeps .la files that makepkg strips, so only the main split may own this one.
+  rm -f "${pkgdir}"/usr/lib32/libcrypt.la
 }
