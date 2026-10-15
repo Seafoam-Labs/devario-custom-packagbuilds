@@ -2,7 +2,7 @@
 
 ## llama.cpp inference backends (2026-10-14)
 
-Added nine package bases for CPU, CUDA, Vulkan, ZenDNN, and OpenVINO.
+Added ten package bases for CPU, CUDA, Vulkan, ZenDNN, and OpenVINO.
 The live Devario catalog was checked before adding recipes: shaderc, glslang,
 Mesa/Vulkan drivers, opencl-nvidia, CUDA, CCCL, NCCL, oneTBB, and the common
 build tools are already published. They do not need duplicate recipes.
@@ -16,6 +16,7 @@ This distinguishes published packages from recipes that still need building.
 | [ggml](devario-libs/ggml/PKGBUILD) | `ggml` with CPU dispatch, plus `ggml-cuda`, `ggml-vulkan`, `ggml-zendnn`, and `ggml-openvino` |
 | [zendnn](devario-libs/zendnn/PKGBUILD) | ZenDNN and its checksum-pinned private math dependencies |
 | [openvino](devario-libs/openvino/PKGBUILD) | C++ runtime and `openvino-intel-gpu-plugin`; Intel CPU/NPU plugins disabled |
+| [opencl-clhpp](devario-libs/opencl-clhpp/PKGBUILD) | OpenCL C++ headers, including `CL/cl2.hpp` required by GGML's OpenVINO backend |
 | [intel-graphics-compiler](devario-libs/intel-graphics-compiler/PKGBUILD) | Intel GPU compiler |
 | [intel-gmmlib](devario-libs/intel-gmmlib/PKGBUILD) | Intel GPU memory manager |
 | [intel-metee](devario-libs/intel-metee/PKGBUILD) | Management transport library and documentation |
@@ -31,7 +32,8 @@ dependencies:
    `intel-gmmlib`, and `igsc`.
 3. Build/publish `openvino` and `openvino-intel-gpu-plugin`. The GPU plugin
    runtime dependencies are supplied by the Intel graphics packages above.
-4. Build `ggml` after `zendnn` and `openvino`, with the existing CUDA and
+4. Build/publish `opencl-clhpp` using the existing `opencl-headers` package.
+   Build `ggml` after `zendnn`, `openvino`, and `opencl-clhpp`, with the existing CUDA and
    Vulkan SDK packages installed. Publish all five split outputs together.
 5. Build `llama-cpp` against GGML 0.26.0. The backend packages require the
    exact matching GGML package release; rebuild them together on upgrades.
