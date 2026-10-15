@@ -27,6 +27,8 @@ build() {
 }
 
 package() {
+  depends=('lib32-libxext' 'libglvnd')
+
   meson install -C build --destdir "$pkgdir"
 
   rm -r "$pkgdir"/usr/include

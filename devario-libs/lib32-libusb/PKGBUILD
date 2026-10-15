@@ -12,6 +12,7 @@ url="http://libusb.info/"
 _url="https://github.com/libusb/libusb"
 license=(LGPL-2.1-or-later)
 depends=(
+  lib32-gcc-libs
   lib32-glibc
   lib32-systemd
   libusb=$pkgver

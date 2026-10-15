@@ -12,6 +12,7 @@ url="https://gnome.pages.gitlab.gnome.org/json-glib/"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
 depends=(
+  lib32-gcc-libs
   json-glib
   lib32-glib2
   lib32-glibc
