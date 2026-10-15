@@ -1,0 +1,6 @@
+{
+  "name": "lib32-at-spi2-core",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-at-spi2-core/-/archive/main/lib32-at-spi2-core-main.tar.gz",
+  "sha256": "70bfc86b9f8efd61ce97a242497e19e8745394c765d3fbc488bb31660e2b8933",
+  "bytes": 3665
+}

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxft",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxft/-/archive/main/lib32-libxft-main.tar.gz",
+  "sha256": "5a17bdd8e2ca83432605e577def47f0f19e037d9f112841bc53e7159e4640d04",
+  "bytes": 12413
+}

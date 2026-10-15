@@ -1,0 +1,9 @@
+[Trigger]
+Type = Package
+Operation = Remove
+Target = lib32-gdk-pixbuf2
+
+[Action]
+Description = Removing 32-bit GDK-Pixbuf loader cache...
+When = PreTransaction
+Exec = /usr/bin/rm --force /usr/lib32/gdk-pixbuf-2.0/2.10.0/loaders.cache

@@ -1,0 +1,6 @@
+{
+  "name": "lib32-pango",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-pango/-/archive/main/lib32-pango-main.tar.gz",
+  "sha256": "22302c17fe8948088df32d57d6811be060a2f30ea7c3819b1fed120ed439f267",
+  "bytes": 2105
+}

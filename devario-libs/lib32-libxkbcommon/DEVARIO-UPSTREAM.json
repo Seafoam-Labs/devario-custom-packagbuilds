@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libxkbcommon",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libxkbcommon/-/archive/main/lib32-libxkbcommon-main.tar.gz",
+  "sha256": "1a04aa88fc28eff983ed0919718c3a797c880373a4171b712bb40b401dd9a75e",
+  "bytes": 2370
+}

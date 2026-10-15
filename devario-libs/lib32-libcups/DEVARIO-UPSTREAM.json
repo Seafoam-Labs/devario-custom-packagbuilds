@@ -1,0 +1,6 @@
+{
+  "name": "lib32-libcups",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-libcups/-/archive/main/lib32-libcups-main.tar.gz",
+  "sha256": "e827e62b3f03df0deff58beed63aa39f86a9a21d14a8f2c99306c920f47f4e20",
+  "bytes": 9374
+}

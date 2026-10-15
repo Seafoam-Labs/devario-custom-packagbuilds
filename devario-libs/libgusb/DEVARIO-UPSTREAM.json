@@ -1,0 +1,6 @@
+{
+  "name": "libgusb",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libgusb/-/archive/main/libgusb-main.tar.gz",
+  "sha256": "08dc8c94b15907b292a98f9783faf9178e72e4567269471650fc01c18757966f",
+  "bytes": 1705
+}

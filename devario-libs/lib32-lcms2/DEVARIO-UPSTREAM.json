@@ -1,0 +1,6 @@
+{
+  "name": "lib32-lcms2",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lib32-lcms2/-/archive/main/lib32-lcms2-main.tar.gz",
+  "sha256": "88c85fac353e7a87a56c7166cdfc8e17694c6e66de8f8298d18c497bfc4695b5",
+  "bytes": 1854
+}
