@@ -7,7 +7,7 @@ pkgname=(
   lib32-freetype2
 )
 pkgver=2.14.3
-pkgrel=1
+pkgrel=2
 epoch=
 pkgdesc="Font rasterization library (32-bit)"
 url="https://www.freetype.org/"
@@ -25,8 +25,9 @@ makedepends=(
   lib32-harfbuzz
   meson
 )
+# savannah's mirror fails the worker's TLS; sourceforge serves the same artifact
 source=(
-  https://download-mirror.savannah.gnu.org/releases/freetype/freetype-$pkgver.tar.xz{,.sig}
+  https://downloads.sourceforge.net/project/freetype/freetype2/$pkgver/freetype-$pkgver.tar.xz{,.sig}
   0001-Enable-table-validation-modules.patch
   0002-Enable-subpixel-rendering.patch
   0003-Enable-long-PCF-family-names.patch
