@@ -18,6 +18,10 @@ source=(git+https://github.com/ggml-org/ggml.git#tag=v${pkgver})
 b2sums=('203856692e049060844664d52340be47db0a31770be6f7b9965ce573d6b7ffe68a7890abb01df8a0371f0d7bbd7e01b4155231ee065e8dbc2af7fb0a13da5784')
 
 build() {
+  # Isolated build shells do not source /etc/profile.d/cuda.sh.
+  export CUDA_PATH=/opt/cuda
+  export PATH="/opt/cuda/bin:$PATH"
+
   local cmake_options=(
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=/usr
@@ -30,6 +34,7 @@ build() {
     -DGGML_CPU=ON
     -DGGML_CPU_ALL_VARIANTS=ON
     -DGGML_CUDA=ON
+    -DCUDAToolkit_ROOT=/opt/cuda
     -DGGML_CUDA_NCCL=ON
     -DGGML_VULKAN=ON
     -DGGML_ZENDNN=ON
