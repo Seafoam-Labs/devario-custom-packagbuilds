@@ -39,6 +39,6 @@ absent `systemctl`, failed commands with visible warnings, the no-op upgrade
 path, offline enable and disable in a temporary root, and mask preservation.
 `bash -n`, `makepkg --printsrcinfo` agreement with the committed `.SRCINFO`, and
 `shelly build --review-only` (no findings) also pass. No full build has run, so
-the compile and the `meson test` suite are unverified here; the root pulls
-`python-breathe`, which has no Devario recipe and resolves from the worker's
-Arch-side repositories.
+the compile and the `meson test` suite are unverified here; at validation time
+the root pulled `python-breathe` from the worker's Arch-side repositories,
+which now also has a local recipe in `devario-libs/python-breathe`.
