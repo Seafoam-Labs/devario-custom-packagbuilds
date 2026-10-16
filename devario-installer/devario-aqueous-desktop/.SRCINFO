@@ -1,7 +1,7 @@
 pkgbase = devario-aqueous-desktop
 	pkgdesc = Complete Aqueous and Pearl desktop environment for Devario
 	pkgver = 1
-	pkgrel = 13
+	pkgrel = 16
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = GPL-3.0-or-later
@@ -24,6 +24,7 @@ pkgbase = devario-aqueous-desktop
 	depends = polkit
 	depends = gnome-keyring
 	depends = seahorse
+	depends = papirus-icon-theme>=20260801-2
 	depends = accountsservice
 	depends = gvfs
 	depends = udisks2
@@ -40,12 +41,12 @@ pkgbase = devario-aqueous-desktop
 	depends = noto-fonts
 	depends = ttf-dejavu
 	depends = linux-devario-headers
-	depends = nvidia-open-dkms=615.71.09
-	depends = nvidia-utils=615.71.09
 	depends = vulkan-intel
 	depends = vulkan-virtio
 	depends = vulkan-radeon
 	depends = vulkan-swrast
+	optdepends = nvidia-open-dkms: open kernel modules for supported NVIDIA GPUs
+	optdepends = nvidia-utils: NVIDIA userspace driver and Vulkan/OpenGL integration
 	conflicts = aqueous-noctalia
 	replaces = aqueous-noctalia
 	backup = etc/xdg/aqueous/session.toml
@@ -70,7 +71,7 @@ pkgbase = devario-aqueous-desktop
 	sha256sums = 79f25aad3be3af1214c3453c18dced5b8a0cc90087374752f59ba6d7d95eb02e
 	sha256sums = 4670c72c1612df9e7a0b9ccb5e61cb9d224d7e33a30b8029ad8a6853b249442e
 	sha256sums = 6d91c86fc41465665fb01ae6669ec03b03e3aabf948db7a63af1f92a9244ef6d
-	sha256sums = 1c5de17c681bc35622e0ad1a7c20e40e2e8c37f672c83194f5ad3836b1162723
+	sha256sums = 06d15fdb2a477256f2abcd5e98bf32ac68527134b5870b30346285f442e72ec7
 	sha256sums = 84543e1657e7e36205ffabbaaad0575a6c895b1c6f7b464724c0d94b5bb55bf6
 	sha256sums = 0051ed83f1263fdbd1728a5137c2b0264e8841d2d5ffe5eb19c3677de5769b80
 	sha256sums = a445b985551fa6ec6f26379726f6780690ecc08491fd6deacaa26fd307ea72ec

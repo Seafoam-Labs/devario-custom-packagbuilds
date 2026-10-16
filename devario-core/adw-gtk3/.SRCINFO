@@ -1,0 +1,16 @@
+pkgbase = adw-gtk3
+	pkgdesc = Libadwaita-style light and dark themes for GTK 3 and GTK 4
+	pkgver = 6.5
+	pkgrel = 1
+	url = https://github.com/lassekongo83/adw-gtk3
+	arch = any
+	license = LGPL-2.1-only
+	optdepends = gtk3: GTK 3 applications
+	optdepends = gtk4>=4.20: GTK 4 applications
+	options = !strip
+	source = adw-gtk3-6.5.tar.xz::https://github.com/lassekongo83/adw-gtk3/releases/download/v6.5/adw-gtk3v6.5.tar.xz
+	source = adw-gtk3-6.5-source.tar.gz::https://github.com/lassekongo83/adw-gtk3/archive/refs/tags/v6.5.tar.gz
+	sha256sums = a81780fadfc432be0fc3d89c4ebb41aa28e4f032d42c36f9789c57dd10cfa41c
+	sha256sums = fc9fc3b3e89d90d9a0e38bae05445ce9e65faf47acea3ac658e5f42566def473
+
+pkgname = adw-gtk3

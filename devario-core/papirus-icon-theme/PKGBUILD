@@ -2,15 +2,24 @@
 
 pkgname=papirus-icon-theme
 pkgver=20260801
-pkgrel=1
+pkgrel=2
 pkgdesc='Papirus SVG icon theme'
 arch=('any')
 url='https://github.com/PapirusDevelopmentTeam/papirus-icon-theme'
 license=('GPL-3.0-only')
-depends=('gtk-update-icon-cache')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
-sha256sums=('646f622e9e7e9e65eef9d0ab58999d4920ddb33d98e6a75232627cfe3bd508f9')
+depends=('gtk-update-icon-cache' 'gsettings-desktop-schemas')
+source=(
+  "$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+  '90-devario-icons.gschema.override'
+)
+sha256sums=(
+  '646f622e9e7e9e65eef9d0ab58999d4920ddb33d98e6a75232627cfe3bd508f9'
+  '49862dd752a52f8a107bbf96f2596815a763247615e9d2e388bf44d8dd49fce2'
+)
 
 package() {
   make -C "$srcdir/$pkgname-$pkgver" DESTDIR="$pkgdir" PREFIX=/usr install
+  # The GLib transaction hook compiles this on install, upgrade, and removal.
+  install -Dm644 "$srcdir/90-devario-icons.gschema.override" \
+    "$pkgdir/usr/share/glib-2.0/schemas/90-devario-icons.gschema.override"
 }

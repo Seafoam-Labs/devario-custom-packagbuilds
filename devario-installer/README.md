@@ -26,7 +26,7 @@ live user and Calamares-created accounts.
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |
 
-`devario-filesystem` 1-2 and `devario-aqueous-desktop` 1-13 are synchronized
+`devario-filesystem` 1-2 and `devario-aqueous-desktop` 1-16 are synchronized
 with the current OS checkout, including the Devario display name and eGPU
 supporting files. Bolt and boltctl are built together by
 [`devario-core/bolt`](../devario-core/bolt/PKGBUILD).
@@ -58,3 +58,13 @@ the runtime recipes and these OS packages.
 `devario-boot` 1-7 deploys systemd-boot for installed systems. Calamares now
 requires 64-bit UEFI; the live ISO retains BIOS Syslinux support. Build boot
 before base, whose 3-12 recipe requires the new boot lifecycle.
+
+Papirus icon defaults are delivered by `papirus-icon-theme` 20260801-2
+through GSettings. The ISO overlays supply matching GTK defaults.
+Build and publish Papirus before the legacy
+`devario-aqueous-desktop` 1-16 metapackage. The existing GLib transaction hook
+compiles the new schema override during upgrades. These packages update
+existing installations without writing user settings; log out and back in to
+refresh running applications. Rebuild the ISO with these packages for new
+installations. The desktop recipe is synchronized with the OS copy, including
+its optional NVIDIA dependencies.
