@@ -46,6 +46,10 @@ prepare() {
 
   # Do not hijack SIGHUP https://gitlab.archlinux.org/archlinux/packaging/packages/openucx/-/issues/3
   patch -Np1 -i ../ucx-conf.patch
+
+  # the device API gates these on __has_include, so the empty submodule directory leaves them
+  # probing true while their gpunetio includes dangle; drop them to match --without-gda
+  rm src/uct/ib/mlx5/gdaki/gdaki.cuh src/uct/ib/mlx5/gdaki/d2p.cuh
 }
 
 build() {
