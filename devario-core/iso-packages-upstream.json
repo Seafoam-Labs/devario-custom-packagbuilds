@@ -39,7 +39,7 @@
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "devario-filesystem": {
-    "changes": "Synchronized with the local devario-os working tree on 2026-10-14: release 1-2, NAME and PRETTY_NAME set to Devario; edition metadata retained. Includes local changes beyond the original import commit.",
+    "changes": "Synchronized with the local devario-os working tree on 2026-10-16: release 1-3 installs a checksummed profile defining append_path for profile.d scripts, preventing duplicate PATH entries and removing the helper afterward. Retains the Devario display name and edition metadata. Includes local changes beyond the original import commit.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-filesystem",
     "recipeDirectory": "devario-installer/devario-filesystem",

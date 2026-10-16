@@ -26,10 +26,16 @@ live user and Calamares-created accounts.
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |
 
-`devario-filesystem` 1-2 and `devario-aqueous-desktop` 1-16 are synchronized
+`devario-filesystem` 1-3 and `devario-aqueous-desktop` 1-16 are synchronized
 with the current OS checkout, including the Devario display name and eGPU
 supporting files. Bolt and boltctl are built together by
 [`devario-core/bolt`](../devario-core/bolt/PKGBUILD).
+
+Filesystem release 1-3 supplies `append_path` while loading `/etc/profile.d`
+scripts, restoring Perl and Flatpak executable directories to login-session
+PATH. Rebuild and publish this package for existing installations and future
+ISOs. After upgrading, merge any configuration update for a locally modified
+`/etc/profile` and start a fresh login session.
 
 Copy complete recipe directories to a worker. From this repository's root,
 review and build a recipe with:

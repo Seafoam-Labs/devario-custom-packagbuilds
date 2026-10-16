@@ -331,12 +331,12 @@
       "syntax": "passed"
     },
     "devario-filesystem": {
-      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
-      "metadata": "makepkg and Shelly agree",
-      "pkgbuildSha256": "99c7b5dfa574ffbbe8d6d44b6c2b896f0e0647f826eb69c5ad01a961288c3077",
+      "localBuild": "2026-10-16: package() staging and all four OS profile regression tests passed against this recipe; full isolated build pending",
+      "metadata": "Shelly .SRCINFO regenerated for 1-3; Shelly review completed with zero findings; makepkg unavailable",
+      "pkgbuildSha256": "569a68318520fdddc255a02574a8eac7fcea74176075071cbe6da613d78ad42e",
       "recipeDirectory": "devario-installer/devario-filesystem",
       "reviewFindings": 0,
-      "sources": "verified",
+      "sources": "Bundled profile SHA-256 verified; recipe and profile match the local devario-os working tree",
       "syntax": "passed"
     },
     "devario-keyring": {

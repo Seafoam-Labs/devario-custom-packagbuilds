@@ -1,7 +1,7 @@
 pkgbase = devario-filesystem
 	pkgdesc = Devario filesystem hierarchy and distribution identity
 	pkgver = 1
-	pkgrel = 1
+	pkgrel = 3
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = GPL-3.0-or-later
@@ -24,5 +24,7 @@ pkgbase = devario-filesystem
 	backup = etc/resolv.conf
 	backup = etc/subuid
 	backup = etc/subgid
+	source = profile
+	sha256sums = f7ced3aa3910abcb439a5e4cdf6d87602a6b4d4c4594f8470f403aa7e11b2e0f
 
 pkgname = devario-filesystem
