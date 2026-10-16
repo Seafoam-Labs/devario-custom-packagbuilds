@@ -10,11 +10,14 @@ license=('GPL-3.0-or-later')
 depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
 optdepends=('adwaita-icon-theme: fallback icons' 'breeze-icons: fallback icons')
 options=('!strip')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/2026-07-07.tar.gz")
-sha256sums=('0a8aee6e95f19ff96cc497d804c75e2af4271a5e6472c55891fb8ac5b099b59b')
+_commit=c0adf1ab92f564e3b83540441921f26d121b09c3  # 2026-07-07
+# Pinned git checkout: upstream's links/scalable/apps/CherryStudio.svg symlink
+# target ends in a newline, which the archive extractor rejects as unsafe.
+source=("git+$url.git#commit=$_commit")
+sha256sums=('1d0988e2cad2cfae053de565a02349fe69227f73abab94a6d921ef1e7ed1bc20')
 
 prepare() {
-  cd "Tela-circle-icon-theme-2026-07-07"
+  cd Tela-circle-icon-theme
   # Package-manager hooks generate caches after installation.
   sed -i '/^[[:space:]]*gtk-update-icon-cache /d' install.sh
   # Keep the payload independent of the build host's distribution.
@@ -22,7 +25,7 @@ prepare() {
 }
 
 package() {
-  cd "Tela-circle-icon-theme-2026-07-07"
+  cd Tela-circle-icon-theme
   install -d "$pkgdir/usr/share/icons"
   bash install.sh -d "$pkgdir/usr/share/icons"
   # Omit upstream aliases whose target icons are absent.
