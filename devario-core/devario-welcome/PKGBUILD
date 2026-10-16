@@ -1,0 +1,29 @@
+pkgname=devario-welcome
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Devario OS welcome application with quick links and tooling"
+arch=('x86_64')
+url="https://github.com/Seafoam-Labs/DevarioWelcome"
+license=('GPL-3.0-only')
+depends=('gtk4' 'glib2')
+source=("${url}/releases/download/v${pkgver}/DevarioWelcome-linux-x64.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+    install -Dm755 "$srcdir/devario-welcome" "$pkgdir/usr/bin/devario-welcome"
+    install -Dm644 "$srcdir/com.devario.welcome.gschema.xml" \
+        "$pkgdir/usr/share/glib-2.0/schemas/com.devario.welcome.gschema.xml"
+    install -Dm644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+    install -dm755 "$pkgdir/usr/share/applications"
+    cat > "$pkgdir/usr/share/applications/devario-welcome.desktop" <<'EOF'
+[Desktop Entry]
+Name=Devario Welcome
+Comment=Welcome application for Devario OS
+Exec=devario-welcome
+Icon=devario-welcome
+Terminal=false
+Type=Application
+Categories=GTK;System;
+EOF
+}
