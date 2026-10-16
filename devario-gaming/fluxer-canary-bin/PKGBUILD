@@ -21,30 +21,14 @@ source_x86_64=("fluxer-${pkgver}-x64.tar.gz::https://pkgs.fluxer.com/desktop/can
 source_aarch64=("fluxer-${pkgver}-arm64.tar.gz::https://pkgs.fluxer.com/desktop/canary/linux/arm64/${pkgver}/tar_gz")
 
 package() {
-    # Determine directory name based on architecture
-    if [ "$CARCH" = "x86_64" ]; then
-        _arch_dir="Fluxer Canary-${pkgver}-linux-x64"
-    elif [ "$CARCH" = "aarch64" ]; then
-        _arch_dir="Fluxer Canary-${pkgver}-linux-arm64"
-    fi
+    local _upstream_arch
+    case "$CARCH" in
+        x86_64) _upstream_arch=x64 ;;
+        aarch64) _upstream_arch=arm64 ;;
+        *) return 1 ;;
+    esac
 
-    check_dir="${srcdir}/${_arch_dir}"
-
-    # Fallback search if directory name is different
-    if [ ! -d "$check_dir" ]; then
-        cd "${srcdir}"
-        # try to find directory matching pattern
-        _arch_dir=$(ls -d Fluxer*"${pkgver}"* 2>/dev/null | head -n 1)
-    fi
-
-    if [ -z "$_arch_dir" ] || [ ! -d "${srcdir}/${_arch_dir}" ]; then
-        echo "Error: Could not find extracted directory for architecture $CARCH"
-        # Lists content of srcdir to help debugging
-        ls -la "${srcdir}"
-        return 1
-    fi
-
-    cd "${srcdir}/${_arch_dir}"
+    cd "${srcdir}/Fluxer-Canary-${pkgver}-linux-${_upstream_arch}"
 
     install -d "${pkgdir}/opt/${pkgname}"
     cp -r . "${pkgdir}/opt/${pkgname}/"

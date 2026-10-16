@@ -1,0 +1,5 @@
+[fluxer-canary-bin]
+source = "httpheader"
+url = "https://pkgs.fluxer.com/desktop/canary/linux/x64/latest/tar_gz"
+header = "Content-Disposition"
+regex = 'Fluxer-Canary-(\d+\.\d+\.\d+)-linux-x64\.tar\.gz'
