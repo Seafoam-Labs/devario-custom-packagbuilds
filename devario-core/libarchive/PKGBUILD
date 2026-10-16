@@ -3,8 +3,8 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=libarchive
-pkgver=3.8.9
-pkgrel=2
+pkgver=3.8.10
+pkgrel=1
 pkgdesc='Multi-format archive and compression library'
 arch=('x86_64')
 url='https://libarchive.org/'
@@ -16,18 +16,19 @@ license=(
 depends=('acl'
          'bzip2'
          'glibc'
-         'libxml2'
+         'libxml2>=2.7.3'
          'lz4'
          'openssl'
          'xz'
-         'zlib'
+         'zlib>=1.2.1'
          'zstd')
-makedepends=('git' 'autoconf' 'automake' 'libtool' 'gettext' 'texinfo')
+makedepends=('git' 'autoconf>=2.71' 'automake>=1.11' 'libtool' 'gettext' 'texinfo')
 provides=('libarchive.so' 'libarchive.so=13-64')
 validpgpkeys=('DB2C7CF1B4C265FAEF56E3FC5848A18B8F14184B'  # Martin Matuska <martin@matuska.org>
               '659C84C0E23EA1FA97E0B58CC040B508D63D2B36') # Martin Matuska <mm@FreeBSD.org>
 source=("git+https://github.com/${pkgname}/${pkgname}.git?signed#tag=v${pkgver}")
-sha256sums=('033f8b22a755d01f87a79a5723ce4faed4d3772ab703f739c26ce32c6b1da0fd')
+# Refresh the source checksum for v3.8.10 in the separate checksum stage; value below is from v3.8.9.
+sha256sums=('85b5e4f75184468a4c4f043b2ec772e2d6715e89a6c9d3196f02e39dc1a977bb')
 
 _backports=(
 )
