@@ -1,7 +1,7 @@
 pkgbase = harfbuzz
 	pkgdesc = OpenType text shaping engine
-	pkgver = 14.5.1
-	pkgrel = 2
+	pkgver = 14.6.0
+	pkgrel = 1
 	url = https://harfbuzz.github.io/
 	arch = x86_64
 	license = MIT
@@ -28,12 +28,12 @@ pkgbase = harfbuzz
 	makedepends = python
 	makedepends = ragel
 	makedepends = zlib
-	source = git+https://github.com/harfbuzz/harfbuzz?signed#tag=14.5.1
+	source = git+https://github.com/harfbuzz/harfbuzz?signed#tag=14.6.0
 	validpgpkeys = 053D20F17CCCA9651B2C6FCB9AB24930C0B997A2
 	validpgpkeys = 9F377DDB6D3153A48EB3EB1E63CC496475267693
 	validpgpkeys = 2277650A4E8BDFE4B7F6BE419FEE04E5D3531115
 	validpgpkeys = EACF64F53455E2771BA661A4803B21859F015E4E
-	b2sums = 49b05d0f5af343e1576938bcde78fc1687ff50cab9b7ab3c0fcdf0ae1ac4abbbd80c52bd56b4711833519b85e1bca3a8473b5121b575482c0f7903a5c316d26b
+	b2sums = 98e12387c783aac73fb7d95c7f2592e78b5f8577b0fa552220e3d7f7c59f9e9ff50335b62d228afc933b62d45de33658ef8c3d3c0414eb25d14477ccd7657e9d
 
 pkgname = harfbuzz
 	depends = freetype2
