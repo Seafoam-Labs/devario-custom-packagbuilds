@@ -1,0 +1,36 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
+# Contributor: Patrice Peterson <runiq at archlinux dot us>
+# Contributor: JonnyJD <arch@JonnyJD.net>
+
+pkgname=python-secretstorage
+pkgver=3.5.0
+pkgrel=1
+pkgdesc="Securely store passwords and other private data using the SecretService DBus API"
+arch=('any')
+url="https://github.com/mitya57/secretstorage"
+license=('BSD-3-Clause')
+depends=('python' 'python-cryptography' 'python-jeepney')
+makedepends=('python-setuptools' 'python-build' 'python-installer' 'python-wheel')
+checkdepends=('org.freedesktop.secrets' 'xorg-server-xvfb')
+source=("https://pypi.org/packages/source/s/secretstorage/secretstorage-$pkgver.tar.gz")
+sha256sums=('f04b8e4689cbce351744d5537bf6b1329c6fc68f91fa666f60a380edddcd11be')
+
+build() {
+  cd "secretstorage-$pkgver"
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "secretstorage-$pkgver"
+
+  dbus-launch xvfb-run -a python -m unittest discover -s tests
+}
+
+package() {
+  cd "secretstorage-$pkgver"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

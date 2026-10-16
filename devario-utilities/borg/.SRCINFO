@@ -1,0 +1,34 @@
+pkgbase = borg
+	pkgdesc = Deduplicating backup program with compression and authenticated encryption
+	pkgver = 1.4.5
+	pkgrel = 1
+	url = https://borgbackup.github.io/
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = python-pytest
+	checkdepends = python-dateutil
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-pkgconfig
+	makedepends = python-wheel
+	makedepends = cython
+	depends = glibc
+	depends = acl
+	depends = lz4
+	depends = openssl
+	depends = xz
+	depends = zstd
+	depends = python
+	depends = python-packaging
+	depends = python-msgpack>=1.0.3
+	depends = python-msgpack<=1.2.1
+	depends = xxhash
+	optdepends = openssh: repositories on remote hosts
+	optdepends = python-pyfuse3: mounting backups as a FUSE file system
+	provides = borgbackup
+	source = https://github.com/borgbackup/borg/releases/download/1.4.5/borgbackup-1.4.5.tar.gz
+	sha256sums = 4f9a5fe584c504b15485841236750dea16aa7cd2ddbc4a594e9d2ce5c49c4508
+
+pkgname = borg

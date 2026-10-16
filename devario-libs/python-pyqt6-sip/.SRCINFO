@@ -1,0 +1,17 @@
+pkgbase = python-pyqt6-sip
+	pkgdesc = The sip module support for PyQt6
+	pkgver = 13.13.0
+	pkgrel = 1
+	url = https://riverbankcomputing.com/software/pyqt/intro
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python
+	source = https://pypi.python.org/packages/source/P/PyQt6-sip/pyqt6_sip-13.13.0.tar.gz
+	sha256sums = 2cd55f575cde208c398d6cfdecc5a13394ed2afb54226210c50e3a6df7c3a997
+
+pkgname = python-pyqt6-sip

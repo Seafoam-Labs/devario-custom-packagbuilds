@@ -1,0 +1,38 @@
+pkgbase = vorta
+	pkgdesc = Desktop backup client for Borg Backup
+	pkgver = 0.11.6
+	pkgrel = 1
+	url = https://vorta.borgbase.com/
+	arch = any
+	license = GPL-3.0-only
+	checkdepends = dbus
+	checkdepends = openssh
+	checkdepends = python-pytest
+	checkdepends = python-pytest-mock
+	checkdepends = python-pytest-qt
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	makedepends = qt6-declarative
+	makedepends = qt6-tools
+	depends = borg
+	depends = hicolor-icon-theme
+	depends = python>=3.10
+	depends = python-packaging
+	depends = python-peewee
+	depends = python-platformdirs>=2.6.0
+	depends = python-platformdirs<5.0.0
+	depends = python-psutil
+	depends = python-pyqt6
+	depends = python-secretstorage
+	depends = qt6-svg
+	optdepends = gnome-keyring: store repository passwords using Secret Service
+	optdepends = kwallet: store repository passwords using KWallet
+	optdepends = networkmanager: Wi-Fi and metered connection detection
+	optdepends = openssh: access remote repositories and generate SSH keys
+	optdepends = python-pyfuse3: mount backup archives with Borg
+	source = vorta-0.11.6.tar.gz::https://github.com/borgbase/vorta/archive/refs/tags/v0.11.6.tar.gz
+	sha256sums = f86531adedfaad3543418ca2907f5613005800d9c534ffcea481bce51f641e88
+
+pkgname = vorta

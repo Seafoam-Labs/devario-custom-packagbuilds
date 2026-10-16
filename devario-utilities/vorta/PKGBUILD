@@ -1,0 +1,78 @@
+pkgname=vorta
+pkgver=0.11.6
+pkgrel=1
+pkgdesc='Desktop backup client for Borg Backup'
+arch=('any')
+url='https://vorta.borgbase.com/'
+license=('GPL-3.0-only')
+depends=(
+  'borg'
+  'hicolor-icon-theme'
+  'python>=3.10'
+  'python-packaging'
+  'python-peewee'
+  'python-platformdirs>=2.6.0'
+  'python-platformdirs<5.0.0'
+  'python-psutil'
+  'python-pyqt6'
+  'python-secretstorage'
+  'qt6-svg'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+  'qt6-declarative'
+  'qt6-tools'
+)
+checkdepends=(
+  'dbus'
+  'openssh'
+  'python-pytest'
+  'python-pytest-mock'
+  'python-pytest-qt'
+)
+optdepends=(
+  'gnome-keyring: store repository passwords using Secret Service'
+  'kwallet: store repository passwords using KWallet'
+  'networkmanager: Wi-Fi and metered connection detection'
+  'openssh: access remote repositories and generate SSH keys'
+  'python-pyfuse3: mount backup archives with Borg'
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/borgbase/vorta/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('f86531adedfaad3543418ca2907f5613005800d9c534ffcea481bce51f641e88')
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  local translation filename
+  for translation in src/vorta/i18n/ts/vorta.*.ts; do
+    filename=${translation##*/}
+    /usr/lib/qt6/bin/lrelease "$translation" \
+      -qm "src/vorta/i18n/qm/${filename%.ts}.qm"
+  done
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  dbus-run-session -- env QT_QPA_PLATFORM=offscreen PYTHONPATH="$PWD/src" \
+    python -m pytest tests/unit
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 src/vorta/assets/metadata/com.borgbase.Vorta.desktop \
+    "$pkgdir/usr/share/applications/com.borgbase.Vorta.desktop"
+  install -Dm644 src/vorta/assets/metadata/com.borgbase.Vorta.appdata.xml \
+    "$pkgdir/usr/share/metainfo/com.borgbase.Vorta.appdata.xml"
+  install -Dm644 src/vorta/assets/icons/icon.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/com.borgbase.Vorta.svg"
+  install -Dm644 package/icon-symbolic.svg \
+    "$pkgdir/usr/share/icons/hicolor/symbolic/apps/com.borgbase.Vorta-symbolic.svg"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

@@ -1,18 +1,18 @@
 pkgbase = pnpm
 	pkgdesc = Fast, disk space efficient package manager
 	pkgver = 12.10.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://pnpm.io
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = rust
-	makedepends = pnpm
-	makedepends = npm
-	makedepends = python
 	depends = node-gyp
+	noextract = pnpm-linux-x64-v12.10.1.tar.gz
 	source = git+https://github.com/pnpm/pnpm.git#tag=v12.10.1?signed
+	source = pnpm-linux-x64-v12.10.1.tar.gz::https://github.com/pnpm/pnpm/releases/download/v12.10.1/pnpm-linux-x64.tar.gz
 	validpgpkeys = 7B74D1299568B586BA9962B5649E4D4AF74E7DEC
 	b2sums = 83a10a56e1980d34a9126da1ed72d9103bb295e6d9ca898ab1af0b6533644b1e855b630871207cbf12a17f219c14eb375749ee337a2e605425c195beab15f0d3
+	b2sums = 41c55de07087df062e3def22aeea32ab6b083d9083e392b7a40746457863d681bf78e2e71e35325f3bec109917823d7bb5fa546442e65ed3d24f158a32a5d8fa
 
 pkgname = pnpm

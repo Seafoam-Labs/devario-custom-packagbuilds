@@ -1,0 +1,19 @@
+--- a/project.py
++++ b/project.py
+@@ -218,9 +218,14 @@
+                 self._add_plugin('qmlscene', "qmlscene", 'pyqt6qmlplugin',
+                         'PyQt6', others_debug)
+ 
+-        # Add the dbus-python support.
++    def verify_configuration(self, tool):
++        super().verify_configuration(tool)
++
++        # SIP 6.17 initializes limited_abi_version during validation.
++        # Create the dbus-python buildable only after that value is available.
+         if self.dbus_python:
+-            self._add_dbus(others_debug)
++            self._add_dbus(self.py_debug or any(
++                    bindings.debug for bindings in self.bindings.values()))
+ 
+     def _add_dbus(self, debug):
+         """ Add the dbus-python support. """

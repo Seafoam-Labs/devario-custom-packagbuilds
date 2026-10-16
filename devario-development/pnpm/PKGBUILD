@@ -2,10 +2,11 @@
 # Contributor: Severen Redwood <me@severen.dev>
 # Contributor: Tomasz Jakub Rup <tomasz.rup@gmail.com>
 
-_bootstrap=0
+# Bootstrap with the upstream binary so the first build does not require pnpm.
+_bootstrap=1
 pkgname=pnpm
 pkgver=12.10.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Fast, disk space efficient package manager'
 arch=(any)
 url=https://pnpm.io
@@ -14,11 +15,12 @@ depends=(node-gyp)
 makedepends=(git rust)
 (( _bootstrap == 0 )) && makedepends+=(pnpm npm python)
 source=("git+https://github.com/$pkgname/$pkgname.git#tag=v$pkgver?signed")
+b2sums=('83a10a56e1980d34a9126da1ed72d9103bb295e6d9ca898ab1af0b6533644b1e855b630871207cbf12a17f219c14eb375749ee337a2e605425c195beab15f0d3')
 if (( _bootstrap == 1 )); then
   source+=("pnpm-linux-x64-v$pkgver.tar.gz::https://github.com/pnpm/pnpm/releases/download/v$pkgver/pnpm-linux-x64.tar.gz")
   noextract=("pnpm-linux-x64-v$pkgver.tar.gz")
+  b2sums+=('41c55de07087df062e3def22aeea32ab6b083d9083e392b7a40746457863d681bf78e2e71e35325f3bec109917823d7bb5fa546442e65ed3d24f158a32a5d8fa')
 fi
-b2sums=('83a10a56e1980d34a9126da1ed72d9103bb295e6d9ca898ab1af0b6533644b1e855b630871207cbf12a17f219c14eb375749ee337a2e605425c195beab15f0d3')
 validpgpkeys=(7B74D1299568B586BA9962B5649E4D4AF74E7DEC) # Zoltan Kochan <z@kochan.io>
 
 prepare() {

@@ -1,0 +1,22 @@
+pkgbase = python-jeepney
+	pkgdesc = Low-level, pure Python DBus protocol wrapper
+	pkgver = 0.9.0
+	pkgrel = 1
+	url = https://gitlab.com/takluyver/jeepney
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-asyncio
+	checkdepends = python-pytest-trio
+	checkdepends = python-testpath
+	checkdepends = python-trio
+	makedepends = python-build
+	makedepends = python-flit-core
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	optdepends = python-trio: support D-Bus applications with Trio
+	source = https://pypi.org/packages/source/j/jeepney/jeepney-0.9.0.tar.gz
+	sha256sums = cf0e9e845622b81e4a28df94c40345400256ec608d0e55bb8a3feaa9163f5732
+
+pkgname = python-jeepney
