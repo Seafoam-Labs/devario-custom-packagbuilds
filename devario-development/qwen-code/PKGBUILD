@@ -1,0 +1,32 @@
+pkgname=qwen-code
+pkgver=0.25.2
+pkgrel=1
+pkgdesc='Qwen Code: AI coding agent CLI for the terminal (Qwen3-Coder), forked from Gemini CLI'
+arch=('any')
+url='https://github.com/QwenLM/qwen-code'
+license=('Apache-2.0')
+depends=('nodejs>=20')
+makedepends=('npm')
+options=('!strip')
+source=("https://registry.npmjs.org/@qwen-code/qwen-code/-/qwen-code-${pkgver}.tgz")
+noextract=("qwen-code-${pkgver}.tgz")
+sha256sums=('SKIP')   # run `updpkgsums` to fill this in
+
+package() {
+  npm install -g \
+    --prefix "$pkgdir/usr" \
+    --no-audit --no-fund --no-update-notifier \
+    "$srcdir/qwen-code-${pkgver}.tgz"
+
+  # npm leaves references to $pkgdir in package.json files; strip them
+  find "$pkgdir/usr" -name package.json -print0 \
+    | xargs -r -0 sed -i "/_where/d;/\"_resolved\"/d;s|$pkgdir||g"
+
+  # npm may install files with the build user's ownership
+  chown -R root:root "$pkgdir"
+
+  # License
+  install -Dm644 \
+    "$pkgdir/usr/lib/node_modules/@qwen-code/qwen-code/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
