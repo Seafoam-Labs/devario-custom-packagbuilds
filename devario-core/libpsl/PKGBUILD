@@ -3,8 +3,8 @@
 # Adapted for Devario: preserve the explicit library ABI for Shelly.
 
 pkgname=libpsl
-pkgver=0.21.5
-pkgrel=3
+pkgver=0.23.3
+pkgrel=1
 pkgdesc='Public Suffix List library'
 url='https://github.com/rockdaboot/libpsl'
 arch=('x86_64')
@@ -25,9 +25,9 @@ makedepends=(
 )
 provides=('libpsl.so' 'libpsl.so=5-64')
 source=(https://github.com/rockdaboot/libpsl/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz{,.sig})
-sha512sums=('c14d575cecc0f1693894dd79565b6b9220084ddfa43b908a1cefe16d147cdd5ec47796eb0c2135e2f829a951abaf39d8a371ab5c1352f57b36e610e25adf91f5'
+sha512sums=('536abf5c713e879daf49a78813d39637c78de1cebb93be841adc0a733fc3fd708dad03acac4a5cf8d3bfd06ab2b6bf3e9b0cb7881367de1c471c4c49dab28465'
             'SKIP')
-b2sums=('a0076f622b85df99f866de6707850ac216b764bdb68c6d516f4603da42dac8eae3ee4c53d68dbb6af6f779c2c7f1b9caab74c8b558209b1f6823f95c13fc3ceb'
+b2sums=('c569106cf1b9d3d8a21acddbf905378e186f732d9075f6287868dc3da15bf737e74af4c16faf81182f5bdb88d557973e0ae331a1342fbb15972a1adce99459c6'
         'SKIP')
 validpgpkeys=('1CB27DBC98614B2D5841646D08302DB6A2670428') # Tim Rühsen <tim.ruehsen@gmx.de>
 
