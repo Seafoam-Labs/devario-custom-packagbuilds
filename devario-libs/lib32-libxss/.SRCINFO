@@ -1,12 +1,13 @@
 pkgbase = lib32-libxss
 	pkgdesc = X11 Screen Saver extension library (32-bit)
 	pkgver = 1.2.5
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver
 	arch = x86_64
 	license = X11
 	makedepends = xorg-util-macros
 	makedepends = gcc-multilib
+	depends = lib32-gcc-libs
 	depends = lib32-libxext
 	depends = libxss
 	source = https://xorg.freedesktop.org/releases/individual/lib/libXScrnSaver-1.2.5.tar.xz
