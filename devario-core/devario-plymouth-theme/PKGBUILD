@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 pkgname=devario-plymouth-theme
 pkgver=1.0.0
-pkgrel=2
+pkgrel=3
 pkgdesc='Static Devario fish boot splash with password and message prompts'
 arch=('any')
 url='https://github.com/Seafoam-Labs/devario-os'

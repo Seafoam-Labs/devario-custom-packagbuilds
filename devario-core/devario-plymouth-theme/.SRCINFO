@@ -1,7 +1,7 @@
 pkgbase = devario-plymouth-theme
 	pkgdesc = Static Devario fish boot splash with password and message prompts
 	pkgver = 1.0.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = GPL-3.0-or-later
