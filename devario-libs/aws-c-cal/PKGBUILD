@@ -3,7 +3,7 @@
 
 pkgname=aws-c-cal
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc='AWS Crypto Abstraction Layer: Cross-Platform, C99 wrapper for cryptography primitives'
 arch=(x86_64)
 url='https://github.com/awslabs/aws-c-cal'
