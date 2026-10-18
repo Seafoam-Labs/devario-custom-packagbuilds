@@ -1,7 +1,7 @@
 pkgbase = mm-common
 	pkgdesc = Common build files of the C++ bindings
 	pkgver = 1.0.8
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gtkmm.gnome.org/
 	arch = any
 	license = GPL-2.0-or-later
