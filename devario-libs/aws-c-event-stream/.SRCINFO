@@ -1,7 +1,7 @@
 pkgbase = aws-c-event-stream
 	pkgdesc = C99 implementation of the vnd.amazon.eventstream content-type
 	pkgver = 1.0.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/awslabs/aws-c-event-stream
 	arch = x86_64
 	license = Apache-2.0
