@@ -1,4 +1,3 @@
-From: Devario packaging <packaging@seafoam-labs.org>
 Subject: [PATCH] lib: quirk vendor names resolved from pnp.ids
 
 The hwdb path runs the result through cd_quirk_vendor_name, the pnp.ids
