@@ -1,42 +1,42 @@
 pkgbase = pearl-darkly-style
 	pkgdesc = Darkly application styles for Qt 5 and Qt 6, without KWin decorations
-	pkgver = 0.5.39
-	pkgrel = 2
+	pkgver = 0.5.41
+	pkgrel = 1
 	url = https://github.com/Bali10050/Darkly
 	arch = x86_64
 	license = GPL-2.0-or-later
 	makedepends = git
-	makedepends = cmake
-	makedepends = extra-cmake-modules
+	makedepends = cmake>=3.16
+	makedepends = extra-cmake-modules>=5.102.0
 	makedepends = gcc
 	makedepends = make
 	makedepends = patch
-	depends = qt5-declarative
-	depends = qt6-declarative
-	depends = kcoreaddons5
-	depends = kcoreaddons
-	depends = kconfig5
-	depends = kconfig
-	depends = kconfigwidgets5
-	depends = kcolorscheme
-	depends = kguiaddons5
-	depends = kguiaddons
-	depends = ki18n5
-	depends = ki18n
-	depends = kiconthemes5
-	depends = kiconthemes
-	depends = kwindowsystem5
-	depends = kwindowsystem
-	depends = frameworkintegration5
-	depends = frameworkintegration
-	depends = kirigami
-	provides = darkly=0.5.39
+	depends = qt5-declarative>=5.15.2
+	depends = qt6-declarative>=6.7.0
+	depends = kcoreaddons5>=5.102.0
+	depends = kcoreaddons>=6.10.0
+	depends = kconfig5>=5.102.0
+	depends = kconfig>=6.10.0
+	depends = kconfigwidgets5>=5.102.0
+	depends = kcolorscheme>=6.10.0
+	depends = kguiaddons5>=5.102.0
+	depends = kguiaddons>=6.10.0
+	depends = ki18n5>=5.102.0
+	depends = ki18n>=6.10.0
+	depends = kiconthemes5>=5.102.0
+	depends = kiconthemes>=6.10.0
+	depends = kwindowsystem5>=5.102.0
+	depends = kwindowsystem>=6.10.0
+	depends = frameworkintegration5>=5.102.0
+	depends = frameworkintegration>=6.10.0
+	depends = kirigami>=6.10.0
+	provides = darkly=0.5.41
 	conflicts = darkly
 	conflicts = darkly-bin
 	conflicts = darkly-git
-	source = darkly::git+https://github.com/Bali10050/Darkly.git#commit=65f6fa62675e3c30986f8fc8e4fdbba053096491
+	source = darkly::git+https://github.com/Bali10050/Darkly.git#commit=6fc65177b22983d54aa965ea3617f8c9d658f442
 	source = application-style.patch
-	sha256sums = 85e3bf3841b8fe1be513958d745f3c043ac7f6202aad4cc8f4ad3c7f714bdf8c
+	sha256sums = 1769cbd3ecf0058267283f3ad1058f32ff5eddd6a0ca83362a27a0188d5a535c
 	sha256sums = 4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763
 
 pkgname = pearl-darkly-style

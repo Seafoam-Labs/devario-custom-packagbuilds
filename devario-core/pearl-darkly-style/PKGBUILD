@@ -1,23 +1,25 @@
 # Pinned Darkly application styles for Pearl. No KWin decorations or Plasma theme.
 pkgname=pearl-darkly-style
-pkgver=0.5.39
-pkgrel=2
+pkgver=0.5.41
+pkgrel=1
 pkgdesc='Darkly application styles for Qt 5 and Qt 6, without KWin decorations'
 arch=('x86_64')
 url='https://github.com/Bali10050/Darkly'
 license=('GPL-2.0-or-later')
-depends=('qt5-declarative' 'qt6-declarative' 'kcoreaddons5' 'kcoreaddons'
-         'kconfig5' 'kconfig' 'kconfigwidgets5' 'kcolorscheme'
-         'kguiaddons5' 'kguiaddons' 'ki18n5' 'ki18n'
-         'kiconthemes5' 'kiconthemes' 'kwindowsystem5' 'kwindowsystem'
-         'frameworkintegration5' 'frameworkintegration' 'kirigami')
-makedepends=('git' 'cmake' 'extra-cmake-modules' 'gcc' 'make' 'patch')
+depends=('qt5-declarative>=5.15.2' 'qt6-declarative>=6.7.0' 'kcoreaddons5>=5.102.0' 'kcoreaddons>=6.10.0'
+         'kconfig5>=5.102.0' 'kconfig>=6.10.0' 'kconfigwidgets5>=5.102.0' 'kcolorscheme>=6.10.0'
+         'kguiaddons5>=5.102.0' 'kguiaddons>=6.10.0' 'ki18n5>=5.102.0' 'ki18n>=6.10.0'
+         'kiconthemes5>=5.102.0' 'kiconthemes>=6.10.0' 'kwindowsystem5>=5.102.0' 'kwindowsystem>=6.10.0'
+         'frameworkintegration5>=5.102.0' 'frameworkintegration>=6.10.0' 'kirigami>=6.10.0')
+makedepends=('git' 'cmake>=3.16' 'extra-cmake-modules>=5.102.0' 'gcc' 'make' 'patch')
 provides=("darkly=$pkgver")
 conflicts=('darkly' 'darkly-bin' 'darkly-git')
-_commit=65f6fa62675e3c30986f8fc8e4fdbba053096491
+_commit=6fc65177b22983d54aa965ea3617f8c9d658f442
 source=("darkly::git+$url.git#commit=$_commit" 'application-style.patch')
 # Checksum the commit's git archive tar; SKIP is for detached signatures only.
-sha256sums=('85e3bf3841b8fe1be513958d745f3c043ac7f6202aad4cc8f4ad3c7f714bdf8c' '4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763')
+# Source checksum below is from 0.5.39; refresh for 0.5.41 in checksum validation.
+sha256sums=('1769cbd3ecf0058267283f3ad1058f32ff5eddd6a0ca83362a27a0188d5a535c'
+            '4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763')
 
 prepare() {
     cd "$srcdir/darkly"
