@@ -6,7 +6,7 @@
 
 pkgname=devario-dracut
 pkgver=112
-pkgrel=7
+pkgrel=8
 pkgdesc="An event driven initramfs infrastructure"
 arch=('x86_64')
 url="https://github.com/dracut-ng/dracut"
@@ -26,6 +26,7 @@ depends=(
   'systemd'
   'tpm2-tools'
   'util-linux'
+  'zstd'
 )
 makedepends=(
   'asciidoctor'
@@ -159,6 +160,7 @@ package() {
   cd ${pkgname}-${pkgver}
 
   DESTDIR="$pkgdir" make install
+  echo 'compress="zstd"' >> "${pkgdir}/etc/dracut.conf"
   install -Dm644 "${srcdir}/90-dracut-install.hook" "${pkgdir}/usr/share/rlpm/hooks/90-dracut-install.hook"
   install -Dm644 "${srcdir}/60-dracut-remove.hook"  "${pkgdir}/usr/share/rlpm/hooks/60-dracut-remove.hook"
   install -Dm755 "${srcdir}/dracut-install"         "${pkgdir}/usr/share/rlpm/scripts/dracut-install"

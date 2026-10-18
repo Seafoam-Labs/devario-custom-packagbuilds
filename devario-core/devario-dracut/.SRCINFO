@@ -1,7 +1,7 @@
 pkgbase = devario-dracut
 	pkgdesc = An event driven initramfs infrastructure
 	pkgver = 112
-	pkgrel = 7
+	pkgrel = 8
 	url = https://github.com/dracut-ng/dracut
 	arch = x86_64
 	license = GPL-2.0-or-later
@@ -23,6 +23,7 @@ pkgbase = devario-dracut
 	depends = systemd
 	depends = tpm2-tools
 	depends = util-linux
+	depends = zstd
 	optdepends = binutils: --uefi option support
 	optdepends = biosdevname: BIOS network device renaming
 	optdepends = bluez: bluetooth (keyboard)
