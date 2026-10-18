@@ -3,7 +3,7 @@
 
 pkgname=mm-common
 pkgver=1.0.8
-pkgrel=2
+pkgrel=3
 pkgdesc="Common build files of the C++ bindings"
 url="https://gtkmm.gnome.org/"
 arch=(any)
