@@ -1,7 +1,7 @@
 pkgbase = shader-slang
 	pkgdesc = Making it easier to work with shaders
 	pkgver = 2026.18.2
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/shader-slang/slang
 	arch = x86_64
 	license = Apache-2.0 WITH LLVM-exception

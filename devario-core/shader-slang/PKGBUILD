@@ -4,7 +4,7 @@
 
 pkgname=shader-slang
 pkgver=2026.18.2
-pkgrel=2
+pkgrel=3
 pkgdesc='Making it easier to work with shaders'
 url='https://github.com/shader-slang/slang'
 arch=('x86_64')
