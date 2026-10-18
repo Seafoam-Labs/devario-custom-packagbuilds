@@ -1,0 +1,23 @@
+pkgbase = containerd
+	pkgdesc = An open and reliable container runtime
+	pkgver = 2.4.2
+	pkgrel = 1
+	url = https://containerd.io/
+	arch = x86_64
+	license = Apache-2.0
+	checkdepends = procps-ng
+	makedepends = go>=1.26.9
+	makedepends = git
+	makedepends = btrfs-progs
+	makedepends = libseccomp
+	makedepends = containers-common
+	makedepends = go-md2man
+	depends = runc>=1.5.2
+	provides = container-runtime
+	source = git+https://github.com/containerd/containerd.git#tag=v2.4.2?signed
+	validpgpkeys = 8C7A111C21105794B0E8A27BF58C5D0A4405ACDB
+	validpgpkeys = 910C28608D33DDE689C03290997C5A3CD3167CB5
+	validpgpkeys = E11730FCC99E82014347C431F32F8A0F649BC9D4
+	sha256sums = f3675dedf2914f32e5b6340568643e4230d219cc973f04687f9094acb7f920f1
+
+pkgname = containerd
