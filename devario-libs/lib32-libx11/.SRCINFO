@@ -1,7 +1,7 @@
 pkgbase = lib32-libx11
 	pkgdesc = X11 client-side library (32-bit)
 	pkgver = 1.8.13
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gitlab.freedesktop.org/xorg/lib/libx11
 	arch = x86_64
 	license = MIT AND X11
@@ -9,6 +9,7 @@ pkgbase = lib32-libx11
 	makedepends = xorgproto
 	makedepends = xtrans
 	makedepends = gcc-multilib
+	depends = lib32-gcc-libs
 	depends = lib32-libxcb
 	depends = libx11
 	depends = lib32-glibc

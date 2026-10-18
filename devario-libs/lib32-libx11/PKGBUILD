@@ -2,7 +2,7 @@
 
 pkgname=lib32-libx11
 pkgver=1.8.13
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 client-side library (32-bit)"
 arch=(x86_64)
 url="https://gitlab.freedesktop.org/xorg/lib/libx11"
