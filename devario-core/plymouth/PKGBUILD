@@ -5,7 +5,7 @@
 
 pkgname=plymouth
 pkgver=26.134.222
-pkgrel=1
+pkgrel=2
 pkgdesc='Graphical boot splash screen with Devario dracut integration'
 arch=('x86_64')
 url='https://www.freedesktop.org/wiki/Software/Plymouth/'
