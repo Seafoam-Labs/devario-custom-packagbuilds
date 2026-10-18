@@ -1,7 +1,7 @@
 pkgbase = postfix
 	pkgdesc = Fast, easy to administer, secure mail server
 	pkgver = 3.11.7
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.postfix.org/
 	arch = x86_64
 	license = EPL-2.0 OR IPL-1.0
