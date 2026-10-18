@@ -4,7 +4,7 @@
 
 pkgname=libshout
 pkgver=2.4.6
-pkgrel=5
+pkgrel=6
 epoch=1
 pkgdesc="Library for accessing a shoutcast/icecast server"
 arch=('x86_64')
