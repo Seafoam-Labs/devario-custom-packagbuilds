@@ -1,6 +1,6 @@
 pkgbase = deckcraft
 	pkgdesc = Clean-room reimplementation of Microsoft PowerPoint for slide decks
-	pkgver = 0.6.1
+	pkgver = 0.7.0
 	pkgrel = 1
 	url = https://github.com/storytold/deckcraft
 	arch = x86_64
@@ -22,7 +22,7 @@ pkgbase = deckcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/deckcraft/archive/v0.6.1/deckcraft-0.6.1.tar.gz
-	sha256sums = 9eeaa29db8de6e33dd7e3edcf33983ecedfe515d2427e16db43befbcfc944800
+	source = https://github.com/storytold/deckcraft/archive/v0.7.0/deckcraft-0.7.0.tar.gz
+	sha256sums = eb605c5a89d065c29f6839fdc336f08bf6ead924f6ce51295ed91b37a5a98390
 
 pkgname = deckcraft
