@@ -1,7 +1,7 @@
 pkgbase = pearl-darkly-style
 	pkgdesc = Darkly application styles for Qt 5 and Qt 6, without KWin decorations
 	pkgver = 0.5.39
-	pkgrel = 4
+	pkgrel = 5
 	url = https://github.com/Bali10050/Darkly
 	arch = x86_64
 	license = GPL-2.0-or-later
