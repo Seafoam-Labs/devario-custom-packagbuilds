@@ -1,7 +1,7 @@
 pkgbase = aws-c-sdkutils
 	pkgdesc = AWS SDK utility library
 	pkgver = 1.0.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/awslabs/aws-c-sdkutils
 	arch = x86_64
 	license = Apache-2.0
