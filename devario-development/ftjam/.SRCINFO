@@ -1,0 +1,17 @@
+pkgbase = ftjam
+	pkgdesc = FT Jam - an enhanced version of the Jam build tool
+	pkgver = 2.5.3rc2
+	pkgrel = 6
+	url = https://freetype.org/jam/
+	arch = x86_64
+	license = custom
+	depends = glibc
+	provides = jam
+	source = https://distfiles.gentoo.org/distfiles/72/ftjam-2.5.3rc2.tar.bz2
+	source = license.txt
+	md5sums = 911cc4191b3e7213905d107962b4529b
+	md5sums = ef8ff7da77fe60e25d1e3e740600f1f0
+	sha256sums = a9f8a274049893a4d1f1ad82f7b04f3ebc2554635dd606185e20ba97cb4d64ec
+	sha256sums = 78a6448f2e349e807741fa0abec0724bd35fd63cde0a4f6a46fee4b3ce4568fa
+
+pkgname = ftjam

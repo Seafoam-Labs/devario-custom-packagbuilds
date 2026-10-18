@@ -1,0 +1,4 @@
+[ftjam]
+source = 'regex'
+url = 'https://sourceforge.net/projects/freetype/files/ftjam/'
+regex = 'files/ftjam/([\d.]+)/'
