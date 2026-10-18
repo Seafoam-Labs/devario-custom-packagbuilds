@@ -1,0 +1,32 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: kevin <kevin@archlinux.org>
+# Contributor: Manolis Tzanidakis
+# Contributor: Firmicus <francois.archlinux.org>
+
+pkgname=perl-html-parser
+pkgver=3.86
+pkgrel=3
+pkgdesc="Perl HTML parser class"
+arch=('x86_64')
+license=('Artistic-1.0-Perl' 'GPL-1.0-or-later')
+url="https://search.cpan.org/dist/HTML-Parser/"
+depends=('perl-html-tagset' 'perl-http-message' 'perl-uri')
+options=('!emptydirs')
+source=(https://www.cpan.org/authors/id/O/OA/OALDERS/HTML-Parser-$pkgver.tar.gz)
+sha512sums=('db82f27f9e12276034989cc1557fe9c6b63992c71aef6b03bfd996dcefc3f037413537257172a023a5de5aa15718cada698f99847565b5ea11556f0ee6ee93bc')
+
+build() {
+  cd HTML-Parser-$pkgver
+  perl Makefile.PL INSTALLDIRS=vendor
+  make
+}
+
+check() {
+  cd HTML-Parser-$pkgver
+  make test
+}
+
+package() {
+  cd HTML-Parser-$pkgver
+  make install DESTDIR="${pkgdir}"
+}
