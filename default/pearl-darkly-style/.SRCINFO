@@ -1,0 +1,42 @@
+pkgbase = pearl-darkly-style
+	pkgdesc = Darkly application styles for Qt 5 and Qt 6, without KWin decorations
+	pkgver = 0.5.39
+	pkgrel = 3
+	url = https://github.com/Bali10050/Darkly
+	arch = x86_64
+	license = GPL-2.0-or-later
+	makedepends = git
+	makedepends = cmake
+	makedepends = extra-cmake-modules
+	makedepends = gcc
+	makedepends = make
+	makedepends = patch
+	depends = qt5-declarative
+	depends = qt6-declarative
+	depends = kcoreaddons5
+	depends = kcoreaddons
+	depends = kconfig5
+	depends = kconfig
+	depends = kconfigwidgets5
+	depends = kcolorscheme
+	depends = kguiaddons5
+	depends = kguiaddons
+	depends = ki18n5
+	depends = ki18n
+	depends = kiconthemes5
+	depends = kiconthemes
+	depends = kwindowsystem5
+	depends = kwindowsystem
+	depends = frameworkintegration5
+	depends = frameworkintegration
+	depends = kirigami
+	provides = darkly=0.5.39
+	conflicts = darkly
+	conflicts = darkly-bin
+	conflicts = darkly-git
+	source = darkly::git+https://github.com/Bali10050/Darkly.git#commit=65f6fa62675e3c30986f8fc8e4fdbba053096491
+	source = application-style.patch
+	sha256sums = 85e3bf3841b8fe1be513958d745f3c043ac7f6202aad4cc8f4ad3c7f714bdf8c
+	sha256sums = 4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763
+
+pkgname = pearl-darkly-style
