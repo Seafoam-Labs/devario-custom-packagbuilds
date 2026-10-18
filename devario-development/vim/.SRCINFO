@@ -17,7 +17,6 @@ pkgbase = vim
 	makedepends = perl
 	makedepends = python
 	makedepends = ruby
-	makedepends = tcl
 	makedepends = zlib
 	source = git+https://github.com/vim/vim.git?signed#tag=v9.2.1164
 	source = vimrc
@@ -40,7 +39,6 @@ pkgname = vim
 	optdepends = ruby: Ruby language support
 	optdepends = lua: Lua language support
 	optdepends = perl: Perl language support
-	optdepends = tcl: Tcl language support
 	provides = xxd
 	provides = vim-minimal
 	provides = vim-plugin-runtime
@@ -63,7 +61,6 @@ pkgname = gvim
 	optdepends = ruby: Ruby language support
 	optdepends = lua: Lua language support
 	optdepends = perl: Perl language support
-	optdepends = tcl: Tcl language support
 	provides = vim=9.2.1164-4
 	provides = xxd
 	provides = vim-plugin-runtime

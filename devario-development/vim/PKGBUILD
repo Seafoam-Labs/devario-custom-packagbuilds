@@ -31,7 +31,6 @@ makedepends=(
   perl
   python
   ruby
-  tcl
   zlib
 )
 source=(git+https://github.com/vim/vim.git?signed#tag=v${pkgver}
@@ -55,6 +54,9 @@ prepare() {
 }
 
 build() {
+  # +tcl is off: Tcl 9.0 dropped the _ANSI_ARGS_, CONST and
+  # TCL_CHANNEL_VERSION_2 macros that if_tcl.c still requires.
+
   msg2 "Building vim..."
   (cd vim
     ./configure \
@@ -75,7 +77,7 @@ build() {
       --enable-python3interp=dynamic \
       --enable-rubyinterp=dynamic \
       --enable-luainterp=dynamic \
-      --enable-tclinterp=dynamic \
+      --disable-tclinterp \
       --disable-canberra
     make
   )
@@ -98,7 +100,7 @@ build() {
       --enable-python3interp=dynamic \
       --enable-rubyinterp=dynamic \
       --enable-luainterp=dynamic \
-      --enable-tclinterp=dynamic \
+      --disable-tclinterp \
       --enable-canberra
     make
   )
@@ -145,8 +147,7 @@ package_vim() {
   optdepends=('python: Python language support'
               'ruby: Ruby language support'
               'lua: Lua language support'
-              'perl: Perl language support'
-              'tcl: Tcl language support')
+              'perl: Perl language support')
   conflicts=('gvim' 'vim-minimal')
   provides=('xxd' 'vim-minimal' 'vim-plugin-runtime')
   replaces=('vim-minimal')
@@ -186,8 +187,7 @@ package_gvim() {
   optdepends=('python: Python language support'
               'ruby: Ruby language support'
               'lua: Lua language support'
-              'perl: Perl language support'
-              'tcl: Tcl language support')
+              'perl: Perl language support')
   provides=("vim=${pkgver}-${pkgrel}" "xxd" 'vim-plugin-runtime')
   conflicts=('vim-minimal' 'vim')
 
