@@ -7,8 +7,6 @@ pkgbase = ttf-carlito
 	license = OFL-1.1
 	provides = google-crosextra-carlito-fonts
 	source = carlito-3a810cab78ebd6e2e4eed42af9e8453c4f9b850a.tar.gz::https://github.com/googlefonts/carlito/archive/3a810cab78ebd6e2e4eed42af9e8453c4f9b850a.tar.gz
-	source = 62-carlito.conf
 	sha256sums = ff1fdae06e67136660c7d8135323631c7465c6b4d299d4281bb44eed2165091f
-	sha256sums = 31a74cd8044c8c8644f1555c06f406559f2e14334dd671a608145431a4299bd3
 
 pkgname = ttf-carlito

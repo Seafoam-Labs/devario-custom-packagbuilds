@@ -13,19 +13,12 @@ url='https://github.com/googlefonts/carlito'
 license=('OFL-1.1')
 provides=('google-crosextra-carlito-fonts')
 _commit=3a810cab78ebd6e2e4eed42af9e8453c4f9b850a
-source=("carlito-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
-        '62-carlito.conf')
-sha256sums=('ff1fdae06e67136660c7d8135323631c7465c6b4d299d4281bb44eed2165091f'
-            '31a74cd8044c8c8644f1555c06f406559f2e14334dd671a608145431a4299bd3')
+source=("carlito-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz")
+sha256sums=('ff1fdae06e67136660c7d8135323631c7465c6b4d299d4281bb44eed2165091f')
 
 package() {
   cd "carlito-${_commit}"
 
   install -Dm644 fonts/ttf/*.ttf -t "$pkgdir/usr/share/fonts/carlito"
-  install -Dm644 "$srcdir/62-carlito.conf" \
-    "$pkgdir/usr/share/fontconfig/conf.avail/62-carlito.conf"
-  install -dm755 "$pkgdir/usr/share/fontconfig/conf.default"
-  ln -s ../conf.avail/62-carlito.conf \
-    "$pkgdir/usr/share/fontconfig/conf.default/62-carlito.conf"
   install -Dm644 OFL.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
