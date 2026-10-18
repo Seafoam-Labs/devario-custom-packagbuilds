@@ -1,0 +1,24 @@
+_gnome_keyring_socket() {
+  # systemd-libs does not supply systemctl; build roots may lack the tool.
+  if ! command -v systemctl >/dev/null 2>&1; then
+    printf 'gnome-keyring: skipping socket %s; systemctl is unavailable\n' "$1" >&2
+    return 0
+  fi
+
+  # Configure defaults without starting services or overriding masks. Optional
+  # socket setup must not prevent package installation in an isolated root.
+  if ! systemctl --global "$1" gnome-keyring-daemon.socket; then
+    printf 'gnome-keyring: could not %s gnome-keyring-daemon.socket; retry systemctl --global %s gnome-keyring-daemon.socket on the target system\n' "$1" "$1" >&2
+  fi
+}
+
+post_install() {
+  _gnome_keyring_socket enable
+}
+
+# The pre-42 migration predates Devario and requires vercmp. Leave existing
+# administrator socket settings untouched on upgrades.
+
+pre_remove() {
+  _gnome_keyring_socket disable
+}

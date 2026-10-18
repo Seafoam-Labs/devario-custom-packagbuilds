@@ -1,0 +1,6 @@
+{
+  "name": "gnome-keyring",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gnome-keyring/-/archive/main/gnome-keyring-main.tar.gz",
+  "sha256": "a6097d296c0672d6ffb263b6013f65835ba7e9f899b7985c2844740240930478",
+  "bytes": 12082
+}

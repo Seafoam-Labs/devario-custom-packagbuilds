@@ -1,0 +1,19 @@
+pkgbase = qt6ct
+	pkgdesc = Qt 6 Configuration Utility
+	pkgver = 0.11
+	pkgrel = 9
+	url = https://www.opencode.net/trialuser/qt6ct
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = cmake
+	makedepends = git
+	makedepends = qt6-tools
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = qt6-base
+	depends = qt6-svg
+	source = git+https://www.opencode.net/trialuser/qt6ct#tag=0.11
+	sha256sums = 76bfc26838b8ec7dd049da54bd812d8c526986024845a30d1e546e43555e52bf
+
+pkgname = qt6ct

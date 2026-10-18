@@ -1,0 +1,64 @@
+# Adapted for Devario from Arch Linux packaging.
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: Gennadiy Mykhailiuta <gmykhailiuta@gmail.com>
+# Contributor: Xuanwo <xuanwo@archlinuxcn.org>
+
+pkgname=obsidian
+pkgver=1.14.4
+pkgrel=3
+pkgdesc="A powerful knowledge base that works on top of a local folder of plain text Markdown files"
+arch=('x86_64' 'aarch64')
+url="https://obsidian.md"
+license=('LicenseRef-Obsidian')
+# Retain the matching Electron runtime shipped in each upstream archive.
+depends=('alsa-lib' 'at-spi2-core' 'bash' 'cairo' 'dbus' 'expat'
+         'fontconfig' 'glib2' 'glibc' 'gtk3' 'hicolor-icon-theme'
+         'libcups' 'libdrm' 'libgcc' 'libnotify' 'libstdc++' 'libx11'
+         'libxcb' 'libxcomposite' 'libxdamage' 'libxext' 'libxfixes'
+         'libxkbcommon' 'libxrandr' 'mesa' 'nspr' 'nss' 'pango'
+         'systemd-libs' 'xdg-utils' 'zlib')
+install=obsidian.install
+options=(!strip !debug)
+source=("obsidian.sh"
+        "obsidian.desktop"
+        "obsidian.xml"
+        "LICENSE-Obsidian")
+source_x86_64=("https://github.com/obsidianmd/obsidian-releases/releases/download/v${pkgver}/obsidian-${pkgver}.tar.gz")
+source_aarch64=("https://github.com/obsidianmd/obsidian-releases/releases/download/v${pkgver}/obsidian-${pkgver}-arm64.tar.gz")
+sha256sums=('d12ea32dba35955f5468c6faaacbb74904eb1529d853b3297c96af692d3f3c4e'
+            '55a5d7fa8a1cbbc2c857836cb1504a64235eef071302e203f193c267ce4d997d'
+            'f016fa35f25b7220690f8030bec1514b662bbcb231d3507ec3751d2ade42ba7e'
+            'd9fdc14f9c2fb95bb38310281268fdad413c1b49fa93213df3184f9b0ca1175c')
+sha256sums_x86_64=('e70b7cd63787e7f798a84fec453f5c446b91877bd3f612e8fb98e9b76cc81120')
+sha256sums_aarch64=('fc212804515713ed85fe5ef5bc4b009872bcc01847c4be4fcc14971deee2a42d')
+
+package() {
+    local _arch=''
+    if [[ $CARCH == "aarch64" ]]; then
+        _arch="-arm64"
+    fi
+
+    cd "$srcdir"
+
+    # Install executable file
+    install -Dm755 "$pkgname".sh "$pkgdir"/usr/bin/obsidian
+
+    # Install desktop file
+    install -Dm644 "$pkgname".desktop -t "$pkgdir"/usr/share/applications/
+
+    # Install MIME definitions for Canvas and Base files
+    install -Dm644 "$pkgname".xml -t "$pkgdir"/usr/share/mime/packages/
+
+    # Keep the runtime, native modules, and resources in their upstream layout.
+    install -dm0755 "$pkgdir"/usr/lib/obsidian
+    cp -a "${pkgname}-${pkgver}${_arch}/." "$pkgdir/usr/lib/obsidian/"
+    chmod 4755 "$pkgdir/usr/lib/obsidian/chrome-sandbox"
+    install -Dm644 "${pkgname}-${pkgver}${_arch}/resources/icon.png" \
+        "$pkgdir/usr/share/icons/hicolor/512x512/apps/obsidian.png"
+
+    install -Dm644 "$srcdir"/LICENSE-Obsidian "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-Obsidian
+    ln -s /usr/lib/obsidian/LICENSE.electron.txt \
+        "$pkgdir/usr/share/licenses/$pkgname/LICENSE.electron.txt"
+    ln -s /usr/lib/obsidian/LICENSES.chromium.html \
+        "$pkgdir/usr/share/licenses/$pkgname/LICENSES.chromium.html"
+}

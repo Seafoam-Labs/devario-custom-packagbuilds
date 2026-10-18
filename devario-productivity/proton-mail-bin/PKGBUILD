@@ -1,0 +1,45 @@
+# Adapted for Devario from AUR packaging.
+# Maintainer: AlphaLynx <alphalynx at alphalynx dot dev>
+# Contributor: Mark Wagie <mark dot wagie at proton dot me>
+
+pkgname=proton-mail-bin
+_name=${pkgname%-bin}
+pkgver=1.15.1
+pkgrel=2
+pkgdesc='Proton official desktop application for Proton Mail and Proton Calendar'
+arch=(x86_64)
+url='https://proton.me/mail'
+license=(GPL-3.0-or-later)
+# Use the matching runtime shipped by Proton; no separate Electron package is needed.
+depends=(alsa-lib at-spi2-core cairo dbus expat glib2 glibc gtk3
+         hicolor-icon-theme libcups libdrm libgcc libnotify libx11
+         libxcb libxcomposite libxdamage libxext libxfixes libxkbcommon
+         libxrandr libxtst mesa nspr nss pango systemd-libs xdg-utils)
+provides=($_name)
+conflicts=($_name)
+options=(!strip !debug)
+source=("$_name-$pkgver.deb::https://proton.me/download/mail/linux/$pkgver/ProtonMail-desktop-beta.deb")
+sha512sums=('a80ce2a1e0549267f39241a808c62c0dc633ba70a474b837d9e5072ea8dfc2cf891549e3fb82e5dd697abaa2c320750837bd38f7229b2aead7c0f438de873344')
+b2sums=('708c35ad3f191cf70da89894f2df0c31564a64f6048af0dffc11b49cb31a9cdc447486d9bfc7a5d8950ca7f3af9c706d189382bd49617bd3d11a051d84e3f885')
+
+prepare() {
+    # Keep Proton's matching Electron runtime and application resources together.
+    tar -xf data.tar.xz "./usr/lib/$_name/" \
+        "./usr/share/applications/$_name.desktop" \
+        "./usr/share/pixmaps/$_name.png"
+}
+
+package() {
+    install -dm755 "$pkgdir/usr/lib" "$pkgdir/usr/bin"
+    cp -a "usr/lib/$_name" "$pkgdir/usr/lib/"
+    chmod 4755 "$pkgdir/usr/lib/$_name/chrome-sandbox"
+    ln -s "../lib/$_name/Proton Mail Beta" "$pkgdir/usr/bin/$_name"
+
+    install -Dm644 "usr/share/applications/$_name.desktop" -t "$pkgdir/usr/share/applications"
+    # The upstream .png is SVG content.
+    install -Dm644 "usr/share/pixmaps/$_name.png" "$pkgdir/usr/share/icons/hicolor/scalable/apps/$_name.svg"
+
+    install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+    ln -s "/usr/lib/$_name/LICENSES.chromium.html" \
+        "$pkgdir/usr/share/licenses/$pkgname/LICENSES.chromium.html"
+}

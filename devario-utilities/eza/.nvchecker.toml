@@ -1,0 +1,4 @@
+[eza]
+source = "git"
+git = "https://github.com/eza-community/eza.git"
+prefix = "v"

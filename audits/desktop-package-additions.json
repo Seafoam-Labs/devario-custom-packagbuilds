@@ -1,0 +1,160 @@
+{
+  "date": "2026-10-18",
+  "scope": "Eleven requested package recipes; zsh also produces zsh-doc.",
+  "validation": {
+    "bash_syntax": "passed",
+    "makepkg_srcinfo": "generated",
+    "shelly_review": "parsed all recipes; warnings for Cargo fetch and runtime command substitutions reviewed",
+    "source_checksums": "all pinned source checksums matched, including both Obsidian architectures",
+    "binary_staging": [
+      "obsidian (x86_64)",
+      "proton-mail-bin"
+    ],
+    "desktop_files": "validated for Obsidian and Proton Mail",
+    "full_builds": false,
+    "zsh_signatures": "both release archives verified against the bundled upstream signing key",
+    "proton_mail_bundled_runtime": {
+      "source_checksum": "passed",
+      "package_staging": "passed; all upstream runtime files preserved byte-for-byte",
+      "launcher": "relative symlink resolves to bundled executable",
+      "sandbox": "upstream 4755 mode retained",
+      "desktop_file": "validated",
+      "dependency_names": "all 28 available in cached Devario repository databases",
+      "live_dependency_plan": "not completed: Shelly repository refresh returned SyncDbFailed",
+      "worker_rebuild": "not run"
+    },
+    "obsidian_bundled_runtime": {
+      "source_checksums": "both upstream archives and all local sources verified",
+      "package_staging": "x86_64 and aarch64 passed; all 83 upstream files preserved byte-for-byte for each architecture",
+      "launcher": "bundled executable; custom flags and URI arguments checked",
+      "sandbox": "4755 mode set",
+      "licenses": "Obsidian, Electron, and Chromium license files included",
+      "desktop_file": "validated for both architectures; existing duplicate Name/Comment warning",
+      "dependency_names": "all 31 available in cached x86_64 Devario repository databases; aarch64 repository availability not checked",
+      "shelly_review": "passed parsing; existing custom-flags command-substitution warning reviewed",
+      "worker_rebuild": "not run",
+      "gui_launch": "not tested"
+    }
+  },
+  "dependency_check": "Name availability against local recipes and the host synced repository databases; does not prove version or ABI compatibility. Missing dependency recipes must be added or supplied by a build repository before building.",
+  "packages": [
+    {
+      "name": "thunar",
+      "path": "devario-utilities/thunar",
+      "version": "4.20.10-1",
+      "missing_from_synced_repositories": [
+        "exo",
+        "libxfce4ui",
+        "xfce4-panel"
+      ],
+      "missing_from_recipes_and_synced_repositories": [
+        "exo",
+        "libxfce4ui",
+        "xfce4-panel"
+      ]
+    },
+    {
+      "name": "tumbler",
+      "path": "devario-utilities/tumbler",
+      "version": "4.20.2-2",
+      "missing_from_synced_repositories": [
+        "ffmpegthumbnailer",
+        "libgepub",
+        "libgsf",
+        "libopenraw"
+      ],
+      "missing_from_recipes_and_synced_repositories": [
+        "ffmpegthumbnailer",
+        "libgepub",
+        "libopenraw"
+      ]
+    },
+    {
+      "name": "thunar-archive-plugin",
+      "path": "devario-utilities/thunar-archive-plugin",
+      "version": "0.6.0-1",
+      "missing_from_synced_repositories": [
+        "thunar"
+      ],
+      "missing_from_recipes_and_synced_repositories": []
+    },
+    {
+      "name": "thunar-volman",
+      "path": "devario-utilities/thunar-volman",
+      "version": "4.20.0-2",
+      "missing_from_synced_repositories": [
+        "libxfce4ui",
+        "thunar"
+      ],
+      "missing_from_recipes_and_synced_repositories": [
+        "libxfce4ui"
+      ]
+    },
+    {
+      "name": "proton-vpn-gtk-app",
+      "path": "devario-utilities/proton-vpn-gtk-app",
+      "version": "4.18.7-1",
+      "missing_from_synced_repositories": [
+        "proton-vpn-daemon",
+        "python-distro",
+        "python-proton-core",
+        "python-proton-keyring-linux",
+        "python-proton-vpn-api-core"
+      ],
+      "missing_from_recipes_and_synced_repositories": [
+        "proton-vpn-daemon",
+        "python-proton-core",
+        "python-proton-keyring-linux",
+        "python-proton-vpn-api-core"
+      ]
+    },
+    {
+      "name": "eza",
+      "path": "devario-utilities/eza",
+      "version": "0.23.5-2",
+      "missing_from_synced_repositories": [],
+      "missing_from_recipes_and_synced_repositories": []
+    },
+    {
+      "name": "bat",
+      "path": "devario-utilities/bat",
+      "version": "0.26.1-3",
+      "missing_from_synced_repositories": [],
+      "missing_from_recipes_and_synced_repositories": []
+    },
+    {
+      "name": "qt6ct",
+      "path": "devario-utilities/qt6ct",
+      "version": "0.11-9",
+      "missing_from_synced_repositories": [],
+      "missing_from_recipes_and_synced_repositories": []
+    },
+    {
+      "name": "obsidian",
+      "path": "devario-productivity/obsidian",
+      "version": "1.14.4-3",
+      "missing_from_synced_repositories": [],
+      "missing_from_recipes_and_synced_repositories": [],
+      "runtime": "Matching bundled Electron from the checksum-pinned upstream x86_64 and aarch64 archives; no system Electron dependency."
+    },
+    {
+      "name": "proton-mail-bin",
+      "path": "devario-productivity/proton-mail-bin",
+      "version": "1.15.1-2",
+      "missing_from_synced_repositories": [],
+      "missing_from_recipes_and_synced_repositories": [],
+      "runtime": "Bundled Electron from the checksum-pinned upstream x86_64 Debian package; no system Electron dependency."
+    },
+    {
+      "name": "zsh",
+      "path": "devario-utilities/zsh",
+      "version": "5.9.2-1",
+      "missing_from_synced_repositories": [
+        "yodl"
+      ],
+      "missing_from_recipes_and_synced_repositories": [
+        "yodl"
+      ]
+    }
+  ]
+}

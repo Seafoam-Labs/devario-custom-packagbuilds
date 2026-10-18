@@ -1,0 +1,32 @@
+# Adapted for Devario from Arch Linux packaging.
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+# Contributor: Martchus <martchus@gmx.net>
+
+pkgname=qt6ct
+pkgver=0.11
+pkgrel=9
+pkgdesc='Qt 6 Configuration Utility'
+arch=(x86_64)
+url='https://www.opencode.net/trialuser/qt6ct'
+license=(BSD-2-Clause)
+depends=(glibc
+         libgcc
+         libstdc++
+         qt6-base
+         qt6-svg)
+makedepends=(cmake
+             git
+             qt6-tools)
+source=(git+https://www.opencode.net/trialuser/qt6ct#tag=$pkgver)
+sha256sums=('76bfc26838b8ec7dd049da54bd812d8c526986024845a30d1e546e43555e52bf')
+
+build() {
+  cmake -B build -S $pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 $pkgname/COPYING "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
