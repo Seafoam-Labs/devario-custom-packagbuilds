@@ -1,7 +1,7 @@
 pkgbase = aws-crt-cpp
 	pkgdesc = C++ wrapper around the aws-c-* libraries. Provides Cross-Platform Transport Protocols and SSL/TLS implementations for C++.
 	pkgver = 0.43.8
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/awslabs/aws-crt-cpp
 	arch = x86_64
 	license = Apache-2.0
