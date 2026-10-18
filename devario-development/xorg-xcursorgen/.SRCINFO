@@ -1,7 +1,7 @@
 pkgbase = xorg-xcursorgen
 	pkgdesc = Create Xcursor files from PNG images
 	pkgver = 1.0.9
-	pkgrel = 2
+	pkgrel = 3
 	url = https://gitlab.freedesktop.org/xorg/app/xcursorgen
 	arch = x86_64
 	groups = xorg-apps
