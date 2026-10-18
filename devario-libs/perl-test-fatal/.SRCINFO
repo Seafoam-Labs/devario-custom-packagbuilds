@@ -1,0 +1,16 @@
+pkgbase = perl-test-fatal
+	pkgdesc = Incredibly simple helpers for testing code with exceptions
+	pkgver = 0.019
+	pkgrel = 1
+	url = https://github.com/rjbs/Test-Fatal
+	arch = any
+	license = GPL-1.0-or-later
+	license = Artistic-1.0-Perl
+	depends = perl
+	depends = perl-try-tiny
+	options = !emptydirs
+	source = perl-test-fatal-0.019.tar.gz::https://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Test-Fatal-0.019.tar.gz
+	sha512sums = fb303a350f775f1a92b170c9083df146b47f9952b41c5006ab4aa18e45c58260376e7e9c5bc16dbd077faedd7cd5042d3d34b849bd88d4312ced8491e9644bde
+	b2sums = c629e633bca296802adf1bd2503c7ea07d7f1c5872882ab8c214367cbf38d8c8666f0a9a5e4bc32af6c94395ba8a5767e006a19e27e15ff6c8d0a1d7752d936a
+
+pkgname = perl-test-fatal
