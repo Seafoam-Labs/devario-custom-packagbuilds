@@ -1,16 +1,16 @@
 pkgbase = tree-sitter-c
 	pkgdesc = C grammar for tree-sitter
-	pkgver = 0.24.1
-	pkgrel = 2
+	pkgver = 0.24.2
+	pkgrel = 1
 	url = https://github.com/tree-sitter/tree-sitter-c
 	arch = x86_64
 	groups = tree-sitter-grammars
 	license = MIT
 	makedepends = git
-	makedepends = tree-sitter-cli
+	makedepends = tree-sitter-cli>=0.25.0
 	optdepends = tree-sitter: core library
 	provides = libtree-sitter-c.so
-	source = git+https://github.com/tree-sitter/tree-sitter-c.git#commit=v0.24.1
-	b2sums = 30aee809f14e58300bb9f9f06adb7ecfa636a35cdf2f6e11d077a4cb5f75f42aeb4d8eb8b41a02b269d9a75b16b9309d802345e87fa014f8b8e4e6f23453be42
+	source = git+https://github.com/tree-sitter/tree-sitter-c.git#commit=v0.24.2
+	b2sums = b80b90986546e20321ec963f8e1c94d9b978b5cea6a39e03774ad02c7b3dd56170069043aaf28f6e877657407cb8e96a8875950ec24f17995f7d346a1c94cbad
 
 pkgname = tree-sitter-c
