@@ -1,7 +1,7 @@
 pkgbase = intltool
 	pkgdesc = The internationalization tool collection
 	pkgver = 0.51.0
-	pkgrel = 6
+	pkgrel = 7
 	url = https://launchpad.net/intltool
 	arch = any
 	license = GPL
