@@ -1,0 +1,22 @@
+# Maintainer: Alexander F. Rødseth <xyproto@archlinux.org>
+
+pkgname=ufw-extras
+pkgver=1.3.0
+pkgrel=1
+pkgdesc='Extra configuration files for UFW'
+arch=(any)
+url='https://github.com/xyproto/ufw-extras'
+license=(GPL-2.0-or-later)
+depends=(ufw)
+makedepends=(git)
+source=("git+$url#tag=v$pkgver")
+b2sums=('1450a4bf1f001ec4edf750c74ccfd1995744bff33b385a15d921928da90d0485f73ba875af0d9f6ae3819f2542ae63360fc6c92f8555559c251de314f104464f')
+
+package() {
+  for f in $pkgname/ufw-*; do
+    install -Dm644 $f "$pkgdir/etc/ufw/applications.d/$(basename $f)"
+  done
+
+  # skip ufw-mosh, since mosh already provides this file, ref #75547
+  rm "$pkgdir/etc/ufw/applications.d/ufw-mosh"
+}

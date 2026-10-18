@@ -1,0 +1,4 @@
+[ufw-extras]
+source = "git"
+git = "https://github.com/xyproto/ufw-extras.git"
+prefix = "v"
