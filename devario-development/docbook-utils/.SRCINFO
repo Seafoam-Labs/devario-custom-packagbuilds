@@ -1,7 +1,7 @@
 pkgbase = docbook-utils
 	pkgdesc = Shell scripts to manage DocBook documents
 	pkgver = 0.6.15
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/devexp-db/docbook-utils
 	arch = any
 	license = GPL-2.0-or-later

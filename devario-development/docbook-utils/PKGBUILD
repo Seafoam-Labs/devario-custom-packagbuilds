@@ -6,10 +6,9 @@
 
 pkgname=docbook-utils
 pkgver=0.6.15
-pkgrel=1
+pkgrel=2
 pkgdesc='Shell scripts to manage DocBook documents'
 arch=('any')
-# url="https://www.sourceware.org/docbook-tools/"
 url="https://github.com/devexp-db/docbook-utils"
 license=('GPL-2.0-or-later')
 depends=('openjade' 'docbook-dsssl' 'docbook-sgml31' 'sh')
@@ -17,9 +16,7 @@ makedepends=('perl-sgmls')
 optdepends=('perl-sgmls: for conversion to man and texinfo'
             'lynx: for conversion to txt'
             'texlive-htmlxml: for conversion to pdf')
-source=(#https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/${pkgname}-${pkgver}.tar.gz
-        #ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/${pkgname}-${pkgver}.tar.gz
-        https://github.com/devexp-db/docbook-utils/releases/download/v${pkgver}/docbook-utils-${pkgver}.tar.xz
+source=(https://github.com/devexp-db/docbook-utils/releases/download/v${pkgver}/docbook-utils-${pkgver}.tar.xz
         db2html # script taken from Fedora
         bug_214982.patch
         support_source_date_epoch.patch)
@@ -41,20 +38,20 @@ build() {
   ./configure --prefix=/usr \
     --sysconfdir=/etc \
     --mandir=/usr/share/man
-  make  
+  make
 }
 
 package() {
   cd "${pkgname}-${pkgver}"
   make install DESTDIR="${pkgdir}" htmldir="/usr/share/doc/${pkgname}/html"
 
-  #common alternative names
+  # Common alternative names, with section suffixes for man-page discovery.
   for doctype in 'html' 'ps' 'dvi' 'man' 'pdf' 'rtf' 'tex' 'texi' 'txt'; do
     ln -sv "docbook2${doctype}" "${pkgdir}/usr/bin/db2${doctype}"
-    ln -sv "jw.1" "${pkgdir}/usr/share/man/man1/db2${doctype}"
+    ln -sv "jw.1" "${pkgdir}/usr/share/man/man1/db2${doctype}.1"
   done
 
   # db2html is not just a symlink, as it has to create the output directory - FS#67758
   rm "${pkgdir}/usr/bin/db2html"
-  install -p -m 755 ../db2html "${pkgdir}/usr/bin/db2html"
+  install -p -m 755 "${srcdir}/db2html" "${pkgdir}/usr/bin/db2html"
 }
