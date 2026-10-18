@@ -1,0 +1,21 @@
+pkgbase = xorg-xcursorgen
+	pkgdesc = Create Xcursor files from PNG images
+	pkgver = 1.0.9
+	pkgrel = 2
+	url = https://gitlab.freedesktop.org/xorg/app/xcursorgen
+	arch = x86_64
+	groups = xorg-apps
+	groups = xorg
+	license = HPND-sell-variant
+	makedepends = meson
+	makedepends = ninja
+	makedepends = pkgconf
+	makedepends = xorgproto
+	depends = glibc
+	depends = libx11
+	depends = libxcursor
+	depends = libpng
+	source = https://xorg.freedesktop.org/releases/individual/app/xcursorgen-1.0.9.tar.xz
+	sha256sums = 0cc9e156ac84ca16ea902710af35e0faffa51d13797071e3b4b6cc7cbd493bbc
+
+pkgname = xorg-xcursorgen
