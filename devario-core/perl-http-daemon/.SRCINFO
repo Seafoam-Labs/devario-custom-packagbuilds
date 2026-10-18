@@ -1,7 +1,7 @@
 pkgbase = perl-http-daemon
 	pkgdesc = Simple HTTP server class
 	pkgver = 6.17
-	pkgrel = 2
+	pkgrel = 3
 	url = https://metacpan.org/pod/HTTP::Daemon
 	arch = any
 	license = GPL-1.0-or-later OR Artistic-1.0-Perl
