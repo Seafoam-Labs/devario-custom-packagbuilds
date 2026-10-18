@@ -13,10 +13,12 @@ Deviation from the upstream recipe, one mechanism:
     answer `LG` and not `LG Electronics`. `hwdata` joins the runtime depends of
     `colord` and `libcolord`.
 
-Validation: host build of the `1.4.8` tag passes the suite, and passes again with
-`/usr/lib/udev` masked to reproduce a worker root, where the unmodified build
-aborts `/colord/edid` on `NULL == "LG"`. `shelly build --review-only` reports no
-findings. No `--isolated` worker build has run; published `colord` is still the
-seed `1.4.8-1`.
+Validation: on the host, `1.4.8` built with `lib/colord` and its tests (daemon,
+sane, vapi and docs off, since this machine has no argyllcms, vala or sane)
+passes the suite with the deviation, and still passes with `/usr/lib/udev`
+masked to reproduce a worker root, where the same masked run without the
+deviation aborts `/colord/edid` on `NULL == "LG"`. `shelly build --review-only`
+reports no findings. No `--isolated` worker build has run, so the full option
+set is unverified here; published `colord` is still the seed `1.4.8-1`.
 
 `devario-libs/lib32-colord` runs the same `check()` and carries the same gap.
