@@ -1,7 +1,7 @@
 pkgbase = python-distutils-extra
 	pkgdesc = Enhancements to the Python build system
 	pkgver = 2.39
-	pkgrel = 15
+	pkgrel = 16
 	url = https://launchpad.net/python-distutils-extra
 	arch = any
 	license = GPL
