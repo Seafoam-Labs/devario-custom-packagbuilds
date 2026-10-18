@@ -1,7 +1,7 @@
 pkgbase = zvbi
 	pkgdesc = VBI capture and decoding library
 	pkgver = 0.2.45
-	pkgrel = 1
+	pkgrel = 2
 	url = http://zapping.sourceforge.net/cgi-bin/view/ZVBI/WebHome
 	arch = x86_64
 	license = GPL-2.0-or-later
