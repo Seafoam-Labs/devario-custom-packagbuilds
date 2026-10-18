@@ -1,0 +1,3 @@
+[libdbusmenu-qt]
+source = "git"
+git = "https://github.com/desktop-app/libdbusmenu-qt.git"
