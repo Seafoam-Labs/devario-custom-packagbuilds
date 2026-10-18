@@ -1,0 +1,21 @@
+pkgbase = hwinfo
+	pkgdesc = Hardware detection tool from openSUSE
+	pkgver = 26.0
+	pkgrel = 2
+	url = https://github.com/openSUSE/hwinfo
+	arch = x86_64
+	license = GPL-2.0-or-later
+	makedepends = flex
+	makedepends = git
+	makedepends = sysfsutils
+	depends = libx86emu
+	depends = perl-xml-parser
+	depends = perl-xml-writer
+	depends = util-linux-libs
+	options = !emptydirs
+	source = git+https://github.com/openSUSE/hwinfo#tag=26.0
+	source = custom_ioctl.patch
+	b2sums = caf257f6c29929be552551be8981b6d529fcd1fa85e409aab93fb656829bc3cf481182ffae940a9b1def76e66aa91a625ce6334d88df6ef5c07f7e770d984ce2
+	b2sums = 2b1bd3b53bbfc1e545e1a70ffd6cca08f704639a104928b2c02ccca3e82000f07a470fbdf129566ece6dfb2b98fdad0e82f18cc5c2016ebfeed043b4edb295b4
+
+pkgname = hwinfo
