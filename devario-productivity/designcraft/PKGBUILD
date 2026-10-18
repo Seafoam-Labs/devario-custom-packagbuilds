@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=designcraft
-pkgver=0.6.0
+pkgver=0.9.0
 pkgrel=1
 pkgdesc="Page layout and desktop publishing editor, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ depends=(
     'vulkan-icd-loader'
   )
 makedepends=(
-    'rust'
+    'rust>=1.95'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -27,10 +27,10 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('9bbef8e8ec3cc3f4bd7c6412fecac7ff0e124e636d797697c6cfa62757c1eabe')
+sha256sums=('83191456fac33e18a4521aa9cdce7cd02be3d136dada0218d445085b9828969a')
 
-_commit=a9124a0517594ce9872f73637e7b841a4967bcf9
-_releasedate=2026-10-10
+_commit=7cb8b12507def48fb9346e5004340b5e8e4cfcb7
+_releasedate=2026-10-18
 _appid=ai.storyteller.designcraft
 
 prepare() {
