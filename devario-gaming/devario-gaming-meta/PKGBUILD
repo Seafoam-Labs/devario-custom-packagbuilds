@@ -2,7 +2,7 @@
 
 pkgname=devario-gaming-meta
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Meta package pulling in the gaming dependencies Devario supports"
 arch=('any')
 url="https://github.com/Seafoam-Labs/devario-os"

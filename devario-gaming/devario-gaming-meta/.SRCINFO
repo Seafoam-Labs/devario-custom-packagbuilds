@@ -1,7 +1,7 @@
 pkgbase = devario-gaming-meta
 	pkgdesc = Meta package pulling in the gaming dependencies Devario supports
 	pkgver = 1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = GPL-3.0-or-later
