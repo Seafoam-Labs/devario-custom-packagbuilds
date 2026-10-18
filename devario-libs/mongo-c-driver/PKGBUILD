@@ -2,7 +2,7 @@
 # Contributor: Felix Yan <felixonmars@archlinux.org>
 
 pkgname=mongo-c-driver
-pkgver=2.5.5
+pkgver=2.5.6
 pkgrel=1
 pkgdesc="A client library written in C for MongoDB"
 arch=(x86_64)
@@ -10,12 +10,12 @@ url="https://github.com/mongodb/mongo-c-driver"
 license=(Apache-2.0)
 depends=(
   glibc
-  libsasl
+  'libsasl>=2.0'
   openssl
   snappy
-  zstd
+  'zstd>=0.8.0'
 )
-makedepends=(cmake)
+makedepends=('cmake>=3.15')
 provides=(
   libbson
   libbson2.so
@@ -31,7 +31,7 @@ replaces=(
   libmongoc
 )
 source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('e920052002463c3a3f9ab858ad82e9355768764d6874d13f13aa7bfacfe24d2fd1d18ecbd5d98e54935d7819c4c5356f0f29f7910bdba9f303c3d78dc2b17807')
+b2sums=('d30442a424524e68aa345e367c248c2c4f0c254c5da50a479e3e48b81c29ed923257d7ee108cf012c773ec5834b14557cbd08fa9e187e33c5d607180d83d0f78')
 
 build() {
   cd $pkgname-$pkgver
