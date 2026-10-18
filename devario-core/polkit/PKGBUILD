@@ -4,8 +4,8 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
 pkgname=polkit
-pkgver=127
-pkgrel=5
+pkgver=128
+pkgrel=1
 pkgdesc="Application development toolkit for controlling system-wide privileges"
 url="https://github.com/polkit-org/polkit"
 arch=(x86_64)
@@ -37,7 +37,7 @@ source=(
   0003-meson-Enable-socket-activated-agent-helper-by-defaul.patch
   0004-agent-helper-Send-standard-error-to-journal.patch
 )
-b2sums=('6744385984906d97f79aedbfeb894ff274769212af44686b90f6c5ab7f3007d0e6db91b5439c95f344621aa447b570686d46eff7fac861854cfcd37fba5e73e5'
+b2sums=('c14ca008a1f2ba5c04fff3d0c0fd6cc4c4114fdd46709fca756f00ceb894ed0f9b8ff55df3656035172d9e6753fe862371e9ceb5368fdcba198b0359f574ec33'
         '5549570ecce8db08263167a52211befda69eca2dd65020d132c3001b621e7b6db8a092eefb29ad0e50ab980b0158ed15a79ab7f23e1754e890b51c6ef827eb72'
         '70ed057f87fc470d6d79113fc0255a3ca1362831574d7e614b3603ea8fed2898717bbd7aa87939e0c51697cf679fe5f167b83c06f05184bad62d67715a0a7df9'
         '79ca31e536f236757d1d8774f7a6037826b7010e177675a95da8b131e7cfc61d1b08fc278fff6e6a5a06af443f37e32923c29754895c467eaffbacdd8d120803'
