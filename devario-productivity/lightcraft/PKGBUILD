@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=lightcraft
-pkgver=0.6.0
+pkgver=0.9.1
 pkgrel=1
 pkgdesc="Non-destructive photo library and raw developer, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -14,7 +14,7 @@ depends=(
     'vulkan-icd-loader'
   )
 makedepends=(
-    'rust'
+    'rust>=1.90'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -27,10 +27,11 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('c346ce2e50cf50ce691925fc0fe57a07e316dc66195be6749755dec84546e6d9')
+# Pending external checksum refresh: the retained digest below is for v0.6.0.
+sha256sums=('5e689147e46ed78fe100d43db997e64e7266e2d02db898bedec1f9a30e80f474')
 
-_commit=9e6c4c6fc9c7a7f192ce846c00ceb531e0f64dda
-_releasedate=2026-10-10
+_commit=4f0b110bcbd2e350c6d97b47f1d824c2222295c4
+_releasedate=2026-10-18
 _appid=ai.storyteller.lightcraft
 
 prepare() {
