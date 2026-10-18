@@ -1,0 +1,23 @@
+pkgbase = perl-http-message
+	pkgdesc = HTTP style messages
+	pkgver = 7.04
+	pkgrel = 2
+	url = https://search.cpan.org/dist/HTTP-Message
+	arch = any
+	license = Artistic-1.0-Perl OR GPL-1.0-or-later
+	checkdepends = perl-io-compress-brotli
+	checkdepends = perl-test-needs
+	checkdepends = perl-try-tiny
+	depends = perl
+	depends = perl-clone
+	depends = perl-encode-locale
+	depends = perl-http-date
+	depends = perl-io-html
+	depends = perl-lwp-mediatypes
+	depends = perl-uri
+	conflicts = perl-libwww<6
+	options = !emptydirs
+	source = https://github.com/libwww-perl/HTTP-Message/archive/v7.04/perl-http-message-7.04.tar.gz
+	sha512sums = d001ccd3a8cadb43031438077ed8840590337403906e4f541e52d1103fd3a4692432c1020020366837b815868711ef9efc32db40186ccc752942aa14db9da309
+
+pkgname = perl-http-message
