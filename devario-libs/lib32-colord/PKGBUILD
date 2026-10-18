@@ -6,12 +6,13 @@
 
 pkgname=lib32-colord
 pkgver=1.4.8
-pkgrel=1
+pkgrel=2
 pkgdesc="System daemon for managing color devices (client library, 32-bit)"
 url="https://www.freedesktop.org/software/colord/"
 arch=(x86_64)
 license=(GPL-2.0-or-later)
 depends=(
+  hwdata
   lib32-gcc-libs
   lib32-glib2
   lib32-glibc
@@ -31,14 +32,21 @@ makedepends=(
 )
 provides=(libcolord.so)
 options=(!emptydirs)
-source=("git+https://github.com/hughsie/colord?signed#tag=$pkgver")
-b2sums=('451c9571241278fb3347dd928370f3e350645c1cb2736beda37e7e5d3c1d374d49626298f0ab96d457de6ec3633fda1057d992aa833bf4f8042e29fcc4162a66')
+source=(
+  "git+https://github.com/hughsie/colord?signed#tag=$pkgver"
+  0001-quirk-pnp-ids-vendor-name.patch
+)
+b2sums=('451c9571241278fb3347dd928370f3e350645c1cb2736beda37e7e5d3c1d374d49626298f0ab96d457de6ec3633fda1057d992aa833bf4f8042e29fcc4162a66'
+        '447deb9c6f23d98404d1b933f6a8cdb11eedc3e17f49d700aaf13a835757c8af58c58b86606831a22048c98bed300fc8085efff21f713e224124069bdc48c50b')
 validpgpkeys=(
   163EB50119225DB3DF8F49EA17ACBA8DFA970E17 # Richard Hughes <richard@hughsie.com>
 )
 
 prepare() {
   cd colord
+
+  # Roots never compile the udev hwdb, so pnp.ids names need the hwdb path's quirks.
+  git apply -3 ../0001-quirk-pnp-ids-vendor-name.patch
 }
 
 build() {
@@ -50,6 +58,7 @@ build() {
     -D introspection=false
     -D libcolordcompat=true
     -D man=false
+    -D pnp_ids=/usr/share/hwdata/pnp.ids
   )
 
   arch-meson colord build "${meson_options[@]}"

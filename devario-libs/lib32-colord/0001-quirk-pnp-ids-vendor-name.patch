@@ -1,0 +1,25 @@
+Subject: [PATCH] lib: quirk vendor names resolved from pnp.ids
+
+The hwdb path runs the result through cd_quirk_vendor_name, the pnp.ids
+path did not, so the two paths returned different names for the same
+EDID and the edid self test aborted on "LG Electronics" != "LG".
+---
+ lib/colord/cd-edid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/colord/cd-edid.c b/lib/colord/cd-edid.c
+index a5e2328..284760d 100644
+--- a/lib/colord/cd-edid.c
++++ b/lib/colord/cd-edid.c
+@@ -156,7 +156,7 @@ out:
+ 			gchar *idx2 = g_strstr_len (idx, -1, "\n");
+ 			if (idx2 != NULL)
+ 				*idx2 = '\0';
+-			return g_strdup (idx + 4);
++			return cd_quirk_vendor_name (idx + 4);
+ 		}
+ 		idx = g_strstr_len (idx, -1, "\n");
+ 		if (idx != NULL)
+-- 
+2.51.2
+

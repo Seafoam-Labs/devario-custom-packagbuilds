@@ -21,4 +21,4 @@ deviation aborts `/colord/edid` on `NULL == "LG"`. `shelly build --review-only`
 reports no findings. No `--isolated` worker build has run, so the full option
 set is unverified here; published `colord` is still the seed `1.4.8-1`.
 
-`devario-libs/lib32-colord` runs the same `check()` and carries the same gap.
+`devario-libs/lib32-colord` carries the same deviation on its own copy of the patch.
