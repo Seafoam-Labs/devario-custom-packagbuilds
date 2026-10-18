@@ -1,0 +1,26 @@
+pkgbase = vulkan-tools
+	pkgdesc = Vulkan information and demonstration tools
+	pkgver = 1.4.363.0
+	pkgrel = 2
+	url = https://github.com/KhronosGroup/Vulkan-Tools
+	arch = x86_64
+	groups = vulkan-devel
+	license = Apache-2.0
+	makedepends = cmake
+	makedepends = glslang
+	makedepends = libxrandr
+	makedepends = ninja
+	makedepends = python
+	makedepends = vulkan-headers>=1.4.363
+	makedepends = wayland-protocols
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = libx11
+	depends = libxcb
+	depends = vulkan-icd-loader
+	depends = wayland
+	source = vulkan-tools-1.4.363.0.tar.gz::https://github.com/KhronosGroup/Vulkan-Tools/archive/refs/tags/vulkan-sdk-1.4.363.0.tar.gz
+	sha256sums = 6cbeb83294434e636a0c78760f1a6dfe3e50c1bab0cffa154603ce73e70508f1
+
+pkgname = vulkan-tools

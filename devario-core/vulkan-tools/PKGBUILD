@@ -1,6 +1,6 @@
 pkgname=vulkan-tools
 pkgver=1.4.363.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Vulkan information and demonstration tools'
 arch=('x86_64')
 url='https://github.com/KhronosGroup/Vulkan-Tools'
