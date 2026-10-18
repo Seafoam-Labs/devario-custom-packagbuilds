@@ -1,7 +1,7 @@
 pkgbase = aws-sdk-cpp
 	pkgdesc = AWS SDK for C++
 	pkgver = 1.11.906
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/aws/aws-sdk-cpp
 	arch = x86_64
 	license = Apache-2.0
