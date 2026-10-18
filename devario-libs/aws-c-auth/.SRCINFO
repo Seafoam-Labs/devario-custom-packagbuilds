@@ -1,7 +1,7 @@
 pkgbase = aws-c-auth
 	pkgdesc = C99 library implementation of AWS client-side authentication: standard credentials providers and signing
 	pkgver = 1.0.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/awslabs/aws-c-auth
 	arch = x86_64
 	license = Apache-2.0
