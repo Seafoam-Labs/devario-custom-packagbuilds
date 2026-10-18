@@ -3,8 +3,8 @@
 
 pkgname=simdjson
 epoch=1
-pkgver=5.0.1
-pkgrel=2
+pkgver=5.0.5
+pkgrel=1
 pkgdesc='A fast JSON parser with complete validation'
 arch=('x86_64')
 url='https://github.com/simdjson/simdjson'
@@ -13,7 +13,7 @@ depends=('glibc' 'libgcc' 'libstdc++')
 makedepends=('cmake' 'ninja')
 provides=('libsimdjson.so' 'libsimdjson.so=34-64')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/simdjson/simdjson/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('8f7fcd06418b461d8b4d610004cb5e16b0887f7eef905021fda51a9c28277769')
+sha256sums=('50bb17769e1054ff1bfcd5dbbfcf33544c77f6ebdb31a318436ea0e47f78f571')
 
 build() {
   # Developer mode downloads extra test/benchmark dependencies through CPM.
