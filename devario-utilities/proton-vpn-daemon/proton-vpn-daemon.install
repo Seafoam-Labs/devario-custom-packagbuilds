@@ -1,16 +1,32 @@
+_proton_vpn_service() {
+  # Service setup is optional in build roots without systemd's tools.
+  if ! command -v systemctl >/dev/null 2>&1; then
+    printf 'proton-vpn-daemon: skipping systemctl %s; systemctl is unavailable\n' "$*" >&2
+    return 0
+  fi
+
+  # A root has no running init to act on the request, so report the failure
+  # instead of aborting package setup.
+  if ! systemctl "$@"; then
+    printf 'proton-vpn-daemon: could not systemctl %s; retry it on the target system\n' "$*" >&2
+  fi
+  return 0
+}
+
 post_install() {
-  systemctl daemon-reload
-  systemctl enable --now proton.VPN.service
+  _proton_vpn_service daemon-reload
+  _proton_vpn_service enable --now proton.VPN.service
 }
 
 post_upgrade() {
-  systemctl daemon-reload
-  if ! systemctl is-enabled --quiet proton.VPN.service; then
-    systemctl enable proton.VPN.service
+  _proton_vpn_service daemon-reload
+  if ! command -v systemctl >/dev/null 2>&1 ||
+     ! systemctl is-enabled --quiet proton.VPN.service 2>/dev/null; then
+    _proton_vpn_service enable proton.VPN.service
   fi
-  systemctl restart proton.VPN.service
+  _proton_vpn_service restart proton.VPN.service
 }
 
 pre_remove() {
-  systemctl disable --now proton.VPN.service
+  _proton_vpn_service disable --now proton.VPN.service
 }
