@@ -419,8 +419,45 @@ missing until stages 1 and 2 land. Two install-time gaps survive: published
 `lua51-luarocks` and `lua52-luarocks` depend on `lua51-compat53` and
 `lua52-compat53`, which no repository carries and no recipe packages.
 Neither reaches neovim or `lpeg`, which need only the `luarocks` command.
-`tests/test-hook-layout.py` still fails, on `devario-libs/packagekit` line 57,
-which shipped that way before this batch.
+PackageKit's former ALPM hook is now replaced by a native hook; see the Shelly
+backend change below. Other recipes can still fail the hook-layout check.
+
+## PackageKit through Shelly (2026-10-19)
+
+`devario-libs/packagekit` 1.4.0-3 builds the Devario `shelly` backend and depends
+on `shelly>=3.1.8` and Python. It no longer builds or links the ALPM backend,
+depends on pacman, or installs a separate pacman configuration. The GLib library
+split remains available to existing PackageKit consumers.
+
+The backend calls `/usr/bin/shelly` with `/etc/shelly.conf` and an immutable
+`NativePackageBackend=rlpm` configuration. PackageKit continues to handle D-Bus
+authorization. The helper sanitizes its environment and protocol output, checks
+requested package names and versions, and uses Shelly for repository queries,
+metadata, synchronization, installs and removals. A native
+`/usr/share/rlpm/hooks/90-packagekit-refresh.hook` notifies PackageKit after CLI
+transactions, tolerating absent system buses and unavailable daemons.
+
+Update requests must select the full current standard update set; the backend
+runs `shelly upgrade standard`, never individual partial upgrades. Transactions
+are not automatically retried or forcibly cancelled. Simulation, download-only,
+offline-update preparation, local-file installs, repository editing and other
+unimplemented roles or flags are not supported. In particular, clients that
+require a simulated transaction before installing will receive `not-supported`;
+the backend never treats a simulation as permission to change packages. Signature
+verification uses the system's Shelly repository policy.
+
+Validation:
+
+```sh
+python3 tests/test-packagekit-shelly.py
+PACKAGEKIT_SOURCE=/path/to/PackageKit-1.4.0 python3 tests/test-packagekit-shelly.py
+```
+
+The optional source check applies the Meson patch and compiles the backend
+against upstream headers. The remaining tests cover the helper protocol,
+pagination, transaction arguments, stale and unsafe IDs, unsupported flags,
+failure propagation, package staging and the native hook. A full package build
+and D-Bus integration test in a disposable Devario system remain release checks.
 
 ## Libluv for Neovim (2026-10-14)
 

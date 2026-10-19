@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+pk_backend_modules += shared_module(
+  'pk_backend_shelly',
+  'pk-backend-shelly.c',
+  include_directories: packagekit_src_include,
+  dependencies: [packagekit_glib2_dep, gmodule_dep],
+  c_args: ['-DG_LOG_DOMAIN="PackageKit-Shelly"'],
+  install: true,
+  install_dir: pk_plugin_dir,
+)
+
+install_data('shellyBackend.py',
+  install_dir: join_paths(get_option('datadir'), 'PackageKit', 'helpers', 'shelly'),
+  install_mode: 'rwxr-xr-x',
+)
+install_data('shelly-config.json', rename: 'config.json',
+  install_dir: join_paths(get_option('datadir'), 'PackageKit', 'helpers', 'shelly', 'config', 'shelly'),
+)

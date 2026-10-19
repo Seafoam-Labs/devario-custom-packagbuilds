@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Refreshing PackageKit package information...
+When = PostTransaction
+Exec = /usr/bin/sh -c 'if test -S /run/dbus/system_bus_socket; then /usr/bin/gdbus call --system --timeout 30 --dest org.freedesktop.PackageKit --object-path /org/freedesktop/PackageKit --method org.freedesktop.PackageKit.StateHasChanged posttrans >/dev/null 2>&1 || true; fi'

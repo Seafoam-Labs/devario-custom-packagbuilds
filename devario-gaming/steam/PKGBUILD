@@ -1,7 +1,7 @@
 pkgbase=steam
 pkgname=(steam steam-devices)
 pkgver=1.0.0.87
-pkgrel=3
+pkgrel=4
 pkgdesc="Valve's digital software delivery system"
 url='https://steampowered.com/'
 arch=('x86_64')
@@ -39,6 +39,7 @@ package_steam() {
     lsb-release
     lsof
     nss
+    opengl-driver
     python
     ttf-font
     usbutils
@@ -64,6 +65,8 @@ package_steam() {
     lib32-libxinerama
     lib32-libxss
     lib32-nss
+    # lib32-libgl supplies GLVND dispatch, but not a vendor OpenGL driver.
+    lib32-opengl-driver
     lib32-pipewire
     lib32-systemd
     lib32-vulkan-driver

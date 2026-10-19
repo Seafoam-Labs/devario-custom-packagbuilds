@@ -1,7 +1,7 @@
 pkgbase = packagekit
 	pkgdesc = A system designed to make installation and updates of packages easier
 	pkgver = 1.4.0
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.freedesktop.org/software/PackageKit/
 	arch = x86_64
 	license = GPL-2.0-or-later
@@ -11,28 +11,39 @@ pkgbase = packagekit
 	makedepends = gobject-introspection
 	makedepends = intltool
 	makedepends = meson
-	makedepends = pacman
+	makedepends = jansson
 	makedepends = polkit
 	makedepends = python-setuptools
 	makedepends = sqlite
 	makedepends = vala
 	options = !emptydirs
 	source = git+https://github.com/PackageKit/PackageKit.git?signed#tag=v1.4.0
+	source = 0001-add-shelly-backend.patch
+	source = pk-backend-shelly.c
+	source = shellyBackend.py
+	source = shelly-meson.build
+	source = shelly-config.json
+	source = 90-packagekit-refresh.hook
 	validpgpkeys = 163EB50119225DB3DF8F49EA17ACBA8DFA970E17
 	validpgpkeys = EC60AABDF42AAE8FB062640480858FA38F62AF74
 	validpgpkeys = D33A3F0CA16B0ACC51A60738494C8A5FBF4DECEB
 	sha256sums = 526b51bb50141f6f9b77e787d12662fb1aa602d07256e644bfd7b234b6dd54c0
+	sha256sums = 83929f352decc8e961cad7b88e574421a29df5afe7ce123304d02a2c432ad654
+	sha256sums = 9353ef50740da2f4730cacd38d6554df5945e66ecede504c889e5d13d9188d11
+	sha256sums = 1e0a53ad34d895c02cecca909da826de4f4adc33fcfceba13a686f4cfac91c93
+	sha256sums = 78c3c6c274eda0a717c1509a6a0485b48613dddfad39014bb27277f4f0951ccb
+	sha256sums = 7775585bd3d18bb3a98a45713529d9b0105d635d79100fc04c05bc1970efddc4
+	sha256sums = c9514cddb66e32fba2f056e8995cdbcd642f35c2d2455d62d0b1ac587cd9b846
 
 pkgname = packagekit
 	depends = libpackagekit-glib
-	depends = pacman
-	depends = libalpm.so
+	depends = shelly>=3.1.8
+	depends = python
+	depends = jansson
 	depends = polkit
 	depends = sqlite
 	optdepends = bash-completion: command completion in bash
 	backup = var/lib/PackageKit/transactions.db
-	backup = etc/PackageKit/alpm.d/pacman.conf
-	backup = etc/PackageKit/alpm.d/repos.list
 
 pkgname = libpackagekit-glib
 	pkgdesc = GLib library for accessing PackageKit

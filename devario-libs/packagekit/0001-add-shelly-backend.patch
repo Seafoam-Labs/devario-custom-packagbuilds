@@ -1,0 +1,10 @@
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -11,6 +11,7 @@
+ option('packaging_backend',
+     type : 'array',
+     choices : ['alpm',
++               'shelly',
+                'apt',
+                'dnf5',
+                'dummy',

@@ -1,0 +1,27 @@
+pkgbase = libabigail
+	pkgdesc = ABI analysis library and tools, including abidw and abidiff
+	pkgver = 3.0
+	pkgrel = 1
+	url = https://sourceware.org/libabigail/
+	arch = x86_64
+	license = Apache-2.0 WITH LLVM-exception
+	checkdepends = python
+	makedepends = python-sphinx
+	depends = glibc
+	depends = binutils
+	depends = libxml2
+	depends = libelf
+	depends = libgcc
+	depends = libstdc++
+	depends = libatomic
+	depends = elfutils
+	depends = xxhash
+	depends = xz
+	depends = onetbb
+	provides = abidw=3.0
+	provides = abidiff=3.0
+	provides = libabigail.so
+	source = https://sourceware.org/pub/libabigail/libabigail-3.0.tar.xz
+	sha512sums = 4803ada641d4becbff2f2578e1f874794af5295c7c780cfa4d4d96cddb59320625320c667e9ce2ccd4f9675d42ac4721305d4a3bd034862f34bb35dd4f9ff48c
+
+pkgname = libabigail

@@ -1,0 +1,93 @@
+Subject: [PATCH] libfrog: avoid libedit hist_init symbol collision
+
+Static libedit exports hist_init for its editline state. Rename the
+unrelated libfrog histogram initializer and all callers so xfs_db can
+link both libraries without duplicate definitions.
+
+diff --git a/db/freesp.c b/db/freesp.c
+index 4352048..fbf6040 100644
+--- a/db/freesp.c
++++ b/db/freesp.c
+@@ -353,7 +353,7 @@ histinit(
+ {
+ 	int	i;
+ 
+-	hist_init(&freesp_hist);
++	frog_hist_init(&freesp_hist);
+ 	if (equalsize) {
+ 		for (i = 1; i < maxlen; i += equalsize)
+ 			addhistent(i);
+diff --git a/libfrog/histogram.c b/libfrog/histogram.c
+index f6a749e..91ea048 100644
+--- a/libfrog/histogram.c
++++ b/libfrog/histogram.c
+@@ -71,7 +71,7 @@ histbucket_cmp(
+ 
+ /* Prepare a histogram for bucket configuration. */
+ void
+-hist_init(
++frog_hist_init(
+ 	struct histogram	*hs)
+ {
+ 	memset(hs, 0, sizeof(struct histogram));
+@@ -266,5 +266,5 @@ hist_move(
+ 	ASSERT(dest->tot_obs == 0);
+ 
+ 	memcpy(dest, src, sizeof(struct histogram));
+-	hist_init(src);
++	frog_hist_init(src);
+ }
+diff --git a/libfrog/histogram.h b/libfrog/histogram.h
+index 9a0fede..576f415 100644
+--- a/libfrog/histogram.h
++++ b/libfrog/histogram.h
+@@ -43,7 +43,7 @@ struct histogram_cdf {
+ 
+ int hist_add_bucket(struct histogram *hs, long long bucket_low);
+ void hist_add(struct histogram *hs, long long value);
+-void hist_init(struct histogram *hs);
++void frog_hist_init(struct histogram *hs);
+ void hist_prepare(struct histogram *hs, long long maxvalue);
+ void hist_free(struct histogram *hs);
+ 
+diff --git a/scrub/phase7.c b/scrub/phase7.c
+index d741865..1bc656d 100644
+--- a/scrub/phase7.c
++++ b/scrub/phase7.c
+@@ -46,7 +46,7 @@ init_freesp_hist(
+ {
+ 	unsigned int		i;
+ 
+-	hist_init(hs);
++	frog_hist_init(hs);
+ 	for (i = 0; i < 53; i++)
+ 		hist_add_bucket(hs, 1ULL << i);
+ 	hist_prepare(hs, 1ULL << 53);
+diff --git a/scrub/xfs_scrub.c b/scrub/xfs_scrub.c
+index 9e73dac..93eb452 100644
+--- a/scrub/xfs_scrub.c
++++ b/scrub/xfs_scrub.c
+@@ -747,8 +747,8 @@ main(
+ 	int			ret = SCRUB_RET_SUCCESS;
+ 	int			error;
+ 
+-	hist_init(&ctx.datadev_hist);
+-	hist_init(&ctx.rtdev_hist);
++	frog_hist_init(&ctx.datadev_hist);
++	frog_hist_init(&ctx.rtdev_hist);
+ 
+ 	progname = basename(argv[0]);
+ 	setlocale(LC_ALL, "");
+diff --git a/spaceman/freesp.c b/spaceman/freesp.c
+index 9ad321c..62ab4bb 100644
+--- a/spaceman/freesp.c
++++ b/spaceman/freesp.c
+@@ -69,7 +69,7 @@ histinit(
+ {
+ 	long long	i;
+ 
+-	hist_init(&freesp_hist);
++	frog_hist_init(&freesp_hist);
+ 	if (equalsize) {
+ 		for (i = 1; i < maxlen; i += equalsize)
+ 			addhistent(i);

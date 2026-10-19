@@ -4,7 +4,7 @@
 pkgbase='packagekit'
 pkgname=('packagekit' 'libpackagekit-glib')
 pkgver=1.4.0
-pkgrel=2
+pkgrel=3
 pkgdesc='A system designed to make installation and updates of packages easier'
 arch=('x86_64')
 url='https://www.freedesktop.org/software/PackageKit/'
@@ -15,8 +15,7 @@ makedepends=('git'
              'gobject-introspection'
              'intltool'
              'meson'
-             # pacman supplies libalpm.pc for the alpm backend; the upstream chroot ships it in base-devel
-             'pacman'
+             'jansson'
              'polkit'
              'python-setuptools'
              'sqlite'
@@ -25,8 +24,28 @@ options=('!emptydirs')
 validpgpkeys=('163EB50119225DB3DF8F49EA17ACBA8DFA970E17'  # Richard Hughes <richard@hughsie.com>
               'EC60AABDF42AAE8FB062640480858FA38F62AF74'  # Kalev Lember <klember@redhat.com>
               'D33A3F0CA16B0ACC51A60738494C8A5FBF4DECEB') # Matthias Klumpp <matthias@tenstral.net>
-source=("git+https://github.com/PackageKit/PackageKit.git?signed#tag=v${pkgver}")
-sha256sums=('526b51bb50141f6f9b77e787d12662fb1aa602d07256e644bfd7b234b6dd54c0')
+source=("git+https://github.com/PackageKit/PackageKit.git?signed#tag=v${pkgver}"
+        '0001-add-shelly-backend.patch'
+        'pk-backend-shelly.c'
+        'shellyBackend.py'
+        'shelly-meson.build'
+        'shelly-config.json'
+        '90-packagekit-refresh.hook')
+sha256sums=('526b51bb50141f6f9b77e787d12662fb1aa602d07256e644bfd7b234b6dd54c0'
+            '83929f352decc8e961cad7b88e574421a29df5afe7ce123304d02a2c432ad654'
+            '9353ef50740da2f4730cacd38d6554df5945e66ecede504c889e5d13d9188d11'
+            '1e0a53ad34d895c02cecca909da826de4f4adc33fcfceba13a686f4cfac91c93'
+            '78c3c6c274eda0a717c1509a6a0485b48613dddfad39014bb27277f4f0951ccb'
+            '7775585bd3d18bb3a98a45713529d9b0105d635d79100fc04c05bc1970efddc4'
+            'c9514cddb66e32fba2f056e8995cdbcd642f35c2d2455d62d0b1ac587cd9b846')
+
+prepare() {
+        patch -d PackageKit -Np1 -i "$srcdir/0001-add-shelly-backend.patch"
+        install -Dm644 "$srcdir/pk-backend-shelly.c" PackageKit/backends/shelly/pk-backend-shelly.c
+        install -m755 "$srcdir/shellyBackend.py" PackageKit/backends/shelly/shellyBackend.py
+        install -m644 "$srcdir/shelly-config.json" PackageKit/backends/shelly/shelly-config.json
+        install -m644 "$srcdir/shelly-meson.build" PackageKit/backends/shelly/meson.build
+}
 
 build() {
         local _meson_options=(
@@ -34,7 +53,9 @@ build() {
                 -Dgstreamer_plugin=false
                 -Dgtk_doc=false
                 -Dgtk_module=false
-                -Dpackaging_backend=alpm
+                -Dpackaging_backend=shelly
+                -Ddaemon_tests=false
+                -Doffline_update=false
                 -Dsystemd=true
         )
 
@@ -44,17 +65,16 @@ build() {
 }
 
 package_packagekit() {
-        depends=('libpackagekit-glib' 'pacman' 'libalpm.so' 'polkit' 'sqlite')
+        depends=('libpackagekit-glib' 'shelly>=3.1.8' 'python' 'jansson' 'polkit' 'sqlite')
         optdepends=('bash-completion: command completion in bash')
-        backup=('var/lib/PackageKit/transactions.db'
-                'etc/PackageKit/alpm.d/pacman.conf'
-                'etc/PackageKit/alpm.d/repos.list')
+        backup=('var/lib/PackageKit/transactions.db')
 
         meson install -C build --destdir "$pkgdir"
 
-        # an isolated build root has no system bus, and a failing PostTransaction hook aborts root provisioning
-        sed -i "s,posttrans > /dev/null',posttrans > /dev/null 2>\&1 || true'," \
-                "$pkgdir/usr/share/libalpm/hooks/90-packagekit-refresh.hook"
+        # Notify an available daemon after native transactions, including Shelly
+        # CLI changes. A build root without a system bus needs no notification.
+        install -Dm644 "$srcdir/90-packagekit-refresh.hook" \
+                "$pkgdir/usr/share/rlpm/hooks/90-packagekit-refresh.hook"
 
         # move away for libpackagekit-glib
         mkdir -p libpackagekit/usr/{lib,share}
