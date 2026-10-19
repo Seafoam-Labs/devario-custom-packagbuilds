@@ -1,5 +1,38 @@
 # Missing dependency builds for Shelly
 
+## Thunar Xfce stack dependency closure (2026-10-19)
+
+The worker failed `devario-utilities/thunar` with `IncompleteDependencyPlan` on
+`exo`, `libxfce4ui` and `xfce4-panel`. Those three drag the rest of the Xfce
+desktop stack with them, so closing thunar takes ten pkgbases, all imported
+verbatim from Arch packaging: eight shared libraries to `devario-libs`,
+`xfce4-panel` to `devario-utilities` beside thunar, and `valabind` to
+`devario-development` beside vala. None of the ten had a recipe or a published
+record, and every other name in the closure already publishes, including the
+existing Xfce siblings `libxfce4util`, `xfconf` and `xfce4-dev-tools`. `sh`
+resolves through the published `bash` provision and `libvala-0.56.so` through
+the `vala` provision.
+
+Build and publish in this order, refreshing the worker repository database
+between stages:
+
+1. [libgtop](devario-libs/libgtop/PKGBUILD) 2.41.3-2,
+   [startup-notification](devario-libs/startup-notification/PKGBUILD) 0.12-9,
+   [valabind](devario-development/valabind/PKGBUILD) 2.1.0-1.
+2. [libxfce4ui](devario-libs/libxfce4ui/PKGBUILD) 4.20.2-1,
+   [libwnck3](devario-libs/libwnck3/PKGBUILD) 43.3-1,
+   [gtk-layer-shell](devario-libs/gtk-layer-shell/PKGBUILD) 0.10.1-1.
+3. [exo](devario-libs/exo/PKGBUILD) 4.20.0-2,
+   [garcon](devario-libs/garcon/PKGBUILD) 4.20.0-2,
+   [libxfce4windowing](devario-libs/libxfce4windowing/PKGBUILD) 4.20.7-1.
+4. [xfce4-panel](devario-utilities/xfce4-panel/PKGBUILD) 4.20.8-1, then rebuild
+   [thunar](devario-utilities/thunar/PKGBUILD).
+
+`xfce4-panel` is a thunar `makedepends`, not an optdepends: thunar builds the
+`thunar-tpa` panel plugin against libxfce4panel. `valabind` is the opposite
+case, a `gtk-layer-shell` `makedepends` its meson build never reads. Both still
+gate the plan, which resolves every global `makedepends` name.
+
 ## Proton VPN and libei dependency closure (2026-10-19)
 
 Two worker plan failures named six absent names. `python-distro` was stale: it
