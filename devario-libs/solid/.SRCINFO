@@ -1,7 +1,7 @@
 pkgbase = solid
 	pkgdesc = Hardware integration and detection
 	pkgver = 6.30.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
