@@ -4,7 +4,7 @@
 
 pkgname=knewstuff
 pkgver=6.30.0
-pkgrel=6
+pkgrel=7
 pkgdesc='Support for downloading application assets from the network'
 arch=(x86_64)
 url='https://develop.kde.org/products/frameworks/'
