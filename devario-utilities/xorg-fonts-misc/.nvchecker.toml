@@ -1,0 +1,8 @@
+[xorg-fonts-misc]
+source = "gitlab"
+gitlab = "xorg/font/daewoo-misc"
+host = "gitlab.freedesktop.org"
+use_max_tag = true
+
+include_regex = ".*font-daewoo-misc-.*"
+prefix = "font-daewoo-misc-"

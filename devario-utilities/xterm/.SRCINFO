@@ -1,0 +1,28 @@
+pkgbase = xterm
+	pkgdesc = X Terminal Emulator
+	pkgver = 412
+	pkgrel = 1
+	url = https://invisible-island.net/xterm/
+	arch = x86_64
+	license = MIT AND X11 AND HPND AND CC-BY-4.0
+	makedepends = git
+	depends = fontconfig
+	depends = freetype2
+	depends = glibc
+	depends = libice
+	depends = libutempter
+	depends = libx11
+	depends = libxaw
+	depends = libxext
+	depends = libxft
+	depends = libxmu
+	depends = libxpm
+	depends = libxt
+	depends = ncurses
+	optdepends = luit: locale converter for -lc option
+	optdepends = xorg-mkfontscale: font scaling
+	source = xterm::git+https://github.com/ThomasDickey/xterm-snapshots.git?signed#tag=xterm-412
+	validpgpkeys = 19882D92DDA4C400C22C0D56CC2AF4472167BE03
+	b2sums = b8dfe4ad744d3d2c0789d122cc1569791c57657d5e50ed8db79f982b016c55fed66466f3a99aa75b887330c479107f0377afc1ddc8f9a2df7081d3febba8bd52
+
+pkgname = xterm
