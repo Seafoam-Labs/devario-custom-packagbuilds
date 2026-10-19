@@ -2,7 +2,7 @@
 
 pkgname=upower
 pkgver=1.91.5
-pkgrel=6
+pkgrel=7
 pkgdesc='D-Bus service for monitoring power devices, battery history and statistics'
 arch=('x86_64')
 url='https://upower.freedesktop.org'
