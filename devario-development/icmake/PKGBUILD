@@ -1,0 +1,33 @@
+pkgname=icmake
+pkgver=13.07.00
+pkgrel=1
+pkgdesc='A program maintenance (make) utility using a C-like grammar'
+arch=('x86_64')
+url='https://fbb-git.gitlab.io/icmake/'
+license=('GPL-3.0-or-later')
+source=("git+https://gitlab.com/fbb-git/${pkgname}.git#tag=${pkgver}")
+b2sums=('a8d48cb413a12c8fc7065093d705f68877bdfbcba24d79c88eabc78479718a083bab54297e32bff3bc106fae01f98cd9bde766ec9fbd499444e2bfb344e671c4')
+depends=('libunwind')
+makedepends=('git')
+
+
+prepare() {
+    cd "$pkgname"
+    sed -i 's|usr/libexec/icmake|usr/lib/icmake|' icmake/INSTALL.im
+}
+
+build() {
+    cd "$pkgname/$pkgname"
+
+    CXXFLAGS="${CXXFLAGS/ -Wp,-D_GLIBCXX_ASSERTIONS/} -std=c++26"
+
+    ./prepare /
+    ./buildlib /
+    ICMAKE_CPPSTD="-std=c++26" ./build all
+}
+
+package() {
+    cd "$pkgname/$pkgname"
+
+    ./install all "${pkgdir}"
+}
