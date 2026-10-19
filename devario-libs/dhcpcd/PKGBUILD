@@ -69,6 +69,8 @@ check() {
 
 package() {
   make DESTDIR="$pkgdir" install -C $pkgname-$pkgver
+  # Upstream installs these as 0555; stripping requires owner write permission.
+  chmod u+w "$pkgdir/usr/bin/$pkgname" "$pkgdir/usr/lib/$pkgname/dev/udev.so"
   install -vDm 644 $pkgname-$pkgver/LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
   install -Dm644 $pkgname.service -t "$pkgdir/usr/lib/systemd/system/"
   install -Dm644 ${pkgname}_.service "$pkgdir/usr/lib/systemd/system/$pkgname@.service"
