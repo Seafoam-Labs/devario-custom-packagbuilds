@@ -11,23 +11,29 @@ url="https://www.busybox.net"
 license=('GPL-2.0-only')
 makedepends=("ncurses" "musl" "kernel-headers-musl")
 validpgpkeys=('C9E9416F76E610DBD09D040F47B70C55ACC9965B')
+# Linux 6.8 removed the CBQ UAPI; drop the dead printer in tc.c.
 source=("$url/downloads/$pkgname-$pkgver.tar.bz2"{,.sig}
         "config"
-        "extra_version.patch")
+        "extra_version.patch"
+        "tc-cbq.patch")
 # Local sources are checksummed; only the detached signature is SKIP.
 sha256sums=('b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314'
             'SKIP'
             '239001693b58e471c594952b9805c24b0d8174ba2cab245cd624e4423d993cd3'
-            '0a8608fa4e633ebb4cfeadf29fd284b082e6f80c6393c10494bcb7f2cbebba27')
+            '0a8608fa4e633ebb4cfeadf29fd284b082e6f80c6393c10494bcb7f2cbebba27'
+            'a0bf02e32ffeff318fabdac8e93afe9b41c2253a4cbe5fc4c385c64d4a5e905a')
 b2sums=('e515825cb3ab1c520e16b9c2512e9fc72947366a72a0466bff59b507fdffbc78fc9d16b44a26116175fc7a429d849ad944b1bc379d36c6d3a0eb20969997336e'
         'SKIP'
         '7d4759036db05d7e0c06571e8fd24db488edf87a9b82a5382eee3fb43fc5318bbd75398e43c9b30c88b78630e910ee9a5316aaa824b5ab26f93fc1b3f834f07d'
-        '36625ae839e194fdc3649620af0b0c8c6db9de1f9ae6bc9ab2e5feb1d07c415a070745b62adad4edd689d8d53895862057be797e4ac87be9fde15e3ae7966b28')
+        '36625ae839e194fdc3649620af0b0c8c6db9de1f9ae6bc9ab2e5feb1d07c415a070745b62adad4edd689d8d53895862057be797e4ac87be9fde15e3ae7966b28'
+        '9ab1d20de9c63007b5c8f6635b7381ba1585b60e64022ae9ed27a75c9a488131be17cc9348ba8f23ba6b7c97613c65bee59058b89481b7115fb611f88b76d71d')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
 
   patch -p1 < "$srcdir"/extra_version.patch
+  # CBQ was removed from the kernel in 6.8; the printer no longer compiles.
+  patch -p1 < "$srcdir"/tc-cbq.patch
 }
 
 build() {

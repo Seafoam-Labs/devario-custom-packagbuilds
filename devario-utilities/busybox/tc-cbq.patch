@@ -1,0 +1,21 @@
+--- a/networking/tc.c
++++ b/networking/tc.c
+@@ -231,8 +231,9 @@
+ 	return 0;
+ }
+ #endif
+-static int cbq_print_opt(struct rtattr *opt)
++static int cbq_print_opt(struct rtattr *opt UNUSED_PARAM)
+ {
++#if 0 /* CBQ was removed from the kernel in 6.8 */
+ 	struct rtattr *tb[TCA_CBQ_MAX+1];
+ 	struct tc_ratespec *r = NULL;
+ 	struct tc_cbq_lssopt *lss = NULL;
+@@ -320,6 +321,7 @@
+ 		}
+ 	}
+  done:
++#endif
+ 	return 0;
+ }
+ 
