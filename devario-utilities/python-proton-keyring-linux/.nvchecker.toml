@@ -1,0 +1,4 @@
+[python-proton-keyring-linux]
+source = "git"
+git = "https://github.com/ProtonVPN/python-proton-keyring-linux.git"
+prefix = "v"

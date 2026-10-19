@@ -1,0 +1,42 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=python-forbiddenfruit
+pkgver=0.1.5
+pkgrel=1
+pkgdesc='Patch built-in python objects'
+arch=(any)
+url=https://github.com/clarete/forbiddenfruit
+license=('GPL-3.0-or-later OR MIT')
+depends=(python)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+checkdepends=(python-pytest)
+source=("git+$url.git#tag=$pkgver")
+b2sums=('51a2b9cb0aa1b7bad91f6b5725f1f25449a5d762db434a4fef765f2bb613c140f1cc0914d01146f1ffda5c052b3b8cd56357a8b5e1d50d0efb632eec81518ab1')
+
+build() {
+  cd ${pkgname#python-}
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd ${pkgname#python-}
+  # shellcheck disable=SC2046
+  cc -O2 -fPIC $(python3-config --includes) -c tests/unit/ffruit.c -o ffruit.o
+  # shellcheck disable=SC2046
+  cc -shared ffruit.o -o ffruit$(python3-config --extension-suffix)
+  # shellcheck disable=SC2046
+  mv ffruit$(python3-config --extension-suffix) tests/unit/
+  pytest tests/unit
+}
+
+package() {
+  cd ${pkgname#python-}
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" COPYING.mit
+}

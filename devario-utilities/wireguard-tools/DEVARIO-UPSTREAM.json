@@ -1,0 +1,6 @@
+{
+  "name": "wireguard-tools",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/wireguard-tools/-/archive/main/wireguard-tools-main.tar.gz",
+  "sha256": "85040f8ac1833358249196350abea2628b7d0257ddbc84b8709b4a7d26d346c0",
+  "bytes": 4413
+}

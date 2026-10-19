@@ -1,0 +1,16 @@
+post_install() {
+  systemctl daemon-reload
+  systemctl enable --now proton.VPN.service
+}
+
+post_upgrade() {
+  systemctl daemon-reload
+  if ! systemctl is-enabled --quiet proton.VPN.service; then
+    systemctl enable proton.VPN.service
+  fi
+  systemctl restart proton.VPN.service
+}
+
+pre_remove() {
+  systemctl disable --now proton.VPN.service
+}

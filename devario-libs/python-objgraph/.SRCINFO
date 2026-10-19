@@ -1,0 +1,18 @@
+pkgbase = python-objgraph
+	pkgdesc = Draws Python object reference graphs with graphviz
+	pkgver = 3.7.0
+	pkgrel = 1
+	url = https://github.com/mgedmin/objgraph
+	arch = any
+	license = MIT
+	checkdepends = graphviz
+	makedepends = git
+	makedepends = python-setuptools
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	source = git+https://github.com/mgedmin/objgraph.git#tag=3.7.0
+	sha512sums = 456040eb35ef556c71cc61522984052b9cb33208fcacb89df18ca56d36de265bba8269301b96fc7e2bb2a6c17290ab4dfc803ee281c946686ea6911c5ab779ab
+
+pkgname = python-objgraph

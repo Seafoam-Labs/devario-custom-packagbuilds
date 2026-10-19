@@ -1,0 +1,6 @@
+{
+  "name": "gunicorn",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gunicorn/-/archive/main/gunicorn-main.tar.gz",
+  "sha256": "5566c1bd574dc5a66b31f772179198bcc5b28816946714587bbfb07bfe6653c1",
+  "bytes": 2209
+}

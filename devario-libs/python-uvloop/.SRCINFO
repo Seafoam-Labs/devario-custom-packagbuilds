@@ -1,0 +1,22 @@
+pkgbase = python-uvloop
+	pkgdesc = Ultra fast asyncio event loop
+	pkgver = 0.23.0
+	pkgrel = 1
+	url = https://github.com/MagicStack/uvloop
+	arch = x86_64
+	license = Apache-2.0
+	license = MIT
+	makedepends = cython
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-packaging
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python
+	depends = libuv
+	source = git+https://github.com/MagicStack/uvloop.git#tag=v0.23.0
+	b2sums = a98e93ad7c2beeaf2cb5c31ae699dc8ef11c5deba1999222085877a813cf032e201b5d495a5f5cd3f853050a66f08623b5e18d9816b774909102598020eeb002
+
+pkgname = python-uvloop

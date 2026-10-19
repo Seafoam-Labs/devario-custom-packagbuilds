@@ -1,0 +1,4 @@
+[bcc]
+source = "git"
+git = "https://github.com/iovisor/bcc.git"
+prefix = "v"

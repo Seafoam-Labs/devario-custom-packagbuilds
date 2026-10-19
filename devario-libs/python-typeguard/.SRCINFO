@@ -1,0 +1,18 @@
+pkgbase = python-typeguard
+	pkgdesc = Run-time type checker for Python
+	pkgver = 4.6.0
+	pkgrel = 1
+	url = https://github.com/agronholm/typeguard
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = python-typing_extensions
+	source = git+https://github.com/agronholm/typeguard.git#tag=4.6.0
+	b2sums = 063f9530436a7a9ff192c7791270384f5f0dcd7e62cbd4267f7bb27581e4dbee94605053639dd986bc9652ea643b0518ce92bbda7a0cefddbbcce7ed1dbb76e6
+
+pkgname = python-typeguard

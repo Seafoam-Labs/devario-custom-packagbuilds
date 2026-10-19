@@ -1,0 +1,51 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: renek <aur@spaceshore.net>
+
+pkgname=python-multidict
+pkgver=7.1.0
+pkgrel=1
+pkgdesc='Asyncio-based multidict implementation for Python'
+arch=('x86_64')
+url='https://github.com/aio-libs/multidict'
+license=('Apache-2.0')
+depends=(
+  'glibc'
+  'python'
+)
+makedepends=(
+  'cython'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+checkdepends=(
+  'python-coverage'
+  'python-objgraph'
+  'python-perf'
+  'python-psutil'
+  'python-pytest'
+  'python-pytest-codspeed'
+)
+source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('d2ee0fae5965a8a92f421aaa54ff81007d836731415b4ec22bb12ab90e3b1369b017de454c46837a3c63c5ff6258b77a9e0ba457d9991fca6e3e38d3e390e8b1')
+b2sums=('bf6115bb30868357d29f51ccb3686850967dd86b149f828adb5756410e399752b17eb4e021814402d7bb19444837d608450824c2ad99df7b4c5e2fa5e0824cb8')
+
+build() {
+  cd ${pkgname#python-}-$pkgver
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd ${pkgname#python-}-$pkgver
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  cd tests
+  ../test-env/bin/python -m pytest -v --override-ini="addopts="
+}
+
+package() {
+  cd ${pkgname#python-}-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}

@@ -1,0 +1,33 @@
+pkgbase = proton-vpn-daemon
+	pkgdesc = Daemons for Proton VPN Linux client (split tunneling service)
+	pkgver = 0.13.8
+	pkgrel = 1
+	url = https://github.com/ProtonVPN/proton-vpn-daemon
+	install = proton-vpn-daemon.install
+	arch = any
+	license = GPL-3.0-only
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	depends = python-dbus-fast
+	depends = systemd
+	depends = python-psutil
+	depends = python-bcc
+	depends = python-packaging
+	depends = python-proton-vpn-api-core
+	depends = wireguard-tools
+	source = proton-vpn-daemon::git+https://github.com/ProtonVPN/proton-vpn-daemon.git#tag=v0.13.8
+	source = dbus.conf::https://raw.githubusercontent.com/ProtonVPN/proton-vpn-daemon/stable/rpmbuild/SOURCES/dbus.conf
+	source = dbus.service::https://raw.githubusercontent.com/ProtonVPN/proton-vpn-daemon/stable/rpmbuild/SOURCES/dbus.service
+	source = systemd.service::https://raw.githubusercontent.com/ProtonVPN/proton-vpn-daemon/stable/rpmbuild/SOURCES/systemd.service
+	source = split-tunneling.patch
+	sha256sums = d9ed44dabcd390117d1cd9de7d1f376ea5e511155ffa29efe640af4f41ed06d9
+	sha256sums = 87ed0dcd92d9ec1f90f1012013acfbb7a78b19521fd89fb8857f97f39941943c
+	sha256sums = 49c2a78014c6e33103991a218a20d17f5ea95ddc9fda4d78ac26e2799bd8300d
+	sha256sums = e5bdae949524e86958b8cdf00b3a78d17dddaeacf6de3290917de71cfc31a029
+	sha256sums = 8d3107bd22fb7267e07ad4faa3a50054a77833de6d2da582262141a6e48aea47
+
+pkgname = proton-vpn-daemon

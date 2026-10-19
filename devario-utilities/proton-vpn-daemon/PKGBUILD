@@ -1,0 +1,62 @@
+# Maintainer: Peter Jung <ptr1337@archlinux.org>
+
+pkgname=proton-vpn-daemon
+pkgver=0.13.8
+pkgrel=1
+pkgdesc="Daemons for Proton VPN Linux client (split tunneling service)"
+arch=('any')
+url="https://github.com/ProtonVPN/proton-vpn-daemon"
+license=(GPL-3.0-only)
+depends=(
+  python
+  python-dbus-fast
+  systemd
+  python-psutil
+  python-bcc
+  python-packaging
+  python-proton-vpn-api-core
+  wireguard-tools
+)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+install=proton-vpn-daemon.install
+
+source=(
+  "$pkgname::git+https://github.com/ProtonVPN/${pkgname}.git#tag=v${pkgver}"
+  "dbus.conf::https://raw.githubusercontent.com/ProtonVPN/${pkgname}/stable/rpmbuild/SOURCES/dbus.conf"
+  "dbus.service::https://raw.githubusercontent.com/ProtonVPN/${pkgname}/stable/rpmbuild/SOURCES/dbus.service"
+  "systemd.service::https://raw.githubusercontent.com/ProtonVPN/${pkgname}/stable/rpmbuild/SOURCES/systemd.service"
+  "split-tunneling.patch"
+)
+sha256sums=('d9ed44dabcd390117d1cd9de7d1f376ea5e511155ffa29efe640af4f41ed06d9'
+            '87ed0dcd92d9ec1f90f1012013acfbb7a78b19521fd89fb8857f97f39941943c'
+            '49c2a78014c6e33103991a218a20d17f5ea95ddc9fda4d78ac26e2799bd8300d'
+            'e5bdae949524e86958b8cdf00b3a78d17dddaeacf6de3290917de71cfc31a029'
+            '8d3107bd22fb7267e07ad4faa3a50054a77833de6d2da582262141a6e48aea47')
+
+prepare() {
+  cd $pkgname
+  patch -Np1 < ../split-tunneling.patch
+}
+build() {
+  cd "$pkgname"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname"
+  # Wheel filename uses underscores instead of dashes.
+  python -m installer --destdir="$pkgdir" dist/${pkgname//-/_}-*.whl
+
+  install -Dm644 "$srcdir/systemd.service" \
+    "$pkgdir/usr/lib/systemd/system/proton.VPN.service"
+  install -Dm644 "$srcdir/dbus.service" \
+    "$pkgdir/usr/share/dbus-1/system-services/me.proton.vpn.split_tunneling.service"
+  install -Dm644 "$srcdir/dbus.conf" \
+    "$pkgdir/usr/share/dbus-1/system.d/me.proton.vpn.split_tunneling.conf"
+}

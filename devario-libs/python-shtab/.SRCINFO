@@ -1,0 +1,21 @@
+pkgbase = python-shtab
+	pkgdesc = Automagic shell tab completion for Python CLI applications
+	pkgver = 1.12.1
+	pkgrel = 1
+	url = https://github.com/iterative/shtab
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-click
+	checkdepends = python-pytest
+	checkdepends = python-pytest-timeout
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-setuptools-scm
+	depends = python
+	source = python-shtab::git+https://github.com/iterative/shtab#tag=v1.12.1
+	sha512sums = 750e676e48b6ab66da9bb6bc85b206b68af8b7265b61b33eda1761ffb08b5dfa07ec023b74d2471515a251b65f779c1ecd6abcbef9fc1bac7f1d4278837a0860
+	b2sums = 412348315eb743a948fb5d73d5fd38da7861453fa7cffe075ffb2f7713bd1353fbff3eee48820d926aea1315a2c4a9f4011768b94247bd0070c46207a0178178
+
+pkgname = python-shtab

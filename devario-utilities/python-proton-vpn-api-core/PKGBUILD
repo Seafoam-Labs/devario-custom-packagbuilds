@@ -1,0 +1,113 @@
+# Maintainer: Peter Jung <ptr1337@archlinux.org>
+# Maintainer: Ali Molaei <ali dot molaei at protonmail dot com>
+
+pkgname=python-proton-vpn-api-core
+pkgver=5.8.7
+pkgrel=1
+_protun_commit=12e7755a112f59b7b843da79290b3de25febf653
+pkgdesc="The proton-vpn-core-api acts as a facade to the other Proton VPN components, exposing a uniform API to the available Proton VPN services."
+arch=(x86_64)
+url="https://github.com/ProtonVPN/python-proton-vpn-api-core"
+license=(GPL-3.0-or-later)
+options=(!lto)
+depends=(
+  glibc
+  libgcc
+  libmnl
+  libnftnl
+  networkmanager-openvpn
+  libnm
+  python
+  python-cryptography
+  python-dbus-fast
+  python-distro
+  python-jinja
+  python-proton-core
+  python-cairo
+  python-gobject
+  python-pynacl
+  python-packaging
+  python-sentry_sdk
+  python-fido2
+)
+makedepends=(
+  cmake
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+  rust
+)
+provides=(
+  python-proton-vpn-local-agent
+  python-proton-vpn-network-manager
+)
+conflicts=(python-proton-vpn-local-agent)
+replaces=(
+  python-proton-vpn-local-agent
+  python-proton-vpn-network-manager
+)
+source=(
+  "git+https://github.com/ProtonVPN/${pkgname}.git#tag=v${pkgver}"
+  "protun::git+https://github.com/ProtonVPN/protun.git#commit=${_protun_commit}"
+  fix-protun-dbus-startup-race.patch
+)
+sha256sums=('ff64d11ede325f151e4e3ff55283bbbee185e109aee0959e3e5c933591e62f40'
+            '3f90b4967711c9750042b5621695ed91c374fab92d5e8fa2100645862a47f66b'
+            '36b89eacb44d3e4a63522db312ce8a138b1b80234b862566a59c2b6f8e2a0a7d')
+
+prepare() {
+  cd "$pkgname"
+  # https://github.com/ProtonVPN/python-proton-vpn-api-core/issues/31
+  patch -Np1 < ../fix-protun-dbus-startup-race.patch
+  sed -i '/^SystemdService=/d' resources/nm-protun.name
+
+  rm -rf dependencies/protun
+  cp -a "$srcdir/protun" dependencies/protun
+}
+
+build() {
+  cd "$pkgname"
+
+  CARGO_REGISTRIES_PROTON_INDEX="sparse+https://rust-registry.proton.me/index/" \
+    cargo build --release --locked \
+      --bin nm-protun-service \
+      --bin proton-vpn-kill-switch-service \
+      --lib \
+      --features 'protun,python,core,local_agent,kill_switch,telemetry'
+
+  install -Dm755 target/release/libproton_vpn_platform.so \
+    proton/vpn/platform.abi3.so
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm755 target/release/nm-protun-service \
+    "$pkgdir/usr/lib/nm-protun-service"
+  install -Dm644 resources/nm-protun-service.conf \
+    "$pkgdir/usr/share/dbus-1/system.d/nm-protun-service.conf"
+
+  install -Dm755 target/release/proton-vpn-kill-switch-service \
+    "$pkgdir/usr/lib/proton-vpn-kill-switch-service"
+  install -Dm644 resources/proton-vpn-kill-switch.conf \
+    "$pkgdir/usr/share/dbus-1/system.d/me.proton.vpn.kill_switch.conf"
+  install -Dm644 resources/proton-vpn-kill-switch.dbus-service \
+    "$pkgdir/usr/share/dbus-1/system-services/me.proton.vpn.kill_switch.service"
+  sed -i 's|^Exec=.*|Exec=/usr/lib/proton-vpn-kill-switch-service|' \
+    "$pkgdir/usr/share/dbus-1/system-services/me.proton.vpn.kill_switch.service"
+
+  # Shipped disabled: the kill switch service enables it when permanent mode is turned on
+  install -Dm644 resources/proton-vpn-kill-switch-boot.service \
+    "$pkgdir/usr/lib/systemd/system/proton-vpn-kill-switch-boot.service"
+  sed -i 's|/usr/libexec/proton-vpn-kill-switch-service|/usr/lib/proton-vpn-kill-switch-service|' \
+    "$pkgdir/usr/lib/systemd/system/proton-vpn-kill-switch-boot.service"
+
+  install -d "$pkgdir/usr/lib/NetworkManager/VPN"
+  sed -e 's|program=.*|program=/usr/lib/nm-protun-service|' \
+    resources/nm-protun.name \
+    > "$pkgdir/usr/lib/NetworkManager/VPN/nm-protun.name"
+}

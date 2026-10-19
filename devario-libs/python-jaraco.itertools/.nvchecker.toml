@@ -1,0 +1,3 @@
+["python-jaraco.itertools"]
+source = "pypi"
+pypi = "jaraco.itertools"

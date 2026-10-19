@@ -1,0 +1,22 @@
+pkgbase = python-blockbuster
+	pkgdesc = Utility to detect blocking calls in the async event loop
+	pkgver = 1.5.29
+	pkgrel = 1
+	url = https://github.com/cbornet/blockbuster
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-pytest
+	checkdepends = python-pytest-asyncio
+	checkdepends = python-pytest-benchmark
+	checkdepends = python-requests
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-hatchling
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	depends = python-forbiddenfruit
+	source = git+https://github.com/cbornet/blockbuster.git#tag=v1.5.29
+	b2sums = 8cacb6d4e5cd04a1bca8f9226223ad0a3ae724ec99400f026fee1f6c7e73d5bab96a2a20bb7a89fb3cca536546c5c3b6641ebcd302a0e5aef0524ce3c9439ab8
+
+pkgname = python-blockbuster

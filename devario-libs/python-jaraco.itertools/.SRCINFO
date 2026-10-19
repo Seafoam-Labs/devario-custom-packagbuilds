@@ -1,0 +1,25 @@
+pkgbase = python-jaraco.itertools
+	pkgdesc = Itertools for Python
+	pkgver = 6.4.2
+	pkgrel = 2
+	url = https://github.com/jaraco/jaraco.itertools
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-enabler
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-toml
+	makedepends = python-wheel
+	depends = python
+	depends = python-inflect
+	depends = python-more-itertools
+	conflicts = python-jaraco
+	replaces = python-jaraco
+	source = jaraco.itertools-6.4.2.tar.gz::https://github.com/jaraco/jaraco.itertools/archive/refs/tags/v6.4.2.tar.gz
+	sha256sums = c7c4616cfaeeb02b62cb27477df75f8327dc532003394d12b89df26b53fc6f00
+	b2sums = 7ea8d920e31cf46d24ee68989a30adfdfcdfcfd4cbb15853de1d2960a505cf54b8d41689e8ea36bcc850b5c718522afbffc763daceb4b0a16110049fa6a31063
+
+pkgname = python-jaraco.itertools

@@ -1,0 +1,15 @@
+pkgbase = isa-l
+	pkgdesc = Intelligent Storage Acceleration Library
+	pkgver = 2.32.1
+	pkgrel = 1
+	url = https://github.com/intel/isa-l
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = help2man
+	makedepends = nasm
+	depends = glibc
+	provides = libisal.so
+	source = https://github.com/intel/isa-l/archive/v2.32.1/isa-l-2.32.1.tar.gz
+	b2sums = d6a7b0a7269b53905cec04c8b15eb1cc783449f182c3b5c344d21adef7b4bf15f9ad6f9aae4b4ad9aebd55cc90ebd56e755842114e40ee0be9c4274235569fea
+
+pkgname = isa-l

@@ -1,0 +1,3 @@
+[python-pytest-codspeed]
+source = "pypi"
+pypi = "pytest-codspeed"

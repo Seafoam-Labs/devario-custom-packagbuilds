@@ -1,0 +1,4 @@
+[python-pytest-ignore-flaky]
+source = "git"
+git = "https://github.com/coherent-oss/pytest-ignore-flaky.git"
+prefix = "v"

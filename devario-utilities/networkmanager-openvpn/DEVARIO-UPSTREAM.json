@@ -1,0 +1,6 @@
+{
+  "name": "networkmanager-openvpn",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/networkmanager-openvpn/-/archive/main/networkmanager-openvpn-main.tar.gz",
+  "sha256": "546cc8ea29482525b7b509fd0896d503d72e6a61e3de64027c39eafa43f7443f",
+  "bytes": 4273
+}

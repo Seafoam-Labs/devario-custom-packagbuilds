@@ -1,0 +1,4 @@
+[python-big-o]
+source = "git"
+git = "https://github.com/pberkes/big_O.git"
+prefix = "v"

@@ -1,0 +1,11 @@
+diff --git a/proton/vpn/daemon/split_tunneling/apps/process_monitor.bpf.c b/proton/vpn/daemon/split_tunneling/apps/process_monitor.bpf.c
+index c28ce91..6bccf75 100644
+--- a/proton/vpn/daemon/split_tunneling/apps/process_monitor.bpf.c
++++ b/proton/vpn/daemon/split_tunneling/apps/process_monitor.bpf.c
+@@ -1,6 +1,5 @@
+ #include <uapi/linux/ptrace.h>
+ #include <linux/sched.h>
+-#include <linux/fs.h>
+
+ #define ARGSIZE  256
+ #define MAXARG  128

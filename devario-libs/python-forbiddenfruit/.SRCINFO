@@ -1,0 +1,18 @@
+pkgbase = python-forbiddenfruit
+	pkgdesc = Patch built-in python objects
+	pkgver = 0.1.5
+	pkgrel = 1
+	url = https://github.com/clarete/forbiddenfruit
+	arch = any
+	license = GPL-3.0-or-later OR MIT
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = git+https://github.com/clarete/forbiddenfruit.git#tag=0.1.5
+	b2sums = 51a2b9cb0aa1b7bad91f6b5725f1f25449a5d762db434a4fef765f2bb613c140f1cc0914d01146f1ffda5c052b3b8cd56357a8b5e1d50d0efb632eec81518ab1
+
+pkgname = python-forbiddenfruit

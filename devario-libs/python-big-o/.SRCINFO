@@ -1,0 +1,18 @@
+pkgbase = python-big-o
+	pkgdesc = Empirical estimation of time complexity from execution time
+	pkgver = 0.11.0
+	pkgrel = 4
+	url = https://github.com/pberkes/big_O
+	arch = any
+	license = BSD
+	checkdepends = python-pytest
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python-numpy
+	source = git+https://github.com/pberkes/big_O.git#commit=359971f6cb270d10cbd35909eeb3763717ea2e2b
+	sha512sums = SKIP
+
+pkgname = python-big-o

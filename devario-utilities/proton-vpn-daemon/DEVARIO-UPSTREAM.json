@@ -1,0 +1,6 @@
+{
+  "name": "proton-vpn-daemon",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/proton-vpn-daemon/-/archive/main/proton-vpn-daemon-main.tar.gz",
+  "sha256": "8ad305fa7a842db81b70be353b631f2f822849370a5ca3e3d290a2d4b646cdae",
+  "bytes": 3609
+}

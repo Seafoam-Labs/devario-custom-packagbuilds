@@ -1,0 +1,4 @@
+[python-proton-vpn-api-core]
+source = "git"
+git = "https://github.com/ProtonVPN/python-proton-vpn-api-core.git"
+prefix = "v"

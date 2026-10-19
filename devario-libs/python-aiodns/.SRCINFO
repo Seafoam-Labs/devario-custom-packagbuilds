@@ -1,0 +1,20 @@
+pkgbase = python-aiodns
+	pkgdesc = Simple DNS resolver for asyncio
+	pkgver = 4.0.4
+	pkgrel = 1
+	url = https://github.com/saghul/aiodns
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytest-asyncio
+	checkdepends = python-uvloop
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python-pycares
+	source = git+https://github.com/saghul/aiodns.git#tag=v4.0.4
+	b2sums = 5ccbef2ca3602f3eb779de81082d6b6337c04967fc108b54882413789b854d298e6cfebab5ac76c830a796f4c9353ab9ad30bcd4df0bd7e67cbcfc318d49421e
+
+pkgname = python-aiodns

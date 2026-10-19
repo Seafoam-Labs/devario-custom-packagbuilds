@@ -1,0 +1,3 @@
+[python-gnupg]
+source = "git"
+git = "https://github.com/vsajip/python-gnupg.git"

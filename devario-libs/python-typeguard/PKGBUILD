@@ -1,0 +1,40 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Daniel M. Capella <polyzen@archlinux.org>
+
+pkgname=python-typeguard
+pkgver=4.6.0
+pkgrel=1
+pkgdesc="Run-time type checker for Python"
+url="https://github.com/agronholm/typeguard"
+license=('MIT')
+arch=('any')
+depends=('python-typing_extensions')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
+checkdepends=('python-pytest')
+source=("git+$url.git#tag=$pkgver")
+b2sums=('063f9530436a7a9ff192c7791270384f5f0dcd7e62cbd4267f7bb27581e4dbee94605053639dd986bc9652ea643b0518ce92bbda7a0cefddbbcce7ed1dbb76e6')
+
+# Utilize venv for mypy
+# disabled, because mypy tests are still failing
+#prepare() {
+#  cd typeguard
+#  sed -i 's|\["mypy"|["python", "-m", "mypy"|' tests/mypy/test_type_annotations.py
+#}
+
+build() {
+  cd typeguard
+  python -m build -nw
+}
+
+check() {
+  cd typeguard
+  python -m venv tmpenv --system-site-packages
+  tmpenv/bin/python -m installer dist/*.whl
+  tmpenv/bin/python -m pytest --deselect tests/mypy/test_type_annotations.py
+}
+
+package() {
+  cd typeguard
+  python -m installer -d "$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

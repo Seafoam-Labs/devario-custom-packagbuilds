@@ -1,0 +1,27 @@
+pkgbase = python-importlib-metadata
+	pkgdesc = Read metadata from Python packages
+	pkgver = 9.0.1
+	pkgrel = 1
+	url = https://importlib-metadata.readthedocs.io
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-jaraco.test
+	checkdepends = python-pytest
+	checkdepends = python-pyfakefs
+	checkdepends = python-pip
+	checkdepends = python-tests
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = python
+	depends = python-zipp
+	source = python-importlib-metadata::git+https://github.com/python/importlib_metadata.git#tag=v9.0.1?signed
+	source = remove-useless-dep.patch
+	validpgpkeys = CE380CF3044959B8F377DA03708E6CB181B4C47E
+	sha512sums = de3d67dd987e696e6cb258c5dd80a3bbfc3c93572a411e11ebebc7f360a134cfb4f2052f0fc5b556de7437c2af42486d1eecc44980e1c577de3585d5eb89b33d
+	sha512sums = e5165e1b212f10d56724dc552e2cd75411bbe8c3b0d6b2d930f73e85e22596fade1cd3e84f8c93b4cd73bbf5cce8d3cf22ed489e4fdfe46c73a65d97f76e57b8
+
+pkgname = python-importlib-metadata

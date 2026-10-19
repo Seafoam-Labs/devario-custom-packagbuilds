@@ -1,0 +1,18 @@
+pkgbase = python-rapidjson
+	pkgdesc = Python wrapper around rapidjson
+	pkgver = 1.25
+	pkgrel = 1
+	url = https://pypi.python.org/pypi/python-rapidjson
+	arch = x86_64
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-pytz
+	makedepends = python-setuptools
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	source = https://pypi.io/packages/source/p/python-rapidjson/python_rapidjson-1.25.tar.gz
+	sha512sums = 54696fcff78e4f70e4abca75b1156971628ecc5dca134cd621cd6a537ed595182824d3fe3286378f138b0b10a2ce000e6f3edcfd960a69a1f95b5cdbc0461219
+
+pkgname = python-rapidjson

@@ -1,0 +1,18 @@
+pkgbase = python-pytest-ignore-flaky
+	pkgdesc = Ignore failures from flaky tests (pytest plugin)
+	pkgver = 2.2.1
+	pkgrel = 3
+	url = https://github.com/coherent-oss/pytest-ignore-flaky/
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = python-pytest
+	source = git+https://github.com/coherent-oss/pytest-ignore-flaky.git#tag=v2.2.1
+	sha512sums = 55d8e0d6b1b93687608a6cb97bc2d3de77876d1408eb3240c3e1f78be022706e7a3736e45f65e5b33c7f93470c726d2c32bc2e97f6f746a2153c04e05d2d5dd5
+
+pkgname = python-pytest-ignore-flaky
