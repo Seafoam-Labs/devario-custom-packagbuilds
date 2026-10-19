@@ -1,5 +1,39 @@
 # Missing dependency builds for Shelly
 
+## gvfs GIO backend dependency closure (2026-10-19)
+
+The worker failed `devario-core/gvfs` with `CascadeDependenciesChanged` on
+`libgoa`, `libmtp`, `msgraph` and `wsdd`. None had a recipe on any branch or a
+published record anywhere. Closing them takes eight pkgbases imported verbatim
+from Arch packaging: `gnome-online-accounts` to `devario-core` beside gvfs,
+`libmtp`, `librest`, `msgraph`, `python-defusedxml`, `python-systemd` and
+`uhttpmock` to `devario-libs`, and `wsdd` to `devario-utilities`.
+
+`libgoa` is a split of the `gnome-online-accounts` pkgbase, which also produces
+`gnome-online-accounts` and `libgoa-docs`. Four imports are themselves
+plan-gating: `librest` for `gnome-online-accounts`, `uhttpmock` for `msgraph`,
+and `python-defusedxml` plus `python-systemd` for `wsdd`. The published
+`gvfs-goa`, `gvfs-mtp`, `gvfs-onedrive` and `gvfs-wsdd` `.PKGINFO` depends name
+only the package names, so the split names are enough to resolve them.
+
+Build and publish in this order, refreshing the worker repository database
+between stages:
+
+1. [librest](devario-libs/librest/PKGBUILD) 0.10.2-2,
+   [libmtp](devario-libs/libmtp/PKGBUILD) 1.1.23-1,
+   [uhttpmock](devario-libs/uhttpmock/PKGBUILD) 0.11.0-2,
+   [python-defusedxml](devario-libs/python-defusedxml/PKGBUILD) 0.7.1-8,
+   [python-systemd](devario-libs/python-systemd/PKGBUILD) 236-1.
+2. [gnome-online-accounts](devario-core/gnome-online-accounts/PKGBUILD) 3.58.1-1,
+   then [wsdd](devario-utilities/wsdd/PKGBUILD) 0.9-2.
+3. [msgraph](devario-libs/msgraph/PKGBUILD) 0.3.5-1.
+4. Retry [gvfs](devario-core/gvfs/PKGBUILD).
+
+`gnome-online-accounts`, `msgraph` and `librest` are the only deviations from
+upstream: each adds both bare and versioned SONAME provisions plus
+`_verify_soname` checks, because Shelly preserves the bare form that Arch would
+version. Nothing in the wave publishes yet.
+
 ## Thunar Xfce stack dependency closure (2026-10-19)
 
 The worker failed `devario-utilities/thunar` with `IncompleteDependencyPlan` on
