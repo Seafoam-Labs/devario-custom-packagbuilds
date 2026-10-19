@@ -1,0 +1,25 @@
+# Maintainer: Brett Cornwall <ainola@archlinux.org>
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+
+pkgname=valabind
+pkgver=2.1.0
+pkgrel=1
+pkgdesc='Create bindings from vapi to nodejs, python, swig, c++'
+url='https://github.com/radare/valabind'
+arch=('x86_64')
+license=('GPL-3.0-only')
+depends=('sh' 'glibc' 'glib2' 'vala' 'swig' 'libvala-0.56.so')
+makedepends=('git' 'meson')
+source=("git+https://github.com/radare/valabind.git#tag=$pkgver")
+sha256sums=('736185af3746a39ebd3a9c3ef28f23ee3d636f78a4a51225d9e10f251d8d01de')
+
+build() {
+  arch-meson "$pkgname" build
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "${pkgdir}"
+}
+
+# vim:set ts=2 sw=2 et:

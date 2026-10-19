@@ -1,0 +1,19 @@
+pkgbase = valabind
+	pkgdesc = Create bindings from vapi to nodejs, python, swig, c++
+	pkgver = 2.1.0
+	pkgrel = 1
+	url = https://github.com/radare/valabind
+	arch = x86_64
+	license = GPL-3.0-only
+	makedepends = git
+	makedepends = meson
+	depends = sh
+	depends = glibc
+	depends = glib2
+	depends = vala
+	depends = swig
+	depends = libvala-0.56.so
+	source = git+https://github.com/radare/valabind.git#tag=2.1.0
+	sha256sums = 736185af3746a39ebd3a9c3ef28f23ee3d636f78a4a51225d9e10f251d8d01de
+
+pkgname = valabind
