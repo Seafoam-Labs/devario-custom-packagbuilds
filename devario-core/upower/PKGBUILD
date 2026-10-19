@@ -1,0 +1,62 @@
+# Maintainer: Devario maintainers
+
+pkgname=upower
+pkgver=1.91.5
+pkgrel=1
+pkgdesc='D-Bus service for monitoring power devices, battery history and statistics'
+arch=('x86_64')
+url='https://upower.freedesktop.org'
+license=('GPL-2.0-or-later')
+depends=(
+  'glib2'
+  'glibc'
+  'libgcc'
+  'libgudev'
+  'libimobiledevice'
+  'libplist'
+  'polkit'
+  'systemd'
+)
+makedepends=(
+  'docbook-xsl'
+  'glib2-devel'
+  'gobject-introspection'
+  'gtk-doc'
+  'meson'
+  'ninja'
+  'pkgconf'
+  'python'
+  'usbmuxd'
+)
+checkdepends=(
+  'python-dbus'
+  'python-dbusmock'
+  'python-gobject'
+  'python-packaging'
+  'umockdev'
+)
+optdepends=('usbmuxd: read charge status of iOS devices')
+provides=('libupower-glib.so')
+backup=('etc/UPower/UPower.conf')
+source=("$pkgname-$pkgver.tar.gz::https://gitlab.freedesktop.org/upower/upower/-/archive/v$pkgver/upower-v$pkgver.tar.gz")
+sha256sums=('d900f175e39fbc0dfd8632f7c70606e10f79903ee4171d199aa777dfa3a396e2')
+
+build() {
+  arch-meson "$pkgname-v$pkgver" build \
+    --libexecdir=lib \
+    -Dos_backend=linux \
+    -Dsystemdsystemunitdir=/usr/lib/systemd/system \
+    -Dintrospection=enabled \
+    -Didevice=enabled \
+    -Dpolkit=enabled \
+    -Dinstalled_tests=false
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}

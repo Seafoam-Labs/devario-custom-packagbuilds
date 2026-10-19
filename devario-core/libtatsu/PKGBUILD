@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+
+pkgname=libtatsu
+pkgver=1.0.5
+pkgrel=2
+pkgdesc='Library for communicating with Apple Tatsu signing services'
+arch=('x86_64')
+url='https://libimobiledevice.org/'
+license=('LGPL-2.1-or-later')
+depends=('curl' 'glibc' 'libplist>=2.8.0')
+makedepends=('pkgconf')
+provides=('libtatsu.so')
+source=("https://github.com/libimobiledevice/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.bz2")
+sha256sums=('536fa228b14f156258e801a7f4d25a3a9dd91bb936bf6344e23171403c57e440')
+
+build() {
+  cd "$pkgname-$pkgver"
+  pkg-config --atleast-version=2.8.0 libplist-2.0 || return 1
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-static
+  make
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  make check
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+}

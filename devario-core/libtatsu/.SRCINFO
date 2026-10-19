@@ -1,0 +1,16 @@
+pkgbase = libtatsu
+	pkgdesc = Library for communicating with Apple Tatsu signing services
+	pkgver = 1.0.5
+	pkgrel = 2
+	url = https://libimobiledevice.org/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = pkgconf
+	depends = curl
+	depends = glibc
+	depends = libplist>=2.8.0
+	provides = libtatsu.so
+	source = https://github.com/libimobiledevice/libtatsu/releases/download/1.0.5/libtatsu-1.0.5.tar.bz2
+	sha256sums = 536fa228b14f156258e801a7f4d25a3a9dd91bb936bf6344e23171403c57e440
+
+pkgname = libtatsu
