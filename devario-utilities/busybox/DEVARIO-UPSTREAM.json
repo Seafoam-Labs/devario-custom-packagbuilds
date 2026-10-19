@@ -1,0 +1,6 @@
+{
+  "name": "busybox",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/busybox/-/archive/main/busybox-main.tar.gz",
+  "sha256": "65b8fb4eb73cf5e6a0cdaba4b1b4594913b37038f9f9ec8a38a882f3b992c4a5",
+  "bytes": 17475
+}

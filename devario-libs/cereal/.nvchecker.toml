@@ -1,0 +1,4 @@
+[cereal]
+source = "git"
+git = "https://github.com/USCiLab/cereal.git"
+prefix = "v"

@@ -1,0 +1,6 @@
+[busybox]
+source = "git"
+git = "https://git.busybox.net/busybox/"
+include_regex = "1_\\d+_[1-9]\\d*"
+from_pattern = "_"
+to_pattern = "."

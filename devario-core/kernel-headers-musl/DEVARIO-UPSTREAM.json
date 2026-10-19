@@ -1,0 +1,6 @@
+{
+  "name": "kernel-headers-musl",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kernel-headers-musl/-/archive/main/kernel-headers-musl-main.tar.gz",
+  "sha256": "e088ee1c96b303850c261966204b77d0852ce759e695452ecdb840f12f7ad9e5",
+  "bytes": 1645
+}

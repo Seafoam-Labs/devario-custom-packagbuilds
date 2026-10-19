@@ -1,0 +1,6 @@
+{
+  "name": "bpftrace",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/bpftrace/-/archive/main/bpftrace-main.tar.gz",
+  "sha256": "05890494b3a727966f8b8199cd6658eb487cb3285d2a1364868c72ba56374fb7",
+  "bytes": 2830
+}

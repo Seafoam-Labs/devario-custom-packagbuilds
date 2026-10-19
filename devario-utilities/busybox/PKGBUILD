@@ -1,0 +1,54 @@
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Maintainer: Eli Schwartz <eschwartz@archlinux.org>
+# Contributor: Jens Pranaitis <jens@jenux.homelinux.org>
+
+pkgname=busybox
+pkgver=1.36.1
+pkgrel=4
+pkgdesc="Utilities for rescue and embedded systems"
+arch=("x86_64")
+url="https://www.busybox.net"
+license=('GPL-2.0-only')
+makedepends=("ncurses" "musl" "kernel-headers-musl")
+validpgpkeys=('C9E9416F76E610DBD09D040F47B70C55ACC9965B')
+source=("$url/downloads/$pkgname-$pkgver.tar.bz2"{,.sig}
+        "config"
+        "extra_version.patch")
+# Local sources are checksummed; only the detached signature is SKIP.
+sha256sums=('b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314'
+            'SKIP'
+            '239001693b58e471c594952b9805c24b0d8174ba2cab245cd624e4423d993cd3'
+            '0a8608fa4e633ebb4cfeadf29fd284b082e6f80c6393c10494bcb7f2cbebba27')
+b2sums=('e515825cb3ab1c520e16b9c2512e9fc72947366a72a0466bff59b507fdffbc78fc9d16b44a26116175fc7a429d849ad944b1bc379d36c6d3a0eb20969997336e'
+        'SKIP'
+        '7d4759036db05d7e0c06571e8fd24db488edf87a9b82a5382eee3fb43fc5318bbd75398e43c9b30c88b78630e910ee9a5316aaa824b5ab26f93fc1b3f834f07d'
+        '36625ae839e194fdc3649620af0b0c8c6db9de1f9ae6bc9ab2e5feb1d07c415a070745b62adad4edd689d8d53895862057be797e4ac87be9fde15e3ae7966b28')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  patch -p1 < "$srcdir"/extra_version.patch
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  cp "$srcdir"/config .config
+  # reproducible build
+  export KCONFIG_NOTIMESTAMP=1
+  make CC=musl-gcc BB_EXTRA_VERSION="-$pkgrel"
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  install -Dm0755 busybox "$pkgdir"/usr/bin/busybox
+
+  # docs
+  install -Dm644 docs/busybox.1 "$pkgdir"/usr/share/man/man1/busybox.1
+  install -dm0755 "$pkgdir"/usr/share/doc/$pkgname
+  cp -a examples "$pkgdir"/usr/share/doc/$pkgname/
+  for doc in BusyBox.html BusyBox.txt; do
+    install -Dm644 docs/$doc "$pkgdir"/usr/share/doc/$pkgname/$doc
+  done
+}

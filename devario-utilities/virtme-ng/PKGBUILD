@@ -1,0 +1,43 @@
+# Maintainer: Peter Jung <ptr1337@archlinux.org>
+# Contributor: Manuel Wiesinger <m {you know what belongs here} mmap {and here} at>
+
+pkgname=virtme-ng
+pkgver=1.42
+pkgrel=1
+pkgdesc="A tool that allows to easily and quickly recompile and test a Linux kernel, starting from the source code."
+arch=('x86_64')
+url="https://github.com/arighi/virtme-ng"
+license=('GPL-2.0-only')
+depends=(
+  bash
+  busybox
+  coreutils
+  glibc
+  python
+  python-requests
+  qemu
+  python-argcomplete
+  python-argparse-manpage
+  python-setuptools
+  python-argcomplete
+)
+makedepends=(
+  cargo
+  git
+  python-build
+  python-installer
+  python-wheel
+)
+optdepends=('virtiofsd: better filesystem performance inside the virtme-ng guests')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/arighi/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz")
+b2sums=('c825c60189bbd2dc7da25e954eadd7c2f4d6831241c928ce5d451e1cf0c4f6be2697a6529788229a1eca52afa3cd4c484295b9fbfe8dcd7abdba9ffcedbccc8c')
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    BUILD_VIRTME_NG_INIT=1 python -m build --wheel --no-isolation
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    python -m installer --destdir="$pkgdir" dist/*.whl
+}

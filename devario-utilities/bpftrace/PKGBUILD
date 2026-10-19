@@ -1,0 +1,76 @@
+# Maintainer: Anatol Pomozov
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Tommaso Sardelli <lacapannadelloziotom at gmail dot com>
+
+pkgname=bpftrace
+pkgver=0.27.0
+pkgrel=2
+pkgdesc='High-level tracing language for Linux eBPF'
+arch=('x86_64')
+url='https://github.com/iovisor/bpftrace'
+license=('Apache-2.0')
+depends=(
+  'bcc'
+  'clang'
+  'glibc'
+  'libelf'
+  'libgcc'
+  'libpcap'
+  'libstdc++'
+  'llvm-libs'
+  'systemd-libs'
+  'zip'
+  'zlib'
+  'zstd'
+)
+# linux-headers has no recipe here; the published Devario kernel headers satisfy the same need.
+makedepends=(
+  'asciidoctor'
+  'binutils'
+  'bpf'
+  'cereal'
+  'cmake'
+  'git'
+  'gtest'
+  'linux-devario-headers'
+  'llvm'
+  'xxd'
+)
+options=(
+  '!debug'
+  '!strip'
+)
+source=(
+  "git+$url.git#tag=v$pkgver"
+  "$pkgname-libbpf::git+https://github.com/libbpf/libbpf.git"
+)
+b2sums=('02d5d8dc97900cf7630c37139f34fcd82ce223f996e4c170c6a19023b2e5e98702fdf5752a9418bbdc69e1df371199a25cb04e3ea16249486bd87fd6b6d30120'
+        'SKIP')
+
+prepare() {
+  cd $pkgname
+  git submodule init
+  git config submodule.libbpf.url ../$pkgname-libbpf
+  git -c protocol.file.allow=always submodule update libbpf
+}
+
+build() {
+  cmake -S $pkgname -B build \
+    -D CMAKE_BUILD_TYPE=None \
+    -D CMAKE_INSTALL_PREFIX=/usr \
+    -W no-dev \
+    -D ENABLE_SYSTEMD=ON
+  cmake --build build
+}
+
+check() {
+  ctest --test-dir build --output-on-failure
+}
+
+package() {
+  depends+=(
+    'binutils' 'libsframe.so'
+  )
+
+  DESTDIR="$pkgdir" cmake --install build
+}
