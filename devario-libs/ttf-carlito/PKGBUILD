@@ -1,0 +1,24 @@
+# Maintainer: sim <simiscoool@gmail.com>
+# Contributor: AndyRTR <andyrtr@archlinux.org>
+# Contributor: Kewl <xrjy@nygb.rh.bet(rot13)>
+# Contributor: Justin Settle <jus10 at partlycloudy dot org>
+# Based on https://gitlab.archlinux.org/archlinux/packaging/packages/ttf-carlito
+
+pkgname=ttf-carlito
+pkgver=20230509
+pkgrel=2
+pkgdesc="Google's Carlito font, metric-compatible with Calibri"
+arch=('any')
+url='https://github.com/googlefonts/carlito'
+license=('OFL-1.1')
+provides=('google-crosextra-carlito-fonts')
+_commit=3a810cab78ebd6e2e4eed42af9e8453c4f9b850a
+source=("carlito-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz")
+sha256sums=('ff1fdae06e67136660c7d8135323631c7465c6b4d299d4281bb44eed2165091f')
+
+package() {
+  cd "carlito-${_commit}"
+
+  install -Dm644 fonts/ttf/*.ttf -t "$pkgdir/usr/share/fonts/carlito"
+  install -Dm644 OFL.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

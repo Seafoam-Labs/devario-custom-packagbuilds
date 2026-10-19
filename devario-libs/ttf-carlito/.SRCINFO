@@ -1,0 +1,12 @@
+pkgbase = ttf-carlito
+	pkgdesc = Google's Carlito font, metric-compatible with Calibri
+	pkgver = 20230509
+	pkgrel = 2
+	url = https://github.com/googlefonts/carlito
+	arch = any
+	license = OFL-1.1
+	provides = google-crosextra-carlito-fonts
+	source = carlito-3a810cab78ebd6e2e4eed42af9e8453c4f9b850a.tar.gz::https://github.com/googlefonts/carlito/archive/3a810cab78ebd6e2e4eed42af9e8453c4f9b850a.tar.gz
+	sha256sums = ff1fdae06e67136660c7d8135323631c7465c6b4d299d4281bb44eed2165091f
+
+pkgname = ttf-carlito
