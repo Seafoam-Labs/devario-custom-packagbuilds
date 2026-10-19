@@ -1,7 +1,7 @@
 pkgbase = libplasma
 	pkgdesc = Plasma library and runtime components
 	pkgver = 6.7.5
-	pkgrel = 4
+	pkgrel = 5
 	url = https://kde.org/plasma-desktop/
 	arch = x86_64
 	groups = plasma
