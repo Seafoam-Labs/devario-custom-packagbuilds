@@ -4,7 +4,7 @@
 
 pkgname=solid
 pkgver=6.30.0
-pkgrel=5
+pkgrel=6
 pkgdesc='Hardware integration and detection'
 arch=(x86_64)
 url='https://develop.kde.org/products/frameworks/'
