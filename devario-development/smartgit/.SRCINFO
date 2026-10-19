@@ -1,7 +1,7 @@
 pkgbase = smartgit
 	pkgdesc = Graphical Git client with GitHub, GitLab, Azure DevOps and Bitbucket integration
 	pkgver = 26.1.057
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.smartgit.dev/
 	arch = x86_64
 	license = LicenseRef-SmartGit

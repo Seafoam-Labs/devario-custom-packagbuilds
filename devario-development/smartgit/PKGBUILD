@@ -1,6 +1,6 @@
 pkgname=smartgit
 pkgver=26.1.057
-pkgrel=1
+pkgrel=2
 pkgdesc='Graphical Git client with GitHub, GitLab, Azure DevOps and Bitbucket integration'
 arch=('x86_64')
 url='https://www.smartgit.dev/'
