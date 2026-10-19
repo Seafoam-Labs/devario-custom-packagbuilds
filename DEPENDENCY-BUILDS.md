@@ -1,5 +1,65 @@
 # Missing dependency builds for Shelly
 
+## Proton VPN and libei dependency closure (2026-10-19)
+
+Two worker plan failures named six absent names. `python-distro` was stale: it
+published as `1.9.0-5` in `devario-libs` on 2026-10-19, so that line needs only
+a worker repository refresh. The other five have no provider anywhere, and
+resolving them transitively took 65 pkgbases imported verbatim from Arch: 56 to
+`devario-libs`, 8 to `devario-utilities`, and `libei` to `devario-core`, the
+repository where its record already ships.
+
+`devario-core/libei` had no recipe at all. Published `libei 1.6.0-1` is an
+`Unknown Packager` seed, so the import at `1.6.0-2` supplies the missing source
+of truth and supersedes the seed without downgrading it. `proton-vpn-gtk-app`
+needed no change: upstream is also `4.18.7-1`, and its
+`python-proton-vpn-api-core>=5.8.1` floor is satisfied by `5.8.7`.
+
+Only 29 of the 65 gate the plan, which covers global `depends` plus
+`makedepends`. The other 36 are `checkdepends` legs of those 29, so they gate
+only a job that runs its own test suite.
+
+Build and publish in this order, refreshing the worker repository database
+between levels:
+
+1. [openvpn](devario-utilities/openvpn/PKGBUILD) 2.7.8-2, from the existing
+   committed but unpublished recipe, as a `networkmanager-openvpn` makedepend.
+2. The 17 pkgbases with no in-wave prerequisite: `bcc`,
+   `networkmanager-openvpn`, `python-aiohappyeyeballs`, `python-bcrypt`,
+   `python-dbus-fast`, `python-expandvars`, `python-fido2`, `python-gnupg`,
+   `python-jaraco.classes`, `python-multidict`, `python-pynacl`,
+   `python-pyopenssl`, `python-sentry_sdk`, `python-shtab`, `python-structlog`,
+   `python-zipp`, `wireguard-tools`.
+3. `libei` (publish both `libei` and `libei-docs`), `python-frozenlist`,
+   `python-importlib-metadata`, `python-keyring`, `python-propcache`.
+4. `python-aiosignal`, `python-yarl`. Then `python-aiohttp`.
+5. `python-proton-core`. Then `python-proton-keyring-linux` and
+   `python-proton-vpn-api-core`, which carries the rust and `protun` legs.
+6. [proton-vpn-daemon](devario-utilities/proton-vpn-daemon/PKGBUILD), then
+   [proton-vpn-gtk-app](devario-utilities/proton-vpn-gtk-app/PKGBUILD).
+
+All four `bcc` splits and both `libei` splits publish together, since each
+split pins its sibling by exact version.
+
+`proton-vpn-daemon.install` is the only deviation from upstream in the wave;
+its unguarded `systemctl` calls abort isolated roots, so see that recipe's
+`README.md`.
+
+Two limits. The `checkdepends` legs are not a closed set: those 36 recipes name
+16 further absent names, concentrated in `python-twisted` and `gunicorn`, and
+closing even those transitively balloons to some 630 pkgbases, so run the wave
+with checks off.
+Second, `meson`'s two long-standing absent makedepends narrow to one: this wave
+supplies [python-aiohttp](devario-libs/python-aiohttp/PKGBUILD), leaving
+`python-strictyaml` still without a recipe anywhere in the tree.
+
+Validation: every recipe regenerates its committed `.SRCINFO` blob-identically
+to what Arch ships, `shelly build --review-only` exits 0 for all 65, every local
+source file and `keys/pgp` bundle landed, `LICENSES/0BSD.txt` is a regular file
+as this tree commits it, and `makepkg --geninteg` reproduced the recorded
+checksums for all six pinned git sources on the critical path. No isolated
+build or publication was performed.
+
 ## IBus Unicode data dependencies (2026-10-18)
 
 The three recipes already exist locally. An IBus `IncompleteDependencyPlan`
