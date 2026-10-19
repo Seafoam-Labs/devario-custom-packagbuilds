@@ -7,7 +7,7 @@
 pkgbase=pyopengl
 pkgname=('python-opengl')
 pkgver=3.1.10
-pkgrel=3
+pkgrel=4
 pkgdesc="The cross platform Python binding to OpenGL and related APIs"
 url="https://github.com/mcfletch/pyopengl"
 license=('BSD-3-Clause')
