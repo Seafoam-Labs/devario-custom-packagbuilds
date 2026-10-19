@@ -1,5 +1,28 @@
 # Missing dependency builds for Shelly
 
+## IBus Unicode data dependencies (2026-10-18)
+
+The three recipes already exist locally. An IBus `IncompleteDependencyPlan`
+reporting these packages as `not_in_repositories` and `not_in_environment`
+requires building and publishing their package outputs before retrying IBus.
+
+1. Build/publish [unicode-character-database](devario-libs/unicode-character-database/PKGBUILD)
+   18.0.0-2, then [unicode-emoji](devario-libs/unicode-emoji/PKGBUILD) 17.0-2.
+2. Build [unicode-cldr](devario-development/unicode-cldr/PKGBUILD) 48.2-1
+   and publish both `unicode-cldr` and `unicode-cldr-annotations` outputs.
+   This recipe can be built independently of the other Unicode recipes.
+3. Refresh worker repository/recipe metadata, then retry `devario-utilities/ibus`.
+
+The character database's UCD and Unihan checksums were corrected against the
+versioned Unicode 18.0.0 downloads. Emoji sources now use Unicode's HTTPS
+`Public/17.0.0/emoji/` directory, with corrected sequence/test checksums.
+Both changed recipes have regenerated `.SRCINFO`; CLDR needed no changes.
+
+Validation: all source checksums, Bash syntax, makepkg metadata, and all four
+staged package functions passed. The staged Unicode/emoji/CLDR data paths and
+licenses were checked, with no overlapping payload files. No isolated IBus
+build or repository publication was performed.
+
 ## llama.cpp inference backends (2026-10-14)
 
 Added ten package bases for CPU, CUDA, Vulkan, ZenDNN, and OpenVINO.
