@@ -1,0 +1,27 @@
+pkgbase = xdotool
+	pkgdesc = Command-line X11 automation tool
+	pkgver = 4.20260303.1
+	pkgrel = 1
+	url = https://www.semicomplete.com/projects/xdotool/
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = procps-ng
+	checkdepends = ruby-minitest
+	checkdepends = xorg-fonts-misc
+	checkdepends = xorg-mkfontscale
+	checkdepends = xorg-server-xvfb
+	checkdepends = xorg-setxkbmap
+	checkdepends = xorg-xdpyinfo
+	checkdepends = xorg-xprop
+	checkdepends = xorg-xwininfo
+	checkdepends = xterm
+	depends = glibc
+	depends = libx11
+	depends = libxinerama
+	depends = libxkbcommon
+	depends = libxtst
+	provides = libxdo.so
+	source = https://github.com/jordansissel/xdotool/archive/v4.20260303.1/xdotool-4.20260303.1.tar.gz
+	b2sums = 2ce3e01a196bde842a82279aeae02c347b25f3bff88a27000be7e7fc283294ccc19b4c76856471c4afda432224d4af663f6b43dabc179b99b5738c75886e9a26
+
+pkgname = xdotool
