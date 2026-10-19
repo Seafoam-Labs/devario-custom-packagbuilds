@@ -1,7 +1,7 @@
 pkgbase = upower
 	pkgdesc = D-Bus service for monitoring power devices, battery history and statistics
 	pkgver = 1.91.5
-	pkgrel = 4
+	pkgrel = 5
 	url = https://upower.freedesktop.org
 	arch = x86_64
 	license = GPL-2.0-or-later
