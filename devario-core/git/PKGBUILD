@@ -1,0 +1,83 @@
+# Git release packaging for Devario; source fetching does not require Git.
+pkgname=git
+pkgver=2.56.0
+pkgrel=1
+pkgdesc='The fast distributed version control system'
+arch=('x86_64')
+url='https://git-scm.com/'
+license=('GPL-2.0-only')
+depends=('bash' 'curl' 'expat' 'glibc' 'openssl' 'pcre2' 'perl'
+         'perl-error' 'perl-mailtools' 'zlib')
+makedepends=('libsecret' 'pkgconf')
+checkdepends=('openssh' 'python')
+optdepends=('tk: gitk and git gui'
+            'openssh: SSH transport and signing'
+            'less: default pager'
+            'man-db: display manual pages'
+            'python: git p4 and git svn'
+            'subversion: git svn'
+            'perl-libwww: git svn'
+            'perl-term-readkey: interactive single-key input'
+            'perl-io-socket-ssl: git send-email TLS support'
+            'perl-authen-sasl: git send-email authentication'
+            'perl-cgi: gitweb'
+            'libsecret: desktop keyring credential helper')
+source=("https://www.kernel.org/pub/software/scm/git/git-${pkgver}.tar.xz"
+        "https://www.kernel.org/pub/software/scm/git/git-manpages-${pkgver}.tar.xz")
+noextract=("git-manpages-${pkgver}.tar.xz")
+sha256sums=('26c56c296b38c0695b26fa95f475f1d01704d2d38e73465ca30b0b2f5dc789d3'
+            '1f62a7fabaa36a0469c4d51fe247d12e7e246b890d2b8b49aec91df610f417c7')
+
+_make() {
+  local make_options=(
+    prefix=/usr
+    gitexecdir=/usr/lib/git-core
+    perllibdir="$(perl -MConfig -wle 'print $Config{installvendorlib}')"
+    CFLAGS="$CFLAGS"
+    CPPFLAGS="$CPPFLAGS"
+    LDFLAGS="$LDFLAGS"
+    INSTALL_SYMLINKS=1
+    NO_PERL_CPAN_FALLBACKS=1
+    USE_LIBPCRE2=1
+    # Git 2.x supports C-only builds, avoiding Rust in the bootstrap chain.
+    NO_RUST=1
+  )
+  make "${make_options[@]}" "$@"
+}
+
+build() {
+  cd "$srcdir/git-$pkgver"
+  _make all
+  _make -C contrib/credential/libsecret
+  _make -C contrib/subtree all
+  _make -C contrib/diff-highlight
+}
+
+check() {
+  cd "$srcdir/git-$pkgver"
+  # SVN integration needs a configured SVN server and additional Perl modules.
+  SHELL=/bin/sh _make NO_SVN_TESTS=1 test
+}
+
+package() {
+  cd "$srcdir/git-$pkgver"
+  _make DESTDIR="$pkgdir" install
+  _make -C contrib/credential/libsecret DESTDIR="$pkgdir" install
+  _make -C contrib/subtree DESTDIR="$pkgdir" install
+
+  # Upstream's matching prebuilt manuals avoid a documentation bootstrap cycle.
+  install -dm755 "$pkgdir/usr/share/man"
+  tar -xJf "$srcdir/git-manpages-$pkgver.tar.xz" \
+    -C "$pkgdir/usr/share/man" --no-same-owner
+  install -Dm644 contrib/completion/git-completion.bash \
+    "$pkgdir/usr/share/bash-completion/completions/git"
+  install -Dm644 contrib/completion/git-completion.zsh \
+    "$pkgdir/usr/share/git/completion/git-completion.zsh"
+  install -Dm644 contrib/completion/git-completion.bash \
+    "$pkgdir/usr/share/git/completion/git-completion.bash"
+  install -Dm644 contrib/completion/git-prompt.sh \
+    "$pkgdir/usr/share/git/git-prompt.sh"
+  install -Dm755 contrib/diff-highlight/diff-highlight \
+    "$pkgdir/usr/share/git/diff-highlight/diff-highlight"
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/git/COPYING"
+}
