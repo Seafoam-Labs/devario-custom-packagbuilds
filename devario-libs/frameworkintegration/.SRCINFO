@@ -1,7 +1,7 @@
 pkgbase = frameworkintegration
 	pkgdesc = Framework providing components to allow applications to integrate with a KDE Workspace
 	pkgver = 6.30.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
