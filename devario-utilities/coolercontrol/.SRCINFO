@@ -1,0 +1,34 @@
+pkgbase = coolercontrol
+	pkgver = 5.1.0
+	pkgrel = 1
+	url = https://gitlab.com/coolercontrol/coolercontrol
+	arch = x86_64
+	license = GPL-3.0-or-later
+	checkdepends = appstream-glib
+	checkdepends = desktop-file-utils
+	makedepends = cmake
+	makedepends = bubblewrap
+	makedepends = rust
+	makedepends = cargo
+	makedepends = libdrm
+	makedepends = qt6-webengine
+	makedepends = hicolor-icon-theme
+	depends = gcc-libs
+	depends = glibc
+	options = !lto
+	source = https://gitlab.com/coolercontrol/coolercontrol/-/releases/5.1.0/downloads/packages/coolercontrol-5.1.0.tar.gz
+	source = https://gitlab.com/coolercontrol/coolercontrol/-/releases/5.1.0/downloads/packages/coolercontrold-vendor-5.1.0.tar.gz
+	sha256sums = 739e0be15de99830515d973bf3fdfc7f339f694cf1cc934540336d3883373b65
+	sha256sums = e510facacca774497635007ba8b115f2dcb5a46d014d96a0ceb4abafe642abe3
+
+pkgname = coolercontrol
+	pkgdesc = A program to monitor and control your cooling devices. This package contains the desktop application. (official package)
+	depends = qt6-webengine
+	depends = hicolor-icon-theme
+	depends = coolercontrold=5.1.0-1
+
+pkgname = coolercontrold
+	pkgdesc = A program to monitor and control your cooling devices. This package contains the service daemon. (official package)
+	depends = libdrm
+	optdepends = liquidctl: liquidctl driver support
+	optdepends = lm_sensors: kernel hwmon driver support
