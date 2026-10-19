@@ -1,0 +1,6 @@
+{
+  "name": "dnsmasq",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/dnsmasq/-/archive/main/dnsmasq-main.tar.gz",
+  "sha256": "91d5266527497bb5619d59a7064ddc1410b5ca527ee7c94392fa06418b616c0d",
+  "bytes": 5854
+}
