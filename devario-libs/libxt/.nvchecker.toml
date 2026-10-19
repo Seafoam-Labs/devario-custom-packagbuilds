@@ -1,0 +1,7 @@
+[libxt]
+source = "gitlab"
+gitlab = "xorg/lib/libXt"
+host = "gitlab.freedesktop.org"
+use_max_tag = true
+include_regex = ".*libXt-.*"
+prefix = "libXt-"
