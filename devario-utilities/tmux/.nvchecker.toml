@@ -1,0 +1,6 @@
+[tmux]
+source = 'github'
+github = 'tmux/tmux'
+use_latest_release = true
+from_pattern = '([0-9.])([a-z])$'
+to_pattern = '\1_\2'

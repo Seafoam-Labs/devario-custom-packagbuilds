@@ -1,0 +1,6 @@
+{
+  "name": "tmux",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/tmux/-/archive/main/tmux-main.tar.gz",
+  "sha256": "58b110fff616e3589953c2aead9e3d336c7f588d29a5556d938475627aec84c5",
+  "bytes": 1702
+}
