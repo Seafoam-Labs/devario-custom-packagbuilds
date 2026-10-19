@@ -1,6 +1,6 @@
 pkgbase = nwg-look
 	pkgdesc = GTK settings editor adapted to work on wlroots-based compositors
-	pkgver = 1.1.2
+	pkgver = 1.2.1
 	pkgrel = 1
 	url = https://github.com/nwg-piotr/nwg-look
 	arch = x86_64
@@ -18,7 +18,8 @@ pkgbase = nwg-look
 	depends = pango
 	depends = zlib
 	depends = xcur2png
-	source = https://github.com/nwg-piotr/nwg-look/archive/v1.1.2/nwg-look-1.1.2.tar.gz
-	sha256sums = 2db9bf20042beec0e9e9bba5769c08e34197e3a0da595b743c39b384aa0e0af0
+	optdepends = libcanberra: for GTK sound themes support
+	source = https://github.com/nwg-piotr/nwg-look/archive/v1.2.1/nwg-look-1.2.1.tar.gz
+	sha256sums = 1c66053f559f1756b18b615987a450433117c6b6c08759debdef94b6fd906480
 
 pkgname = nwg-look
