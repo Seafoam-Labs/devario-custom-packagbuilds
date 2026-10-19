@@ -1,14 +1,14 @@
 # Official Eclipse Temurin binaries used only to bootstrap the source-built OpenJDK packages.
 pkgbase=jdk-bootstrap
-pkgname=(jdk8-bootstrap jdk11-bootstrap jdk17-bootstrap jdk21-bootstrap jdk25-bootstrap)
+pkgname=(jdk8-bootstrap jdk11-bootstrap jdk17-bootstrap jdk21-bootstrap jdk25-bootstrap jdk26-bootstrap)
 pkgver=20260825
-pkgrel=1
+pkgrel=2
 pkgdesc='Temporary Eclipse Temurin JDKs for bootstrapping the source-built OpenJDK'
 arch=('x86_64')
 url='https://adoptium.net/temurin/releases/'
 license=('LicenseRef-Java')
 depends=('alsa-lib' 'glibc' 'libx11' 'libxext' 'libxi' 'libxrender' 'libxtst')
-# Each split provides java-environment=<major> exactly: the JDK recipes pin their own major.
+# Each split provides java-environment=<major> exactly: JDK recipes pin a supported boot JDK.
 # Preserve the prebuilt images exactly as distributed.
 options=('!strip' '!debug' '!lto')
 # Adoptium GPG Key (DEB/RPM Signing Key) <temurin-dev@eclipse.org>
@@ -19,6 +19,7 @@ source=(
   "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20.1_1.tar.gz"{,.sig}
   "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz"{,.sig}
   "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz"{,.sig}
+  "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jdk_x64_linux_hotspot_26.0.2.1_1.tar.gz"{,.sig}
 )
 sha256sums=(
   '9c70e102f527ac674ac2fe9c7d47b9a04e2d19842ba5ab8e9b33f368bbadfaea' 'SKIP'
@@ -26,6 +27,7 @@ sha256sums=(
   '3808d1d15e3ec6bd5b84057fb5d84c33d8a1536a258146bcea2e603fc726e08e' 'SKIP'
   'ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94' 'SKIP'
   'dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e' 'SKIP'
+  '451c12e68747bcfa2fb5a2c16b00483fedb9fa6d77bc962d30957f76ac17044d' 'SKIP'
 )
 
 package_jdk8-bootstrap() {
@@ -85,5 +87,16 @@ package_jdk25-bootstrap() {
   install -d "$pkgdir/usr/lib/jvm"
   cp -a "$srcdir/jdk-25.0.4.1+1" "$pkgdir/usr/lib/jvm/java-25-openjdk"
   install -Dm644 "$srcdir/jdk-25.0.4.1+1/legal/java.base/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_jdk26-bootstrap() {
+  pkgdesc='Temporary Eclipse Temurin JDK 26 for bootstrapping the source-built OpenJDK'
+  provides=('java-environment=26')
+  conflicts=('jdk26-openjdk' 'jre26-openjdk' 'jre26-openjdk-headless')
+
+  install -d "$pkgdir/usr/lib/jvm"
+  cp -a "$srcdir/jdk-26.0.2.1+1" "$pkgdir/usr/lib/jvm/java-26-openjdk"
+  install -Dm644 "$srcdir/jdk-26.0.2.1+1/legal/java.base/LICENSE" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

@@ -19,14 +19,14 @@ _securityver=0
 _updatever=35
 # pkgver=${_majorver}.${_minorver}.${_securityver}.u${_updatever}
 pkgver=${_majorver}.u${_updatever}
-pkgrel=2
+pkgrel=3
 # _git_tag=jdk-${_majorver}.${_minorver}.${_securityver}+${_updatever}
 _git_tag=jdk-${_majorver}+${_updatever}
 arch=('x86_64')
 url='https://openjdk.java.net/'
 license=('LicenseRef-Java')
 makedepends=(
-  "java-environment>=22"
+  "java-environment=26"
   alsa-lib
   bash
   cpio
@@ -142,6 +142,7 @@ build() {
 
 
   bash configure \
+    --with-boot-jdk=/usr/lib/jvm/java-26-openjdk \
     --with-version-string="${_majorver}.${_minorver}.${_securityver}" \
     --with-stdc++lib=dynamic \
     --with-extra-cflags="${_CFLAGS}" \

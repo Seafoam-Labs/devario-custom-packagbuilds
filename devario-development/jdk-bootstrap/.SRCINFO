@@ -1,7 +1,7 @@
 pkgbase = jdk-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDKs for bootstrapping the source-built OpenJDK
 	pkgver = 20260825
-	pkgrel = 1
+	pkgrel = 2
 	url = https://adoptium.net/temurin/releases/
 	arch = x86_64
 	license = LicenseRef-Java
@@ -25,6 +25,8 @@ pkgbase = jdk-bootstrap
 	source = https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sig
 	source = https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz
 	source = https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz.sig
+	source = https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jdk_x64_linux_hotspot_26.0.2.1_1.tar.gz
+	source = https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jdk_x64_linux_hotspot_26.0.2.1_1.tar.gz.sig
 	validpgpkeys = 3B04D753C9050D9A5D343F39843C48A565F8F04B
 	sha256sums = 9c70e102f527ac674ac2fe9c7d47b9a04e2d19842ba5ab8e9b33f368bbadfaea
 	sha256sums = SKIP
@@ -35,6 +37,8 @@ pkgbase = jdk-bootstrap
 	sha256sums = ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94
 	sha256sums = SKIP
 	sha256sums = dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e
+	sha256sums = SKIP
+	sha256sums = 451c12e68747bcfa2fb5a2c16b00483fedb9fa6d77bc962d30957f76ac17044d
 	sha256sums = SKIP
 
 pkgname = jdk8-bootstrap
@@ -79,3 +83,10 @@ pkgname = jdk25-bootstrap
 	conflicts = jdk25-openjdk
 	conflicts = jre25-openjdk
 	conflicts = jre25-openjdk-headless
+
+pkgname = jdk26-bootstrap
+	pkgdesc = Temporary Eclipse Temurin JDK 26 for bootstrapping the source-built OpenJDK
+	provides = java-environment=26
+	conflicts = jdk26-openjdk
+	conflicts = jre26-openjdk
+	conflicts = jre26-openjdk-headless
