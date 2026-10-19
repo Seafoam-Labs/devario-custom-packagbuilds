@@ -1,0 +1,80 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgname=appstream-glib
+pkgver=0.8.4
+pkgrel=1
+pkgdesc="Objects and methods for reading and writing AppStream metadata"
+url="https://people.freedesktop.org/~hughsient/appstream-glib/"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  cairo
+  curl
+  fontconfig
+  freetype2
+  gdk-pixbuf2
+  glib2
+  glibc
+  gtk3
+  json-glib
+  libgcc
+  libarchive
+  libyaml
+  pacman
+  pango
+  util-linux-libs
+)
+makedepends=(
+  git
+  gobject-introspection
+  gperf
+  gtk-doc
+  meson
+)
+# Shelly keeps bare .so provisions unversioned, so declare the SONAME form.
+provides=(
+  appdata-tools
+  libappstream-glib.so
+  'libappstream-glib.so=8-64'
+)
+conflicts=(appdata-tools)
+replaces=(appdata-tools)
+source=("git+https://github.com/hughsie/appstream-glib?signed#tag=appstream_glib_${pkgver//./_}")
+b2sums=('e9504358185dfa018081ac1e32f48ae85e7f4041c5c4f9f37d97e87058c8c55bb7300805fb33c075cd1642de4c40f3bb47f9a374a720b91a77881f1b4354a955')
+validpgpkeys=(
+  163EB50119225DB3DF8F49EA17ACBA8DFA970E17 # Richard Hughes <richard@hughsie.com>
+)
+
+prepare() {
+  cd $pkgname
+}
+
+build() {
+  local meson_options=(
+    -D alpm=true
+    -D gtk-doc=true
+    -D rpm=false
+  )
+
+  arch-meson $pkgname build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  rm -r "$pkgdir/usr/share/installed-tests"
+  _verify_soname "$pkgdir/usr/lib/libappstream-glib.so" libappstream-glib.so.8 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:
