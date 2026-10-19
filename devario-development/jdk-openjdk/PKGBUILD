@@ -19,14 +19,13 @@ _securityver=0
 _updatever=35
 # pkgver=${_majorver}.${_minorver}.${_securityver}.u${_updatever}
 pkgver=${_majorver}.u${_updatever}
-pkgrel=3
+pkgrel=4
 # _git_tag=jdk-${_majorver}.${_minorver}.${_securityver}+${_updatever}
 _git_tag=jdk-${_majorver}+${_updatever}
 arch=('x86_64')
 url='https://openjdk.java.net/'
 license=('LicenseRef-Java')
 makedepends=(
-  "java-environment=26"
   alsa-lib
   bash
   cpio
@@ -45,6 +44,7 @@ makedepends=(
   libstdc++
   libx11
   libxext
+  libxi
   libxrandr
   libxrender
   libxt
@@ -66,6 +66,18 @@ sha256sums=('b3c60f65d3b280eb51e2bec66fcac143e275fcf1ab6228e7fb27d26d572604ff'
             'b86c1585ecd1ad90f70088a42ff95e9b7a2089d78db1f41233058f57d2ed0d62'
             '13e1223e633440f185720371282e58befc289faa156d4a7233f8c19102311ef5'
             '5673ab7e4d30678d71e513331c6cb03c1972210ba098f25e507974d4cb7ec4e4')
+
+# JDK 27 needs a JDK 26 or 27 seed. Fetch it as a verified source so a fresh
+# worker does not need a separately published java-environment=26 provider.
+_bootjdk_dir='jdk-26.0.2.1+1'
+source_x86_64=(
+  "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jdk_x64_linux_hotspot_26.0.2.1_1.tar.gz"{,.sig}
+)
+sha256sums_x86_64=(
+  '451c12e68747bcfa2fb5a2c16b00483fedb9fa6d77bc962d30957f76ac17044d'
+  'SKIP'
+)
+validpgpkeys=('3B04D753C9050D9A5D343F39843C48A565F8F04B')
 
 case "${CARCH}" in
   x86_64) _JARCH='x86_64';;
@@ -142,7 +154,7 @@ build() {
 
 
   bash configure \
-    --with-boot-jdk=/usr/lib/jvm/java-26-openjdk \
+    --with-boot-jdk="${srcdir}/${_bootjdk_dir}" \
     --with-version-string="${_majorver}.${_minorver}.${_securityver}" \
     --with-stdc++lib=dynamic \
     --with-extra-cflags="${_CFLAGS}" \
