@@ -1,7 +1,7 @@
 # Maintainer: Maxime Gauduin <alucryd@archlinux.org>
 
 pkgname=python-dbus-fast
-pkgver=5.0.22
+pkgver=5.2.0
 pkgrel=1
 pkgdesc='A faster version of dbus-next'
 arch=(x86_64)
@@ -29,7 +29,7 @@ checkdepends=(
   python-pytest-timeout
 )
 source=(git+https://github.com/Bluetooth-Devices/dbus-fast.git#tag=v${pkgver})
-b2sums=('94c4f120800418ea9d0afc0b95b142b073b7870e25e2168114000207c5bf94ef32f65af255f45fb85747d043322442b41731257c28b186e52eae97d8c1bc75eb')
+b2sums=('f95d2a9ceee5243cac16ffb2120b5ce68d242289ce66a60fe506d78f697c61ac1d599013a8b829a44167b2814ec94e5ad807c5bdbd82dc8099af2dedc99b04e0')
 
 build() {
   cd dbus-fast
