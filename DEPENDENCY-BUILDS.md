@@ -1,5 +1,48 @@
 # Missing dependency builds for Shelly
 
+## QEMU build dependency publication (2026-10-19)
+
+The worker's `IncompleteDependencyPlan` for [qemu](devario-utilities/qemu/PKGBUILD)
+names 14 missing packages: `brltty`, `capstone`, `dtc`, `libxdp`,
+`multipath-tools`, `ndctl`, `rutabaga-ffi`, `sdl2_image`, `spice-protocol`,
+`spice`, `usbredir`, `vde2`, `virglrenderer` and `vte3`. All 14 names are
+covered by existing recipes, so nothing needs importing. `libxdp` is the
+second output of the [xdp-tools](devario-utilities/xdp-tools/PKGBUILD) pkgbase.
+None of the 14 names has a record in any Devario repository, so publication is
+the whole gap.
+
+Build and publish in this order, refreshing the worker repository database
+between stages. The stage 1 recipes do not depend on one another.
+
+| Stage | Recipe | Release | Output needed by qemu |
+| --- | --- | --- | --- |
+| 1 | [brltty](devario-utilities/brltty/PKGBUILD) | `6.9.1-3` | `brltty` |
+| 1 | [capstone](devario-libs/capstone/PKGBUILD) | `5.0.9-1` | `capstone` |
+| 1 | [dtc](devario-utilities/dtc/PKGBUILD) | `1.8.1-1` | `dtc` |
+| 1 | [multipath-tools](devario-utilities/multipath-tools/PKGBUILD) | `0.15.1-1` | `multipath-tools` |
+| 1 | [ndctl](devario-libs/ndctl/PKGBUILD) | `85-1` | `ndctl` |
+| 1 | [sdl2_image](devario-libs/sdl2_image/PKGBUILD) | `2.8.12-2` | `sdl2_image` |
+| 1 | [spice-protocol](devario-libs/spice-protocol/PKGBUILD) | `0.14.5-1` | `spice-protocol` |
+| 1 | [usbredir](devario-libs/usbredir/PKGBUILD) | `0.15.0-1` | `usbredir` |
+| 1 | [vde2](devario-utilities/vde2/PKGBUILD) | `2.3.3-10` | `vde2` |
+| 1 | [virglrenderer](devario-libs/virglrenderer/PKGBUILD) | `1.3.0-2` | `virglrenderer` |
+| 1 | [vte3](devario-libs/vte3/PKGBUILD) | `0.84.1-1` | `vte3` |
+| 1 | [xdp-tools](devario-utilities/xdp-tools/PKGBUILD) | `1.6.3-2` | `libxdp` |
+| 2 | [spice](devario-libs/spice/PKGBUILD) | `0.16.0-4` | `spice` |
+| 2 | [rutabaga-ffi](devario-libs/rutabaga-ffi/PKGBUILD) | `0.1.85-1` | `rutabaga-ffi` |
+| 3 | [qemu](devario-utilities/qemu/PKGBUILD) | `11.1.2-2` | all outputs |
+
+`spice` needs `spice-protocol`, and `rutabaga-ffi` needs `virglrenderer`. Every
+other dependency of the 14 resolves to a published Devario package or Arch
+`core`/`extra`, including `gfxstream` for `rutabaga-ffi` and `wolfssl` for
+`vde2`, which provides `libwolfssl.so`.
+
+Validation: each recipe's committed `.SRCINFO` regenerates identically, and
+`shelly build --review-only` exits 0 for all 14 and for qemu. The only findings
+are brltty's 70 dynamic-command warnings, which come from text inside
+`brltty-6.4-x11_autostart.patch`. No isolated build or publication was
+performed.
+
 ## gvfs GIO backend dependency closure (2026-10-19)
 
 The worker failed `devario-core/gvfs` with `CascadeDependenciesChanged` on
