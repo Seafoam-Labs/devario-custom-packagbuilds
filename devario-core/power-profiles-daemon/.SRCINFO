@@ -1,7 +1,7 @@
 pkgbase = power-profiles-daemon
 	pkgdesc = Makes power profiles handling available over D-Bus
 	pkgver = 0.30
-	pkgrel = 4
+	pkgrel = 5
 	url = https://gitlab.freedesktop.org/upower/power-profiles-daemon
 	arch = x86_64
 	license = GPL-3.0-only
