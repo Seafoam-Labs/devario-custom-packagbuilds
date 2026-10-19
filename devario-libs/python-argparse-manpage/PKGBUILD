@@ -1,0 +1,32 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+pkgname=python-argparse-manpage
+pkgver=4.8
+pkgrel=1
+pkgdesc='Automatically build man-pages for your Python project'
+url='https://github.com/praiskup/argparse-manpage'
+arch=('any')
+license=('Apache')
+depends=('python')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+checkdepends=('python-pytest' 'python-pip')
+source=("https://github.com/praiskup/argparse-manpage/releases/download/v${pkgver}/argparse_manpage-${pkgver}.tar.gz")
+sha512sums=('c7203429d633c2b2cef3af65cd7e9fb1c9caaaa7c49d5ca915bcd3fb6a177cdb516108c128e18f6d424e4bd5669bcef7503a066d4e6f86584c353d395e30e606')
+
+build() {
+  cd "$srcdir/argparse_manpage-$pkgver"
+  python -m build --wheel
+}
+
+check() {
+  cd "$srcdir/argparse_manpage-$pkgver"
+  python -m unittest discover -vs tests
+}
+
+package() {
+  cd "$srcdir/argparse_manpage-$pkgver"
+  python -m installer --prefix=/usr --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+# vim:set ts=2 sw=2 et:

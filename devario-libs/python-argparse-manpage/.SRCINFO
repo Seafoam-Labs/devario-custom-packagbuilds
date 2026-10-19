@@ -1,0 +1,18 @@
+pkgbase = python-argparse-manpage
+	pkgdesc = Automatically build man-pages for your Python project
+	pkgver = 4.8
+	pkgrel = 1
+	url = https://github.com/praiskup/argparse-manpage
+	arch = any
+	license = Apache
+	checkdepends = python-pytest
+	checkdepends = python-pip
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = https://github.com/praiskup/argparse-manpage/releases/download/v4.8/argparse_manpage-4.8.tar.gz
+	sha512sums = c7203429d633c2b2cef3af65cd7e9fb1c9caaaa7c49d5ca915bcd3fb6a177cdb516108c128e18f6d424e4bd5669bcef7503a066d4e6f86584c353d395e30e606
+
+pkgname = python-argparse-manpage
