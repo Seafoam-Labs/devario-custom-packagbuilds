@@ -4,6 +4,12 @@ Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/pac
 
 Provides the native assembler and linker with x86 multilib support. Retains upstream configuration and patches. The upstream test hook does not fail on test failures; inspect the test results.
 
+Release `2.47-8` explicitly enables `--as-needed` so the unused `-lfl` from
+configure's lexer detection does not become a runtime dependency. Packaging
+rejects `ar` or `ranlib` with a `DT_NEEDED` entry for `libfl.so`, including when
+the upstream test hook is skipped. Rebuild and publish this release to fix
+systems affected by `2.47-7`.
+
 From the repository root:
 
 ```sh

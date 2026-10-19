@@ -8,7 +8,7 @@
 pkgname=binutils
 pkgver=2.47
 _commit=6ce87bbc521cf46eaee9a1f7ef61cee2cdfb3e32
-pkgrel=7
+pkgrel=8
 pkgdesc='A set of programs to assemble and manipulate binary and object files'
 arch=(x86_64)
 url='https://www.gnu.org/software/binutils/'
@@ -90,7 +90,9 @@ build() {
   # Keep LTO and the worker's CPU flags without the PGO training/use cycle.
   CFLAGS+=" -flto=jobserver -ffat-lto-objects"
   CXXFLAGS+=" -flto=jobserver -ffat-lto-objects"
-  LDFLAGS+=" -flto=jobserver"
+  # Configure adds -lfl via LEXLIB even though arlex.l uses noyywrap.
+  # Drop unused libraries even when the worker omits --as-needed.
+  LDFLAGS+=" -flto=jobserver -Wl,--as-needed"
   export CFLAGS CXXFLAGS LDFLAGS
 
   cd binutils-build
@@ -165,6 +167,8 @@ package() {
   cd binutils-build
   make DESTDIR="${pkgdir}" tooldir=/usr install
   _verify_soname "$pkgdir/usr/lib/libsframe.so" libsframe.so.3 || return 1
+  _verify_no_libfl "$pkgdir/usr/bin/ar" || return 1
+  _verify_no_libfl "$pkgdir/usr/bin/ranlib" || return 1
 
   # install PIC version of libiberty
   install -m644 libiberty/pic/libiberty.a "${pkgdir}"/usr/lib
@@ -194,4 +198,14 @@ EOS
 _verify_soname() {
   LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
   LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# flex is a build tool, not a runtime dependency of the archive tools.
+_verify_no_libfl() {
+  local dynamic
+  dynamic=$(LC_ALL=C readelf -d "$1") || return 1
+  if grep -Eq '\(NEEDED\).*\[libfl\.so[^]]*\]' <<< "$dynamic"; then
+    printf 'Unexpected flex runtime dependency in %s\n' "$1" >&2
+    return 1
+  fi
 }
