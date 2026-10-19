@@ -1,0 +1,6 @@
+{
+  "name": "htop",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/htop/-/archive/main/htop-main.tar.gz",
+  "sha256": "943057c5bec245a35b0e98226940ad7e6549d5c21a018fac9eb49701016a4f41",
+  "bytes": 8926
+}
