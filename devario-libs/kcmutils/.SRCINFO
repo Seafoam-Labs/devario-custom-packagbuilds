@@ -1,7 +1,7 @@
 pkgbase = kcmutils
 	pkgdesc = Utilities for interacting with KCModules
 	pkgver = 6.30.0
-	pkgrel = 4
+	pkgrel = 5
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
