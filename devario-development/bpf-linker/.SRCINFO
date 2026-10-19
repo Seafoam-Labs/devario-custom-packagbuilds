@@ -1,0 +1,19 @@
+pkgbase = bpf-linker
+	pkgdesc = Simple BPF static linker
+	pkgver = 0.11.0
+	pkgrel = 2
+	url = https://github.com/aya-rs/bpf-linker
+	arch = x86_64
+	license = Apache-2.0
+	license = MIT
+	makedepends = cargo
+	makedepends = llvm
+	makedepends = lld
+	depends = glibc
+	depends = libgcc
+	depends = llvm-libs
+	depends = clang
+	source = bpf-linker-0.11.0.tar.gz::https://github.com/aya-rs/bpf-linker/archive/refs/tags/v0.11.0.tar.gz
+	sha256sums = e32948056bd2604cdcc7fb384155feaf52f05512e02f4e8a7368af48e22f30f2
+
+pkgname = bpf-linker

@@ -1,0 +1,6 @@
+{
+  "name": "bpf-linker",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/bpf-linker/-/archive/main/bpf-linker-main.tar.gz",
+  "sha256": "5c710e51b881ff8688d8081494b95e535cb96b64519b14da6bbc7cb81a4e87da",
+  "bytes": 1941
+}

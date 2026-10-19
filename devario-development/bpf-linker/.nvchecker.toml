@@ -1,0 +1,4 @@
+[bpf-linker]
+source = "git"
+git = "https://github.com/aya-rs/bpf-linker.git"
+prefix = "v"
