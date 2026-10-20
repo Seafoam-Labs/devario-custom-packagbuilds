@@ -1,0 +1,102 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Adapted from Fluxer's official Arch packaging template:
+# https://github.com/fluxerapp/fluxer/blob/main/fluxer_desktop/packaging/arch/PKGBUILD
+
+pkgname=fluxer
+pkgver=2026.1018.223338
+pkgrel=1
+pkgdesc='Instant messaging and VoIP application'
+arch=('x86_64')
+url='https://fluxer.app'
+license=('AGPL-3.0-or-later')
+depends=(
+  'alsa-lib'
+  'at-spi2-core'
+  'cairo'
+  'dbus'
+  'expat'
+  'glib2'
+  'glibc'
+  'gtk3'
+  'libcups'
+  'libgcc'
+  'libnotify'
+  'libpipewire'
+  'libpulse'
+  'libsecret'
+  'libstdc++'
+  'libx11'
+  'libxcb'
+  'libxcomposite'
+  'libxdamage'
+  'libxext'
+  'libxfixes'
+  'libxkbcommon'
+  'libxrandr'
+  'mesa'
+  'nspr'
+  'nss'
+  'pango'
+  'systemd-libs'
+  'xdg-utils'
+)
+optdepends=(
+  'libdbusmenu-glib: tray icon menu support'
+  'libspeechd: text to speech support'
+  'xdg-desktop-portal: screen sharing and file dialogs on Wayland'
+)
+provides=('fluxer-bin')
+conflicts=('fluxer-bin')
+replaces=('fluxer-bin')
+options=('!strip' '!debug' 'emptydirs')
+source=("${pkgname}-${pkgver}-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/stable/linux/x64/${pkgver}/tar_gz")
+sha256sums=('5cbf0c56937bdf081221e2cc1d52a627faee96c826454180902b5ec3b513091b')
+
+package() {
+  local payload="${srcdir}/Fluxer-${pkgver}-linux-x64"
+  local opt="${pkgdir}/opt/${pkgname}"
+  local size
+
+  install -dm755 "$opt"
+  # Ownership is assigned by makepkg; do not preserve the release archive's owners.
+  cp -a --no-preserve=ownership "$payload"/. "$opt/"
+  chmod 4755 "$opt/chrome-sandbox"
+
+  install -dm755 "${pkgdir}/usr/bin"
+  ln -s "/opt/${pkgname}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+
+  install -dm755 "${pkgdir}/usr/share/applications"
+  cat > "${pkgdir}/usr/share/applications/app.fluxer.FluxerDesktop.desktop" <<EOF
+[Desktop Entry]
+Name=Fluxer
+Exec=/opt/${pkgname}/${pkgname} %U
+TryExec=/opt/${pkgname}/${pkgname}
+Terminal=false
+Type=Application
+Icon=${pkgname}
+StartupWMClass=app.fluxer.FluxerDesktop
+GenericName=Instant Messenger
+Comment=Instant messaging and VoIP
+Keywords=chat;im;messaging;messenger;voip;voice;video;call;
+Categories=Network;InstantMessaging;Chat;
+StartupNotify=true
+SingleMainWindow=true
+MimeType=x-scheme-handler/fluxer;
+X-GNOME-UsesNotifications=true
+Actions=open-settings;new-dm;
+
+[Desktop Action open-settings]
+Name=Open Settings
+Exec=/opt/${pkgname}/${pkgname} --fluxer-task=open-settings %U
+
+[Desktop Action new-dm]
+Name=New Direct Message
+Exec=/opt/${pkgname}/${pkgname} --fluxer-task=new-dm %U
+EOF
+  chmod 644 "${pkgdir}/usr/share/applications/app.fluxer.FluxerDesktop.desktop"
+
+  for size in 16 24 32 48 64 128 256 512; do
+    install -Dm644 "$opt/resources/icons/${size}x${size}.png" \
+      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/${pkgname}.png"
+  done
+}
