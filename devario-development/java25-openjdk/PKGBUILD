@@ -25,8 +25,9 @@ _git_tag=jdk-${_majorver}.${_minorver}.${_securityver}+${_updatever}
 arch=('x86_64')
 url='https://openjdk.java.net/'
 license=('LicenseRef-Java')
+# Devario: boot JDK comes from the Temurin seed by name
 makedepends=(
-  "java-environment=25"
+  "jdk25-bootstrap"
   alsa-lib
   bash
   cpio

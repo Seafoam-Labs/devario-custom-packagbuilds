@@ -10,7 +10,7 @@ pkgbase = java8-openjdk
 	makedepends = fontconfig
 	makedepends = giflib
 	makedepends = git
-	makedepends = java-environment=8
+	makedepends = jdk8-bootstrap
 	makedepends = libcups
 	makedepends = libxrender
 	makedepends = libxt

@@ -4,7 +4,7 @@ pkgbase = java17-openjdk
 	url = https://openjdk.java.net/
 	arch = x86_64
 	license = LicenseRef-Java
-	makedepends = java-environment=17
+	makedepends = jdk17-bootstrap
 	makedepends = alsa-lib
 	makedepends = bash
 	makedepends = cpio

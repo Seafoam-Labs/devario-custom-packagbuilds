@@ -20,6 +20,7 @@ pkgrel=2
 arch=('x86_64')
 url='https://openjdk.java.net/'
 license=('LicenseRef-Java')
+# Devario: boot JDK comes from the Temurin seed by name
 makedepends=(
   alsa-lib
   bash
@@ -27,7 +28,7 @@ makedepends=(
   fontconfig
   giflib
   git
-  java-environment=8
+  jdk8-bootstrap
   libcups
   libxrender
   libxt

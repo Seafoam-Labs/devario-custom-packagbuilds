@@ -23,8 +23,9 @@ pkgrel=2
 arch=('x86_64')
 url='https://openjdk.java.net/'
 license=('LicenseRef-Java')
+# Devario: boot JDK comes from the Temurin seed by name
 makedepends=(
-  'java-environment=17'
+  jdk17-bootstrap
   alsa-lib
   bash
   cpio

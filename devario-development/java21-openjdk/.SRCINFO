@@ -4,7 +4,7 @@ pkgbase = java21-openjdk
 	url = https://openjdk.java.net/
 	arch = x86_64
 	license = LicenseRef-Java
-	makedepends = java-environment=21
+	makedepends = jdk21-bootstrap
 	makedepends = alsa-lib
 	makedepends = bash
 	makedepends = cpio

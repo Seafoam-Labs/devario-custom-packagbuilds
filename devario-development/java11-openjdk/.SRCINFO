@@ -4,7 +4,7 @@ pkgbase = java11-openjdk
 	url = https://openjdk.java.net/
 	arch = x86_64
 	license = LicenseRef-Java
-	makedepends = java-environment=11
+	makedepends = jdk11-bootstrap
 	makedepends = alsa-lib
 	makedepends = bash
 	makedepends = cpio

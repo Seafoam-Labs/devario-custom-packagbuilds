@@ -1,7 +1,7 @@
 pkgbase = jdk-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDKs for bootstrapping the source-built OpenJDK
 	pkgver = 20260825
-	pkgrel = 2
+	pkgrel = 3
 	url = https://adoptium.net/temurin/releases/
 	arch = x86_64
 	license = LicenseRef-Java
@@ -51,42 +51,36 @@ pkgname = jdk8-bootstrap
 	depends = libxrender
 	depends = libxtst
 	depends = libgcc
-	provides = java-environment=8
 	conflicts = jdk8-openjdk
 	conflicts = jre8-openjdk
 	conflicts = jre8-openjdk-headless
 
 pkgname = jdk11-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDK 11 for bootstrapping the source-built OpenJDK
-	provides = java-environment=11
 	conflicts = jdk11-openjdk
 	conflicts = jre11-openjdk
 	conflicts = jre11-openjdk-headless
 
 pkgname = jdk17-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDK 17 for bootstrapping the source-built OpenJDK
-	provides = java-environment=17
 	conflicts = jdk17-openjdk
 	conflicts = jre17-openjdk
 	conflicts = jre17-openjdk-headless
 
 pkgname = jdk21-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDK 21 for bootstrapping the source-built OpenJDK
-	provides = java-environment=21
 	conflicts = jdk21-openjdk
 	conflicts = jre21-openjdk
 	conflicts = jre21-openjdk-headless
 
 pkgname = jdk25-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDK 25 for bootstrapping the source-built OpenJDK
-	provides = java-environment=25
 	conflicts = jdk25-openjdk
 	conflicts = jre25-openjdk
 	conflicts = jre25-openjdk-headless
 
 pkgname = jdk26-bootstrap
 	pkgdesc = Temporary Eclipse Temurin JDK 26 for bootstrapping the source-built OpenJDK
-	provides = java-environment=26
 	conflicts = jdk26-openjdk
 	conflicts = jre26-openjdk
 	conflicts = jre26-openjdk-headless
