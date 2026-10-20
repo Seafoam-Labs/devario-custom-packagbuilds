@@ -1,7 +1,7 @@
 pkgbase = dune
 	pkgdesc = A composable build system for OCaml (formerly jbuilder)
 	pkgver = 3.24.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/ocaml/dune
 	arch = x86_64
 	license = MIT

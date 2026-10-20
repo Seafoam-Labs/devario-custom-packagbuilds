@@ -1,0 +1,23 @@
+# Upstream's vendored bootstrap, used only to seed the dune-dependent OCaml libraries.
+pkgname=dune
+pkgver=3.24.2
+pkgrel=1
+pkgdesc='A composable build system for OCaml (bootstrap seed)'
+arch=(x86_64)
+url='https://github.com/ocaml/dune'
+license=(MIT)
+depends=('glibc' 'ocaml')
+source=("https://github.com/ocaml/dune/releases/download/${pkgver}/dune-${pkgver}.tbz")
+sha256sums=('472798691b0216daf538709f0f4703b3617ef24ad0866c9096068baaba4d762a')
+
+build() {
+    cd "${srcdir}/dune-${pkgver}"
+    # boot/ vendors csexp, pp and re, so only the compiler is needed.
+    make ./_boot/dune.exe
+}
+
+package() {
+    cd "${srcdir}/dune-${pkgver}"
+    install -Dm755 _boot/dune.exe "${pkgdir}/usr/bin/dune"
+    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+}

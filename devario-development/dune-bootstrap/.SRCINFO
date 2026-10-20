@@ -1,0 +1,13 @@
+pkgbase = dune
+	pkgdesc = A composable build system for OCaml (bootstrap seed)
+	pkgver = 3.24.2
+	pkgrel = 1
+	url = https://github.com/ocaml/dune
+	arch = x86_64
+	license = MIT
+	depends = glibc
+	depends = ocaml
+	source = https://github.com/ocaml/dune/releases/download/3.24.2/dune-3.24.2.tbz
+	sha256sums = 472798691b0216daf538709f0f4703b3617ef24ad0866c9096068baaba4d762a
+
+pkgname = dune
