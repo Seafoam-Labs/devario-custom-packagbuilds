@@ -3,21 +3,19 @@ pkgname=(
   libnotify
   libnotify-docs
 )
-pkgver=0.8.8
+pkgver=0.8.9
 pkgrel=1
 pkgdesc="Library for sending desktop notifications"
 url="https://gitlab.gnome.org/GNOME/libnotify"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
-depends=(
-  gdk-pixbuf2
-  glib2
-  glibc
-)
 makedepends=(
   docbook-xsl
+  gdk-pixbuf2
   gi-docgen
+  glib2
   glib2-devel
+  glibc
   gobject-introspection
   gtk4
   libxslt
@@ -31,7 +29,7 @@ checkdepends=(
   xorg-server-xvfb
 )
 source=("https://download.gnome.org/sources/$pkgbase/${pkgver%.*}/$pkgbase-$pkgver.tar.xz")
-sha256sums=('23420ef619dc2cb5aebad613f4823a2fa41c07e5a1d05628d40f6ec4b35bfddd')
+sha256sums=('c906bb084027ea512f94a60fbfc0cc8d4f17e4b4d525bed370d07a6d8714c923')
 
 build() {
   local meson_options=(
@@ -53,6 +51,12 @@ check() {
 }
 
 package_libnotify() {
+  # Keep runtime dependencies out of the documentation split's metadata.
+  depends=(
+    gdk-pixbuf2
+    glib2
+    glibc
+  )
   optdepends=(
     'libnotify-docs: API documentation'
     'notification-daemon: Notification server'
@@ -67,7 +71,6 @@ package_libnotify() {
 
 package_libnotify-docs() {
   pkgdesc+=" (documentation)"
-  depends=()
 
   mv doc/* "$pkgdir"
 }

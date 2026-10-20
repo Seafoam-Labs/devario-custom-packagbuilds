@@ -1,6 +1,6 @@
 pkgbase = libnotify
 	pkgdesc = Library for sending desktop notifications
-	pkgver = 0.8.8
+	pkgver = 0.8.9
 	pkgrel = 1
 	url = https://gitlab.gnome.org/GNOME/libnotify
 	arch = x86_64
@@ -10,24 +10,26 @@ pkgbase = libnotify
 	checkdepends = python-dbusmock
 	checkdepends = xorg-server-xvfb
 	makedepends = docbook-xsl
+	makedepends = gdk-pixbuf2
 	makedepends = gi-docgen
+	makedepends = glib2
 	makedepends = glib2-devel
+	makedepends = glibc
 	makedepends = gobject-introspection
 	makedepends = gtk4
 	makedepends = libxslt
 	makedepends = meson
 	makedepends = xmlto
+	source = https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.9.tar.xz
+	sha256sums = c906bb084027ea512f94a60fbfc0cc8d4f17e4b4d525bed370d07a6d8714c923
+
+pkgname = libnotify
 	depends = gdk-pixbuf2
 	depends = glib2
 	depends = glibc
-	source = https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.8.tar.xz
-	sha256sums = 23420ef619dc2cb5aebad613f4823a2fa41c07e5a1d05628d40f6ec4b35bfddd
-
-pkgname = libnotify
 	optdepends = libnotify-docs: API documentation
 	optdepends = notification-daemon: Notification server
 	provides = libnotify.so
 
 pkgname = libnotify-docs
 	pkgdesc = Library for sending desktop notifications (documentation)
-	depends =
