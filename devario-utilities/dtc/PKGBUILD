@@ -24,8 +24,19 @@ makedepends=(
 )
 optdepends=('python: Python bindings')
 provides=(libfdt.so)
-source=("git+git://git.kernel.org/pub/scm/utils/dtc/dtc.git#tag=v$pkgver")
-sha256sums=('eebcca9d985422a2e244650eaf766880329111a11314509a3678c08e0799636a')
+source=(
+  "git+git://git.kernel.org/pub/scm/utils/dtc/dtc.git#tag=v$pkgver"
+  0001-pylibfdt-replace-removed-swig-python2-macros.patch
+)
+sha256sums=('eebcca9d985422a2e244650eaf766880329111a11314509a3678c08e0799636a'
+            'f8f730eef36600a6854daf8230b459cf5c1b834fcc7c0ed5d03673e12e6becde')
+
+prepare() {
+  cd $pkgname
+
+  # SWIG 4.5 dropped the Python 2 macros this interface still calls.
+  patch -Np1 -i ../0001-pylibfdt-replace-removed-swig-python2-macros.patch
+}
 
 build() {
   arch-meson $pkgname build

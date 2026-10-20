@@ -17,6 +17,8 @@ pkgbase = dtc
 	optdepends = python: Python bindings
 	provides = libfdt.so
 	source = git+git://git.kernel.org/pub/scm/utils/dtc/dtc.git#tag=v1.8.1
+	source = 0001-pylibfdt-replace-removed-swig-python2-macros.patch
 	sha256sums = eebcca9d985422a2e244650eaf766880329111a11314509a3678c08e0799636a
+	sha256sums = f8f730eef36600a6854daf8230b459cf5c1b834fcc7c0ed5d03673e12e6becde
 
 pkgname = dtc
