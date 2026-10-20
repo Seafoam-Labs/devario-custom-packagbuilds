@@ -2,7 +2,7 @@
 
 pkgname=devario-gaming-meta
 pkgver=1
-pkgrel=2
+pkgrel=3
 pkgdesc="Meta package pulling in the gaming dependencies Devario supports"
 arch=('any')
 url="https://github.com/Seafoam-Labs/devario-os"
@@ -10,6 +10,9 @@ license=('GPL-3.0-or-later')
 
 # Depends only. Upstream cachyos-gaming-meta also ships a split-lock sysctl;
 # Devario leaves kernel tunables to the kernel recipes.
+
+# pacman cannot vary depends by GPU vendor. Mesa is shared by AMD and Intel and
+# NVIDIA already pulls it through egl-gbm; unused AMD/Intel ICDs elsewhere are inert.
 depends=(
   'alsa-plugins'
   'giflib'
@@ -19,11 +22,15 @@ depends=(
   'lib32-gtk3'
   'lib32-libjpeg-turbo'
   'lib32-libva'
+  'lib32-mesa'
   'lib32-ocl-icd'
   'lib32-opencl-icd-loader'
+  'lib32-vulkan-intel'
+  'lib32-vulkan-radeon'
   'libjpeg-turbo'
   'libva'
   'libxslt'
+  'mesa'
   'mpg123'
   'opencl-icd-loader'
   'openal'
@@ -33,5 +40,7 @@ depends=(
   'ttf-liberation'
   'wine-cachyos-opt'
   'winetricks'
+  'vulkan-intel'
+  'vulkan-radeon'
   'vulkan-tools'
 )
