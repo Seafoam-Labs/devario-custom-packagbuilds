@@ -10,7 +10,7 @@
 pkgname=vtk
 # May need bootstrapping on upgrades due to circular vtk <-> opencascade dependency
 pkgver=9.7.1
-pkgrel=2
+pkgrel=3
 # Remote modules pinned by VTK's Remote/*.remote.cmake files
 # See https://gitlab.kitware.com/vtk/vtk/-/tree/master/Remote
 _vtk_module_MomentInvariants_commit=ccb44911b7e1ccf99a36fe4ca6b7755ac4c87743
