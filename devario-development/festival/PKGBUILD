@@ -40,11 +40,18 @@ prepare() {
 
   patch -p0 -i festival-2.5.0-compile.patch # Fix build (OpenMandriva)
 
+  # configure's compiler probe uses implicit int, an error since gcc 14
+  sed -i 's/^main(){return(0);}/int main(){return(0);}/' festival/configure
+
   # Avoid make failure on making scripts and docs
   sed -i "s|examples bin doc|examples|" festival/Makefile
 }
 
 build() {
+  # editline.c's empty parameter lists are (void) under gcc's C23 default
+  CFLAGS+=' -std=gnu17'
+  # std::relation in C++20 makes the unqualified relation() calls ambiguous
+  CXXFLAGS+=' -std=gnu++17'
   CFLAGS+=' -fcommon' # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
 
   # Build Speech Tools first
