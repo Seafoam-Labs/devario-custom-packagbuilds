@@ -1,7 +1,7 @@
 pkgbase = aws-c-io
 	pkgdesc = AWS SDK module to handle all IO and TLS work for application protocols
-	pkgver = 1.0.0
-	pkgrel = 2
+	pkgver = 1.1.0
+	pkgrel = 1
 	url = https://github.com/awslabs/aws-c-io
 	arch = x86_64
 	license = Apache-2.0
@@ -10,7 +10,7 @@ pkgbase = aws-c-io
 	depends = aws-c-common
 	depends = glibc
 	depends = s2n-tls
-	source = https://github.com/awslabs/aws-c-io/archive/v1.0.0/aws-c-io-1.0.0.tar.gz
-	b2sums = 33dab5d619b93b729e60b79ebc1acfc1854c5033e5383924fb5e0745e3887c5daf1188b6b4f7c7101637fa1772a0d72511ff2fba7659fe00fde29566eec3140d
+	source = https://github.com/awslabs/aws-c-io/archive/v1.1.0/aws-c-io-1.1.0.tar.gz
+	b2sums = a32c5d184913d12f3791930a13842e867dc101237f4d87751e208d3e91bb2f304a6d16c94961676881182f96ca3f830b6253a8a8d5cd465f78795325ca1f80f8
 
 pkgname = aws-c-io
