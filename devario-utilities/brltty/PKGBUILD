@@ -97,7 +97,8 @@ build() {
   CFLAGS+=" -ffat-lto-objects"
 
   cd $pkgbase-${pkgbase^^}-$pkgver
-  ./configure "${configure_options[@]}"
+  # /usr/share/java is absent in the isolated root, so configure skips the jar
+  JAVA_JAR_DIR=/usr/share/java ./configure "${configure_options[@]}"
   make
   # make brlapi.jar deterministic
   find . -type f -iname "*.jar" -exec strip-nondeterminism {} \;
