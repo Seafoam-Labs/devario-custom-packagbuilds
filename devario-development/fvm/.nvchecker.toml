@@ -1,0 +1,4 @@
+[fvm]
+source = "github"
+github = "leoafarias/fvm"
+use_latest_release = true

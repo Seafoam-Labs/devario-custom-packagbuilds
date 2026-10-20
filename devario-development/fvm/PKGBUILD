@@ -1,0 +1,41 @@
+# Maintainer: George Hu <integral@archlinux.org>
+# Contributor: Mark Wagie <mark dot wagie at proton dot me>
+
+pkgname=fvm
+pkgver=4.3.2
+pkgrel=1
+pkgdesc="Flutter Version Management: A simple CLI to manage Flutter SDK versions."
+arch=('x86_64')
+url="https://${pkgname}.app"
+license=('MIT')
+depends=('git' 'glibc' 'unzip')
+makedepends=('dart')
+source=("git+https://github.com/leoafarias/${pkgname}.git#tag=${pkgver}")
+sha256sums=('99fa347a07ec77115bb319d1eb80feacf38bbc78dbae3e32b3252eab0f3354a1')
+options=('!strip' '!debug')
+
+prepare() {
+	cd "${pkgname}/"
+
+	# Disable analytics
+	dart --disable-analytics
+
+	# Download dependencies
+	dart pub get
+}
+
+build() {
+	cd "${pkgname}/bin/"
+	dart compile exe main.dart -o "${pkgname}"
+}
+
+check() {
+	cd "${pkgname}/"
+	dart test
+}
+
+package() {
+	cd "${pkgname}/"
+	install -Dm755 "bin/${pkgname}" -t "${pkgdir}/usr/bin/"
+	install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
