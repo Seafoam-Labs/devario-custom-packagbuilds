@@ -33,7 +33,8 @@ options=('!emptydirs')
 install=inetutils.install
 source=(
   "git+https://git.savannah.gnu.org/git/inetutils.git?signed#tag=v${pkgver}"
-  "git+https://git.savannah.gnu.org/git/gnulib.git"
+  # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+  "git+https://github.com/coreutils/gnulib.git"
   inetutils.sysusers
   ftpd.service
   rlogin.pam

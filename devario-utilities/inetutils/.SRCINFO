@@ -23,7 +23,7 @@ pkgbase = inetutils
 	backup = etc/pam.d/rlogin
 	backup = etc/pam.d/rsh
 	source = git+https://git.savannah.gnu.org/git/inetutils.git?signed#tag=v2.8
-	source = git+https://git.savannah.gnu.org/git/gnulib.git
+	source = git+https://github.com/coreutils/gnulib.git
 	source = inetutils.sysusers
 	source = ftpd.service
 	source = rlogin.pam
