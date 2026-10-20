@@ -1,0 +1,18 @@
+pkgbase = python-psycopg2
+	pkgdesc = A PostgreSQL database adapter for the Python programming language.
+	pkgver = 2.9.13
+	pkgrel = 1
+	url = https://www.psycopg.org/
+	arch = x86_64
+	license = LGPL-3.0-or-later
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = postgresql-libs
+	depends = python
+	source = https://github.com/psycopg/psycopg2/archive/refs/tags/2.9.13.tar.gz
+	b2sums = a31541d95bcd749f1ed156c6065d8e02ab975ebab78d5ea69fa8e704155ab9ce8bf8585b8b4f5ee7917df3d77f55cba9b451ea9115216add842145c34fce74fc
+
+pkgname = python-psycopg2
