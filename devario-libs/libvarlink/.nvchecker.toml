@@ -1,0 +1,4 @@
+[libvarlink]
+source = "git"
+git = "https://github.com/varlink/libvarlink.git"
+prefix = "v"

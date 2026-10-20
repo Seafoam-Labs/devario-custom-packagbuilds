@@ -1,5 +1,64 @@
 # Missing dependency builds for Shelly
 
+## pcp PMDA dependency publication (2026-10-20)
+
+The worker's `IncompleteDependencyPlan` for [pcp](devario-utilities/pcp/PKGBUILD)
+7.2.2-1 names nine missing packages: `python-openpyxl`, `python-jsonpointer`,
+`libvirt-python`, `perl-net-snmp`, `perl-xml-libxml`, `perl-yaml-libyaml`,
+`perl-dbd-mysql`, `python-psycopg2` and `libvarlink`. Eight are new recipes.
+`libvirt-python` already has one, and it needs the existing but unpublished
+`libvirt`, which needs `libnbd`. Fourteen more unpublished Perl and Python
+modules are transitive dependencies, so the wave imports 22 recipes and
+publishes 25 names.
+
+Build and publish in this order, refreshing the worker repository database
+between stages. The stage 1 recipes do not depend on one another. The
+`Depends on` column lists only wave dependencies; every other dependency
+already publishes.
+
+| Stage | Recipe | Release | Depends on |
+| --- | --- | --- | --- |
+| 1 | [libnbd](devario-libs/libnbd/PKGBUILD) (existing) | `1.24.3-1` | - |
+| 1 | [libvarlink](devario-libs/libvarlink/PKGBUILD) | `24.0.1-1` | - |
+| 1 | [perl-crypt-des](devario-libs/perl-crypt-des/PKGBUILD) | `2.09-2` | - |
+| 1 | [perl-digest-sha1](devario-libs/perl-digest-sha1/PKGBUILD) | `2.13-23` | - |
+| 1 | [perl-dbi](devario-libs/perl-dbi/PKGBUILD) | `1.656-2` | - |
+| 1 | [perl-ffi-checklib](devario-libs/perl-ffi-checklib/PKGBUILD) | `0.31-8` | - |
+| 1 | [perl-file-chdir](devario-libs/perl-file-chdir/PKGBUILD) | `0.1011-6` | - |
+| 1 | [perl-path-tiny](devario-libs/perl-path-tiny/PKGBUILD) | `0.150-2` | - |
+| 1 | [perl-xml-namespacesupport](devario-libs/perl-xml-namespacesupport/PKGBUILD) | `1.12-6` | - |
+| 1 | [perl-xml-sax-base](devario-libs/perl-xml-sax-base/PKGBUILD) | `1.09-6` | - |
+| 1 | [perl-yaml-libyaml](devario-libs/perl-yaml-libyaml/PKGBUILD) | `0.910.0-2` | - |
+| 1 | [python-et-xmlfile](devario-libs/python-et-xmlfile/PKGBUILD) | `2.0.0-3` | - |
+| 1 | [python-jsonpointer](devario-libs/python-jsonpointer/PKGBUILD) | `3.4-1` | - |
+| 1 | [python-psycopg2](devario-libs/python-psycopg2/PKGBUILD) | `2.9.13-1` | - |
+| 2 | [libvirt](devario-libs/libvirt/PKGBUILD) (existing) | `12.8.0-1` | `libnbd` |
+| 2 | [perl-alien-build](devario-libs/perl-alien-build/PKGBUILD) | `2.88-1` | `perl-ffi-checklib`, `perl-file-chdir`, `perl-path-tiny` |
+| 2 | [perl-dbd-mysql](devario-libs/perl-dbd-mysql/PKGBUILD) | `4.055-2` | `perl-dbi` |
+| 2 | [perl-digest-hmac](devario-libs/perl-digest-hmac/PKGBUILD) | `1.05-3` | `perl-digest-sha1` |
+| 2 | [perl-xml-sax](devario-libs/perl-xml-sax/PKGBUILD) | `1.02-2` | `perl-xml-sax-base`, `perl-xml-namespacesupport` |
+| 2 | [python-openpyxl](devario-libs/python-openpyxl/PKGBUILD) | `3.1.5-3` | `python-et-xmlfile` |
+| 3 | [libvirt-python](devario-libs/libvirt-python/PKGBUILD) (existing) | `12.8.0-1` | `libvirt` |
+| 3 | [perl-alien-build-plugin-download-gitlab](devario-libs/perl-alien-build-plugin-download-gitlab/PKGBUILD) | `0.01-7` | `perl-alien-build`, `perl-path-tiny` |
+| 3 | [perl-net-snmp](devario-libs/perl-net-snmp/PKGBUILD) | `6.0.1-15` | `perl-digest-hmac`, `perl-digest-sha1`, `perl-crypt-des` |
+| 4 | [perl-alien-libxml2](devario-libs/perl-alien-libxml2/PKGBUILD) | `0.20-6` | `perl-alien-build`, `perl-alien-build-plugin-download-gitlab` |
+| 5 | [perl-xml-libxml](devario-libs/perl-xml-libxml/PKGBUILD) | `2.0213-2` | `perl-alien-libxml2`, `perl-xml-sax`, `perl-xml-namespacesupport` |
+| 6 | [pcp](devario-utilities/pcp/PKGBUILD) | `7.2.2-1` | all nine names |
+
+`libnbd` verifies its source with `validpgpkeys`; its recipe does not vendor the
+key, so import fingerprint `F7774FB1AD074A7E8C8767EA91738F73E1B768A0` on the
+worker if it is not already in the keyring.
+
+`perl-yaml-libyaml` drops `DESTDIR` from `PERL_MM_OPT` and passes it to
+`make install`, because Shelly gives `package()` a different `$pkgdir` from
+`build()`.
+
+Validation: each recipe's committed `.SRCINFO` regenerates identically, and
+`shelly build --review-only` exits 0 for all 22 imports. The only findings are
+dynamic-command warnings in `perl-xml-libxml`'s install scriptlet,
+`python-psycopg2`'s `check()`, and 16 lines of `python-et-xmlfile`'s test
+patch. No isolated build or publication was performed.
+
 ## QEMU build dependency publication (2026-10-19)
 
 The worker's `IncompleteDependencyPlan` for [qemu](devario-utilities/qemu/PKGBUILD)
