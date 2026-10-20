@@ -17,3 +17,9 @@ pkgname = tesseract-data-eng
 	groups = tesseract-data
 	depends = tesseract
 	provides = tessdata
+
+pkgname = tesseract-data-pol
+	pkgdesc = Tesseract OCR data (pol)
+	groups = tesseract-data
+	depends = tesseract
+	provides = tessdata

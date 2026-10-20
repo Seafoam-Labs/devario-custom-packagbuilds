@@ -3,11 +3,11 @@
 # Contributor: Andreas Hauser <andy-aur@splashground.de>
 
 # Upstream packages ~120 languages through a generated package_ loop. Shelly cannot
-# resolve the array expansion that builds pkgname from it, so the two packages a bare
-# tesseract install needs are written out: osd is required by name and eng provides the
-# virtual 'tessdata'. The 668 MiB source carries every language if the rest is wanted.
+# resolve the array expansion that builds pkgname from it, so the needed packages are
+# written out: osd and pol are required by name and eng provides the virtual 'tessdata'.
+# The 668 MiB source carries every language if the rest is wanted.
 pkgbase=tesseract-data
-pkgname=(tesseract-data-osd tesseract-data-eng)
+pkgname=(tesseract-data-osd tesseract-data-eng tesseract-data-pol)
 _pkgname=tessdata
 epoch=2
 pkgver=4.1.0
@@ -40,4 +40,13 @@ package_tesseract-data-eng() {
 	groups=($pkgbase)
 	cd "$_archive"
 	install -Dm0644 -t "$pkgdir/usr/share/$_pkgname/" eng.*
+}
+
+package_tesseract-data-pol() {
+	pkgdesc+=" (pol)"
+	depends=(tesseract)
+	provides=($_pkgname)
+	groups=($pkgbase)
+	cd "$_archive"
+	install -Dm0644 -t "$pkgdir/usr/share/$_pkgname/" pol.*
 }
