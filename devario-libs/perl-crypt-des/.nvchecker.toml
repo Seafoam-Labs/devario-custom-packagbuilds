@@ -1,0 +1,3 @@
+[perl-crypt-des]
+source = "cpan"
+cpan = "Crypt-DES"

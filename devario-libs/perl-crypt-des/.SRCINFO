@@ -1,0 +1,13 @@
+pkgbase = perl-crypt-des
+	pkgdesc = Perl DES encryption module
+	pkgver = 2.09
+	pkgrel = 2
+	url = https://search.cpan.org/~dparis/Crypt-DES
+	arch = x86_64
+	license = GPL
+	license = PerlArtistic
+	depends = glibc
+	source = https://www.cpan.org/authors/id/T/TI/TIMLEGGE/Crypt-DES-2.09.tar.gz
+	sha256sums = 149cdc0a14e944b4cc5eefb7560c78d8cb25254f9f9774547c880355a7e9f40c
+
+pkgname = perl-crypt-des

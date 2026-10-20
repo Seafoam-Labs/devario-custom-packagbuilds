@@ -1,0 +1,3 @@
+[perl-dbd-mysql]
+source = "cpan"
+cpan = "DBD-mysql"

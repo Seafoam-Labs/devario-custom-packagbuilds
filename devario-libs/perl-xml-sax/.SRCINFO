@@ -1,0 +1,17 @@
+pkgbase = perl-xml-sax
+	pkgdesc = Simple API for XML
+	pkgver = 1.02
+	pkgrel = 2
+	url = https://search.cpan.org/dist/XML-SAX
+	install = perl-xml-sax.install
+	arch = any
+	license = Artistic-1.0-Perl
+	license = GPL-1.0-or-later
+	depends = perl
+	depends = perl-xml-sax-base
+	depends = perl-xml-namespacesupport
+	options = !emptydirs
+	source = https://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-1.02.tar.gz
+	sha512sums = bb30ddbbcf27803825d2f0936257e102999a197cb14bd77fa8b7a469f3a24fb7d861ef4eb03230e5581e4ed88beb8676cbb907b2cb63e9ef1a64b2c211ebdc5a
+
+pkgname = perl-xml-sax
