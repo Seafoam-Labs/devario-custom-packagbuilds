@@ -3,7 +3,7 @@
 
 pkgname=appstream-glib
 pkgver=0.8.4
-pkgrel=1
+pkgrel=2
 pkgdesc="Objects and methods for reading and writing AppStream metadata"
 url="https://people.freedesktop.org/~hughsient/appstream-glib/"
 arch=(x86_64)
@@ -21,7 +21,6 @@ depends=(
   libgcc
   libarchive
   libyaml
-  pacman
   pango
   util-linux-libs
 )
@@ -40,19 +39,22 @@ provides=(
 )
 conflicts=(appdata-tools)
 replaces=(appdata-tools)
-source=("git+https://github.com/hughsie/appstream-glib?signed#tag=appstream_glib_${pkgver//./_}")
-b2sums=('e9504358185dfa018081ac1e32f48ae85e7f4041c5c4f9f37d97e87058c8c55bb7300805fb33c075cd1642de4c40f3bb47f9a374a720b91a77881f1b4354a955')
+source=("git+https://github.com/hughsie/appstream-glib?signed#tag=appstream_glib_${pkgver//./_}"
+        0001-add-shelly-backend.patch)
+b2sums=('e9504358185dfa018081ac1e32f48ae85e7f4041c5c4f9f37d97e87058c8c55bb7300805fb33c075cd1642de4c40f3bb47f9a374a720b91a77881f1b4354a955'
+        '1a7804b4ebd0b0e0f56060ccf0f9d8a929dd3776e84be6f68a169efd25e94b50c13ecddf3794d85320758036bff61d15f862fc93e1dfe0afc7c7cceee309fa62')
 validpgpkeys=(
   163EB50119225DB3DF8F49EA17ACBA8DFA970E17 # Richard Hughes <richard@hughsie.com>
 )
 
 prepare() {
-  cd $pkgname
+  patch -d "$pkgname" -Np1 -i "$srcdir/0001-add-shelly-backend.patch"
 }
 
 build() {
   local meson_options=(
-    -D alpm=true
+    -D alpm=false
+    -D shelly=true
     -D gtk-doc=true
     -D rpm=false
   )

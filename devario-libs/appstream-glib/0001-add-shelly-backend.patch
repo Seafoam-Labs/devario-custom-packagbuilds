@@ -1,0 +1,650 @@
+Subject: [PATCH] builder: support Shelly/RLPM package archives without libalpm
+
+Add an opt-in shelly backend using the existing libarchive dependency. Read
+.PKGINFO and the payload inventory directly from package archives, preserving
+builder dependency matching, source package names, licensing and version order.
+The normal builder extraction path supplies application metadata to its plugins.
+No package-manager process or host package database is involved.
+
+Enable with -Dshelly=true -Dalpm=false. Shelly and ALPM are mutually exclusive.
+The AppStream library and appstream-util keep their existing APIs. This does not
+change Shelly's own AppStream catalog reader or add package transactions.
+
+Tests cover tar/zstd/xz/gzip/bzip2, filename dispatch, filtered extraction,
+metadata reload, repeated metadata, invalid/truncated archives, unsafe paths,
+metadata bounds and epoch/version/release ordering. Epochs beyond guint are
+rejected explicitly because AsbPackage cannot represent them.
+
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -2,6 +2,7 @@
+ option('builder', type : 'boolean', value : true, description : 'enable AppStream builder')
+ option('rpm', type : 'boolean', value : true, description : 'enable RPM support')
+ option('alpm', type : 'boolean', value : false, description : 'enable ALPM support')
++option('shelly', type : 'boolean', value : false, description : 'read Shelly/RLPM package archives without libalpm')
+ option('fonts', type : 'boolean', value : true, description : 'enable font support')
+ option('man', type : 'boolean', value : true, description : 'generate man pages')
+ option('gtk-doc', type : 'boolean', value : false, description : 'generate API reference')
+--- a/meson.build
++++ b/meson.build
+@@ -81,6 +81,12 @@
+ # builder (default enabled)
+ if get_option('builder')
+   gmodule = dependency('gmodule-2.0')
++  if get_option('shelly')
++    if get_option('alpm')
++      error('Select either shelly or alpm for package archive support')
++    endif
++    conf.set('HAVE_SHELLY', 1)
++  endif
+   if get_option('alpm')
+     alpm = dependency('libalpm')
+     conf.set('HAVE_ALPM', 1)
+--- a/libappstream-builder/meson.build
++++ b/libappstream-builder/meson.build
+@@ -44,6 +44,10 @@
+   sources = sources + ['asb-package-alpm.c']
+ endif
+ 
++if get_option('shelly')
++  sources = sources + ['asb-package-shelly.c']
++endif
++
+ top_build_incdir = include_directories('..')
+ 
+ asbuilder = static_library(
+@@ -79,3 +83,14 @@
+   ],
+ )
+ test('asb-self-test', asb_self_test)
++
++if get_option('shelly')
++  shelly_self_test = executable(
++    'asb-shelly-self-test', 'asb-shelly-self-test.c',
++    include_directories : [top_build_incdir, asglib_incdir],
++    dependencies : deps,
++    c_args : asbuilder_cargs,
++    link_with : [asbuilder, asglib],
++  )
++  test('asb-shelly-self-test', shelly_self_test)
++endif
+--- a/libappstream-builder/asb-context.c
++++ b/libappstream-builder/asb-context.c
+@@ -31,6 +31,9 @@
+ #endif
+ #ifdef HAVE_ALPM
+ #include "asb-package-alpm.h"
++#endif
++#ifdef HAVE_SHELLY
++#include "asb-package-shelly.h"
+ #endif
+ #include "asb-package-cab.h"
+ #include "asb-package-deb.h"
+@@ -448,6 +451,19 @@
+ 	if (g_str_has_suffix (filename, ".pkg.tar") ||
+ 	    g_str_has_suffix (filename, ".pkg.tar.xz"))
+ 		pkg = asb_package_alpm_new ();
++#endif
++#ifdef HAVE_SHELLY
++	if (g_str_has_suffix (filename, ".pkg.tar") ||
++	    g_str_has_suffix (filename, ".pkg.tar.zst") ||
++	    g_str_has_suffix (filename, ".pkg.tar.xz") ||
++	    g_str_has_suffix (filename, ".pkg.tar.gz") ||
++	    g_str_has_suffix (filename, ".pkg.tar.bz2") ||
++	    g_str_has_suffix (filename, ".pkg.tar.lz4") ||
++	    g_str_has_suffix (filename, ".pkg.tar.lz") ||
++	    g_str_has_suffix (filename, ".pkg.tar.lrz") ||
++	    g_str_has_suffix (filename, ".pkg.tar.lzo") ||
++	    g_str_has_suffix (filename, ".pkg.tar.Z"))
++		pkg = asb_package_shelly_new ();
+ #endif
+ 	if (g_str_has_suffix (filename, ".cab"))
+ 		pkg = asb_package_cab_new ();
+--- /dev/null
++++ b/libappstream-builder/asb-package-shelly.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
++#pragma once
++
++#include "asb-package.h"
++
++G_BEGIN_DECLS
++
++#define ASB_TYPE_PACKAGE_SHELLY (asb_package_shelly_get_type ())
++G_DECLARE_FINAL_TYPE (AsbPackageShelly, asb_package_shelly, ASB, PACKAGE_SHELLY, AsbPackage)
++
++AsbPackage *asb_package_shelly_new (void);
++
++G_END_DECLS
+--- /dev/null
++++ b/libappstream-builder/asb-package-shelly.c
+@@ -0,0 +1,292 @@
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
++
++#include "config.h"
++
++#include <archive.h>
++#include <archive_entry.h>
++#include <string.h>
++
++#include "asb-package-shelly.h"
++#include "asb-plugin.h"
++
++/* Shelly/RLPM packages carry .PKGINFO in a compressed tar archive. Reading
++ * these archives needs neither a package manager process nor a host database.
++ * Match RLPM's 1 MiB per metadata member limit. */
++#define PKGINFO_LIMIT (1024 * 1024)
++
++struct _AsbPackageShelly {
++	AsbPackage parent_instance;
++	gchar **files;
++	gchar **deps;
++};
++
++G_DEFINE_TYPE (AsbPackageShelly, asb_package_shelly, ASB_TYPE_PACKAGE)
++
++static gboolean
++shelly_error (GError **error, const gchar *message)
++{
++	g_set_error_literal (error, ASB_PLUGIN_ERROR, ASB_PLUGIN_ERROR_FAILED, message);
++	return FALSE;
++}
++
++/* Compare numeric and alphabetic runs using the package format's ordering.
++ * Numeric runs have arbitrary precision; separator count breaks ties before
++ * the next run, and an alphabetic suffix sorts before the final release. */
++static gint
++shelly_compare_part (const gchar *a, const gchar *b)
++{
++	while (*a && *b) {
++		const gchar *sa = a, *sb = b;
++		g_autofree gchar *ra = NULL;
++		g_autofree gchar *rb = NULL;
++		gboolean numeric;
++		gint result;
++
++		while (*a && !g_ascii_isalnum (*a)) a++;
++		while (*b && !g_ascii_isalnum (*b)) b++;
++		if (!*a || !*b) break;
++		if (a - sa != b - sb) return a - sa > b - sb ? 1 : -1;
++		numeric = g_ascii_isdigit (*a);
++		if (numeric != !!g_ascii_isdigit (*b)) return numeric ? 1 : -1;
++		sa = a;
++		sb = b;
++		if (numeric) {
++			while (g_ascii_isdigit (*a)) a++;
++			while (g_ascii_isdigit (*b)) b++;
++			while (sa < a && *sa == '0') sa++;
++			while (sb < b && *sb == '0') sb++;
++			if (a - sa != b - sb) return a - sa > b - sb ? 1 : -1;
++		} else {
++			while (g_ascii_isalpha (*a)) a++;
++			while (g_ascii_isalpha (*b)) b++;
++		}
++		ra = g_strndup (sa, a - sa);
++		rb = g_strndup (sb, b - sb);
++		result = strcmp (ra, rb);
++		if (result != 0) return result > 0 ? 1 : -1;
++	}
++	if (!*a && !*b) return 0;
++	if ((!*a && !g_ascii_isalpha (*b)) || g_ascii_isalpha (*a)) return -1;
++	return 1;
++}
++
++static gint
++asb_package_shelly_compare (AsbPackage *a, AsbPackage *b)
++{
++	gint result;
++	if (asb_package_get_epoch (a) != asb_package_get_epoch (b))
++		return asb_package_get_epoch (a) > asb_package_get_epoch (b) ? 1 : -1;
++	result = shelly_compare_part (asb_package_get_version (a), asb_package_get_version (b));
++	if (result != 0) return result;
++	return shelly_compare_part (asb_package_get_release_str (a), asb_package_get_release_str (b));
++}
++
++static gboolean
++shelly_safe_path (const gchar *path)
++{
++	g_auto(GStrv) parts = NULL;
++	if (path == NULL || *path == '\0' || g_path_is_absolute (path)) return FALSE;
++	parts = g_strsplit (path, "/", -1);
++	for (guint i = 0; parts[i] != NULL; i++) {
++		if (g_str_equal (parts[i], "..")) return FALSE;
++	}
++	return TRUE;
++}
++
++static gboolean
++shelly_read_pkginfo (struct archive *ar, GHashTable *fields,
++		    GPtrArray *deps, GPtrArray *licenses, GError **error)
++{
++	g_autoptr(GString) data = g_string_new (NULL);
++	g_auto(GStrv) lines = NULL;
++	gchar buffer[8192];
++	la_ssize_t count;
++
++	while ((count = archive_read_data (ar, buffer, sizeof buffer)) > 0) {
++		if (data->len + count > PKGINFO_LIMIT)
++			return shelly_error (error, ".PKGINFO exceeds 1 MiB");
++		if (memchr (buffer, '\0', count) != NULL)
++			return shelly_error (error, ".PKGINFO contains a NUL byte");
++		g_string_append_len (data, buffer, count);
++	}
++	if (count < 0) return shelly_error (error, archive_error_string (ar));
++	if (!g_utf8_validate (data->str, data->len, NULL))
++		return shelly_error (error, ".PKGINFO is not UTF-8");
++	lines = g_strsplit (data->str, "\n", -1);
++	for (guint i = 0; lines[i] != NULL; i++) {
++		gchar *key = g_strstrip (lines[i]);
++		gchar *value;
++		if (*key == '#' || *key == '\0') continue;
++		value = strchr (key, '=');
++		if (value == NULL) continue;
++		*value++ = '\0';
++		g_strstrip (key);
++		g_strstrip (value);
++		if (g_str_equal (key, "depend")) {
++			/* Builder dependency matching uses names, not constraints. */
++			gsize length = strcspn (value, "<>= \t");
++			if (length == 0) return shelly_error (error, "Empty package dependency");
++			g_ptr_array_add (deps, g_strndup (value, length));
++		} else if (g_str_equal (key, "license")) {
++			if (*value != '\0') g_ptr_array_add (licenses, g_strdup (value));
++		} else if (g_str_equal (key, "pkgname") || g_str_equal (key, "pkgver") ||
++			   g_str_equal (key, "arch") || g_str_equal (key, "url") ||
++			   g_str_equal (key, "pkgbase")) {
++			g_hash_table_replace (fields, g_strdup (key), g_strdup (value));
++		}
++	}
++	return TRUE;
++}
++
++static gboolean
++asb_package_shelly_open (AsbPackage *pkg, const gchar *filename, GError **error)
++{
++	AsbPackageShelly *self = ASB_PACKAGE_SHELLY (pkg);
++	struct archive *ar = archive_read_new ();
++	struct archive_entry *entry;
++	g_autoptr(GHashTable) fields = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
++	g_autoptr(GPtrArray) files = g_ptr_array_new_with_free_func (g_free);
++	g_autoptr(GPtrArray) deps = g_ptr_array_new_with_free_func (g_free);
++	g_autoptr(GPtrArray) licenses = g_ptr_array_new_with_free_func (g_free);
++	g_autofree gchar *license = NULL;
++	g_autofree gchar *source_id = NULL;
++	const gchar *name, *arch, *base;
++	gchar *version, *release, *colon;
++	guint64 epoch = 0;
++	gint status;
++	gboolean ret = FALSE;
++
++	archive_read_support_filter_all (ar);
++	archive_read_support_format_tar (ar);
++	if (archive_read_open_filename (ar, filename, 65536) != ARCHIVE_OK) goto archive_error;
++	while ((status = archive_read_next_header (ar, &entry)) == ARCHIVE_OK) {
++		const gchar *path = archive_entry_pathname (entry);
++		if (path != NULL) while (g_str_has_prefix (path, "./")) path += 2;
++		if (path != NULL && (*path == '\0' || g_str_equal (path, "."))) continue;
++		if (!shelly_safe_path (path)) {
++			shelly_error (error, "Unsafe package member path");
++			goto out;
++		}
++		if (g_str_equal (path, ".PKGINFO")) {
++			if (archive_entry_filetype (entry) != AE_IFREG || archive_entry_hardlink (entry) != NULL) {
++				shelly_error (error, ".PKGINFO must be a regular file");
++				goto out;
++			}
++			if (!shelly_read_pkginfo (ar, fields, deps, licenses, error)) goto out;
++		} else if (!g_str_equal (path, ".BUILDINFO") &&
++			   !g_str_equal (path, ".MTREE") &&
++			   !g_str_equal (path, ".INSTALL") &&
++			   !g_str_equal (path, ".CHANGELOG") &&
++			   archive_entry_filetype (entry) != AE_IFDIR) {
++			g_ptr_array_add (files, g_strconcat ("/", path, NULL));
++		}
++		if (archive_read_data_skip (ar) != ARCHIVE_OK) goto archive_error;
++	}
++	if (status != ARCHIVE_EOF) goto archive_error;
++	if (archive_read_close (ar) != ARCHIVE_OK) goto archive_error;
++
++	name = g_hash_table_lookup (fields, "pkgname");
++	version = g_hash_table_lookup (fields, "pkgver");
++	arch = g_hash_table_lookup (fields, "arch");
++	if (name == NULL || *name == '\0' || version == NULL || *version == '\0' ||
++	    arch == NULL || *arch == '\0') {
++		shelly_error (error, "Missing package name, version or architecture in .PKGINFO");
++		goto out;
++	}
++	release = strrchr (version, '-');
++	if (release == NULL || release == version || release[1] == '\0') {
++		shelly_error (error, "Package version must contain a release");
++		goto out;
++	}
++	*release++ = '\0';
++	colon = strchr (version, ':');
++	if (colon != NULL) {
++		gchar *end;
++		/* AsbPackage exposes epoch as guint; reject unrepresentable data. */
++		if (colon == version || strspn (version, "0123456789") != (gsize) (colon - version)) {
++			shelly_error (error, "Invalid package epoch");
++			goto out;
++		}
++		epoch = g_ascii_strtoull (version, &end, 10);
++		if (end != colon || epoch > G_MAXUINT) {
++			shelly_error (error, "Package epoch exceeds AppStream's guint range");
++			goto out;
++		}
++		version = colon + 1;
++	}
++	if (*version == '\0') {
++		shelly_error (error, "Empty package version");
++		goto out;
++	}
++	asb_package_set_name (pkg, name);
++	asb_package_set_epoch (pkg, (guint) epoch);
++	asb_package_set_version (pkg, version);
++	asb_package_set_release (pkg, release);
++	asb_package_set_arch (pkg, arch);
++	asb_package_set_url (pkg, g_hash_table_lookup (fields, "url"));
++	base = g_hash_table_lookup (fields, "pkgbase");
++	if (base == NULL || *base == '\0') base = name;
++	asb_package_set_source_pkgname (pkg, base);
++	source_id = g_strdup_printf ("%s-%u:%s-%s", base, (guint) epoch, version, release);
++	asb_package_set_source (pkg, source_id);
++	g_ptr_array_add (licenses, NULL);
++	license = g_strjoinv (" AND ", (gchar **) licenses->pdata);
++	asb_package_set_license (pkg, license);
++	g_ptr_array_add (files, NULL);
++	g_ptr_array_add (deps, NULL);
++	g_strfreev (self->files);
++	g_strfreev (self->deps);
++	self->files = (gchar **) g_ptr_array_free (g_steal_pointer (&files), FALSE);
++	self->deps = (gchar **) g_ptr_array_free (g_steal_pointer (&deps), FALSE);
++	ret = TRUE;
++	goto out;
++
++archive_error:
++	shelly_error (error, archive_error_string (ar));
++out:
++	archive_read_free (ar);
++	return ret;
++}
++
++static gboolean
++asb_package_shelly_ensure (AsbPackage *pkg, AsbPackageEnsureFlags flags, GError **error)
++{
++	AsbPackageShelly *self = ASB_PACKAGE_SHELLY (pkg);
++	if (self->files == NULL || self->deps == NULL)
++		return shelly_error (error, "Package metadata has not been loaded");
++	if (flags & ASB_PACKAGE_ENSURE_FILES) asb_package_set_filelist (pkg, self->files);
++	if (flags & ASB_PACKAGE_ENSURE_DEPS) {
++		for (guint i = 0; self->deps[i] != NULL; i++) asb_package_add_dep (pkg, self->deps[i]);
++	}
++	return TRUE;
++}
++
++static void
++asb_package_shelly_finalize (GObject *object)
++{
++	AsbPackageShelly *self = ASB_PACKAGE_SHELLY (object);
++	g_strfreev (self->files);
++	g_strfreev (self->deps);
++	G_OBJECT_CLASS (asb_package_shelly_parent_class)->finalize (object);
++}
++
++static void
++asb_package_shelly_class_init (AsbPackageShellyClass *klass)
++{
++	AsbPackageClass *package_class = ASB_PACKAGE_CLASS (klass);
++	G_OBJECT_CLASS (klass)->finalize = asb_package_shelly_finalize;
++	package_class->open = asb_package_shelly_open;
++	package_class->ensure = asb_package_shelly_ensure;
++	package_class->compare = asb_package_shelly_compare;
++}
++
++static void
++asb_package_shelly_init (AsbPackageShelly *self)
++{
++}
++
++AsbPackage *
++asb_package_shelly_new (void)
++{
++	return g_object_new (ASB_TYPE_PACKAGE_SHELLY, NULL);
++}
+--- /dev/null
++++ b/libappstream-builder/asb-shelly-self-test.c
+@@ -0,0 +1,234 @@
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
++
++#include "config.h"
++#include <archive.h>
++#include <archive_entry.h>
++#include <glib/gstdio.h>
++#include <string.h>
++
++#include "asb-context.h"
++#include "asb-package-shelly.h"
++#include "asb-plugin.h"
++
++static gchar *test_dir;
++static const gchar pkginfo[] =
++	"# Shelly package fixture\r\n"
++	"pkgname = editor\r\npkgbase = editor-suite\r\n"
++	"pkgver = 2:1.10-3\r\narch = x86_64\r\n"
++	"url = https://example.invalid/editor\r\n"
++	"license = MIT\r\nlicense = BSD-2-Clause\r\n"
++	"depend = glib2>=2.58\r\ndepend = libfoo.so=1-64\r\n";
++
++static void
++add_member (struct archive *ar, const gchar *name, const void *data, gsize size)
++{
++	struct archive_entry *entry = archive_entry_new ();
++	archive_entry_set_pathname (entry, name);
++	archive_entry_set_filetype (entry, AE_IFREG);
++	archive_entry_set_perm (entry, 0644);
++	archive_entry_set_size (entry, size);
++	g_assert_cmpint (archive_write_header (ar, entry), ==, ARCHIVE_OK);
++	g_assert_cmpint (archive_write_data (ar, data, size), ==, (la_ssize_t) size);
++	archive_entry_free (entry);
++}
++
++static gchar *
++write_package (const gchar *suffix, gint filter, const void *metadata, gsize size,
++	       const gchar *payload, const gchar *extra_info)
++{
++	struct archive *ar = archive_write_new ();
++	g_autofree gchar *name = g_strconcat ("editor-1-1-x86_64.pkg.tar", suffix, NULL);
++	gchar *path = g_build_filename (test_dir, name, NULL);
++	g_assert_cmpint (archive_write_set_format_pax_restricted (ar), ==, ARCHIVE_OK);
++	g_assert_cmpint (archive_write_add_filter (ar, filter), ==, ARCHIVE_OK);
++	g_assert_cmpint (archive_write_open_filename (ar, path), ==, ARCHIVE_OK);
++	if (metadata != NULL) add_member (ar, "./.PKGINFO", metadata, size);
++	if (extra_info != NULL) add_member (ar, ".PKGINFO", extra_info, strlen (extra_info));
++	add_member (ar, ".BUILDINFO", "build metadata", 14);
++	add_member (ar, payload, "payload", 7);
++	g_assert_cmpint (archive_write_close (ar), ==, ARCHIVE_OK);
++	g_assert_cmpint (archive_write_free (ar), ==, ARCHIVE_OK);
++	return path;
++}
++
++static void
++test_archives (void)
++{
++	const struct { const gchar *suffix; gint filter; } formats[] = {
++		{ "", ARCHIVE_FILTER_NONE }, { ".zst", ARCHIVE_FILTER_ZSTD },
++		{ ".xz", ARCHIVE_FILTER_XZ }, { ".gz", ARCHIVE_FILTER_GZIP },
++		{ ".bz2", ARCHIVE_FILTER_BZIP2 },
++	};
++	for (guint i = 0; i < G_N_ELEMENTS (formats); i++) {
++		g_autofree gchar *path = write_package (formats[i].suffix, formats[i].filter,
++			pkginfo, strlen (pkginfo), "./usr/share/metainfo/editor.metainfo.xml", NULL);
++		g_autoptr(AsbContext) ctx = asb_context_new ();
++		g_autoptr(GError) error = NULL;
++		g_autofree gchar *destination = g_build_filename (test_dir, "unpacked", NULL);
++		g_autofree gchar *metainfo = g_build_filename (destination, "usr/share/metainfo/editor.metainfo.xml", NULL);
++		g_autofree gchar *contents = NULL;
++		g_autoptr(GPtrArray) globs = asb_glob_value_array_new ();
++		AsbPackage *pkg;
++		AsbPackageEnsureFlags flags = ASB_PACKAGE_ENSURE_FILES | ASB_PACKAGE_ENSURE_DEPS;
++		g_assert_true (asb_context_add_filename (ctx, path, &error));
++		g_assert_no_error (error);
++		pkg = asb_context_find_by_pkgname (ctx, "editor");
++		g_assert_nonnull (pkg);
++		g_assert_true (ASB_IS_PACKAGE_SHELLY (pkg));
++		g_assert_cmpuint (asb_package_get_epoch (pkg), ==, 2);
++		g_assert_cmpstr (asb_package_get_version (pkg), ==, "1.10");
++		g_assert_cmpstr (asb_package_get_release_str (pkg), ==, "3");
++		g_assert_cmpstr (asb_package_get_arch (pkg), ==, "x86_64");
++		g_assert_cmpstr (asb_package_get_url (pkg), ==, "https://example.invalid/editor");
++		g_assert_cmpstr (asb_package_get_source_pkgname (pkg), ==, "editor-suite");
++		g_assert_cmpstr (asb_package_get_source (pkg), ==, "editor-suite-2:1.10-3");
++		g_assert_cmpstr (asb_package_get_license (pkg), ==, "MIT AND BSD-2-Clause");
++		/* Ensure must restore the data after the builder releases it. */
++		for (guint j = 0; j < 3; j++) {
++			g_assert_true (asb_package_ensure (pkg, flags, &error));
++			g_assert_no_error (error);
++			g_assert_cmpuint (g_strv_length (asb_package_get_filelist (pkg)), ==, 1);
++			g_assert_cmpstr (asb_package_get_filelist (pkg)[0], ==,
++					"/usr/share/metainfo/editor.metainfo.xml");
++			g_assert_cmpuint (asb_package_get_deps (pkg)->len, ==, 2);
++			g_assert_cmpstr (g_ptr_array_index (asb_package_get_deps (pkg), 0), ==, "glib2");
++			g_assert_cmpstr (g_ptr_array_index (asb_package_get_deps (pkg), 1), ==, "libfoo.so");
++			asb_package_clear (pkg, flags);
++			g_assert_true (asb_package_close (pkg, &error));
++			g_assert_no_error (error);
++		}
++		/* Exercise the same filtered extraction used by builder plugins. */
++		g_ptr_array_add (globs, asb_glob_value_new ("/usr/share/metainfo/*", ""));
++		g_assert_true (asb_package_explode (pkg, destination, globs, &error));
++		g_assert_true (g_file_get_contents (metainfo, &contents, NULL, &error));
++		g_assert_no_error (error);
++		g_assert_cmpstr (contents, ==, "payload");
++		g_assert_true (asb_utils_rmtree (destination, &error));
++		g_assert_no_error (error);
++		g_assert_cmpint (g_unlink (path), ==, 0);
++	}
++}
++
++static void
++test_duplicate_metadata (void)
++{
++	g_autofree gchar *path = write_package ("", ARCHIVE_FILTER_NONE, pkginfo,
++		strlen (pkginfo), "usr/bin/editor", "pkgver = 3.0-2\ndepend = zlib\n");
++	g_autoptr(AsbPackage) pkg = asb_package_shelly_new ();
++	g_autoptr(GError) error = NULL;
++	g_assert_true (asb_package_open (pkg, path, &error));
++	g_assert_true (asb_package_ensure (pkg, ASB_PACKAGE_ENSURE_DEPS, &error));
++	g_assert_no_error (error);
++	g_assert_cmpuint (asb_package_get_epoch (pkg), ==, 0);
++	g_assert_cmpstr (asb_package_get_version (pkg), ==, "3.0");
++	g_assert_cmpstr (asb_package_get_release_str (pkg), ==, "2");
++	g_assert_cmpuint (asb_package_get_deps (pkg)->len, ==, 3);
++	g_assert_cmpint (g_unlink (path), ==, 0);
++}
++
++static void
++assert_invalid (const void *metadata, gsize size, const gchar *payload)
++{
++	g_autofree gchar *path = write_package ("", ARCHIVE_FILTER_NONE, metadata, size, payload, NULL);
++	g_autoptr(AsbPackage) pkg = asb_package_shelly_new ();
++	g_autoptr(GError) error = NULL;
++	g_assert_false (asb_package_open (pkg, path, &error));
++	g_assert_error (error, ASB_PLUGIN_ERROR, ASB_PLUGIN_ERROR_FAILED);
++	g_assert_cmpint (g_unlink (path), ==, 0);
++}
++
++static void
++test_invalid (void)
++{
++	const gchar *invalid[] = {
++		"pkgver = 1-1\narch = any\n",
++		"pkgname = editor\narch = any\n",
++		"pkgname = editor\npkgver = 1\narch = any\n",
++		"pkgname = editor\npkgver = 1-\narch = any\n",
++		"pkgname = editor\npkgver = -1\narch = any\n",
++		"pkgname = editor\npkgver = a:1-1\narch = any\n",
++		"pkgname = editor\npkgver = 1:-1\narch = any\n",
++		"pkgname = editor\npkgver = 4294967296:1-1\narch = any\n",
++	};
++	g_autofree gchar *oversized = g_strnfill (1024 * 1024 + 1, 'x');
++	for (guint i = 0; i < G_N_ELEMENTS (invalid); i++)
++		assert_invalid (invalid[i], strlen (invalid[i]), "usr/bin/editor");
++	assert_invalid (NULL, 0, "usr/bin/editor");
++	assert_invalid (pkginfo, sizeof pkginfo, "usr/bin/editor"); /* includes NUL */
++	assert_invalid (oversized, strlen (oversized), "usr/bin/editor");
++	assert_invalid (pkginfo, strlen (pkginfo), "../escape");
++	assert_invalid (pkginfo, strlen (pkginfo), "/absolute");
++	assert_invalid (pkginfo, strlen (pkginfo), "usr/../../escape");
++}
++
++static AsbPackage *
++package_version (const gchar *version)
++{
++	g_autofree gchar *metadata = g_strdup_printf ("pkgname = editor\npkgver = %s\narch = any\n", version);
++	g_autofree gchar *path = write_package ("", ARCHIVE_FILTER_NONE, metadata,
++		strlen (metadata), "usr/bin/editor", NULL);
++	g_autoptr(GError) error = NULL;
++	AsbPackage *pkg = asb_package_shelly_new ();
++	g_assert_true (asb_package_open (pkg, path, &error));
++	g_assert_no_error (error);
++	g_assert_cmpint (g_unlink (path), ==, 0);
++	g_assert_cmpstr (asb_package_get_source_pkgname (pkg), ==, "editor");
++	return pkg;
++}
++
++static void
++test_versions (void)
++{
++	const struct { const gchar *a, *b; gint result; } cases[] = {
++		{ "1.9-1", "1.10-1", -1 }, { "1.0-2", "1.0-10", -1 },
++		{ "2:1.0-1", "1:99.0-1", 1 }, { "0:1.0-1", "1.0-1", 0 },
++		{ "1.0rc1-1", "1.0-1", -1 }, { "1.0a-1", "1.0b-1", -1 },
++		{ "1.01-1", "1.1-1", 0 }, { "1.0-1", "1.0.0-1", -1 },
++		{ "1.0+1-1", "1.0.1-1", 0 }, { "1..0-1", "1.0-1", 1 },
++		{ "1.99999999999999999999-1", "1.100000000000000000000-1", -1 },
++		{ "1.0-beta-2", "1.0-beta-10", -1 }, { "1.0A-1", "1.0a-1", -1 },
++	};
++	for (guint i = 0; i < G_N_ELEMENTS (cases); i++) {
++		g_autoptr(AsbPackage) a = package_version (cases[i].a);
++		g_autoptr(AsbPackage) b = package_version (cases[i].b);
++		g_assert_cmpint (asb_package_compare (a, b), ==, cases[i].result);
++		g_assert_cmpint (asb_package_compare (b, a), ==, -cases[i].result);
++		g_assert_cmpint (asb_package_compare (a, a), ==, 0);
++	}
++}
++
++static void
++test_truncated (void)
++{
++	g_autofree gchar *path = write_package (".zst", ARCHIVE_FILTER_ZSTD,
++		pkginfo, strlen (pkginfo), "usr/bin/editor", NULL);
++	g_autofree gchar *contents = NULL;
++	gsize size;
++	g_autoptr(AsbPackage) pkg = asb_package_shelly_new ();
++	g_autoptr(GError) error = NULL;
++	g_assert_true (g_file_get_contents (path, &contents, &size, &error));
++	g_assert_true (g_file_set_contents (path, contents, size / 2, &error));
++	g_assert_no_error (error);
++	g_assert_false (asb_package_open (pkg, path, &error));
++	g_assert_error (error, ASB_PLUGIN_ERROR, ASB_PLUGIN_ERROR_FAILED);
++	g_assert_cmpint (g_unlink (path), ==, 0);
++}
++
++int
++main (int argc, char **argv)
++{
++	g_autoptr(GError) error = NULL;
++	gint result;
++	g_test_init (&argc, &argv, NULL);
++	test_dir = g_dir_make_tmp ("appstream-shelly-XXXXXX", &error);
++	g_assert_no_error (error);
++	g_test_add_func ("/shelly/archives", test_archives);
++	g_test_add_func ("/shelly/duplicate-metadata", test_duplicate_metadata);
++	g_test_add_func ("/shelly/invalid", test_invalid);
++	g_test_add_func ("/shelly/versions", test_versions);
++	g_test_add_func ("/shelly/truncated", test_truncated);
++	result = g_test_run ();
++	g_assert_cmpint (g_rmdir (test_dir), ==, 0);
++	g_free (test_dir);
++	return result;
++}
