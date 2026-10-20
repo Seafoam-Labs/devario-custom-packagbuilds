@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = pcp
+Type = Package
+
+[Action]
+Depends = bash
+Depends = pcp
+Description = Rebuilding PMNS...
+Exec = /usr/bin/sh -c 'cd /var/lib/pcp/pmns; ./Rebuild'
+When = PostTransaction

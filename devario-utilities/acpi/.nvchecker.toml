@@ -1,0 +1,7 @@
+[acpi]
+source = "htmlparser"
+url = "https://sourceforge.net/projects/acpiclient/rss"
+xpath = "//item/title"
+is_xml = true
+from_pattern = '.*acpi-(\d+).(\d+).*'
+to_pattern = '\1.\2'
