@@ -23,6 +23,9 @@ validpgpkeys=('F7774FB1AD074A7E8C8767EA91738F73E1B768A0')  # Richard W.M. Jones 
 
 prepare() {
   cd "${pkgname}-${pkgver}"
+  # tokio deprecated AsyncFd::new; the crate's deny(warnings) makes that fatal
+  sed -i 's/let tokio_fd = AsyncFd::new(fd)?;/let tokio_fd = unsafe { AsyncFd::register(fd) }.map_err(std::io::Error::from)?;/' \
+    rust/src/async_handle.rs
   autoreconf -fiv
 }
 
