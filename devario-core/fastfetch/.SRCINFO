@@ -1,7 +1,7 @@
 pkgbase = fastfetch
 	pkgdesc = A feature-rich and performance oriented neofetch like system information tool
 	pkgver = 2.70.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/fastfetch-cli/fastfetch
 	arch = x86_64
 	license = MIT
@@ -53,7 +53,7 @@ pkgbase = fastfetch
 	source = 0001-shelly-package-detection.patch
 	source = test-shelly.py
 	sha256sums = 8aa01bd3faff2be1d94f231d76489ce6d9f781f51f6e93eafe82359d6d8669af
-	sha256sums = bd28994f73b20723efa85d070ef53c8905d03ea6990cbeecb224ea173c673fea
+	sha256sums = b4f9b751305c2b5647a3544637ecacea32b4658457c4804fdcb3c090e765783f
 	sha256sums = 21dcc8a853a546bdd989005c7bebdc2df2f39046e39f2d275d39d78f8f02c7b8
 	sha256sums = 4b9e7758bc4be9cf4162b6e0bb932ca62a250172c360002a051c72c60b1299bf
 	sha256sums = 30a6f7ca42a9cec786cd373ab71a79dafc57ba757115472d98cdd6cb2358de41

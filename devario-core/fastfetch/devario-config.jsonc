@@ -3,15 +3,17 @@
   "logo": {
     "type": "auto",
     "source": "/usr/share/devario/fastfetch/devario-logo.png",
-    "width": 42,
+    "width": 24,
     "padding": {
-      "top": 4,
-      "right": 4
+      "top": 0,
+      "right": 0,
+      "bottom": 1
     },
     "color": {
       "1": "#62c6b5",
       "2": "#00a9e8"
-    }
+    },
+    "position": "top"
   },
   "display": {
     "separator": " ▸ ",
@@ -22,8 +24,7 @@
   },
   "modules": [
     {
-      "type": "custom",
-      "format": "{#90}┌──────────────────────────────◎──────────────────────────────┐{#}"
+      "type": "break"
     },
     {
       "type": "os",
@@ -47,10 +48,6 @@
       "format": "{shelly} (Shelly)"
     },
     {
-      "type": "custom",
-      "format": "{#90}├─────────────────────────────────────────────────────────────┤{#}"
-    },
-    {
       "type": "memory",
       "key": "◎ Ram"
     },
@@ -71,10 +68,6 @@
       "key": "◎ Disk"
     },
     {
-      "type": "custom",
-      "format": "{#90}├─────────────────────────Dev Tools───────────────────────────┤{#}"
-    },
-    {
       "type": "command",
       "key": "◎ Zig",
       "text": "if command -v zig >/dev/null 2>&1; then zig version; else printf \"not installed\"; fi"
@@ -85,10 +78,6 @@
       "text": "if command -v dotnet >/dev/null 2>&1; then DOTNET_NOLOGO=1 DOTNET_CLI_TELEMETRY_OPTOUT=1 dotnet --version; else printf \"not installed\"; fi"
     },
     {
-      "type": "custom",
-      "format": "{#90}├─────────────────────────────────────────────────────────────┤{#}"
-    },
-    {
       "type": "uptime",
       "key": "◎ Uptime"
     },
@@ -97,12 +86,8 @@
       "key": "◎ Terminal"
     },
     {
-      "type": "custom",
-      "format": "{#90}└──────────────────────────────◎──────────────────────────────┘{#}"
-    },
-    {
       "type": "colors",
-      "paddingLeft": 24,
+      "paddingLeft": 0,
       "symbol": "circle"
     }
   ]
