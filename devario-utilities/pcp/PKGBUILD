@@ -62,7 +62,8 @@ build() {
   make
 
   mkdir -p "$srcdir"/installskel
-  make DIST_ROOT="$srcdir/installskel" NO_CHOWN=true install_pcp
+  # Shelly's build root has plain man pages; force gzip so the split globs match.
+  make DIST_ROOT="$srcdir/installskel" NO_CHOWN=true HAVE_GZIPPED_MANPAGES=true install_pcp
   rm -rf "$srcdir"/installskel/{var/lib/pcp/testsuite,run,var/tmp}
 
   echo -e /{etc/pcp,var/lib/pcp/config}/{pmchart,pmsnap} \
