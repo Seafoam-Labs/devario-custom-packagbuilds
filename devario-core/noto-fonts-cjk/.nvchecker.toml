@@ -1,0 +1,4 @@
+[noto-fonts-cjk]
+source = "git"
+git = "https://github.com/googlefonts/noto-cjk.git"
+prefix = "v"
