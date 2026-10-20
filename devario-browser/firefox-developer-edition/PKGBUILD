@@ -2,7 +2,7 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=firefox-developer-edition
-pkgver=159.0b1
+pkgver=159.0b4
 pkgrel=1
 pkgdesc="Fast, Private & Safe Web Browser (Developer Edition)"
 url="https://www.mozilla.org/firefox/developer/"
@@ -54,7 +54,7 @@ makedepends=(
   npm
   onnxruntime
   python
-  rust
+  'rust>=1.90.0'
   unzip
   wasi-compiler-rt
   wasi-libc
@@ -89,13 +89,13 @@ validpgpkeys=(
   # https://blog.mozilla.org/security/2026/08/10/updated-gpg-key-for-signing-firefox-and-thunderbird-releases/
   14F26682D0916CDD81E37B6D61B7B526D98F0353
 )
-sha256sums=('0622c97a64f8a369b23329bbd890f3786d6e1983046d204ff231db3fc95ab97c'
+sha256sums=('09a5e5facc06f0d48339772062e950b79e32c6167f8d5622891ea8ad7a9767cc'
             'SKIP'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9'
             '69bda73277e9a47002a40e18021262b3c3cd88a0ca48237f42a4a5792e839af8'
             '48e33f75f3760387305997ee0a3fcea030a1e7310fc461e92d7b73e6cf600096'
             'ef63a12975f108f30b00bb3290d9ca76f311d8af9c1d5dfc0d8335ad57e8f77c')
-b2sums=('c00db9965c493ef7cea95e14b508492e1f19721bd180e19b418d02d167e1cffa2d657cfadc2dd083a37378885080ea7c42b4245c2c72bed7142881e3c35fae63'
+b2sums=('f676278245466f5a4fc3e20f8efcaf335fd5a0bbf44567aaaae4c3d97985fa348aa2aa4cd8b012726364f8c87362e58fb5d4642b758e2ee5ef320043960bfde6'
         'SKIP'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
         'b3e5b7f4d202eb3bd26eef851c9340c7fe10fbaeb385c3fa989af949e500e9eae6bf67f2ab2e330342cacd71ba40bb02d1840510b7555adbe539615021a5a16e'
