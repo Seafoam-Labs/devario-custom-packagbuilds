@@ -2,7 +2,7 @@
 
 pkgname=openvkl
 pkgver=2.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Intel® Open Volume Kernel Library"
 arch=(x86_64)
 url="https://www.openvkl.org/"

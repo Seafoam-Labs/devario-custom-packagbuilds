@@ -1,7 +1,7 @@
 pkgbase = openvkl
 	pkgdesc = Intel® Open Volume Kernel Library
 	pkgver = 2.0.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.openvkl.org/
 	arch = x86_64
 	license = Apache-2.0
