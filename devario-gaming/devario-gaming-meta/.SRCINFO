@@ -28,6 +28,7 @@ pkgbase = devario-gaming-meta
 	depends = proton-cachyos-slr
 	depends = umu-launcher
 	depends = protontricks
+	depends = steam
 	depends = ttf-liberation
 	depends = wine-cachyos-opt
 	depends = winetricks

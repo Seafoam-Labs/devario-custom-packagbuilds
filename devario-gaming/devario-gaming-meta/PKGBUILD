@@ -37,6 +37,7 @@ depends=(
   'proton-cachyos-slr'
   'umu-launcher'
   'protontricks'
+  'steam'
   'ttf-liberation'
   'wine-cachyos-opt'
   'winetricks'
