@@ -1,0 +1,11 @@
+{
+  "components": [
+    {
+      "release": "3.13.5",
+      "asset_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.13.5/sdk/dartsdk-linux-x64-release.zip",
+      "sha256": "ea864bc64df30a6b8bdf30b2e32550f7717d9a890de8f40293aeabb924fe232b",
+      "sha256_reference": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.13.5/sdk/dartsdk-linux-x64-release.zip.sha256sum",
+      "attestation_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.13.5/sdk/dartsdk-linux-x64-release.zip.intoto.jsonl"
+    }
+  ]
+}

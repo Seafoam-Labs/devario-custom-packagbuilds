@@ -1,0 +1,129 @@
+# Maintainer: Alexander Rødseth <rodseth@gmail.com>
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Orhun Parmaksız <orhun@archlinux.org>
+# Contributor: Daniele Basso <d dot bass05 at proton dot me>
+# Contributor: T. Jameson Little <t.jameson.little at gmail dot com>
+# Contributor: Usagi Ito <usagi@WonderRabbitProject.net>
+# Contributor: siasia <http://pastebin.com/qsBEmNCw>
+# Contributor: Julien Nicoulaud <julien.nicoulaud@gmail.com>
+# Contributor: The one with the braid <info@braid.business>
+# Contributor: Juan Cuevas <juanandrescuevas14@gmail.com>
+# Contributor: Jacob Bang <julemand101@archlinux.dk>
+
+pkgname=dart
+pkgver=3.13.5
+pkgrel=2
+pkgdesc='The dart programming language SDK'
+arch=('x86_64')
+url='https://dart.dev/'
+depends=('glibc')
+license=('BSD-3-Clause')
+makedepends=(
+  'dart'
+  'git'
+  'gn'
+  'ninja'
+  'python'
+)
+# Pinned commit for depot_tools since it does not have release tags. See discussion here for further details:
+# https://gitlab.archlinux.org/archlinux/packaging/packages/dart/-/merge_requests/14#note_335643
+#
+# Should be updated with latest commit on origin/main when new version of Dart are released.
+_depotver='08f34739d842dbef086f2a4459bd29d29c0dfd4e'  # As of 2026-10-02
+source=(
+  "git+https://github.com/dart-lang/sdk.git#tag=$pkgver"
+  "git+https://chromium.googlesource.com/chromium/tools/depot_tools.git#commit=$_depotver"
+  "DEPS.patch"
+  "0001-ignore-warnings-in-binaryen.patch"
+)
+
+sha256sums=('a04c0f55ccd0feecaa7d616e5bc1f5429d8948f3e17945c089d04cb1fa7d811a'
+            '6429bb1603cad3fdfea4fa101e6fe3f8e94977583dfc118584740ae8f467ad35'
+            'a5b1901a606517ffad2dcc51c13da6d479837e9383dbc729710cabf5115b8d78'
+            'b444edf6da2aa9f8e3ddafb7be2e359eec62ab61106b8845a39e62e62bb9ffc4')
+
+prepare() {
+cat >.gclient <<EOF
+solutions = [
+  {
+    "name": "sdk",
+    "url": "file://${srcdir}/sdk",
+    "deps_file": "DEPS",
+    "managed": False,
+    "custom_deps": {},
+    "custom_vars": {},
+  },
+]
+EOF
+
+  export PATH+=":$PWD/depot_tools" DEPOT_TOOLS_UPDATE=0
+
+  cd sdk
+
+  patch -Np 1 --input="$srcdir/DEPS.patch"
+
+  # Fix for https://github.com/dart-lang/sdk/issues/63406
+  patch -Np 1 --input="$srcdir/0001-ignore-warnings-in-binaryen.patch"
+
+  gclient sync -D \
+      --nohooks \
+      --no-history \
+      --shallow
+
+  dart tools/generate_package_config.dart
+  python tools/generate_sdk_version_file.py
+
+  sed -i 's|prefix = "x86_64-linux-gnu-"|prefix = ""|g' build/toolchain/linux/BUILD.gn
+}
+
+build() {
+  cd sdk
+
+  # gn args --list out
+
+  # GN uses its own CPU names; map from $CARCH instead of hardcoding x64. Pinning
+  # x64 made the *default* (target) toolchain x64 on other arches, and since
+  # prepare() strips that toolchain's cross prefix GN then invoked the native g++
+  # with -m64 -march=x86-64 -msse2 and the build died. Everything else already
+  # compiles via dart's arch-appropriate toolchain. The build injects the arch.
+  local _target_cpu
+  case "$CARCH" in
+    x86_64)  _target_cpu=x64 ;;
+    aarch64) _target_cpu=arm64 ;;
+    armv7h)  _target_cpu=arm ;;
+    riscv64) _target_cpu=riscv64 ;;
+    *)       _target_cpu=$CARCH ;;
+  esac
+
+  /usr/bin/gn gen -qv out --args="
+                        target_cpu = \"$_target_cpu\"
+                        is_debug = false
+                        is_release = true
+                        is_clang = false
+                        verify_sdk_hash = false"
+  ninja create_sdk -v -C out
+}
+
+package() {
+  # cd to directory
+  cd sdk/out/
+
+  # Create directories
+  install -d "$pkgdir"{"/opt/$pkgname-sdk",/usr/{bin,"share/doc/$pkgname"}}
+
+  # Package the files
+  cp -a "$pkgname-sdk/"* "$pkgdir/opt/$pkgname-sdk/"
+
+  # Set up symbolic links for the executables
+  for f in dart dartaotruntime; do
+    ln -s "/opt/$pkgname-sdk/bin/$f" "$pkgdir/usr/bin/$f"
+  done
+
+  # Package documentation
+  install -Dm644 "$pkgdir/opt/$pkgname-sdk/README" -t "$pkgdir/usr/share/doc/$pkgname"
+
+  # BSD License
+  install -Dm644 ../LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+# vim:set ts=2 sw=2 et:
