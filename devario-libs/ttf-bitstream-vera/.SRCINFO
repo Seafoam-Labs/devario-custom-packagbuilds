@@ -1,0 +1,12 @@
+pkgbase = ttf-bitstream-vera
+	pkgdesc = Bitstream Vera fonts.
+	pkgver = 1.10
+	pkgrel = 16
+	url = https://www-old.gnome.org/fonts/
+	arch = any
+	license = custom
+	provides = ttf-font
+	source = https://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/ttf-bitstream-vera-1.10.tar.gz
+	sha256sums = 3a84126ce11ef404d1453438e35450b9e0838220d262059e56cd8496ac6f5d15
+
+pkgname = ttf-bitstream-vera

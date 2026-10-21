@@ -1,0 +1,4 @@
+[ttf-opensans]
+source = "regex"
+url = "https://raw.githubusercontent.com/googlefonts/opensans/refs/heads/main/sources/OpenSans-BoldItalic.ufo/fontinfo.plist"
+regex = '<string>Version (\d+\.\d+)</string>'

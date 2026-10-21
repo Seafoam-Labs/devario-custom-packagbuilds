@@ -1,0 +1,11 @@
+pkgbase = ttf-opensans
+	pkgdesc = Sans-serif typeface commissioned by Google
+	pkgver = 3.003
+	pkgrel = 1
+	url = https://github.com/googlefonts/opensans
+	arch = any
+	license = OFL-1.1
+	source = ttf-opensans-bd7e37632246368c60fdcbd374dbf9bad11969b6.tar.gz::https://github.com/googlefonts/opensans/archive/bd7e37632246368c60fdcbd374dbf9bad11969b6.tar.gz
+	sha256sums = a1b16d859522daa826fb093d791ee252a1627274ef1b90f2773d670eb73a2a92
+
+pkgname = ttf-opensans

@@ -1,0 +1,4 @@
+[ttf-bitstream-vera]
+source = 'regex'
+url = 'https://download.gnome.org/sources/ttf-bitstream-vera/'
+regex = '\"([\d.]+)/\"'
