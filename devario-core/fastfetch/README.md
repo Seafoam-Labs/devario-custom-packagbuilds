@@ -1,8 +1,13 @@
 # Fastfetch for Devario
 
-`2.69.0-4` combines native Shelly package detection with Devario's PNG fish
-logo and bordered Fastfetch layout. The three ASCII fish designs remain
-available as alternatives. The recipe is based on upstream `2.69.0-1`.
+`2.70.0-2` combines native Shelly package detection with Devario's PNG fish
+logo above the information in a borderless Fastfetch layout. The three ASCII
+fish designs remain available as alternatives. The recipe is based on upstream `2.70.0-1`.
+
+The 24-column logo sits above the information so shrinking Ghostty does not
+move it into wrapped text. Fixed-width borders and color-strip indentation
+are removed; the Zig and .NET information rows remain. Text wraps with the
+terminal, while the image can be clipped below 24 columns.
 
 ImageMagick, Chafa, and zlib are runtime dependencies. Ghostty can display the
 PNG through the Kitty graphics protocol; terminals without image support can
