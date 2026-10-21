@@ -1,7 +1,7 @@
 # Maintainer: Christian Heusel <gromit@archlinux.org>
 
 pkgname=bazelisk
-pkgver=1.29.0
+pkgver=1.30.0
 pkgrel=1
 pkgdesc='A user-friendly launcher for Bazel.'
 arch=('x86_64')
@@ -17,7 +17,7 @@ depends=(
 provides=('bazel')
 conflicts=('bazel')
 source=("git+https://github.com/bazelbuild/bazelisk#tag=v$pkgver")
-sha256sums=('9a4936329cc088ce8df44b0a6dbccabb2f63a87987a8155d19ab7506fb7b25ce')
+sha256sums=('b29e109091b8c8e4a603726fb1e129ccbbea1ae070e73f42cb8afc278e5ed558')
 options=(!lto)
 
 prepare(){
