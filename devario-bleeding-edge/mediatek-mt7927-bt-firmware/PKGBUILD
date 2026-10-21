@@ -1,0 +1,45 @@
+# Maintainer: Devario maintainers
+# Temporary firmware supplement for the in-tree btmtk/btusb drivers.
+# Track https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/946
+# The MR still awaits MediaTek redistribution confirmation. Retire this package
+# when linux-firmware-mediatek ships this file; do not replace that full package.
+
+pkgname=mediatek-mt7927-bt-firmware
+# Build date embedded in the firmware header: 20250606201235.
+pkgver=20250606
+pkgrel=1
+pkgdesc='MediaTek MT7927 (MT6639) Bluetooth firmware missing from linux-firmware'
+arch=('any')
+url='https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/946'
+license=('LicenseRef-MediaTek')
+options=('!strip' '!debug')
+
+_commit=77ad2a92acf2ac3e5ea47432b43d925ff99db909
+_firmware=BT_RAM_CODE_MT6639_2_1_hdr.bin
+_source_url="https://gitlab.com/jetm/linux-firmware/-/raw/${_commit}"
+source=(
+  "${_firmware}::${_source_url}/mediatek/mt7927/${_firmware}"
+  "LICENCE.mediatek::${_source_url}/LICENCE.mediatek"
+)
+noextract=("${_firmware}")
+sha256sums=(
+  '669c5c99a0c59c85c1285d3d1b8b31915c2d31341a2244f4eddcbfd60ffbbc76'
+  'a90d3f66704d85889945fec5525ea77622549da83aced1aac99828383f8f1805'
+)
+
+package() {
+  install -Dm644 "$srcdir/$_firmware" \
+    "$pkgdir/usr/lib/firmware/mediatek/mt7927/$_firmware"
+  install -Dm644 "$srcdir/LICENCE.mediatek" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENCE.mediatek"
+
+  # Include the blob even if the adapter failed to enumerate on the build host.
+  # devario-dracut's firmware path trigger rebuilds initramfs on install/upgrade.
+  install -dm755 "$pkgdir/usr/lib/dracut/dracut.conf.d"
+  cat > "$pkgdir/usr/lib/dracut/dracut.conf.d/mt7927-bluetooth.conf" <<EOF
+install_items+=" /usr/lib/firmware/mediatek/mt7927/$_firmware "
+EOF
+
+  # A controller stuck in USB enumeration may need a full shutdown and PSU
+  # power removal after installation; a warm reboot can retain its failed state.
+}
