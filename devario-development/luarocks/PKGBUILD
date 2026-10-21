@@ -71,7 +71,7 @@ package_luarocks() {
               'mercurial: for fetching sources from mercurial repositories'
               'cmake: for building rocks that use the cmake build system'
               'lua-sec: HTTPS support')
-  # shelly.conf replaces the hook dirs with rlpm, so rlpm/hooks ships dead
+  # shelly.conf replaces the hook dirs with rlpm, so libalpm/hooks ships dead
   install -Dm644 luarocks-make-manifest-5.1.hook "$pkgdir/usr/share/rlpm/hooks/luarocks-make-manifest-5.1.hook"
   install -Dm644 luarocks-make-manifest-5.2.hook "$pkgdir/usr/share/rlpm/hooks/luarocks-make-manifest-5.2.hook"
   install -Dm644 luarocks-make-manifest-5.3.hook "$pkgdir/usr/share/rlpm/hooks/luarocks-make-manifest-5.3.hook"

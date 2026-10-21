@@ -20,6 +20,6 @@ sha512sums=('52bf94c79b164c48df3f2a47a27a6600ac19fcad6b5699f30feb727747c8ab75788
             'efb3a28fd7a438591bc5f14fde921f786033dbf68405ff4daeae58058c8d876ab0450b32bc3a4cd8ecc22a5307cd18b2c7f9879066588c107a0d172f22148752')
 
 package() {
-  install -Dm 644 "${srcdir}"/vscodium-insiders-bin-marketplace.hook "${pkgdir}"/usr/share/rlpm/hooks/vscodium-insiders-bin-marketplace.hook
+  install -Dm 644 "${srcdir}"/vscodium-insiders-bin-marketplace.hook "${pkgdir}"/usr/share/libalpm/hooks/vscodium-insiders-bin-marketplace.hook
   install -Dm 755 "${srcdir}"/patch.py "${pkgdir}"/opt/vscodium-insiders-bin/resources/app/patch.py
 }
