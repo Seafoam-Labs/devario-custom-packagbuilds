@@ -1,16 +1,16 @@
 pkgname=qwen-code
-pkgver=0.25.2
+pkgver=0.25.3
 pkgrel=1
 pkgdesc='Qwen Code: AI coding agent CLI for the terminal (Qwen3-Coder), forked from Gemini CLI'
 arch=('any')
 url='https://github.com/QwenLM/qwen-code'
 license=('Apache-2.0')
-depends=('nodejs>=20')
+depends=('nodejs>=22')
 makedepends=('npm')
 options=('!strip')
 source=("https://registry.npmjs.org/@qwen-code/qwen-code/-/qwen-code-${pkgver}.tgz")
 noextract=("qwen-code-${pkgver}.tgz")
-sha256sums=('SKIP')   # run `updpkgsums` to fill this in
+sha256sums=('e6e5d1b7ffd7442d16f6c0e3954bd5a69dbf81b0ae224f7fb6f3558d93be2742')
 
 package() {
   npm install -g \
