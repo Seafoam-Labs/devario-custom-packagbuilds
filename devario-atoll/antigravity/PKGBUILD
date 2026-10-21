@@ -1,0 +1,107 @@
+pkgname=antigravity
+pkgver=2.5.5
+pkgrel=1
+pkgdesc='Google Antigravity IDE with integrated AI coding agents'
+arch=('x86_64')
+url='https://antigravity.google/'
+license=('LicenseRef-Antigravity')
+depends=(
+  'alsa-lib'
+  'at-spi2-core'
+  'bash'
+  'cairo'
+  'dbus'
+  'expat'
+  'glib2'
+  'glibc'
+  'gtk3'
+  'libcups'
+  'libgcc'
+  'libsecret'
+  'libstdc++'
+  'libx11'
+  'libxcb'
+  'libxcomposite'
+  'libxdamage'
+  'libxext'
+  'libxfixes'
+  'libxkbcommon'
+  'libxkbfile'
+  'libxrandr'
+  'mesa'
+  'nspr'
+  'nss'
+  'pango'
+  'systemd-libs'
+  'xdg-utils'
+)
+optdepends=(
+  'git: Git integration'
+  'openssh: remote development over SSH'
+  'gnome-keyring: credential storage via Secret Service'
+  'xdg-desktop-portal: desktop integration on Wayland'
+)
+provides=("antigravity-ide=$pkgver")
+conflicts=('antigravity-bin' 'antigravity-ide' 'antigravity-ide-bin')
+# Keep the bundled Electron runtime and prebuilt native modules intact.
+options=('!strip' '!debug')
+_build=4923483625488384
+source=("${pkgname}-${pkgver}-x86_64.tar.gz::https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/${pkgver}-${_build}/linux-x64/Antigravity%20IDE.tar.gz")
+sha256sums=('0c5233b297d2b3aebb61af49f8944012c2953d361a5ebb16978490636917f831')
+
+package() {
+  local payload="$srcdir/Antigravity IDE"
+  local appdir="$pkgdir/opt/antigravity-ide"
+
+  install -dm755 "$appdir" "$pkgdir/usr/bin"
+  cp -a --no-preserve=ownership "$payload"/. "$appdir/"
+  chmod 4755 "$appdir/chrome-sandbox"
+  ln -s /opt/antigravity-ide/bin/antigravity-ide "$pkgdir/usr/bin/antigravity-ide"
+  ln -s antigravity-ide "$pkgdir/usr/bin/antigravity"
+
+  install -Dm644 "$payload/resources/app/LICENSE.txt" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+  install -Dm644 "$payload/LICENSES.chromium.html" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSES.chromium.html"
+  install -Dm644 "$payload/resources/app/resources/linux/code.png" \
+    "$pkgdir/usr/share/pixmaps/antigravity-ide.png"
+  install -Dm644 "$payload/resources/completions/bash/antigravity-ide" \
+    "$pkgdir/usr/share/bash-completion/completions/antigravity-ide"
+  install -Dm644 "$payload/resources/completions/zsh/_antigravity-ide" \
+    "$pkgdir/usr/share/zsh/site-functions/_antigravity-ide"
+
+  install -dm755 "$pkgdir/usr/share/applications"
+  cat > "$pkgdir/usr/share/applications/antigravity-ide.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Antigravity IDE
+GenericName=Code Editor
+Comment=Google IDE with integrated AI coding agents
+Exec=/opt/antigravity-ide/antigravity-ide %F
+Icon=antigravity-ide
+Terminal=false
+StartupNotify=false
+StartupWMClass=Antigravity IDE
+Categories=Development;IDE;TextEditor;
+MimeType=text/plain;inode/directory;
+Keywords=code;editor;development;AI;
+Actions=new-empty-window;
+
+[Desktop Action new-empty-window]
+Name=New Empty Window
+Exec=/opt/antigravity-ide/antigravity-ide --new-window %F
+Icon=antigravity-ide
+EOF
+
+  cat > "$pkgdir/usr/share/applications/antigravity-ide-url-handler.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Antigravity IDE - URL Handler
+Exec=/opt/antigravity-ide/antigravity-ide --open-url %U
+Icon=antigravity-ide
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/antigravity-ide;
+EOF
+  chmod 644 "$pkgdir/usr/share/applications/antigravity-ide"*.desktop
+}

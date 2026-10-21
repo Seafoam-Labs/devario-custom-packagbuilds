@@ -1,7 +1,7 @@
 pkgbase = devario-aqueous-desktop
 	pkgdesc = Complete Aqueous and Pearl desktop environment for Devario
 	pkgver = 1
-	pkgrel = 16
+	pkgrel = 17
 	url = https://github.com/Seafoam-Labs/devario-os
 	arch = any
 	license = GPL-3.0-or-later
@@ -21,6 +21,7 @@ pkgbase = devario-aqueous-desktop
 	depends = pipewire-alsa
 	depends = pipewire-pulse
 	depends = wireplumber
+	depends = rtkit
 	depends = polkit
 	depends = gnome-keyring
 	depends = seahorse

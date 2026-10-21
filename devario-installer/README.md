@@ -26,10 +26,20 @@ live user and Calamares-created accounts.
 | [ckbcomp](ckbcomp/PKGBUILD) | Before Calamares |
 | [calamares](calamares/PKGBUILD) | After ckbcomp and inter-font |
 
-`devario-filesystem` 1-3 and `devario-aqueous-desktop` 1-16 are synchronized
+`devario-filesystem` 1-3 and `devario-aqueous-desktop` 1-17 are synchronized
 with the current OS checkout, including the Devario display name and eGPU
 supporting files. Bolt and boltctl are built together by
 [`devario-core/bolt`](../devario-core/bolt/PKGBUILD).
+
+The legacy desktop `1-17` requires `rtkit` for realtime audio. Build and publish
+it with RTKit available from [`devario-core/rtkit`](../devario-core/rtkit/PKGBUILD).
+The active `devario-desktop` comes from Aqueous's
+`packaging/devario/aqueous-desktop/PKGBUILD`; publish all six `1.0.4-3` outputs
+together to deliver the same dependency to current desktops. Existing users
+can run `sudo shelly upgrade standard` after publication, then reboot. For an
+immediate repair, run `sudo shelly install standard rtkit` and reboot.
+The [OS recovery instructions](https://github.com/Seafoam-Labs/devario-os#realtime-audio-and-existing-installations)
+describe runtime verification. Rebuild the ISO after publication for new installs.
 
 Filesystem release 1-3 supplies `append_path` while loading `/etc/profile.d`
 scripts, restoring Perl and Flatpak executable directories to login-session
