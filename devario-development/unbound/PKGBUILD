@@ -120,7 +120,7 @@ package() {
   install -vDm 644 $pkgname/LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
   install -vDm 644 $pkgname-sysusers.conf "$pkgdir/usr/lib/sysusers.d/$pkgname.conf"
   install -vDm 644 $pkgname-tmpfiles.conf "$pkgdir/usr/lib/tmpfiles.d/$pkgname.conf"
-  # libalpm hook to copy the dnssec-anchors provided key to /etc/unbound
+  # rlpm hook to copy the dnssec-anchors provided key to /etc/unbound
   install -vDm 644 unbound-trusted-key.hook -t "$pkgdir/usr/share/rlpm/hooks/"
   install -vDm 644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/0BSD.txt"
 }

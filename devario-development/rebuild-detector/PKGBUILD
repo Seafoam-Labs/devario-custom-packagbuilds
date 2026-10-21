@@ -36,5 +36,5 @@ prepare() {
   sed -i -e 's|pacman |/usr/lib/rebuild-detector/shelly-query |g' \
     -e 's|pactree |/usr/lib/rebuild-detector/shelly-query tree |g' \
     -e 's|pacconf |/usr/lib/rebuild-detector/shelly-query config |g' checkrebuild
-  sed -i 's|/libalpm/hooks|/rlpm/hooks|g' Makefile
+  sed -i 's|/rlpm/hooks|/rlpm/hooks|g' Makefile
 }
