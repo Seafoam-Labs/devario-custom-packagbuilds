@@ -88,8 +88,8 @@ _minor=0
 #_minorc=$((_minor+1))
 #_rcver=rc8
 pkgver=${_major}.${_minor}
-_tagrel=1
-pkgrel=1.1
+_tagrel=2
+pkgrel=1.2
 _srcname=devario-${_major}.${_minor}-${_tagrel}
 pkgdesc='Linux EEVDF by Devario with other patches and improvements.'
 _kernver="$pkgver-$pkgrel"
@@ -462,5 +462,5 @@ for _p in "${pkgname[@]}"; do
     }"
 done
 
-b2sums=('c855384af67acd4cb162c57598bd94123c2ff0f369ed5a1eb6750f97d6174e2136b331b4e446ff64035695ac41d517a52d9e8498581160c5e4d808d82c712605'
-        'd41280c6e4342761198ac99d296ef3d2f1b96a92fd02a6274e5201a1251f38e4690a9a1595f86be6bf3a9aa3a80f7134d7e50e5105393e50aa2043dfb325dc9e')
+b2sums=('5ef813fb9d32c8c8c5edfc95c25f8ba9993fa0f22f27218eed373735b451c1239c79cbd67608c4ba684ad81f72340c8d129fe50461bca33dc8f766840b6efadc'
+        'c9aee0d1344c0150973d4abf4e9d3c23bcc70679a131632ac8065d4ec30ebcbba3d7d41cc03aea79a4da8998675739e627432f3969ff0d8f4f6dd3b486b49caf')
