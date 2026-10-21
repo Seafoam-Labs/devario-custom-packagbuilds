@@ -1,6 +1,6 @@
 pkgbase = tree-sitter
 	pkgver = 0.27.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/tree-sitter/tree-sitter
 	arch = x86_64
 	license = MIT
@@ -18,7 +18,7 @@ pkgbase = tree-sitter
 pkgname = tree-sitter
 	pkgdesc = Incremental parsing library
 	depends = glibc
-	provides = libtree-sitter.so
+	provides = libtree-sitter.so=0.27-64
 
 pkgname = tree-sitter-cli
 	pkgdesc = CLI tool for developing, testing, and using Tree-sitter parsers

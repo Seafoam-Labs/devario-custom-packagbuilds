@@ -1,7 +1,7 @@
 pkgbase = neovim
 	pkgdesc = Fork of Vim aiming to improve user experience, plugins, and GUIs
 	pkgver = 0.12.6
-	pkgrel = 1
+	pkgrel = 2
 	url = https://neovim.io
 	arch = x86_64
 	license = Apache-2.0
@@ -13,7 +13,7 @@ pkgbase = neovim
 	depends = glibc
 	depends = libgcc
 	depends = libluv
-	depends = libtree-sitter.so
+	depends = libtree-sitter.so=0.27-64
 	depends = libunibilium.so
 	depends = libutf8proc
 	depends = libuv

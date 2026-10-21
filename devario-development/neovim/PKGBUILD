@@ -6,7 +6,7 @@
 
 pkgname=neovim
 pkgver=0.12.6
-pkgrel=1
+pkgrel=2
 pkgdesc='Fork of Vim aiming to improve user experience, plugins, and GUIs'
 arch=(x86_64)
 url=https://neovim.io
@@ -18,7 +18,8 @@ depends=(
   glibc
   libgcc
   libluv
-  libtree-sitter.so
+  # Shelly does not version bare .so depends; pin the SONAME this build links against
+  'libtree-sitter.so=0.27-64'
   libunibilium.so
   libutf8proc
   libuv

@@ -7,7 +7,7 @@ pkgname=(
   tree-sitter-cli
 )
 pkgver=0.27.1
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 url=https://github.com/tree-sitter/tree-sitter
 license=(MIT)
@@ -50,7 +50,8 @@ package_tree-sitter() {
   depends=(
     glibc
   )
-  provides=(libtree-sitter.so)
+  # Shelly does not expand bare .so provides; pin the SONAME so ABI bumps stay visible
+  provides=('libtree-sitter.so=0.27-64')
 
   cd $pkgbase
   DESTDIR="$pkgdir" cmake --install build
