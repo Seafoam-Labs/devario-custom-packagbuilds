@@ -1,13 +1,13 @@
 # NSS for Shelly isolated builds
 
-This recipe builds `nss` and `ca-certificates-mozilla` 3.131-1, based on
+This recipe builds `nss` and `ca-certificates-mozilla` 3.131.1-1, based on
 [Arch's NSS packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/nss/-/blob/main/PKGBUILD).
 
 Arch uses an `hg+https` Mercurial source, which Shelly rejects with
 `UnsupportedSourceProtocol`. This recipe uses Mozilla's HTTPS release archive
-for the same `NSS_3_131_RTM` release instead. Its pinned SHA-256 digest matches
-[Mozilla's published checksums](https://archive.mozilla.org/pub/security/nss/releases/NSS_3_131_RTM/src/SHA256SUMS).
-The source paths account for the archive's extra `nss-3.131` directory.
+for the `NSS_3_131_1_RTM` security release instead. Its pinned SHA-256 digest matches
+[Mozilla's published checksums](https://archive.mozilla.org/pub/security/nss/releases/NSS_3_131_1_RTM/src/SHA256SUMS).
+The source paths account for the archive's extra `nss-3.131.1` directory.
 
 Arch's certificate conversion scripts are included unchanged and checksummed.
 The recipe preserves system NSPR/SQLite use, libpkix, the p11-kit trust-module
@@ -29,33 +29,34 @@ shelly build --review-only --json ./PKGBUILD
 shelly build --isolated ./PKGBUILD
 ```
 
-Validation:
+Security update (2026-10-21):
 
-- Reproduced `UnsupportedSourceProtocol` with Arch's original recipe, which is
-  why this recipe keeps the HTTPS archive.
-- 3.131 folded Arch's system-NSPR `build.sh` fix upstream, so that patch is no
-  longer a source. `patch -Np1 --dry-run` on the 3.131 tree reports the hunk as
-  already applied, and `build.sh` guards the local `nspr.pc` read behind
-  `no_local_nspr`.
-- Shell syntax, `.SRCINFO` generation, and Shelly review completed with no
-  findings.
-- A host probe ran this recipe's own `prepare()`, `build()`, `package_nss()` and
-  `package_ca-certificates-mozilla()` against the 3.131 archive, all cleanly. It
-  used a signature-verified Arch GYP package extracted under a temp root; no host
-  packages were installed.
-- The probe's `nss.pc` reports `Version: 3.131` and satisfies
-  `pkg-config --atleast-version=3.131 nss`, the check Firefox 159 fails on 3.130.
-  The `mozilla-nss` alias resolves and the file validates.
-- Its `Requires: nspr >= 4.40.0` resolves against the published `nspr` 4.40-1,
-  whose `nspr.pc` declares `Version: 4.40.0`.
-- The packaged NSS libraries carry the expected SONAMEs, the p11-kit trust
-  symlink is in place, `certutil` runs, and headers and pkg-config metadata are
-  installed.
-- OpenSSL parsed the generated bundle's 172 certificates, built from
-  `NSS_BUILTINS_LIBRARY_VERSION` 2.90.
+- NSS 3.131.1 includes Mozilla's trust-store response to the
+  [eMudhra intermediate-certificate compromise](https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/).
+- Compared with 3.131, the release removes `emSign ECC Root CA - G3`,
+  `emSign Root CA - C1`, and `emSign ECC Root CA - C3` from its built-in trust
+  data. The latter two removals are also documented in
+  [Mozilla bug 2083709](https://bugzilla.mozilla.org/show_bug.cgi?id=2083709).
+- This recipe produces both `nss` and `ca-certificates-mozilla`. Publish both:
+  the Mozilla CA split package supplies the system trust data used through
+  p11-kit. The companion `devario-libs/lib32-nss` recipe is also updated to
+  3.131.1-1.
 
-The isolated worker build and both package archives still need verification on
-Remora. NSS's full upstream test suite remains disabled, matching Arch's recipe;
-the checks above are smoke tests. Full nspawn verification remains unavailable
-locally because Shelly's coordinator requires an interactive sudo password in
-this environment.
+Validation for 3.131.1-1:
+
+- Downloaded the official 3.131 and 3.131.1 archives and verified their SHA-256
+  digests against Mozilla's corresponding `SHA256SUMS` files.
+- Regenerated both NSS recipes' `.SRCINFO` files with Shelly; both Shelly
+  reviews completed with no findings.
+- Ran this recipe's `prepare()`, certificate conversion, bundle generation,
+  and `package_ca-certificates-mozilla()` against both versions in temporary
+  directories.
+- OpenSSL parsed all 169 certificates in the new packaged bundle (previously
+  172). SHA-256 fingerprints confirm that exactly the three roots listed above
+  disappeared, with all other certificates preserved. The built-in trust data
+  version is now 2.92.
+- The existing lib32 assembly patch applies to 3.131.1 without fuzz.
+
+Full NSS library compilation, upstream tests, and isolated package builds were
+not run for this update; the local environment lacks GYP. Both recipes retain
+`--disable-tests`. Verify the isolated builds on Remora before publishing.
