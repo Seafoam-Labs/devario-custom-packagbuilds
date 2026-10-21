@@ -1,14 +1,14 @@
 pkgbase = docker
 	pkgdesc = Pack, ship and run any application as a lightweight container
-	pkgver = 29.8.2
-	pkgrel = 2
+	pkgver = 29.9.2
+	pkgrel = 1
 	epoch = 1
 	url = https://www.docker.com/
 	arch = x86_64
 	arch = aarch64
 	license = Apache-2.0
 	makedepends = git
-	makedepends = go
+	makedepends = go>=1.26.10
 	makedepends = btrfs-progs
 	makedepends = cmake
 	makedepends = systemd
@@ -22,18 +22,18 @@ pkgbase = docker
 	depends = libseccomp
 	depends = libtool
 	depends = nftables
-	depends = runc
+	depends = runc>=1.2.0
 	depends = containerd
 	optdepends = btrfs-progs: btrfs backend support
 	optdepends = pigz: parallel gzip compressor support
 	optdepends = docker-buildx: extended build capabilities
 	options = !lto
-	source = git+https://github.com/docker/cli.git#tag=v29.8.2
-	source = git+https://github.com/moby/moby.git#tag=docker-v29.8.2
+	source = git+https://github.com/docker/cli.git#tag=v29.9.2
+	source = git+https://github.com/moby/moby.git#tag=docker-v29.9.2
 	source = git+https://github.com/krallin/tini.git#commit=de40ad007797e0dcd8b7126f27bb87401d224240
 	source = docker.sysusers
-	sha256sums = 00a9b57ad2d8a2b161e3cf2eb398b3e7779420d1ef9ea18bf3f134753053fa67
-	sha256sums = dbefe99469c10f935fe5c5dc9ba6c111a8ad26409185daf0c8a524196f6f159b
+	sha256sums = d353a0420a3d6e3380e1b01b2f1ae0e97cf5daadd0ca19937c6e4110026b14f2
+	sha256sums = bfcc8479a718d7485852249cb2f0614fa5bbca2703cd80357109fd36ab3ebac0
 	sha256sums = 28a6641d508f60d47315efb3c85d97360188750a45bd6d3c8737d3f1a2b44121
 	sha256sums = 541826011a9836d05a2f42293d5f1beadf2ca8d89fb604487d61a013505678eb
 

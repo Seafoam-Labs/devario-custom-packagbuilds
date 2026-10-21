@@ -2,16 +2,16 @@
 # Maintainer: Morten Linderud <foxboron@archlinux.org>
 
 pkgname=docker
-pkgver=29.8.2
-pkgrel=2
+pkgver=29.9.2
+pkgrel=1
 epoch=1
 pkgdesc='Pack, ship and run any application as a lightweight container'
 arch=('x86_64' 'aarch64')
 url='https://www.docker.com/'
 license=('Apache-2.0')
 depends=('glibc' 'iproute2' 'device-mapper' 'sqlite' 'systemd-libs'
-         'libseccomp' 'libtool' 'nftables' 'runc' 'containerd')
-makedepends=('git' 'go' 'btrfs-progs' 'cmake' 'systemd' 'go-md2man' 'sed')
+         'libseccomp' 'libtool' 'nftables' 'runc>=1.2.0' 'containerd')
+makedepends=('git' 'go>=1.26.10' 'btrfs-progs' 'cmake' 'systemd' 'go-md2man' 'sed')
 optdepends=('btrfs-progs: btrfs backend support'
             'pigz: parallel gzip compressor support'
             'docker-buildx: extended build capabilities')
@@ -21,8 +21,8 @@ source=("git+https://github.com/docker/cli.git#tag=v$pkgver"
         "git+https://github.com/moby/moby.git#tag=docker-v$pkgver"
         "git+https://github.com/krallin/tini.git#commit=$_TINI_COMMIT"
         "$pkgname.sysusers")
-sha256sums=('00a9b57ad2d8a2b161e3cf2eb398b3e7779420d1ef9ea18bf3f134753053fa67'
-            'dbefe99469c10f935fe5c5dc9ba6c111a8ad26409185daf0c8a524196f6f159b'
+sha256sums=('d353a0420a3d6e3380e1b01b2f1ae0e97cf5daadd0ca19937c6e4110026b14f2'
+            'bfcc8479a718d7485852249cb2f0614fa5bbca2703cd80357109fd36ab3ebac0'
             '28a6641d508f60d47315efb3c85d97360188750a45bd6d3c8737d3f1a2b44121'
             '541826011a9836d05a2f42293d5f1beadf2ca8d89fb604487d61a013505678eb')
 
