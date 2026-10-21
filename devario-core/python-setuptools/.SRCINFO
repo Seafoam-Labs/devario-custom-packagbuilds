@@ -1,7 +1,7 @@
 pkgbase = python-setuptools
 	pkgdesc = Easily download, build, install, upgrade, and uninstall Python packages
-	pkgver = 84.0.0
-	pkgrel = 4
+	pkgver = 84.2.1
+	pkgrel = 1
 	epoch = 1
 	url = https://pypi.org/project/setuptools/
 	arch = any
@@ -16,12 +16,12 @@ pkgbase = python-setuptools
 	depends = python-jaraco.functools
 	depends = python-jaraco.text
 	depends = python-more-itertools
-	depends = python-packaging
+	depends = python-packaging>=26.3
 	depends = python-platformdirs
 	depends = python-wheel
 	provides = python-distribute
 	replaces = python-distribute
-	source = git+https://github.com/pypa/setuptools.git#tag=v84.0.0
-	b2sums = 2826e1bceb5373b0b96bbf64ccf4183982e8eddb53d06cd346f81f4c5e0177f80a4ebfa281f7eec6af26f26d479b6e2a7d71d60813959086c8959e5f20cedf8f
+	source = git+https://github.com/pypa/setuptools.git#tag=v84.2.1
+	b2sums = a358c1e5429333c78208691d8e4d5c74b68bce9789c05572b34026e4302fa55c582c8689646c558daf2fa65998a2baf9a5af5e26a7ac7bdf2d48182b6add4b4c
 
 pkgname = python-setuptools
