@@ -160,10 +160,6 @@ prepare() {
 
     echo "Selecting '$_processor_opt' CPU optimization..."
 
-    ### Select the CPU scheduler (BORE)
-    echo "Selecting BORE CPU scheduler..."
-    scripts/config -e SCHED_BORE
-
     echo "Enabling QR Code Panic..."
     scripts/config --set-str DRM_PANIC_SCREEN qr_code -e DRM_PANIC_SCREEN_QR_CODE \
         --set-str DRM_PANIC_SCREEN_QR_CODE_URL https://panic.archlinux.org/panic_report# \
