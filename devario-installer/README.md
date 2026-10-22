@@ -2,6 +2,13 @@
 
 This folder contains the eight OS-owned recipes and their supporting files:
 
+`devario-base` 3-18 requires `sof-firmware` and `alsa-ucm-conf` to deliver Intel
+onboard audio firmware and ALSA use-case configuration to existing installations.
+Build and publish this release with both dependencies available in the repository,
+then rebuild the ISO. Existing users receive them through
+`sudo shelly upgrade standard` and should reboot afterward. Installing both
+packages and rebooting resolved missing onboard audio on the ASUS V16 V3607VH.
+
 The current ISO uses the repository's `devario-desktop` and stable
 `pearl-greeter`. `devario-aqueous-desktop` and `seafoam-keyring` are retained here
 for older configurations and are no longer part of the default ISO build.
