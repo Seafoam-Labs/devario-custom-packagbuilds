@@ -1,0 +1,51 @@
+# Maintainer: Kyle Keen <keenerd@gmail.com>
+# Contributor: ViNS <gladiator@fastwebnet.it>
+# Contributor: Daenyth
+# Local adaptation: preserve builder flags while compiling the shared library as PIC.
+pkgname=nethogs
+pkgver=0.9.0
+pkgrel=1
+pkgdesc="A net top tool which displays traffic used per process instead of per IP or interface"
+url="https://github.com/raboof/nethogs"
+license=('GPL')
+depends=(
+  'libpcap'
+  'ncurses'
+  'libgcc'
+  'libstdc++'
+)
+arch=('x86_64')
+install=nethogs.install
+source=("nethogs-$pkgver.tgz::https://github.com/raboof/nethogs/archive/v$pkgver.tar.gz")
+sha256sums=('5961bef2155c05695d2fe7e79aa11194981b5afd1cad9bf1f259c7f30d5487c3')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  sed -i 's|/sbin|/bin|' src/MakeApp.mk
+  # Release archives are outside Git; an empty rev-parse result must stay quoted.
+  sed -i '2c if [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$PWD" ]; then' \
+    determineVersion.sh
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  # MakeLib.mk only supplies -fPIC when CFLAGS/CXXFLAGS are unset. Shelly
+  # exports both, so retain its tuning flags and add the shared-library flag.
+  export CFLAGS="${CFLAGS:+$CFLAGS }-fPIC"
+  export CXXFLAGS="${CXXFLAGS:+$CXXFLAGS }-fPIC"
+
+  make PREFIX=/usr VERSION="$pkgver"
+  make PREFIX=/usr VERSION="$pkgver" libnethogs
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make PREFIX=/usr VERSION="$pkgver" DESTDIR="$pkgdir" install
+  make PREFIX=/usr VERSION="$pkgver" DESTDIR="$pkgdir" install_lib
+  # todo: report these upstream
+  install -Dm755 src/libnethogs.h "$pkgdir/usr/include/libnethogs.h"
+  ln -s "/usr/lib/libnethogs.so.$pkgver" "$pkgdir/usr/lib/libnethogs.so"
+}
+# vim:set ts=2 sw=2 et:
