@@ -1,0 +1,198 @@
+#!/usr/bin/env bash
+# SPDX-FileCopyrightText: Copyright (c) respective contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -euo pipefail
+
+# Adapted from ~/Documents/setup-strata.sh for the packaged Terminal 0.1.47.
+# Upstream interfaces: Strata v0.2.2, docs/TERMINAL_LAUNCH.md and docs/NVFP4.md.
+quant=nvfp4
+context=64k
+port=8080
+gpu=0
+vision=gpu
+vram_reserve_mib=2560
+tune=skip
+action=run
+dry_run=0
+setup_only=0
+data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/strata/models"
+# Prefer the package over an older ~/.local/bin/strata on PATH.
+strata_bin="${STRATA_BIN:-/usr/bin/strata}"
+
+die() { printf 'Strata setup error: %s\n' "$*" >&2; exit 1; }
+usage() {
+  cat <<'EOF'
+Usage: setup-strata [options]
+
+Use the packaged Strata Terminal, download Qwen3.8-Flash-Next, and serve
+locally in the background. Run as your normal user. Downloads resume on rerun.
+Default: Strata's GPTQ NVFP4, 64K context, one request, GPU image reader.
+VRAM reserve: 2560 MiB (2.5 GiB) for the desktop and other applications.
+Designed for a Ryzen 9950X3D, RTX 5090 32 GB and 128 GB system RAM.
+
+Options:
+  --quant nvfp4|q5|q4|iq3  NVFP4 (default), UD-Q5_K_XL, UD-Q4_K_XL, IQ3_S
+  --context SIZE          Context tokens or 32k/64k/128k/256k (default: 64k)
+  --data-dir PATH         Model storage (default: ~/.local/share/strata/models)
+  --gpu INDEX             NVIDIA GPU index (default: 0)
+  --port NUMBER           Local API port (default: 8080)
+  --vision gpu|cpu|off    Image reader (default: gpu)
+  --vram-reserve-mib N   VRAM kept free for other applications (default: 2560)
+  --tune quick|thorough|skip  Optional hardware tuning (default: skip)
+  --setup-only           Download and prepare the engine/model without serving
+  --no-start             Alias for --setup-only; tuning must be skip
+  --dry-run              Print commands only; no installs or downloads
+  --status               Show existing Strata server status
+  --stop                 Stop the server managed by Strata
+  -h, --help             Show this help
+
+Approximate initial model downloads: NVFP4 128 GB; Q5 158 GB; Q4 111 GB;
+IQ3_S 84 GB, plus helper files. Allow additional disk space for preparation.
+Install strata-bin with Shelly first. Engines and models are downloaded to your
+user directories; Strata verifies engine updates against its signed release feed.
+No root privileges or CUDA toolkit are needed for setup. STRATA_BIN can override
+the packaged /usr/bin/strata command.
+
+Examples:
+  setup-strata --setup-only --context 256k
+  setup-strata --context 256k
+  setup-strata --quant q5 --context 128k
+  setup-strata --stop
+EOF
+}
+
+while (( $# )); do
+  case "$1" in
+    --quant|--context|--data-dir|--gpu|--port|--vision|--tune|--vram-reserve-mib)
+      (( $# >= 2 )) && [[ -n "$2" && "$2" != --* ]] || die "$1 requires a value"
+      case "$1" in
+        --quant) quant="$2" ;;
+        --context) context="$2" ;;
+        --data-dir) data_dir="$2" ;;
+        --gpu) gpu="$2" ;;
+        --port) port="$2" ;;
+        --vision) vision="$2" ;;
+        --tune) tune="$2" ;;
+        --vram-reserve-mib) vram_reserve_mib="$2" ;;
+      esac
+      shift 2 ;;
+    --dry-run) dry_run=1; shift ;;
+    --setup-only|--no-start) setup_only=1; shift ;;
+    --status|--stop)
+      [[ "$action" == run || "$action" == "${1#--}" ]] || die '--status and --stop cannot be combined'
+      action="${1#--}"; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) die "Unknown argument: $1 (see --help)" ;;
+  esac
+done
+
+case "$quant" in
+  nvfp4) family=nvfp4; model=NVFP4 ;;
+  q5) family=unsloth; model=UD-Q5_K_XL ;;
+  q4) family=unsloth; model=UD-Q4_K_XL ;;
+  iq3) family=qwen; model=IQ3_S ;;
+  *) die '--quant must be nvfp4, q5, q4, or iq3' ;;
+esac
+[[ "$context" =~ ^[1-9][0-9]{0,8}[kK]?$ ]] || die 'Invalid context size'
+context_tokens="${context%[kK]}"
+[[ "$context" != *[kK] ]] || context_tokens="$(( context_tokens * 1024 ))"
+(( context_tokens <= 2147483647 )) || die 'Context size is too large'
+[[ "$port" =~ ^[0-9]{1,5}$ ]] && (( 10#$port >= 1 && 10#$port <= 65535 )) || die 'Invalid port'
+port="$(( 10#$port ))"
+[[ "$gpu" =~ ^[0-9]{1,6}$ ]] || die 'GPU index must be a nonnegative integer'
+gpu="$(( 10#$gpu ))"
+[[ "$vram_reserve_mib" =~ ^[0-9]{1,6}$ ]] || die 'VRAM reserve must be a nonnegative integer in MiB'
+vram_reserve_mib="$(( 10#$vram_reserve_mib ))"
+case "$vision" in gpu|cpu|off) ;; *) die 'Invalid vision setting' ;; esac
+case "$tune" in quick|thorough|skip) ;; *) die 'Invalid tuning setting' ;; esac
+if (( setup_only )); then
+  [[ "$tune" == skip ]] || die '--setup-only cannot tune: tuning runs the model. Use --tune skip.'
+  [[ "$action" != status && "$action" != stop ]] || die '--setup-only cannot be combined with --status or --stop'
+fi
+
+if [[ "$action" == status || "$action" == stop ]]; then
+  if (( dry_run )); then
+    printf 'Would run:'
+    printf ' %q' "$strata_bin" launch "--$action"
+    printf '\n'
+    exit 0
+  fi
+  command -v "$strata_bin" >/dev/null || die 'Install strata-bin with Shelly first'
+  (( EUID != 0 )) || die 'Run this script as your normal user, without sudo'
+  exec "$strata_bin" launch "--$action"
+fi
+
+launch=(launch --family "$family" --model "$model" --context "$context"
+  --parallel 1 --gpu "$gpu" --vision "$vision" --tune "$tune"
+  --set "vram-reserve-mib=$vram_reserve_mib"
+  --access local --port "$port" --data-dir "$data_dir" --yes --no-tui)
+if (( setup_only )); then
+  # setup.py accepts integer tokens and calls its disabled vision mode "no".
+  setup_vision="$vision"
+  [[ "$setup_vision" != off ]] || setup_vision=no
+  install_args=(install -- --yes --no-start --backend cuda
+    --family "$family" --model "$model" --context "$context_tokens"
+    --parallel 1 --gpu "$gpu" --vision "$setup_vision"
+    --vram-reserve-mib "$vram_reserve_mib"
+    --host 127.0.0.1 --port "$port" --data-dir "$data_dir")
+fi
+if (( dry_run )); then
+  if (( setup_only )); then
+    printf 'Would run:'
+    printf ' %q' "$strata_bin" update --backend cuda --no-control
+    printf '\nWould run: STRATA_CONTROL_INSTALL=1'
+    printf ' %q' "$strata_bin" "${install_args[@]}"
+  else
+    printf 'Would run:'
+    printf ' %q' "$strata_bin" "${launch[@]}"
+  fi
+  printf '\n'
+  exit 0
+fi
+
+(( EUID != 0 )) || die 'Run this script as your normal user, without sudo'
+command -v "$strata_bin" >/dev/null || die 'Install strata-bin with Shelly first'
+[[ "$(uname -s)-$(uname -m)" == Linux-x86_64 ]] || die 'This launcher requires Linux x86_64'
+for dependency in curl python3 nvidia-smi; do
+  command -v "$dependency" >/dev/null || die "Missing required command: $dependency"
+done
+gpu_info="$(nvidia-smi -i "$gpu" --query-gpu=name,memory.total,memory.free,driver_version --format=csv,noheader,nounits)" \
+  || die 'Cannot access the NVIDIA GPU. Check nvidia-smi in a normal host terminal; sandbox GPU access may be restricted.'
+printf 'NVIDIA GPU (name, total MiB, free MiB, driver): %s\n' "$gpu_info"
+driver="${gpu_info##*,}"
+driver="${driver//[[:space:]]/}"
+[[ "$driver" =~ ^([0-9]+)\. ]] && (( BASH_REMATCH[1] >= 580 )) \
+  || die 'Strata requires NVIDIA driver 580 or newer'
+
+task_tmp="$(mktemp -d "${TMPDIR:-/tmp}/devario-strata.XXXXXX")"
+trap 'rm -rf -- "$task_tmp"' EXIT
+"$strata_bin" --version
+if (( setup_only )); then
+  # The Terminal's installer prepares model files only in Control mode.
+  # Fetch the CUDA engine separately; update checks its version but never serves.
+  "$strata_bin" update --backend cuda --no-control
+  STRATA_CONTROL_INSTALL=1 "$strata_bin" "${install_args[@]}"
+  printf '\nSetup completed without starting a server. To start with these settings:\n'
+  printf ' %q' "$strata_bin" "${launch[@]}"
+  printf '\n'
+  exit 0
+fi
+"$strata_bin" "${launch[@]}" --plan
+printf '\nSetting up %s; the first model download is large (see --help).\n' "$model"
+printf 'Strata may be quiet while downloading/preparing; JSON output appears when launch finishes.\n'
+"$strata_bin" "${launch[@]}" --output json | tee "$task_tmp/launch.json"
+# Upstream can exit successfully after downloading even when no engine can run.
+# Successful releases return URLs (some omit serving=true); also check /health.
+python3 - "$task_tmp/launch.json" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    result = json.load(stream)
+if result.get("ok") is not True or result.get("serving") is False or not result.get("urls"):
+    raise SystemExit("Strata is not serving: " + str(result.get("engine_problem") or result))
+PY
+curl --fail --silent --show-error --noproxy '*' --max-time 15 \
+  "http://127.0.0.1:$port/health"
+printf '\nStrata is ready. API: http://127.0.0.1:%s/v1\n' "$port"
+printf 'Stop: %q launch --stop\n' "$strata_bin"

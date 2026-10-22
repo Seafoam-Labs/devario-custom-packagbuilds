@@ -344,38 +344,21 @@ not performance measurements or verification on a Ryzen 3800X.
 The audit records the checks and their limits. These recipes have not been
 published or verified by a full isolated build of every GPU dependency.
 
-## Aqueous desktop dependency plan (2026-10-14)
+## Aqueous desktop dependencies
 
-`devario-aqueous-desktop` 1-13 accepts each of its five Aqueous components
-at `>=1.0.2`, replacing the exact `1.0.2-1` pins. Pearl and Pearl Greeter
-already have no version pin in that recipe. Both OS and custom recipe copies
-carry the same change.
+Use `devario-desktop` from Aqueous's `packaging/devario/aqueous-desktop/PKGBUILD`
+and publish its matching split outputs together. Pearl's maintained recipes
+supply `pearl` and `pearl-greeter`. This repository no longer carries a separate
+desktop metapackage. OS login and GPU defaults are delivered by
+`devario-system-integration` 1-1; publish it before Aqueous 1.0.5-2. Existing
+ISO installs need the [one-time adoption](devario-installer/devario-system-integration/README.md)
+before upgrading to the new desktop dependency.
 
-Build and publish these prerequisites before retrying the desktop package,
-satisfying each recipe's declared build dependencies first:
-
-| Recipe | Outputs |
-| --- | --- |
-| [aqueous-devario (Aqueous project)](https://github.com/Seafoam-Labs/Aqueous/blob/v1.0.3/packaging/devario/aqueous-devario/PKGBUILD) | `aqueous-core`, `aqueous-session`, `aqueous-integration-pearl`, `aqueous-shell-pearl`, `xdg-desktop-portal-aqueous` at 1.0.3-1 |
-| [pearl (Pearl project)](https://github.com/Seafoam-Labs/pearl/blob/v0.2.4/packaging/Devario/pearl/PKGBUILD) | `pearl` and `pearl-greeter` at 1:0.2.4-1 |
-| [python-pyudev](devario-libs/python-pyudev/PKGBUILD) | `python-pyudev` at 0.24.4-3 |
-
-Aqueous and Pearl maintain their own recipes in their respective projects;
-use those maintained recipes rather than copies in this repository. The links
-above identify the inspected release versions. The desktop's relaxed minimum
-versions allow these newer Aqueous packages to satisfy its requirements.
-Pearl provides `pearl-capture-picker=1`, so that capability needs no separate
-recipe here.
-
-The existing pyudev recipe now declares `python` and `systemd-libs` as runtime
-dependencies. Its source checksum, build, staged packaging, import, and PCI
-device enumeration passed. No isolated worker build or publication was
-performed.
-
-Publish all required split outputs to an enabled worker repository and refresh
-its repository and recipe metadata before retrying
-[devario-aqueous-desktop](devario-installer/devario-aqueous-desktop/PKGBUILD).
-Adding recipes alone does not resolve `not_in_repositories`.
+Publish `bolt`, `boltctl`, and `python-pyudev` before rebuilding the ISO.
+The pyudev recipe declares `python` and `systemd-libs` as runtime dependencies.
+Its source checksum, build, staged packaging, import, and PCI device enumeration
+passed in the 2026-10-14 validation; no isolated worker build or publication
+was performed. Pearl provides `pearl-capture-picker=1` without a separate recipe.
 
 ## Neovim's remaining closure (2026-10-14)
 
@@ -1253,7 +1236,7 @@ Publish `nbd` 3.27.1-4 to `devario-core` if still missing; its existing recipe
 needs no additional path changes. The original local list is the eight rebuild targets above plus `nbd`; the
 additional recipes listed above must also be rebuilt and published before ISO construction.
 The ISO uses the published `devario-desktop` and stable `pearl-greeter`;
-`devario-aqueous-desktop` and `seafoam-keyring` are not default ISO requirements.
+`seafoam-keyring` is not a default ISO requirement.
 
 Validation for the eight path updates: Bash syntax, regenerated makepkg
 metadata, and 68 bundled-source checksums passed. Staged package functions
@@ -1297,15 +1280,17 @@ OS-owned live USB and installer recipes are in
 | `seafoam-keyring` | 20260923-1 | Before OS metapackages |
 | `devario-boot` | 1-7 | Before devario-base; requires published devario-dracut |
 | `devario-base` | 3-12 | After filesystem, boot, devario-keyring, Fish, and Shadow |
-| `devario-aqueous-desktop` | 1-13 | Requires the five published Aqueous components >=1.0.2, `bolt`, `boltctl`, and `python-pyudev` |
+| `devario-system-integration` | 1-1 | Publish before Aqueous devario-desktop 1.0.5-2; migrate existing overlay files before upgrading |
 | `ckbcomp` | 1.248-1 | Before Calamares |
 | `calamares` | 3.4.2-6 | After ckbcomp and Inter; explicitly declares CMake |
 
-The eight OS-owned directories in `devario-installer/` are self-contained copies from `devario-os`
-commit `63f329223e0851a5f05519b849bb250d560833e2`. All referenced hooks,
+The eight OS-owned directories in `devario-installer/` are self-contained copies
+from `devario-os`. Most originated at commit
+`63f329223e0851a5f05519b849bb250d560833e2`; the integration package was added
+from the working tree on 2026-10-22. Its [migration instructions](devario-installer/devario-system-integration/README.md)
+cover adoption of unowned ISO files and legacy desktop ownership. All referenced hooks,
 configuration, patches, desktop files, and public key material are included.
-The desktop recipe's Aqueous minimum versions and Calamares's explicit CMake dependency
-are updated in this package repository. The base, boot, and keyring recipes are synchronized with the OS checkout
+Calamares's explicit CMake dependency is updated in this package repository. The base, boot, and keyring recipes are synchronized with the OS checkout
 for this path migration; future edits do not automatically synchronize. Exact provenance is in
 [iso-packages-upstream.json](devario-core/iso-packages-upstream.json).
 

@@ -1,0 +1,38 @@
+# The release/CLI version and Terminal bundle build number are different.
+pkgname=strata
+pkgver=0.2.2
+pkgrel=1
+_bundlever=0.1.47
+pkgdesc='Strata Terminal for local LLM inference, with an easy NVIDIA setup helper'
+arch=('x86_64')
+url='https://github.com/Niko1221/Strata'
+license=('MIT' 'GPL-3.0-or-later')
+depends=('bash' 'coreutils' 'curl' 'glibc' 'libgcc' 'libstdc++' 'libxcrypt-compat' 'python' 'zlib')
+optdepends=('nvidia-utils>=580: NVIDIA GPU access for setup-strata'
+            'pciutils: GPU detection for strata launch')
+provides=("strata=$pkgver")
+conflicts=('strata' 'strata-git')
+options=('!strip' '!debug')
+source=("$url/releases/download/v$pkgver/strata-control-$_bundlever-linux-x86_64.tar.gz"
+        "strata-$pkgver-LICENSE::https://raw.githubusercontent.com/Niko1221/Strata/v$pkgver/LICENSE"
+        'setup-strata'
+        'README.md')
+noextract=("strata-control-$_bundlever-linux-x86_64.tar.gz")
+sha256sums=('7ac52e3d4ef8f50466fa0cc662be218975373309214519aa0b68fafd39e66fe8'
+            '949b9b0aada7476006469e58ee4ffb0e0f68c2d9137e90a356757b61a09d37f0'
+            '5e86b2022dfb8e86c69a9659e17bfcbbb7f6b4ef4eac6d1b6fd3dfabdc6dc101'
+            '870d5db5fc70ef84b014dd302222f7d6b70b750526d55c2a76cc91e5f0babfe5')
+
+package() {
+  install -dm755 "$pkgdir/opt/strata" "$pkgdir/usr/bin"
+  # Keep the relocatable interpreter, libraries, license notices and installer
+  # resources together. Engines and model weights are acquired by the user.
+  tar -xf "$srcdir/strata-control-$_bundlever-linux-x86_64.tar.gz" \
+    -C "$pkgdir/opt/strata" --no-same-owner
+  ln -s /opt/strata/bin/strata "$pkgdir/usr/bin/strata"
+  install -Dm755 "$srcdir/setup-strata" "$pkgdir/usr/bin/setup-strata"
+  ln -s setup-strata "$pkgdir/usr/bin/strata-setup"
+  install -Dm644 "$srcdir/strata-$pkgver-LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$srcdir/README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

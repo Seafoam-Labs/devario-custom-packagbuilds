@@ -129,50 +129,6 @@
       },
       {
         "depends": [
-          "aqueous-core=1.0.0-1",
-          "aqueous-session=1.0.0-1",
-          "xdg-desktop-portal-aqueous=1.0.0-1",
-          "aqueous-integration-pearl=1.0.0-1",
-          "aqueous-shell-pearl=1.0.0-1",
-          "pearl",
-          "pearl-greeter-git",
-          "greetd",
-          "ghostty",
-          "nemo",
-          "firefox",
-          "networkmanager",
-          "pipewire",
-          "pipewire-alsa",
-          "pipewire-pulse",
-          "wireplumber",
-          "polkit",
-          "gnome-keyring",
-          "accountsservice",
-          "gvfs",
-          "udisks2",
-          "upower",
-          "brightnessctl",
-          "playerctl",
-          "bluez-utils",
-          "xdg-user-dirs",
-          "xdg-utils",
-          "noto-fonts",
-          "ttf-dejavu",
-          "linux-devario-headers",
-          "nvidia-open-dkms=615.71.09",
-          "nvidia-utils=615.71.09",
-          "vulkan-intel",
-          "vulkan-radeon",
-          "vulkan-swrast"
-        ],
-        "filename": "NOT PUBLISHED",
-        "name": "devario-aqueous-desktop",
-        "provides": [],
-        "repository": "local-recipe (unpublished)",
-        "version": "1-8"
-      },
-      {
-        "depends": [
           "devario-filesystem",
           "gcc-libs",
           "glibc",
@@ -305,15 +261,6 @@
       "sources": "verified",
       "syntax": "passed"
     },
-    "devario-aqueous-desktop": {
-      "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",
-      "metadata": "makepkg and Shelly agree",
-      "pkgbuildSha256": "b743b319ee5b0e93d7ef52045a756e472d8e9dfb05073c5521afb53e3ddc9666",
-      "recipeDirectory": "devario-installer/devario-aqueous-desktop",
-      "reviewFindings": 4,
-      "sources": "verified",
-      "syntax": "passed"
-    },
     "devario-base": {
       "localBuild": "package() staging passed after Shelly/RLPM path migration; full isolated build pending",
       "metadata": "makepkg .SRCINFO regenerated and verified; Shelly metadata review not rerun",
@@ -346,6 +293,18 @@
       "recipeDirectory": "devario-installer/devario-keyring",
       "sources": "bundled source checksums verified after path migration",
       "syntax": "passed"
+    },
+    "devario-system-integration": {
+      "date": "2026-10-22",
+      "localBuild": "passed with Shelly native builder; unsigned archive in /tmp/devario-integration-artifacts; not an isolated release build",
+      "metadata": "generated with Shelly; binary .PKGINFO confirms dependencies, backup paths and legacy replacement",
+      "migration": "unit tests cover ownership, backups, rollback, partial failures and unsupported configurations; not run on host",
+      "pkgbuildSha256": "1b76b0ec49dc9d7bf3f834f2235995841101edd71cf0c51cb0de25a89614b90d",
+      "recipeDirectory": "devario-installer/devario-system-integration",
+      "reviewFindings": "5 dynamic-command warnings in the existing GPU setup helper; reviewed",
+      "sources": "all source checksums verified; payload staged and checked against files.tsv",
+      "syntax": "passed",
+      "tests": "Full devario-os scripts/validate.sh passed using the hash-locked validation environment; 10 integration packaging/migration tests passed. Aqueous 1.0.5-2 .SRCINFO matches Shelly-generated metadata. No installed-system migration or ISO boot acceptance was performed."
     },
     "ding-libs": {
       "localBuild": "passed; see DEPENDENCY-BUILDS.md for test limitations",

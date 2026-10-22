@@ -17,13 +17,6 @@
     "recipeDirectory": "devario-core/composefs",
     "upstream": "https://gitlab.archlinux.org/archlinux/packaging/packages/composefs"
   },
-  "devario-aqueous-desktop": {
-    "changes": "Synchronized with the local devario-os working tree on 2026-10-14: release 1-13, Aqueous components >=1.0.2, stable pearl-greeter, current desktop dependencies, scoped graphics startup, per-app GPU selection, and PCI hot-plug monitoring. Includes local changes beyond the original import commit.",
-    "commit": "63f329223e0851a5f05519b849bb250d560833e2",
-    "path": "packages/devario-aqueous-desktop",
-    "recipeDirectory": "devario-installer/devario-aqueous-desktop",
-    "upstream": "https://github.com/Seafoam-Labs/devario-os"
-  },
   "devario-base": {
     "changes": "Release 3-10: Shelly configuration and mutable paths; exclusive RLPM system hooks and Shelly administrator hooks; core-only repositories.",
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
@@ -50,6 +43,12 @@
     "commit": "63f329223e0851a5f05519b849bb250d560833e2",
     "path": "packages/devario-keyring",
     "recipeDirectory": "devario-installer/devario-keyring",
+    "upstream": "https://github.com/Seafoam-Labs/devario-os"
+  },
+  "devario-system-integration": {
+    "changes": "New 1-1 recipe synchronized from the local OS working tree on 2026-10-22. Packages GPU helpers, services and OS desktop integration previously supplied by the ISO overlay; includes a one-time ownership migration. Not yet published.",
+    "path": "packages/devario-system-integration",
+    "recipeDirectory": "devario-installer/devario-system-integration",
     "upstream": "https://github.com/Seafoam-Labs/devario-os"
   },
   "ding-libs": {
