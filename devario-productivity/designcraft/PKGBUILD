@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=designcraft
-pkgver=0.9.0
+pkgver=0.11.0
 pkgrel=1
 pkgdesc="Page layout and desktop publishing editor, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -27,10 +27,10 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('83191456fac33e18a4521aa9cdce7cd02be3d136dada0218d445085b9828969a')
+sha256sums=('92e2b9791b4402d853f115ccbf5ac03136f513493ccc4010a40b470ea1887652')
 
-_commit=7cb8b12507def48fb9346e5004340b5e8e4cfcb7
-_releasedate=2026-10-18
+_commit=4d62a501c18fb3cf453c6e9f19f15cbc9c558e26
+_releasedate=2026-10-21
 _appid=ai.storyteller.designcraft
 
 prepare() {
