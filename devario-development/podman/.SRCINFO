@@ -1,0 +1,57 @@
+pkgbase = podman
+	pkgdesc = A tool for managing OCI containers and pods.
+	pkgver = 6.1.4
+	pkgrel = 1
+	url = https://github.com/podman-container-tools/podman
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = apparmor
+	makedepends = btrfs-progs
+	makedepends = catatonit
+	makedepends = containers-common
+	makedepends = git
+	makedepends = go>=1.26.0
+	makedepends = go-md2man
+	makedepends = gpgme
+	makedepends = libseccomp
+	makedepends = man-db
+	makedepends = shadow
+	makedepends = sqlite
+	makedepends = systemd
+	options = !lto
+	source = git+https://github.com/podman-container-tools/podman?signed#tag=v6.1.4
+	validpgpkeys = B7DBDCA456F7335E91F1C25CD3624C551D0515C4
+	validpgpkeys = 7CE1E6F8C90CB53E7E4D8F2D502E08DB0BBF8EEE
+	validpgpkeys = 9E33DD8704CC03E2DEB84D9A1C1EDD7CC7C3A0DD
+	sha512sums = b500929487d057b087c46003802199afca0838de965b817263440134081300ae3751d5e71710a3ea49bf3e7b6ec996d270ad1b6fa9ef5ed6c77ae643fdf2ca46
+	b2sums = a0053bee2147a2e29a53981d28aeeb482a26881e2ea457881e20041ac0df704aba877905d0f7502db20b6a0271c77c9d4ead8f297bbdba470c3a6221e00f3b60
+
+pkgname = podman
+	depends = catatonit
+	depends = conmon
+	depends = containers-common
+	depends = oci-runtime
+	depends = glibc
+	depends = nftables
+	depends = gpgme
+	depends = libgpgme.so
+	depends = libgcc
+	depends = libseccomp
+	depends = libseccomp.so
+	depends = passt
+	depends = shadow
+	depends = sqlite
+	optdepends = apparmor: for AppArmor support
+	optdepends = btrfs-progs: support btrfs backend devices
+	optdepends = fuse-overlayfs: for deprecated storage driver in rootless environment
+	optdepends = podlet: Generate Podman Quadlet files from a Podman command, compose file, or existing object
+	optdepends = podman-compose: for docker-compose compatibility
+	optdepends = podman-desktop: GUI and tray to manage Podman containers (and Kubernetes pods)
+	optdepends = podman-docker: for Docker-compatible CLI
+
+pkgname = podman-docker
+	pkgdesc = Emulate Docker CLI using podman
+	depends = podman
+	depends = sh
+	provides = docker
+	conflicts = docker
