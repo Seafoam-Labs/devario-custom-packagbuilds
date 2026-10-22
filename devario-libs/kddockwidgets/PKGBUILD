@@ -4,7 +4,7 @@
 
 _inner_folder_name=KDDockWidgets
 pkgname=kddockwidgets
-pkgver=2.4.1
+pkgver=2.5.0
 pkgrel=1
 pkgdesc="Dock Widgets Library by KDAB for Qt6"
 arch=('x86_64')
@@ -30,7 +30,7 @@ provides=(libkddockwidgets-qt6.so 'libkddockwidgets-qt6.so=3-64')
 
 source=($url/releases/download/v$pkgver/kddockwidgets-$pkgver.tar.gz{,.asc})
 
-sha256sums=('5cd9495d9316cf6cc937bb328a7fd491c3248ef2469cfa42511f1039f6148aca'
+sha256sums=('4217e5d27fa576c5d78b684a6385d266a78edf13a0c2a0455b02a34d726286c3'
             'SKIP')
 
 validpgpkeys=(E86C000370B1B9E2A9191AD53DBFB6882C9358FB) # info@kdab.com
