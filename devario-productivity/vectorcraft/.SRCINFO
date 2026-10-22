@@ -1,13 +1,13 @@
 pkgbase = vectorcraft
 	pkgdesc = Vector illustration editor for SVG and PDF, written from scratch in pure Rust
-	pkgver = 0.10.0
+	pkgver = 0.14.0
 	pkgrel = 1
 	url = https://github.com/storytold/vectorcraft
 	arch = x86_64
 	arch = aarch64
 	license = MIT OR Apache-2.0
 	makedepends = git
-	makedepends = rust
+	makedepends = rust>=1.95
 	depends = glibc
 	depends = libgcc
 	depends = libxkbcommon
@@ -20,7 +20,7 @@ pkgbase = vectorcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/vectorcraft/archive/v0.10.0/vectorcraft-0.10.0.tar.gz
-	sha256sums = 9ca49806783b983a016a0621b89e517331553f1d7a7c8ac1478ebd2d2a4c391a
+	source = https://github.com/storytold/vectorcraft/archive/v0.14.0/vectorcraft-0.14.0.tar.gz
+	sha256sums = 69be265cc6f6a9497aa950a99c09585e8c9a3b0d25f4230391fd53c528a35782
 
 pkgname = vectorcraft
