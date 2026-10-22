@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.4.r87.gd25c1ec39
-pkgrel=1
+pkgrel=2
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -88,6 +88,7 @@ b999213711190f7ff3b75d05e13fc1ad962065a0 # scx_cake: STATE: KovaaK's tail spikes
 8a592010967439a16082a0d1c0e10d3f90058437 # scxtui: add profiles for scx_chaos
 3fb63bb0445db31ac6497f1ae66677cc90cf95c1 # scxtui: add profiles for scx_mavd
 9c23a9806c2028a283b3482c2d6143e162e9acd5 # scxtui: Share the profile rows between a scheduler and its fork
+7325631781e7edd2174d7c5bf3e1ab42eac472fa # scxtui: Spell the default out in the TOML export, or show where it goes
 )
 
 _reverts=(
