@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=photocraft
-pkgver=0.9.0
+pkgver=0.12.0
 pkgrel=1
 pkgdesc="Layer-based photo editor with PSD support, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -31,10 +31,10 @@ optdepends=(
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 # Pending separate checksum refresh: the digest below is from v0.7.0.
-sha256sums=('add4b604f0e754bb78f3320821cc4438940bb51c2cd51c0666ce2cfcb525bb3a')
+sha256sums=('48742a420d9cf4d166ec1b778f43a86d529de5069828b457c38977232c37a401')
 
-_commit=c699e3c
-_releasedate=2026-10-14
+_commit=6a2d027
+_releasedate=2026-10-21
 _appid=ai.storyteller.photocraft
 
 prepare() {

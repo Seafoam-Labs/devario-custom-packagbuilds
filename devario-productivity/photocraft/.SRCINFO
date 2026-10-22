@@ -1,6 +1,6 @@
 pkgbase = photocraft
 	pkgdesc = Layer-based photo editor with PSD support, written from scratch in pure Rust
-	pkgver = 0.9.0
+	pkgver = 0.12.0
 	pkgrel = 1
 	url = https://github.com/storytold/photocraft
 	arch = x86_64
@@ -22,7 +22,7 @@ pkgbase = photocraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/photocraft/archive/v0.9.0/photocraft-0.9.0.tar.gz
-	sha256sums = add4b604f0e754bb78f3320821cc4438940bb51c2cd51c0666ce2cfcb525bb3a
+	source = https://github.com/storytold/photocraft/archive/v0.12.0/photocraft-0.12.0.tar.gz
+	sha256sums = 48742a420d9cf4d166ec1b778f43a86d529de5069828b457c38977232c37a401
 
 pkgname = photocraft
