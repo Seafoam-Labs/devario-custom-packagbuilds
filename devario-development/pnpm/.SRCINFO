@@ -1,18 +1,18 @@
 pkgbase = pnpm
 	pkgdesc = Fast, disk space efficient package manager
-	pkgver = 12.10.1
-	pkgrel = 2
+	pkgver = 12.15.0
+	pkgrel = 1
 	url = https://pnpm.io
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = rust
 	depends = node-gyp
-	noextract = pnpm-linux-x64-v12.10.1.tar.gz
-	source = git+https://github.com/pnpm/pnpm.git#tag=v12.10.1?signed
-	source = pnpm-linux-x64-v12.10.1.tar.gz::https://github.com/pnpm/pnpm/releases/download/v12.10.1/pnpm-linux-x64.tar.gz
+	noextract = pnpm-linux-x64-v12.15.0.tar.gz
+	source = git+https://github.com/pnpm/pnpm.git#tag=v12.15.0?signed
+	source = pnpm-linux-x64-v12.15.0.tar.gz::https://github.com/pnpm/pnpm/releases/download/v12.15.0/pnpm-linux-x64.tar.gz
 	validpgpkeys = 7B74D1299568B586BA9962B5649E4D4AF74E7DEC
-	b2sums = 83a10a56e1980d34a9126da1ed72d9103bb295e6d9ca898ab1af0b6533644b1e855b630871207cbf12a17f219c14eb375749ee337a2e605425c195beab15f0d3
-	b2sums = 41c55de07087df062e3def22aeea32ab6b083d9083e392b7a40746457863d681bf78e2e71e35325f3bec109917823d7bb5fa546442e65ed3d24f158a32a5d8fa
+	b2sums = 7b0e5f36879854b6e8c3f63ce776e50fd8a5e27c0cce8a2bccd4c600c8998fa26f3307bbc8b4e5f378383c785b6c28add801c5d9ab1ed402a931e008be922f38
+	b2sums = 568e92740f437969c734e66a502ab6af0f707aaef4a94a5d41acc485cae3a0b54b2e9cb6f715f259fd24afe14da5d1b55c45df2cf26b1ff88d931b5dc3cbde66
 
 pkgname = pnpm
