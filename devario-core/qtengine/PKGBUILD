@@ -1,0 +1,43 @@
+# Based on the recipe by ThatOneCalculator <kainoa@t1c.dev>.
+pkgname=qtengine
+pkgver=0.2.2
+pkgrel=5
+pkgdesc='Configurable Qt 5 and Qt 6 platform theme using KDE color schemes'
+arch=('x86_64')
+url='https://github.com/kossLAN/qtengine'
+license=('BSD-2-Clause')
+depends=('gcc-libs' 'glibc'
+         'qt5-base>=5.15'
+         'qt6-base>=6.9' 'qt6-declarative>=6.9'
+         'kconfig5>=5.102.0' 'kconfigwidgets5>=5.102.0' 'kiconthemes5>=5.102.0'
+         'kconfig>=6.20.0' 'kcolorscheme>=6.20.0' 'kiconthemes>=6.20.0')
+makedepends=('cmake>=3.16' 'ninja' 'extra-cmake-modules>=5.102.0')
+conflicts=('qtengine-bin' 'qtengine-git')
+install=qtengine.install
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+        'config.example.json')
+sha256sums=('8406285955ac735c8b208a73ad4d106535b32da47e25f050a5be18bbc9f0445e'
+            '5dfcc6479a03140e492eff69936c708d1bffba3edf9d5312b27b5efff61fa06e')
+
+build() {
+    # Qt 5 Quick Controls 2 is optional upstream and unavailable in Devario.
+    # Disable discovery so host packages cannot introduce an undeclared dependency.
+    cmake -S "$srcdir/$pkgname-$pkgver" -B "$srcdir/build" -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DBUILD_QT5=ON -DBUILD_QT6=ON \
+        -DCMAKE_DISABLE_FIND_PACKAGE_Qt5QuickControls2=ON \
+        -DQT5_PLUGINDIR=lib/qt/plugins \
+        -DQT6_PLUGINDIR=lib/qt6/plugins \
+        -DQT5_LIBDIR=/usr/lib
+    cmake --build "$srcdir/build"
+}
+
+package() {
+    DESTDIR="$pkgdir" cmake --install "$srcdir/build"
+    install -Dm644 "$srcdir/config.example.json" \
+        "$pkgdir/etc/qtengine/config.example.json"
+    install -Dm644 "$srcdir/$pkgname-$pkgver/LICENSE" \
+        "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

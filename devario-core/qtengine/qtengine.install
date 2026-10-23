@@ -1,0 +1,9 @@
+post_install() {
+    cat <<'EOF'
+Configure QtEngine in ~/.config/qtengine/config.json.
+An example is available at /etc/qtengine/config.example.json;
+adjust its color scheme, icon theme, style, and fonts to installed choices.
+Set QT_QPA_PLATFORMTHEME=qtengine in your desktop session to enable it.
+Install both Qt 5 and Qt 6 variants of your chosen application style.
+EOF
+}
