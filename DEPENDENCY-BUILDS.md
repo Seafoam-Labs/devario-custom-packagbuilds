@@ -1,5 +1,41 @@
 # Missing dependency builds for Shelly
 
+## ProtonUp-Qt dependency publication (2026-10-23)
+
+The worker's `IncompleteDependencyPlan` for
+[protonup-qt](devario-gaming/protonup-qt/PKGBUILD) names `python-inputs`,
+`python-steam`, and `python-zstandard`. All three already have recipes under
+`devario-libs`; they must be built and published before the worker can resolve
+ProtonUp-Qt's isolated environment. The `not_in_repositories` and
+`not_in_environment` entries describe the same three missing providers.
+
+The local repository database snapshot from October 22 also lacks eight
+transitive prerequisites. Build and publish the following stages, refreshing
+the worker's repository databases between stages. Packages already available
+in the worker's current repositories can be skipped. Recipes within a stage
+do not depend on one another.
+
+| Stage | Recipe directories | Required by |
+| --- | --- | --- |
+| 1 | `devario-development/signify`; `devario-libs/python-inputs`; `devario-libs/python-zstandard`; `devario-libs/python-greenlet`; `devario-libs/python-zope-event`; `devario-libs/python-pycryptodomex`; `devario-libs/python-h11` | later stages and ProtonUp-Qt |
+| 2 | `devario-libs/libev`; `devario-libs/python-wsproto` | gevent and Steam |
+| 3 | `devario-libs/python-gevent` | Steam |
+| 4 | `devario-libs/python-steam` | ProtonUp-Qt |
+| 5 | `devario-gaming/protonup-qt` | final application |
+
+`python-steam` release `2.0.0.alpha1-5` adds the missing `protobuf` build
+dependency: its `prepare()` invokes `make pb_compile`, which runs `protoc`.
+The existing `python-protobuf` runtime dependency provides Python bindings,
+not the compiler.
+
+Shell syntax passes and Shelly review completes for the three direct dependency
+recipes; the inputs review flags the word `docker` in a patch subject, which
+does not execute Docker. Steam's `.SRCINFO` has been regenerated. Dependency availability above
+was checked against the cached repository databases, not a live worker plan:
+local isolated dependency resolution could not refresh repositories
+(`SyncDbFailed`). Builds and publication remain necessary; recipe edits alone
+do not make these dependencies available to the worker.
+
 ## pcp PMDA dependency publication (2026-10-20)
 
 The worker's `IncompleteDependencyPlan` for [pcp](devario-utilities/pcp/PKGBUILD)

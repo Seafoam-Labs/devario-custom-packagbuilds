@@ -1,11 +1,12 @@
 pkgbase = wlr-randr
 	pkgdesc = Utility to manage outputs of a Wayland compositor
 	pkgver = 0.5.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gitlab.freedesktop.org/emersion/wlr-randr
 	arch = x86_64
 	license = MIT
 	makedepends = meson
+	makedepends = ninja
 	makedepends = scdoc
 	depends = wayland
 	depends = glibc

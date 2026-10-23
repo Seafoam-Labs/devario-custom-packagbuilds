@@ -2,7 +2,7 @@
 
 pkgname=wlrctl
 pkgver=0.2.2
-pkgrel=2
+pkgrel=3
 pkgdesc='Utility for miscellaneous wlroots extensions'
 url='https://git.sr.ht/~brocellous/wlrctl'
 arch=('x86_64' 'aarch64')
@@ -10,21 +10,25 @@ license=('MIT')
 source=(
 	"$pkgname-$pkgver.tar.gz::https://git.sr.ht/~brocellous/$pkgname/archive/v$pkgver.tar.gz"
 )
-depends=('wayland' 'libxkbcommon')
+depends=('glibc' 'wayland' 'libxkbcommon')
 makedepends=('scdoc' 'meson' 'ninja')
 
-md5sums=('c2d9ce45a237d4524cd6dc24872b2c50')
+sha256sums=('b5b3836091c41de09a832df1e5eb4747841d7ae670367e413487d5be7a5f2849')
 
 build() {
-	cd "$pkgname-v$pkgver"
-	meson \
+	meson setup build "$pkgname-v$pkgver" \
+		--prefix=/usr \
+		--libdir=lib \
+		--buildtype=plain \
+		--wrap-mode=nodownload \
 		-Dwerror=false \
-		--prefix /usr \
-		"$srcdir/build"
-	ninja -C "$srcdir/build"
+		-Dman-pages=enabled \
+		-Dzsh-completions=true
+	meson compile -C build
 }
 
 package() {
-	cd "$pkgname-v$pkgver"
-	DESTDIR="$pkgdir" ninja -C "$srcdir/build" install
+	meson install -C build --destdir "$pkgdir"
+	install -Dm644 "$pkgname-v$pkgver/LICENSE" \
+		"$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
