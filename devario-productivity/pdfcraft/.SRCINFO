@@ -1,6 +1,6 @@
 pkgbase = pdfcraft
 	pkgdesc = PDF reader and editor: comment, fill, sign, redact, combine and split
-	pkgver = 0.11.0
+	pkgver = 0.13.0
 	pkgrel = 1
 	url = https://github.com/storytold/pdfcraft
 	arch = x86_64
@@ -22,7 +22,7 @@ pkgbase = pdfcraft
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
 	optdepends = libcups: printing support
-	source = https://github.com/storytold/pdfcraft/archive/v0.11.0/pdfcraft-0.11.0.tar.gz
-	sha256sums = ed738813ba7ef3c41930e215dd8ed63e2711abd335af9e57561974ba12998ad3
+	source = https://github.com/storytold/pdfcraft/archive/v0.13.0/pdfcraft-0.13.0.tar.gz
+	sha256sums = a65214953787fd8428cb6636447a0e65a66f20bb64ace18bb58e06d7002d7a5b
 
 pkgname = pdfcraft
