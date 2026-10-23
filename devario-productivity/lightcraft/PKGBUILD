@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=lightcraft
-pkgver=0.11.0
+pkgver=0.13.0
 pkgrel=1
 pkgdesc="Non-destructive photo library and raw developer, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -28,10 +28,10 @@ optdepends=(
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 # Pending external checksum refresh: the retained digest below is for v0.6.0.
-sha256sums=('a2b2850a8cfb192ce8cc08b2f5b014ef09606116c6bd1f011afd392fd663acea')
+sha256sums=('e53a5b91fe837d25cba273675694cb18abaabda78143d84cc0f61f2edc608da1')
 
-_commit=ec0cda9
-_releasedate=2026-10-21
+_commit=23e1812
+_releasedate=2026-10-23
 _appid=ai.storyteller.lightcraft
 
 prepare() {
