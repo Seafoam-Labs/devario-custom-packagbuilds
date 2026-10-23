@@ -2,21 +2,21 @@
 # Maintainer: Maxime Gauduin <alucryd@archlinux.org>
 
 pkgname=llama-cpp
-pkgver=0.6.0
-pkgrel=2
+pkgver=0.7.0
+pkgrel=1
 pkgdesc='LLM inference in C/C++'
 arch=(x86_64)
 url=https://github.com/ggml-org/llama.cpp
 license=(MIT)
 depends=(
-  'ggml=0.26.0'
+  'ggml=0.27.0'
   glibc
   libgcc
   libstdc++
-  openssl
+  'openssl>=3.0'
 )
 makedepends=(
-  cmake
+  'cmake>=3.18'
   git
   ninja
   npm
@@ -24,7 +24,7 @@ makedepends=(
 source=(git+https://github.com/ggml-org/llama.cpp.git#tag=v${pkgver}
         llama-server-system.service
         llama-server-user.service)
-b2sums=('e62f131cbf9fbaa223ba86753a80b1212d912d839ee5cf62970f7696f769f687b2fc0319da4e8b74e60348dcfac3a0ef700f4ac62901f053b6b6a176e4af13ef'
+b2sums=('80175c8d31c296a430084f398fa953ee53f0457d19b92731ccfdfff8e202ff5b6e2cacd6bc2b0c86853e960ceab452058d26a69e8d61a2fed489b04349dd104b'
         '1be8149b527a245ef35ef5ec0f93d50187608636905f78d7d28c090105db4a11ca2eed9871622bd78d44087acaef9d1d6012c6db58ba6c4451c0967c44d1a958'
         'a9414c96f069d0aaa287eb0f9c1f30c751612e53901014e38d4ef1b6c71eb98be1036b02413620ddcdbecb5d3830f4c0c83c6e1812b8a63b70e6fe9f3d2a137c')
 
@@ -37,6 +37,7 @@ build() {
   cmake -S llama.cpp -B build -G Ninja \
       -DCMAKE_BUILD_TYPE=None \
       -DCMAKE_INSTALL_PREFIX=/usr \
+      -DLLAMA_BUILD_IS_DEV=OFF \
       -DLLAMA_BUILD_APP=OFF \
       -DLLAMA_BUILD_EXAMPLES=ON \
       -DLLAMA_BUILD_SERVER=ON \
