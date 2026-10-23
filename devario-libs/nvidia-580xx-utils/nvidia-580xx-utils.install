@@ -1,0 +1,13 @@
+post_install() {
+  systemctl enable nvidia-suspend.service nvidia-hibernate.service \
+    nvidia-resume.service nvidia-suspend-then-hibernate.service
+}
+
+post_upgrade() {
+  post_install
+}
+
+pre_remove() {
+  systemctl disable nvidia-suspend.service nvidia-hibernate.service \
+    nvidia-resume.service nvidia-suspend-then-hibernate.service
+}
