@@ -34,7 +34,7 @@ pkgname=(
   pulse-native-provider
 )
 pkgver=1.6.9
-pkgrel=2
+pkgrel=3
 epoch=1
 pkgdesc="Low-latency audio/video router and processor"
 url="https://pipewire.org"
@@ -84,7 +84,7 @@ makedepends=(
   spandsp
   systemd
   valgrind
-  webrtc-audio-processing-1
+  'webrtc-audio-processing>=2.1'
 )
 checkdepends=(
   desktop-file-utils
@@ -106,6 +106,7 @@ build() {
     -D bluez5-codec-lc3plus=disabled
     -D bluez5-codec-ldac-dec=disabled
     -D docs=enabled
+    -D echo-cancel-webrtc=enabled
     -D jack-devel=true
     -D libjack-path=/usr/lib
     -D man=enabled
@@ -358,7 +359,7 @@ package_pipewire-audio() {
     sbc libsbc.so
     spandsp libspandsp.so
     systemd-libs
-    webrtc-audio-processing-1 libwebrtc-audio-processing-1.so
+    'webrtc-audio-processing>=2.1' libwebrtc-audio-processing-2.so
   )
   provides=(
     ladspa-host

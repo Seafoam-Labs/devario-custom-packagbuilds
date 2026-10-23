@@ -30,7 +30,7 @@ pkgname=(
   gstreamer-docs
 )
 pkgver=1.28.8
-pkgrel=1
+pkgrel=2
 pkgdesc="Multimedia graph framework"
 url="https://gstreamer.freedesktop.org/"
 arch=(x86_64)
@@ -192,7 +192,7 @@ makedepends=(
   wavpack
   wayland
   wayland-protocols
-  webrtc-audio-processing-1
+  'webrtc-audio-processing>=2.1'
   wildmidi
   wpewebkit
   x264
@@ -281,6 +281,7 @@ build() {
     -D gst-plugins-bad:voamrwbenc=disabled
     -D gst-plugins-bad:wasapi2=disabled
     -D gst-plugins-bad:wasapi=disabled
+    -D gst-plugins-bad:webrtcdsp=enabled
     -D gst-plugins-bad:wpe=disabled
     -D gst-plugins-base:libvisual=disabled
     -D gst-plugins-base:tremor=disabled
@@ -791,7 +792,7 @@ package_gst-plugins-bad() {
     spandsp
     srt
     svt-av1
-    webrtc-audio-processing-1
+    'webrtc-audio-processing>=2.1' libwebrtc-audio-processing-2.so
     wildmidi
     x265
     zbar
