@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=soundcraft
-pkgver=0.11.0
+pkgver=0.12.1
 pkgrel=1
 pkgdesc="Clean-room reimplementation of Avid Pro Tools: multitrack audio and MIDI"
 arch=('x86_64' 'aarch64')
@@ -32,10 +32,10 @@ optdepends=(
     'pulseaudio-alsa: ALSA output through PulseAudio'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('d69f00d31cda0a9f23eab117940c64783e86bb1965e0edc949bacdfbb295ea92')
+sha256sums=('62365e3a0768f5e5e04fb8feba3671a3f790f4c094efe006fb99b024c021ee80')
 
-_commit=b74fca0
-_releasedate=2026-10-21
+_commit=e85a480
+_releasedate=2026-10-22
 _appid=ai.storyteller.soundcraft
 
 prepare() {
