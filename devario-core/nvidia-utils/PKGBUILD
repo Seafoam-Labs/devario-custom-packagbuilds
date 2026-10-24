@@ -7,13 +7,13 @@
 
 pkgname=nvidia-utils
 pkgdesc='NVIDIA drivers utilities'
-pkgver=615.71.09
-pkgrel=2
+pkgver=615.78.08
+pkgrel=1
 arch=('x86_64')
 url="https://www.nvidia.com/"
 license=('LicenseRef-NVIDIA-Driver-License-Agreement')
 options=('!strip')
-depends=('libglvnd' 'egl-wayland' 'egl-wayland2' 'egl-gbm' 'egl-x11')
+depends=('libglvnd' 'egl-wayland>=1.1.9' 'egl-wayland2' 'egl-gbm' 'egl-x11')
 optdepends=('nvidia-settings: configuration tool'
             'xorg-server: Xorg support'
             'xorg-server-devel: nvidia-xconfig'
@@ -36,7 +36,7 @@ sha512sums=('de7116c09f282a27920a1382df84aa86f559e537664bb30689605177ce37dc50677
             'a0183adce78e40853edf7e6b73867e7a8ea5dabac8e8164e42781f64d5232fbe869f850ab0697c3718ebced5cde760d0e807c05da50a982071dfe1157c31d6b8'
             '55def6319f6abb1a4ccd28a89cd60f1933d155c10ba775b8dfa60a2dc5696b4b472c14b252dc0891f956e70264be87c3d5d4271e929a4fc4b1a68a6902814cee'
             'a380e5faeb19293c90f613cd92bcd1cef7597ee52f79f03ffdffe5d37d2badc05b6bdb4c26a9d610868ae4c16eafd56e7d16f769e849dc0335d0d248c6235fe9')
-sha512sums_x86_64=('446091ef413d815ecc2de0253b1c0065cb12f623a219a3a5c38e48a0084aa73adbb7426c3c334a52f42520da8c6b2186b84f8fbf96a2260d13a320123f804bc0')
+sha512sums_x86_64=('fb0c16c9812e60ac1f5ca663f03dd84f386ae4ad55beab4655c65fe8d094c98246c5acbcf9e385e93e38dbfb340472712fc80593a8bf0be47f34ff871bf4d83d')
 
 _pkg=NVIDIA-Linux-${CARCH}-${pkgver}
 
