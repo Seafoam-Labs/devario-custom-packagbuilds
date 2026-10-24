@@ -1,0 +1,77 @@
+# Maintainer: Devario Team
+
+pkgname=rpi-imager
+pkgver=2.0.12
+pkgrel=1
+pkgdesc='Raspberry Pi imaging utility for writing operating system images to removable media'
+arch=(x86_64)
+url='https://github.com/raspberrypi/rpi-imager'
+license=(Apache-2.0 BSD-2-Clause MIT)
+depends=(
+  curl
+  glibc
+  gnutls
+  hicolor-icon-theme
+  libarchive
+  libgcc
+  libidn2
+  libstdc++
+  liburing
+  libusb
+  nettle
+  polkit
+  qt6-base
+  qt6-declarative
+  qt6-svg
+  systemd-libs
+  util-linux
+  xdg-utils
+  xz
+  zlib
+  zstd
+)
+makedepends=(cmake ninja patch pkgconf qt6-tools)
+optdepends=(
+  'networkmanager: import saved Wi-Fi credentials'
+  'qt6-wayland: native Wayland support'
+)
+source=(
+  "$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+  system-libraries.patch
+)
+sha256sums=(
+  '333ab9089d63ee514a3142ef70f01315a334acac62040e14a3090f2fd839e293'
+  'cb19457b77012676b54d5fa4e6c916d77cdc82566d5b806ea983a93a6251f869'
+)
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  patch -Np1 -i "$srcdir/system-libraries.patch"
+
+  # Release archives have no Git metadata. Avoid detecting the packaging
+  # repository's version when sources are extracted inside its work tree.
+  sed -i \
+    -e "s/set(VERSION_STR \"0.0.0-unknown\")/set(VERSION_STR \"$pkgver\")/" \
+    -e 's/if(GIT_EXECUTABLE)/if(FALSE)/g' \
+    src/cmake/GenerateVersion.cmake
+}
+
+build() {
+  cmake -S "$pkgname-$pkgver/src" -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_TESTING=OFF \
+    -DENABLE_CHECK_VERSION=OFF \
+    -DENABLE_TELEMETRY=OFF \
+    -DGENERATE_TIMEZONES_FROM_IANA=OFF \
+    -DGENERATE_COUNTRIES_FROM_REGDB=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "$pkgname-$pkgver/debian/com.raspberrypi.rpi-imager.policy" \
+    "$pkgdir/usr/share/polkit-1/actions/com.raspberrypi.rpi-imager.policy"
+  install -Dm644 "$pkgname-$pkgver/license.txt" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
