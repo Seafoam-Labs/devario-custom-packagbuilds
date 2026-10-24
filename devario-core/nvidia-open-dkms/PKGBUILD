@@ -1,0 +1,51 @@
+# Adapted from Arch Linux's nvidia-utils split package. See README.md.
+# Upstream packaging maintainers: Sven-Hendrik Haase and Peter Jung.
+
+pkgname=nvidia-open-dkms
+pkgver=615.78.08
+pkgrel=1
+pkgdesc='NVIDIA open kernel modules - module sources'
+arch=('x86_64')
+url='https://github.com/NVIDIA/open-gpu-kernel-modules'
+license=('MIT AND GPL-2.0-only')
+depends=('dkms' "nvidia-utils=${pkgver}")
+conflicts=('nvidia-open' 'NVIDIA-MODULE')
+provides=('nvidia-open' 'NVIDIA-MODULE' 'nvidia-dkms')
+replaces=('nvidia-dkms')
+options=('!strip')
+
+_pkg="NVIDIA-kernel-module-source-${pkgver}"
+source=("https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/${_pkg}.tar.xz")
+sha512sums=('5ced2c7e3e9df21f8494ea439ac2103307fcbcb295a3f11e5fdf4f1dbeda3f0b13800a06f8147ebd064f98897c24e92f5de82023a8ca43a582694d951c9620c9')
+
+prepare() {
+    cd "${srcdir}/${_pkg}"
+
+    # Use a source timestamp rather than the time of each DKMS build.
+    sed -i 's/^DATE.*/DATE = date -r version.mk/' utils.mk
+
+    # Complete NVIDIA's installer template for standalone DKMS use.
+    # Keep kernelver and nproc evaluation at DKMS build time.
+    sed -i \
+        -e "s/__VERSION_STRING/${pkgver}/g" \
+        -e 's/__JOBS/`nproc`/g' \
+        -e 's/__EXCLUDE_MODULES//g' \
+        -e '/^__DKMS_MODULES$/d' \
+        -e 's/NV_EXCLUDE_BUILD_MODULES/IGNORE_PREEMPT_RT_PRESENCE=1 NV_EXCLUDE_BUILD_MODULES/' \
+        kernel-open/dkms.conf
+
+    local index=0 module
+    for module in nvidia nvidia-uvm nvidia-modeset nvidia-drm nvidia-peermem; do
+        printf 'BUILT_MODULE_NAME[%s]="%s"\nDEST_MODULE_LOCATION[%s]="/kernel/drivers/video"\nBUILT_MODULE_LOCATION[%s]="kernel-open"\n' \
+            "$index" "$module" "$index" "$index" >> kernel-open/dkms.conf
+        index=$((index + 1))
+    done
+}
+
+package() {
+    install -dm755 "${pkgdir}/usr/src"
+    cp -dr --no-preserve=ownership "${srcdir}/${_pkg}" "${pkgdir}/usr/src/nvidia-${pkgver}"
+    mv "${pkgdir}/usr/src/nvidia-${pkgver}/kernel-open/dkms.conf" \
+        "${pkgdir}/usr/src/nvidia-${pkgver}/dkms.conf"
+    install -Dm644 "${srcdir}/${_pkg}/COPYING" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

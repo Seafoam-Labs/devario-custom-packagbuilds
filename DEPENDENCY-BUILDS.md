@@ -1489,8 +1489,9 @@ database, and retry the dependent package in a fresh isolated root.
 
 For NVIDIA's binary utilities, see the [nvidia-utils build guide](devario-core/nvidia-utils/README.md)
 for separate validation results and driver integration requirements. This recipe
-produces only `nvidia-utils 615.71.09-2`; the matching `615.71.09` kernel driver
-must be supplied separately. Make `libglvnd`, `egl-wayland`, `egl-wayland2`,
+produces only `nvidia-utils`; the matching kernel module sources are packaged by
+the standalone [nvidia-open-dkms recipe](devario-core/nvidia-open-dkms/README.md).
+Both recipes currently target `615.78.08`. Make `libglvnd`, `egl-wayland`, `egl-wayland2`,
 `egl-gbm`, and `egl-x11` available to the worker before building it. Coordinate
 driver publication and upgrades, including matching multilib/OpenCL packages
 where used.
