@@ -1,14 +1,14 @@
 pkgbase = aws-c-sdkutils
 	pkgdesc = AWS SDK utility library
-	pkgver = 1.0.0
-	pkgrel = 2
+	pkgver = 1.0.1
+	pkgrel = 1
 	url = https://github.com/awslabs/aws-c-sdkutils
 	arch = x86_64
 	license = Apache-2.0
 	makedepends = cmake
 	depends = aws-c-common
 	depends = glibc
-	source = https://github.com/awslabs/aws-c-sdkutils/archive/v1.0.0/aws-c-sdkutils-1.0.0.tar.gz
-	b2sums = 4a6bf875b0df62e518056c90c48b79351cfb710ba5f5ccc61ef78d0ab09da65663adc7bff9d6c5ab8163f0611210fd405f47c406f6fded9cd5afcdd06873dd80
+	source = https://github.com/awslabs/aws-c-sdkutils/archive/v1.0.1/aws-c-sdkutils-1.0.1.tar.gz
+	b2sums = e3397b7f63f1f73356ee106d74eb561659236389f03ced338ccf7da2d3c2db2fe72d1db7f67a6b69e12f172f5aea855d7730fcb9801194f9662120ce743d96fd
 
 pkgname = aws-c-sdkutils
