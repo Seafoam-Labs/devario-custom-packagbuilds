@@ -3,7 +3,7 @@
 # Contributor: Vladimir Tsanev <tsachev@gmail.com>
 
 pkgname=hiredis
-pkgver=1.4.1
+pkgver=1.5.0
 pkgrel=1
 pkgdesc='Minimalistic C client library for Redis'
 arch=('x86_64')
@@ -12,7 +12,7 @@ license=('BSD-3-Clause')
 depends=('glibc')
 checkdepends=('valkey')
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('78e142a9c9bad04f8c921ac0be7bcd35aac5508a97f6eee133a0ed78aa76901f65d737145a7d0c56d5b91c8faef263bae4ff79d846e4690ff93fea1efc171762')
+b2sums=('9a24fb55d0a7875b0c95dffcd3449c3e4e8a12ed3894793d1537223dfd822590206ac49af97dd9d8276fc9e209087850c8f5e54b93425e8064714062ef5dd09e')
 
 build() {
   cd $pkgname-$pkgver
