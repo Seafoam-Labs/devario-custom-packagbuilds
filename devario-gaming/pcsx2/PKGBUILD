@@ -2,7 +2,7 @@
 
 pkgname=pcsx2
 pkgver=2.8.2
-pkgrel=1
+pkgrel=2
 pkgdesc='PlayStation 2 emulator'
 arch=('x86_64')
 url="https://github.com/PCSX2/pcsx2"
