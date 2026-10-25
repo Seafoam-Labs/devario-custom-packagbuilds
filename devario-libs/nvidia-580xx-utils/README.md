@@ -1,81 +1,96 @@
 # NVIDIA 580xx for Devario
 
-Packages NVIDIA **580.196.07**, the latest Linux x86_64 580-series display
-driver verified on 2026-10-22, from the
-[official NVIDIA release directory](https://download.nvidia.com/XFree86/Linux-x86_64/580.196.07/).
-The `.run` archive is pinned with NVIDIA's published SHA-256 checksum and is
-used only for extraction; `nvidia-installer` is never run.
+Packages NVIDIA **580.178.04** with the active patches and desktop workarounds
+from [CachyOS packaging commit 06cda345d91e5e80da524dcc2803c78aaf93f786](https://github.com/CachyOS/CachyOS-PKGBUILDS/tree/06cda345d91e5e80da524dcc2803c78aaf93f786/nvidia/nvidia-580xx).
+NVIDIA's `.run` and open-module source archives retain CachyOS's pinned checksums.
+The `.run` file is extracted only; `nvidia-installer` is never run.
 
-This split PKGBUILD produces:
+Both recipes use **epoch 1** so the CachyOS baseline upgrades existing Devario
+580.196.07 packages. Keep that epoch on subsequent releases. The driver version
+inside binaries, firmware paths, support metadata and DKMS remains 580.178.04.
+Package dependencies include the epoch; filenames are taken from repository
+metadata rather than inferred from the upstream version.
+
+This recipe produces:
 
 - `nvidia-580xx-utils`: native graphics/compute libraries, GSP firmware,
-  command-line utilities, and system integration.
-- `nvidia-580xx-dkms`: proprietary kernel sources for DKMS, including
-  `nvidia`, `nvidia-modeset`, `nvidia-drm`, `nvidia-uvm`, and `nvidia-peermem`.
-- `opencl-nvidia-580xx`: optional OpenCL implementation and ICD manifest.
+  utilities, upstream GPU metadata, and system integration.
+- `nvidia-580xx-dkms`: proprietary DKMS sources for older supported GPUs,
+  including Maxwell, Pascal and Volta.
+- `nvidia-580xx-open-dkms`: alternative open DKMS sources for GPUs listed in
+  their README. It conflicts with the proprietary modules.
+- `opencl-nvidia-580xx`: native OpenCL implementation and ICD manifest.
 
-The proprietary modules support the older GPUs retained by the 580 branch,
-including Maxwell, Pascal, and Volta. Check the release's supported GPU list
-for the specific device. The existing `nvidia-utils` recipe remains on its
-current branch; installing this alternative conflicts with that package.
-DKMS and OpenCL depend on exactly the same 580xx utility version.
-The utilities also install NVIDIA's `supported-gpus.json` under
-`/usr/share/doc/nvidia/`. Devario's installer uses its `legacybranch`,
-`kernelopen` and `gsp_proprietary_supported` fields to select this proprietary
-branch without accepting GPUs that require open kernel modules.
+The companion `../lib32-nvidia-580xx-utils/PKGBUILD` produces
+`lib32-nvidia-580xx-utils` and `lib32-opencl-nvidia-580xx`. Utilities require
+exactly matching OpenCL and both multilib packages. Publish both recipes
+together. Do not combine this stack with the current-branch NVIDIA libraries.
+The leaf OpenCL/multilib packages avoid circular dependencies back to utilities,
+as in CachyOS; the utility package pins the complete stack.
 
-## Build
+## CachyOS integration and Devario adaptations
 
-From the repository root, with base-devel available:
+The proprietary modules carry CachyOS's default atomic modesetting and KDE
+hardware-cursor patches. The open modules carry the default modesetting and
+IBT patches. Both DKMS templates permit PREEMPT_RT builds. The inactive 0003
+and 0004 patches present in CachyOS's directory are not applied by its recipe
+and are not imported here.
+
+Utilities include CachyOS's application profile limiting VRAM reuse and the
+KWin service override selecting egl-wayland2 only for KWin. The matching
+`egl-wayland2` dependency is retained. Devario preserves its explicit modeset
+and fbdev options, VRAM preservation, and suspend/hibernate/resume services.
+CachyOS's `NVreg_UseKernelSuspendNotifiers` option is not copied: it is absent
+from these 580 module sources. The supported 580 VRAM-preservation mechanism
+uses `NVreg_PreserveVideoMemoryAllocations=1` and `/var/tmp`.
+
+Devario retains upstream `supported-gpus.json` for installer selection,
+versioned provides, complete per-package licenses, safe SONAME links, and
+DKMS's configured parallel job count. Open-module build identity uses Devario.
+The previous recipe was adapted from
+[Arch commit f9ae10b379f8b1d0832ec92bca1c12072aa123e9](https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-utils/-/tree/f9ae10b379f8b1d0832ec92bca1c12072aa123e9).
+Existing contributor notices and patch authorship are retained.
+
+## Build and ISO integration
+
+From the repository root:
 
 ```sh
+shelly build --review-only --json devario-libs/lib32-nvidia-580xx-utils/PKGBUILD
+shelly build --reviewed --nosign devario-libs/lib32-nvidia-580xx-utils/PKGBUILD
 shelly build --review-only --json devario-libs/nvidia-580xx-utils/PKGBUILD
 shelly build --reviewed --nosign devario-libs/nvidia-580xx-utils/PKGBUILD
 ```
 
-For release builds, use Shelly's `--isolated` option on the build worker.
-Regenerate metadata after changes:
+Use Shelly's `--isolated` option on the release build worker. Regenerate each
+recipe's `.SRCINFO` with `shelly build --reviewed --makesrcinfo PKGBUILD` after
+changes. Shelly's review warnings for integer arithmetic and Makefile syntax
+inside the IBT patch have been inspected.
 
-```sh
-shelly build --reviewed --makesrcinfo devario-libs/nvidia-580xx-utils/PKGBUILD > devario-libs/nvidia-580xx-utils/.SRCINFO
-```
+The `devario-os` repository stages all five proprietary-stack packages and their
+signatures in the ISO's offline cache, validates their matching versions and
+payloads, and installs them together through Shelly/RLPM when hardware needs
+580. Shared multilib dependencies and the OpenCL loader are in the live package
+closure. The live image continues to use the current open driver; the optional
+580 open DKMS variant is available for manual selection and supported by target
+update validation, but is not automatically selected or cached by the ISO.
 
-Install the utility and DKMS packages together with headers matching every
-target kernel. Devario's DKMS/RLPM hooks compile the modules during package
-transactions. Rebuild the target's initramfs through its normal boot-update
-workflow before rebooting. This recipe does not alter the ISO's driver
-selection or GPU detection policy.
+Install headers matching every target kernel. DKMS/RLPM hooks compile modules
+and Devario's normal boot-update workflow rebuilds initramfs. Package changes
+do not load drivers or change host services during a build.
 
-The utility install hook enables NVIDIA's suspend, hibernate, resume, and
-suspend-then-hibernate services, paired with
-`NVreg_PreserveVideoMemoryAllocations=1`. `/var/tmp` must have enough space
-for saved video memory. The 595+ open-module suspend-notifier setting is
-deliberately absent. DRM modesetting and fbdev are enabled.
+## Validation
 
-32-bit libraries are not included. Applications requiring them need a matching
-580xx multilib package; the repository's `lib32-nvidia-utils` for the newer
-driver cannot be mixed with this version.
+The native and multilib recipes build all six archives using unprivileged
+Shelly. The pinned upstream archive checksums and active patch application have
+been verified. All five modules from each DKMS variant compile against Devario
+`7.2.12-2.1-devario` headers, with matching driver versions, kernel vermagic and
+expected proprietary/open licenses. All six archives have consistent epoch
+metadata, package licenses and root ownership; all 93 symlinks resolve.
 
-## Provenance and validation
-
-Adapted from the `../../devario-core/nvidia-utils` recipe, originally based on
-[Arch packaging commit f9ae10b379f8b1d0832ec92bca1c12072aa123e9](https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-utils/-/tree/f9ae10b379f8b1d0832ec92bca1c12072aa123e9).
-The bundled `LICENSE` covers that packaging; each output installs NVIDIA's
-driver license. The payload is adjusted to the actual 580 archive, and the
-DKMS configuration is generated from its supplied template.
-
-Validated locally:
-
-- Bash syntax, Shelly review, generated `.SRCINFO`, and all source checksums.
-  Shelly flags the DKMS loop's integer increment as dynamic command
-  construction; it was reviewed and is ordinary shell arithmetic.
-- Successful native, unprivileged Shelly build of all three package archives.
-- Archive dependency/conflict metadata, distinct payloads, all 59 symlinks,
-  utility archive root ownership, and `nvidia-modprobe` mode `4755`.
-- Representative binaries match the downloaded archive byte for byte.
-- All five modules compile from the packaged DKMS sources against Devario
-  `7.2.12-2.1-devario` headers, using the generated DKMS make command.
-
-No driver was installed or loaded, and no host services were changed.
-An isolated build, a full DKMS install transaction, GPU rendering, and
-suspend/resume still need validation on a target system before publication.
+The five actual proprietary-stack archives pass ISO payload staging with fixture
+signatures and dependency records; this exercises their real firmware, GPU tables,
+OpenCL and multilib files without claiming production signature verification.
+Devario profile validation and the assembler contract tests pass.
+GPU rendering, suspend/resume, and a full signed offline ISO installation require
+target-system validation before release.

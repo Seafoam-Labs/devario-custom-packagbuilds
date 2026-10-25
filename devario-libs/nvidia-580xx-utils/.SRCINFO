@@ -1,12 +1,14 @@
 pkgbase = nvidia-580xx-utils
 	pkgdesc = NVIDIA 580xx driver utilities
-	pkgver = 580.196.07
-	pkgrel = 2
+	pkgver = 580.178.04
+	pkgrel = 4
+	epoch = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	makedepends = binutils
-	noextract = NVIDIA-Linux-x86_64-580.196.07.run
+	makedepends = patch
+	noextract = NVIDIA-Linux-x86_64-580.178.04.run
 	options = !strip
 	source = nvidia-drm-outputclass.conf
 	source = nvidia-utils.sysusers
@@ -14,28 +16,43 @@ pkgbase = nvidia-580xx-utils
 	source = systemd-homed-override.conf
 	source = systemd-suspend-override.conf
 	source = nvidia-utils.conf
+	source = 0001-Enable-atomic-kernel-modesetting-by-default.patch
+	source = 0002-Add-IBT-support.patch
+	source = fix-hw-cursor-kde.patch
+	source = limit-vram-usage
+	source = kwin-580xx-override.conf
 	sha256sums = be99ff3def641bb900c2486cce96530394c5dc60548fc4642f19d3a4c784134d
 	sha256sums = f77a5247a3ba63e9fad3a3b2822d0fcfa51e0f79b5a90bd79bf08ea34b64ab07
 	sha256sums = e30714f9b473d810c28763d067e0b85c75f86f23618d968b49b9d1fced9a1dd6
 	sha256sums = c5aa7b8abe69e72bfdc6b9ee8afbfd350bcc557e894558f2e6e4087fa9aa0dd8
 	sha256sums = 1d053c5078387021338cfc3a732bed61be1a20a549775573788e9134775c8149
 	sha256sums = d87b6087222a311e5bc177d8aa4bfe37aedbffcc48bdbe0fa53ea54a87ff073e
-	source_x86_64 = https://download.nvidia.com/XFree86/Linux-x86_64/580.196.07/NVIDIA-Linux-x86_64-580.196.07.run
-	sha256sums_x86_64 = 0aab0518db53cf73c412dc7f32bbc850ca95e839d8923d0de4bff42c1c9169ce
+	sha256sums = 163c57160cc1033020680f638b44ebd94b496152dcd8951e87d5077d4d5c2009
+	sha256sums = a0088d49d46b699d1727e5944fd9aca5ede93ea3678dd5e91ca58084bc2fa0ee
+	sha256sums = c1a1cf05dd12efd67858180461ad97a6ebe206b55b56df207854b322ce734613
+	sha256sums = b14f7a65359c05c373ddfc750cd4cf086a48e815489d93ad5cbe1dbf84bf8f5a
+	sha256sums = 8441344d09b36bc736d1ec25a403546dd16b00ac6666358843636d12f62e933e
+	source_x86_64 = https://download.nvidia.com/XFree86/Linux-x86_64/580.178.04/NVIDIA-Linux-x86_64-580.178.04.run
+	source_x86_64 = https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-580.178.04.tar.xz
+	sha256sums_x86_64 = 5975a86ee45bffcb626f51ae33d1169b108186a2ea47ad651e72f13fa4b6d6f9
+	sha256sums_x86_64 = 060749a0df733af2d0bc863fff4581faca398048d17dbc691d039141ead391d8
 
 pkgname = nvidia-580xx-utils
 	install = nvidia-580xx-utils.install
 	depends = glibc
 	depends = libglvnd
 	depends = egl-wayland
+	depends = egl-wayland2
 	depends = egl-gbm
 	depends = egl-x11
+	depends = opencl-nvidia-580xx=1:580.178.04
+	depends = lib32-nvidia-580xx-utils=1:580.178.04
+	depends = lib32-opencl-nvidia-580xx=1:580.178.04
 	optdepends = nvidia-580xx-dkms: kernel modules for this driver
 	optdepends = nvidia-settings: configuration tool
 	optdepends = xorg-server: Xorg support
 	optdepends = xorg-server-devel: nvidia-xconfig
-	optdepends = opencl-nvidia-580xx: OpenCL support
-	provides = nvidia-utils=580.196.07
+	provides = nvidia-utils=1:580.178.04
 	provides = vulkan-driver
 	provides = opengl-driver
 	provides = nvidia-libgl
@@ -45,9 +62,9 @@ pkgname = nvidia-580xx-utils
 pkgname = nvidia-580xx-dkms
 	pkgdesc = NVIDIA 580xx proprietary kernel modules (DKMS sources)
 	depends = dkms
-	depends = nvidia-580xx-utils=580.196.07
+	depends = nvidia-580xx-utils=1:580.178.04
 	optdepends = linux-headers: headers for the target kernel (use its matching headers package)
-	provides = nvidia-dkms=580.196.07
+	provides = nvidia-dkms=1:580.178.04
 	provides = NVIDIA-MODULE
 	conflicts = nvidia
 	conflicts = nvidia-lts
@@ -61,7 +78,22 @@ pkgname = opencl-nvidia-580xx
 	pkgdesc = NVIDIA 580xx OpenCL implementation
 	depends = zlib
 	depends = opencl-icd-loader
-	depends = nvidia-580xx-utils=580.196.07
-	provides = opencl-nvidia=580.196.07
+	provides = opencl-nvidia=1:580.178.04
 	provides = opencl-driver
 	conflicts = opencl-nvidia
+
+pkgname = nvidia-580xx-open-dkms
+	pkgdesc = NVIDIA 580xx open kernel modules (DKMS sources)
+	license = MIT AND GPL-2.0-only
+	depends = dkms
+	depends = nvidia-580xx-utils=1:580.178.04
+	optdepends = linux-headers: headers for the target kernel (use its matching headers package)
+	provides = nvidia-open-dkms=1:580.178.04
+	provides = NVIDIA-MODULE
+	conflicts = nvidia
+	conflicts = nvidia-lts
+	conflicts = nvidia-dkms
+	conflicts = nvidia-open
+	conflicts = nvidia-open-lts
+	conflicts = nvidia-open-dkms
+	conflicts = NVIDIA-MODULE
