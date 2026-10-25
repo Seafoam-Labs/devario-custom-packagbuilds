@@ -1,0 +1,84 @@
+pkgname=openchamber
+pkgver=2.5.1
+pkgrel=1
+pkgdesc='OpenChamber desktop workspace for AI coding with bundled OpenCode'
+arch=('x86_64' 'aarch64')
+url='https://openchamber.dev'
+license=('MIT')
+depends=(
+  'alsa-lib'
+  'at-spi2-core'
+  'cairo'
+  'curl'
+  'dbus'
+  'expat'
+  'git'
+  'glib2'
+  'glibc'
+  'gtk3'
+  'icu'
+  'libcups'
+  'libgcc'
+  'libnotify'
+  'libsecret'
+  'libstdc++'
+  'libx11'
+  'libxcb'
+  'libxcomposite'
+  'libxdamage'
+  'libxext'
+  'libxfixes'
+  'libxkbcommon'
+  'libxrandr'
+  'libxss'
+  'libxtst'
+  'mesa'
+  'nspr'
+  'nss'
+  'pango'
+  'ripgrep'
+  'systemd-libs'
+  'tar'
+  'util-linux-libs'
+  'xdg-utils'
+)
+makedepends=('libarchive')
+optdepends=(
+  'github-cli: GitHub integration'
+  'openssh: remote development over SSH'
+  'gnome-keyring: credential storage via Secret Service'
+  'libappindicator-gtk3: system tray integration'
+  'xdg-desktop-portal: desktop integration on Wayland'
+)
+provides=("openchamber=$pkgver" "openchamber-desktop=$pkgver")
+conflicts=('openchamber' 'openchamber-desktop')
+# Preserve the bundled Electron, OpenCode, and native Node modules.
+options=('!strip' '!debug')
+_release="https://github.com/openchamber/openchamber/releases/download/v$pkgver"
+source=("openchamber-$pkgver-LICENSE::https://raw.githubusercontent.com/openchamber/openchamber/v$pkgver/LICENSE")
+sha256sums=('1f6e869a3feff6b4eb07907afc89176562b1f4324389f163d9fd94f09864b44e')
+source_x86_64=("$_release/OpenChamber-$pkgver-linux-amd64.deb")
+sha256sums_x86_64=('285f43350d3cd10c59666217ad9b2ae975fb0caa21775373b2f932a0c66b33fc')
+source_aarch64=("$_release/OpenChamber-$pkgver-linux-arm64.deb")
+sha256sums_aarch64=('8087bded5004c068bf61a2014da8cd69942baca80986e72d2f920dbb2b43afef')
+
+package() {
+  # The builder unpacks the .deb container; extract only the application payload.
+  bsdtar -xf "$srcdir/data.tar.xz" -C "$pkgdir" --no-same-owner ./opt ./usr
+
+  local appdir="$pkgdir/opt/OpenChamber"
+  # Updates are managed by Shelly, not electron-updater's Debian installer.
+  rm -f "$appdir/resources/package-type" "$appdir/resources/app-update.yml"
+  chmod 4755 "$appdir/chrome-sandbox"
+
+  # Upstream reserves `openchamber` for its separately installed web/server CLI.
+  install -dm755 "$pkgdir/usr/bin"
+  ln -s /opt/OpenChamber/openchamber "$pkgdir/usr/bin/openchamber-desktop"
+
+  install -Dm644 "$srcdir/openchamber-$pkgver-LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$appdir/LICENSE.electron.txt" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE.electron.txt"
+  install -Dm644 "$appdir/LICENSES.chromium.html" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSES.chromium.html"
+}
