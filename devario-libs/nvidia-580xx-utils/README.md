@@ -19,6 +19,10 @@ including Maxwell, Pascal, and Volta. Check the release's supported GPU list
 for the specific device. The existing `nvidia-utils` recipe remains on its
 current branch; installing this alternative conflicts with that package.
 DKMS and OpenCL depend on exactly the same 580xx utility version.
+The utilities also install NVIDIA's `supported-gpus.json` under
+`/usr/share/doc/nvidia/`. Devario's installer uses its `legacybranch`,
+`kernelopen` and `gsp_proprietary_supported` fields to select this proprietary
+branch without accepting GPUs that require open kernel modules.
 
 ## Build
 

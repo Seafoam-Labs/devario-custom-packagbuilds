@@ -9,7 +9,7 @@ pkgbase=nvidia-580xx-utils
 pkgname=('nvidia-580xx-utils' 'nvidia-580xx-dkms' 'opencl-nvidia-580xx')
 pkgdesc='NVIDIA 580xx driver utilities'
 pkgver=580.196.07
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://www.nvidia.com/"
 license=('LicenseRef-NVIDIA-Driver-License-Agreement')
@@ -215,6 +215,9 @@ package_nvidia-580xx-utils() {
 
     install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/nvidia-580xx-utils/LICENSE"
     install -Dm644 README.txt "${pkgdir}/usr/share/doc/nvidia/README"
+    # Installer selection must distinguish open-only GPUs (e.g. Blackwell)
+    # from GPUs supported by this proprietary DKMS package.
+    install -Dm644 supported-gpus/supported-gpus.json "${pkgdir}/usr/share/doc/nvidia/supported-gpus.json"
     install -Dm644 NVIDIA_Changelog "${pkgdir}/usr/share/doc/nvidia/NVIDIA_Changelog"
     cp -r html "${pkgdir}/usr/share/doc/nvidia/"
     ln -s nvidia "${pkgdir}/usr/share/doc/nvidia-580xx-utils"

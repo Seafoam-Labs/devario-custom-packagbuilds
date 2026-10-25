@@ -1,7 +1,7 @@
 pkgbase = nvidia-580xx-utils
 	pkgdesc = NVIDIA 580xx driver utilities
 	pkgver = 580.196.07
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement

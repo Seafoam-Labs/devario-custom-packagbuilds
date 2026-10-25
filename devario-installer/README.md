@@ -40,7 +40,7 @@ including the Devario display name. The integration package supplies eGPU files.
 
 The active `devario-desktop` comes from Aqueous's
 `packaging/devario/aqueous-desktop/PKGBUILD`; publish all six `1.0.5-2` outputs
-after `devario-system-integration` 1-1, with [`rtkit`](../devario-core/rtkit/PKGBUILD) available to deliver
+after `devario-system-integration` 1-3, with [`rtkit`](../devario-core/rtkit/PKGBUILD) available to deliver
 realtime audio support to current desktops. After the one-time integration
 adoption described below, existing users can run `sudo shelly upgrade standard` after publication, then reboot. For an
 immediate repair, run `sudo shelly install standard rtkit` and reboot.
@@ -89,11 +89,11 @@ existing installations without writing user settings; log out and back in to
 refresh running applications. Rebuild the ISO with these packages for new
 installations.
 
-`devario-system-integration` 1-1 takes ownership of the former ISO GPU and
-greeter files, including `/usr/bin/devario-gpu-run`. Publish it before Aqueous's
-six 1.0.5-2 outputs, then rebuild the ISO. Existing installations must follow
-the [one-time adoption instructions](devario-system-integration/README.md#existing-installations-one-time-adoption)
-before upgrading to the new desktop dependency. From this checkout, inspect
-with `python3 devario-installer/devario-system-integration/migrate-overlay.py`,
-then apply with the same command under `sudo` and `--apply`. Later updates
-use normal Shelly upgrades.
+`devario-system-integration` 1-3 declares Shelly migrations for the unowned
+GPU helpers and desktop configuration left by older ISOs. Deploy Shelly CLI
+3.1.9 or later with migration support and RLPM first, then publish integration
+before Aqueous's six 1.0.5-2 outputs and rebuild the ISO. Existing installations
+follow the [one-time adoption instructions](devario-system-integration/README.md#existing-installations-one-time-adoption):
+normal installation adopts unowned files in place without running the old
+manual helper. Files owned by another package require a separate ownership
+migration. Later updates use normal Shelly upgrades.
