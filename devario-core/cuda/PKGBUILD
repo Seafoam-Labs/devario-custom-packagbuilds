@@ -8,14 +8,14 @@ pkgbase=cuda
 # nvidia-utils as otherwise we'll get stuff such as #7.
 # See the release notes for requirements:
 # https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-driver
-pkgver=13.4.2
+pkgver=13.4.3
 pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=(x86_64 aarch64)
 url="https://developer.nvidia.com/cuda-zone"
 license=(LicenseRef-NVIDIA-CUDA)
 depends=(
-  cccl
+  'cccl>=3.4.3'
   opencl-nvidia
   python
 )
@@ -85,8 +85,8 @@ sha512sums=('93a52c9d1272aafc04ba07a74a41c1c3b3722107048cc1b40409406b4c9ba76cda8
             '5df94583c7d082045fffb5c055b163b5242e7975d4de19e334c2d4b2e0e8caf8a930a5ff82b800f54d45ac53d9be0044afd893fb649b461594981693a5256836'
             '200b23fa74c486a3b1d003d3326163a7d2318dd3a02a0fe488fef3c4ae713cd0dac251b751edc723696fb3d04d4e5f2c11d3b68a0b5f4621388ca28a387ba421'
             '0a49ce7972ac24ac1f1bd229a4fad3a37747d3e8123c4c1c4521c19fbc308b85f3ee6bf8fbee420aac2335c57aa6b524c20277c59abd7202590144f7ed79c24a')
-sha512sums_x86_64=('b8947f3683728ca0aa091da7c22070250521ced0001defabcaf8a31cae1d3fde34bc4641484ac946d7289c803f2f56802a99f553977b7912679c7f5d5a98573c')
-sha512sums_aarch64=('f308228d84a6a2e4dff7b4c65ff66b671c55229d3653c51912ea54e12c4850089a6a78ce480e89666a230e4e0d1fdc26b66acca4a01d4ea5819e4f42d9b99752')
+sha512sums_x86_64=('da05c571b14538adb19253b04ba27ef8724e760af4614c8a577aac5e64a5ea9ea13e78f1996c8cf3073b15d9b68b64aefbdf1ff57e324e3620e8b29176814828')
+sha512sums_aarch64=('4e534694db922c62284728292099a4a80c02c60eaab4f3ae23902a9985c91597b94ad1ba6dffce1a625b2a5eda412ffe500ef6852b81dedab2c13cdd24373749')
 
 prepare() {
   sh cuda_${pkgver}_linux*.run --target "${srcdir}" --noexec
