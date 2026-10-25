@@ -1,0 +1,101 @@
+# Maintainer: Anatol Pomozov
+# Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
+
+pkgname=devario-booster-git
+pkgver=0.3.r2.g1350d7a
+pkgrel=1
+pkgdesc='Fast and secure initramfs generator'
+arch=(x86_64)
+url='https://github.com/anatol/booster'
+license=(MIT)
+depends=(bash)
+makedepends=(git go ruby-ronn-ng libfido2)
+#checkdepends=(qemu-headless linux tang)
+optdepends=(
+  'busybox: to enable emergency shell at the boot time'
+  'yubikey-personalization: for clevis Yubikey challenge-response support'
+  'systemd-ukify: for generating UKIs'
+  'binutils: to strip kernel modules'
+)
+backup=(etc/booster.yaml)
+provides=(booster initramfs)
+conflicts=(booster)
+replaces=(booster)
+source=(git+https://github.com/anatol/booster
+       "0001-packaging-arch-rebase-hooks-and-helpers-on-Shelly-RL.patch")
+sha512sums=('SKIP'
+            'b87621f979c4c81080a1bdf2222c4c4f9d45b8090d0cf6b12a0e010af85efd89ecea86a98ccf631fd67e0e6b0ce4351d82f9c9d8bef6fc08f4c382640e397ad5')
+
+pkgver() {
+  cd booster
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+
+prepare() {
+  cd booster
+
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    echo "Applying patch $src..."
+    patch -Np1 < "../$src"
+  done
+
+  # remove dracut modules not meant for arch x86_64
+  for f in cms cio_ignore ppcmac zipl \
+    dasd dasd_mod dasd_rules dcssblk fcoe* \
+    qeth_rules zfcp zfcp_rules znet; do
+    rm -rf "modules.d/[0-9][0-9]$f"
+  done
+}
+
+build() {
+  cd booster
+
+  cd generator
+  CGO_CPPFLAGS="${CPPFLAGS}" CGO_CFLAGS="${CFLAGS}" CGO_CXXFLAGS="${CXXFLAGS}" CGO_LDFLAGS="${LDFLAGS}" \
+    go build -trimpath \
+      -buildmode=pie \
+      -mod=readonly \
+      -modcacherw \
+      -ldflags "-linkmode external -extldflags \"${LDFLAGS}\""
+
+  cd ../init
+  CGO_ENABLED=1 go build -trimpath -mod=readonly -modcacherw
+
+  cd fido2plugin
+  CGO_ENABLED=1 CGO_CPPFLAGS="${CPPFLAGS}" CGO_CFLAGS="${CFLAGS}" CGO_CXXFLAGS="${CXXFLAGS}" CGO_LDFLAGS="${LDFLAGS}" \
+    go build -trimpath -mod=readonly -modcacherw -buildmode=plugin -o ../fido2plugin.so .
+  cd ../..
+
+  ronn docs/manpage.md
+}
+
+check() {
+  cd booster/tests
+  # arch chroot does not allow access to KVM
+  # TEST_DISABLE_KVM=1 go test -v # integration tests require a lot of time and space to build 10G images
+}
+
+package() {
+  cd booster
+  mkdir "$pkgdir/etc/"
+  touch "$pkgdir/etc/booster.yaml"
+  install -Dp -m755 generator/generator "$pkgdir/usr/bin/booster"
+  install -Dp -m644 docs/manpage.1 "$pkgdir/usr/share/man/man1/booster.1"
+  install -Dp -m755 init/init "$pkgdir/usr/lib/booster/init"
+  install -Dp -m755 init/fido2plugin.so "$pkgdir/usr/lib/booster/fido2plugin.so"
+  install -Dp -m755 packaging/arch/regenerate_images "$pkgdir/usr/lib/booster/regenerate_images"
+  install -Dp -m755 packaging/arch/regenerate_uki "$pkgdir/usr/lib/booster/regenerate_uki"
+  install -Dp -m755 packaging/common/60-booster.install "$pkgdir/usr/lib/kernel/install.d/60-booster.install"
+
+  # Devario: install transaction hooks and helpers under /usr/share/rlpm.
+  install -Dp -m644 packaging/arch/90-booster-install.hook "$pkgdir/usr/share/rlpm/hooks/90-booster-install.hook"
+  install -Dp -m755 packaging/arch/booster-install "$pkgdir/usr/share/rlpm/scripts/booster-install"
+  install -Dp -m644 packaging/arch/60-booster-remove.hook "$pkgdir/usr/share/rlpm/hooks/60-booster-remove.hook"
+  install -Dp -m755 packaging/arch/booster-remove "$pkgdir/usr/share/rlpm/scripts/booster-remove"
+  install -Dp -m755 contrib/completion/bash "$pkgdir/usr/share/bash-completion/completions/booster"
+}

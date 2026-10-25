@@ -1,0 +1,286 @@
+From 90f33206aa5507e9bd3fa78412350681da8a218c Mon Sep 17 00:00:00 2001
+From: Piotr Gorski <lucjan.lucjanov@gmail.com>
+Date: Sun, 25 Oct 2026 10:25:41 +0100
+Subject: [PATCH] packaging/arch: rebase hooks and helpers on Shelly/RLPM
+
+The previous commit only repointed the hook Exec paths at
+/usr/share/rlpm/scripts; the helpers still shelled out to pacman and
+the PKGBUILD still installed everything under /usr/share/libalpm.
+
+Follow the devario-dracut layout instead:
+
+* booster-install / booster-remove / regenerate_images / regenerate_uki
+  no longer call `pacman -Qqo`. Shelly maintains its own database, so a
+  kernel is considered installed when both usr/lib/modules/<kver>/pkgbase
+  and vmlinuz are present and non-empty; pkgbase and kver are validated
+  against the same character class dracut-install uses before they are
+  spliced into /boot paths. Stale module directories are reported and
+  skipped.
+* booster-install waits for every background `booster build` and fails
+  the transaction if any of them failed, instead of returning the status
+  of whichever job finished last. Firmware and extramodules updates now
+  retrigger the images, matching 90-dracut-install.hook.
+* booster-remove triggers on usr/lib/modules/*/pkgbase (PreTransaction,
+  like 60-dracut-remove.hook) and also removes /boot/vmlinuz-<pkgbase>
+  when the kernel package is removed; removing booster itself keeps the
+  vmlinuz copies for the next initramfs provider.
+* regenerate_images delegates to the install helper so there is one
+  code path; regenerate_uki checks for ukify on PATH instead of
+  `pacman -Qq systemd-ukify`.
+* PKGBUILD installs hooks to /usr/share/rlpm/hooks and helpers to
+  /usr/share/rlpm/scripts.
+
+Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+---
+ packaging/arch/60-booster-remove.hook  |  2 +-
+ packaging/arch/90-booster-install.hook |  2 ++
+ packaging/arch/PKGBUILD                | 10 ++++---
+ packaging/arch/booster-install         | 38 ++++++++++++++++++--------
+ packaging/arch/booster-remove          | 36 ++++++++++++++----------
+ packaging/arch/regenerate_images       | 20 +++++---------
+ packaging/arch/regenerate_uki          | 19 ++++++++-----
+ 7 files changed, 77 insertions(+), 50 deletions(-)
+
+diff --git a/packaging/arch/60-booster-remove.hook b/packaging/arch/60-booster-remove.hook
+index ec5d2fb..fc39f62 100644
+--- a/packaging/arch/60-booster-remove.hook
++++ b/packaging/arch/60-booster-remove.hook
+@@ -1,7 +1,7 @@
+ [Trigger]
+ Type = Path
+ Operation = Remove
+-Target = usr/lib/modules/*/vmlinuz
++Target = usr/lib/modules/*/pkgbase
+ 
+ [Trigger]
+ Type = Package
+diff --git a/packaging/arch/90-booster-install.hook b/packaging/arch/90-booster-install.hook
+index b9a2344..d6d01f6 100644
+--- a/packaging/arch/90-booster-install.hook
++++ b/packaging/arch/90-booster-install.hook
+@@ -3,6 +3,8 @@ Type = Path
+ Operation = Install
+ Operation = Upgrade
+ Target = usr/lib/modules/*/vmlinuz
++Target = usr/lib/modules/*/extramodules/
++Target = usr/lib/firmware/*
+ Target = usr/lib/booster/*
+ Target = usr/bin/booster
+ 
+diff --git a/packaging/arch/PKGBUILD b/packaging/arch/PKGBUILD
+index fe4285a..accead8 100644
+--- a/packaging/arch/PKGBUILD
++++ b/packaging/arch/PKGBUILD
+@@ -1,4 +1,5 @@
+ # Maintainer: Anatol Pomozov
++# Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
+ 
+ pkgname=booster-git
+ pkgver=0.3.r2.g1350d7a
+@@ -68,9 +69,10 @@ package() {
+   install -Dp -m755 packaging/arch/regenerate_uki "$pkgdir/usr/lib/booster/regenerate_uki"
+   install -Dp -m755 packaging/common/60-booster.install "$pkgdir/usr/lib/kernel/install.d/60-booster.install"
+ 
+-  install -Dp -m644 packaging/arch/90-booster-install.hook "$pkgdir/usr/share/libalpm/hooks/90-booster-install.hook"
+-  install -Dp -m755 packaging/arch/booster-install "$pkgdir/usr/share/libalpm/scripts/booster-install"
+-  install -Dp -m644 packaging/arch/60-booster-remove.hook "$pkgdir/usr/share/libalpm/hooks/60-booster-remove.hook"
+-  install -Dp -m755 packaging/arch/booster-remove "$pkgdir/usr/share/libalpm/scripts/booster-remove"
++  # Devario: install transaction hooks and helpers under /usr/share/rlpm.
++  install -Dp -m644 packaging/arch/90-booster-install.hook "$pkgdir/usr/share/rlpm/hooks/90-booster-install.hook"
++  install -Dp -m755 packaging/arch/booster-install "$pkgdir/usr/share/rlpm/scripts/booster-install"
++  install -Dp -m644 packaging/arch/60-booster-remove.hook "$pkgdir/usr/share/rlpm/hooks/60-booster-remove.hook"
++  install -Dp -m755 packaging/arch/booster-remove "$pkgdir/usr/share/rlpm/scripts/booster-remove"
+   install -Dp -m755 contrib/completion/bash "$pkgdir/usr/share/bash-completion/completions/booster"
+ }
+diff --git a/packaging/arch/booster-install b/packaging/arch/booster-install
+index 12ede75..a062422 100755
+--- a/packaging/arch/booster-install
++++ b/packaging/arch/booster-install
+@@ -3,31 +3,47 @@
+ kernels=()
+ all=0
+ 
+-while read -r line; do
++while IFS= read -r line || [[ -n "$line" ]]; do
+   # line is like usr/lib/modules/5.8.2-arch1-1/vmlinuz
+-  if [[ ${line} != usr/lib/modules/* ]]; then
+-    # triggers when it's a change to usr/lib/booster/*
++  if [[ ${line} != */vmlinuz ]]; then
++    # triggers when it's a change to booster, firmware or extramodules
+     all=1
+-    break
++    continue
+   fi
+ 
+   kernels+=("/${line%/vmlinuz}")
+ done
+ 
+-if [ "${all}" -eq "1" ]; then
++if (( all )); then
+   # find out all installed kernels
+-  mapfile -d '' kernels < <(find /usr/lib/modules -maxdepth 1 -type d ! -name "modules" -print0)
++  shopt -s nullglob
++  kernels=(/usr/lib/modules/*)
+ fi
+ 
++pids=()
+ for kernel in "${kernels[@]}"; do
+-  if ! pacman -Qqo "${kernel}/pkgbase" > /dev/null 2>&1; then
+-    # if pkgbase does not belong to any package then skip this kernel
++  # Shelly maintains its own database. A leftover modules directory is not
++  # a bootable kernel unless its package metadata and image are both present.
++  if [[ ! -s "${kernel}/pkgbase" || ! -s "${kernel}/vmlinuz" ]]; then
++    echo ":: Skipping ${kernel}: missing kernel pkgbase or vmlinuz" >&2
+     continue
+   fi
+-  read -r pkgbase < "${kernel}/pkgbase"
+ 
+-  booster build --force --kernel-version ${kernel##/usr/lib/modules/} /boot/booster-${pkgbase}.img &
++  pkgbase="$(<"${kernel}/pkgbase")"
++  kver="${kernel##*/}"
++  if [[ ! "$pkgbase" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ || ! "$kver" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]]; then
++    echo ":: Invalid kernel metadata in ${kernel}" >&2
++    exit 1
++  fi
++
++  echo ":: Building booster image for ${pkgbase} (${kver})"
++  booster build --force --kernel-version "${kver}" "/boot/booster-${pkgbase}.img" &
++  pids+=($!)
+   install -Dm644 "${kernel}/vmlinuz" "/boot/vmlinuz-${pkgbase}"
+ done
+ 
+-wait
++status=0
++for pid in "${pids[@]}"; do
++  wait "${pid}" || status=1
++done
++exit "${status}"
+diff --git a/packaging/arch/booster-remove b/packaging/arch/booster-remove
+index 3ff9d06..0367816 100755
+--- a/packaging/arch/booster-remove
++++ b/packaging/arch/booster-remove
+@@ -3,28 +3,36 @@
+ kernels=()
+ all=0
+ 
+-while read -r line; do
+-  # line is like usr/lib/modules/5.8.2-arch1-1/vmlinuz
+-  if [[ ${line} != usr/lib/modules/* ]]; then
+-    # triggers when it's a change to usr/lib/booster/*
++while IFS= read -r line || [[ -n "$line" ]]; do
++  # line is like usr/lib/modules/5.8.2-arch1-1/pkgbase
++  if [[ ${line} != */pkgbase ]]; then
++    # triggers when the booster package itself is being removed
+     all=1
+-    break
++    continue
+   fi
+ 
+-  kernels+=("/${line%/vmlinuz}")
++  kernels+=("/${line%/pkgbase}")
+ done
+ 
+-if [ "${all}" -eq "1" ]; then
++if (( all )); then
+   # find out all installed kernels
+-  mapfile -d '' kernels < <(find /usr/lib/modules -maxdepth 1 -type d ! -name "modules" -print0)
++  shopt -s nullglob
++  kernels=(/usr/lib/modules/*)
+ fi
+ 
+ for kernel in "${kernels[@]}"; do
+-  if ! pacman -Qqo "${kernel}/pkgbase" > /dev/null 2>&1; then
+-    # if pkgbase does not belong to any package then skip this kernel
+-    continue
+-  fi
+-  read -r pkgbase < "${kernel}/pkgbase"
++  # Shelly maintains its own database; only act on kernels that still carry
++  # their package metadata.
++  [[ -s "${kernel}/pkgbase" ]] || continue
+ 
+-  rm -f /boot/booster-${pkgbase}.img
++  pkgbase="$(<"${kernel}/pkgbase")"
++  if [[ ! "$pkgbase" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]]; then
++    echo ":: Invalid kernel metadata in ${kernel}" >&2
++    exit 1
++  fi
++
++  rm -f "/boot/booster-${pkgbase}.img"
++  # The kernel package itself is going away: drop its copied image too.
++  # When only booster is removed, leave vmlinuz for the other initramfs provider.
++  (( all )) || rm -f "/boot/vmlinuz-${pkgbase}"
+ done
+diff --git a/packaging/arch/regenerate_images b/packaging/arch/regenerate_images
+index c8a7cd4..8510c43 100755
+--- a/packaging/arch/regenerate_images
++++ b/packaging/arch/regenerate_images
+@@ -1,17 +1,11 @@
+ #!/bin/bash -e
+ 
+-# find out all installed kernels
+-mapfile -d '' kernels < <(find /usr/lib/modules -maxdepth 1 -type d ! -name "modules" -print0)
++# Rebuild the booster images for all kernels found in /usr/lib/modules
+ 
+-for kernel in "${kernels[@]}"; do
+-  if ! pacman -Qqo "${kernel}/pkgbase" > /dev/null 2>&1; then
+-    # if pkgbase does not belong to any package then skip this kernel
+-    continue
+-  fi
+-  read -r pkgbase < "${kernel}/pkgbase"
++if [[ $EUID -ne 0 ]]; then
++  echo "regenerate_images must be run as root." >&2
++  exit 1
++fi
+ 
+-  booster build --force --kernel-version ${kernel##/usr/lib/modules/} /boot/booster-${pkgbase}.img &
+-  install -Dm644 "${kernel}/vmlinuz" "/boot/vmlinuz-${pkgbase}"
+-done
+-
+-wait
++# The install hook treats any non-vmlinuz line as "rebuild everything".
++exec /usr/share/rlpm/scripts/booster-install <<< "usr/bin/booster"
+diff --git a/packaging/arch/regenerate_uki b/packaging/arch/regenerate_uki
+index aa3a733..b0a4225 100755
+--- a/packaging/arch/regenerate_uki
++++ b/packaging/arch/regenerate_uki
+@@ -49,10 +49,9 @@ main() {
+     exit 1
+   fi
+ 
+-  # check if the systemd-ukify package is installed via pacman
+-  package=$(pacman -Qq "systemd-ukify")
+-  if ! [ "$package" == "systemd-ukify" ]; then
+-    echo "$package"
++  # check if ukify (systemd-ukify) is available
++  if ! command -v ukify > /dev/null 2>&1; then
++    echo "ukify not found; install systemd-ukify." >&2
+     exit 1
+   fi
+ 
+@@ -63,14 +62,20 @@ main() {
+   fi
+ 
+   # find out all installed kernels
+-  mapfile -d '' kernels < <(find /usr/lib/modules -maxdepth 1 -type d ! -name "modules" -print0)
++  shopt -s nullglob
++  kernels=(/usr/lib/modules/*)
+ 
+   for kernel in "${kernels[@]}"; do
+-    if ! pacman -Qqo "${kernel}/pkgbase" > /dev/null 2>&1; then
+-      # if pkgbase does not belong to any package then skip this kernel
++    # Shelly maintains its own database. A leftover modules directory is not
++    # a bootable kernel unless its package metadata and image are both present.
++    if [[ ! -s "${kernel}/pkgbase" || ! -s "${kernel}/vmlinuz" ]]; then
+       continue
+     fi
+     read -r pkgbase < "${kernel}/pkgbase"
++    if [[ ! "$pkgbase" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]]; then
++      echo "Invalid kernel metadata in ${kernel}" >&2
++      exit 1
++    fi
+ 
+     create_uki "$kernel" "$pkgbase" "$esp" &
+   done
+-- 
+2.56.0
+
