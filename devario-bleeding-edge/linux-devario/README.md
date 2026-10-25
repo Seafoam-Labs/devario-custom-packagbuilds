@@ -32,7 +32,7 @@ The defaults below come from `_release_opts` in `PKGBUILD`:
 | `_hugepage` | `always` | Default transparent hugepage policy (`always`, `madvise`). |
 | `_cc_harder` | `yes` | Enable kernel `-O3` optimization. |
 | `_per_gov` | `no` | Do not select `performance` in place of `schedutil` as the default governor. |
-| `_lru_marie` | `yes` | Enable LRU MARIE and its configured defragmentation support. |
+| `_lru_cast` | `yes` | Enable LRU CAST. |
 | `_localmodcfg` | `no` | Do not restrict the module set using `modprobed-db`. |
 | `_use_current` | `no` | Start from the shipped `config`, not `/proc/config.gz`. |
 | `_makenconfig` / `_makexconfig` | `no` / `no` | Disable interactive configuration frontends. |

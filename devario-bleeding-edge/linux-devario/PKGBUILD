@@ -13,7 +13,7 @@ _pkgsuffix=devario
 _major=7.3
 _minor=0
 # Release number of the devario-<version>-<N> tag on GitHub.
-_tagrel=3
+_tagrel=4
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
@@ -60,7 +60,7 @@ _die() {
 # _hugepage       transparent hugepage default: always, madvise
 # _cc_harder      yes: build with -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
 # _per_gov        yes: performance as default cpufreq governor (instead of schedutil)
-# _lru_marie      yes: enable LRU MARIE (CONFIG_LRU_MARIE, default on, with defrag)
+# _lru_cast      yes: enable LRU CAST (CONFIG_LRU_CAST)
 # _localmodcfg    yes: build only modules listed in a modprobed-db database
 #                 (path in _localmodcfg_path); https://wiki.archlinux.org/title/Modprobed-db
 # _use_current    yes: start from the running kernel's /proc/config.gz instead of
@@ -78,7 +78,7 @@ _release_opts=(
   _hugepage=always
   _cc_harder=yes
   _per_gov=no
-  _lru_marie=yes
+  _lru_cast=yes
   _localmodcfg=no
   _use_current=no
   _makenconfig=no
@@ -230,10 +230,10 @@ prepare() {
   esac
   echo "Selected '$_hugepage' transparent hugepage mode"
 
-  ### LRU MARIE
-  if [ "$_lru_marie" = "yes" ]; then
-    echo "Enabling LRU_MARIE..."
-    scripts/config -e LRU_MARIE -e LRU_MARIE_DEFAULT_ON -e LRU_MARIE_DEFRAG
+  ### LRU CAST
+  if [ "$_lru_cast" = "yes" ]; then
+    echo "Enabling LRU_CAST..."
+    scripts/config -e LRU_CAST
   fi
 
   ### DRM panic screen with QR code
@@ -421,5 +421,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('acde3398375aa719937dfadd0bcfaf2576ba29410a08fea8da4d443603825afc0d6b58591ab25ceaceabe324956f12f1c9ddbff3cb4a193568c58c2d54c0f3a3'
-        'c9aee0d1344c0150973d4abf4e9d3c23bcc70679a131632ac8065d4ec30ebcbba3d7d41cc03aea79a4da8998675739e627432f3969ff0d8f4f6dd3b486b49caf')
+b2sums=('f2f00f7ca6ec0d8f722a018c5ab3b34f98a658d686728a6be6ccb5e979d24f9e236b8f35b394ad3cd70cb28b3a06f9a96902fcc0d1559479aff882e0c0187ce6'
+        '9d584fdf4aba38749ee90f6beb9ad4e047bd95c949e535cf4c67ea88de738788639fd3fcca0273ca17db9b927b2ac1a795ad25775ea0801e0dc3b4cc5b78ffff')
