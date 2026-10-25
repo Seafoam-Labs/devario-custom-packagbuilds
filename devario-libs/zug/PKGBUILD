@@ -1,0 +1,43 @@
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=zug
+pkgver=0.1.2
+pkgrel=1
+pkgdesc='Transducers for C++'
+arch=(any)
+url='https://sinusoid.es/zug/'
+license=(BSL-1.0)
+makedepends=(catch2
+             cmake
+             git)
+checkdepends=(boost)
+source=(git+https://github.com/arximboldi/zug#tag=v$pkgver)
+sha256sums=('6baf3bd2c18c37bc5a3ca498b190cadd4b0e41a51807700112e816f5b53708a2')
+
+prepare() {
+  cd $pkgname
+  git cherry-pick -n c8c74ada30d931e40636c13763b892f20d3ce1ae # Add missing include
+  # Catch2 V3 support
+  # https://github.com/arximboldi/zug/pull/53
+  git cherry-pick -n 483e8f7781345db18b0cfdb355ccc18b5e5133cb
+  git cherry-pick -n 9ae2520a920eb50e7acb454a26537046e6e0ec37
+}
+
+build() {
+  # Use old generate canonical to match test expectations
+  # https://github.com/arximboldi/zug/issues/54
+  CXXFLAGS+=' -D_GLIBCXX_USE_OLD_GENERATE_CANONICAL'
+  cmake -B build -S $pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+check() {
+  cmake --build build --target check
+  ctest --test-dir build \
+        --output-on-failure
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}

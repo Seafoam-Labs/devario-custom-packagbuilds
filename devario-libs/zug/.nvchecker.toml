@@ -1,0 +1,5 @@
+[zug]
+source = 'github'
+github = 'arximboldi/zug'
+use_max_tag = true
+prefix = 'v'

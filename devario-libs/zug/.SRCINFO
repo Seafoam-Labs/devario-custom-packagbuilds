@@ -1,0 +1,15 @@
+pkgbase = zug
+	pkgdesc = Transducers for C++
+	pkgver = 0.1.2
+	pkgrel = 1
+	url = https://sinusoid.es/zug/
+	arch = any
+	license = BSL-1.0
+	checkdepends = boost
+	makedepends = catch2
+	makedepends = cmake
+	makedepends = git
+	source = git+https://github.com/arximboldi/zug#tag=v0.1.2
+	sha256sums = 6baf3bd2c18c37bc5a3ca498b190cadd4b0e41a51807700112e816f5b53708a2
+
+pkgname = zug
