@@ -19,7 +19,10 @@ url='https://dart.dev/'
 depends=('glibc')
 license=('BSD-3-Clause')
 makedepends=(
-  'dart'
+  # Devario deviation from upstream: the published seed is the separate dart-bootstrap
+  # package rather than the name dart, which keeps this recipe's output the only package
+  # in the repositories providing dart.
+  'dart-bootstrap'
   'git'
   'gn'
   'ninja'
@@ -57,6 +60,8 @@ solutions = [
 EOF
 
   export PATH+=":$PWD/depot_tools" DEPOT_TOOLS_UPDATE=0
+  # dart-bootstrap keeps its SDK off the default PATH so it can coexist with dart.
+  export PATH="/opt/dart-bootstrap-sdk/bin:$PATH"
 
   cd sdk
 
@@ -78,6 +83,8 @@ EOF
 
 build() {
   cd sdk
+
+  export PATH="/opt/dart-bootstrap-sdk/bin:$PATH"
 
   # gn args --list out
 

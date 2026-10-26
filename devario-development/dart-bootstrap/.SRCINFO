@@ -1,4 +1,4 @@
-pkgbase = dart
+pkgbase = dart-bootstrap
 	pkgdesc = The dart programming language SDK (bootstrap seed)
 	pkgver = 3.13.5
 	pkgrel = 1
@@ -12,4 +12,4 @@ pkgbase = dart
 	source = https://storage.googleapis.com/dart-archive/channels/stable/release/3.13.5/sdk/dartsdk-linux-x64-release.zip
 	sha256sums = ea864bc64df30a6b8bdf30b2e32550f7717d9a890de8f40293aeabb924fe232b
 
-pkgname = dart
+pkgname = dart-bootstrap

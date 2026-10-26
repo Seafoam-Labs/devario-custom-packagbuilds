@@ -1,5 +1,8 @@
 # Upstream's prebuilt release, used only to bootstrap the self-hosting dart build.
-pkgname=dart
+# Published under its own name with the SDK under /opt/$pkgname-sdk so it can sit in the
+# same repository as the real dart: no shared ALPM name, no shared path, and no provides,
+# so no downstream dependency can ever resolve to this seed instead of dart.
+pkgname=dart-bootstrap
 pkgver=3.13.5
 pkgrel=1
 pkgdesc='The dart programming language SDK (bootstrap seed)'
@@ -16,11 +19,9 @@ package() {
   install -d "$pkgdir/opt/$pkgname-sdk"
   cp -a dart-sdk/. "$pkgdir/opt/$pkgname-sdk/"
 
-  install -d "$pkgdir/usr/bin"
-  for f in dart dartaotruntime; do
-    ln -s "/opt/$pkgname-sdk/bin/$f" "$pkgdir/usr/bin/$f"
-  done
-
+  # No /usr/bin links: the seed is reached only through the explicit PATH entry in
+  # ../dart, so dart and dart-bootstrap can be installed side by side without either
+  # package claiming a path the other owns.
   install -Dm644 dart-sdk/README -t "$pkgdir/usr/share/doc/$pkgname"
   install -Dm644 dart-sdk/LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
