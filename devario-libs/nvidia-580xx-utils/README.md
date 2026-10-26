@@ -38,7 +38,17 @@ and are not imported here.
 
 Utilities include CachyOS's application profile limiting VRAM reuse and the
 KWin service override selecting egl-wayland2 only for KWin. The matching
-`egl-wayland2` dependency is retained. Devario preserves its explicit modeset
+`egl-wayland2` dependency is retained. For Aqueous, utilities also install
+`/usr/share/uwsm/env-aqueous.d/60-nvidia-580xx-egl.sh`. UWSM exports its EGL
+selection to session applications only when `/sys/module/nvidia/version`
+starts with `580.`, the egl-wayland2 manifest exists, and
+`__EGL_EXTERNAL_PLATFORM_CONFIG_FILENAMES` is unset. Explicit user values,
+including an empty value, are preserved. The file is owned by the 580 utilities
+package and is removed when that package is removed. Log out and back in after
+installing the update. This changes EGL clients, not Aqueous's Vulkan renderer;
+other driver branches receive no forced selection from this drop-in.
+
+Devario preserves its explicit modeset
 and fbdev options, VRAM preservation, and suspend/hibernate/resume services.
 CachyOS's `NVreg_UseKernelSuspendNotifiers` option is not copied: it is absent
 from these 580 module sources. The supported 580 VRAM-preservation mechanism
