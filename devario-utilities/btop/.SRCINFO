@@ -1,0 +1,19 @@
+pkgbase = btop
+	pkgdesc = A monitor of system resources, bpytop ported to C++
+	pkgver = 1.4.8
+	pkgrel = 1
+	url = https://github.com/aristocratos/btop
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = gcc>=14
+	makedepends = lowdown
+	makedepends = rocm-smi-lib
+	depends = glibc
+	depends = hicolor-icon-theme
+	depends = libgcc
+	depends = libstdc++
+	optdepends = rocm-smi-lib: AMD GPU support
+	source = https://github.com/aristocratos/btop/archive/v1.4.8/btop-1.4.8.tar.gz
+	sha256sums = 67e07c21b770a6d884c5e50ba1d2cfc90732ea57459367d8732ec7ecbeb3be5f
+
+pkgname = btop
