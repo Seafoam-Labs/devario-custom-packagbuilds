@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=pdfcraft
-pkgver=0.13.0
+pkgver=0.14.0
 pkgrel=1
 pkgdesc="PDF reader and editor: comment, fill, sign, redact, combine and split"
 arch=('x86_64' 'aarch64')
@@ -30,10 +30,10 @@ optdepends=(
     'libcups: printing support'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('a65214953787fd8428cb6636447a0e65a66f20bb64ace18bb58e06d7002d7a5b')
+sha256sums=('68405d6c694fb4fc14e583d9e3726e36f28719857ec96b9c5a225da711a4f2b4')
 
-_commit=53199fb
-_releasedate=2026-10-23
+_commit=5a78b22
+_releasedate=2026-10-25
 _appid=ai.storyteller.pdfcraft
 
 prepare() {
