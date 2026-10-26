@@ -1,5 +1,34 @@
 # Missing dependency builds for Shelly
 
+## dbus-python needs python-tomli (2026-10-26)
+
+The worker's `devario-core/dbus-python` dependency plan reports `python-tomli`
+twice as `not_in_repositories` and twice as `not_in_environment`. These entries
+name one missing provider. No local recipe existed, and Shelly's cached
+repository search returned no package.
+
+Build and publish [python-tomli](devario-core/python-tomli/PKGBUILD) `2.5.0-1`,
+refresh the worker's repository metadata, then retry `dbus-python`. Upload both
+the new `PKGBUILD` and `.SRCINFO`; uploading the recipe alone does not satisfy
+the dependency. The worker's `dbus-python` recipe is not present in this checkout
+and was not modified.
+
+The recipe builds the pure-Python wheel from the checksum-pinned
+[upstream source release](https://pypi.org/project/tomli/2.5.0/). It requires
+`python-build`, `python-installer`, and `python-flit-core>=3.12,<5`, matching
+upstream's backend requirements. All are present in the cached repository
+catalogs. Python's standard-library `tomllib` does not provide the separately
+named `tomli` import or satisfy the package dependency.
+
+Validation: source SHA-256, Bash syntax, Shelly metadata generation and review
+(no findings), and the recipe's build and staged package functions passed.
+Validation used checksum-verified repository build tools extracted under `/tmp`
+without host installation. Staged imports, version metadata, string/file TOML
+parsing, decimal handling, invalid-input rejection, license, and typing marker
+checks passed. The source archive does not include upstream tests. Shelly's
+isolated dependency resolution stopped at repository refresh with `SyncDbFailed`;
+no isolated build or repository publication was performed.
+
 ## btop man page needs lowdown, and lowdown needs bmake (2026-10-26)
 
 [btop](devario-utilities/btop/PKGBUILD) lists `lowdown` in `makedepends` to

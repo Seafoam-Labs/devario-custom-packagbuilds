@@ -1,0 +1,16 @@
+pkgbase = python-tomli
+	pkgdesc = A lil TOML parser for Python
+	pkgver = 2.5.0
+	pkgrel = 1
+	url = https://github.com/hukkin/tomli
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-flit-core>=3.12
+	makedepends = python-flit-core<5
+	makedepends = python-installer
+	depends = python>=3.8
+	source = https://files.pythonhosted.org/packages/source/t/tomli/tomli-2.5.0.tar.gz
+	sha256sums = 264507556cd8b8c8e7c6ee037cdf443a463f03f4c958e57195e3d369711b8ff6
+
+pkgname = python-tomli
