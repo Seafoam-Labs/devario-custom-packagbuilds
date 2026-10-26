@@ -90,6 +90,22 @@ directory listing carries the same filenames, and the same host probe downloads
 it completely before failing on the missing `bc` makedepend. The recipe now
 fetches from NetBSD with the upstream crufty URL kept commented beside it.
 
+Worker job 4725 built `devario-libs/lowdown` in the isolated root and closed
+stage 3 on the way: it installed `bmake-20260912-1-x86_64` from
+`devario-development`, where that version is now published. It failed in
+`package()`, not in the compile. The recipe re-linked `usr/lib/liblowdown.so` to
+the absolute path `/usr/lib/liblowdown.so.5`, which dangles inside `$pkgdir`
+because nothing is installed into the build root's real `/usr/lib`, so its SONAME
+check aborted with `readelf: Error: '…/pkg/lowdown/usr/lib/liblowdown.so': No
+such file`. Upstream `install_shared` already creates that link relative to the
+library directory, so the recipe now verifies the shipped link against the pinned
+`liblowdown.so.5` instead of re-creating it, as every other ABI recipe here does.
+Re-probed on the host with the published `bmake` extracted under `/tmp` and
+`MAKESYSPATH` set: the build, the staged `DESTDIR` install, the SONAME check
+(ELF64, `Library soname: [liblowdown.so.5]`) and `bmake regress` all pass. The
+worker ran the build with `--no-check`. `lowdown` is still unpublished, so the
+recipe keeps `pkgrel=1` and only stage 4 remains queued.
+
 ## ProtonUp-Qt dependency publication (2026-10-23)
 
 The worker's `IncompleteDependencyPlan` for

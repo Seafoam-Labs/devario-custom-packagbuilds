@@ -43,10 +43,11 @@ package () {
     install_lib_common \
     install_shared
 
-  # symlink unversioned to versioned shared library
-  local LIBVER=$(grep "^LIBVER" Makefile | sed "s/.*= //")
-  ln -sf "/usr/lib/liblowdown.so.$LIBVER" "$pkgdir/usr/lib/liblowdown.so"
-  _verify_soname "$pkgdir/usr/lib/liblowdown.so" "liblowdown.so.$LIBVER" || return 1
+  # install_shared already links liblowdown.so -> liblowdown.so.5 relative to
+  # the library directory; re-linking with an absolute target would dangle
+  # inside $pkgdir, so verify the shipped link against the SONAME that
+  # provides promises instead.
+  _verify_soname "$pkgdir/usr/lib/liblowdown.so" liblowdown.so.5 || return 1
 
   # license
 	install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE.md
