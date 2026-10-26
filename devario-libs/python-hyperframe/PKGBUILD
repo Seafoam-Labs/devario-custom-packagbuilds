@@ -1,0 +1,30 @@
+# Maintainer: Devario maintainers
+_name=hyperframe
+pkgname=python-hyperframe
+pkgver=6.1.0
+pkgrel=1
+pkgdesc='Pure-Python HTTP/2 framing'
+arch=(any)
+url='https://github.com/python-hyper/hyperframe'
+license=(MIT)
+depends=(
+  'python>=3.9'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools>=75.6.0'
+)
+source=("https://files.pythonhosted.org/packages/source/h/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('f630908a00854a7adeabd6382b43923a4c4cd4b821fcb527e6ab9e15382a3b08')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

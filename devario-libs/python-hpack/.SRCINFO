@@ -1,0 +1,16 @@
+pkgbase = python-hpack
+	pkgdesc = Pure-Python HPACK header encoding
+	pkgver = 4.2.0
+	pkgrel = 1
+	url = https://github.com/python-hyper/hpack
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools>=82
+	makedepends = python-wheel>=0.46.3
+	depends = python>=3.10
+	source = https://files.pythonhosted.org/packages/source/h/hpack/hpack-4.2.0.tar.gz
+	sha256sums = 0895cfa3b5531fc65fe439c05eb65144f123bf7a394fcaa56aa423548d8e45c0
+
+pkgname = python-hpack

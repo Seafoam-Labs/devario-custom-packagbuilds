@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+_name=h2
+pkgname=python-h2
+pkgver=4.4.1
+pkgrel=1
+pkgdesc='Pure-Python HTTP/2 protocol implementation'
+arch=(any)
+url='https://github.com/python-hyper/h2'
+license=(MIT)
+depends=(
+  'python>=3.10'
+  'python-hyperframe>=6.1'
+  'python-hyperframe<7'
+  'python-hpack>=4.2'
+  'python-hpack<5'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools>=82'
+  'python-wheel>=0.46.3'
+)
+source=("https://files.pythonhosted.org/packages/source/h/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('4e866ffb1a869ae14dd9b5e6beb5c24a13da0495ad72b65925ded182521c1516')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

@@ -1,0 +1,30 @@
+# Maintainer: Devario maintainers
+_name=pdm_backend
+pkgname=python-pdm-backend
+pkgver=2.5.0
+pkgrel=1
+pkgdesc='The build backend used by PDM that supports latest packaging standards'
+arch=(any)
+url='https://github.com/pdm-project/pdm-backend'
+license=(MIT)
+# Python 3.10+ uses stdlib importlib.metadata; the sdist builds its own backend.
+depends=(
+  'python>=3.10'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+)
+source=("https://files.pythonhosted.org/packages/source/p/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('7953b994563d3151755e3364b9d0cfe817ed0eaecdf27c8f777f412d26bcd98a')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

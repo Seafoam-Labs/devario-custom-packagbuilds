@@ -1,0 +1,20 @@
+pkgbase = python-h2
+	pkgdesc = Pure-Python HTTP/2 protocol implementation
+	pkgver = 4.4.1
+	pkgrel = 1
+	url = https://github.com/python-hyper/h2
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools>=82
+	makedepends = python-wheel>=0.46.3
+	depends = python>=3.10
+	depends = python-hyperframe>=6.1
+	depends = python-hyperframe<7
+	depends = python-hpack>=4.2
+	depends = python-hpack<5
+	source = https://files.pythonhosted.org/packages/source/h/h2/h2-4.4.1.tar.gz
+	sha256sums = 4e866ffb1a869ae14dd9b5e6beb5c24a13da0495ad72b65925ded182521c1516
+
+pkgname = python-h2

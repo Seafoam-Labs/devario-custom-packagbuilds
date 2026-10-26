@@ -1,0 +1,40 @@
+# Maintainer: Devario maintainers
+_name=quart
+pkgname=python-quart
+pkgver=0.23.1
+pkgrel=1
+pkgdesc='A Python ASGI web framework with the same API as Flask'
+arch=(any)
+url='https://github.com/pallets/quart'
+license=(MIT)
+# Upstream requires flit-core<4; use the separate Flit 3 compatibility provider.
+depends=(
+  'python>=3.13'
+  'python-aiofiles'
+  'python-blinker>=1.6'
+  'python-click>=8.0'
+  'python-flask>=3.0'
+  'python-hypercorn>=0.11.2'
+  'python-itsdangerous'
+  'python-jinja'
+  'python-markupsafe'
+  'python-werkzeug>=3.0'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-flit-core3'
+)
+source=("https://files.pythonhosted.org/packages/source/q/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('1ca848415910bd2eb75e9d9b452388f892a37be222602a373622e6c633d1efbf')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

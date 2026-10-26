@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+_name=hypercorn
+pkgname=python-hypercorn
+pkgver=0.18.0
+pkgrel=1
+pkgdesc='A ASGI Server based on Hyper libraries and inspired by Gunicorn'
+arch=(any)
+url='https://github.com/pgjones/hypercorn'
+license=(MIT)
+# Python 3.11+ avoids upstream compatibility dependencies for older Python.
+depends=(
+  'python>=3.11'
+  'python-h11'
+  'python-h2>=4.3.0'
+  'python-priority'
+  'python-wsproto>=0.14.0'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-pdm-backend'
+)
+source=("https://files.pythonhosted.org/packages/source/h/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('d63267548939c46b0247dc8e5b45a9947590e35e64ee73a23c074aa3cf88e9da')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

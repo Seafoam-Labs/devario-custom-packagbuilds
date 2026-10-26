@@ -1,0 +1,14 @@
+pkgbase = python-pdm-backend
+	pkgdesc = The build backend used by PDM that supports latest packaging standards
+	pkgver = 2.5.0
+	pkgrel = 1
+	url = https://github.com/pdm-project/pdm-backend
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	depends = python>=3.10
+	source = https://files.pythonhosted.org/packages/source/p/pdm_backend/pdm_backend-2.5.0.tar.gz
+	sha256sums = 7953b994563d3151755e3364b9d0cfe817ed0eaecdf27c8f777f412d26bcd98a
+
+pkgname = python-pdm-backend

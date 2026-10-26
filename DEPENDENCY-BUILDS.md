@@ -1,5 +1,50 @@
 # Missing dependency builds for Shelly
 
+## libsoup3 needs Quart and its HTTP server dependencies (2026-10-26)
+
+The repeated `python-quart` entries in the `devario-core/libsoup3` worker failure
+name one missing provider. Quart also needs six runtime packages absent from
+the cached repository catalogs, and Hypercorn needs the missing PDM build
+backend. Source recipes and generated `.SRCINFO` files were added for all eight.
+The worker's libsoup3 recipe is not in this checkout and was not modified.
+
+Build and publish in this order, refreshing worker repository metadata after
+each prerequisite stage:
+
+| Stage | Recipe | Version |
+| --- | --- | --- |
+| 1 | [python-pdm-backend](devario-core/python-pdm-backend/PKGBUILD) | 2.5.0-1 |
+| 1 | [python-aiofiles](devario-libs/python-aiofiles/PKGBUILD) | 25.1.0-1 |
+| 1 | [python-hyperframe](devario-libs/python-hyperframe/PKGBUILD) | 6.1.0-1 |
+| 1 | [python-hpack](devario-libs/python-hpack/PKGBUILD) | 4.2.0-1 |
+| 1 | [python-priority](devario-libs/python-priority/PKGBUILD) | 2.0.0-1 |
+| 2 | [python-h2](devario-libs/python-h2/PKGBUILD) | 4.4.1-1 |
+| 3 | [python-hypercorn](devario-libs/python-hypercorn/PKGBUILD) | 0.18.0-1 |
+| 4 | [python-quart](devario-libs/python-quart/PKGBUILD) | 0.23.1-1 |
+| 5 | Retry the worker's `devario-core/libsoup3` recipe | |
+
+Upload each complete recipe directory. Uploading recipes alone does not satisfy
+`not_in_repositories`: their binary packages must be published before consumers
+can provision an isolated build root. Existing Python build tools, Flask, and
+the remaining runtime dependencies are present in the cached catalogs.
+
+[Quart 0.23.1](https://pypi.org/project/Quart/0.23.1/) requires Python 3.13 or
+newer and `flit-core<4`; its recipe selects the existing `python-flit-core3`
+compatibility provider. PDM builds with its source-tree backend, avoiding a
+self-dependency. Hypercorn requires Python 3.11+ in this recipe, so its upstream
+compatibility dependencies for older Python versions are unnecessary. PDM
+similarly requires Python 3.10+ to use standard-library `importlib.metadata`.
+
+Validation: all eight source checksums, Bash syntax checks, Shelly metadata
+generation, and Shelly reviews passed with no findings. All eight build and
+package functions completed using checksum-verified published Python tools
+extracted under `/tmp`. Staged distribution metadata satisfies the active
+upstream runtime requirements. Quart JSON requests, asynchronous file serving,
+WebSocket echo, HTTP/2 codec exchange, priority scheduling, and Hypercorn imports
+passed; the async checks required running outside the network sandbox because
+thread wakeups stalled inside it. No full upstream test suites, isolated package
+builds, libsoup3 build, or repository publication were performed.
+
 ## dbus-python needs python-tomli (2026-10-26)
 
 The worker's `devario-core/dbus-python` dependency plan reports `python-tomli`

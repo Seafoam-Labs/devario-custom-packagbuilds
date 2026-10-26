@@ -1,0 +1,15 @@
+pkgbase = python-hyperframe
+	pkgdesc = Pure-Python HTTP/2 framing
+	pkgver = 6.1.0
+	pkgrel = 1
+	url = https://github.com/python-hyper/hyperframe
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools>=75.6.0
+	depends = python>=3.9
+	source = https://files.pythonhosted.org/packages/source/h/hyperframe/hyperframe-6.1.0.tar.gz
+	sha256sums = f630908a00854a7adeabd6382b43923a4c4cd4b821fcb527e6ab9e15382a3b08
+
+pkgname = python-hyperframe

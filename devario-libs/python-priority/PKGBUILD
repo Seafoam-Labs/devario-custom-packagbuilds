@@ -1,0 +1,31 @@
+# Maintainer: Devario maintainers
+_name=priority
+pkgname=python-priority
+pkgver=2.0.0
+pkgrel=1
+pkgdesc='A pure-Python implementation of the HTTP/2 priority tree'
+arch=(any)
+url='https://github.com/python-hyper/priority'
+license=(MIT)
+depends=(
+  'python>=3.6.1'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+source=("https://files.pythonhosted.org/packages/source/p/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('c965d54f1b8d0d0b19479db3924c7c36cf672dbf2aec92d43fbdaf4492ba18c0')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

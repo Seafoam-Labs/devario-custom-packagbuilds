@@ -1,0 +1,31 @@
+# Maintainer: Devario maintainers
+_name=aiofiles
+pkgname=python-aiofiles
+pkgver=25.1.0
+pkgrel=1
+pkgdesc='File support for asyncio.'
+arch=(any)
+url='https://github.com/Tinche/aiofiles'
+license=(Apache-2.0)
+depends=(
+  'python>=3.9'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-hatchling'
+  'python-hatch-vcs'
+)
+source=("https://files.pythonhosted.org/packages/source/a/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('a8d728f0a29de45dc521f18f07297428d56992a742f0cd2701ba86e44d23d5b2')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
