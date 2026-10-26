@@ -1,0 +1,4 @@
+[krita]
+source = 'regex'
+url = 'https://download.kde.org/stable/krita/'
+regex = 'href="([\d.]+)/"'

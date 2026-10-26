@@ -1,0 +1,104 @@
+# Maintainer: Antonio Rojas <arojas@archlinux,org>
+
+pkgname=krita
+pkgver=6.0.4.1
+_pkgver=${pkgver/beta/-beta}
+pkgrel=4
+pkgdesc='Edit and paint images'
+arch=(x86_64)
+url='https://krita.org'
+license=(GPL3)
+depends=(exiv2
+         ffmpeg
+         fftw
+         fontconfig
+         freetype2
+         fribidi
+         giflib
+         glibc
+         gsl
+         harfbuzz
+         imath
+         kcolorscheme
+         kcompletion
+         kconfig
+         kcoreaddons
+         kcrash
+         kguiaddons
+         ki18n
+         kitemviews
+         kwidgetsaddons
+         lcms2
+         libgcc
+         libjpeg-turbo
+         libkdcraw
+         libpng
+         libstdc++
+         libtiff
+         libunibreak
+         libwebp
+         libx11
+         libxkbcommon
+         mlt
+         opencolorio
+         openexr
+         openjpeg2
+         qt6-5compat
+         qt6-base
+         qt6-declarative
+         qt6-svg
+         quazip-qt6
+         wayland
+         zlib)
+makedepends=(boost
+             eigen
+             extra-cmake-modules
+             immer
+             kseexpr
+             lager
+             libheif
+             libjxl
+             libmypaint
+             poppler-qt6
+             python-pyqt6
+             qt6-tools
+             sip
+             xsimd
+             zug)
+optdepends=('kimageformats: PSD support'
+            'krita-plugin-gmic: GMic plugin'
+            'kseexpr: SeExpr generator layer'
+            'libheif: HEIF filter'
+            'libjxl: JPEG-XL filter'
+            'libmypaint: support for MyPaint brushes'
+            'poppler-qt6: PDF filter'
+            'python-pyqt6: for the Python plugins')
+source=(https://download.kde.org/stable/krita/$_pkgver/$pkgname-$_pkgver.tar.xz{,.sig}
+        https://invent.kde.org/graphics/krita/-/commit/3f5b2882.patch
+        https://invent.kde.org/graphics/krita/-/commit/c8028b3e.patch)
+sha256sums=('bd0568754417ffca0ef60448d1cc7fb153658af1fb9796f027fa7e69b69098df'
+            'SKIP'
+            '4dc8b77911b5b1fe8c3a53c2035dab7d318528bb961ebab0e6538e6a010b6dff'
+            '2ceb4bbbb8e9bc82682c02871228028c338b142d849e6c010d5b85e8d0d8b8de')
+validpgpkeys=('05D00A8B73A686789E0A156858B9596C722EA3BD'  # Boudewijn Rempt <foundation@krita.org>
+              'E9FB29E74ADEACC5E3035B8AB69EB4CF7468332F'  # Dmitry Kazakov (main key) <dimula73@gmail.com>
+              '064182440C674D9F8D0F6F8B4DA79EDA231C852B') # Stichting Krita Foundation <foundation@krita.org>
+
+prepare() {
+  sed -e 's|13.0|13.8|' -i $pkgname-$_pkgver/cmake/modules/SIPMacros.cmake # Update SIP ABI version
+  patch -d $pkgname-$_pkgver -p1 < 3f5b2882.patch # Fix build with Qt 6.12
+  patch -d $pkgname-$_pkgver -p1 < c8028b3e.patch # Fix global menu
+}
+
+build() {
+  cmake -B build -S $pkgname-$_pkgver \
+    -DBUILD_KRITA_QT_DESIGNER_PLUGINS=ON \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_WITH_QT6=ON \
+    -DALLOW_UNSTABLE=QT6
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
