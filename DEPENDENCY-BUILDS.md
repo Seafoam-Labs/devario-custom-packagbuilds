@@ -1,5 +1,49 @@
 # Missing dependency builds for Shelly
 
+## btop man page needs lowdown, and lowdown needs bmake (2026-10-26)
+
+[btop](devario-utilities/btop/PKGBUILD) lists `lowdown` in `makedepends` to
+render `btop.1` from `manpage.md`. `lowdown` was published in neither Devario
+repository and had no local recipe, so
+[devario-libs/lowdown](devario-libs/lowdown/PKGBUILD) `3.2.1-1` was added from
+the Arch packaging recipe.
+
+lowdown's `Makefile` is bmake-only: GNU make stops at `Makefile:153: *** missing
+separator` on the upstream `.ifdef` block, so `bmake` is a hard build dependency
+rather than a preference. `bmake` is unpublished too, and has no local recipe.
+Its `boot-strap op=build` runs the unit tests automatically, and
+`unit-tests/varname-dot-make-jobs.mk` shells out to `bc` — that is why Arch
+declares `bc` as a bmake makedepend, and it is why the bmake probe failed here
+until `bc` was accounted for. `bc`'s own `check()` needs `ed`.
+
+Recipes exist for the lower two rungs but nothing in this chain is published:
+
+| Stage | Recipe directory | Required by |
+| --- | --- | --- |
+| 1 | `devario-development/ed` | bc |
+| 2 | `devario-utilities/bc` | bmake |
+| 3 | `devario-development/bmake` | lowdown |
+| 4 | `devario-libs/lowdown` | btop |
+| 5 | `devario-utilities/btop` | final application |
+
+lowdown's runtime dependency `libmd` `1.3.0-1` and makedepend `git` are already
+published in `devario-core`, so only stages 1–4 need queueing. btop
+itself is not blocked by this chain: its Makefile prints `Command 'lowdown' not
+found: skipping generating man page` and guards the install step with
+`ifneq ($(wildcard btop.1),)`, so btop can be built ahead of stages 1–4 at the
+cost of shipping no man page.
+
+Validated on the host rather than in isolation: bmake 20260912 built here, and
+driving lowdown 3.2.1 with it produced `liblowdown.so.5` with SONAME
+`liblowdown.so.5` (ELF64) under the staged install, and `bmake regress` passed
+with no failures. The lowdown recipe therefore declares `liblowdown.so=5-64`
+beside the bare provision and refuses to package a stale value. bmake's source
+archive matches the recipe checksum and verifies against `keys/pgp`
+`7E228507C26D8DC164F531BFBA54C8AF755A2A99` (sigs@crufty.net). Import that key
+into the builder account before the isolated bmake build; neither recipe has had
+a `--isolated` run yet, since the host has no `bmake` and the chain above is
+what an isolated root would have to install first.
+
 ## ProtonUp-Qt dependency publication (2026-10-23)
 
 The worker's `IncompleteDependencyPlan` for
