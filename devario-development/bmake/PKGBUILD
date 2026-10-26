@@ -14,8 +14,11 @@ url='https://www.crufty.net/help/sjg/bmake.html'
 license=(BSD-3-Clause)
 makedepends=(bc)
 optdepends=('python: for meta2deps.py script')
-#source=("https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-$pkgver.tar.gz"{,.asc})
-source=("https://www.crufty.net/ftp/pub/sjg/bmake-$pkgver.tar.gz"{,.asc})
+# Local deviation: Shelly's downloader aborts on www.crufty.net with TlsInitializationFailed because
+# that host sends its leaf certificate twice in the TLS chain; ftp.netbsd.org serves the byte-identical
+# archive and .asc with a correct chain, so it is the fetched source here.
+source=("https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-$pkgver.tar.gz"{,.asc})
+#source=("https://www.crufty.net/ftp/pub/sjg/bmake-$pkgver.tar.gz"{,.asc})
 sha256sums=('b6bd32964cbe451be2838822c9d200b7c7e76a2a5947c03feb71dc6bd72988bd'
             'SKIP')
 validpgpkeys=(7E228507C26D8DC164F531BFBA54C8AF755A2A99)

@@ -45,7 +45,10 @@ Its `boot-strap op=build` runs the unit tests automatically, and
 declares `bc` as a bmake makedepend, and it is why the bmake probe failed here
 until `bc` was accounted for. `bc`'s own `check()` needs `ed`.
 
-Recipes exist for the lower two rungs but nothing in this chain is published:
+Recipes exist for every rung. Re-querying the repository API on 2026-10-26 shows
+`ed` `1.22.6-1` in `devario-development`, `bc` `1.08.2-1` in `devario-utilities`,
+and `btop` `1.4.7-1` in `devario-utilities` already published, leaving `bmake`
+and `lowdown` as the only absent names in all fourteen repositories:
 
 | Stage | Recipe directory | Required by |
 | --- | --- | --- |
@@ -56,10 +59,12 @@ Recipes exist for the lower two rungs but nothing in this chain is published:
 | 5 | `devario-utilities/btop` | final application |
 
 lowdown's runtime dependency `libmd` `1.3.0-1` and makedepend `git` are already
-published in `devario-core`, so only stages 1–4 need queueing. btop
+published in `devario-core`, and the isolated bmake root installed
+`bc-1.08.2-1` without complaint, so only stages 3 and 4 need queueing; stage 5
+already has a published build, which is the one that ships no man page. btop
 itself is not blocked by this chain: its Makefile prints `Command 'lowdown' not
 found: skipping generating man page` and guards the install step with
-`ifneq ($(wildcard btop.1),)`, so btop can be built ahead of stages 1–4 at the
+`ifneq ($(wildcard btop.1),)`, so btop can be built ahead of stages 3 and 4 at the
 cost of shipping no man page.
 
 Validated on the host rather than in isolation: bmake 20260912 built here, and
@@ -72,6 +77,18 @@ archive matches the recipe checksum and verifies against `keys/pgp`
 into the builder account before the isolated bmake build; neither recipe has had
 a `--isolated` run yet, since the host has no `bmake` and the chain above is
 what an isolated root would have to install first.
+
+Worker job 4724 did reach the isolated root and failed there before compiling
+anything: Shelly's downloader aborted `https://www.crufty.net/ftp/pub/sjg/
+bmake-20260912.tar.gz` with `TlsInitializationFailed` twice, then `SslError` and
+`SourceDownloadFailed`. Reproduced on the host with `shelly build`: www.crufty.net
+presents its leaf certificate twice in the TLS chain, and its copy of the
+archive therefore never downloads under Shelly even though OpenSSL and GnuTLS
+both verify that handshake. `ftp.netbsd.org` serves the byte-identical archive
+(`b6bd3296…2988bd`) and a byte-identical `.asc` behind a correct chain, its
+directory listing carries the same filenames, and the same host probe downloads
+it completely before failing on the missing `bc` makedepend. The recipe now
+fetches from NetBSD with the upstream crufty URL kept commented beside it.
 
 ## ProtonUp-Qt dependency publication (2026-10-23)
 
