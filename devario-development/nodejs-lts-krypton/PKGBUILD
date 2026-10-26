@@ -9,8 +9,8 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 
 pkgname=nodejs-lts-krypton
-pkgver=24.21.0
-pkgrel=2
+pkgver=24.22.0
+pkgrel=1.3
 pkgdesc='Evented I/O for V8 javascript ("Active LTS" release: Krypton)'
 arch=(x86_64)
 url=https://nodejs.org/
@@ -23,7 +23,6 @@ depends=(
   libnghttp2
   libnghttp3
   libngtcp2
-  libuv
 #  llhttp
   openssl
   simdjson
@@ -47,7 +46,7 @@ conflicts=(nodejs)
 source=(
   "git+https://github.com/nodejs/node.git#tag=v$pkgver?signed"
 )
-b2sums=('6d3f26cfda79e037402f5170be3503700fdbe5c19027bacbf4e75364ff24f337bcc43f5d87082457ddf07149e0b40da8266f7f6df4b51a40844902f8c7bd7b06')
+b2sums=('7318756bf7914db27e14a846cd6aa89ba0c470d102683fbb4772c0b77f6870a588faee45e8f859fea5110399f469b6ceab8dc15107294446175617d047b08911')
 validpgpkeys=(
   8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600 # Michaël Zasso (Targos) <targos@protonmail.com>
   890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4 # RafaelGSS <rafael.nunu@hotmail.com>
@@ -65,6 +64,107 @@ _set_flags() {
   CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
 }
 
+prepare() {
+  cd node
+
+  # Snapshot wrappers must use the same internal options layout as node_base.
+  python - <<'PY'
+from pathlib import Path
+
+path = Path('node.gyp')
+text = path.read_text()
+anchor = "  'target_defaults': {\n"
+if text.count(anchor) != 1:
+    raise SystemExit('Node build defaults changed; review the inspector layout fix')
+replacement = anchor + "    'defines': [ 'HAVE_INSPECTOR=<(v8_enable_inspector)' ],\n"
+if replacement not in text:
+    text = text.replace(anchor, replacement, 1)
+path.write_text(text)
+PY
+
+  # Shelly is PID 1 in the guest and does not reap orphaned test processes.
+  # Keep the workaround local to each test command, without changing the worker.
+  cat > seafoam-test-subreaper.py <<'PY'
+import ctypes
+import errno
+import os
+import signal
+import sys
+import time
+
+if len(sys.argv) < 2:
+    raise SystemExit('usage: seafoam-test-subreaper.py COMMAND [ARG ...]')
+
+libc = ctypes.CDLL(None, use_errno=True)
+libc.prctl.argtypes = [ctypes.c_int] + [ctypes.c_ulong] * 4
+libc.prctl.restype = ctypes.c_int
+if libc.prctl(36, 1, 0, 0, 0) != 0:  # PR_SET_CHILD_SUBREAPER
+    raise OSError(ctypes.get_errno(), 'could not enable the test child subreaper')
+
+main_pid = None
+pending_signal = None
+
+def forward(signum, frame):
+    global pending_signal
+    pending_signal = signum
+    if main_pid is not None:
+        try:
+            os.killpg(main_pid, signum)
+        except ProcessLookupError:
+            pass
+
+forwarded = (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)
+for signum in forwarded:
+    signal.signal(signum, forward)
+
+pid = os.fork()
+if pid == 0:
+    for signum in forwarded:
+        signal.signal(signum, signal.SIG_DFL)
+    try:
+        os.setpgid(0, 0)
+        os.execvp(sys.argv[1], sys.argv[1:])
+    except OSError as exc:
+        print(f'test command could not start: {exc}', file=sys.stderr, flush=True)
+        os._exit(127 if exc.errno == errno.ENOENT else 126)
+
+main_pid = pid
+try:
+    os.setpgid(pid, pid)
+except OSError as exc:
+    if exc.errno not in (errno.EACCES, errno.ESRCH):
+        raise
+if pending_signal is not None:
+    forward(pending_signal, None)
+
+orphans_reaped = 0
+while True:
+    try:
+        reaped, status = os.waitpid(-1, 0)
+    except InterruptedError:
+        continue
+    if reaped == pid:
+        command_status = status
+        break
+    orphans_reaped += 1
+
+# Drain available zombies without blocking on any surviving background process.
+deadline = time.monotonic() + 0.25
+while time.monotonic() < deadline:
+    try:
+        reaped, _ = os.waitpid(-1, os.WNOHANG)
+    except ChildProcessError:
+        break
+    if reaped == 0:
+        break
+    orphans_reaped += 1
+
+print(f'test subreaper: reaped {orphans_reaped} orphan process(es)', flush=True)
+code = os.waitstatus_to_exitcode(command_status)
+raise SystemExit(code if code >= 0 else 128 - code)
+PY
+}
+
 build() {
   _set_flags
   cd node
@@ -79,7 +179,6 @@ build() {
     --shared-ada \
     --shared-brotli \
     --shared-cares \
-    --shared-libuv \
     --shared-nghttp2 \
     --shared-nghttp3 \
     --shared-ngtcp2 \
@@ -97,6 +196,9 @@ build() {
 check() {
   _set_flags
   cd node
+  # REPL tests simulate a capable terminal; TERM=dumb selects a different handler.
+  printf 'Node check terminal: inherited=%s, using=xterm\n' "${TERM-unset}"
+  export TERM=xterm
   rm test/parallel/test-http2-client-set-priority.js
   rm test/parallel/test-http2-client-unescaped-path.js
   rm test/parallel/test-http2-max-invalid-frames.js
@@ -107,7 +209,30 @@ check() {
   rm test/parallel/test-http2-reset-flood.js
   rm test/parallel/test-tls-ocsp-callback.js
 
-  make test-only
+  # Diagnose the previous worker failures before running the full suite.
+  # Keep these tests enabled; bundling libuv only addresses the known UV mismatch.
+  local _regression_tests=(
+    parallel/test-repl-context
+    parallel/test-repl-custom-eval-previews
+    parallel/test-repl-empty
+    parallel/test-repl-eval-error-after-close
+    parallel/test-repl-multiline
+    parallel/test-repl-preview-newlines
+    parallel/test-repl-pretty-stack-custom-writer
+    parallel/test-repl-underscore
+    parallel/test-uv-errmap
+    parallel/test-uv-errno
+    parallel/test-cluster-primary-kill
+    parallel/test-cluster-primary-error
+    parallel/test-repl-custom-eval
+  )
+  python seafoam-test-subreaper.py python tools/test.py -j 2 "${_regression_tests[@]}" || {
+    local _test_status=$?
+    # Show orphan/zombie state if the process-handling tests time out again.
+    ps -eo pid,ppid,stat,comm
+    return "$_test_status"
+  }
+  python seafoam-test-subreaper.py make test-only JOBS=2
 }
 
 package() {

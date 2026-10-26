@@ -1,0 +1,8 @@
+{
+  "name": "python-oauth2client",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpython-oauth2client/repository/archive.tar.gz?sha=7906502ffea671ddcbd1dd17043e88b540b75be4",
+  "sha256": "9cf9e93beb3ccb2bb775281c24aa9dfa4ec1f2345d4e85998845ec38aa2a0976",
+  "bytes": 1788,
+  "commit": "7906502ffea671ddcbd1dd17043e88b540b75be4",
+  "local_adaptation": true
+}

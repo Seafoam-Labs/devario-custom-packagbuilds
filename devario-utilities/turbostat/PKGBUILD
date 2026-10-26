@@ -1,0 +1,30 @@
+# Seafoam local adaptation of Arch Linux linux-tools (turbostat split only).
+# Arch Maintainer: Sébastien Luttringer
+# Arch Maintainer: Christian Heusel <gromit@archlinux.org>
+
+pkgname=turbostat
+pkgver=7.2.11
+pkgrel=1.1
+pkgdesc='Report processor frequency and idle statistics'
+arch=('x86_64')
+url='https://www.kernel.org'
+license=('GPL-2.0-only')
+depends=('glibc' 'libcap')
+options=('!strip' '!lto')
+_srcname=linux-${pkgver}
+source=("https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.xz"
+        "https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.sign")
+sha256sums=('fd0fc479f983a8c05313f13e9c36330fe6651cf725396748c40d5cd93fa1e6a4'
+            'SKIP')
+validpgpkeys=(
+  'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
+  '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
+)
+
+build() {
+  make -C "$_srcname/tools/power/x86/turbostat"
+}
+
+package() {
+  make -C "$_srcname/tools/power/x86/turbostat" install DESTDIR="$pkgdir"
+}

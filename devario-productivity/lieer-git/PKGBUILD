@@ -1,0 +1,48 @@
+# Local adaptation for Seafoam Labs; based on the AUR lieer-git and lieer recipes.
+# Reference: AUR lieer-git retrieved 2026-10-23; upstream requirements inspected at b4d1bdc59c3ace6acba8e0ad430a2fa2223efeaa.
+# Local change: use current upstream runtime requirements, build wheels without network, and remove any stray top-level tests package.
+# Maintainer: Georgiy Tugai <georgiy.tugai@gmail.com>
+# Maintainer: ssfdust <ssfdust@gmail.com>
+
+pkgname=lieer-git
+_pkgname=lieer
+pkgver=1.6.r30.gb4d1bdc
+pkgrel=1.1
+pkgdesc="Fast email-fetching, sending, and two-way tag synchronization between notmuch and GMail"
+url="https://github.com/gauteh/lieer"
+license=('GPL-3.0-or-later')
+arch=('any')
+depends=(
+  'notmuch>=0.25'
+  'python'
+  'python-google-api-python-client'
+  'python-google-auth-oauthlib'
+  'python-tqdm'
+)
+makedepends=(
+  'git'
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+provides=('lieer' 'gmailieer' 'gmailieer-git')
+conflicts=('lieer' 'gmailieer' 'gmailieer-git')
+source=("${_pkgname}::git+https://github.com/gauteh/lieer.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/${_pkgname}"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}"
+  python -m installer --destdir="${pkgdir}" dist/*.whl
+  rm -rf "${pkgdir}"/usr/lib/python*/site-packages/tests
+}

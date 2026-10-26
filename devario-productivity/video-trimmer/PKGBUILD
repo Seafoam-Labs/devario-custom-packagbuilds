@@ -1,0 +1,65 @@
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+
+pkgname=video-trimmer
+pkgver=26.03.1
+pkgrel=1.1
+pkgdesc='Cut out a fragment of a video quickly'
+arch=(x86_64)
+url='https://apps.gnome.org/VideoTrimmer/'
+license=(GPL-3.0-or-later)
+groups=(gnome-circle)
+depends=(
+  dconf
+  ffmpeg
+  glib2
+  glibc
+  graphene
+  gst-plugins-base
+  gst-plugins-good
+  gtk4
+  hicolor-icon-theme
+  libadwaita
+  libgcc
+)
+makedepends=(
+  appstream
+  blueprint-compiler
+  git
+  meson
+  rust
+)
+optdepends=(
+  'gst-libav: Extra media codecs'
+  'gst-plugins-bad: Extra media codecs'
+  'gst-plugins-ugly: Extra media codecs'
+)
+source=("git+https://gitlab.gnome.org/YaLTeR/video-trimmer.git#tag=v$pkgver")
+b2sums=(fbfccb1edd5202ef249e79809cc6bc5badc336a293f960a6468c10019d73061b66dfeb9d2ecb97092286aacaef5daeec8220d89de8ef1c17dab175435f7f3ffb)
+
+prepare() {
+  cd $pkgname
+
+  CARGO_HOME="$srcdir/build/cargo-home" \
+    cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  # Use Meson directly with the same native packaging settings.
+  meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+    --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+    -Db_pie=true -Dpython.bytecompile=1 $pkgname build
+
+  CARGO_PROFILE_RELEASE_LTO=true \
+    CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1 \
+    CARGO_PROFILE_RELEASE_DEBUG=2 \
+    CARGO_PROFILE_RELEASE_STRIP=false \
+    meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs --no-rebuild
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir" --no-rebuild
+}

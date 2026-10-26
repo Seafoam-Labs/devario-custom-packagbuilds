@@ -1,0 +1,4 @@
+[switcheroo]
+source = "git"
+git = "https://gitlab.com/adhami3310/Switcheroo.git"
+prefix = "v"

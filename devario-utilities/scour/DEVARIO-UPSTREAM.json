@@ -1,0 +1,8 @@
+{
+  "name": "scour",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/scour.git",
+  "revision": "6c455be5ffb7937e1c10c02de66635d7b6eb802c",
+  "upstream_pkgbuild_sha256": "8c91293af2a86daf4ee5d2e500bdb877d9fe7dd9222057a13e5a62a1d496c9d2",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

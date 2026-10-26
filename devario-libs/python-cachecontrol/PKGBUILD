@@ -1,0 +1,31 @@
+pkgname=python-cachecontrol
+_name=cachecontrol
+pkgver=0.14.3
+pkgrel=1.1
+epoch=1
+pkgdesc='Caching for the requests HTTP library'
+arch=(any)
+url='https://github.com/psf/cachecontrol'
+license=(Apache-2.0)
+depends=(python python-requests python-msgpack)
+makedepends=(python-build python-installer python-flit-core3)
+checkdepends=(python-pytest python-cherrypy python-freezegun python-filelock)
+optdepends=('python-filelock: file-based cache backend')
+source=("$_name-$pkgver.tar.gz::https://files.pythonhosted.org/packages/source/c/$_name/$_name-$pkgver.tar.gz")
+sha256sums=('73e7efec4b06b20d9267b441c1f733664f989fb8688391b670ca812d70795d11')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$_name-$pkgver"
+  python -m pytest tests
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+}

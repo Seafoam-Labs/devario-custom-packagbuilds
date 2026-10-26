@@ -1,0 +1,14 @@
+pkgbase = tty-clock
+	pkgdesc = A simple terminal clock using ncurses
+	pkgver = 2.3
+	pkgrel = 2.1
+	url = https://github.com/xorg62/tty-clock
+	arch = x86_64
+	license = BSD-3-Clause
+	makedepends = pkgconf
+	depends = glibc
+	depends = ncurses
+	source = tty-clock-2.3.tar.gz::https://github.com/xorg62/tty-clock/archive/refs/tags/v2.3.tar.gz
+	sha256sums = 343e119858db7d5622a545e15a3bbfde65c107440700b62f9df0926db8f57984
+
+pkgname = tty-clock

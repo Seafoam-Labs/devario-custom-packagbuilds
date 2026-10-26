@@ -1,0 +1,8 @@
+{
+  "name": "python-rsa",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-rsa.git",
+  "revision": "7f52c71247de0447ec18fdf1fe906407e41b444f",
+  "upstream_pkgbuild_sha256": "aae40a8ffedee0d0a12208dbacfc25d7add27d25c6510f26b81622cd878d8ba7",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

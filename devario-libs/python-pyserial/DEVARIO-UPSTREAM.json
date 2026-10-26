@@ -1,0 +1,8 @@
+{
+  "name": "python-pyserial",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyserial.git",
+  "revision": "cdb72ac7e6cdf789c8d06a3fd93fd36bd80b3b49",
+  "upstream_pkgbuild_sha256": "0e38703430b5500b70587f6f77153967c497ad65e796c7d1c97dd85053d15562",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

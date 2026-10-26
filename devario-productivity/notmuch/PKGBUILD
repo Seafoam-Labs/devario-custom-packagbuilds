@@ -1,0 +1,47 @@
+# Local adaptation for Seafoam Labs; based on the Arch Linux notmuch recipe.
+# Arch recipe commit: 56315483c52c5bd7e617b5a9594de55d234bd77d
+# Local change: build CLI/runtime and notmuch2 together; retain signed source verification without editor variants.
+# Maintainer: Daurnimator <daurnimator@archlinux.org>
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Contributor: Maxim Baz <archlinux at maximbaz dot com>
+# Contributor: Daniel Wallace <danielwallace at gtmanfred dot com>
+# Contributor: fauno <fauno at kiwwwi.com.ar>
+# Contributor: Olivier Ramonat <olivier at ramonat dot fr>
+# Contributor: Richard Murri <admin@richardmurri.com>
+
+pkgname=notmuch
+pkgver=0.40
+pkgrel=2.2
+pkgdesc='Thread-based email indexer with notmuch2 Python bindings'
+arch=(x86_64)
+url='https://notmuchmail.org/'
+license=('GPL-3.0-or-later')
+depends=(glibc glib2 gmime3 libgcc libstdc++ python python-cffi sfsexp talloc xapian-core zlib)
+makedepends=(python-build python-installer python-setuptools python-sphinx python-wheel)
+options=(!distcc !makeflags)
+provides=("notmuch-runtime=$pkgver" "python-notmuch2=$pkgver" libnotmuch.so)
+# This merged package owns the runtime and Python bindings together.
+conflicts=(notmuch-runtime python-notmuch2)
+source=("https://notmuchmail.org/releases/notmuch-$pkgver.tar.xz"{,.asc})
+sha256sums=('4b4314bbf1c2029fdf793637e6c7bb15c1b1730d22be9aa04803c98c5bbc446f' 'SKIP')
+validpgpkeys=(7A18807F100A4570C59684207E4E65C8720B706B)
+
+build() {
+  cd "$pkgname-$pkgver"
+  ./configure --prefix=/usr --sysconfdir=/etc --includedir=/usr/include \
+    --zshcompletiondir=/usr/share/zsh/site-functions \
+    --without-emacs --without-ruby --without-desktop
+  make
+  cd bindings/python-cffi
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" LIBDIR_IN_LDCONFIG=0 WITH_EMACS=0 install
+  make DESTDIR="$pkgdir" WITH_BASH=1 install-completion
+  make DESTDIR="$pkgdir" install-apidocs install-man
+  install -Dm755 notmuch-shared "$pkgdir/usr/bin/notmuch"
+  cd bindings/python-cffi
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}

@@ -1,0 +1,17 @@
+{
+  "name": "python-googleapis-common-protos",
+  "input_kind": "source-recipe-reference",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpython-googleapis-common-protos/repository/archive.tar.gz?sha=9063edc1c694e2df5bd80279755ae955931518f7",
+  "sha256": "e1ccc847cfcebd60bf9686be3ca7eaad00005a09e42a77c0e7f8673b6ac6536c",
+  "bytes": 1921,
+  "commit": "9063edc1c694e2df5bd80279755ae955931518f7",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "upstream_source": {
+    "url": "https://files.pythonhosted.org/packages/8d/2b/6ce81972d5c8cab9705fddce3153be63222d9e12fd96f8baba5038a744dd/googleapis_common_protos-1.75.5.tar.gz",
+    "sha256": "c7a866fc34ed29a3b10af627a4b9b1dc2433313ca6e959f0ae4feb132047ed72",
+    "bytes": 156513,
+    "links": []
+  },
+  "note": "Use the official package-specific PyPI source distribution, with a fixed verified hash and no archive links, instead of the Google Cloud monorepo archive containing an escaping AGENT_WORKFLOW.md symlink. Keep archive safety checks enabled, preserve the package name and runtime requirements, and run the included upstream unit tests."
+}

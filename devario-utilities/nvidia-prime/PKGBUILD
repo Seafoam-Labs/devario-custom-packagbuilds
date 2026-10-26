@@ -1,0 +1,24 @@
+# Local adaptation for Seafoam Labs, based on Arch Linux nvidia-prime.
+# Original maintainer: Giancarlo Razzolini <grazzolini@archlinux.org>
+# Fetch the unchanged official wrapper and license at an immutable commit so
+# uploading this PKGBUILD alone supplies all required source inputs.
+
+pkgname=nvidia-prime
+pkgver=1.0
+pkgrel=6.1
+pkgdesc="NVIDIA Prime Render Offload configuration and utilities (prime-run)"
+arch=('any')
+url="https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-prime"
+license=('0BSD')
+depends=('bash' 'nvidia-utils')
+_arch_commit=3a4c0d80f146aed0f2f94f748c9a3a1a06752bf6
+_arch_source="https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-prime/-/raw/$_arch_commit"
+source=("prime-run::$_arch_source/prime-run"
+        "LICENSE::$_arch_source/LICENSE")
+sha256sums=('c2441e74c19779c8e0cf0d212e9a9e5ef50a00c403caef78266e2ebb2e360e3c'
+            '7056c04df17a4e0f0bac9f787f347c9cd892cee6323d1c89528090afd0b934a3')
+
+package() {
+  install -Dm755 "$srcdir/prime-run" "$pkgdir/usr/bin/prime-run"
+  install -Dm644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

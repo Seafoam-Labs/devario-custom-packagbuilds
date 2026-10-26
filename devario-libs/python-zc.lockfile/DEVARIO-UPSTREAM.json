@@ -1,0 +1,10 @@
+{
+  "name": "python-zc.lockfile",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-zc.lockfile.git",
+  "revision": "f20b0ba6038216d7ae1702cc60a6574cc7816a69",
+  "upstream_pkgbuild_sha256": "2d35310b93f26c5d7dd42089b018dbbb42f93c2942b65b3533e6c5c93e37f4c6",
+  "local_adaptations": [
+    "Declare setuptools backend explicitly; retain upstream skip-dependency-check for the historical strict backend pin."
+  ],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

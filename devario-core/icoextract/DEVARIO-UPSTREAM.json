@@ -1,0 +1,8 @@
+{
+  "name": "icoextract",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/icoextract.git",
+  "revision": "440db77b20ec570569d344efdb366b9065596974",
+  "upstream_pkgbuild_sha256": "6de4e42c998e242ce76851b6b423327c63efbb5b60d1177e982642ec481a1fbd",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

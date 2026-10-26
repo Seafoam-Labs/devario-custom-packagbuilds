@@ -1,0 +1,15 @@
+pkgbase = nvidia-prime
+	pkgdesc = NVIDIA Prime Render Offload configuration and utilities (prime-run)
+	pkgver = 1.0
+	pkgrel = 6.1
+	url = https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-prime
+	arch = any
+	license = 0BSD
+	depends = bash
+	depends = nvidia-utils
+	source = prime-run::https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-prime/-/raw/3a4c0d80f146aed0f2f94f748c9a3a1a06752bf6/prime-run
+	source = LICENSE::https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-prime/-/raw/3a4c0d80f146aed0f2f94f748c9a3a1a06752bf6/LICENSE
+	sha256sums = c2441e74c19779c8e0cf0d212e9a9e5ef50a00c403caef78266e2ebb2e360e3c
+	sha256sums = 7056c04df17a4e0f0bac9f787f347c9cd892cee6323d1c89528090afd0b934a3
+
+pkgname = nvidia-prime

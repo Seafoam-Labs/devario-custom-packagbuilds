@@ -1,0 +1,8 @@
+{
+  "name": "inkscape",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Finkscape/repository/archive.tar.gz?sha=50d1f06e21b9f5c13c626109ef0faabff4f37438",
+  "sha256": "c3e8c05f9151ec3b4675616e8d94a1437961a3106e09226a7db1c139bcd7751c",
+  "bytes": 19652,
+  "commit": "50d1f06e21b9f5c13c626109ef0faabff4f37438",
+  "local_adaptation": true
+}

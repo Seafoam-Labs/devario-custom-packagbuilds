@@ -1,0 +1,17 @@
+{
+  "name": "python-itsdangerous",
+  "input_kind": "source-recipe-reference",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpython-itsdangerous/repository/archive.tar.gz?sha=1536f78b01156da985d9ca00bee8b528b407ad4b",
+  "sha256": "8c6e824397719fd573f869e33e7f92baf462f750abedd5f871ad6373ef2965ba",
+  "bytes": 1939,
+  "commit": "1536f78b01156da985d9ca00bee8b528b407ad4b",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "upstream_source": {
+    "url": "https://github.com/mitsuhiko/itsdangerous/archive/2.2.0/itsdangerous-2.2.0.tar.gz",
+    "sha256": "7b0c6d4186e963b88489b69603b7ab2bf7c8e9eb4135a7b13b5f21bd4b937f2b",
+    "bytes": 60663,
+    "links": []
+  },
+  "note": "The upstream build-system requires flit_core<4. Select the published python-flit-core3 compatibility package instead of the unversioned Flit 4 package; retain normal dependency validation and upstream tests."
+}

@@ -1,0 +1,27 @@
+# Repack of Arch's prebuilt netstandard-targeting-pack (base package: dotnet-core).
+# Needed by dotnet-sdk-8.0 and the *-targeting-pack packages. Building it from
+# source needs a bootstrap .NET SDK + source-built artifacts, so the official
+# binary is repackaged instead. The content is the static .NET Standard 2.1
+# reference assemblies (NETStandard.Library.Ref), which do not change per release.
+
+pkgname=netstandard-targeting-pack
+_ver=9.0.9.sdk110
+pkgver=${_ver}
+pkgrel=1.1
+pkgdesc='The .NET Standard targeting pack (repack of the Arch binary)'
+arch=('x86_64')
+url='https://dotnet.microsoft.com'
+license=('MIT')
+provides=('netstandard-targeting-pack-2.1')
+conflicts=('netstandard-targeting-pack-2.1')
+options=('!strip' '!debug' '!lto' '!docs' '!zipman' '!emptydirs')
+_file="netstandard-targeting-pack-${_ver}-1-x86_64.pkg.tar.zst"
+source=("https://archive.archlinux.org/packages/n/netstandard-targeting-pack/$_file")
+noextract=("$_file")
+sha256sums=('0481884775eb6241ab1b7e2135a04773752f9cfeabf37a96d5894d120b8ac9e0')
+
+package() {
+  bsdtar -xf "$srcdir/$_file" -C "$pkgdir" \
+    --exclude='.PKGINFO' --exclude='.MTREE' \
+    --exclude='.BUILDINFO' --exclude='.INSTALL' --exclude='.CHANGELOG'
+}

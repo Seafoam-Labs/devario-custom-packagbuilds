@@ -1,0 +1,63 @@
+# Local adaptation for Seafoam Labs; based on the Arch Linux yt-dlp-ejs recipe.
+# Arch recipe commit: fdd7499f7f889969f36d887c1223d25d6e2aef64
+# Local change: fetch locked npm dependencies in prepare; bundle offline in the Python build hook.
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=yt-dlp-ejs
+pkgver=0.8.0
+pkgrel=1.1
+pkgdesc='External JavaScript for yt-dlp supporting many runtimes'
+arch=(any)
+url='https://github.com/yt-dlp/ejs'
+license=(Unlicense)
+depends=(deno
+         python)
+makedepends=(git
+             nodejs
+             npm
+             python-build
+             python-hatch-vcs
+             python-hatchling
+             python-installer)
+checkdepends=(python-pytest)
+source=(git+https://github.com/yt-dlp/ejs#tag=$pkgver)
+sha256sums=('90b1d3285609709ec364fbd97ab3344346f21e1649484bf163a2b5c12f660082')
+
+prepare() {
+  cd ejs
+  export npm_config_cache="$srcdir/npm-cache"
+  npm ci --no-audit --no-fund
+  python - <<'PY' || return
+from pathlib import Path
+path = Path('hatch_build.py')
+text = path.read_text()
+start = text.index('def build_bundle_cmds():')
+end = text.index('\n\nif __name__ == "__main__":', start)
+replacement = 'def build_bundle_cmds():\n    env = os.environ.copy()\n    npm = shutil.which("npm")\n    if npm is None:\n        return None, None, None\n    return "npm (offline)", [[npm, "--offline", "run", "bundle"]], env\n'
+path.write_text(text[:start] + replacement + text[end:])
+PY
+}
+
+build() {
+  cd ejs
+  export npm_config_cache="$srcdir/npm-cache"
+  export npm_config_offline=true
+  export SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd ejs
+  local _env="$srcdir/ejs-test-env" _site
+  rm -rf "$_env"
+  python -m venv --system-site-packages "$_env"
+  "$_env/bin/python" -m installer dist/*.whl
+  _site=$("$_env/bin/python" -c 'import sysconfig; print(sysconfig.get_path("purelib"))')
+  cp -r test "$_site/"
+  "$_env/bin/python" -m pytest -v "$_site/test"
+}
+
+package() {
+  cd ejs
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}

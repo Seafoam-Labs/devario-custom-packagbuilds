@@ -1,0 +1,26 @@
+pkgbase = python-werkzeug
+	pkgdesc = Swiss Army knife of Python web development
+	pkgver = 3.1.9
+	pkgrel = 1
+	url = https://werkzeug.palletsprojects.com/
+	arch = any
+	license = BSD-3-Clause
+	checkdepends = python-cryptography
+	checkdepends = python-ephemeral-port-reserve
+	checkdepends = python-greenlet
+	checkdepends = python-pytest
+	checkdepends = python-pytest-timeout
+	checkdepends = python-pytest-xprocess
+	checkdepends = python-requests
+	checkdepends = python-watchdog
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-flit-core
+	makedepends = python-installer
+	depends = python
+	depends = python-markupsafe
+	optdepends = python-watchdog: faster and more advanced reloader
+	source = git+https://github.com/pallets/werkzeug.git#tag=3.1.9
+	sha512sums = 1e2ee04aa279ab748ed45dcefd0def7885fdcba505bc26c673f61c9de94725e23697190228a12189b353334f50a6d16e3e0781f4cec566e67029692b883df3ee
+
+pkgname = python-werkzeug

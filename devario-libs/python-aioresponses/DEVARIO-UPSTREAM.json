@@ -1,0 +1,8 @@
+{
+  "name": "python-aioresponses",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-aioresponses.git",
+  "revision": "5b348c70bd8ad2781b5dd5c8d52c2eb98e886b21",
+  "upstream_pkgbuild_sha256": "68bed4cf7d31f2d0323f9b3c821782e4686bd5b0aa5065c2d0e16f733882592d",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

@@ -1,0 +1,25 @@
+pkgbase = python-responses
+	pkgdesc = A utility library for mocking out the `requests` Python library
+	pkgver = 0.26.3
+	pkgrel = 1
+	url = https://github.com/getsentry/responses
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-pytest
+	checkdepends = python-pytest-asyncio
+	checkdepends = python-pytest-httpserver
+	checkdepends = python-tomli-w
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	depends = python-requests
+	depends = python-urllib3
+	depends = python-yaml
+	source = python-responses::git+https://github.com/getsentry/responses#tag=0.26.3
+	sha512sums = 3b18c4b93a4e82c398c82b3e86fd6defd75e4a4da84da1e2cbed24bb0dd9f6a7a8e24bc978eebb63ead097ad29fd424946fb91355165c031fdb281a14c3c1754
+	b2sums = e8ceb06cca2821528a443fa873fee4b7ea4efc129a761ef1eaf61a6fa7d7cdb05a453bdb19edb1fe9234c9cb42d1e69390a00ec7b09a2d20d1991bbd396abaa7
+
+pkgname = python-responses

@@ -1,0 +1,87 @@
+# Local Devario adaptation; Arch recipe commit 79b6acd6059b0928a150b02c176386962654d194.
+# Retain the Spotify client runtime chain and signed launcher sources.
+# Maintainer: kpcyrd <kpcyrd[at]archlinux[dot]org>
+
+pkgname=spotify-launcher
+pkgver=0.6.6
+pkgrel=2.1
+pkgdesc="Launcher that installs and updates Spotify from its official repository"
+url='https://github.com/kpcyrd/spotify-launcher'
+arch=('x86_64')
+license=('Apache-2.0 OR MIT')
+depends=(
+  'alsa-lib>=1.0.14'
+  'at-spi2-core'
+  'ca-certificates'
+  'ayatana-ido'
+  'glibc'
+  'gtk3'
+  'hicolor-icon-theme'
+  'libayatana-appindicator'
+  'libayatana-indicator'
+  'libcurl-gnutls'
+  'libgcc'
+  'libsm'
+  'libxss'
+  'nss'
+  'sequoia-sqv'
+  'xz' 'liblzma.so'
+  'zenity'
+)
+makedepends=('cargo' 'cmake' 'pkgconf')
+backup=('etc/spotify-launcher.conf')
+source=(https://github.com/kpcyrd/${pkgname}/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz
+        https://github.com/kpcyrd/${pkgname}/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz.asc)
+sha256sums=('aa24c78bfe851699c5d19a98f6a8b7dfe94d9d55c7572bb8577cc651b0f80f61'
+            'SKIP')
+b2sums=('01a14d490a0ece0d06866a2a367f97a5e3914497258f8cfd9f22f9e160d06846283bba8d56489299f9379506d006e55f0485d44eba9b62ea94eae0438bf9aa5c'
+        'SKIP')
+options=('!lto')
+
+validpgpkeys=("64B13F7117D6E07D661BBCE0FE763A64F5E54FD6")
+
+# Keep Cargo state inside this recipe, independent of worker-global overrides.
+_cargo_env() {
+  export CARGO_HOME="$srcdir/cargo-home"
+  export CARGO_TARGET_DIR="$srcdir/target"
+  export CARGO_INCREMENTAL=0
+}
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  cargo build --frozen --release --bin spotify-launcher
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  cargo test --frozen
+  "$srcdir/target/release/spotify-launcher" --version
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  install -Dm 755 -t "${pkgdir}/usr/bin" \
+    "$srcdir/target/release/spotify-launcher"
+  install -Dm 644 data/pubkey_5384CE82BA52C83A.gpg \
+    "${pkgdir}/usr/share/spotify-launcher/keyring.pgp"
+
+  install -Dm644 contrib/spotify-launcher.desktop -t "${pkgdir}/usr/share/applications"
+  install -Dm644 contrib/icons/spotify-linux-512.png "${pkgdir}/usr/share/pixmaps/spotify-launcher.png"
+  install -Dm644 contrib/spotify-launcher.conf -t "${pkgdir}/etc"
+  install -Dm644 LICENSE-* -t "${pkgdir}/usr/share/licenses/${pkgname}"
+
+  for size in 22 24 32 48 64 128 256 512; do
+    install -Dm644 "contrib/icons/spotify-linux-${size}.png" \
+      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/spotify-launcher.png"
+  done
+}
+
+# vim: ts=2 sw=2 et:

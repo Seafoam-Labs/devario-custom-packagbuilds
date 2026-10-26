@@ -1,0 +1,11 @@
+{
+  "name": "python-proto-plus",
+  "input_kind": "upstream-source",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "url": "https://files.pythonhosted.org/packages/source/p/proto-plus/proto_plus-1.29.0.tar.gz",
+  "resolved_url": "https://files.pythonhosted.org/packages/46/70/783e33ffbb4466cc154a94f79b869b92a451e2bd45605054e68ff68b7af6/proto_plus-1.29.0.tar.gz",
+  "sha256": "cfb4e62ad7e13dd18f346cabbda00cab39930d36a05791fd81ddb074d6ee884f",
+  "bytes": 58592,
+  "note": "Additional required runtime support with no official Arch packaging source found. Build the verified PyPI sdist and run its complete test suite; declare python-pytz for its datetime tests. Protobuf upstream Python versions and the native protobuf package version use different numbering."
+}

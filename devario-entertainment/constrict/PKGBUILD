@@ -1,0 +1,50 @@
+# Local adaptation for Seafoam Labs; based on the AUR constrict recipe.
+# Reference: AUR constrict recipe retrieved 2026-10-23; see DEVARIO-UPSTREAM.json.
+# Local change: add appstream checkdepends and explicit --no-rebuild install for shelly build.
+# Maintainer: rubengees
+
+pkgname=constrict
+pkgver=26.10
+pkgrel=1.2
+pkgdesc="Compress videos to target sizes"
+url="https://gitlab.gnome.org/World/Constrict"
+arch=('x86_64')
+license=('GPL-3.0-or-later')
+depends=(
+  'ffmpeg'
+  'glycin-gtk4'
+  'gtk4'
+  'libadwaita'
+  'python'
+  'python-cairo'
+  'python-gobject'
+)
+makedepends=(
+  'blueprint-compiler'
+  'meson'
+)
+checkdepends=(
+  'appstream'
+  'desktop-file-utils'
+)
+optdepends=(
+  'libva-utils: Hardware acceleration support'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/-/archive/$pkgver/Constrict-$pkgver.tar.gz")
+sha256sums=('082a8a3db65b7cfb86cee32f65160f9da31964fe9e5d142f78fb0765da1cf1d5')
+
+build() {
+  # Use Meson directly with the same packaging settings as the former wrapper.
+  meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+    --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+    -Db_pie=true -Dpython.bytecompile=1 "Constrict-$pkgver" build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --no-rebuild --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}

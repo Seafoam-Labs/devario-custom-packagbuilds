@@ -1,0 +1,31 @@
+pkgbase = protonplus
+	pkgdesc = A modern compatibility tools manager for Linux game launchers
+	pkgver = 0.6.8
+	pkgrel = 2.1
+	url = https://github.com/Vysp3r/ProtonPlus
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = desktop-file-utils
+	makedepends = gettext
+	makedepends = meson
+	makedepends = ninja
+	makedepends = python
+	makedepends = vala
+	depends = appstream
+	depends = cairo
+	depends = glib2
+	depends = glibc
+	depends = gtk4
+	depends = json-glib
+	depends = libadwaita>=1.6
+	depends = libarchive
+	depends = libgee
+	depends = libnotify
+	depends = libsoup3
+	depends = sdl3>=3.2.0
+	optdepends = steam: manage Steam compatibility tools
+	optdepends = lutris: manage Lutris Wine runners
+	source = protonplus-0.6.8.tar.gz::https://codeload.github.com/Vysp3r/ProtonPlus/tar.gz/6038800818562e6fbe6ac978c92544a756ffba73
+	sha256sums = 3ca8c5ed38f2b9c7a91acc2130c8f7d52f09531d4a602890d760e47187e7acb7
+
+pkgname = protonplus

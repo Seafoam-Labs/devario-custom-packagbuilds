@@ -1,0 +1,13 @@
+{
+  "name": "spotify-launcher",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fspotify-launcher/repository/archive.tar.gz?sha=79b6acd6059b0928a150b02c176386962654d194",
+  "commit": "79b6acd6059b0928a150b02c176386962654d194",
+  "sha256": "02a8113f3bb2e90a85404e4120cdaf20f9dfe60050cb41b3ee71c665adbce995",
+  "bytes": 7195,
+  "local_adaptations": [
+    "Use the native at-spi2-core dependency and declare CA certificates, CMake and pkgconf.",
+    "Keep Cargo caches/output inside the recipe; fetch locked inputs in prepare and build/test frozen.",
+    "Retain mandatory Spotify runtime libraries, source signatures, verification keyring, config, icons and licensing."
+  ],
+  "known_failure": "Provided log stops during isolated root dependency installation with FileConflicts and omits conflicting paths; no recipe change can establish that conflict is resolved without a worker retry."
+}

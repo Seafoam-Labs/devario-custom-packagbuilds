@@ -1,0 +1,31 @@
+pkgbase = video-trimmer
+	pkgdesc = Cut out a fragment of a video quickly
+	pkgver = 26.03.1
+	pkgrel = 1.1
+	url = https://apps.gnome.org/VideoTrimmer/
+	arch = x86_64
+	groups = gnome-circle
+	license = GPL-3.0-or-later
+	makedepends = appstream
+	makedepends = blueprint-compiler
+	makedepends = git
+	makedepends = meson
+	makedepends = rust
+	depends = dconf
+	depends = ffmpeg
+	depends = glib2
+	depends = glibc
+	depends = graphene
+	depends = gst-plugins-base
+	depends = gst-plugins-good
+	depends = gtk4
+	depends = hicolor-icon-theme
+	depends = libadwaita
+	depends = libgcc
+	optdepends = gst-libav: Extra media codecs
+	optdepends = gst-plugins-bad: Extra media codecs
+	optdepends = gst-plugins-ugly: Extra media codecs
+	source = git+https://gitlab.gnome.org/YaLTeR/video-trimmer.git#tag=v26.03.1
+	b2sums = fbfccb1edd5202ef249e79809cc6bc5badc336a293f960a6468c10019d73061b66dfeb9d2ecb97092286aacaef5daeec8220d89de8ef1c17dab175435f7f3ffb
+
+pkgname = video-trimmer

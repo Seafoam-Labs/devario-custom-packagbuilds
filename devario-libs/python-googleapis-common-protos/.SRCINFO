@@ -1,0 +1,20 @@
+pkgbase = python-googleapis-common-protos
+	pkgdesc = Python classes generated from the common protos in the googleapis repository
+	pkgver = 1.75.5
+	pkgrel = 1.1
+	url = https://github.com/googleapis/google-cloud-python/tree/main/packages/googleapis-common-protos
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-pytest
+	checkdepends = python-grpcio
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	depends = python-protobuf
+	optdepends = python-grpcio: for grpc support
+	source = googleapis_common_protos-1.75.5.tar.gz::https://files.pythonhosted.org/packages/source/g/googleapis-common-protos/googleapis_common_protos-1.75.5.tar.gz
+	sha256sums = c7a866fc34ed29a3b10af627a4b9b1dc2433313ca6e959f0ae4feb132047ed72
+
+pkgname = python-googleapis-common-protos

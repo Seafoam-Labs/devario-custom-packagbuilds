@@ -1,0 +1,37 @@
+pkgbase = notmuch
+	pkgdesc = Thread-based email indexer with notmuch2 Python bindings
+	pkgver = 0.40
+	pkgrel = 2.2
+	url = https://notmuchmail.org/
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-sphinx
+	makedepends = python-wheel
+	depends = glibc
+	depends = glib2
+	depends = gmime3
+	depends = libgcc
+	depends = libstdc++
+	depends = python
+	depends = python-cffi
+	depends = sfsexp
+	depends = talloc
+	depends = xapian-core
+	depends = zlib
+	provides = notmuch-runtime=0.40
+	provides = python-notmuch2=0.40
+	provides = libnotmuch.so
+	conflicts = notmuch-runtime
+	conflicts = python-notmuch2
+	options = !distcc
+	options = !makeflags
+	source = https://notmuchmail.org/releases/notmuch-0.40.tar.xz
+	source = https://notmuchmail.org/releases/notmuch-0.40.tar.xz.asc
+	validpgpkeys = 7A18807F100A4570C59684207E4E65C8720B706B
+	sha256sums = 4b4314bbf1c2029fdf793637e6c7bb15c1b1730d22be9aa04803c98c5bbc446f
+	sha256sums = SKIP
+
+pkgname = notmuch

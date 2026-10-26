@@ -1,0 +1,48 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+
+pkgname=icoextract
+pkgver=0.3.0
+pkgrel=1
+pkgdesc='Extract icons from Windows PE files (.exe/.dll)'
+arch=(any)
+url=https://projects.jlu5.com/icoextract.html
+license=(MIT)
+depends=(
+  python
+  python-pefile
+)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+checkdepends=(
+  imagemagick
+  mingw-w64-gcc
+  python-pillow
+  python-pytest
+)
+optdepends=('python-pillow: required for the optional thumbnailer')
+source=("git+https://github.com/jlu5/icoextract.git#tag=$pkgver?signed")
+b2sums=('69c9f47cf2b54da03fd70f6d6d8cb1c827880b533a08fddc53633fb1d778287b1765ffebbdc5d6a955d884219275931ed8808116ccd6d6222118c687df6f28ee')
+validpgpkeys=('D5D568B2D34AB32A337944D22EC3F60DE71C0B9D') # James Lu <james@overdrivenetworks.com>
+
+build() {
+  cd $pkgname
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd $pkgname
+  make -C tests
+  pytest
+}
+
+package() {
+  cd $pkgname
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm644 -t "$pkgdir/usr/share/thumbnailers" exe-thumbnailer.thumbnailer
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}

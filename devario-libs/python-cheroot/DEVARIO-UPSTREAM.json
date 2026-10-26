@@ -1,0 +1,8 @@
+{
+  "name": "python-cheroot",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-cheroot.git",
+  "revision": "b453d0b114b668740e31e1179af85ceb63d8962f",
+  "upstream_pkgbuild_sha256": "fa820789fa62fa5a594210a40c12cee7060e875ec1387d40a6b61dbd4d335bd6",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

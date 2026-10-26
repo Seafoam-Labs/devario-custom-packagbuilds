@@ -1,0 +1,10 @@
+{
+  "name": "constrict",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=constrict&id=ac087829f3d13c0161f7b36c454136d8baf9c6d2",
+  "sha256": "a083c0fa8d1d5a58308113617506bdc81f344790cf32863c2766e83e93f7d26f",
+  "bytes": 673,
+  "retrieved_on": "2026-10-23",
+  "local_adaptation": true,
+  "note": "Reference only; final source inputs use upstream project URLs, not AUR.",
+  "commit": "ac087829f3d13c0161f7b36c454136d8baf9c6d2"
+}

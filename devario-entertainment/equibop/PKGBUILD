@@ -1,0 +1,151 @@
+# Local adaptation for Seafoam Labs; based on the AUR equibop recipe.
+# Reference: AUR recipe retrieved 2026-10-23; see DEVARIO-UPSTREAM.json.
+# Local change: locked preparation, native-only helpers, offline ASAR packaging,
+# a bundled, checksum-pinned Electron runtime and an argument-safe launcher.
+# Maintainer: creations
+
+pkgname=equibop
+_pkgname=Equibop
+pkgver=3.3.1
+pkgrel=1.2
+# Exact version from the release's bun.lock; do not build Chromium separately.
+_electron_ver=43.7.1
+pkgdesc='Discord desktop client with Equicord pre-installed'
+arch=(x86_64 aarch64)
+url='https://github.com/Equicord/Equibop'
+license=('GPL-3.0-or-later' MIT BSD-3-Clause)
+depends=(alsa-lib at-spi2-core bash cairo dbus expat glib2 glibc gtk3
+         libcups libdrm libgcc libpipewire libstdc++ libx11 libxcb libxcomposite
+         libxdamage libxext libxfixes libxkbcommon libxrandr mesa nspr nss pango systemd-libs)
+makedepends=(bun gcc glib2-devel libarchive nodejs pkgconf python)
+optdepends=('libnotify: desktop notifications'
+            'xdg-utils: open links and files'
+            'xdg-desktop-portal: Wayland screen sharing')
+conflicts=(equibop-bin equibop-git)
+options=(!strip !lto)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('f34d8db6322ed88e615ccada10076cd0ad24ad1a86cb1ec1ccc207afaa051606')
+source_x86_64=("https://github.com/electron/electron/releases/download/v$_electron_ver/electron-v$_electron_ver-linux-x64.zip")
+sha256sums_x86_64=('9dda7370e2847be511a638d3461ccf4979cdd4d87280685241845a13d753a2df')
+source_aarch64=("https://github.com/electron/electron/releases/download/v$_electron_ver/electron-v$_electron_ver-linux-arm64.zip")
+sha256sums_aarch64=('9152782bad4017c5fdbcde05af53f168c19f9a723abaa3d15e8e13699170270f')
+noextract=("electron-v$_electron_ver-linux-x64.zip" "electron-v$_electron_ver-linux-arm64.zip")
+
+prepare() {
+  cd "$_pkgname-$pkgver"
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+  export SKIP_BUN_DOWNLOAD=true
+  export BUN_INSTALL_CACHE_DIR="$srcdir/bun-cache"
+
+  local _arch=x64
+  [[ $CARCH == aarch64 ]] && _arch=arm64
+  mkdir -p "$srcdir/electron-dist"
+  bsdtar -xf "$srcdir/electron-v$_electron_ver-linux-$_arch.zip" -C "$srcdir/electron-dist"
+  # Refuse a stale runtime pin after a future application release update.
+  python - "$_electron_ver" <<'PY' || return
+import sys
+from pathlib import Path
+if f'"electron": ["electron@{sys.argv[1]}",' not in Path('bun.lock').read_text():
+    raise SystemExit('Electron pin no longer matches bun.lock; update the version and archive hashes together')
+PY
+
+  # Upstream CI compiles both Linux architectures. Only cache our native helper.
+  python - <<'PY' || return
+from pathlib import Path
+path = Path('scripts/build/compileArrpc.mts')
+old = 'TARGETS.filter(t => t.platform === currentPlatform);'
+new = 'TARGETS.filter(t => t.platform === currentPlatform && t.arch === currentArch);'
+text = path.read_text()
+if old not in text and new not in text:
+    raise SystemExit('arRPC target-selection code changed; review the patch')
+path.write_text(text.replace(old, new))
+PY
+  CI=true bun install --frozen-lockfile
+  CI=true bun install --cwd packages/libvesktop --frozen-lockfile
+}
+
+build() {
+  cd "$_pkgname-$pkgver"
+  export BUN_INSTALL_CACHE_DIR="$srcdir/bun-cache"
+  export npm_config_nodedir="${npm_config_nodedir:-/usr}"
+  export npm_config_offline=true
+  # The upstream buildLibVesktop script reinstalls packages; run its build directly.
+  bun run --cwd packages/libvesktop build
+  bun run build
+
+  # Upstream bundles runtime JS in dist/js and excludes node_modules itself.
+  rm -rf dist/app
+  mkdir -p dist/app/dist
+  cp -r dist/js dist/app/dist/
+  cp -r static dist/app/
+  # The executable lives beside app.asar; do not embed a second copy in it.
+  rm -f dist/app/static/dist/arrpc-*
+  cp package.json LICENSE dist/app/
+  node - <<'JS'
+const {createPackageWithOptions} = require('@electron/asar');
+createPackageWithOptions('dist/app', 'dist/app.asar', {unpack: '**/*.node'})
+  .catch(error => { console.error(error); process.exitCode = 1; });
+JS
+
+  # Preserve the upstream application's Electron fuse settings. The runtime is
+  # private to Equibop, so these never modify a shared system installation.
+  node - "$srcdir/electron-dist/electron" <<'JS'
+const {flipFuses, FuseVersion, FuseV1Options} = require('@electron/fuses');
+const settings = require('./package.json').build.electronFuses;
+const config = {version: FuseVersion.V1};
+for (const [name, value] of Object.entries(settings)) {
+  const option = name[0].toUpperCase() + name.slice(1);
+  if (!(option in FuseV1Options)) throw new Error(`Unsupported Electron fuse: ${name}`);
+  config[FuseV1Options[option]] = value;
+}
+flipFuses(process.argv[2], config).catch(error => {
+  console.error(error); process.exitCode = 1;
+});
+JS
+}
+
+package() {
+  cd "$_pkgname-$pkgver"
+  install -dm755 "$pkgdir/opt/equibop"
+  cp -a --no-preserve=ownership "$srcdir/electron-dist/." "$pkgdir/opt/equibop/"
+  mv "$pkgdir/opt/equibop/electron" "$pkgdir/opt/equibop/equibop"
+  chmod 755 "$pkgdir/opt/equibop/equibop" "$pkgdir/opt/equibop/chrome_crashpad_handler"
+  chmod 4755 "$pkgdir/opt/equibop/chrome-sandbox"
+  rm -f "$pkgdir/opt/equibop/resources/default_app.asar"
+  install -Dm644 dist/app.asar "$pkgdir/opt/equibop/resources/app.asar"
+  cp -r dist/app.asar.unpacked "$pkgdir/opt/equibop/resources/"
+  local _arch=x64
+  [[ $CARCH == aarch64 ]] && _arch=arm64
+  install -Dm755 "static/dist/arrpc-linux-$_arch" "$pkgdir/opt/equibop/resources/arrpc/arrpc"
+
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/equibop" <<'SH'
+#!/bin/bash
+flags=()
+config="${XDG_CONFIG_HOME:-$HOME/.config}/equibop-flags.conf"
+if [[ -f $config ]]; then
+  while IFS= read -r line || [[ -n $line ]]; do
+    [[ $line =~ ^[[:space:]]*(#|$) ]] && continue
+    read -r -a words <<< "$line"
+    flags+=("${words[@]}")
+  done < "$config"
+fi
+exec /opt/equibop/equibop "${flags[@]}" "$@"
+SH
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/equibop.desktop" <<'DESKTOP'
+[Desktop Entry]
+Name=Equibop
+Comment=Discord client with Equicord pre-installed
+Exec=equibop %U
+Icon=equibop
+Type=Application
+Categories=Network;InstantMessaging;
+MimeType=x-scheme-handler/discord;
+StartupWMClass=equibop
+Keywords=discord;equicord;chat;
+DESKTOP
+  install -Dm644 static/icon.png "$pkgdir/usr/share/pixmaps/equibop.png"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/equibop/LICENSE"
+  install -Dm644 "$srcdir/electron-dist/LICENSE" "$pkgdir/usr/share/licenses/equibop/LICENSE.electron"
+  install -Dm644 "$srcdir/electron-dist/LICENSES.chromium.html" \
+    "$pkgdir/usr/share/licenses/equibop/LICENSES.chromium.html"
+}

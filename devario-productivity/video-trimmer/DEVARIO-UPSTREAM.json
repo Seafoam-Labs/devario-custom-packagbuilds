@@ -1,0 +1,15 @@
+{
+  "name": "video-trimmer",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fvideo-trimmer/repository/archive.tar.gz?sha=f7caebc15a9ca0eb25b0196915bdcd5baab8efd1",
+  "sha256": "fcca07d50e7d866e6e04c6e705c1eb91c39585bd3eb49d06d5ba935d08853c98",
+  "bytes": 2021,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/video-trimmer.git",
+  "commit": "f7caebc15a9ca0eb25b0196915bdcd5baab8efd1",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve source checksums, dependencies and existing locked Cargo cache preparation."
+  ],
+  "metadata_generator": "Shelly 3.1.9",
+  "pkgbuild_sha256": "298d2cf264a9b65523ae628540f7463582ccfd87d00e97cfcbf0fe394d985524"
+}

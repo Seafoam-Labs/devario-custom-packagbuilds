@@ -1,0 +1,8 @@
+{
+  "name": "python-pyu2f",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyu2f.git",
+  "revision": "494db19f4466fc4e8db813a8fbc3250e4a124809",
+  "upstream_pkgbuild_sha256": "8e1d912f9726f6389135d3f2ab327dee7cbd70433921bccdf5bb2184b701a641",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

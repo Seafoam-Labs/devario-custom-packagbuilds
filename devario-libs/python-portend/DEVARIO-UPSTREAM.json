@@ -1,0 +1,8 @@
+{
+  "name": "python-portend",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-portend.git",
+  "revision": "31fd19bab7008b10b4b28d9a00c4b7a747ee2c14",
+  "upstream_pkgbuild_sha256": "fa63bda6bf7d8b083c6aca7947811fd334af364b3859752541e8cc39c1831dac",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

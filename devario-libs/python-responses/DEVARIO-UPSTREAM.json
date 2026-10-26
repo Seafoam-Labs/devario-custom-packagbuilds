@@ -1,0 +1,8 @@
+{
+  "name": "python-responses",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-responses.git",
+  "revision": "d64c1edd05616491caf01b40b59f6da14d8a90a0",
+  "upstream_pkgbuild_sha256": "0385d204f52a33b14abafd83df72ea3cc6cd67daa352b34fbebace7227c921e4",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

@@ -1,0 +1,23 @@
+pkgbase = constrict
+	pkgdesc = Compress videos to target sizes
+	pkgver = 26.10
+	pkgrel = 1.2
+	url = https://gitlab.gnome.org/World/Constrict
+	arch = x86_64
+	license = GPL-3.0-or-later
+	checkdepends = appstream
+	checkdepends = desktop-file-utils
+	makedepends = blueprint-compiler
+	makedepends = meson
+	depends = ffmpeg
+	depends = glycin-gtk4
+	depends = gtk4
+	depends = libadwaita
+	depends = python
+	depends = python-cairo
+	depends = python-gobject
+	optdepends = libva-utils: Hardware acceleration support
+	source = constrict-26.10.tar.gz::https://gitlab.gnome.org/World/Constrict/-/archive/26.10/Constrict-26.10.tar.gz
+	sha256sums = 082a8a3db65b7cfb86cee32f65160f9da31964fe9e5d142f78fb0765da1cf1d5
+
+pkgname = constrict

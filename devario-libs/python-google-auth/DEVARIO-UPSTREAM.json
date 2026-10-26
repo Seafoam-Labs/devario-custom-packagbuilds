@@ -1,0 +1,8 @@
+{
+  "name": "python-google-auth",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-google-auth.git",
+  "revision": "42d0fc828a15d3e190304333bf07ca0f4e23b669",
+  "upstream_pkgbuild_sha256": "77b9fcdd6e1f01a3e9ce553edf64b7996c2e62895b653c936ab5810487b913a9",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

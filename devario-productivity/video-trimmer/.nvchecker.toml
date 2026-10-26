@@ -1,0 +1,4 @@
+[video-trimmer]
+source = "git"
+git = "https://gitlab.gnome.org/YaLTeR/video-trimmer.git"
+prefix = "v"

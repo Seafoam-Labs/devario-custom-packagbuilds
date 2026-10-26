@@ -1,0 +1,83 @@
+# Maintainer: Seafoam Labs recipe maintainers
+# Based on upstream OpenTabletDriver 0.6.7 Linux packaging integration.
+# .NET dependencies restore from NuGet during prepare(), never from AUR.
+
+pkgname=opentabletdriver
+pkgver=0.6.7
+pkgrel=1
+pkgdesc='Open source, cross-platform, user-mode tablet driver'
+arch=('x86_64')
+url='https://opentabletdriver.net'
+license=('LGPL-3.0-or-later')
+depends=('bash' 'dotnet-runtime-8.0' 'gtk3' 'libevdev' 'libx11' 'libxrandr'
+         'systemd-libs' 'wayland')
+makedepends=('dotnet-sdk-8.0' 'jq')
+conflicts=('opentabletdriver-bin' 'opentabletdriver-git')
+options=('!strip')
+_commit=736003ed72c8bbb28033b039d5a0bb76c344145c
+source=("$pkgname-$pkgver.tar.gz::https://codeload.github.com/OpenTabletDriver/OpenTabletDriver/tar.gz/$_commit")
+sha256sums=('095309b615888620fe90ca6239459864e6fe25cb84a2cf6bab9ce7a9292c6f41')
+_projects=('OpenTabletDriver.Daemon' 'OpenTabletDriver.Console' 'OpenTabletDriver.UX.Gtk')
+
+_dotnet_env() {
+  export DOTNET_CLI_HOME="$srcdir/.dotnet"
+  export NUGET_PACKAGES="$srcdir/.nuget/packages"
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  export DOTNET_NOLOGO=1
+}
+
+prepare() {
+  cd "OpenTabletDriver-$_commit"
+  _dotnet_env
+  # Select the packaged .NET 8 SDK even if the builder also has newer SDKs.
+  printf '%s\n' '{"sdk":{"version":"8.0.100","rollForward":"latestFeature"}}' > global.json
+  local project
+  for project in "${_projects[@]}"; do
+    dotnet restore "$project/$project.csproj" --runtime linux-x64 \
+      -p:PublishSingleFile=true --use-lock-file
+  done
+}
+
+build() {
+  cd "OpenTabletDriver-$_commit"
+  _dotnet_env
+  local project
+  for project in "${_projects[@]}"; do
+    dotnet publish "$project/$project.csproj" --configuration Release \
+      --framework net8.0 --runtime linux-x64 --self-contained false \
+      --no-restore --output "$srcdir/publish" \
+      -p:PublishSingleFile=true -p:PublishTrimmed=false -p:DebugType=embedded
+  done
+  bash generate-rules.sh > "$srcdir/70-opentabletdriver.rules"
+}
+
+package() {
+  cd "OpenTabletDriver-$_commit"
+  install -dm755 "$pkgdir/usr/lib/opentabletdriver"
+  cp -a "$srcdir/publish/." "$pkgdir/usr/lib/opentabletdriver/"
+  # Upstream wrappers, systemd user service, module settings and libinput quirks.
+  cp -a eng/bash/Generic/usr/. "$pkgdir/usr/"
+  chmod 755 "$pkgdir/usr/bin/otd" "$pkgdir/usr/bin/otd-daemon" "$pkgdir/usr/bin/otd-gui"
+  install -Dm644 "$srcdir/70-opentabletdriver.rules" \
+    "$pkgdir/usr/lib/udev/rules.d/70-opentabletdriver.rules"
+  install -Dm644 OpenTabletDriver.UX/Assets/otd.png "$pkgdir/usr/share/pixmaps/otd.png"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  local manpage
+  for manpage in docs/manpages/*; do
+    install -Dm644 "$manpage" "$pkgdir/usr/share/man/man${manpage##*.}/${manpage##*/}"
+  done
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/opentabletdriver.desktop" <<'EOF'
+[Desktop Entry]
+Version=1.5
+Name=OpenTabletDriver
+Comment=Open source tablet driver
+Exec=otd-gui
+Icon=otd
+Terminal=false
+Type=Application
+Categories=Settings;
+StartupNotify=true
+StartupWMClass=OpenTabletDriver.UX
+EOF
+}
