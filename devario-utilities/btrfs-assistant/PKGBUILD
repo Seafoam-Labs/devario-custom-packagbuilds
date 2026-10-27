@@ -3,7 +3,7 @@
 # Contributor: dalto <dalto at fastmail.com>
 
 pkgname=btrfs-assistant
-pkgver=2.3.1
+pkgver=3.0.0
 pkgrel=1
 pkgdesc="An application for managing BTRFS subvolumes and Snapper snapshots"
 arch=('x86_64')
@@ -12,6 +12,7 @@ license=('GPL-3.0-or-later')
 depends=(
 	'bash'
 	'btrfs-progs'
+	'dbus'
 	'diffutils'
 	'glibc'
 	'hicolor-icon-theme'
@@ -23,13 +24,13 @@ depends=(
 )
 optdepends=('snapper: Snapper support'
             'btrfsmaintenance: Btrfs maintenance support')
-makedepends=('cmake' 'qt6-declarative' 'qt6-tools')
+makedepends=('cmake>=3.16' 'qt6-declarative' 'qt6-tools')
 backup=("etc/${pkgname}.conf")
 source=("${url}/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
-sha256sums=('1dcf140132b88e82d2d3c189464978af0a0c28dd5b8a82f23f4311b5b0211e15')
+sha256sums=('cb33a9a616fc0f4196b3311ce8ae1ed3f4b24994546713e0dfb958407c8a86ff')
 
 build() {
-	cmake -B build -S "${pkgname}-${pkgver}" -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=None
+	cmake -B build -S "${pkgname}-${pkgver}" -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_BUILD_TYPE=None
 	cmake --build build
 }
 
