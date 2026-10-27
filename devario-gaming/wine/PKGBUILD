@@ -5,7 +5,7 @@
 # Contributor: Giovanni Scafora <giovanni@archlinux.org>
 
 pkgname=wine
-pkgver=11.19
+pkgver=11.20
 pkgrel=1
 
 _pkgbasever=${pkgver/rc/-rc}
@@ -13,7 +13,7 @@ _pkgbasever=${pkgver/rc/-rc}
 source=("git+https://gitlab.winehq.org/wine/wine.git?signed#tag=wine-$_pkgbasever"
         30-win32-aliases.conf
         wine-binfmt.conf)
-sha512sums=('e1f8f3de617f77589aa4035fdf60b9f19ad51121434eb1d13ab9f326ae96d0fbaef5eaf74b2aa272e186806ffd04bf86c1f2dca1ce7e6a2c13027b19ed0b17d3'
+sha512sums=('31fdb5de2c3cf57daa9080a875b5b8531f310a6e352e3f0ad517e437608bc958ee14ea130e201cb9258bed57be549c08ba9ecc6453ca0a397981166493612307'
             '6e54ece7ec7022b3c9d94ad64bdf1017338da16c618966e8baf398e6f18f80f7b0576edf1d1da47ed77b96d577e4cbb2bb0156b0b11c183a0accf22654b0a2bb'
             'bdde7ae015d8a98ba55e84b86dc05aca1d4f8de85be7e4bd6187054bfe4ac83b5a20538945b63fb073caab78022141e9545685e4e3698c97ff173cf30859e285')
 validpgpkeys=(5AC1A08B03BD7A313E0A955AF5E6E9EEB9461DD7
