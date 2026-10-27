@@ -4,8 +4,8 @@
 # Contributor: Xuanwo <xuanwo@archlinuxcn.org>
 
 pkgname=obsidian
-pkgver=1.14.4
-pkgrel=3
+pkgver=1.14.5
+pkgrel=1
 pkgdesc="A powerful knowledge base that works on top of a local folder of plain text Markdown files"
 arch=('x86_64' 'aarch64')
 url="https://obsidian.md"
@@ -29,8 +29,8 @@ sha256sums=('d12ea32dba35955f5468c6faaacbb74904eb1529d853b3297c96af692d3f3c4e'
             '55a5d7fa8a1cbbc2c857836cb1504a64235eef071302e203f193c267ce4d997d'
             'f016fa35f25b7220690f8030bec1514b662bbcb231d3507ec3751d2ade42ba7e'
             'd9fdc14f9c2fb95bb38310281268fdad413c1b49fa93213df3184f9b0ca1175c')
-sha256sums_x86_64=('e70b7cd63787e7f798a84fec453f5c446b91877bd3f612e8fb98e9b76cc81120')
-sha256sums_aarch64=('fc212804515713ed85fe5ef5bc4b009872bcc01847c4be4fcc14971deee2a42d')
+sha256sums_x86_64=('1bc6547c889d7d02c3f2c5b55884cba14980bfac4ada32c0bdc6ec6db542aaf8')
+sha256sums_aarch64=('ba1d2e7070acffb39a795e81c48c3a2119c44be526337dd8ff58963f3ab2052a')
 
 package() {
     local _arch=''
