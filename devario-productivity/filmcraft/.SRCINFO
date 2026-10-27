@@ -1,6 +1,6 @@
 pkgbase = filmcraft
 	pkgdesc = Non-linear video editor for picture, color and sound, in pure Rust
-	pkgver = 0.12.0
+	pkgver = 0.13.0
 	pkgrel = 1
 	url = https://github.com/storytold/filmcraft
 	arch = x86_64
@@ -21,7 +21,7 @@ pkgbase = filmcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/filmcraft/archive/v0.12.0/filmcraft-0.12.0.tar.gz
-	sha256sums = 83022ffecdc03adc113d8aaa54e5cab999047a92d0d531821a4681a4751d7dd2
+	source = https://github.com/storytold/filmcraft/archive/v0.13.0/filmcraft-0.13.0.tar.gz
+	sha256sums = 6ad642d7e6cc1ad95bd44183ff00813ee978eb78a983fcd38f3f98336b8ef4d1
 
 pkgname = filmcraft
