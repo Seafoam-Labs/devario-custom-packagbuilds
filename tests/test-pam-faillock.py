@@ -61,11 +61,11 @@ printf '%s\n' "${backup[@]}"
             with self.subTest(directory=directory):
                 base = ROOT / directory / 'devario-base'
                 metadata = (base / '.SRCINFO').read_text()
-                self.assertIn('\tdepends = pam>=1.7.3-3\n', metadata)
+                self.assertIn('\tdepends = pam>=1.7.3-4\n', metadata)
                 result = subprocess.check_output(['bash', '-euc',
                     'source "$1"; printf "%s\\n" "${depends[@]}"',
                     'base-dependencies', str(base / 'PKGBUILD')], text=True)
-                self.assertIn('pam>=1.7.3-3', result.splitlines())
+                self.assertIn('pam>=1.7.3-4', result.splitlines())
 
 
 if __name__ == '__main__':

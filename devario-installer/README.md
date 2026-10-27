@@ -2,8 +2,8 @@
 
 This folder contains the eight OS-owned recipes and their supporting files:
 
-`devario-base` 3-19 requires `pam>=1.7.3-3`. Build and publish
-[`devario-core/pam`](../devario-core/pam/PKGBUILD) 1.7.3-3 first, then base, and
+`devario-base` 3-20 requires `pam>=1.7.3-4`. Build and publish
+[`devario-core/pam`](../devario-core/pam/PKGBUILD) 1.7.3-4 first, then base, and
 rebuild the ISO with both packages staged. PAM ships `deny = 0` in its own
 `/etc/security/faillock.conf`, disabling failed-password account lockout.
 Existing installations receive the default through `sudo shelly upgrade standard`.

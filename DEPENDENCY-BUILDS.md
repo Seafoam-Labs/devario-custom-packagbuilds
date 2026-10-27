@@ -24,7 +24,7 @@ The optional `fop` dependency was removed: [upstream](https://github.com/linux-p
 uses it only for PDFs, and
 the package already discarded those PDFs. Cleanup now also succeeds when FOP
 is absent. The `deny = 0` default remains in PAM; `devario-base`'s existing
-`pam>=1.7.3-3` requirement accepts this corrected release.
+`pam>=1.7.3-4` requirement accepts this corrected release.
 
 Validation: source checksums, Shelly metadata generation and reviews (no
 findings), DocBook build/package and catalog lifecycle checks, w3m build/package
