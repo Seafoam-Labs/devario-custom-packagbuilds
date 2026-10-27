@@ -1,7 +1,7 @@
 pkgbase = pearl-darkly-style
 	pkgdesc = Darkly application styles for Qt 5 and Qt 6, without KWin decorations
-	pkgver = 0.5.39
-	pkgrel = 14
+	pkgver = 0.5.42
+	pkgrel = 1
 	url = https://github.com/Bali10050/Darkly
 	arch = x86_64
 	license = GPL-2.0-or-later
@@ -30,13 +30,13 @@ pkgbase = pearl-darkly-style
 	depends = frameworkintegration5
 	depends = frameworkintegration
 	depends = kirigami
-	provides = darkly=0.5.39
+	provides = darkly=0.5.42
 	conflicts = darkly
 	conflicts = darkly-bin
 	conflicts = darkly-git
-	source = darkly::git+https://github.com/Bali10050/Darkly.git#commit=65f6fa62675e3c30986f8fc8e4fdbba053096491
+	source = darkly::git+https://github.com/Bali10050/Darkly.git#commit=812546e
 	source = application-style.patch
-	sha256sums = 85e3bf3841b8fe1be513958d745f3c043ac7f6202aad4cc8f4ad3c7f714bdf8c
+	sha256sums = f21ce9f034107569b1c4849a63fd0e8de36dd80b2545749d20c5dfeebb04056a
 	sha256sums = 4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763
 
 pkgname = pearl-darkly-style
