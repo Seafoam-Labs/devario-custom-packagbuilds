@@ -1,0 +1,32 @@
+# Register the package-owned catalogs, including when no other DocBook package
+# has created the root catalog yet. Scriptlets run inside the target root.
+post_install() {
+  install -dm755 etc/xml
+  if [[ ! -f etc/xml/catalog ]]; then
+    xmlcatalog --noout --create etc/xml/catalog
+  fi
+  local version kind prefix
+  for version in 5.0 5.1; do
+    xmlcatalog --noout --add delegatePublic "-//OASIS//DTD DocBook XML ${version}//EN" \
+      "file:///etc/xml/docbook-${version}.xml" etc/xml/catalog
+    for kind in delegateSystem delegateURI; do
+      for prefix in http://docbook.org/xml http://www.oasis-open.org/docbook/xml; do
+        xmlcatalog --noout --add "$kind" "${prefix}/${version}/" \
+          "file:///etc/xml/docbook-${version}.xml" etc/xml/catalog
+      done
+    done
+  done
+}
+
+post_upgrade() {
+  post_remove
+  post_install
+}
+
+post_remove() {
+  [[ -f etc/xml/catalog ]] || return 0
+  local version
+  for version in 5.0 5.1; do
+    xmlcatalog --noout --del "file:///etc/xml/docbook-${version}.xml" etc/xml/catalog
+  done
+}

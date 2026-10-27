@@ -1,0 +1,21 @@
+pkgbase = w3m
+	pkgdesc = Text-based Web browser as well as pager
+	pkgver = 0.5.6
+	pkgrel = 3
+	url = https://git.sr.ht/~rkta/w3m
+	arch = x86_64
+	license = LicenseRef-w3m
+	makedepends = imlib2
+	depends = gc
+	depends = glibc
+	depends = gpm
+	depends = ncurses
+	depends = openssl
+	depends = perl
+	depends = zlib
+	optdepends = imlib2: for graphics support
+	optdepends = libx11: for graphics support
+	source = w3m-0.5.6.tar.gz::https://git.sr.ht/~rkta/w3m/archive/v0.5.6.tar.gz
+	b2sums = 343249b70090c2d39674c7f788dd0824ef5d3a89804c5e3751d7090d1eca359d3ebb9d2df926eff35ac1ad2640820e49cdcfad2e4385739e9401f335026212cf
+
+pkgname = w3m

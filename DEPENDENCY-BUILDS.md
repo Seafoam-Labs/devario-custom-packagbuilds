@@ -1,5 +1,43 @@
 # Missing dependency builds for Shelly
 
+## PAM documentation prerequisites (2026-10-27)
+
+The `pam` failure lists three missing packages twice: once for repository
+availability and once for the planned build environment. Add these two
+prerequisites before retrying PAM:
+
+| Order | Recipe | Version |
+| --- | --- | --- |
+| 1 (either order) | [docbook5-xml](devario-core/docbook5-xml/PKGBUILD) | 5.1-6 |
+| 1 (either order) | [w3m](devario-utilities/w3m/PKGBUILD) | 0.5.6-3 |
+| 2 | [pam](devario-core/pam/PKGBUILD) | 1.7.3-4 |
+
+Build and publish both prerequisite packages, refresh the worker's repository
+metadata, then retry PAM with the updated recipe and `.SRCINFO`.
+`docbook5-xml` registers the DocBook 5.0/5.1 XML catalogs needed by PAM's
+documentation build. Its former upstream download URLs return 404; the recipe
+uses the DocBook archive and OASIS URLs with the same upstream SHA-512 checksums.
+`w3m` uses a checksum-pinned release archive from its upstream SourceHut project.
+
+PAM now explicitly enables documentation, keeping its man pages, HTML and text.
+The optional `fop` dependency was removed: [upstream](https://github.com/linux-pam/linux-pam/blob/v1.7.3/meson.build)
+uses it only for PDFs, and
+the package already discarded those PDFs. Cleanup now also succeeds when FOP
+is absent. The `deny = 0` default remains in PAM; `devario-base`'s existing
+`pam>=1.7.3-3` requirement accepts this corrected release.
+
+Validation: source checksums, Shelly metadata generation and reviews (no
+findings), DocBook build/package and catalog lifecycle checks, w3m build/package
+and upstream regression tests, and PAM build/package all passed. w3m's package
+step supplies `mkdir_p` because the release leaves that substitution unresolved;
+all six translation catalogs are installed. PAM's staged payload includes
+101 man pages, HTML/text documentation, `deny = 0`, and no PDFs. All 78 PAM
+tests passed outside the sandbox; inside it, 17 module tests returned
+`PAM_SYSTEM_ERR`. Validation used temporary source and staging directories,
+with checksum-verified repository Imlib2 and DocBook XSL packages extracted
+under `/tmp`. No host package installation, isolated worker build, package
+archive publication, or ISO rebuild was performed.
+
 ## libsoup3 needs Quart and its HTTP server dependencies (2026-10-26)
 
 The repeated `python-quart` entries in the `devario-core/libsoup3` worker failure

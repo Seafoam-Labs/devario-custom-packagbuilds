@@ -1,0 +1,55 @@
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: dorphell <dorphell@archlinux.org>
+
+pkgname=w3m
+pkgver=0.5.6
+pkgrel=3
+pkgdesc='Text-based Web browser as well as pager'
+arch=('x86_64')
+url='https://git.sr.ht/~rkta/w3m'
+license=('LicenseRef-w3m')
+depends=(
+  'gc'
+  'glibc'
+  'gpm'
+  'ncurses'
+  'openssl'
+  'perl'
+  'zlib'
+)
+makedepends=(
+  'imlib2'
+)
+optdepends=(
+  'imlib2: for graphics support'
+  'libx11: for graphics support'
+)
+source=("${pkgname}-${pkgver}.tar.gz::https://git.sr.ht/~rkta/w3m/archive/v${pkgver}.tar.gz")
+b2sums=('343249b70090c2d39674c7f788dd0824ef5d3a89804c5e3751d7090d1eca359d3ebb9d2df926eff35ac1ad2640820e49cdcfad2e4385739e9401f335026212cf')
+
+build() {
+  cd "${pkgname}-v${pkgver}"
+  ./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    --enable-image=x11,fb \
+    --with-imagelib=imlib2 \
+    --with-termlib=ncurses \
+    --disable-w3mmailer
+  make
+}
+
+check() {
+  cd "${pkgname}-v${pkgver}/t"
+  sh run
+}
+
+package() {
+  cd "${pkgname}-v${pkgver}"
+  # The release leaves @mkdir_p@ unresolved in po/Makefile; preserve translations.
+  make mkdir_p='mkdir -p --' DESTDIR="${pkgdir}" install
+  install -vDm644 -t "${pkgdir}/usr/share/doc/${pkgname}" doc/*
+  install -vDm644 -t "${pkgdir}/usr/share/licenses/${pkgname}" COPYING
+}

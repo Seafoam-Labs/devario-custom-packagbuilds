@@ -4,7 +4,7 @@
 
 pkgname=pam
 pkgver=1.7.3
-pkgrel=3
+pkgrel=4
 pkgdesc="PAM (Pluggable Authentication Modules) library"
 arch=('x86_64')
 license=('GPL-2.0-only')
@@ -25,7 +25,6 @@ makedepends=(
   docbook-xsl
   docbook5-xml
   flex
-  fop
   git
   libxslt
   meson
@@ -67,6 +66,7 @@ prepare() {
 
 build() {
   arch-meson "${pkgname}" \
+    -Ddocs=enabled \
     -Dlogind=enabled \
     -Deconf=disabled \
     -Dselinux=disabled \
@@ -93,8 +93,9 @@ package() {
     "${pkgdir}/etc/security/faillock.conf"
   grep -qx 'deny = 0' "${pkgdir}/etc/security/faillock.conf" || return 1
 
-  # remove unreproducible pdf files
-  rm "${pkgdir}"/usr/share/doc/Linux-PAM/*.pdf
+  # FOP is optional upstream. Keep manuals/HTML/text, omit PDF-only dependencies.
+  # Also remove PDFs if the build environment happened to provide FOP.
+  rm -f "${pkgdir}"/usr/share/doc/Linux-PAM/*.pdf
 
   # set unix_chkpwd uid
   chmod +s "${pkgdir}"/usr/bin/unix_chkpwd

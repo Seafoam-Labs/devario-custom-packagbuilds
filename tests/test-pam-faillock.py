@@ -30,7 +30,6 @@ meson() {
   install -Dm644 "$fixtures/faillock.conf" "$pkgdir/etc/security/faillock.conf"
   install -Dm755 "$fixtures/libpam.so" "$pkgdir/usr/lib/libpam.so"
   install -Dm755 /dev/null "$pkgdir/usr/bin/unix_chkpwd"
-  install -Dm644 /dev/null "$pkgdir/usr/share/doc/Linux-PAM/fixture.pdf"
 }
 package
 printf '%s\n' "${backup[@]}"
@@ -56,7 +55,7 @@ printf '%s\n' "${backup[@]}"
 
     def test_metadata_keeps_backup_policy_and_base_requires_updated_pam(self):
         metadata = (RECIPE / '.SRCINFO').read_text()
-        self.assertIn('\tpkgrel = 3\n', metadata)
+        self.assertIn('\tpkgrel = 4\n', metadata)
         self.assertIn('\tbackup = etc/security/faillock.conf\n', metadata)
         for directory in ('devario-core', 'devario-installer'):
             with self.subTest(directory=directory):
