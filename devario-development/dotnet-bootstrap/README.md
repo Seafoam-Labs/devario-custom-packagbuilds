@@ -8,9 +8,10 @@ not build them and `eng/init-source-only.proj` aborts with
 unless it is handed the 1xx output first. This seed carries that input: it repackages upstream's
 previously source-built 1xx archive as `dotnet-bootstrap 10.0.114-1`. `../dotnet` no longer links it:
 the only 1xx feed available here is upstream's `centos.10-x64` archive while the build targets
-`arch-x64`, and the published arch-x64 artifacts are 10.0.12 while `v10.0.403` needs 10.0.14, so
-`../dotnet` now builds the shared components in-tree with `/p:DotNetBuildSharedComponents=true`. The
-seed stays published for reference and for any recipe that feeds a 1xx archive.
+`arch-x64`, and a 4xx checkout is an sdk-only vertical without runtime/aspnetcore sources. `../dotnet`
+therefore tracks the 1xx source-build tag (`10.0.14.sdk114`) like Arch, where the shared components
+are built in-tree by default. The seed stays published for reference and for any recipe that feeds a
+1xx archive.
 
 Coexistence is deliberate. The seed keeps its own ALPM name, so it holds its own repository row and a
 worker Remove run cannot evict the real dotnet packages. It ships one archive under

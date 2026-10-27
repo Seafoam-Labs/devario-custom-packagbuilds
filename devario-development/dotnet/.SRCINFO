@@ -1,5 +1,5 @@
 pkgbase = dotnet-core
-	pkgver = 10.0.403
+	pkgver = 10.0.14.sdk114
 	pkgrel = 1
 	url = https://dotnet.microsoft.com
 	arch = x86_64
@@ -25,8 +25,8 @@ pkgbase = dotnet-core
 	optdepends = bash-completion: Bash completion support
 	options = !lto
 	options = staticlibs
-	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.403
-	b2sums = 7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028
+	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.114
+	b2sums = 19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510
 
 pkgname = dotnet-host
 	pkgdesc = A generic driver for the .NET Core Command Line Interface

@@ -13,9 +13,10 @@ pkgname=(
  aspnet-targeting-pack
  dotnet-source-built-artifacts
 )
-pkgver=10.0.403
-_runtimever=10.0.14
-_majorver=10.0
+pkgver=10.0.14.sdk114
+_sdkver=${pkgver%.*.sdk*}.${pkgver#*sdk}
+_runtimever=${pkgver%.sdk*}
+_majorver=${pkgver%.*.sdk*}
 pkgrel=1
 arch=(x86_64)
 url=https://dotnet.microsoft.com
@@ -45,8 +46,8 @@ options=(
   !lto
   staticlibs
 )
-source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver})
-b2sums=('7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028')
+source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver/.*.sdk/.0.})
+b2sums=('19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510')
 
 prepare() {
   cd dotnet
@@ -92,11 +93,10 @@ build() {
   unset LDFLAGS
 
   # rtm branding strips out the "prerelease" tag from the version (see https://github.com/dotnet/dotnet/blob/b0f34d51fccc69fd334253924abd8d6853fad7aa/build.sh#L18)
-  # A 4xx checkout does not build shared components by default and would consume a 1xx input
-  # instead, but the only 1xx feed is upstream's centos.10-x64 archive (the published arch-x64
-  # artifacts are 10.0.12 while this tree needs 10.0.14). Build runtime/aspnetcore from this tree
-  # so the SDK redist gets matching arch-x64 10.0.14 packs instead of failing NU1101.
-  ./build.sh --clean-while-building --online --source-build /p:DotNetBuildSharedComponents=true
+  # 4xx release tags are sdk-only verticals without runtime/aspnetcore sources; the 1xx band is
+  # the source-build tag that carries them, so track it like Arch and let
+  # DotNetBuildSharedComponents default on for VersionSDKMinor 1.
+  ./build.sh --clean-while-building --online --source-build
 }
 
 package_dotnet-host() {
@@ -109,8 +109,8 @@ package_dotnet-host() {
   optdepends=('bash-completion: Bash completion support')
 
   install -dm 755 "${pkgdir}"/usr/{bin,lib,share/{dotnet,licenses/dotnet-host}}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner dotnet host
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/licenses/dotnet-host/ --no-same-owner LICENSE.txt ThirdPartyNotices.txt
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner dotnet host
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/licenses/dotnet-host/ --no-same-owner LICENSE.txt ThirdPartyNotices.txt
   ln -s /usr/share/dotnet/dotnet "${pkgdir}"/usr/bin/dotnet
   ln -s /usr/share/dotnet/host/fxr/${_runtimever}/libhostfxr.so "${pkgdir}"/usr/lib/libhostfxr.so
   install -Dm 644 dotnet/src/sdk/scripts/register-completions.bash "${pkgdir}"/usr/share/bash-completion/completions/dotnet
@@ -138,7 +138,7 @@ package_dotnet-runtime() {
   conflicts=(dotnet-runtime-${_majorver})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.NETCore.App
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.NETCore.App
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-runtime
 }
 
@@ -152,7 +152,7 @@ package_aspnet-runtime() {
   conflicts=(aspnet-runtime-${_majorver})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.AspNetCore.App
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.AspNetCore.App
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-runtime
 }
 
@@ -173,9 +173,9 @@ package_dotnet-sdk() {
   conflicts=(dotnet-sdk-${_majorver})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner sdk sdk-manifests templates
-  install -dm 755 "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver}
-  touch "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver}/userlocal
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner sdk sdk-manifests templates
+  install -dm 755 "${pkgdir}"/usr/share/dotnet/metadata/workloads/${_sdkver}
+  touch "${pkgdir}"/usr/share/dotnet/metadata/workloads/${_sdkver}/userlocal
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-sdk
 }
 
@@ -188,7 +188,7 @@ package_dotnet-targeting-pack() {
   conflicts=(dotnet-targeting-pack-${_majorver})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.NETCore.App.{Host.arch-*,Ref}
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.NETCore.App.{Host.arch-*,Ref}
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-targeting-pack
 }
 
@@ -202,7 +202,7 @@ package_aspnet-targeting-pack() {
   conflicts=(aspnet-targeting-pack-${_majorver})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.AspNetCore.App.Ref
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.AspNetCore.App.Ref
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-targeting-pack
 }
 
