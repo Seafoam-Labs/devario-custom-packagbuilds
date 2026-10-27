@@ -1,0 +1,90 @@
+pkgbase = dotnet-core
+	pkgver = 10.0.403
+	pkgrel = 1
+	url = https://dotnet.microsoft.com
+	arch = x86_64
+	license = MIT
+	makedepends = bash
+	makedepends = clang20
+	makedepends = cmake
+	makedepends = dotnet-sdk
+	makedepends = dotnet-source-built-artifacts
+	makedepends = git
+	makedepends = icu
+	makedepends = krb5
+	makedepends = libgit2
+	makedepends = libunwind
+	makedepends = libxml2
+	makedepends = lldb
+	makedepends = llvm20
+	makedepends = lttng-ust2.12
+	makedepends = nodejs
+	makedepends = openssl
+	makedepends = systemd
+	makedepends = zlib
+	optdepends = bash-completion: Bash completion support
+	options = !lto
+	options = staticlibs
+	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.403
+	b2sums = 7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028
+
+pkgname = dotnet-host
+	pkgdesc = A generic driver for the .NET Core Command Line Interface
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	optdepends = bash-completion: Bash completion support
+
+pkgname = dotnet-runtime
+	pkgdesc = The .NET Core runtime
+	depends = dotnet-host
+	depends = glibc
+	depends = icu
+	depends = krb5
+	depends = libgcc
+	depends = libstdc++
+	depends = libunwind
+	depends = zlib
+	depends = openssl
+	optdepends = lttng-ust2.12: CoreCLR tracing
+	provides = dotnet-runtime=10.0
+	provides = dotnet-runtime-10.0
+	conflicts = dotnet-runtime-10.0
+
+pkgname = aspnet-runtime
+	pkgdesc = The ASP.NET Core runtime
+	depends = dotnet-runtime
+	provides = aspnet-runtime=10.0
+	provides = aspnet-runtime-10.0
+	conflicts = aspnet-runtime-10.0
+
+pkgname = dotnet-sdk
+	pkgdesc = The .NET Core SDK
+	depends = dotnet-runtime
+	depends = dotnet-targeting-pack
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	optdepends = aspnet-targeting-pack: Build ASP.NET Core applications
+	provides = dotnet-sdk=10.0
+	provides = dotnet-sdk-10.0
+	conflicts = dotnet-sdk-10.0
+
+pkgname = dotnet-targeting-pack
+	pkgdesc = The .NET Core targeting pack
+	provides = dotnet-targeting-pack=10.0
+	provides = dotnet-targeting-pack-10.0
+	conflicts = dotnet-targeting-pack-10.0
+
+pkgname = aspnet-targeting-pack
+	pkgdesc = The ASP.NET Core targeting pack
+	depends = dotnet-targeting-pack
+	provides = aspnet-targeting-pack=10.0
+	provides = aspnet-targeting-pack-10.0
+	conflicts = aspnet-targeting-pack-10.0
+
+pkgname = dotnet-source-built-artifacts
+	pkgdesc = Internal package for building the .NET Core SDK
+	provides = dotnet-source-built-artifacts=10.0
+	provides = dotnet-source-built-artifacts-10.0
+	conflicts = dotnet-source-built-artifacts-10.0
