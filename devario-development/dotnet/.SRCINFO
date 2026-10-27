@@ -27,7 +27,9 @@ pkgbase = dotnet-core
 	options = !lto
 	options = staticlibs
 	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.403
+	source = dotnet-init-source-only-shared-components-glob.patch
 	b2sums = 7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028
+	b2sums = 37fc1d7a3b908b7080bcf6ea75427c413211d0664475e103de4d8e20c349e66bf31ef70ea84ecc3d8020919d0f257ea0f6855e6f779eba4acec3a7322b041fdf
 
 pkgname = dotnet-host
 	pkgdesc = A generic driver for the .NET Core Command Line Interface

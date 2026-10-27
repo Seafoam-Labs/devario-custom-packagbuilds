@@ -46,14 +46,22 @@ options=(
   !lto
   staticlibs
 )
-source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver})
-b2sums=('7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028')
+source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver}
+        dotnet-init-source-only-shared-components-glob.patch)
+b2sums=('7642902935e093ee2c309f6ecb72c9c1b4bab0a2f2a9b138ef39ac12861889cd823a37e88834eae108e58d622705ba97618f8f022a9642a0c0c6f223ac749028'
+        '37fc1d7a3b908b7080bcf6ea75427c413211d0664475e103de4d8e20c349e66bf31ef70ea84ecc3d8020919d0f257ea0f6855e6f779eba4acec3a7322b041fdf')
 
 prepare() {
   cd dotnet
 
   # fix bootstrap
   git remote set-url origin https://github.com/dotnet/dotnet.git
+
+  # eng/init-source-only.proj repeats the SharedComponentsPrereqsArchivePathItem glob that
+  # eng/VmrLayout.props already declares, so @(Item) expands to "<archive>;<archive>" and the unquoted
+  # tar in UnpackSharedComponentsPrereqsArchive execs the archive itself (exit 126). Backport main's
+  # removal of the duplicate declaration, plus the guard it added for a real multi-match.
+  patch -N -p1 -i ../dotnet-init-source-only-shared-components-glob.patch
 
   # shelly's isolated root ships no pacman, so match the bootstrap version against the
   # archive dotnet-source-built-artifacts installs instead of querying the package db

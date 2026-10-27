@@ -31,6 +31,18 @@ bootstrap download uses, so it is stored under the `Private.SourceBuilt.SharedCo
 under this prefix. Keeping the archive packed (`noextract`) is intentional; `init-source-only.proj`
 untars it itself.
 
+That untar is where the `release/10.0.4xx` tags fail: `eng/init-source-only.proj` repeats the
+`SharedComponentsPrereqsArchivePathItem` glob that `eng/VmrLayout.props` already declares, so
+`@(SharedComponentsPrereqsArchivePathItem)` expands to `"<archive>;<archive>"` and the unquoted `tar`
+in `UnpackSharedComponentsPrereqsArchive` runs the archive as a command (exit 126). main removed the
+duplicate declaration, and `../dotnet` backports that removal plus main's multi-match guard as
+`dotnet-init-source-only-shared-components-glob.patch`, so the seed reaches the target as one path.
+The archive is the input that target expects: listed over the full 1387301805-byte download, it is a
+flat feed of 363 nupkgs with `PackageVersions.props` and `VerticalManifest.xml` at the root, which the
+`--exclude='assets'` unpack puts in `prereqs/packages/shared-components`, plus
+`assets/Release/dotnet-symbols-all-10.0.114-servicing.26522.126-centos.10-x64.tar.gz` for the symbols
+step that follows it.
+
 ## Provenance
 
 The sha512 is taken from the feed's own `.sha512` sidecar and recorded in `provenance.json`, and was
