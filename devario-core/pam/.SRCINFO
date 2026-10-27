@@ -1,7 +1,7 @@
 pkgbase = pam
 	pkgdesc = PAM (Pluggable Authentication Modules) library
 	pkgver = 1.7.3
-	pkgrel = 2
+	pkgrel = 3
 	url = http://linux-pam.org
 	arch = x86_64
 	license = GPL-2.0-only

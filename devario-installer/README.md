@@ -2,6 +2,14 @@
 
 This folder contains the eight OS-owned recipes and their supporting files:
 
+`devario-base` 3-19 requires `pam>=1.7.3-3`. Build and publish
+[`devario-core/pam`](../devario-core/pam/PKGBUILD) 1.7.3-3 first, then base, and
+rebuild the ISO with both packages staged. PAM ships `deny = 0` in its own
+`/etc/security/faillock.conf`, disabling failed-password account lockout.
+Existing installations receive the default through `sudo shelly upgrade standard`.
+Locally edited configurations retain normal backup handling; merge the `.pacnew`
+or set `deny = 0` manually to adopt the default. No reboot is needed.
+
 `devario-base` 3-18 requires `sof-firmware` and `alsa-ucm-conf` to deliver Intel
 onboard audio firmware and ALSA use-case configuration to existing installations.
 Build and publish this release with both dependencies available in the repository,
