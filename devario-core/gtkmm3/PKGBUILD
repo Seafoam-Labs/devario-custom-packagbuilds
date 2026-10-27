@@ -42,6 +42,16 @@ b2sums=('e6c2d3c9e0e307e5cb4ccaecd5b677c041fcced5c855fd59b2f4ade24ebaf2f1291ba84
 
 prepare() {
   cd gtkmm
+
+  # Isolated build roots have no gdk-pixbuf image decoder, so the demo resource
+  # compiler dies on "Couldn't recognize the image file format" for a demo PNG:
+  # gdk-pixbuf2 2.44 builds no in-process loader and delegates decoding to
+  # glycin's loader registry (devario-core/gdk-pixbuf2/README.md). The demos are
+  # built with install: false and ship in no package, so drop their subdir.
+  # -D build-demos=false is not enough: it only gates the executable, and meson
+  # still generates demo-resources.c from the epoxy-guarded branch.
+  grep -qF "subdir('demos/gtk-demo')" meson.build || return 1
+  sed -i "/subdir('demos\/gtk-demo')/d" meson.build
 }
 
 build() {
