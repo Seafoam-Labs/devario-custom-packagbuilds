@@ -5,7 +5,7 @@
 # Bootstrap with the upstream binary so the first build does not require pnpm.
 _bootstrap=1
 pkgname=pnpm
-pkgver=12.16.0
+pkgver=12.16.1
 pkgrel=1
 pkgdesc='Fast, disk space efficient package manager'
 arch=(any)
@@ -15,8 +15,8 @@ depends=(node-gyp)
 makedepends=(git rust)
 (( _bootstrap == 0 )) && makedepends+=(pnpm npm python)
 source=("git+https://github.com/$pkgname/$pkgname.git#tag=v$pkgver?signed")
-b2sums=('32bdd7d943d5249237c8423143e27f19733365319d6a5d78d7bea6f6055874f6fe5202ad603dc5c58ba41d30ad3b0fc051a469fef5a14a9aa4204e8b23fcbc8e'
-        '9a57d46f7fea3f6b6f6ead91162138837e923066f96b26123c46226e72279943c00eaf39440ad077c3f45fc8796920c854cbcaeb524968f1b5233f6ddbe597fa')
+b2sums=('70667d178a8cb9e2218294ae366722f4f271fc7a74d06d176eaf1ddd0640cbb9e78b49bc96e5623946325002f280eb7fcc8c302f81f7fbdaa4f78197fa3144a2'
+        '8e844c4a9dd61a964e67c70ca87bcca19029729d005c4752cb5964a778f99df7e31f37f0956765f565adb0cb36326313c045eb4ceb91c8660a9152c5552ac067')
 if (( _bootstrap == 1 )); then
   source+=("pnpm-linux-x64-v$pkgver.tar.gz::https://github.com/pnpm/pnpm/releases/download/v$pkgver/pnpm-linux-x64.tar.gz")
   noextract=("pnpm-linux-x64-v$pkgver.tar.gz")

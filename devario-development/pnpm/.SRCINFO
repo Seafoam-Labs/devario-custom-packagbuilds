@@ -1,6 +1,6 @@
 pkgbase = pnpm
 	pkgdesc = Fast, disk space efficient package manager
-	pkgver = 12.16.0
+	pkgver = 12.16.1
 	pkgrel = 1
 	url = https://pnpm.io
 	arch = any
@@ -8,11 +8,11 @@ pkgbase = pnpm
 	makedepends = git
 	makedepends = rust
 	depends = node-gyp
-	noextract = pnpm-linux-x64-v12.16.0.tar.gz
-	source = git+https://github.com/pnpm/pnpm.git#tag=v12.16.0?signed
-	source = pnpm-linux-x64-v12.16.0.tar.gz::https://github.com/pnpm/pnpm/releases/download/v12.16.0/pnpm-linux-x64.tar.gz
+	noextract = pnpm-linux-x64-v12.16.1.tar.gz
+	source = git+https://github.com/pnpm/pnpm.git#tag=v12.16.1?signed
+	source = pnpm-linux-x64-v12.16.1.tar.gz::https://github.com/pnpm/pnpm/releases/download/v12.16.1/pnpm-linux-x64.tar.gz
 	validpgpkeys = 7B74D1299568B586BA9962B5649E4D4AF74E7DEC
-	b2sums = 32bdd7d943d5249237c8423143e27f19733365319d6a5d78d7bea6f6055874f6fe5202ad603dc5c58ba41d30ad3b0fc051a469fef5a14a9aa4204e8b23fcbc8e
-	b2sums = 9a57d46f7fea3f6b6f6ead91162138837e923066f96b26123c46226e72279943c00eaf39440ad077c3f45fc8796920c854cbcaeb524968f1b5233f6ddbe597fa
+	b2sums = 70667d178a8cb9e2218294ae366722f4f271fc7a74d06d176eaf1ddd0640cbb9e78b49bc96e5623946325002f280eb7fcc8c302f81f7fbdaa4f78197fa3144a2
+	b2sums = 8e844c4a9dd61a964e67c70ca87bcca19029729d005c4752cb5964a778f99df7e31f37f0956765f565adb0cb36326313c045eb4ceb91c8660a9152c5552ac067
 
 pkgname = pnpm
