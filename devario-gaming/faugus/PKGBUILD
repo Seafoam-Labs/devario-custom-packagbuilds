@@ -2,7 +2,7 @@
 
 pkgname=faugus-launcher
 pkgver=2.5.1
-pkgrel=1
+pkgrel=1.1
 pkgdesc="A simple and lightweight app for running Windows games using UMU-Launcher"
 arch=('any')
 url="https://github.com/Faugus/faugus-launcher"
@@ -16,7 +16,9 @@ sha256sums=('0d0ae82febf6b3924b975f79f277887edc9364de67be89831514400cd94b6db6')
 
 build() {
     cd "${pkgname}-${pkgver}"
-    arch-meson . build
+    meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+      --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+      -Db_pie=true -Dpython.bytecompile=1 . build
     meson compile -C build
 }
 

@@ -1,0 +1,8 @@
+{
+  "name": "yt-dlp-ejs",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fyt-dlp-ejs/repository/archive.tar.gz?sha=fdd7499f7f889969f36d887c1223d25d6e2aef64",
+  "sha256": "157cc897a87cffb14730a879db385b564e542e97bd7dfaf46dc388b6adf25e30",
+  "bytes": 1690,
+  "commit": "fdd7499f7f889969f36d887c1223d25d6e2aef64",
+  "local_adaptation": true
+}

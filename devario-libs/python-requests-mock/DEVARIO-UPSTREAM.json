@@ -1,0 +1,8 @@
+{
+  "name": "python-requests-mock",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-requests-mock.git",
+  "revision": "bb4969301df8135807b6cdea60360dc4bbf59e0a",
+  "upstream_pkgbuild_sha256": "6a91f0c9ece05d40bb2e5133c6804aed860fd64e27152e5b35c2f43b8616667f",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

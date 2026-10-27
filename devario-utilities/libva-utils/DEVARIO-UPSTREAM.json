@@ -1,0 +1,15 @@
+{
+  "name": "libva-utils",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibva-utils/repository/archive.tar.gz?sha=24b56c42cdfd081f636d0d5ebdca0f1af24e458f",
+  "sha256": "554221e12b68483a8cd981e98cee1c308af5197bba6bb410710a38384f51dd4e",
+  "bytes": 1579,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libva-utils.git",
+  "commit": "24b56c42cdfd081f636d0d5ebdca0f1af24e458f",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve source checksums, dependencies and existing locked Cargo cache preparation."
+  ],
+  "metadata_generator": "Shelly 3.1.9",
+  "pkgbuild_sha256": "69cfd75753705d810b8941b9e008585c8ceddd7e9882ed114a6dd45225b882d4"
+}

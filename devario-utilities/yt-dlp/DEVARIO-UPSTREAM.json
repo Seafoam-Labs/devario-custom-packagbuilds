@@ -1,0 +1,8 @@
+{
+  "name": "yt-dlp",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/yt-dlp.git",
+  "revision": "694d33a8e6d3db65b99b4bab92d6e66a2347459d",
+  "upstream_pkgbuild_sha256": "4c14f017838046e1d81e6802adde7dd0f98dfd1b828d8c08ad084dfb317e009d",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

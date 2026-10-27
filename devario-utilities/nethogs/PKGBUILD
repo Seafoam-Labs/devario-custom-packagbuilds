@@ -4,11 +4,12 @@
 # Local adaptation: preserve builder flags while compiling the shared library as PIC.
 pkgname=nethogs
 pkgver=0.9.0
-pkgrel=1
+pkgrel=1.1
 pkgdesc="A net top tool which displays traffic used per process instead of per IP or interface"
 url="https://github.com/raboof/nethogs"
 license=('GPL')
 depends=(
+  'libcap'
   'libpcap'
   'ncurses'
   'libgcc'
@@ -23,6 +24,9 @@ prepare() {
   cd "$srcdir/$pkgname-$pkgver"
 
   sed -i 's|/sbin|/bin|' src/MakeApp.mk
+  # Package hooks refresh the loader cache after installation. DESTDIR staging
+  # must never invoke ldconfig against the build host.
+  sed -i '/^[[:blank:]]*ldconfig[[:blank:]]/d' src/MakeLib.mk
   # Release archives are outside Git; an empty rev-parse result must stay quoted.
   sed -i '2c if [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$PWD" ]; then' \
     determineVersion.sh
@@ -45,7 +49,7 @@ package() {
   make PREFIX=/usr VERSION="$pkgver" DESTDIR="$pkgdir" install
   make PREFIX=/usr VERSION="$pkgver" DESTDIR="$pkgdir" install_lib
   # todo: report these upstream
-  install -Dm755 src/libnethogs.h "$pkgdir/usr/include/libnethogs.h"
+  install -Dm644 src/libnethogs.h "$pkgdir/usr/include/libnethogs.h"
   ln -s "/usr/lib/libnethogs.so.$pkgver" "$pkgdir/usr/lib/libnethogs.so"
 }
 # vim:set ts=2 sw=2 et:

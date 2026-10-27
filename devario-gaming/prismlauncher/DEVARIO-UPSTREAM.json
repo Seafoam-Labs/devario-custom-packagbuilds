@@ -1,0 +1,8 @@
+{
+  "name": "prismlauncher",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fprismlauncher/repository/archive.tar.gz?sha=a4090b94e7237c51a68acf2f8990e7864ec50ddf",
+  "sha256": "7f2d1a6a1bccd0d7e3d04e19c06f364aa290593160a3992dc7df81a6e59f2c0b",
+  "bytes": 4069,
+  "commit": "a4090b94e7237c51a68acf2f8990e7864ec50ddf",
+  "local_adaptation": true
+}

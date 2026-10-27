@@ -1,0 +1,10 @@
+{
+  "name": "lieer-git",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=lieer-git&id=6a3a198829487ab39de17002fa0d304a364c6eaa",
+  "sha256": "906d4533cf3e7680ffe7c3dd96d3180e08df78eece0c07b4cdad1066d4d9b916",
+  "bytes": 1312,
+  "retrieved_on": "2026-10-23",
+  "local_adaptation": true,
+  "note": "Reference only; final source inputs use upstream project URLs, not AUR.",
+  "commit": "6a3a198829487ab39de17002fa0d304a364c6eaa"
+}

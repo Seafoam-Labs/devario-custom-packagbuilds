@@ -1,0 +1,8 @@
+{
+  "name": "python-uritemplate",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-uritemplate.git",
+  "revision": "cb32579994db33569d50cd6846e0f5989c5e3368",
+  "upstream_pkgbuild_sha256": "fbd230165816756b54bd7290f219aa12acae0ae14b4b5d3704c7f2169e6ad31a",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

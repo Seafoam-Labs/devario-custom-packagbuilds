@@ -1,0 +1,90 @@
+# Local adaptation for Seafoam Labs; based on the Arch Linux Yazi recipe.
+# Arch recipe commit: f3915012b63c8f06eaa73f3d6166f09c16860a4d
+# Upstream attribution and original maintainers retained below.
+# Local change: install the original PNG directly; no ImageMagick build dependency.
+# Maintainer: Orhun Parmaksız <orhun@archlinux.org>
+# Contributor: Pig Fang <g-plane@hotmail.com>
+# Contributor: SandaruKasa <sandarukasa+aur@ya.ru>
+# Contributor: Evine Deng <evinedeng@hotmail.com>
+
+pkgname=yazi
+pkgver=26.9.1
+pkgrel=2.1
+pkgdesc="Blazing fast terminal file manager written in Rust, based on async I/O"
+url="https://github.com/sxyazi/yazi"
+arch=("x86_64")
+license=('MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'lua' 'oniguruma')
+optdepends=(
+	'ttf-font-nerd: for icons'
+	'ffmpeg: for video thumbnails'
+	'7zip: for archive extraction and preview'
+	'jq: for JSON preview'
+	'poppler: for PDF preview'
+	'fd: for file searching'
+	'ripgrep: for file content searching'
+	'fzf: for quick file subtree navigation'
+	'zoxide: for historical directories navigation'
+	'resvg: for SVG preview'
+	'imagemagick: for image and font preview'
+	'xclip: for X11 clipboard support'
+	'xsel: for X11 clipboard support'
+	'wl-clipboard: for Wayland clipboard support'
+	'chafa: for ASCII image preview as fallback'
+	'git: for Yazi package management'
+)
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/sxyazi/$pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('66857f1b670469daf258edd0bb2ea51d9ad3e2cab4eea9684028c80059fd6862')
+options=('!lto')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  # Cargo does not provide an option to disable features for all workspace members
+  # Upstream issue: https://github.com/rust-lang/cargo/issues/14866
+  /usr/bin/find -name Cargo.toml -type f -exec sed -i '/"vendored-lua"/d' {} +
+
+  cargo fetch --locked --target host-tuple
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export VERGEN_GIT_SHA="Seafoam Labs"
+  export YAZI_GEN_COMPLETIONS=true
+  export RUSTONIG_DYNAMIC_LIBONIG=1
+  cargo build --release --frozen --no-default-features
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export RUSTONIG_DYNAMIC_LIBONIG=1
+  cargo test --frozen --workspace --no-default-features
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "target/release/$pkgname" -t "$pkgdir/usr/bin/"
+  install -Dm755 "target/release/ya" -t "$pkgdir/usr/bin/"
+  install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 "README.md" -t "$pkgdir/usr/share/doc/$pkgname/"
+
+  _install_completions "$pkgname-boot" "$pkgname"
+  _install_completions "$pkgname-cli" "ya"
+
+  cd assets
+  install -Dm644 "yazi.desktop" -t "$pkgdir/usr/share/applications/"
+  # The upstream PNG is 1254x1260; pixmaps supports its original dimensions.
+  install -Dm644 logo.png "$pkgdir/usr/share/pixmaps/yazi.png"
+}
+
+_install_completions() {
+  pushd "$1/completions"
+  install -Dm644 "$2.bash" "$pkgdir/usr/share/bash-completion/completions/$2"
+  install -Dm644 "$2.fish" -t "$pkgdir/usr/share/fish/vendor_completions.d/"
+  install -Dm644 "_$2" -t "$pkgdir/usr/share/zsh/site-functions/"
+  install -Dm644 "$2.elv" -t "$pkgdir/usr/share/elvish/lib/"
+  popd
+}
+
+# vim: ts=2 sw=2 et:

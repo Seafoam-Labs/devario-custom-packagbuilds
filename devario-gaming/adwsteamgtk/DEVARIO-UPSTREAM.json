@@ -1,0 +1,10 @@
+{
+  "name": "adwsteamgtk",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=adwsteamgtk&id=45d31966438c59c0f9b0233248144eb2c52041be",
+  "sha256": "9abaddc06c2bae7a898d19681c9162562b793156c634d56b754df9637f1f221c",
+  "bytes": 785,
+  "retrieved_on": "2026-10-23",
+  "local_adaptation": true,
+  "note": "Reference only; final source inputs use upstream project URLs, not AUR.",
+  "commit": "45d31966438c59c0f9b0233248144eb2c52041be"
+}

@@ -1,0 +1,24 @@
+pkgbase = opentabletdriver
+	pkgdesc = Open source, cross-platform, user-mode tablet driver
+	pkgver = 0.6.7
+	pkgrel = 1
+	url = https://opentabletdriver.net
+	arch = x86_64
+	license = LGPL-3.0-or-later
+	makedepends = dotnet-sdk-8.0
+	makedepends = jq
+	depends = bash
+	depends = dotnet-runtime-8.0
+	depends = gtk3
+	depends = libevdev
+	depends = libx11
+	depends = libxrandr
+	depends = systemd-libs
+	depends = wayland
+	conflicts = opentabletdriver-bin
+	conflicts = opentabletdriver-git
+	options = !strip
+	source = opentabletdriver-0.6.7.tar.gz::https://codeload.github.com/OpenTabletDriver/OpenTabletDriver/tar.gz/736003ed72c8bbb28033b039d5a0bb76c344145c
+	sha256sums = 095309b615888620fe90ca6239459864e6fe25cb84a2cf6bab9ce7a9292c6f41
+
+pkgname = opentabletdriver

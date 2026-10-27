@@ -1,0 +1,112 @@
+# Maintainer: Torsten Keßler <tpkessler@archlinux.org>
+# Contributor: HurricanePootis <hurricanepootis@protonmail.com>
+#
+# Local adaptation of Arch's hiprt 3.1.0.cb09c56-3 (local revision 3.2).
+# Retains the user's HIP header include and precompile ordering fixes.
+# Invoke the upstream bake script through Bash and check its exit status.
+# This also works when isolated source extraction drops its executable bit.
+
+pkgname=hiprt
+pkgver=3.1.0.cb09c56
+# For the calculation of the HIPRT_VERSION, see
+# https://github.com/GPUOpen-LibrariesAndSDKs/HIPRT/blob/8602b8c475255fb922c2792654aae0a6bcdeb0af/CMakeLists.txt#L262
+# For zero padding, see
+# https://github.com/GPUOpen-LibrariesAndSDKs/HIPRT/blob/8602b8c475255fb922c2792654aae0a6bcdeb0af/CMakeLists.txt#L265-L266
+_libver=$(awk -F "." '{printf "%05d\n", $1 * 1000 + $2}' <<< $pkgver)
+pkgrel=3.2
+pkgdesc="Ray Tracing Library for HIP"
+arch=('x86_64')
+url="https://gpuopen.com/hiprt/"
+license=('MIT')
+depends=('rocm-core' 'hip-runtime-amd' 'glibc' 'libgcc' 'libstdc++')
+makedepends=('git' 'python' 'cmake')
+source=("$pkgname-$pkgver::git+https://github.com/GPUOpen-LibrariesAndSDKs/HIPRT#tag=$pkgver")
+sha256sums=('6c60046f8d9406807063a1c5accc6ce85b03b694d818cc56f8d79f3b700bc27a')
+
+prepare() {
+	cd "$pkgname-$pkgver"
+	mkdir -p hiprt/cache contrib/Orochi/ParallelPrimitives/cache
+
+	# Avoid relying on executable permissions or a missing upstream shebang.
+	# Generate headers in the source tree, which is already on the include path.
+	python - <<'PYTHON'
+from pathlib import Path
+
+path = Path("CMakeLists.txt")
+text = path.read_text()
+old = """\t\texecute_process(
+\t\t\tCOMMAND ${CMAKE_CURRENT_SOURCE_DIR}/tools/bakeKernel.sh
+\t\t\tWORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+\t\t\t)"""
+new = """\t\texecute_process(
+\t\t\tCOMMAND "${CMAKE_COMMAND}" -E env "PYTHON_BIN=${PYTHON_EXECUTABLE}"
+\t\t\t        bash -e "${CMAKE_CURRENT_SOURCE_DIR}/tools/bakeKernel.sh"
+\t\t\tWORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+\t\t\tRESULT_VARIABLE hiprt_bake_result
+\t\t\t)
+\t\tif(NOT hiprt_bake_result STREQUAL "0")
+\t\t\tmessage(FATAL_ERROR "HIPRT kernel header generation failed: ${hiprt_bake_result}")
+\t\tendif()"""
+if text.count(old) != 1:
+    raise SystemExit("HIPRT bake command changed upstream; review this local patch")
+path.write_text(text.replace(old, new))
+PYTHON
+}
+
+build() {
+	# hipcc is invoked by the project's compile.py with no include path for the
+	# HIP headers. Find them and pass them explicitly.
+	export ROCM_PATH=/opt/rocm
+	export HIP_PATH=/opt/rocm
+
+	local _hdr
+	_hdr=$(/usr/bin/find /opt/rocm /usr/include -path '*/hip/hip_runtime.h' \
+		-not -path '*/amd_detail/*' -not -path '*/nvidia_detail/*' \
+		-print -quit 2>/dev/null || true)
+	if [[ -z $_hdr ]]; then
+		echo "==> ERROR: hip/hip_runtime.h not found. hip-runtime-amd did not ship the HIP headers." >&2
+		return 1
+	fi
+	local _inc=${_hdr%/hip/hip_runtime.h}
+	echo "==> HIP headers found in $_inc"
+	export HIPCC_COMPILE_FLAGS_APPEND="${HIPCC_COMPILE_FLAGS_APPEND:+$HIPCC_COMPILE_FLAGS_APPEND }-isystem $_inc"
+
+	local cmake_args=(
+		-Wno-dev
+		-S "$pkgname-$pkgver"
+		-B build
+		-D CMAKE_BUILD_TYPE=Release
+		-D HIP_PATH=/opt/rocm
+		-D BAKE_KERNEL=OFF
+		-D BAKE_COMPILED_KERNEL=OFF
+		-D BITCODE=ON
+		-D PRECOMPILE=ON
+		-D NO_UNITTEST=ON
+		-D FORCE_DISABLE_CUDA=ON
+		-D CMAKE_INSTALL_PREFIX=/opt/rocm
+	)
+	cmake "${cmake_args[@]}"
+	# Generate the GPU kernels first, then build the library.
+	cmake --build build --target precompile_kernels
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	# GPU files are generated at build time by python scripts and put into the
+	# source folder. Move them to the package folder
+	local file
+	for file in "$pkgname-$pkgver"/scripts/bitcodes/*.{bc,hipfb}; do
+		install -v -Dm644 "$file" "$pkgdir"/opt/rocm/lib/"$(basename "$file")"
+	done
+
+	# HIPRT library is installed to the bin folder,
+	# so we have to move it manually.
+	install -dm755 "$pkgdir"/opt/rocm/lib
+	mv -v "$pkgdir"/opt/rocm/bin/* "$pkgdir"/opt/rocm/lib
+	rmdir "$pkgdir"/opt/rocm/bin
+	ln -vs /opt/rocm/lib/libhiprt${_libver}64.so "${pkgdir}"/opt/rocm/lib/libhiprt64.so
+
+	install -Dm644 "$pkgname-$pkgver"/license.txt "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}

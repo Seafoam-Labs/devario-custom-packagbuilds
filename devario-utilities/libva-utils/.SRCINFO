@@ -1,0 +1,14 @@
+pkgbase = libva-utils
+	pkgdesc = Intel VA-API Media Applications and Scripts for libva
+	pkgver = 2.24.0
+	pkgrel = 1.1
+	url = https://github.com/intel/libva-utils
+	arch = x86_64
+	license = custom
+	makedepends = mesa
+	makedepends = meson
+	depends = libva
+	source = https://github.com/intel/libva-utils/archive/2.24.0/libva-utils-2.24.0.tar.gz
+	sha256sums = bf959a1ced3cde8176a7ff50ad358ee98e93301ac068581a8b2617c5b83afcb3
+
+pkgname = libva-utils

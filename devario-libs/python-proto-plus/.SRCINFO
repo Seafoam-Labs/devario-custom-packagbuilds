@@ -1,0 +1,19 @@
+pkgbase = python-proto-plus
+	pkgdesc = Pythonic protocol buffer messages
+	pkgver = 1.29.0
+	pkgrel = 1
+	url = https://github.com/googleapis/google-cloud-python/tree/main/packages/proto-plus
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-pytest
+	checkdepends = python-pytz
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	depends = python-protobuf
+	source = proto_plus-1.29.0.tar.gz::https://files.pythonhosted.org/packages/source/p/proto-plus/proto_plus-1.29.0.tar.gz
+	sha256sums = cfb4e62ad7e13dd18f346cabbda00cab39930d36a05791fd81ddb074d6ee884f
+
+pkgname = python-proto-plus

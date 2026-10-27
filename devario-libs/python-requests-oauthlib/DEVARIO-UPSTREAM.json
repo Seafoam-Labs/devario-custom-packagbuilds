@@ -1,0 +1,8 @@
+{
+  "name": "python-requests-oauthlib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-requests-oauthlib.git",
+  "revision": "d4eb5091295e69503e2a3a041127e49d4e93e897",
+  "upstream_pkgbuild_sha256": "0f7a87619d7a186db8d6b1b503229c856dbc3e6513cdc5e614051edf49e69a6b",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

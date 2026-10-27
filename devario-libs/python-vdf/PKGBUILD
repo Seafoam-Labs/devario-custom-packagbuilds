@@ -6,7 +6,7 @@
 pkgname=python-vdf
 _pkgname=vdf
 pkgver=4.0
-pkgrel=6
+pkgrel=6.1
 pkgdesc="Library for working with Valve's VDF text format"
 arch=("any")
 url="https://github.com/solsticegamestudios/vdf"
@@ -16,13 +16,19 @@ makedepends=(
 	"python-build"
 	"python-installer"
 	"python-setuptools"
+	"python-wheel"
 )
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz")
 sha256sums=("1d778663f1158be0f70aa1cdd5b2685ae6eee14e4d11a0d96684b7ed86e89c93")
 
 build() {
 	cd "${_pkgname}-${pkgver}"
-	python -m build --wheel
+	python -m build --wheel --no-isolation
+}
+
+check() {
+	cd "${_pkgname}-${pkgver}"
+	python -m unittest discover -s tests -v
 }
 
 package() {

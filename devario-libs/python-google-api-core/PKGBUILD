@@ -1,0 +1,45 @@
+pkgname=python-google-api-core
+_name=google_api_core
+pkgver=2.35.0
+pkgrel=1.1
+pkgdesc='Google API client core library'
+arch=(any)
+url='https://github.com/googleapis/google-cloud-python/tree/main/packages/google-api-core'
+license=(Apache-2.0)
+depends=(
+  python
+  'python-google-auth>=2.14.1'
+  'python-googleapis-common-protos>=1.69.2'
+  'python-proto-plus>=1.26.1'
+  python-protobuf
+  'python-requests>=2.33.0'
+)
+makedepends=(python-build python-installer python-setuptools python-wheel)
+optdepends=(
+  'python-grpcio: gRPC support'
+  'python-grpcio-status: gRPC status support'
+  'python-aiohttp: async REST support'
+)
+source=("$_name-$pkgver.tar.gz::https://files.pythonhosted.org/packages/source/g/google-api-core/$_name-$pkgver.tar.gz")
+sha256sums=('80611ccbd0291919f6cea8827d57b472946fcd9ab519625becce0c002140a7b0')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+# Check foundational API helpers without live-service credentials or optional transports.
+checkdepends=(python-pytest)
+check() {
+  cd "$_name-$pkgver"
+  python -m pytest tests/unit/test_client_options.py tests/unit/test_datetime_helpers.py \
+    tests/unit/test_exceptions.py tests/unit/test_path_template.py \
+    tests/unit/test_protobuf_helpers.py tests/unit/test_timeout.py
+}
+# Pinned to 2.35.0: later releases add a hard opentelemetry-api dependency.
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}

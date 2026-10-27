@@ -1,0 +1,29 @@
+pkgname=python-proto-plus
+_name=proto_plus
+pkgver=1.29.0
+pkgrel=1
+pkgdesc='Pythonic protocol buffer messages'
+arch=(any)
+url='https://github.com/googleapis/google-cloud-python/tree/main/packages/proto-plus'
+license=(Apache-2.0)
+depends=(python python-protobuf)
+makedepends=(python-build python-installer python-setuptools python-wheel)
+checkdepends=(python-pytest python-pytz)
+source=("$_name-$pkgver.tar.gz::https://files.pythonhosted.org/packages/source/p/proto-plus/$_name-$pkgver.tar.gz")
+sha256sums=('cfb4e62ad7e13dd18f346cabbda00cab39930d36a05791fd81ddb074d6ee884f')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$_name-$pkgver"
+  python -m pytest tests
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}

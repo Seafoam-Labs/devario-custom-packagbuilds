@@ -1,0 +1,8 @@
+{
+  "name": "python-werkzeug",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-werkzeug.git",
+  "revision": "9de606fb4168e3dc22519037f383edc4fec217e2",
+  "upstream_pkgbuild_sha256": "fce9a738a1159895606289368e51131370626ec67810ba8048f79a175d099f9b",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

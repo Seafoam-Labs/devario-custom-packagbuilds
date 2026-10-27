@@ -1,0 +1,34 @@
+pkgbase = switcheroo
+	pkgdesc = Convert between different image filetypes and resize them easily
+	pkgver = 2.6.0
+	pkgrel = 1.1
+	url = https://apps.gnome.org/Converter/
+	arch = x86_64
+	groups = gnome-circle
+	license = GPL-3.0-only
+	makedepends = appstream
+	makedepends = blueprint-compiler
+	makedepends = git
+	makedepends = meson
+	makedepends = rust
+	depends = dconf
+	depends = gdk-pixbuf2
+	depends = ghostscript
+	depends = glib2
+	depends = glibc
+	depends = gtk4
+	depends = hicolor-icon-theme
+	depends = imagemagick
+	depends = libadwaita
+	depends = libgcc
+	depends = libheif
+	depends = libjpeg-turbo
+	depends = libjxl
+	depends = librsvg
+	depends = libtiff
+	depends = libwebp
+	depends = zip
+	source = git+https://gitlab.com/adhami3310/Switcheroo.git#tag=v2.6.0
+	b2sums = 880bbfbd2a220d718aa5195f0587f02a8155d47f1dc1b05a6e158bcb9f75a15968afd1b23fde452ce103a2d1c2dc78c4a64bfe656ac383984621c6a3b3b90949
+
+pkgname = switcheroo

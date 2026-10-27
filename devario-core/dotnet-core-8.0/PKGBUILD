@@ -1,0 +1,361 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Kristian Mosegaard <kristian@mosen.me>
+# Contributor: Max Liebkies <mail@maxliebkies.de>
+# Contributor: Krzysztof Bogacki <krzysztof.bogacki@leancode.pl>
+#
+# Local adaptation of Arch's dotnet-core-8.0 8.0.32.sdk132-1 (local revision 1.3).
+# Retains the package-manager-independent bootstrap and private locale fixes.
+# Bound per-component shutdowns as well as top-level shutdowns, and reap
+# orphaned build processes using the same approach as our Node recipe.
+
+pkgbase=dotnet-core-8.0
+pkgname=(
+ dotnet-runtime-8.0
+ aspnet-runtime-8.0
+ dotnet-sdk-8.0
+ dotnet-targeting-pack-8.0
+ aspnet-targeting-pack-8.0
+ dotnet-source-built-artifacts-8.0
+)
+pkgver=8.0.32.sdk132
+pkgrel=1.3
+arch=(x86_64)
+url=https://dotnet.microsoft.com
+license=(MIT)
+makedepends=(
+  bash
+  clang20
+  cmake
+  dotnet-sdk-8.0
+  dotnet-source-built-artifacts-8.0
+  git
+  icu
+  krb5
+  libgit2
+  libunwind
+  libxml2
+  lldb
+  llvm20
+  lttng-ust2.12
+  nodejs
+  openssl
+  python
+  systemd
+  zlib
+)
+optdepends=('bash-completion: Bash completion support')
+options=(
+  !buildflags
+  !lto
+  staticlibs
+)
+_tag=56fc147a7ac76b53fb65b82756da001129b26cc4
+source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver/.*.sdk/.0.})
+b2sums=('f58850e5db92184889e9917609e4d4c4ba6ba0dfb4dfeeb3324f0a8af69ada68b9d4b9febc4bfc0b90b4d06f1001a806ecf6266eaa50aed5c8ab27f705e219a7')
+
+# Arcade's nested builds require en_US.UTF-8. Keep the compiled locale inside
+# the build tree; this does not require root, locale-gen, or host configuration.
+_fix_locale() {
+  # Start from the portable locale while generating the UTF-8 data.
+  export LC_ALL=C
+  export LANG=C
+  unset LANGUAGE
+
+  local _locale_root="$srcdir/.build-locales"
+  if [[ ! -r "$_locale_root/en_US.UTF-8/LC_CTYPE" ]]; then
+    if [[ ! -r /usr/share/i18n/locales/en_US ||
+          ! -r /usr/share/i18n/charmaps/UTF-8.gz ]]; then
+      printf '%s\n' '==> ERROR: glibc locale sources are missing; cannot generate en_US.UTF-8.' >&2
+      return 1
+    fi
+    mkdir -p "$_locale_root" || return
+    localedef --no-archive -i en_US -f UTF-8 \
+      "$_locale_root/en_US.UTF-8" || return
+  fi
+
+  export LOCPATH="$_locale_root"
+  # Bash may cache its original locale search path. Keep this shell on the
+  # built-in UTF-8 locale; new build processes inherit the private locale path.
+  export LC_ALL=C.UTF-8
+  export LANG=C.UTF-8
+
+  # Shell locale warnings are parsed as errors by the inner /warnaserror build.
+  # Capture stderr as well: exit status alone cannot detect those warnings.
+  local _shell _probe
+  for _shell in bash sh; do
+    if ! _probe=$(env LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 "$_shell" -c 'locale charmap' 2>&1); then
+      printf '==> ERROR: %s locale probe failed: %s\n' "$_shell" "$_probe" >&2
+      return 1
+    fi
+    if [[ $_probe != UTF-8 ]]; then
+      printf '==> ERROR: %s locale probe was not clean UTF-8: %s\n' "$_shell" "$_probe" >&2
+      return 1
+    fi
+  done
+  printf '==> .NET locale verified (recipe 1.3): child en_US.UTF-8; LC_ALL=%s LOCPATH=%s\n' \
+    "$LC_ALL" "$LOCPATH"
+}
+
+# The isolated worker can leave orphaned build processes unreaped. Adopt and
+# reap those descendants while the command runs; preserve its status/signals.
+_write_build_subreaper() {
+  cat > "$srcdir/seafoam-build-subreaper.py" <<'PY'
+import ctypes
+import errno
+import os
+import signal
+import sys
+import time
+
+if len(sys.argv) < 2:
+    raise SystemExit('usage: seafoam-build-subreaper.py COMMAND [ARG ...]')
+
+libc = ctypes.CDLL(None, use_errno=True)
+libc.prctl.argtypes = [ctypes.c_int] + [ctypes.c_ulong] * 4
+libc.prctl.restype = ctypes.c_int
+if libc.prctl(36, 1, 0, 0, 0) != 0:  # PR_SET_CHILD_SUBREAPER
+    raise OSError(ctypes.get_errno(), 'could not enable the build child subreaper')
+
+main_pid = None
+pending_signal = None
+
+def forward(signum, frame):
+    global pending_signal
+    pending_signal = signum
+    if main_pid is not None:
+        try:
+            os.killpg(main_pid, signum)
+        except ProcessLookupError:
+            pass
+
+forwarded = (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)
+for signum in forwarded:
+    signal.signal(signum, forward)
+
+pid = os.fork()
+if pid == 0:
+    for signum in forwarded:
+        signal.signal(signum, signal.SIG_DFL)
+    try:
+        os.setpgid(0, 0)
+        os.execvp(sys.argv[1], sys.argv[1:])
+    except OSError as exc:
+        print(f'build command could not start: {exc}', file=sys.stderr, flush=True)
+        os._exit(127 if exc.errno == errno.ENOENT else 126)
+
+main_pid = pid
+try:
+    os.setpgid(pid, pid)
+except OSError as exc:
+    if exc.errno not in (errno.EACCES, errno.ESRCH):
+        raise
+if pending_signal is not None:
+    forward(pending_signal, None)
+
+orphans_reaped = 0
+while True:
+    try:
+        reaped, status = os.waitpid(-1, 0)
+    except InterruptedError:
+        continue
+    if reaped == pid:
+        command_status = status
+        break
+    orphans_reaped += 1
+
+# Drain available zombies without blocking on any surviving background process.
+deadline = time.monotonic() + 0.25
+while time.monotonic() < deadline:
+    try:
+        reaped, _ = os.waitpid(-1, os.WNOHANG)
+    except ChildProcessError:
+        break
+    if reaped == 0:
+        break
+    orphans_reaped += 1
+
+print(f'build subreaper: reaped {orphans_reaped} orphan process(es)', flush=True)
+code = os.waitstatus_to_exitcode(command_status)
+raise SystemExit(code if code >= 0 else 128 - code)
+PY
+}
+
+prepare() {
+  cd dotnet
+
+  _fix_locale || return
+  _write_build_subreaper || return
+
+  # fix bootstrap
+  git remote set-url origin https://github.com/dotnet/dotnet.git
+
+  # Local: bound build.sh's "dotnet build-server shutdown" calls. In the isolated
+  # worker the Roslyn compiler server exits but stays a zombie (its parent never
+  # reaps it), and "VBCSCompiler -shutdown" then waits on it forever. A timeout
+  # keeps the build moving; the shutdown is only housekeeping here.
+  sed -i 's|^\([[:space:]]*\)"\$CLI_ROOT/dotnet" build-server shutdown[[:space:]]*$|\1timeout --kill-after=5 60 "$CLI_ROOT/dotnet" build-server shutdown \|\| true|' build.sh
+  grep -q 'timeout --kill-after=5 60' build.sh || { echo "==> ERROR: build-server shutdown patch did not apply" >&2; return 1; }
+
+  # Each repository has a separate shutdown in the outer MSBuild target.
+  # The top-level shell patch above does not cover it (the hang before xdt).
+  python - <<'PY' || return
+from pathlib import Path
+path = Path('repo-projects/Directory.Build.targets')
+original = '<Exec Command="$(DotnetToolCommand) build-server shutdown" />'
+replacement = '<Exec Command="timeout --kill-after=5 60 $(DotnetToolCommand) build-server shutdown || echo \'Build-server cleanup did not complete; continuing.\'" />'
+text = path.read_text()
+if original in text:
+    if text.count(original) != 1:
+        raise SystemExit('Unexpected number of per-repository shutdown calls')
+    path.write_text(text.replace(original, replacement, 1))
+elif text.count(replacement) != 1:
+    raise SystemExit('Per-repository shutdown target changed; review the patch')
+print('==> .NET per-repository shutdown bounded to 60 seconds (recipe 1.3)')
+PY
+
+  # The previous-release SDK this source tree bootstraps from. Upstream Arch
+  # read PrivateSourceBuiltArtifactsPackageVersion from
+  # src/installer/eng/Versions.props, but that property does not exist in this
+  # tag, so the lookup was always empty. global.json carries the same version.
+  local _bootstrapver
+  _bootstrapver=$(sed -n 's/.*"dotnet": *"\([^"]*\)".*/\1/p' global.json | head -n1)
+
+  # Seed the build with the installed SDK and source-built artifacts only when
+  # they are exactly the bootstrap release (checked on disk, no package manager
+  # query). Otherwise prep.sh downloads the bootstrap from Microsoft.
+  if [[ -n $_bootstrapver && -d /usr/share/dotnet/sdk/$_bootstrapver ]] &&
+     compgen -G '/usr/share/dotnet/source-built-artifacts/Private.SourceBuilt.Artifacts.*.tar.gz' >/dev/null; then
+    echo "==> Using installed bootstrap SDK $_bootstrapver and source-built artifacts"
+    cp -r /usr/share/dotnet .dotnet
+    ln -sf /usr/share/dotnet/source-built-artifacts/Private.SourceBuilt.Artifacts.*.tar.gz prereqs/packages/archive/
+    ln -sf /usr/share/dotnet/source-built-artifacts/Private.SourceBuilt.Prebuilts.*.tar.gz prereqs/packages/archive/
+  else
+    echo "==> Installed SDK does not match bootstrap '$_bootstrapver'; prep.sh will download it"
+  fi
+  python "$srcdir/seafoam-build-subreaper.py" ./prep.sh
+}
+
+case ${CARCH} in
+  aarch64) _ARCH=arm64;;
+  x86_64*) _ARCH=x64;;
+esac
+
+build() {
+  cd dotnet
+
+  _fix_locale || return
+
+  export COMPlus_LTTng=0
+  export VERBOSE=1
+  export OPENSSL_ENABLE_SHA1_SIGNATURES=1
+
+  # Local: avoid long-lived build servers (the Roslyn compiler server becomes an
+  # unreaped zombie in the isolated worker; see the build.sh patch in prepare()).
+  # Some nested builds override these; the subreaper and shutdown timeouts
+  # also cover those commands.
+  export UseSharedCompilation=false
+  export MSBUILDDISABLENODEREUSE=1
+  export DOTNET_CLI_USE_MSBUILD_SERVER=0
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  export DOTNET_NOLOGO=1
+  export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+  export DOTNET_GENERATE_ASPNET_CERTIFICATE=false
+
+  # .NET crashes when compiled with clang 21.1 on Fedora 43 #119706
+  # https://github.com/dotnet/runtime/issues/119706
+  export PATH="/usr/lib/llvm20/bin:$PATH"
+
+  # this uses malloc_usable_size, which is incompatible with fortification level 3
+  CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+
+  CFLAGS=$(echo $CFLAGS  | sed -e 's/-fstack-clash-protection//' )
+  CXXFLAGS=$(echo $CXXFLAGS  | sed -e 's/-fstack-clash-protection//' )
+  export EXTRA_CFLAGS="$CFLAGS"
+  export EXTRA_CXXFLAGS="$CXXFLAGS"
+  export EXTRA_LDFLAGS="$LDFLAGS"
+  unset CFLAGS
+  unset CXXFLAGS
+  unset LDFLAGS
+
+  python "$srcdir/seafoam-build-subreaper.py" ./build.sh --clean-while-building --online
+}
+
+package_dotnet-runtime-8.0() {
+  pkgdesc='The .NET Core runtime'
+  depends=(
+    dotnet-host
+    glibc
+    icu
+    krb5
+    libgcc
+    libstdc++
+    libunwind
+    zlib
+    openssl
+  )
+  optdepends=('lttng-ust2.12: CoreCLR tracing')
+  provides=(dotnet-runtime=${pkgver%.*.sdk*})
+
+  install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
+  bsdtar -xf dotnet/artifacts/${_ARCH}/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-${_ARCH}.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.NETCore.App
+  ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-runtime-8.0
+}
+
+package_aspnet-runtime-8.0() {
+  pkgdesc='The ASP.NET Core runtime'
+  depends=(dotnet-runtime-8.0)
+  provides=(aspnet-runtime=${pkgver%.*.sdk*})
+
+  install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
+  bsdtar -xf dotnet/artifacts/${_ARCH}/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-${_ARCH}.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.AspNetCore.App
+  ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-runtime-8.0
+}
+
+package_dotnet-sdk-8.0() {
+  pkgdesc='The .NET Core SDK'
+  depends=(
+    dotnet-runtime-8.0
+    dotnet-targeting-pack-8.0
+    glibc
+    libgcc
+    libstdc++
+    netstandard-targeting-pack
+  )
+  optdepends=('aspnet-targeting-pack: Build ASP.NET Core applications')
+  provides=(dotnet-sdk=${pkgver%.*.sdk*})
+
+  install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
+  bsdtar -xf dotnet/artifacts/${_ARCH}/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-${_ARCH}.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner sdk sdk-manifests templates
+  install -dm 755 "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver%.*.sdk*}.${pkgver#*.sdk}
+  touch "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver%.*.sdk*}.${pkgver#*.sdk}/userlocal
+  ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-sdk-8.0
+}
+
+package_dotnet-targeting-pack-8.0() {
+  pkgdesc='The .NET Core targeting pack'
+  depends=(netstandard-targeting-pack)
+  provides=(dotnet-targeting-pack=${pkgver%.*.sdk*})
+
+  install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
+  bsdtar -xf dotnet/artifacts/${_ARCH}/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-${_ARCH}.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.NETCore.App.{Host.arch-${_ARCH},Ref}
+  ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-targeting-pack-8.0
+}
+
+package_aspnet-targeting-pack-8.0() {
+  pkgdesc='The ASP.NET Core targeting pack'
+  depends=(dotnet-targeting-pack-8.0)
+  provides=(aspnet-targeting-pack=${pkgver%.*.sdk*})
+
+  install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
+  bsdtar -xf dotnet/artifacts/${_ARCH}/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-${_ARCH}.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.AspNetCore.App.Ref
+  ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-targeting-pack-8.0
+}
+
+package_dotnet-source-built-artifacts-8.0() {
+  pkgdesc='Internal package for building the .NET Core SDK'
+  provides=(dotnet-source-built-artifacts=${pkgver%.*.sdk*})
+
+  install -Dm 644 dotnet/artifacts/${_ARCH}/Release/Private.SourceBuilt.Artifacts.*.tar.gz -t "${pkgdir}"/usr/share/dotnet/source-built-artifacts/
+  install -Dm 644 dotnet/artifacts/${_ARCH}/Release/Private.SourceBuilt.Prebuilts.*.tar.gz -t "${pkgdir}"/usr/share/dotnet/source-built-artifacts/
+}

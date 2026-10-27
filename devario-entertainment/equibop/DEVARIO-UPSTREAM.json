@@ -1,0 +1,15 @@
+{
+  "name": "equibop",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=equibop&id=127132450e11f183fa55127473faa5e0383b23ff",
+  "sha256": "61939d81e519bb65c5e7b4b25c09f9a6e506ee0877e4189d5b3b4552f1b7af84",
+  "bytes": 1961,
+  "retrieved_on": "2026-10-23",
+  "local_adaptation": true,
+  "note": "Reference only; build source comes directly from Equicord upstream.",
+  "commit": "127132450e11f183fa55127473faa5e0383b23ff",
+  "local_adaptations": [
+    "Build application from release source with locked preparation and offline ASAR bundling.",
+    "Bundle the official Electron 43.7.1 runtime matching bun.lock, with architecture-specific SHA256 checksums.",
+    "Preserve upstream Electron fuses and sandbox helper; include Electron/Chromium licensing. No system electron43 runtime dependency."
+  ]
+}

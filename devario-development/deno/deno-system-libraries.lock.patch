@@ -1,0 +1,129 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -1851,7 +1851,6 @@
+  "futures-util",
+  "num",
+  "once_cell",
+- "openssl",
+  "rand 0.8.5",
+ ]
+ 
+@@ -4803,21 +4802,12 @@
+ 
+ [[package]]
+ name = "foreign-types"
+-version = "0.3.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f6f339eb8adc052cd2ca78910fda869aefa38d22d5cb648e6485e4d3fc06f3b1"
+-dependencies = [
+- "foreign-types-shared 0.1.1",
+-]
+-
+-[[package]]
+-name = "foreign-types"
+ version = "0.5.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "d737d9aa519fb7b749cbc3b962edcf310a8dd1f4b67c91c4f83975dbdd17d965"
+ dependencies = [
+  "foreign-types-macros",
+- "foreign-types-shared 0.3.1",
++ "foreign-types-shared",
+ ]
+ 
+ [[package]]
+@@ -4830,12 +4820,6 @@
+  "quote",
+  "syn 2.0.117",
+ ]
+-
+-[[package]]
+-name = "foreign-types-shared"
+-version = "0.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
+ 
+ [[package]]
+ name = "foreign-types-shared"
+@@ -6359,7 +6343,6 @@
+  "byteorder",
+  "dbus-secret-service",
+  "log",
+- "openssl",
+  "security-framework 2.10.0",
+  "security-framework 3.3.0",
+  "windows-sys 0.60.2",
+@@ -6497,7 +6480,7 @@
+ checksum = "680ec3fa42c36e0af9ca02f20a3742a82229c7f1ee0e6754294de46a80be6f74"
+ dependencies = [
+  "bytemuck",
+- "foreign-types 0.5.0",
++ "foreign-types",
+  "lcms2-sys",
+ ]
+ 
+@@ -6537,7 +6520,6 @@
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "06085512b750d640299b79be4bad3d2fa90a9c00b1fd9e1b46364f66f0485c72"
+ dependencies = [
+- "cc",
+  "pkg-config",
+ ]
+ 
+@@ -7409,57 +7391,10 @@
+ ]
+ 
+ [[package]]
+-name = "openssl"
+-version = "0.10.80"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a45fa2aa886c42762255da344f0a0d313e254066c46aad76f300c3d3da62d967"
+-dependencies = [
+- "bitflags 2.9.3",
+- "cfg-if",
+- "foreign-types 0.3.2",
+- "libc",
+- "openssl-macros",
+- "openssl-sys",
+-]
+-
+-[[package]]
+-name = "openssl-macros"
+-version = "0.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a948666b637a0f465e8564c73e89d4dde00d72d4d473cc972f390fc3dcee7d9c"
+-dependencies = [
+- "proc-macro2",
+- "quote",
+- "syn 2.0.117",
+-]
+-
+-[[package]]
+ name = "openssl-probe"
+ version = "0.1.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
+-
+-[[package]]
+-name = "openssl-src"
+-version = "300.5.0+3.5.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e8ce546f549326b0e6052b649198487d91320875da901e7bd11a06d1ee3f9c2f"
+-dependencies = [
+- "cc",
+-]
+-
+-[[package]]
+-name = "openssl-sys"
+-version = "0.9.116"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f28a22dc7140cda5f096e5e7724a6962ca81a7f8bfd2979f9b18c11af56318c4"
+-dependencies = [
+- "cc",
+- "libc",
+- "openssl-src",
+- "pkg-config",
+- "vcpkg",
+-]
+ 
+ [[package]]
+ name = "opentelemetry"

@@ -1,0 +1,4 @@
+[spotify-launcher]
+source = "git"
+git = "https://github.com/kpcyrd/spotify-launcher.git"
+prefix = "v"

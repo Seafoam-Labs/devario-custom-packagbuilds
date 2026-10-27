@@ -1,0 +1,66 @@
+# Maintainer: Christian Hesse <mail@eworm.de>
+
+pkgname=lib2geom
+pkgver=1.4
+pkgrel=3.1
+pkgdesc='Easy to use 2D geometry library in C++'
+arch=('x86_64')
+url='https://gitlab.com/inkscape/lib2geom'
+license=('GPL')
+depends=('glib2' 'gsl' 'double-conversion' 'cairo')
+provides=('lib2geom.so')
+makedepends=('cmake' 'boost' 'gtest' 'ragel')
+source=("https://gitlab.com/inkscape/${pkgname}/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('717a87ce7f2192271a789c1273ae7b432856c522647b9fe33bb4dd662942b3ea')
+
+prepare() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  patch -Np1 <<'PATCH'
+--- a/src/2geom/bezier-curve.cpp
++++ b/src/2geom/bezier-curve.cpp
+@@ -413,6 +413,15 @@
+     if (u.isZero() || v.isZero()) {
+         return {};
+     }
++    // Identical endpoints are exact intersections; do not reproject them through
++    // a normalized direction, which can move them outside a strict epsilon.
++    if (initialPoint() == other.initialPoint() && finalPoint() == other.finalPoint()) {
++        return {CurveIntersection(0, 0, initialPoint()), CurveIntersection(1, 1, finalPoint())};
++    }
++    if (initialPoint() == other.finalPoint() && finalPoint() == other.initialPoint()) {
++        return {CurveIntersection(0, 1, initialPoint()), CurveIntersection(1, 0, finalPoint())};
++    }
++
+     Coord const uv = u.length() * v.length();
+     Coord const u_cross_v = cross(u, v);
+     bool const segments_are_parallel = std::abs(u_cross_v) < eps * uv;
+PATCH
+}
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  # Preserve separate rounding steps in the geometry algorithms on FMA-capable CPUs.
+  export CXXFLAGS="$CXXFLAGS -ffp-contract=off"
+
+  mkdir -p build
+  cd build
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -D2GEOM_BOOST_PYTHON=NO \
+    -D2GEOM_BUILD_SHARED=YES \
+    -DCMAKE_BUILD_TYPE=Release
+  make
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${pkgver}/build/"
+
+  ctest --output-on-failure
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}/build/"
+
+  make DESTDIR="${pkgdir}/" install
+}

@@ -12,12 +12,11 @@ pkgname=(
   'linux-tools-meta'
   'perf'
   'tmon'
-  'turbostat'
   'usbip'
   'x86_energy_perf_policy'
 )
 pkgver=7.2.9
-pkgrel=1
+pkgrel=1.1
 _srcname=linux-${pkgver}
 license=('GPL-2.0-only')
 arch=('x86_64')
@@ -38,12 +37,10 @@ makedepends+=('glib2' 'sysfsutils' 'udev')
 makedepends+=('ncurses')
 # bpf deps
 makedepends+=('readline' 'zlib' 'libelf' 'libcap' 'python-docutils')
-# turbostat deps
-makedepends_x86_64=('libcap')
 # bpftool
 makedepends+=('llvm' 'clang')
 # intel-speed-select
-makedepends_x86_64+=('libnl')
+makedepends_x86_64=('libnl')
 groups=("$pkgbase")
 source=(https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
         'usbipd.service'
@@ -124,13 +121,6 @@ build() {
   pushd "$_srcname"/tools/thermal/tmon
   make
   popd
-
-  if [[ ${CARCH} == x86_64* ]]; then
-    echo ':: turbostat'
-    pushd "$_srcname"/tools/power/x86/turbostat
-    make
-    popd
-  fi
 
   echo ':: hv'
   pushd "$_srcname"/tools/hv
@@ -271,15 +261,6 @@ package_tmon() {
 
   cd "$_srcname"/tools/thermal/tmon
   make install INSTALL_ROOT="$pkgdir"
-}
-
-package_turbostat() {
-  pkgdesc='Report processor frequency and idle statistics'
-  depends=('glibc' 'libcap')
-  arch=(x86_64)
-
-  cd "$_srcname"/tools/power/x86/turbostat
-  make install DESTDIR="$pkgdir"
 }
 
 package_hyperv() {

@@ -1,0 +1,89 @@
+{
+  "name": "deno",
+  "input_kind": "source-recipe-reference",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fdeno/repository/archive.tar.gz?sha=ca19fbceda1aaaefbf19eb8d329f0f69afbc61cd",
+  "sha256": "87ef55c939e01f557fa9525b5cae8d3e87dcbdae64ee141b2b968a646ec72ba1",
+  "bytes": 4702,
+  "commit": "ca19fbceda1aaaefbf19eb8d329f0f69afbc61cd",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "inputs": [
+    {
+      "url": "https://github.com/denoland/deno/archive/refs/tags/v2.9.8.tar.gz",
+      "file": "deno-2.9.8.tar.gz",
+      "sha256": "1e7c94089b077ca9b8ee1528a37793b47a476336bc2e3e902381cb528055f0be",
+      "bytes": 35540806,
+      "root": "deno-2.9.8"
+    },
+    {
+      "url": "https://github.com/denoland/rusty_v8/releases/download/v150.4.0/librusty_v8_simdutf_release_x86_64-unknown-linux-gnu.a.gz",
+      "sha256": "f48762ca10d1f1fc605a441c5ae430ec8ce1e9e80f14d78fbc42cb878c30b476",
+      "bytes": 38799023,
+      "file": "librusty_v8_simdutf_release_x86_64-unknown-linux-gnu.a.gz"
+    },
+    {
+      "url": "https://github.com/denoland/rusty_v8/releases/download/v150.4.0/src_binding_simdutf_release_x86_64-unknown-linux-gnu.rs",
+      "sha256": "7727826ae479bdb645e807239fb12d1f8e2e23de7a6cf16f5ee592690d1d8506",
+      "bytes": 39884,
+      "file": "src_binding_simdutf_release_x86_64-unknown-linux-gnu.rs"
+    }
+  ],
+  "note": "Compile Deno from its locked release source using a pinned upstream prebuilt V8 library. Match the SIMDUTF archive and generated bindings to Cargo features; use system native libraries, disable self-upgrade, fetch Cargo inputs only in prepare, and build frozen/offline. Include the exact V8/Rusty V8 licenses. Full Deno compilation remains for the worker.",
+  "license_inputs": [
+    {
+      "url": "https://raw.githubusercontent.com/denoland/v8/ac1e23989121713ca642f6650b34deff7b686896/LICENSE",
+      "sha256": "6ab33af8774a0f396ee3aeeb761e3229057682d6f9fa7f572e390c2cb3a6e509",
+      "bytes": 3093
+    },
+    {
+      "url": "https://api.github.com/repos/denoland/rusty_v8/git/blobs/5a671244de937cfc449c42d48da7867e4f0a7852",
+      "encoding": "GitHub JSON base64; digest is for decoded license text",
+      "sha256": "1c6356fb751d45f0c53093ebf8a7f5e580e802f51999178e19d60f3ec39e147d",
+      "bytes": 1078
+    }
+  ],
+  "worker_repair": {
+    "date": "2026-10-23",
+    "reason": "Removing vendored native-library features also requires a matching lockfile. The prior --locked fetch correctly rejected the unchanged upstream lockfile.",
+    "patch": "deno-system-libraries.lock.patch",
+    "patch_sha256": "adf3d24d01660270ffa9c8bd5624e20e191909d7fbd24539b25188db275e0d74",
+    "lock_change": {
+      "removed": [
+        [
+          "foreign-types",
+          "0.3.2",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ],
+        [
+          "foreign-types-shared",
+          "0.1.1",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ],
+        [
+          "openssl",
+          "0.10.80",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ],
+        [
+          "openssl-macros",
+          "0.1.1",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ],
+        [
+          "openssl-src",
+          "300.5.0+3.5.0",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ],
+        [
+          "openssl-sys",
+          "0.9.116",
+          "registry+https://github.com/rust-lang/crates.io-index"
+        ]
+      ],
+      "new_package_versions": [],
+      "original_sha256": "36aab78913808a9fb2e5a3a3a27a74a1a1045011133f28beaac6eabf57fc9895",
+      "fixed_sha256": "ddd9437eaf81e111d3ece4a62adbf7cde918120896c4817e44f01e6141364c94"
+    },
+    "validation": "Locked fetch passed. The actual revised prepare function passed from a fresh source copy with networking disabled and the fetched Cargo cache. This describes the earlier local preparation check only; it is not a new compilation or publication audit."
+  }
+}

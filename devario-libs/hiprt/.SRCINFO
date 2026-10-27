@@ -1,0 +1,19 @@
+pkgbase = hiprt
+	pkgdesc = Ray Tracing Library for HIP
+	pkgver = 3.1.0.cb09c56
+	pkgrel = 3.2
+	url = https://gpuopen.com/hiprt/
+	arch = x86_64
+	license = MIT
+	makedepends = git
+	makedepends = python
+	makedepends = cmake
+	depends = rocm-core
+	depends = hip-runtime-amd
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	source = hiprt-3.1.0.cb09c56::git+https://github.com/GPUOpen-LibrariesAndSDKs/HIPRT#tag=3.1.0.cb09c56
+	sha256sums = 6c60046f8d9406807063a1c5accc6ce85b03b694d818cc56f8d79f3b700bc27a
+
+pkgname = hiprt

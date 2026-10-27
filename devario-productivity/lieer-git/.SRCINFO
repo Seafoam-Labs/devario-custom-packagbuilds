@@ -1,0 +1,27 @@
+pkgbase = lieer-git
+	pkgdesc = Fast email-fetching, sending, and two-way tag synchronization between notmuch and GMail
+	pkgver = 1.6.r30.gb4d1bdc
+	pkgrel = 1.1
+	url = https://github.com/gauteh/lieer
+	arch = any
+	license = GPL-3.0-or-later
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = notmuch>=0.25
+	depends = python
+	depends = python-google-api-python-client
+	depends = python-google-auth-oauthlib
+	depends = python-tqdm
+	provides = lieer
+	provides = gmailieer
+	provides = gmailieer-git
+	conflicts = lieer
+	conflicts = gmailieer
+	conflicts = gmailieer-git
+	source = lieer::git+https://github.com/gauteh/lieer.git
+	sha256sums = SKIP
+
+pkgname = lieer-git

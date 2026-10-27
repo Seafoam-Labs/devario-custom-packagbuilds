@@ -1,0 +1,11 @@
+{
+  "name": "python-tinycss2",
+  "input_kind": "upstream-source",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "url": "https://files.pythonhosted.org/packages/source/t/tinycss2/tinycss2-1.5.1.tar.gz",
+  "resolved_url": "https://files.pythonhosted.org/packages/a3/ae/2ca4913e5c0f09781d75482874c3a95db9105462a92ddd303c7d285d3df2/tinycss2-1.5.1.tar.gz",
+  "sha256": "d339d2b616ba90ccce58da8495a78f46e55d4d25f9fd71dfd526f07e7d53f957",
+  "bytes": 88195,
+  "note": "Use the already-published python-flit-core3 compatibility backend. The declared flit_core<4 requirement is respected; build dependency checks are enabled."
+}

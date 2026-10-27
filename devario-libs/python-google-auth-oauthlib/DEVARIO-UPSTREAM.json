@@ -1,0 +1,11 @@
+{
+  "name": "python-google-auth-oauthlib",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-google-auth-oauthlib.git",
+  "revision": "365b498b3e14d25e2be25ed93a5f84ba21ac2e1d",
+  "upstream_pkgbuild_sha256": "6e590c1703b2d6f7946f3879fd0c18f2cc0326c117e6080e9d4b1e502e0565a3",
+  "local_adaptations": [
+    "Use same-version google_auth_oauthlib-1.5.0 PyPI sdist with verified SHA256; monorepo archive has an unsafe escaping symlink.",
+    "Retain wheel packaging and all 48 upstream tests."
+  ],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

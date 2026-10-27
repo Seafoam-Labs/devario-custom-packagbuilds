@@ -1,0 +1,8 @@
+{
+  "name": "python-google-api-python-client",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-google-api-python-client.git",
+  "revision": "12d41fb7b718a5123dab3c4e7e08403f646c9454",
+  "upstream_pkgbuild_sha256": "7f248625fea779b9cd75af558ac66b65490bbd0b51ada3a0723a42e2bb73200d",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

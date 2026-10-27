@@ -1,0 +1,8 @@
+{
+  "name": "python-cherrypy",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-cherrypy.git",
+  "revision": "07d31ee9688ea4642fe15e50bd81971a0c5825da",
+  "upstream_pkgbuild_sha256": "759f98f9c7b925f475ba21c6647ef12d04a5b670761e7bae9bbd65dd778ab9d3",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

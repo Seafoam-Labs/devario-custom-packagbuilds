@@ -1,0 +1,8 @@
+{
+  "name": "python-pyasn1-modules",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyasn1-modules.git",
+  "revision": "4103bbb7ade418cb119774eb52de1f3a87baff10",
+  "upstream_pkgbuild_sha256": "13710a0e6f39691331bb804e2805742f043b3f1e9f2e33dc4961d5fedd3caa09",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

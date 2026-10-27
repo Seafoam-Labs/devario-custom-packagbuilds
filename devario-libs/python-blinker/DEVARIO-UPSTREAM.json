@@ -1,0 +1,17 @@
+{
+  "name": "python-blinker",
+  "input_kind": "source-recipe-reference",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpython-blinker/repository/archive.tar.gz?sha=78d0b2b50bd178981b8b21632801033435b6c0c2",
+  "sha256": "1aa1779dffb2e5edcf4006a815ab5d06516e613ed8583abb576db92db0da4a52",
+  "bytes": 1795,
+  "commit": "78d0b2b50bd178981b8b21632801033435b6c0c2",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "upstream_source": {
+    "url": "https://files.pythonhosted.org/packages/source/b/blinker/blinker-1.9.0.tar.gz",
+    "sha512": "587eaead4750eb742209703d792498293579dc55afc855498066b49a067527b6b3eccbe9a35ddbacc2cb1b7ced0bb3bb7a5716dba82d87b434a6ca8281bd76e5",
+    "bytes": 22460,
+    "links": []
+  },
+  "note": "The upstream build-system requires flit_core<4. Select the published python-flit-core3 compatibility package instead of the unversioned Flit 4 package; retain normal dependency validation and upstream tests."
+}

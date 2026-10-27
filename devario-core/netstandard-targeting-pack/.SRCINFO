@@ -1,0 +1,20 @@
+pkgbase = netstandard-targeting-pack
+	pkgdesc = The .NET Standard targeting pack (repack of the Arch binary)
+	pkgver = 9.0.9.sdk110
+	pkgrel = 1.1
+	url = https://dotnet.microsoft.com
+	arch = x86_64
+	license = MIT
+	provides = netstandard-targeting-pack-2.1
+	conflicts = netstandard-targeting-pack-2.1
+	noextract = netstandard-targeting-pack-9.0.9.sdk110-1-x86_64.pkg.tar.zst
+	options = !strip
+	options = !debug
+	options = !lto
+	options = !docs
+	options = !zipman
+	options = !emptydirs
+	source = https://archive.archlinux.org/packages/n/netstandard-targeting-pack/netstandard-targeting-pack-9.0.9.sdk110-1-x86_64.pkg.tar.zst
+	sha256sums = 0481884775eb6241ab1b7e2135a04773752f9cfeabf37a96d5894d120b8ac9e0
+
+pkgname = netstandard-targeting-pack

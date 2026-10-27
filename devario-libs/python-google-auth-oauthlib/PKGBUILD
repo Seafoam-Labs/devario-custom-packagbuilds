@@ -1,0 +1,38 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: Guillaume Horel <guillaume.horel@gmail.com>
+
+_name=google-auth-oauthlib
+_distname=google_auth_oauthlib
+pkgname=python-"${_name}"
+pkgver=1.5.0
+pkgrel=1.1
+pkgdesc="oauthlib integration for Google auth."
+url="http://google-auth-oauthlib.readthedocs.io/en/latest/"
+checkdepends=('python-click' 'python-cryptography' 'python-pytest')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+depends=('python' 'python-google-auth' 'python-requests-oauthlib')
+optdepends=('python-click')
+license=('Apache-2.0')
+arch=('any')
+# The monorepo tarball contains an escaping AGENT_WORKFLOW.md symlink.
+# Use the same release's package-specific source distribution instead.
+source=("https://files.pythonhosted.org/packages/source/g/${_name}/${_distname}-${pkgver}.tar.gz")
+sha256sums=('b351107c7dd9017f426cbb0272ea1bc04f469020fd18f4443c7d40362e0b1510')
+
+build() {
+    cd "${_distname}-${pkgver}"
+    python -m build --wheel --no-isolation
+}
+
+check() {
+    cd "${_distname}-${pkgver}"
+    PYTHONPATH=. pytest
+}
+
+package() {
+    cd "${_distname}-${pkgver}"
+
+    python -m installer --destdir="$pkgdir" dist/*.whl
+    install -Dm644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+
+}

@@ -1,0 +1,67 @@
+# Local adaptation for Seafoam Labs; based on the Arch Linux inkscape recipe.
+# Arch recipe commit: 50d1f06e21b9f5c13c626109ef0faabff4f37438
+# Local change: use the bundled release archive and checksum-pinned Poppler patches; preserve the complete editor.
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+# Contributor: tobias <tobias@archlinux.org>
+
+pkgname=inkscape
+pkgver=1.4.4
+pkgrel=7.1
+pkgdesc="Professional vector graphics editor"
+url="https://inkscape.org/"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+arch=('x86_64')
+depends=(
+  'atkmm' 'boost-libs' 'cairo' 'cairomm' 'double-conversion' 'fontconfig'
+  'freetype2' 'gc' 'gdk-pixbuf2' 'glib2' 'glibc' 'glibmm'
+  'gobject-introspection-runtime' 'graphicsmagick' 'gsl' 'gspell' 'gtk3'
+  'gtkmm3' 'gtksourceview4' 'harfbuzz' 'hicolor-icon-theme' 'lcms2' 'lib2geom'
+  'libcdr' 'libepoxy' 'libgcc' 'libgomp' 'libjpeg-turbo' 'libpng' 'librevenge'
+  'libsigc++' 'libstdc++' 'libvisio' 'libwpg' 'libx11' 'libxml2' 'libxslt'
+  'pango' 'pangomm' 'poppler' 'poppler-glib' 'potrace' 'python'
+  'python-appdirs' 'python-beautifulsoup4' 'python-cachecontrol' 'python-cairo'
+  'python-certifi' 'python-chardet' 'python-cssselect' 'python-filelock'
+  'python-gobject' 'python-idna' 'python-lxml' 'python-msgpack' 'python-numpy'
+  'python-packaging' 'python-pillow' 'python-pyserial' 'python-requests'
+  'python-tinycss2' 'python-urllib3' 'python-zstandard' 'readline' 'scour'
+  'ttf-font' 'zlib'
+)
+makedepends=('boost' 'cmake' 'git' 'glib2-devel' 'ninja')
+optdepends=(
+  'fig2dev: xfig input'
+  'gvfs: import clip art'
+  'pstoedit: latex formulas'
+  'texlive-pstricks: latex formulas'
+)
+source=(
+  "https://media.inkscape.org/dl/resources/file/${pkgname}-${pkgver}.tar.xz"
+  "fix_build_with_poppler_26.05.patch::https://gitlab.archlinux.org/archlinux/packaging/packages/inkscape/-/raw/50d1f06e21b9f5c13c626109ef0faabff4f37438/fix_build_with_poppler_26.05.patch"
+  "fix_build_with_poppler_26.06.patch::https://gitlab.archlinux.org/archlinux/packaging/packages/inkscape/-/raw/50d1f06e21b9f5c13c626109ef0faabff4f37438/fix_build_with_poppler_26.06.patch"
+  "fix_build_with_poppler_26.07.patch::https://gitlab.archlinux.org/archlinux/packaging/packages/inkscape/-/raw/50d1f06e21b9f5c13c626109ef0faabff4f37438/fix_build_with_poppler_26.07.patch"
+)
+sha256sums=('bbce5753a1e08b871a5cf16c665eb060700aaab9a6a379dc63f4c4d9b3b8856e'
+            '59e17621493f16fa0ab43ddf5df555aa1d66ddc0b848cffd9a65bcd4ac0eb7f8'
+            'f2530a60d2c437a650c2625bc1bc23afb524d11573ab68db6143d08b0eeaa942'
+            '19a35e13461c90a2180224f712766ce4891d121142bc8c4f39ccda376e3fb5c7')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"_*
+  patch -Np1 -i ../fix_build_with_poppler_26.05.patch
+  patch -Np1 -i ../fix_build_with_poppler_26.06.patch
+  patch -Np1 -i ../fix_build_with_poppler_26.07.patch
+}
+
+build() {
+  local _src=( "${srcdir}/${pkgname}-${pkgver}"_* )
+  cmake -B build -S "${_src[0]}" -G Ninja \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -DWITH_INTERNAL_2GEOM=OFF \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+}

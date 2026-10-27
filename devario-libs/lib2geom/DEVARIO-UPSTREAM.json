@@ -1,0 +1,18 @@
+{
+  "name": "lib2geom",
+  "input_kind": "source-recipe-reference",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flib2geom/repository/archive.tar.gz?sha=864a6a2dd1f2a7ba6cadd92b21f605628181efb3",
+  "sha256": "e81780a090b4210a31b86cd5f2ed4836087a4c3360638b889d8a108408206d6c",
+  "bytes": 1667,
+  "commit": "864a6a2dd1f2a7ba6cadd92b21f605628181efb3",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "upstream_source": {
+    "url": "https://gitlab.com/inkscape/lib2geom/-/archive/1.4/lib2geom-1.4.tar.bz2",
+    "sha256": "717a87ce7f2192271a789c1273ae7b432856c522647b9fe33bb4dd662942b3ea",
+    "bytes": 1287532,
+    "links": []
+  },
+  "note": "Keep all 25 tests. Add -ffp-contract=off to CXXFLAGS to preserve separate rounding in geometry algorithms on FMA-capable x86-64-v3 CPUs. Use ctest --output-on-failure so any future failure includes assertions. An inline prepare patch handles exact identical/reversed segment endpoints without reprojecting them, which fixed the remaining coincident-intersection failure. All 25 tests passed locally.",
+  "inline_patch_sha256": "2710444d972670380b53b10aa01147ddf7c225f9253c30b79c21d282f53e8a53"
+}

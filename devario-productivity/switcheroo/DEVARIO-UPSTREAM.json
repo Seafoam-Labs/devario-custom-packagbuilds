@@ -1,0 +1,15 @@
+{
+  "name": "switcheroo",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fswitcheroo/repository/archive.tar.gz?sha=e94be4305fcef5079d22f95a51b67af155314a83",
+  "sha256": "638a0174ee05bd48005181720810e9c9a8dd12293ca1f979fed64009ab98fac6",
+  "bytes": 2096,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/switcheroo.git",
+  "commit": "e94be4305fcef5079d22f95a51b67af155314a83",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve source checksums, dependencies and existing locked Cargo cache preparation."
+  ],
+  "metadata_generator": "Shelly 3.1.9",
+  "pkgbuild_sha256": "70b1f04549c32dccc5b518e887ec1a61769cdb7f7a9d520017c098406127cd8f"
+}

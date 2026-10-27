@@ -1,0 +1,32 @@
+# Seafoam Labs recipe using the original upstream v2.3 release.
+# Upstream: Martin Duquesnoy <xorg62@gmail.com>
+pkgname=tty-clock
+pkgver=2.3
+pkgrel=2.1
+pkgdesc='A simple terminal clock using ncurses'
+arch=('x86_64')
+url='https://github.com/xorg62/tty-clock'
+license=('BSD-3-Clause')
+depends=('glibc' 'ncurses')
+makedepends=('pkgconf')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/xorg62/tty-clock/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('343e119858db7d5622a545e15a3bbfde65c107440700b62f9df0926db8f57984')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  # The v2.3 release stores its BSD license in the source header.
+  sed -n '1,/^ \*\//p' ttyclock.c > LICENSE
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  # Pass distro flags explicitly while retaining the required ncurses flags.
+  make CFLAGS="${CFLAGS} $(pkg-config --cflags ncurses)" \
+       LDFLAGS="${LDFLAGS} $(pkg-config --libs ncurses)"
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

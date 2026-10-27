@@ -1,0 +1,37 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Andrzej Giniewicz <gginiu@gmail.com>
+# Contributor: Kaizhao Zhang <zhangkaizhao@gmail.com>
+
+_name=googleapis_common_protos
+pkgname=python-googleapis-common-protos
+pkgver=1.75.5
+pkgrel=1.1
+pkgdesc="Python classes generated from the common protos in the googleapis repository"
+arch=('any')
+url="https://github.com/googleapis/google-cloud-python/tree/main/packages/googleapis-common-protos"
+license=('Apache-2.0')
+depends=('python' 'python-protobuf')
+optdepends=('python-grpcio: for grpc support')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+checkdepends=('python-pytest' 'python-grpcio')
+source=("$_name-$pkgver.tar.gz::https://files.pythonhosted.org/packages/source/g/googleapis-common-protos/$_name-$pkgver.tar.gz")
+sha256sums=('c7a866fc34ed29a3b10af627a4b9b1dc2433313ca6e959f0ae4feb132047ed72')
+
+build() {
+  cd "$_name-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$_name-$pkgver"
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m pytest tests/unit
+}
+
+package() {
+  cd "$_name-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}

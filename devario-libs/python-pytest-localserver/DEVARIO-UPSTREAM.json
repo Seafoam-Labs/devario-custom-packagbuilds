@@ -1,0 +1,8 @@
+{
+  "name": "python-pytest-localserver",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pytest-localserver.git",
+  "revision": "f0d77e49c4a9ec9da7495f5490eddbd935a46e5c",
+  "upstream_pkgbuild_sha256": "27bc8d83df15545b6f32d670da99c93ed28e5cd672b527af1d4a43c66ced4110",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

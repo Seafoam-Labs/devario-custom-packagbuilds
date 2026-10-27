@@ -1,0 +1,10 @@
+{
+  "name": "python-flask",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-flask.git",
+  "revision": "12506b953fa7cff823b6911ff5593e4c9f47ce68",
+  "upstream_pkgbuild_sha256": "b3c3d003ed2d843acb33254b11d0541b20148d330f1362ef4cf711726e528b12",
+  "local_adaptations": [
+    "Select Devario Flit 3: upstream explicitly requires flit_core>=3.11,<4."
+  ],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

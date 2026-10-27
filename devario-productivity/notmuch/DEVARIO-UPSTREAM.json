@@ -1,0 +1,11 @@
+{
+  "name": "notmuch",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fnotmuch/repository/archive.tar.gz?sha=56315483c52c5bd7e617b5a9594de55d234bd77d",
+  "sha256": "0e3d759c0e6122a8fda3df7a13e4070ac51116956a9256bd208e0cb8cc8fafe4",
+  "bytes": 13770,
+  "commit": "56315483c52c5bd7e617b5a9594de55d234bd77d",
+  "local_adaptation": true,
+  "local_adaptations": [
+    "Merged runtime and notmuch2 Python bindings; declare both overlapping split-package conflicts."
+  ]
+}

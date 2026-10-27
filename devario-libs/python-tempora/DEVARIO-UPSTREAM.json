@@ -1,0 +1,8 @@
+{
+  "name": "python-tempora",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-tempora.git",
+  "revision": "2a0b189b4803aaec5eb79bee8671f364591b585a",
+  "upstream_pkgbuild_sha256": "f0c1fa5deeed62819f1fd94141538919a855c209faeee3fa1117badf440a0b67",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

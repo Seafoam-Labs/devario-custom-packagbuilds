@@ -1,0 +1,95 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Metal A-wing <1 at 233 dot email>
+
+# Local adaptation: pinned prebuilt V8, native system libraries and offline build.
+
+pkgname=deno
+pkgver=2.9.8
+_v8ver=150.4.0
+pkgrel=1.2
+pkgdesc='Secure runtime for JavaScript and TypeScript'
+arch=(x86_64)
+url='https://deno.com/'
+license=(MIT BSD-3-Clause)
+depends=(dbus glibc lcms2 libffi libgcc libstdc++ sqlite wayland zlib zstd)
+makedepends=(rust clang cmake lld pkgconf protobuf python)
+options=(!lto)
+_rv8="https://github.com/denoland/rusty_v8/releases/download/v$_v8ver"
+source=(
+  "$pkgname-$pkgver.tar.gz::https://github.com/denoland/deno/archive/refs/tags/v$pkgver.tar.gz"
+  "librusty_v8_simdutf-$_v8ver.a.gz::$_rv8/librusty_v8_simdutf_release_x86_64-unknown-linux-gnu.a.gz"
+  "src_binding_simdutf-$_v8ver.rs::$_rv8/src_binding_simdutf_release_x86_64-unknown-linux-gnu.rs"
+  RUSTY-V8-LICENSE
+  V8-LICENSE
+  deno-system-libraries.lock.patch
+)
+noextract=("librusty_v8_simdutf-$_v8ver.a.gz")
+sha256sums=('1e7c94089b077ca9b8ee1528a37793b47a476336bc2e3e902381cb528055f0be'
+            'f48762ca10d1f1fc605a441c5ae430ec8ce1e9e80f14d78fbc42cb878c30b476'
+            '7727826ae479bdb645e807239fb12d1f8e2e23de7a6cf16f5ee592690d1d8506'
+            '1c6356fb751d45f0c53093ebf8a7f5e580e802f51999178e19d60f3ec39e147d'
+            '6ab33af8774a0f396ee3aeeb761e3229057682d6f9fa7f572e390c2cb3a6e509'
+            'adf3d24d01660270ffa9c8bd5624e20e191909d7fbd24539b25188db275e0d74')
+
+_setup_env() {
+  unset V8_FROM_SOURCE RUSTY_V8_MIRROR
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR="$srcdir/$pkgname-$pkgver/target"
+  export CC=clang CXX=clang++
+  export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  export LCMS2_LIB_DIR=/usr/lib
+  export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+  export ZSTD_SYS_USE_PKG_CONFIG=1
+  export CARGO_FEATURE_SYSTEM=1
+  export DENO_DIR="$srcdir/deno-cache"
+  export DENO_NO_UPDATE_CHECK=1
+  export PROTOC=/usr/bin/protoc
+  export RUSTY_V8_ARCHIVE="$srcdir/librusty_v8_simdutf-$_v8ver.a.gz"
+  export RUSTY_V8_SRC_BINDING_PATH="$srcdir/src_binding_simdutf-$_v8ver.rs"
+}
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  # Keep V8, disable the package-manager bypass and use system zlib/dbus.
+  sed -i -e '/^v8 = \[/s/"__runtime_defaults", //' \
+    -e '/^keyring =/s/, "vendored"//' cli/Cargo.toml
+  patch -Np1 -i "$srcdir/deno-system-libraries.lock.patch"
+  _setup_env
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  _setup_env
+  cargo build --frozen --release --package deno --bin deno
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  _setup_env
+  # Upstream's cargo test suite needs git submodules and network access
+  # that are not part of the release tarball, so run smoke tests on the
+  # built binary instead.
+  ./target/release/deno --version
+  printf '%s\n' 'const result: number = 6 * 7;' \
+    'if (result !== 42) throw new Error("TypeScript smoke test failed");' \
+    > "$srcdir/deno-smoke.ts"
+  ./target/release/deno run --no-config --no-lock --cached-only "$srcdir/deno-smoke.ts"
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/deno -t "$pkgdir/usr/bin"
+
+  local shell
+  for shell in bash zsh fish; do
+    ./target/release/deno completions "$shell" > "$srcdir/deno.$shell"
+  done
+  install -Dm644 "$srcdir/deno.bash" "$pkgdir/usr/share/bash-completion/completions/deno"
+  install -Dm644 "$srcdir/deno.zsh" "$pkgdir/usr/share/zsh/site-functions/_deno"
+  install -Dm644 "$srcdir/deno.fish" "$pkgdir/usr/share/fish/vendor_completions.d/deno.fish"
+
+  install -Dm644 "$srcdir/RUSTY-V8-LICENSE" "$srcdir/V8-LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname"
+}

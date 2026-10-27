@@ -1,0 +1,8 @@
+{
+  "name": "python-pbr",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pbr.git",
+  "revision": "621a07d89cbcdd0bfe5c538f2335a75a4444da0d",
+  "upstream_pkgbuild_sha256": "e8d48233eec9634e01d87c781b9420dabba4b8e652c68853202e5d4e010349e6",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

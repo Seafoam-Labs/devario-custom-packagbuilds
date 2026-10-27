@@ -1,0 +1,8 @@
+{
+  "name": "python-pyjwt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-pyjwt.git",
+  "revision": "d10cac17d2fb2961713cf877cb4086eb41cd37b1",
+  "upstream_pkgbuild_sha256": "497fe5dedcc00a2ffb705c1226f91a0d17a9a08f5002aa10db7c1be99e50b611",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

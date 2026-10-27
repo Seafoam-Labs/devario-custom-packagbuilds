@@ -2,5 +2,8 @@
   "name": "python-vdf",
   "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-vdf/-/archive/main/python-vdf-main.tar.gz",
   "sha256": "12bc32482565dc5c27d8fb996e0eae43bbecf0de143664a60f8aa193653d0fa2",
-  "bytes": 1685
+  "bytes": 1685,
+  "local_adaptations": [
+    "Build the wheel with declared Devario tools and --no-isolation; keep upstream unittest coverage (100 tests)."
+  ]
 }

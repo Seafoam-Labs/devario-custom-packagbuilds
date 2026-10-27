@@ -1,0 +1,160 @@
+# Based on Arch Linux's mpv 1:0.41.0-6 recipe by Christian Hesse,
+# Robin Candau and contributors. Local full-feature Linux adaptation.
+# Uses upstream release sources and two upstream VapourSynth compatibility fixes.
+
+pkgname=mpv-full
+epoch=1
+pkgver=0.41.0
+pkgrel=1.1
+pkgdesc='Cross-platform media player with the full set of Linux playback backends'
+arch=('x86_64')
+license=('GPL-2.0-or-later AND LGPL-2.1-or-later')
+url='https://mpv.io/'
+depends=(
+  'alsa-lib' 'desktop-file-utils' 'ffmpeg' 'glibc' 'hicolor-icon-theme'
+  'jack' 'lcms2' 'libarchive' 'libass' 'libbluray' 'libcaca' 'libcdio'
+  'libcdio-paranoia' 'libdisplay-info' 'libdrm' 'libdvdnav' 'libdvdread'
+  'libegl' 'libgl' 'libglvnd' 'libjpeg-turbo' 'libpipewire' 'libplacebo'
+  'libpulse' 'libsixel' 'libva' 'libvdpau' 'libx11' 'libxext' 'libxfixes'
+  'libxkbcommon' 'libxpresent' 'libxrandr' 'libxss' 'libxv' 'luajit'
+  'mesa' 'mujs' 'openal' 'rubberband' 'sdl2' 'sndio' 'uchardet'
+  'vapoursynth' 'vulkan-icd-loader' 'wayland' 'zimg' 'zlib'
+)
+makedepends=(
+  'meson' 'python-docutils' 'ladspa' 'wayland-protocols'
+  'ffnvcodec-headers' 'vulkan-headers'
+)
+optdepends=(
+  'yt-dlp: for video-sharing websites playback'
+  'python: for the supplied helper scripts'
+  'python-pyqt6: for the stats-conv script'
+  'python-pyqtgraph: for the stats-conv script'
+  'nvidia-utils: for CUDA hardware decoding on NVIDIA GPUs'
+)
+provides=("mpv=${epoch}:${pkgver}" 'libmpv.so')
+conflicts=('mpv')
+options=('!emptydirs')
+source=(
+  "https://github.com/mpv-player/mpv/archive/v${pkgver}/mpv-${pkgver}.tar.gz"
+  '0001-vapoursynth-r74.patch::https://github.com/mpv-player/mpv/commit/75b2ccfeb1ce4ed5a40ac9860fa74f3d1265e13f.patch'
+  '0002-vapoursynth-pkgconfig.patch::https://github.com/mpv-player/mpv/commit/fb6c700ecbc695ba355d998340a6e6ef9e625b70.patch'
+)
+sha256sums=(
+  'ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209'
+  'fe357801d733565b4bda28c388b300d632f34b9d9c4b7b554437e6f0dbb034f4'
+  'cd97e8445e81ec90843d2b994f7d46eb675b2b05c09e5ec0be7895c4d78f5720'
+)
+
+prepare() {
+  # mpv 0.41 predates VapourSynth R74's dynamically loaded VSScript API.
+  patch -d "mpv-${pkgver}" -Np1 -i "$srcdir/0001-vapoursynth-r74.patch"
+  patch -d "mpv-${pkgver}" -Np1 -i "$srcdir/0002-vapoursynth-pkgconfig.patch"
+}
+
+build() {
+  local _meson_options=(
+    --auto-features auto
+    -Dgpl=true
+    -Dcplayer=true
+    -Dlibmpv=true
+    -Dbuild-date=false
+    -Dtests=true
+    -Dcdda=enabled
+    -Dcplugins=enabled
+    -Ddvbin=enabled
+    -Ddvdnav=enabled
+    -Diconv=enabled
+    -Djavascript=enabled
+    -Djpeg=enabled
+    -Dlcms2=enabled
+    -Dlibarchive=enabled
+    -Dlibavdevice=enabled
+    -Dlibbluray=enabled
+    -Dlua=luajit
+    -Drubberband=enabled
+    -Dsdl2-gamepad=enabled
+    -Duchardet=enabled
+    -Dvapoursynth=enabled
+    -Dvector=enabled
+    -Dx11-clipboard=enabled
+    -Dzimg=enabled
+    -Dzlib=enabled
+    -Dalsa=enabled
+    -Djack=enabled
+    -Dopenal=enabled
+    -Dpipewire=enabled
+    -Dpulse=enabled
+    -Dsdl2-audio=enabled
+    -Dsndio=enabled
+    -Dcaca=enabled
+    -Ddmabuf-wayland=enabled
+    -Ddrm=enabled
+    -Degl=enabled
+    -Degl-drm=enabled
+    -Degl-wayland=enabled
+    -Degl-x11=enabled
+    -Dgbm=enabled
+    -Dgl=enabled
+    -Dgl-x11=enabled
+    -Dsdl2-video=enabled
+    -Dsixel=enabled
+    -Dplain-gl=enabled
+    -Dvdpau=enabled
+    -Dvdpau-gl-x11=enabled
+    -Dvaapi=enabled
+    -Dvaapi-drm=enabled
+    -Dvaapi-wayland=enabled
+    -Dvaapi-x11=enabled
+    -Dvulkan=enabled
+    -Dwayland=enabled
+    -Dx11=enabled
+    -Dxv=enabled
+    -Dcuda-hwaccel=enabled
+    -Dcuda-interop=enabled
+    -Dmanpage-build=enabled
+  )
+  # Use Meson directly with the same packaging settings as the former wrapper.
+  meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+    --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+    -Db_pie=true -Dpython.bytecompile=1 "mpv-${pkgver}" build "${_meson_options[@]}"
+
+  # Some upstream dependency probes can silently disable an explicitly requested
+  # backend, so reject a reduced build before compiling a package named "full".
+  local _feature
+  local -a _missing_features=()
+  for _feature in CACA SNDIO ZIMG VAPOURSYNTH LUA VULKAN VAAPI VDPAU \
+      WAYLAND X11 X11_CLIPBOARD CUDA_HWACCEL CUDA_INTEROP PIPEWIRE PULSE \
+      ALSA JACK OPENAL SDL2_AUDIO SDL2_VIDEO SDL2_GAMEPAD SIXEL CDDA DVDNAV DVBIN; do
+    grep -qx "#define HAVE_${_feature} 1" build/config.h || _missing_features+=("$_feature")
+  done
+  if ((${#_missing_features[@]})); then
+    printf 'mpv-full: required features were disabled: %s\n' "${_missing_features[*]}" >&2
+    return 1
+  fi
+
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  depends+=(
+    'libasound.so' 'libavcodec.so' 'libavdevice.so' 'libavfilter.so'
+    'libavformat.so' 'libavutil.so' 'libdisplay-info.so' 'libswresample.so'
+    'libswscale.so' 'libjack.so' 'liblcms2.so' 'libarchive.so' 'libass.so'
+    'libbluray.so' 'libjpeg.so' 'libplacebo.so' 'libpulse.so' 'libva.so'
+    'libva-drm.so' 'libva-wayland.so' 'libva-x11.so' 'libxkbcommon.so'
+    'librubberband.so'
+  )
+  meson install -C build --destdir "$pkgdir"
+  sed -i -e '/Requires.private/d' -e '/Libs.private/d' \
+    "$pkgdir/usr/lib/pkgconfig/mpv.pc"
+  install -m644 "mpv-${pkgver}"/DOCS/{encoding.rst,tech-overview.txt} \
+    "$pkgdir/usr/share/doc/mpv"
+  install -Dm644 "mpv-${pkgver}"/TOOLS/{umpv,mpv_identify.sh,stats-conv.py,idet.sh,lua/*} \
+    -t "$pkgdir/usr/share/mpv/scripts"
+  install -Dm644 "mpv-${pkgver}"/{Copyright,LICENSE.GPL,LICENSE.LGPL} \
+    -t "$pkgdir/usr/share/licenses/$pkgname"
+}

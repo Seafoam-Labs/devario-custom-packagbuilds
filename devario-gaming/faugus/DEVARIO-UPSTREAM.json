@@ -1,0 +1,8 @@
+{
+  "name": "faugus-launcher",
+  "url": "https://github.com/Seafoam-Labs/devario-custom-packagbuilds/tree/e67d15338bb7bd7c7143485f2686050605ea4112/devario-gaming/faugus",
+  "revision": "e67d15338bb7bd7c7143485f2686050605ea4112",
+  "upstream_pkgbuild_sha256": "f959ad0436cffc1b68e6676a4e2e04a08e0cbef3d67284955f0dbd0bbfa99f32",
+  "local_adaptations": [],
+  "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
+}

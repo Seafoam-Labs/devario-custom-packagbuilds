@@ -1,0 +1,11 @@
+{
+  "name": "python-google-api-core",
+  "input_kind": "upstream-source",
+  "local_adaptation": true,
+  "retrieved_on": "2026-10-23",
+  "url": "https://files.pythonhosted.org/packages/source/g/google-api-core/google_api_core-2.35.0.tar.gz",
+  "resolved_url": "https://files.pythonhosted.org/packages/d2/b1/de2bc1db39979fb7912c0547563fe720e12a11296976ccd6e2e701e22cfe/google_api_core-2.35.0.tar.gz",
+  "sha256": "80611ccbd0291919f6cea8827d57b472946fcd9ab519625becce0c002140a7b0",
+  "bytes": 192600,
+  "note": "Retain the supplied 2.35.0 pin while opentelemetry-api is unavailable. Complete the proto-plus/common-protos runtime chain and run six foundational upstream test modules. This is not the entire optional-transport suite."
+}
