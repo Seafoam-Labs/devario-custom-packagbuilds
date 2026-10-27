@@ -3,8 +3,8 @@
 # Contributor: Ali Molaei <ali dot molaei at protonmail dot com>
 
 pkgname=proton-vpn-gtk-app
-pkgver=4.18.7
-pkgrel=2
+pkgver=4.18.8
+pkgrel=1
 pkgdesc="ProtonVPN GTK app, Maintained by Community"
 arch=(any)
 url="https://github.com/ProtonVPN/proton-vpn-gtk-app"
@@ -39,10 +39,8 @@ source=(
   "git+https://github.com/ProtonVPN/proton-vpn-gtk-app.git#tag=v${pkgver}"
   0001-fix-sni-and-dbusmenu-typing.patch
 )
-sha256sums=(
-  '2ca8f7732f26150d11acc51ddd3dcead5685c2ef10c0d43a00d5d1931c0604c4'
-  'ac9888848fcec29a38b45d53171034421dda2a902311e41a4b35125f3df326b5'
-)
+sha256sums=('d41425bbfdf8aeda85b0f996992f1db7ce4afb62881fa58ed2d9005c41125d1d'
+            'ac9888848fcec29a38b45d53171034421dda2a902311e41a4b35125f3df326b5')
 
 prepare() {
   cd "$pkgname"

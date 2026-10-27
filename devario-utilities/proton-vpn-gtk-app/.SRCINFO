@@ -1,7 +1,7 @@
 pkgbase = proton-vpn-gtk-app
 	pkgdesc = ProtonVPN GTK app, Maintained by Community
-	pkgver = 4.18.7
-	pkgrel = 2
+	pkgver = 4.18.8
+	pkgrel = 1
 	url = https://github.com/ProtonVPN/proton-vpn-gtk-app
 	arch = any
 	license = GPL-3.0-or-later
@@ -27,9 +27,9 @@ pkgbase = proton-vpn-gtk-app
 	depends = python-proton-keyring-linux
 	depends = python-proton-vpn-api-core>=5.8.1
 	depends = python-requests
-	source = git+https://github.com/ProtonVPN/proton-vpn-gtk-app.git#tag=v4.18.7
+	source = git+https://github.com/ProtonVPN/proton-vpn-gtk-app.git#tag=v4.18.8
 	source = 0001-fix-sni-and-dbusmenu-typing.patch
-	sha256sums = 2ca8f7732f26150d11acc51ddd3dcead5685c2ef10c0d43a00d5d1931c0604c4
+	sha256sums = d41425bbfdf8aeda85b0f996992f1db7ce4afb62881fa58ed2d9005c41125d1d
 	sha256sums = ac9888848fcec29a38b45d53171034421dda2a902311e41a4b35125f3df326b5
 
 pkgname = proton-vpn-gtk-app
