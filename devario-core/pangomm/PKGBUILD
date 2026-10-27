@@ -6,39 +6,36 @@ pkgname=(
   pangomm
   pangomm-docs
 )
-pkgver=2.58.0
+pkgver=2.46.5
 pkgrel=1
+# Supersede the incompatible 2.58.0 package already published as pangomm.
+epoch=1
+# GTK3/GParted require the 2.46 branch and libpangomm-1.4 ABI.
 pkgdesc="C++ bindings for Pango"
 url="https://www.gtkmm.org/"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
 depends=(
-  'cairomm-1.16>=1.15.1'
+  cairomm
   glib2
   glibc
-  'glibmm-2.68>=2.68.0'
+  glibmm
   libgcc
-  libsigc++-3.0
+  libsigc++
   libstdc++
-  'pango>=1.58.0'
+  pango
 )
 makedepends=(
-  cairomm-1.16-docs
+  cairomm-docs
   git
-  glibmm-2.68-docs
-  libsigc++-3.0-docs
-  'meson>=0.62.0'
-  'mm-common>=1.0.0'
-  doxygen
-  libxslt
-  m4
-  perl
-  python
+  glibmm-docs
+  libsigc++-docs
+  meson
+  mm-common
 )
 options=(!emptydirs)
 source=("git+https://gitlab.gnome.org/GNOME/pangomm.git#tag=$pkgver")
-# Pending refresh by the separate checksum validation step for the new tag.
-b2sums=('b6ffa68ee3c7c66385ef66089b213d5c9fec76a4efc816beee5c9ff5344c78390533df926946c3345301fe14d36ac1f5a198f092ef27e9738e310539e8520024')
+b2sums=('970f54762b2eb59d6150fea280acb972e1ec48e31308c9e06bcf0e4968208b27c6d2bff612ccb4808c99c895b2e88113cd5e5ed261627f5f6f2a946381d10ebf')
 
 prepare() {
   cd pangomm
@@ -59,13 +56,14 @@ check() {
 
 package_pangomm() {
   depends+=(
-    libcairomm-1.16.so
-    libglibmm-2.68.so
-    libsigc-3.0.so
+    libcairomm-1.0.so
+    libglibmm-2.4.so
+    libsigc-2.0.so
   )
-  provides=(libpangomm-2.48.so)
+  provides=(libpangomm-1.4.so libpangomm-1.4.so=1-64)
 
   meson install -C build --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libpangomm-1.4.so" libpangomm-1.4.so.1 || return 1
 
   # Split -docs
   mkdir -p docs/usr/share
@@ -78,6 +76,12 @@ package_pangomm-docs() {
   options=(!strip)
 
   mv -t "$pkgdir" docs/*
+}
+
+# Do not let a future version refresh advertise an incompatible GTK3 ABI.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }
 
 # vim:set sw=2 sts=-1 et:
