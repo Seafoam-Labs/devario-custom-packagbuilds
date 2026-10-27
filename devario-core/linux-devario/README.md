@@ -1,6 +1,6 @@
-# linux-devario — Devario kernel (7.2)
+# linux-devario — Devario kernel (7.3)
 
-The regular Devario kernel package for the Linux 7.2 series, built from the Devario source tree with its configuration and patches.
+The regular Devario kernel recipe for the Linux 7.3 source series. Its defaults match the Devario release policy while still permitting local experiments.
 
 This directory contains the `PKGBUILD` and a versioned `config`. Devario builds
 its own kernel packages from [Seafoam Labs' Linux source tree](https://github.com/Seafoam-Labs/linux).
@@ -32,7 +32,7 @@ The defaults below come from `_release_opts` in `PKGBUILD`:
 | `_hugepage` | `always` | Default transparent hugepage policy (`always`, `madvise`). |
 | `_cc_harder` | `yes` | Enable kernel `-O3` optimization. |
 | `_per_gov` | `no` | Do not select `performance` in place of `schedutil` as the default governor. |
-| `_lru_marie` | `yes` | Enable LRU MARIE and its configured defragmentation support. |
+| `_lru_cast` | `yes` | Enable LRU CAST. |
 | `_localmodcfg` | `no` | Do not restrict the module set using `modprobed-db`. |
 | `_use_current` | `no` | Start from the shipped `config`, not `/proc/config.gz`. |
 | `_makenconfig` / `_makexconfig` | `no` / `no` | Disable interactive configuration frontends. |
@@ -54,7 +54,7 @@ makepkg -s
 For a custom local kernel, override options through the environment:
 
 ```bash
-_HZ_ticks=500 _preempt=lazy makepkg -s
+_processor_opt=generic_v2 _HZ_ticks=500 makepkg -s
 ```
 
 For example, `_localmodcfg=yes` uses the module database at
@@ -98,7 +98,7 @@ build toolchain or replace testing in a controlled build environment.
 4. Build in a clean environment with `_devario_release=yes`, then test kernel
    boot, external-module/header compatibility, and upgrades before publishing.
 
-**Branch note:** This directory and `7.3/linux-devario` both produce `linux-devario`. They represent different source-series recipes for the same package name, not two separately named kernels.
+**Branch note:** The `7.2/linux-devario` directory packages the same `linux-devario` name for a different source series. Choose the intended directory and source tag when preparing a release.
 
 ## Credits and provenance
 
