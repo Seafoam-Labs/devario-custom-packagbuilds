@@ -1,0 +1,35 @@
+# Upstream's 1xx previously source-built shared components, used only to seed a dotnet build from a
+# later feature band. Published under its own name with the archive under /opt/dotnet-bootstrap so it
+# can sit in the same repository as the dotnet splits it feeds: no shared ALPM name, no shared path,
+# and no provides, so no downstream dependency can ever resolve to this seed instead of dotnet.
+pkgname=dotnet-bootstrap
+pkgver=10.0.114
+pkgrel=1
+pkgdesc='Prebuilt .NET 1xx shared components for bootstrapping dotnet feature-band source builds'
+arch=('x86_64')
+url='https://dotnet.microsoft.com'
+license=('MIT')
+# The shared components are published as the 1xx *artifacts* archive named
+# <MicrosoftNETSdkPackageVersion>. eng/init-source-only.proj consumes them under the
+# Private.SourceBuilt.SharedComponents prefix, so this seed performs that rename once, keeps the
+# version in the file name, and ../dotnet only has to link the result into prereqs/packages/archive.
+# pkgver carries the 1xx band version only (ALPM reserves '-' for the pkgrel separator), so bump
+# _sbver and pkgrel together when the servicing build id changes: ../dotnet globs the exact
+# _sbver from the checkout's eng/Version.Details.props and fails loudly on a stale seed here.
+_sbver=10.0.114-servicing.26522.126
+_rid=centos.10-x64
+source=("https://builds.dotnet.microsoft.com/dotnet/source-build/Private.SourceBuilt.Artifacts.${_sbver}.${_rid}.tar.gz")
+# Hand the build the archive itself: it is a flat NuGet feed plus PackageVersions.props, and
+# unpacking 2.4 GB of .nupkgs here would only slow the seed down.
+noextract=("Private.SourceBuilt.Artifacts.${_sbver}.${_rid}.tar.gz")
+# Taken from the feed's own Private.SourceBuilt.Artifacts...tar.gz.sha512 sidecar; verified against
+# the download on 2026-10-27. Microsoft signs the release blobs but publishes no signature for the
+# source-build feed, so there is no validpgpkeys to add.
+sha512sums=('9cb48c3afe04e16770956db245e592fa8cc0b7cd69ca5c5055cde624a55a923a75a60548137276bf60526e4c6b1c8232348576ad27ae83753578c56511973864')
+
+package() {
+  # No license file ships inside the archive: it is a package feed, not an SDK layout. The MIT term
+  # is the source-build repository's own, which ../dotnet declares for the products built from it.
+  install -Dm644 "Private.SourceBuilt.Artifacts.${_sbver}.${_rid}.tar.gz" \
+    "$pkgdir/opt/$pkgname/Private.SourceBuilt.SharedComponents.${_sbver}.${_rid}.tar.gz"
+}

@@ -24,6 +24,7 @@ makedepends=(
   bash
   clang20
   cmake
+  dotnet-bootstrap
   dotnet-sdk
   dotnet-source-built-artifacts
   git
@@ -66,31 +67,27 @@ prepare() {
     ln -sf "${_bootstrap[0]}" prereqs/packages/archive/
   fi
 
-  # eng/Directory.Build.props sets DotNetBuildSharedComponents only when VersionSDKMinor is 1,
-  # so a checkout from a later feature band does not build runtime/aspnetcore itself and
+  # eng/Directory.Build.props sets DotNetBuildSharedComponents only when VersionSDKMinor is 1, so a
+  # checkout from a later feature band does not build runtime/aspnetcore itself and
   # eng/init-source-only.proj aborts unless it is fed the 1xx shared components. prep-source-build.sh
-  # at this tag downloads no such archive, so stage it the way upstream's own vmr-build pipeline
-  # does: the 1xx artifacts archive named by MicrosoftNETSdkPackageVersion, renamed to the
-  # Private.SourceBuilt.SharedComponents prefix init-source-only.proj globs in prereqs/packages/archive.
-  # centos.10-x64 is prep-source-build.sh's default artifacts RID, which is where the feed hosts it.
+  # at this tag downloads no such archive, so ../dotnet-bootstrap carries the 1xx artifacts archive
+  # named by MicrosoftNETSdkPackageVersion, pre-renamed to the Private.SourceBuilt.SharedComponents
+  # prefix that eng/VmrLayout.props points ExternalTarballsDir at. Link the seed rather than fetching
+  # it here: the input is then published and checksum-verified instead of arriving from a live feed,
+  # and the glob couples the seed to the exact version this checkout demands.
   local _sdkminor=$(xmllint --xpath "//*[local-name()='VersionSDKMinor']/text()" eng/Versions.props)
   if [[ $_sdkminor != 1 ]]; then
     local _sharedver=$(xmllint --xpath "//*[local-name()='MicrosoftNETSdkPackageVersion']/text()" eng/Version.Details.props)
-    local _sharedtarball=prereqs/packages/archive/Private.SourceBuilt.SharedComponents."$_sharedver".centos.10-x64.tar.gz
-    mkdir -p prereqs/packages/archive
-    if [[ ! -f $_sharedtarball ]]; then
-      local _sharedurl
-      for _sharedurl in \
-        "https://builds.dotnet.microsoft.com/dotnet/source-build/Private.SourceBuilt.Artifacts.${_sharedver}.centos.10-x64.tar.gz" \
-        "https://ci.dot.net/public/source-build/Private.SourceBuilt.Artifacts.${_sharedver}.centos.10-x64.tar.gz"; do
-        curl -fL --retry 5 -o "$_sharedtarball" "$_sharedurl" && break
-        rm -f "$_sharedtarball"
-      done
-      if [[ ! -f $_sharedtarball ]]; then
-        error "No 1xx shared components archive found for MicrosoftNETSdkPackageVersion ${_sharedver}"
-        return 1
-      fi
+    shopt -s nullglob
+    local _seed=(/opt/dotnet-bootstrap/Private.SourceBuilt.SharedComponents."$_sharedver".*.tar.gz)
+    shopt -u nullglob
+
+    if (( ! ${#_seed[@]} )); then
+      error "No dotnet-bootstrap shared components for ${_sharedver}: publish ../dotnet-bootstrap at that version first"
+      return 1
     fi
+    mkdir -p prereqs/packages/archive
+    ln -sf "${_seed[0]}" prereqs/packages/archive/
   fi
 
   ./prep-source-build.sh

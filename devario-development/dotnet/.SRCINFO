@@ -7,6 +7,7 @@ pkgbase = dotnet-core
 	makedepends = bash
 	makedepends = clang20
 	makedepends = cmake
+	makedepends = dotnet-bootstrap
 	makedepends = dotnet-sdk
 	makedepends = dotnet-source-built-artifacts
 	makedepends = git

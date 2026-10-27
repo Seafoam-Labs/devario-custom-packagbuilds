@@ -1,0 +1,12 @@
+pkgbase = dotnet-bootstrap
+	pkgdesc = Prebuilt .NET 1xx shared components for bootstrapping dotnet feature-band source builds
+	pkgver = 10.0.114
+	pkgrel = 1
+	url = https://dotnet.microsoft.com
+	arch = x86_64
+	license = MIT
+	noextract = Private.SourceBuilt.Artifacts.10.0.114-servicing.26522.126.centos.10-x64.tar.gz
+	source = https://builds.dotnet.microsoft.com/dotnet/source-build/Private.SourceBuilt.Artifacts.10.0.114-servicing.26522.126.centos.10-x64.tar.gz
+	sha512sums = 9cb48c3afe04e16770956db245e592fa8cc0b7cd69ca5c5055cde624a55a923a75a60548137276bf60526e4c6b1c8232348576ad27ae83753578c56511973864
+
+pkgname = dotnet-bootstrap
