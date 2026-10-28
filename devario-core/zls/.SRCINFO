@@ -1,0 +1,23 @@
+pkgbase = zls
+	pkgdesc = Zig language server for Zig 0.17
+	pkgver = 0.17.0
+	pkgrel = 1
+	url = https://zigtools.org/zls/
+	arch = x86_64
+	license = MIT
+	depends = zig=0.17.0
+	conflicts = zls-0.16
+	noextract = zls-0.17.0-known_folders.tar.gz
+	noextract = zls-0.17.0-diffz.tar.gz
+	noextract = zls-0.17.0-lsp_kit.tar.gz
+	options = !lto
+	source = zls-0.17.0.tar.gz::https://github.com/zigtools/zls/archive/refs/tags/0.17.0.tar.gz
+	source = zls-0.17.0-known_folders.tar.gz::https://github.com/ziglibs/known-folders/archive/6da0d0c41b78b9ed2d34fa364fcb81b5ebece6c4.tar.gz
+	source = zls-0.17.0-diffz.tar.gz::https://github.com/ziglibs/diffz/archive/aac8aa99c436ab8277b0711922aad062c0167b12.tar.gz
+	source = zls-0.17.0-lsp_kit.tar.gz::https://github.com/zigtools/lsp-kit/archive/3e1058db66079911fdde82f833fdce6856e0a706.tar.gz
+	sha256sums = f77940720768daf67c01802ea3cf3029dfd8a74afd7b68b39676c4f814dd992e
+	sha256sums = 194aaa7566f3d9b4e893e3e53ef46ce880d4fc3631535ccea05405f558070f39
+	sha256sums = 33036e596176426449617975113eeddf513c991f42e10df855ccfb0e6f103fae
+	sha256sums = 06dab48dad0dd5770bdcaa64fe13b386e479a67dc81899005d04f48897ec2003
+
+pkgname = zls

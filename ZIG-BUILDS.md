@@ -4,6 +4,11 @@ The 0.16 recipe is now named `zig-0.16` and provides `zig=0.16.0`.
 The unversioned [zig recipe](devario-core/zig/README.md) builds 0.17.0 with
 LLVM 22. Both install `/usr/bin/zig` and conflict with each other.
 
+For editor support, build [zls-0.16](devario-core/zls-0.16/README.md) after
+publishing `zig-0.16`, or [zls](devario-core/zls/README.md) after publishing
+Zig 0.17. Each ZLS recipe requires its matching compiler at build time and
+runtime. The two ZLS packages both install `/usr/bin/zls` and conflict.
+
 The 18 new recipe directories below, together with the existing GCC recipe,
 cover all 34 missing package names identified in the Devario Core audit.
 Packages are built from upstream source. Each directory includes generated

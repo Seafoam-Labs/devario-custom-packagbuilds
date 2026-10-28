@@ -1,0 +1,24 @@
+pkgbase = zls-0.16
+	pkgdesc = Zig language server for Zig 0.16
+	pkgver = 0.16.1
+	pkgrel = 1
+	url = https://zigtools.org/zls/
+	arch = x86_64
+	license = MIT
+	depends = zig-0.16=0.16.0
+	provides = zls=0.16.1
+	conflicts = zls
+	noextract = zls-0.16.1-known_folders.tar.gz
+	noextract = zls-0.16.1-diffz.tar.gz
+	noextract = zls-0.16.1-lsp_kit.tar.gz
+	options = !lto
+	source = zls-0.16.1.tar.gz::https://github.com/zigtools/zls/archive/refs/tags/0.16.1.tar.gz
+	source = zls-0.16.1-known_folders.tar.gz::https://github.com/ziglibs/known-folders/archive/d6d03830968cca6b7b9f24fd97ee348346a6905d.tar.gz
+	source = zls-0.16.1-diffz.tar.gz::https://github.com/ziglibs/diffz/archive/b39fe07e7fdbcf56e43ba2890b9f484f16969f90.tar.gz
+	source = zls-0.16.1-lsp_kit.tar.gz::https://github.com/zigtools/lsp-kit/archive/b886a2b0d5cee85ecbcc3089b863f7517cc9ff7f.tar.gz
+	sha256sums = 5cf982551d492780be9e33da860094286ee87a08145e08d5f3dd69a204772ba8
+	sha256sums = 969a38a43bfde75ad4a72b0ed639953788d4383f20a235fd7a7ec3a11f664896
+	sha256sums = df7454517b746d3782ec662da5c32d44578b02479b23ce59f066259591f2f343
+	sha256sums = 11e34ecf050fc888dff416d6bbe4664183b85770bd86eb6ed0d3c632c1bb193b
+
+pkgname = zls-0.16

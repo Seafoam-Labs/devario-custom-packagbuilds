@@ -1,0 +1,67 @@
+# Build ZLS with the matching Zig release series.
+pkgname=zls-0.16
+pkgver=0.16.1
+pkgrel=1
+pkgdesc='Zig language server for Zig 0.16'
+arch=('x86_64')
+url='https://zigtools.org/zls/'
+license=('MIT')
+depends=('zig-0.16=0.16.0')
+provides=("zls=${pkgver}")
+conflicts=('zls')
+options=('!lto')
+source=(
+  "zls-${pkgver}.tar.gz::https://github.com/zigtools/zls/archive/refs/tags/${pkgver}.tar.gz"
+  "zls-${pkgver}-known_folders.tar.gz::https://github.com/ziglibs/known-folders/archive/d6d03830968cca6b7b9f24fd97ee348346a6905d.tar.gz"
+  "zls-${pkgver}-diffz.tar.gz::https://github.com/ziglibs/diffz/archive/b39fe07e7fdbcf56e43ba2890b9f484f16969f90.tar.gz"
+  "zls-${pkgver}-lsp_kit.tar.gz::https://github.com/zigtools/lsp-kit/archive/b886a2b0d5cee85ecbcc3089b863f7517cc9ff7f.tar.gz"
+)
+noextract=(
+  "zls-${pkgver}-known_folders.tar.gz"
+  "zls-${pkgver}-diffz.tar.gz"
+  "zls-${pkgver}-lsp_kit.tar.gz"
+)
+sha256sums=(
+  '5cf982551d492780be9e33da860094286ee87a08145e08d5f3dd69a204772ba8'
+  '969a38a43bfde75ad4a72b0ed639953788d4383f20a235fd7a7ec3a11f664896'
+  'df7454517b746d3782ec662da5c32d44578b02479b23ce59f066259591f2f343'
+  '11e34ecf050fc888dff416d6bbe4664183b85770bd86eb6ed0d3c632c1bb193b'
+)
+
+prepare() {
+  # --system resolves dependencies by the hashes from upstream build.zig.zon.
+  # Source archives are checked by Shelly before extraction.
+  install -d "${srcdir}/zig-deps/known_folders-0.0.0-Fy-PJk3KAACzUg2us_0JvQQmod1ZA8jBt7MuoKCihq88"
+  tar -xf "${srcdir}/zls-${pkgver}-known_folders.tar.gz" --strip-components=1 \
+    -C "${srcdir}/zig-deps/known_folders-0.0.0-Fy-PJk3KAACzUg2us_0JvQQmod1ZA8jBt7MuoKCihq88"
+  install -d "${srcdir}/zig-deps/diffz-0.0.1-G2tlISzNAQCldmOcINavGmF1zdt20NFPXeM8d07jp_68"
+  tar -xf "${srcdir}/zls-${pkgver}-diffz.tar.gz" --strip-components=1 \
+    -C "${srcdir}/zig-deps/diffz-0.0.1-G2tlISzNAQCldmOcINavGmF1zdt20NFPXeM8d07jp_68"
+  install -d "${srcdir}/zig-deps/lsp_kit-0.1.0-bi_PL3IyDACfp1xdTnkiOHEok2YpPCCCJHuuOcNzjl1D"
+  tar -xf "${srcdir}/zls-${pkgver}-lsp_kit.tar.gz" --strip-components=1 \
+    -C "${srcdir}/zig-deps/lsp_kit-0.1.0-bi_PL3IyDACfp1xdTnkiOHEok2YpPCCCJHuuOcNzjl1D"
+}
+
+build() {
+  cd "zls-${pkgver}"
+  export ZIG_GLOBAL_CACHE_DIR="${srcdir}/zig-global-cache"
+
+  zig build --system "${srcdir}/zig-deps" --prefix "${srcdir}/zls-install" \
+    -Doptimize=ReleaseSafe -Dcpu=baseline -Dpie=true
+}
+
+check() {
+  cd "zls-${pkgver}"
+  export ZIG_GLOBAL_CACHE_DIR="${srcdir}/zig-global-cache"
+
+  zig build test --system "${srcdir}/zig-deps" -Doptimize=ReleaseSafe -Dcpu=baseline -Dpie=true
+  "${srcdir}/zls-install/bin/zls" --version
+}
+
+package() {
+  cd "zls-${pkgver}"
+
+  install -Dm755 "${srcdir}/zls-install/bin/zls" "${pkgdir}/usr/bin/zls"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 schema.json "${pkgdir}/usr/share/zls/schema.json"
+}
