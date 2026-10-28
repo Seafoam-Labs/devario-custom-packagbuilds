@@ -1,0 +1,6 @@
+{
+  "name": "openssl-3",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/openssl-3/-/archive/main/openssl-3-main.tar.gz",
+  "sha256": "167e9c707404e4d59395aafc3c80f72ea52c05557b84273c50184f57e1e2194d",
+  "bytes": 6222
+}
