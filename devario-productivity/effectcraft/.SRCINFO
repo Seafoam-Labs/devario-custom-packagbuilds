@@ -1,6 +1,6 @@
 pkgbase = effectcraft
 	pkgdesc = Motion graphics and visual effects compositor, written from scratch in pure Rust
-	pkgver = 0.17.0
+	pkgver = 0.18.0
 	pkgrel = 1
 	url = https://github.com/storytold/effectcraft
 	arch = x86_64
@@ -22,7 +22,7 @@ pkgbase = effectcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/effectcraft/archive/v0.17.0/effectcraft-0.17.0.tar.gz
-	sha256sums = 39f62b8d533428fb9a77ae403994f0c75e6e69752535a6a856fe86f7493e0bc8
+	source = https://github.com/storytold/effectcraft/archive/v0.18.0/effectcraft-0.18.0.tar.gz
+	sha256sums = e269f9fd6a7094db07e4f87827c6a6d47bb01c9e7e4fe3e733539180723d285d
 
 pkgname = effectcraft

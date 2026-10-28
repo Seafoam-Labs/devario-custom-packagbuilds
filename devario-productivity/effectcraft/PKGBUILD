@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=effectcraft
-pkgver=0.17.0
+pkgver=0.18.0
 pkgrel=1
 pkgdesc="Motion graphics and visual effects compositor, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -31,10 +31,10 @@ optdepends=(
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 # Pending refresh by the separate checksum validation step; this is the previous release's hash.
-sha256sums=('39f62b8d533428fb9a77ae403994f0c75e6e69752535a6a856fe86f7493e0bc8')
+sha256sums=('e269f9fd6a7094db07e4f87827c6a6d47bb01c9e7e4fe3e733539180723d285d')
 
-_commit=362474a843ddb67555d4c2d19ad6a590388aad0e
-_releasedate=2026-10-25
+_commit=c3600f9b59b109da97871a43a6898683a0163cb1
+_releasedate=2026-10-28
 _appid=ai.storyteller.effectcraft
 
 prepare() {
