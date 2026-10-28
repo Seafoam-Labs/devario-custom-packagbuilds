@@ -1,56 +1,47 @@
-# Zig 0.16 for Shelly
+# Zig 0.17 for Shelly
 
-The prerequisite recipes and build order are documented in
-[the Zig build guide](../../ZIG-BUILDS.md).
+This recipe builds `zig 0.17.0-1` for x86_64 from the
+[official release source](https://ziglang.org/download/0.17.0/release-notes.html).
+The archive checksum matches the [upstream index](https://ziglang.org/download/index.json).
+It installs `/usr/bin/zig`, `/usr/lib/zig`, and the MIT license.
 
-This recipe builds `zig 0.16.0-1` for x86_64 from the
-[official release source](https://ziglang.org/download/0.16.0/release-notes.html),
-using [Arch's Zig packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/zig/-/blob/main/PKGBUILD).
-It installs `/usr/bin/zig`, the standard library and toolchain resources under
-`/usr/lib/zig`, and the MIT license. Copy this entire directory to the worker;
-`skip-futex2-test.patch` must stay beside the PKGBUILD.
+For Zig 0.16, use [zig-0.16](../zig-0.16/README.md). That package provides
+`zig=0.16.0`, preserving existing dependency pins. The two packages conflict
+because they install the same compiler command and library paths.
 
-The build needs `cmake`, `llvm21`, `llvm21-libs`, `clang21`, and `lld21`, in
-addition to the usual base build tools. Checks also require `lib32-glibc`.
-The versioned LLVM 21 packages are required even when newer LLVM packages are
-installed. The resulting compiler dynamically links to the LLVM 21 toolchain,
-so `clang21`, `lld21`, and `llvm21-libs` remain runtime dependencies.
-Dependencies use the versions published in `devario-core`: LLVM and its
-runtime at `21.1.8-1.1`, and Clang and LLD at `21.1.8-1`. Rebuild Clang and
-LLD against that LLVM pair, then publish their rebuilt archives before Zig.
-CMake searches `/usr/lib/llvm21` first. Packaging always runs `zig version`
-with eager symbol binding, including when `--no-check` skips the full tests.
+## Prerequisites and build order
 
-The recipe retains Arch's upstream relocation fix and the patch that skips
-three futex2 tests blocked by build-chroot syscall filters. Every source has a
-pinned SHA-256 checksum. Zig's cache stays inside the build directory.
+Zig 0.17 requires LLVM 22. LLVM 21 and 23 cannot substitute for it.
+Build and publish these recipes in order, refreshing the worker repository
+between stages:
 
-From this repository's root:
+1. [llvm22](../llvm22/PKGBUILD), producing `llvm22` and `llvm22-libs` at `22.1.8-3`.
+2. [clang22](../clang22/README.md) and [lld22](../lld22/README.md), each at
+   `22.1.8-1`, built against that LLVM release.
+3. This `zig` recipe with checks enabled. Checks require `lib32-glibc`.
+
+The build requires CMake and searches `/usr/lib/llvm22` first. Runtime
+dependencies pin the matching Clang, LLD, and LLVM libraries. Packaging runs
+`zig version` with `LD_BIND_NOW=1` to detect unresolved startup symbols,
+including when the full tests are disabled. The compiler targets baseline
+x86_64, Linux 6.6+, and glibc 2.40+.
+
+Copy this entire directory to the worker, including `skip-futex2-test.patch`.
+The patch skips three futex2 tests blocked by build-chroot syscall filters.
+The 0.16 relocation backport is omitted because 0.17 already includes it.
 
 ```sh
 shelly build --review-only --json ./devario-core/zig/PKGBUILD
 shelly build --isolated --check ./devario-core/zig/PKGBUILD
 ```
 
-Alternatively, with the declared dependencies installed:
+See [the dependency build guide](../../DEPENDENCY-BUILDS.md) for worker setup.
 
-```sh
-cd devario-core/zig
-makepkg --cleanbuild --check
-```
+## Validation
 
-This package uses the normal `zig` package name and `/usr/bin/zig`; it replaces
-an installed `zig` package rather than installing a second compiler alongside
-it. The final Zig compiler targets baseline x86_64, Linux 6.6+, and glibc 2.40+,
-matching Arch's recipe. C/C++ compilation flags still come from the worker.
-
-See [the dependency build guide](../../DEPENDENCY-BUILDS.md) for worker repository
-setup. Enable repositories providing the versioned LLVM packages and
-`lib32-glibc` before building.
-
-Validation completed: Bash syntax, matching makepkg/Shelly metadata, Shelly
-review with no findings, all source checksums, source extraction, patch
-application, and CMake configuration with LLVM 21.1.8. The LLVM development
-tools used for configuration were extracted under `/tmp`; no host packages
-were installed. A full compiler build and upstream test run have not been
-performed locally.
+Bash syntax, Shelly metadata generation and review, source checksums, and
+`prepare()` passed for both Zig recipes. Shelly review reported no findings.
+The source's CMake LLVM version check and build-test options were inspected.
+Full compiler builds, CMake configuration, and upstream test execution have
+not been performed for these changes; CMake and the LLVM SDKs are absent from
+the local environment.

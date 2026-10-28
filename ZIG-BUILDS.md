@@ -1,5 +1,9 @@
 # Zig 0.16 prerequisite builds
 
+The 0.16 recipe is now named `zig-0.16` and provides `zig=0.16.0`.
+The unversioned [zig recipe](devario-core/zig/README.md) builds 0.17.0 with
+LLVM 22. Both install `/usr/bin/zig` and conflict with each other.
+
 The 18 new recipe directories below, together with the existing GCC recipe,
 cover all 34 missing package names identified in the Devario Core audit.
 Packages are built from upstream source. Each directory includes generated
@@ -27,7 +31,7 @@ signing keys. Copy whole directories to the worker.
 | [compiler-rt21](devario-core/compiler-rt21/PKGBUILD) | `21.1.8-1` | `compiler-rt21`, including 32-bit runtimes |
 | [clang21](devario-core/clang21/PKGBUILD) | `21.1.8-1` | `clang21` |
 | [lld21](devario-core/lld21/PKGBUILD) | `21.1.8-1` | `lld21` |
-| [zig](devario-core/zig/PKGBUILD) (existing) | `0.16.0-1` | `zig` |
+| [zig-0.16](devario-core/zig-0.16/PKGBUILD) | `0.16.0-1` | `zig-0.16`, providing `zig=0.16.0` |
 
 The existing GCC build supplies `gcc`, `gcc-libs`, `libgcc`, `libstdc++`,
 `libasan`, `libatomic`, `libgfortran`, `libgomp`, `libhwasan`, `liblsan`,
@@ -87,7 +91,7 @@ before starting its dependents:
    for `cppdap`. Then build `cmake`, followed by `ninja`.
 4. Build `llvm21` and publish both `llvm21` and `llvm21-libs`.
 5. Build `compiler-rt21`, then `clang21` and `lld21`.
-6. Build `zig` with checks enabled. Its `lib32-glibc` check dependency was
+6. Build `zig-0.16` with checks enabled. Its `lib32-glibc` check dependency was
    already published in the audited Core index.
 
 LLVM 21 installs alongside newer LLVM releases. Devario Core's LLVM 23 is not
@@ -122,7 +126,7 @@ those compiled references.
 
 The recipes retain the versions currently published in `devario-core`:
 `llvm21` and `llvm21-libs` at `21.1.8-1.1`, `clang21` and `lld21` at
-`21.1.8-1`, and `zig` at `0.16.0-1`. Build/runtime dependency pins use these
+`21.1.8-1`, and `zig-0.16` at `0.16.0-1`. Build/runtime dependency pins use these
 exact versions. The LLVM development package requires its matching runtime;
 Clang and LLD select its CMake directory explicitly, and Zig prefers its
 installation prefix. Zig's malformed patch checksum is corrected.

@@ -1,37 +1,34 @@
 # Based on Arch Linux's Zig package by Daurnimator and Marc Tiehuis.
-# Source build for Shelly, pinned to the Zig 0.16 release series.
+# Source build for Shelly, pinned to the Zig 0.17 release series.
 
 pkgname=zig
-pkgver=0.16.0
+pkgver=0.17.0
 pkgrel=1
-_llvmver=21.1.8-1.1
-_clangver=21.1.8-1
-_lldver=21.1.8-1
+_llvmver=22.1.8-3
+_clangver=22.1.8-1
+_lldver=22.1.8-1
 pkgdesc='A general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software'
 arch=('x86_64')
 url='https://ziglang.org/'
 license=('MIT')
 # These libraries must be built against the same Devario LLVM release.
-depends=("clang21=$_clangver" "lld21=$_lldver" "llvm21-libs=$_llvmver")
-makedepends=('cmake' "llvm21=$_llvmver")
+depends=("clang22=$_clangver" "lld22=$_lldver" "llvm22-libs=$_llvmver")
+makedepends=('cmake' "llvm22=$_llvmver")
 checkdepends=('lib32-glibc')
+conflicts=('zig-0.16')
 options=('!lto')
 source=(
   "https://ziglang.org/download/${pkgver}/zig-${pkgver}.tar.xz"
-  'https://codeberg.org/ziglang/zig/commit/9df02121d0d87c17173f79d55692bed9cb65722c.patch'
   'skip-futex2-test.patch'
 )
 sha256sums=(
-  '43186959edc87d5c7a1be7b7d2a25efffd22ce5807c7af99067f86f99641bfdf'
-  'cc513105cd250a107fcdefa6fed1147040f3cac4d377d545617840bd830da8d3'
+  'b6c7f1728f043700d6529bac980800792f824256a9d2f1839b3d62beed0b8abd'
   'eb30e0eb00e6ced4c99383f0658a0351f42882e303300ed1828d162d27171cd0'
 )
 
 prepare() {
   cd "zig-${pkgver}"
 
-  # Handle R_X86_64_PC64 relocations produced by newer system toolchains.
-  patch -Np1 -i "${srcdir}/9df02121d0d87c17173f79d55692bed9cb65722c.patch"
   # Retain Arch's exclusions for futex2 syscalls blocked in build chroots.
   patch -Np1 -i "${srcdir}/skip-futex2-test.patch"
 }
@@ -42,7 +39,7 @@ build() {
 
   local cmake_vars=(
     CMAKE_INSTALL_PREFIX=/usr
-    CMAKE_PREFIX_PATH=/usr/lib/llvm21
+    CMAKE_PREFIX_PATH=/usr/lib/llvm22
     # Respect the worker's C/C++ flags instead of CMake's Debug default.
     CMAKE_BUILD_TYPE=None
     ZIG_VERSION="${pkgver}"
