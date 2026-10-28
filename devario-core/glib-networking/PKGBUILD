@@ -1,0 +1,42 @@
+pkgname=glib-networking
+pkgver=2.90.1
+pkgrel=1
+pkgdesc="Network-related GIO modules for GLib"
+url="https://gitlab.gnome.org/GNOME/glib-networking"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  'glib2>=2.73.3'
+  glibc
+  'gnutls>=3.7.4'
+  gsettings-desktop-schemas
+  'libproxy>=0.4.16'
+)
+makedepends=(
+  gettext
+  meson
+  ninja
+  pkgconf
+)
+checkdepends=(dbus)
+source=("https://download.gnome.org/sources/glib-networking/${pkgver%.*}/glib-networking-$pkgver.tar.xz")
+sha256sums=('ea95636590098355a05e3027579dba1a9a950b05e456b2488ea03d82e4b6c18a')
+
+build() {
+  arch-meson "glib-networking-$pkgver" build \
+    -D gnutls=enabled \
+    -D libproxy=enabled \
+    -D gnome_proxy=enabled \
+    -D openssl=disabled \
+    -D tests=true \
+    -D installed_tests=false
+  meson compile -C build
+}
+
+check() {
+  dbus-run-session meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+}

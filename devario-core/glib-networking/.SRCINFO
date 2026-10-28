@@ -1,0 +1,21 @@
+pkgbase = glib-networking
+	pkgdesc = Network-related GIO modules for GLib
+	pkgver = 2.90.1
+	pkgrel = 1
+	url = https://gitlab.gnome.org/GNOME/glib-networking
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = dbus
+	makedepends = gettext
+	makedepends = meson
+	makedepends = ninja
+	makedepends = pkgconf
+	depends = glib2>=2.73.3
+	depends = glibc
+	depends = gnutls>=3.7.4
+	depends = gsettings-desktop-schemas
+	depends = libproxy>=0.4.16
+	source = https://download.gnome.org/sources/glib-networking/2.90/glib-networking-2.90.1.tar.xz
+	sha256sums = ea95636590098355a05e3027579dba1a9a950b05e456b2488ea03d82e4b6c18a
+
+pkgname = glib-networking
