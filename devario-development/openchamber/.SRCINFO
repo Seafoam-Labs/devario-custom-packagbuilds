@@ -1,6 +1,6 @@
 pkgbase = openchamber-bin
 	pkgdesc = OpenChamber desktop workspace for AI coding with bundled OpenCode
-	pkgver = 2.5.1
+	pkgver = 2.5.2
 	pkgrel = 1
 	url = https://openchamber.dev
 	arch = x86_64
@@ -47,17 +47,17 @@ pkgbase = openchamber-bin
 	optdepends = gnome-keyring: credential storage via Secret Service
 	optdepends = libappindicator-gtk3: system tray integration
 	optdepends = xdg-desktop-portal: desktop integration on Wayland
-	provides = openchamber=2.5.1
-	provides = openchamber-desktop=2.5.1
+	provides = openchamber=2.5.2
+	provides = openchamber-desktop=2.5.2
 	conflicts = openchamber
 	conflicts = openchamber-desktop
 	options = !strip
 	options = !debug
-	source = openchamber-2.5.1-LICENSE::https://raw.githubusercontent.com/openchamber/openchamber/v2.5.1/LICENSE
+	source = openchamber-2.5.2-LICENSE::https://raw.githubusercontent.com/openchamber/openchamber/v2.5.2/LICENSE
 	sha256sums = 1f6e869a3feff6b4eb07907afc89176562b1f4324389f163d9fd94f09864b44e
-	source_x86_64 = https://github.com/openchamber/openchamber/releases/download/v2.5.1/OpenChamber-2.5.1-linux-amd64.deb
-	sha256sums_x86_64 = 285f43350d3cd10c59666217ad9b2ae975fb0caa21775373b2f932a0c66b33fc
-	source_aarch64 = https://github.com/openchamber/openchamber/releases/download/v2.5.1/OpenChamber-2.5.1-linux-arm64.deb
-	sha256sums_aarch64 = 8087bded5004c068bf61a2014da8cd69942baca80986e72d2f920dbb2b43afef
+	source_x86_64 = https://github.com/openchamber/openchamber/releases/download/v2.5.2/OpenChamber-2.5.2-linux-amd64.deb
+	sha256sums_x86_64 = a8b1284f12c93446e572f480e1b09a597601b881634ec814d125275721d31ce8
+	source_aarch64 = https://github.com/openchamber/openchamber/releases/download/v2.5.2/OpenChamber-2.5.2-linux-arm64.deb
+	sha256sums_aarch64 = 4e2ea3a464a9b39e138680a7596ceda365f17a91f7d3f13270190377fdda2857
 
 pkgname = openchamber-bin
