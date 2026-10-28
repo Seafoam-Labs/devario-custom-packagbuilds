@@ -63,9 +63,12 @@ check() {
   # a_resident_map_*: assumes a fresh tempfile is resident per cachestat(2),
   # which is false on overlayfs (isolated build roots) - cachestat sees the
   # overlay inode's empty page cache, not the upper file's.
+  # kernel_threads_*: needs kthreads in /proc; a PID namespace with its own
+  # /proc (isolated build roots) has none.
   cargo test --frozen --release -- \
     --skip killpg_still_takes_the_whole_process_group \
-    --skip a_resident_map_skips_even_a_strategy_that_checks_itself
+    --skip a_resident_map_skips_even_a_strategy_that_checks_itself \
+    --skip kernel_threads_are_excluded_from_the_counts
 }
 
 package() {
