@@ -1,8 +1,8 @@
 # Strata Terminal
 
 `strata-bin` packages the official Linux x86_64 Terminal/Control bundle, including
-its private Python runtime, under `/opt/strata`. Release **0.2.2** uses Terminal
-bundle build **0.1.47**; `strata --version` reports both numbers.
+its private Python runtime, under `/opt/strata`. Release **0.2.7** uses Terminal
+bundle build **0.1.52**; `strata --version` reports both numbers.
 The package provides `strata`, `setup-strata`, and the alias `strata-setup`.
 It does not include the desktop GUI, inference engines, or model weights.
 
@@ -60,7 +60,7 @@ override the helper's executable. Upgrade the package with Shelly; upstream
 `strata update` can also install a newer user-local Control, which its launcher
 will prefer automatically.
 
-Sources: [Strata v0.2.2](https://github.com/Niko1221/Strata/releases/tag/v0.2.2),
-[Terminal launch guide](https://github.com/Niko1221/Strata/blob/v0.2.2/docs/TERMINAL_LAUNCH.md).
+Sources: [Strata v0.2.7](https://github.com/Niko1221/Strata/releases/tag/v0.2.7),
+[Terminal launch guide](https://github.com/Niko1221/Strata/blob/v0.2.7/docs/TERMINAL_LAUNCH.md).
 The upstream application is MIT licensed; the adapted setup helper retains its
 GPL-3.0-or-later license notice. Bundled dependency notices remain in the runtime.
