@@ -2,21 +2,21 @@
 # Adapted from Arch Linux packaging for explicit Shelly ABI provisions.
 
 pkgname=openssl
-pkgver=3.6.4
-pkgrel=3
+pkgver=3.6.5
+pkgrel=1
 pkgdesc='The Open Source toolkit for cryptography and Transport Layer Security'
 arch=('x86_64')
 url='https://www.openssl.org'
 license=('Apache-2.0')
-depends=('brotli' 'glibc' 'zlib' 'zstd')
-makedepends=('perl')
+depends=('brotli' 'glibc' 'zlib' 'zstd>=1.4')
+makedepends=('perl>=5.10.0')
 optdepends=('ca-certificates' 'perl')
 replaces=('openssl-perl' 'openssl-doc')
 provides=('libcrypto.so' 'libcrypto.so=3-64' 'libssl.so' 'libssl.so=3-64')
 backup=('etc/ssl/openssl.cnf')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'ca-dir.patch')
-sha256sums=('9bffaa1ad1e07b354c21bd3324ec02fa15579f45a7d0494b3e74bc449b7333ef'
+sha256sums=('a2157c2830efdec3788939b00c9b0638306d3f0bbb76dc4832ee503bb397df98'
             'SKIP'
             '0a32d9ca68e8d985ce0bfef6a4c20b46675e06178cc2d0bf6d91bd6865d648b7')
 validpgpkeys=('EFC0A467D613CB83C7ED6D30D894E2CE8B3D79F5'

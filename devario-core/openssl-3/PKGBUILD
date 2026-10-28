@@ -1,0 +1,71 @@
+# Maintainer: Pierre Schmitz <pierre@archlinux.de>
+# Adapted from Arch Linux packaging to stay co-installable with openssl 3.6.
+
+pkgname=openssl-3
+_pkgname=openssl
+pkgver=3.5.9
+pkgrel=1
+pkgdesc='The Open Source toolkit for cryptography and Transport Layer Security; Version 3.5 LTS'
+arch=('x86_64')
+url='https://www.openssl.org'
+license=('Apache-2.0')
+depends=('brotli' 'glibc' 'zlib' 'zstd')
+makedepends=('perl')
+# Deviation from upstream provides=('libcrypto.so' 'libssl.so'): this recipe keeps
+# its libraries outside /usr/lib, so it must not claim those names in the database.
+source=("https://github.com/${_pkgname}/${_pkgname}/releases/download/${_pkgname}-${pkgver}/${_pkgname}-${pkgver}.tar.gz"{,.asc})
+sha256sums=('603f5602e2eef00d77fbd429d34dcd5822bb301757a1bc9cdb24c670f1eb859a'
+            'SKIP')
+validpgpkeys=('B146647E45A7B33947AB226B2A2C87D161692D40')
+
+build() {
+	cd "$srcdir/$_pkgname-$pkgver"
+
+	local _platform="linux-$CARCH"
+	case "${CARCH}" in
+	"riscv64")
+		_platform="linux64-$CARCH"
+		;;
+	esac
+
+
+	./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib/openssl-3 \
+		shared enable-ktls enable-brotli enable-zlib enable-zstd \
+		enable-ec_nistp_64_gcc_128 ${_platform} \
+		no-docs
+
+	make depend
+	make build_libs
+}
+
+package() {
+	cd "$srcdir/$_pkgname-$pkgver"
+
+	make DESTDIR="$pkgdir" install_dev
+
+	# Move some files around
+	install -m755 -d "$pkgdir/usr/include/openssl-3"
+	mv "$pkgdir/usr/include/openssl" "$pkgdir/usr/include/openssl-3/"
+
+	# Upstream moves libcrypto.so.3 and libssl.so.3 into /usr/lib and repoints the
+	# dev symlinks at ../; openssl 3.6.5 owns those paths here, so the 3.5
+	# libraries stay in /usr/lib/openssl-3 with the symlinks install_dev made.
+	# Revert to upstream's relocation once openssl carries the 4.x SONAME.
+	_verify_soname "$pkgdir/usr/lib/openssl-3/libcrypto.so" libcrypto.so.3 || return 1
+	_verify_soname "$pkgdir/usr/lib/openssl-3/libssl.so" libssl.so.3 || return 1
+
+	# Update header paths
+	sed -e 's|/include[[:blank:]]*$|/include/openssl-3|' \
+		-i "$pkgdir"/usr/lib/openssl-3/pkgconfig/*.pc
+	sed -e 's|/include"|/include/openssl-3"|' \
+		-i "$pkgdir/usr/lib/openssl-3/cmake/OpenSSL/OpenSSLConfig.cmake"
+
+	install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+}
+
+# The retained layout is what consumers link through, so refuse to ship a
+# libcrypto.so / libssl.so that does not resolve to the expected ELF64 SONAME.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

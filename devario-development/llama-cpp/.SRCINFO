@@ -1,6 +1,6 @@
 pkgbase = llama-cpp
 	pkgdesc = LLM inference in C/C++
-	pkgver = 0.7.0
+	pkgver = 0.8.0
 	pkgrel = 1
 	url = https://github.com/ggml-org/llama.cpp
 	arch = x86_64
@@ -9,15 +9,15 @@ pkgbase = llama-cpp
 	makedepends = git
 	makedepends = ninja
 	makedepends = npm
-	depends = ggml=0.27.0
+	depends = ggml=0.28.0
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
 	depends = openssl>=3.0
-	source = git+https://github.com/ggml-org/llama.cpp.git#tag=v0.7.0
+	source = git+https://github.com/ggml-org/llama.cpp.git#tag=v0.8.0
 	source = llama-server-system.service
 	source = llama-server-user.service
-	b2sums = 80175c8d31c296a430084f398fa953ee53f0457d19b92731ccfdfff8e202ff5b6e2cacd6bc2b0c86853e960ceab452058d26a69e8d61a2fed489b04349dd104b
+	b2sums = 6a76b003b984de82764ada91f18cde7924df0e6d79b15a567138d3281983c3cd26fe1cf92fe4ffd08f60e84f60785ff25e647d56eb96048e5c150f89b93d28b8
 	b2sums = 1be8149b527a245ef35ef5ec0f93d50187608636905f78d7d28c090105db4a11ca2eed9871622bd78d44087acaef9d1d6012c6db58ba6c4451c0967c44d1a958
 	b2sums = a9414c96f069d0aaa287eb0f9c1f30c751612e53901014e38d4ef1b6c71eb98be1036b02413620ddcdbecb5d3830f4c0c83c6e1812b8a63b70e6fe9f3d2a137c
 

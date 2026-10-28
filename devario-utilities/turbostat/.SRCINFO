@@ -1,7 +1,7 @@
 pkgbase = turbostat
 	pkgdesc = Report processor frequency and idle statistics
-	pkgver = 7.2.11
-	pkgrel = 1.1
+	pkgver = 7.3
+	pkgrel = 1
 	url = https://www.kernel.org
 	arch = x86_64
 	license = GPL-2.0-only
@@ -9,11 +9,11 @@ pkgbase = turbostat
 	depends = libcap
 	options = !strip
 	options = !lto
-	source = https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.2.11.tar.xz
-	source = https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.2.11.tar.sign
+	source = https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.tar.xz
+	source = https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.tar.sign
 	validpgpkeys = ABAF11C65A2970B130ABE3C479BE3E4300411886
 	validpgpkeys = 647F28654894E3BD457199BE38DBBDC86092693E
-	sha256sums = fd0fc479f983a8c05313f13e9c36330fe6651cf725396748c40d5cd93fa1e6a4
+	sha256sums = 87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953
 	sha256sums = SKIP
 
 pkgname = turbostat

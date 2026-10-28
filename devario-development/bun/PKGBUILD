@@ -2,10 +2,10 @@
 # Contributor: Daniele Basso <d dot bass 05 at proton dot me>
 
 pkgname=bun
-pkgver=1.4.2
+pkgver=1.4.4
 # From https://github.com/oven-sh/bun/blob/main/scripts/build/deps/webkit.ts#L6
-_webkitver=2e2aa2290fac856d6f451ceacb58f7f5b44dd057
-pkgrel=3
+_webkitver=d6375c72affe0f70222cdcb45012b10f0bf3a9d5
+pkgrel=1
 pkgdesc="Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one"
 arch=(x86_64 aarch64)
 url="https://github.com/oven-sh/bun"
@@ -19,10 +19,10 @@ makedepends=(
   git
   unzip
   # bun make dependencies
-  clang21
+  clang
   cmake
-  lld21
-  llvm21
+  lld
+  llvm
   nasm
   ninja
   rustup
@@ -35,9 +35,12 @@ makedepends=(
 options=('!lto')
 source=(
   "git+$url.git#tag=bun-v$pkgver"
-  "$pkgname-WebKit::git+https://github.com/oven-sh/WebKit.git#commit=$_webkitver"
+  # oven-sh/WebKit publishes no archive (GitHub 422s codeload for it), so the tree can
+  # only come from git. The fork tags each pinned commit as `autobuild-<commit>`, a
+  # lightweight tag whose archive hashes identically to `#commit=`; the tag form is what
+  # a shallow fetch could key on, which a bare commit sha cannot express.
+  "$pkgname-WebKit::git+https://github.com/oven-sh/WebKit.git#tag=autobuild-$_webkitver"
   "$pkgname-webkit-typed-array-int32-conversion.patch"
-  "$pkgname-41386.patch::https://github.com/oven-sh/bun/pull/41386.patch"
 )
 source_x86_64=(
   "$pkgname-bootstrap-x64-$pkgver.zip::https://github.com/oven-sh/bun/releases/download/bun-v$pkgver/bun-linux-x64.zip"
@@ -45,20 +48,16 @@ source_x86_64=(
 source_aarch64=(
   "$pkgname-bootstrap-aarch64-$pkgver.zip::https://github.com/oven-sh/bun/releases/download/bun-v$pkgver/bun-linux-aarch64.zip"
 )
-b2sums=('1215fa3ce42744aa2f6ebfd83d267152470f8ba0565cc6a69d79bc1645fba39f62ca82a1a121d505fd2cf541c3946ce3ccf62ccf786b6d1f6ac9d1c1c992fdc6'
-        'd04baec524595653bdf7b10174b8025726191ec66e50144bc28f4e3fd6e38ec4e9bfb7e500c13aaf73ebec7edd470e6e608eca5bfe582dd8c0b9b25187a50330'
-        'f7b41bee31d26968154501ad62d8fdc157cac9e0f895035ba9a1ddd30caa2beb83b5cf80f6a0e52dcc1acac874fb07ef7974761764929e6e782866f1aacf35c2'
-        '78bdac9418c5eb7bcb29e6c74427799b7a09df6e3c574e614c2a9bff7d91384e4928ed0b47d7450ccd28b4c7b5babe483075cb259fbe19a3b8cb020c46d094aa')
-b2sums_x86_64=('5a0207da75420038a27e07181adbc72cf2bdb012ab633cd41263242123bce467ff222405ea583edc9411fbb23934a3471d50af8270db4bd73e6ba8a9bd7e013d')
-b2sums_aarch64=('125cf93108d6780ffb68807e3ff4b8de32f88d09aca425e042755f4acb5a1283a9a80803f077051eb0cb905b7bffff507590a5572a1114550bbfbfe6eeefbcee')
+b2sums=('b8e3d89606e9ac5fff5f22efc6b2505325823f324567bfc27901f9c642039f59d707db4c9c1d7582cb51d4abc8d1d820148e025559399f164185d7de52e86e14'
+        '071af31d4d1e01a039890dbc562a4a0d7e789562e451c41aabd38eda7eab0ec5adbb5a50b431ce4f8abf9dfaae5bb45c5986318088b8ac5c41b5f924997b2817'
+        'f7b41bee31d26968154501ad62d8fdc157cac9e0f895035ba9a1ddd30caa2beb83b5cf80f6a0e52dcc1acac874fb07ef7974761764929e6e782866f1aacf35c2')
+b2sums_x86_64=('7b2a977b71d8713cf201e8433b717dc271c3007cb645c16c3bc645eb88b7ae506aba04a0f0a4d10de18cd347506e2f2ccf2f28428f8ac6112789dff660faeceb')
+b2sums_aarch64=('eaff4a9ade73b354362d3b4d76a8a95bea00a4e0161f56b6652e5f2f9d98459f8711436eba1907f73d68eded26ff5f9b06becebdf1d291797718114d30119744')
 
 prepare() {
   # Fix UB in JSC typed array int32 conversion that causes wrong values
   # to be stored for numbers > INT32_MAX (https://github.com/oven-sh/bun/issues/28607)
   patch -Np1 -d $pkgname-WebKit < $pkgname-webkit-typed-array-int32-conversion.patch
-
-  # Fix https://gitlab.archlinux.org/archlinux/packaging/packages/bun/-/work_items/11
-  patch -Np1 -d $pkgname < $pkgname-41386.patch
 
   cd $pkgname
 
@@ -82,7 +81,6 @@ prepare() {
 build() {
   cd $pkgname
 
-  export PATH="/usr/lib/llvm21/bin:$PATH"
   case "$CARCH" in
     x86_64)  _bundir="bun-linux-x64" ;;
     aarch64) _bundir="bun-linux-aarch64" ;;
