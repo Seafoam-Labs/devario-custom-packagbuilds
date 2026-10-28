@@ -1,0 +1,3 @@
+# Group for the status socket (/run/preload-ng/status.sock, 0660 root:preload-ng).
+# Members can run `preload-ng top` against the system daemon.
+g preload-ng - -

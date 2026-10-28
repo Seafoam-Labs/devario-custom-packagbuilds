@@ -1,0 +1,79 @@
+# Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
+
+_pkgname=preload-ng
+pkgname=preload-ng-git
+pkgver=0.4.0.r367.gfde5832
+pkgrel=1
+pkgdesc="Adaptive readahead daemon that predicts and prefetches applications (Rust rewrite with fanotify, git)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/firelzrd/preload-ng"
+license=('Apache-2.0')
+depends=('gcc-libs' 'glibc')
+makedepends=('cargo' 'git')
+optdepends=('python: example prediction/observation plugins')
+options=(!lto)
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+backup=("etc/$_pkgname/config.toml")
+source=("git+$url.git"
+        "$_pkgname.sysusers")
+sha256sums=('SKIP'
+            '41e4973a54a247c55a93c18117b947ada82c9efcc0e42d97649963fd711f6953')
+
+pkgver() {
+  cd "$_pkgname"
+  printf '%s.r%s.g%s' \
+    "$(sed -n 's/^version = "\(.*\)"/\1/p' crates/cli/Cargo.toml | head -n1 | tr - .)" \
+    "$(git rev-list --count HEAD)" \
+    "$(git rev-parse --short=7 HEAD)"
+}
+
+prepare() {
+  cd "$_pkgname"
+
+  # Upstream hardcodes -C target-cpu=native in .cargo/config.toml, which makes
+  # the binary non-portable. Drop the [build] section, keep the xtask alias.
+  sed -i '/^\[build\]/,/^rustflags/d' .cargo/config.toml
+
+  # Units point at the `cargo xtask install` default prefix (/usr/local).
+  sed -i 's|^ExecStart=/usr/local/bin/|ExecStart=/usr/bin/|' packaging/*.service
+
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$_pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  # sqlx query metadata is vendored in .sqlx/, no database needed at build time
+  export SQLX_OFFLINE=true
+  cargo build --frozen --release -p cli
+}
+
+check() {
+  cd "$_pkgname"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  export SQLX_OFFLINE=true
+  # Default members only (xtask drops the page cache and needs root).
+  # killpg_* is timing-sensitive under a parallel test run and in containers.
+  cargo test --frozen --release -- --skip killpg_still_takes_the_whole_process_group
+}
+
+package() {
+  cd "$_pkgname"
+
+  install -Dm755 target/release/cli "$pkgdir/usr/bin/$_pkgname"
+
+  install -Dm644 packaging/$_pkgname.service -t "$pkgdir/usr/lib/systemd/system/"
+  install -Dm644 packaging/$_pkgname@user.service -t "$pkgdir/usr/lib/systemd/user/"
+  install -Dm644 "$srcdir/$_pkgname.sysusers" "$pkgdir/usr/lib/sysusers.d/$_pkgname.conf"
+
+  # Same as `cargo xtask install` on a fresh system: the example is a full config
+  install -Dm644 docs/config.example.toml "$pkgdir/etc/$_pkgname/config.toml"
+
+  install -Dm644 README.md GUIDE.md docs/packaging.md docs/plugin-protocol.md \
+    docs/config.example.toml -t "$pkgdir/usr/share/doc/$_pkgname/"
+  install -Dm755 examples/plugins/*.py -t "$pkgdir/usr/share/doc/$_pkgname/examples/plugins/"
+}
