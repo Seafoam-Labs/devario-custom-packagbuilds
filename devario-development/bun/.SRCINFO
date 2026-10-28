@@ -23,7 +23,7 @@ pkgbase = bun
 	depends = icu
 	options = !lto
 	source = git+https://github.com/oven-sh/bun.git#tag=bun-v1.4.4
-	source = bun-WebKit::git+https://github.com/oven-sh/WebKit.git#commit=d6375c72affe0f70222cdcb45012b10f0bf3a9d5
+	source = bun-WebKit::git+https://github.com/oven-sh/WebKit.git#tag=autobuild-d6375c72affe0f70222cdcb45012b10f0bf3a9d5
 	source = bun-webkit-typed-array-int32-conversion.patch
 	b2sums = b8e3d89606e9ac5fff5f22efc6b2505325823f324567bfc27901f9c642039f59d707db4c9c1d7582cb51d4abc8d1d820148e025559399f164185d7de52e86e14
 	b2sums = 071af31d4d1e01a039890dbc562a4a0d7e789562e451c41aabd38eda7eab0ec5adbb5a50b431ce4f8abf9dfaae5bb45c5986318088b8ac5c41b5f924997b2817

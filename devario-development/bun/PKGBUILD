@@ -35,7 +35,11 @@ makedepends=(
 options=('!lto')
 source=(
   "git+$url.git#tag=bun-v$pkgver"
-  "$pkgname-WebKit::git+https://github.com/oven-sh/WebKit.git#commit=$_webkitver"
+  # oven-sh/WebKit publishes no archive (GitHub 422s codeload for it), so the tree can
+  # only come from git. The fork tags each pinned commit as `autobuild-<commit>`, a
+  # lightweight tag whose archive hashes identically to `#commit=`; the tag form is what
+  # a shallow fetch could key on, which a bare commit sha cannot express.
+  "$pkgname-WebKit::git+https://github.com/oven-sh/WebKit.git#tag=autobuild-$_webkitver"
   "$pkgname-webkit-typed-array-int32-conversion.patch"
 )
 source_x86_64=(
