@@ -1,5 +1,5 @@
 # The release/CLI version and Terminal bundle build number are different.
-pkgname=strata
+pkgname=strata-bin
 pkgver=0.2.2
 pkgrel=1
 _bundlever=0.1.47

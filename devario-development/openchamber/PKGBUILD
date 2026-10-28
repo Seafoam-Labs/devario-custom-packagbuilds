@@ -1,4 +1,4 @@
-pkgname=openchamber
+pkgname=openchamber-bin
 pkgver=2.5.1
 pkgrel=1
 pkgdesc='OpenChamber desktop workspace for AI coding with bundled OpenCode'
