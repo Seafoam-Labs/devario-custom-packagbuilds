@@ -13,7 +13,7 @@ _pkgsuffix=devario
 _major=7.3
 _minor=0
 # Release number of the devario-<version>-<N> tag on GitHub.
-_tagrel=7
+_tagrel=8
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
@@ -421,5 +421,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('c3f2c2b35fbe37cd703a502b6702a9775ccc4f1cbe1550772e96f3de9d2670043405f26b69574fe4ab73a771d951524c7fa64a7c76a72dd4904cb642d7a989df'
+b2sums=('79a024824e3479e9253afcf4e3b0c31714dca17c03659a9a457b01ea0d05217ed54f43e02b2380fb94adb4a310c5ddcb64e074355ebb27e446c03e584308a9f9'
         '9d584fdf4aba38749ee90f6beb9ad4e047bd95c949e535cf4c67ea88de738788639fd3fcca0273ca17db9b927b2ac1a795ad25775ea0801e0dc3b4cc5b78ffff')
