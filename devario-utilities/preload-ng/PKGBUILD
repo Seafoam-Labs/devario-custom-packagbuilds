@@ -11,10 +11,12 @@ license=('Apache-2.0')
 depends=('gcc-libs' 'glibc')
 makedepends=('cargo' 'git')
 optdepends=('python: example prediction/observation plugins')
-options=(!lto)
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 backup=("etc/$_pkgname/config.toml")
+# makepkg's -flto turns the bundled libsqlite3.a into GCC LTO bitcode, which
+# rustc cannot link into the sqlx-macros proc-macro: "undefined symbol: sqlite3_*"
+options=('!lto')
 source=("git+$url.git"
         "$_pkgname.sysusers")
 sha256sums=('SKIP'
@@ -57,8 +59,13 @@ check() {
   export CARGO_TARGET_DIR=target
   export SQLX_OFFLINE=true
   # Default members only (xtask drops the page cache and needs root).
-  # killpg_* is timing-sensitive under a parallel test run and in containers.
-  cargo test --frozen --release -- --skip killpg_still_takes_the_whole_process_group
+  # killpg_*: timing-sensitive under a parallel test run and in containers.
+  # a_resident_map_*: assumes a fresh tempfile is resident per cachestat(2),
+  # which is false on overlayfs (isolated build roots) - cachestat sees the
+  # overlay inode's empty page cache, not the upper file's.
+  cargo test --frozen --release -- \
+    --skip killpg_still_takes_the_whole_process_group \
+    --skip a_resident_map_skips_even_a_strategy_that_checks_itself
 }
 
 package() {
