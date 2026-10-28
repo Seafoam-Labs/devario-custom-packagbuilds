@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=filmcraft
-pkgver=0.13.0
+pkgver=0.14.0
 pkgrel=1
 pkgdesc="Non-linear video editor for picture, color and sound, in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -29,10 +29,10 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('6ad642d7e6cc1ad95bd44183ff00813ee978eb78a983fcd38f3f98336b8ef4d1')
+sha256sums=('6b5ed01cbb1328bfb7c702baf58c7e68af156085a6ded4998ba95b4ebefcde5b')
 
-_commit=30536bc
-_releasedate=2026-10-25
+_commit=a2d8e9c
+_releasedate=2026-10-28
 _appid=ai.storyteller.filmcraft
 
 prepare() {
