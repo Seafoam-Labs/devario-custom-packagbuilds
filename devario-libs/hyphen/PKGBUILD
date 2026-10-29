@@ -2,14 +2,14 @@
 
 pkgbase=hyphen
 pkgname=('hyphen' 'hyphen-en')
-pkgver=2.8.9
+pkgver=2.8.10
 pkgrel=1
 arch=('x86_64')
 url="https://github.com/hunspell/hyphen"
 license=('GPL-2.0-only OR LGPL-2.1-or-later OR MPL-1.1')
 makedepends=('glibc' 'perl')
 source=(${pkgname}-${pkgver}.tar.gz::https://github.com/hunspell/hyphen/archive/refs/tags/v${pkgver}.tar.gz)
-sha256sums=('d6fc75d8500094903b119a45667fed91fe665e5f6f106029a4d3b4e26f3d8d6f')
+sha256sums=('a2333b255c1632cb89c9a369bcca9e07a3f26919e9fe31b2eab2dd9acb41f69d')
 
 prepare() {
   cd "$pkgname-$pkgver"
