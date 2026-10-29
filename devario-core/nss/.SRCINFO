@@ -1,6 +1,6 @@
 pkgbase = nss
 	pkgdesc = Network Security Services
-	pkgver = 3.131.1
+	pkgver = 3.132
 	pkgrel = 1
 	url = https://firefox-source-docs.mozilla.org/security/nss/index.html
 	arch = x86_64
@@ -12,15 +12,15 @@ pkgbase = nss
 	makedepends = pkgconf
 	makedepends = python
 	depends = glibc
-	depends = nspr
+	depends = nspr>=4.39
 	depends = p11-kit
 	depends = sh
 	depends = sqlite
 	depends = zlib
-	source = https://archive.mozilla.org/pub/security/nss/releases/NSS_3_131_1_RTM/src/nss-3.131.1.tar.gz
+	source = https://archive.mozilla.org/pub/security/nss/releases/NSS_3_132_RTM/src/nss-3.132.tar.gz
 	source = bundle.sh
 	source = certdata2pem.py
-	sha256sums = b1dbc1d9e7f3f8455dfb6d58ec8f7229d8a8450c629a9e69ef2ef6081f359056
+	sha256sums = ee9cf4837ba801141a804321c4462ad8f452ff4314275c6d5108a6b05af227ff
 	sha256sums = 3bfadf722da6773bdabdd25bdf78158648043d1b7e57615574f189a88ca865dd
 	sha256sums = d2a1579dae05fd16175fac27ef08b54731ecefdf414085c610179afcf62b096c
 

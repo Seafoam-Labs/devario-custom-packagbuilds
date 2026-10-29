@@ -1,13 +1,13 @@
 # Based on Arch Linux's NSS packaging by Jan Alexander Steffens and Jan de Groot.
 pkgbase=nss
 pkgname=('nss' 'ca-certificates-mozilla')
-pkgver=3.131.1
+pkgver=3.132
 pkgrel=1
 pkgdesc='Network Security Services'
 url='https://firefox-source-docs.mozilla.org/security/nss/index.html'
 arch=('x86_64')
 license=('MPL-2.0')
-depends=('glibc' 'nspr' 'p11-kit' 'sh' 'sqlite' 'zlib')
+depends=('glibc' 'nspr>=4.39' 'p11-kit' 'sh' 'sqlite' 'zlib')
 makedepends=('gyp' 'ninja' 'openssl' 'perl' 'pkgconf' 'python')
 
 # Shelly supports HTTPS archives, but not Arch's hg+https source protocol.
@@ -17,11 +17,9 @@ source=(
   bundle.sh
   certdata2pem.py
 )
-sha256sums=(
-  'b1dbc1d9e7f3f8455dfb6d58ec8f7229d8a8450c629a9e69ef2ef6081f359056'
-  '3bfadf722da6773bdabdd25bdf78158648043d1b7e57615574f189a88ca865dd'
-  'd2a1579dae05fd16175fac27ef08b54731ecefdf414085c610179afcf62b096c'
-)
+sha256sums=('ee9cf4837ba801141a804321c4462ad8f452ff4314275c6d5108a6b05af227ff'
+            '3bfadf722da6773bdabdd25bdf78158648043d1b7e57615574f189a88ca865dd'
+            'd2a1579dae05fd16175fac27ef08b54731ecefdf414085c610179afcf62b096c')
 
 prepare() {
   cd "${srcdir}"
