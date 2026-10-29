@@ -1,7 +1,7 @@
 pkgbase = gamescope
 	pkgdesc = SteamOS session compositing window manager
-	pkgver = 3.16.31
-	pkgrel = 2
+	pkgver = 3.17.0
+	pkgrel = 1
 	url = https://github.com/ValveSoftware/gamescope
 	arch = x86_64
 	license = BSD-2-Clause
@@ -11,7 +11,7 @@ pkgbase = gamescope
 	makedepends = cmake
 	makedepends = git
 	makedepends = glslang
-	makedepends = meson
+	makedepends = meson>=0.60.0
 	makedepends = ninja
 	makedepends = vulkan-headers
 	makedepends = wayland-protocols
@@ -20,10 +20,10 @@ pkgbase = gamescope
 	depends = libstdc++
 	depends = libgcc
 	depends = lcms2
-	depends = libavif
+	depends = libavif>=1.0.0
 	depends = libcap.so
 	depends = libdecor
-	depends = libdrm
+	depends = libdrm>=2.4.113
 	depends = libei
 	depends = libinput
 	depends = libpipewire-0.3.so
@@ -47,11 +47,11 @@ pkgbase = gamescope
 	depends = seatd
 	depends = systemd-libs
 	depends = vulkan-icd-loader
-	depends = wayland
+	depends = wayland>=1.21
 	depends = xcb-util-errors
 	depends = xcb-util-wm
 	depends = xorg-server-xwayland
-	source = git+https://github.com/ValveSoftware/gamescope.git#commit=3.16.31
+	source = git+https://github.com/ValveSoftware/gamescope.git#commit=3.17.0
 	source = git+https://gitlab.freedesktop.org/emersion/libdisplay-info.git
 	source = git+https://gitlab.freedesktop.org/emersion/libliftoff.git
 	source = git+https://github.com/ValveSoftware/openvr.git
@@ -59,7 +59,7 @@ pkgbase = gamescope
 	source = git+https://github.com/KhronosGroup/SPIRV-Headers.git
 	source = git+https://github.com/Joshua-Ashton/vkroots.git
 	source = git+https://gitlab.freedesktop.org/wlroots/wlroots.git
-	b2sums = 2f5db98aee8f7459c0ce36abf71daec790246e42326b5d05671cdc23b3c2da2742993119b50dc08513bc2f43b7404f70bbd1b1093d68bf491ba04215eb6509ab
+	b2sums = e5f8ca675d1c0fb5f60cf864d4511db82ca1103a3ed9a51b8ea26bcf07055f04ad22ff03d0a73d75cbc76f15198ba19d8c0185e676aa27fa8b3dfba576ae0278
 	b2sums = SKIP
 	b2sums = SKIP
 	b2sums = SKIP
