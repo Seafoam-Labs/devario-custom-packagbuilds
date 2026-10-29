@@ -8,7 +8,7 @@ _mode=release
 
 pkgname=scx-scheds-git
 _gitname=scx
-pkgver=1.1.4.r158.gba5f4dc84
+pkgver=1.1.5.devario.2.r0.gba5f4dc84
 pkgrel=3
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
@@ -91,8 +91,20 @@ _reverts=(
 )
 
 pkgver() {
-  cd $_gitname
-  git describe --long --tags --abbrev=9 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$_gitname" || return 1
+
+  local desc ver iteration rev hash
+  desc=$(git describe --long --tags --abbrev=9) || return 1
+
+  if [[ $desc =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-devario([0-9]*)-([0-9]+)-g([[:xdigit:]]+)$ ]]; then
+    ver=${BASH_REMATCH[1]}
+    iteration=${BASH_REMATCH[2]:-1}
+    rev=${BASH_REMATCH[3]}
+    hash=${BASH_REMATCH[4]}
+    printf '%s.devario.%s.r%s.g%s\n' "$ver" "$iteration" "$rev" "$hash"
+  else
+    printf '%s\n' "$desc" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  fi
 }
 
 prepare() {
