@@ -1,0 +1,14 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "krb5-kadmind.service",
+    "krb5-kdc.service",
+    "krb5-kpropd.service",
+    "krb5-kpropd.socket",
+    "krb5-kpropd@.service",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

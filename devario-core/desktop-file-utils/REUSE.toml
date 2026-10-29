@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "keys/pgp/C01EDE5BB0D91E26D003662EC76BB9FEEAD12EA7.asc",
+    "update-desktop-database.hook",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

@@ -1,0 +1,23 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+    "devario-config.jsonc",
+    "devario-logo.png",
+    "fish-bold.txt",
+    "fish-compact.txt",
+    "fish-striped.txt",
+    "test-shelly.py",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-shelly-package-detection.patch",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "MIT"

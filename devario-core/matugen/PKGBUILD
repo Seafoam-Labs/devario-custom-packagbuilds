@@ -2,11 +2,11 @@
 
 pkgname=matugen
 pkgver=4.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A Material You and base16 color generation tool with templates'
 arch=('x86_64')
 url='https://github.com/InioX/matugen'
-license=('GPL-2.0-or-later')
+license=('GPL-2.0-only')
 depends=('glibc' 'libgcc')
 makedepends=('rust')
 options=('!lto')

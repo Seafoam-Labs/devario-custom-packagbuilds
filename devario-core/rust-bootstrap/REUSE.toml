@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "keys/pgp/108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE.asc",
+    "provenance.json",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

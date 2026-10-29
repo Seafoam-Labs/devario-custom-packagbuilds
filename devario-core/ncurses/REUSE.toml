@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "ncurses-6.6-libs.patch",
+    "ncurses-6.6-pkgconfig.patch",
+]
+SPDX-FileCopyrightText = "ncurses contributors"
+SPDX-License-Identifier = "MIT-open-group"

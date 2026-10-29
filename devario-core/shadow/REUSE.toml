@@ -1,0 +1,24 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "66D0387DB85D320F8408166DB175CFA98F192AF2.asc",
+    "991F6E3F0765CF6295888586139B09DA5BF0D338.asc",
+    "A9348594CE31283A826FBDD8D57633D441E25BB5.asc",
+    "PKGBUILD",
+    "README.md",
+    "shadow.install",
+    "shadow.service",
+    "shadow.timer",
+    "useradd.defaults",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "defer-file-capabilities.patch",
+]
+SPDX-FileCopyrightText = "shadow contributors"
+SPDX-License-Identifier = "BSD-3-Clause"

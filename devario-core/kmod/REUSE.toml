@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "depmod-search.conf",
+    "depmod.hook",
+    "depmod.script",
+    "keys/pgp/EAB33C9690013C733916AC839BA2A5A630CBEA53.asc",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

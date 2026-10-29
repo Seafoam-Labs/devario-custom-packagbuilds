@@ -1,10 +1,10 @@
 pkgbase = spandsp
 	pkgdesc = A DSP library for telephony
 	pkgver = 0.0.6
-	pkgrel = 6
+	pkgrel = 7
 	url = https://www.soft-switch.org/
 	arch = x86_64
-	license = GPL
+	license = LGPL-2.1-only
 	depends = glibc
 	depends = libtiff
 	provides = libspandsp.so

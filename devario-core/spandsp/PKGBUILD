@@ -2,11 +2,11 @@
 
 pkgname=spandsp
 pkgver=0.0.6
-pkgrel=6
+pkgrel=7
 pkgdesc='A DSP library for telephony'
 arch=('x86_64')
 url='https://www.soft-switch.org/'
-license=('GPL')
+license=('LGPL-2.1-only')
 depends=('glibc' 'libtiff')
 provides=('libspandsp.so' 'libspandsp.so=2-64')
 

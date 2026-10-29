@@ -1,0 +1,10 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

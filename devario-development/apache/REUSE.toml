@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+    "apache.tmpfiles",
+    "arch.layout",
+    "hardening.conf",
+    "httpd.logrotate",
+    "httpd.service",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

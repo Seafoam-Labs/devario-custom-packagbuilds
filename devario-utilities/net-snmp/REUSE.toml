@@ -25,5 +25,12 @@ SPDX-License-Identifier = "0BSD"
 path = [
     "net-snmp-5.9.5.2-under-linking.patch",
 ]
-SPDX-FileCopyrightText = "net-snmp contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-FileCopyrightText = "Craig Small"
+SPDX-License-Identifier = "BSD-3-Clause"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

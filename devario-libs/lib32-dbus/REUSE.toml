@@ -25,5 +25,12 @@ SPDX-License-Identifier = "0BSD"
 path = [
     "0001-Arch-Linux-tweaks-lib32.patch",
 ]
-SPDX-FileCopyrightText = "lib32-dbus contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

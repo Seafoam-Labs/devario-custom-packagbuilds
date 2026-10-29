@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.txt",
+    "keys/pgp/6DAA6E64A76D2840571B4902528897B826403ADA.asc",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-preserve-libassuan-1.0-compatibility.patch",
+]
+SPDX-FileCopyrightText = "libassuan contributors"
+SPDX-License-Identifier = "LGPL-2.1-or-later"

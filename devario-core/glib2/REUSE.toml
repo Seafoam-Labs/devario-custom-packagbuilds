@@ -1,0 +1,30 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "53EF3DC3B63E2899271BD26322E8091EEA11BBB7.asc",
+    "923B7025EE03C1C59F42684CF0942E894B2EAFA0.asc",
+    "PKGBUILD",
+    "README.md",
+    "gio-querymodules.hook",
+    "gio-remove-module-cache.hook",
+    "glib-compile-schemas.hook",
+    "glib-remove-compiled-schemas.hook",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-glib-compile-schemas-Remove-noisy-deprecation-warnin.patch",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0002-gdesktopappinfo-Add-more-known-terminals.patch",
+]
+SPDX-FileCopyrightText = "Fabian Bornschein"
+SPDX-License-Identifier = "LGPL-2.1-or-later"

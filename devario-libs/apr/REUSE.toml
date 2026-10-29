@@ -1,0 +1,31 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "omit_extra_libs.patch",
+]
+SPDX-FileCopyrightText = "Stefan Fritsch"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+    "ship_find_apr.m4.patch",
+]
+SPDX-FileCopyrightText = "Tollef Fog Heen"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+    "dont_override_external_buildflags.patch",
+    "fix-apr.pc.patch",
+    "fix_apr-config.patch",
+]
+SPDX-FileCopyrightText = "apr contributors"
+SPDX-License-Identifier = "Apache-2.0"

@@ -1,0 +1,22 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "PearlStyle.cpp",
+    "PearlStyle.h",
+    "README.md",
+    "verify-isa.py",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-devario-wayland-runtime.patch",
+    "0002-devario-pearl-appearance.patch",
+    "0003-devario-update-warning.patch",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "GPL-3.0-or-later"

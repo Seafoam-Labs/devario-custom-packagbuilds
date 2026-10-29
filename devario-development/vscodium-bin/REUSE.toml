@@ -1,0 +1,23 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".gitignore",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "vscodium-bin-url-handler.desktop",
+    "vscodium-bin-wayland.desktop",
+    "vscodium-bin.desktop",
+    "vscodium-bin.install",
+    "vscodium-bin.sh",
+]
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "LICENSE",
+]
+SPDX-FileCopyrightText = "VSCodium contributors"
+SPDX-License-Identifier = "MIT"

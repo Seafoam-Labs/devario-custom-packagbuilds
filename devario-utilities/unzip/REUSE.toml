@@ -24,7 +24,20 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "28-cve-2022-0529-and-cve-2022-0530.patch",
+]
+SPDX-FileCopyrightText = "Steven M. Schweda"
+SPDX-License-Identifier = "Info-ZIP"
+
+[[annotations]]
+path = [
     "unzip-6.0_CVE-2021-4217.patch",
 ]
 SPDX-FileCopyrightText = "unzip contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-License-Identifier = "Info-ZIP"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

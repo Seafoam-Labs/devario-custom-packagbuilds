@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "compatibilitytool.vdf.template",
+    "ntsync.conf",
+    "proton-cachyos-slr.install",
+]
+SPDX-FileCopyrightText = "CachyOS contributors"
+SPDX-License-Identifier = "0BSD"

@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "libapparmor-swig-new_copy_array.patch",
+]
+SPDX-FileCopyrightText = "Nazar Kazakov"
+SPDX-License-Identifier = "GPL-2.0-only"

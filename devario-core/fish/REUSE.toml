@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "fish.install",
+    "keys/pgp/D7E7B7E37EF129243377FC0A634329A4CF8E23E8.asc",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

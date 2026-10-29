@@ -25,5 +25,12 @@ SPDX-License-Identifier = "0BSD"
 path = [
     "postgis-15444-security-fix.patch",
 ]
-SPDX-FileCopyrightText = "librttopo contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-FileCopyrightText = "PostGIS contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

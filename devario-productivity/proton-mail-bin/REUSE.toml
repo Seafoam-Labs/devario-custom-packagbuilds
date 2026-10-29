@@ -18,5 +18,12 @@ path = [
     "*.desktop",
     "*.hook",
 ]
-SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "AUR contributors"
 SPDX-License-Identifier = "0BSD"

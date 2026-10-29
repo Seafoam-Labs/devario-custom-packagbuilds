@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "ostree-2023.1-use_fuse3.patch",
+]
+SPDX-FileCopyrightText = "ostree contributors"
+SPDX-License-Identifier = "LGPL-2.0-or-later"

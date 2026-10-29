@@ -26,4 +26,11 @@ path = [
     "ldflags.patch",
 ]
 SPDX-FileCopyrightText = "libsonic contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

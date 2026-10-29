@@ -1,11 +1,10 @@
 pkgbase = plymouth
 	pkgdesc = Graphical boot splash screen with Devario dracut integration
 	pkgver = 26.134.222
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.freedesktop.org/wiki/Software/Plymouth/
 	arch = x86_64
 	license = GPL-2.0-or-later
-	license = GPL-3.0-or-later
 	makedepends = docbook-xsl
 	makedepends = gettext
 	makedepends = gtk3

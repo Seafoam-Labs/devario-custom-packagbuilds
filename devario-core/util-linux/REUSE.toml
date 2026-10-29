@@ -1,0 +1,20 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "60-rfkill.rules",
+    "B0C64D14301CC6EFAEDF60E4E4B71D5EEC39C284.asc",
+    "PKGBUILD",
+    "README.md",
+    "common.pam",
+    "login.pam",
+    "remote.pam",
+    "rfkill-block_.service",
+    "rfkill-unblock_.service",
+    "runuser.pam",
+    "su.pam",
+    "util-linux.sysusers",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

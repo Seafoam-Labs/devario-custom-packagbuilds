@@ -1,0 +1,14 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+    "active-signer",
+    "devario-revoked",
+    "devario-trusted",
+    "devario.gpg",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

@@ -1,0 +1,22 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "01_all_treesit-0.26.patch",
+]
+SPDX-FileCopyrightText = "Eli Zaretskii"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = [
+    "02_all_ts-query-pred.patch",
+]
+SPDX-FileCopyrightText = "Yuan Fu"
+SPDX-License-Identifier = "GPL-3.0-or-later"

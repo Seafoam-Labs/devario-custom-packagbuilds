@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".gitignore",
+    "30-win32-aliases.conf",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "ntsync.conf",
+    "wine-binfmt.conf",
+    "wine.install",
+]
+SPDX-FileCopyrightText = "CachyOS contributors"
+SPDX-License-Identifier = "0BSD"

@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "db-4.8.30-tls-configure.patch",
+]
+SPDX-FileCopyrightText = "db contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"

@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".nvchecker.toml",
+    "PKGBUILD",
+    "policies.json",
+    "zen-browser.sh",
+    "zen.desktop",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

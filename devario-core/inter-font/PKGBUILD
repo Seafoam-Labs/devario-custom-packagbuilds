@@ -2,11 +2,11 @@
 # Maintainer: Devario maintainers
 pkgname=inter-font
 pkgver=4.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Inter variable and collection fonts for the Pearl desktop and installer'
 arch=('any')
 url='https://rsms.me/inter/'
-license=('OFL-1.1')
+license=('OFL-1.1-RFN')
 provides=('ttf-font')
 source=("https://github.com/rsms/inter/releases/download/v${pkgver}/Inter-${pkgver}.zip")
 sha256sums=('9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e')

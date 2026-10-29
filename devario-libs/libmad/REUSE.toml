@@ -23,9 +23,24 @@ SPDX-License-Identifier = "0BSD"
 
 [[annotations]]
 path = [
-    "libmad-0.15.1b-gcc43.patch",
     "libmad-length-check.patch",
+    "libmad-md_size.diff",
+]
+SPDX-FileCopyrightText = "Kurt Roeckx"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+[[annotations]]
+path = [
+    "libmad-0.15.1b-gcc43.patch",
+    "libmad-amd64-64bit.diff",
     "libmad-pkgconfig.patch",
 ]
 SPDX-FileCopyrightText = "libmad contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+[[annotations]]
+path = [
+    "DEVARIO-UPSTREAM.json",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

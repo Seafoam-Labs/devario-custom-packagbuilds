@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".gitignore",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"

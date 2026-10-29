@@ -1,0 +1,12 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "vscodium-uri-handler.desktop",
+    "vscodium-wayland.desktop",
+    "vscodium.desktop",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

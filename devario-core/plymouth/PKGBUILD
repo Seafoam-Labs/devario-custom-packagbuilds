@@ -5,11 +5,11 @@
 
 pkgname=plymouth
 pkgver=26.134.222
-pkgrel=2
+pkgrel=3
 pkgdesc='Graphical boot splash screen with Devario dracut integration'
 arch=('x86_64')
 url='https://www.freedesktop.org/wiki/Software/Plymouth/'
-license=('GPL-2.0-or-later' 'GPL-3.0-or-later')
+license=('GPL-2.0-or-later')
 depends=('adwaita-fonts' 'bash' 'cairo' 'devario-boot' 'fontconfig' 'freetype2'
          'glib2' 'glibc' 'libdrm' 'libevdev' 'libpng' 'libx11' 'libxkbcommon'
          'pango' 'systemd-libs' 'xkeyboard-config')

@@ -23,7 +23,7 @@ SPDX-License-Identifier = "0BSD"
 
 [[annotations]]
 path = [
-    "libdbusmenu-qt6-cmake.patch",
+    "DEVARIO-UPSTREAM.json",
 ]
-SPDX-FileCopyrightText = "libdbusmenu-qt contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

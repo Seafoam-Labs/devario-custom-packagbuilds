@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".gitignore",
+    ".nvchecker.toml",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "launcher.sh",
+    "pam_limits.conf",
+    "pleasenote.install",
+    "user_settings.py",
+]
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"

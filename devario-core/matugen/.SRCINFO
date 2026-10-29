@@ -1,10 +1,10 @@
 pkgbase = matugen
 	pkgdesc = A Material You and base16 color generation tool with templates
 	pkgver = 4.2.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/InioX/matugen
 	arch = x86_64
-	license = GPL-2.0-or-later
+	license = GPL-2.0-only
 	makedepends = rust
 	depends = glibc
 	depends = libgcc

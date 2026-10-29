@@ -1,0 +1,20 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "polkit.install",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-meson-Support-explicit-GID.patch",
+    "0002-meson-Detect-Devario-and-set-the-UID-and-GID.patch",
+    "0003-meson-Enable-socket-activated-agent-helper-by-defaul.patch",
+    "0004-agent-helper-Send-standard-error-to-journal.patch",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

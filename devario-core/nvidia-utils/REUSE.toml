@@ -1,0 +1,17 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+    "nvidia-drm-outputclass.conf",
+    "nvidia-utils.conf",
+    "nvidia-utils.install",
+    "nvidia-utils.sysusers",
+    "nvidia.rules",
+    "systemd-homed-override.conf",
+    "systemd-suspend-override.conf",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

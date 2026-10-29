@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "spdlog-fmt-external.patch",
+]
+SPDX-FileCopyrightText = "spdlog contributors"
+SPDX-License-Identifier = "MIT"

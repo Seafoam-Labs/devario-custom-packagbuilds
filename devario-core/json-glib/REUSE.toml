@@ -1,0 +1,11 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "53EF3DC3B63E2899271BD26322E8091EEA11BBB7.asc",
+    "PKGBUILD",
+    "README.md",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

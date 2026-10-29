@@ -1,0 +1,12 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".nvchecker.toml",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "github-desktop.desktop",
+]
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"

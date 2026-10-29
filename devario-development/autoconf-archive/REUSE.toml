@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001_fix_AX_CXX_COMPILE_STDCXX.patch",
+]
+SPDX-FileCopyrightText = "J\u00f6rn Heusipp"
+SPDX-License-Identifier = "GPL-3.0-or-later WITH Autoconf-exception-3.0"

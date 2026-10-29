@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "active-signer",
+    "seafoam-labs-revoked",
+    "seafoam-labs-trusted",
+    "seafoam-labs.gpg",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

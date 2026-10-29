@@ -1,11 +1,11 @@
 pkgbase = fish
 	pkgdesc = Smart and user friendly shell intended mostly for interactive use
 	pkgver = 4.9.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://fishshell.com/
 	install = fish.install
 	arch = x86_64
-	license = GPL-2.0-only AND LGPL-2.0-or-later AND MIT AND PSF-2.0
+	license = GPL-2.0-only AND BSD-3-Clause AND ISC AND MIT AND PSF-2.0
 	checkdepends = less
 	checkdepends = procps-ng
 	checkdepends = python-pexpect

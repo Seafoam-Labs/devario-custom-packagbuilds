@@ -1,0 +1,10 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".nvchecker.toml",
+    "PKGBUILD",
+    "waterfox.desktop",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

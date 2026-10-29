@@ -1,0 +1,10 @@
+version = 1
+
+[[annotations]]
+path = [
+    "MPL2",
+    "PKGBUILD",
+    "brave-origin-nightly-bin.sh",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"

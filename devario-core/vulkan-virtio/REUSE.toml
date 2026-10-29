@@ -1,0 +1,19 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+    "test-venus-wsi.py",
+    "venus-wsi.c",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-venus-preserve-identity-use-wsi-blit-policy.patch",
+]
+SPDX-FileCopyrightText = "vulkan-virtio contributors"
+SPDX-License-Identifier = "MIT"

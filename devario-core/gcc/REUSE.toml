@@ -1,0 +1,26 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+    "README.md",
+    "c89",
+    "c99",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "tune_branch_prediction_cost.patch",
+]
+SPDX-FileCopyrightText = "Lili Cui"
+SPDX-License-Identifier = "GPL-3.0-or-later WITH GCC-exception-3.1"
+
+[[annotations]]
+path = [
+    "gcc-ada-repro.patch",
+]
+SPDX-FileCopyrightText = "gcc contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later WITH GCC-exception-3.1"

@@ -1,0 +1,15 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "crate-type.patch",
+]
+SPDX-FileCopyrightText = "libpathrs contributors"
+SPDX-License-Identifier = "MPL-2.0"

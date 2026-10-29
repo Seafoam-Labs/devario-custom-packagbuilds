@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+    "mariadb-Environment-jemalloc.conf",
+    "mariadb-PrivateTmp.conf",
+    "mariadb.install",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-arch-specific.patch",
+]
+SPDX-FileCopyrightText = "Christian Hesse"
+SPDX-License-Identifier = "GPL-2.0-only"

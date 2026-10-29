@@ -1,0 +1,19 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "DA98F25C0871C49A59EAFF2C4DE8FF2A63C7CC90.asc",
+    "PKGBUILD",
+    "README.md",
+    "dbus-reload.hook",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-Arch-Linux-tweaks.patch",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"

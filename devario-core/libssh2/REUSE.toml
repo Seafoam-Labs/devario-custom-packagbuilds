@@ -1,0 +1,27 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "PKGBUILD",
+]
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "libssh2-1.11.1-CVE-2026-58050.patch",
+    "libssh2-1.11.1-CVE-2026-66034.patch",
+    "libssh2-1.11.1-CVE-2026-66035.patch",
+]
+SPDX-FileCopyrightText = "Viktor Szakats"
+SPDX-License-Identifier = "BSD-3-Clause"
+
+[[annotations]]
+path = [
+    "libssh2-1.11.1-CVE-2025-15661.patch",
+    "libssh2-1.11.1-CVE-2026-55200.patch",
+    "libssh2-1.11.1-CVE-2026-66032.patch",
+]
+SPDX-FileCopyrightText = "Will Cosgrove"
+SPDX-License-Identifier = "BSD-3-Clause"

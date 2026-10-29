@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    "zendnn.conf",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "devario-build.patch",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "Apache-2.0"

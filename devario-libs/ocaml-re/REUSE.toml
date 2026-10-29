@@ -23,7 +23,7 @@ SPDX-License-Identifier = "0BSD"
 
 [[annotations]]
 path = [
-    "ocaml-re-remove-seq.patch",
+    "DEVARIO-UPSTREAM.json",
 ]
-SPDX-FileCopyrightText = "ocaml-re contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-FileCopyrightText = "Arch Linux contributors"
+SPDX-License-Identifier = "0BSD"
