@@ -70,7 +70,7 @@ _die() {
 # _build_debug    yes: also produce a -dbg package with the unstripped vmlinux
 
 _release_opts=(
-  _rebuild=1
+  _rebuild=2
   _processor_opt=generic_v3
   _HZ_ticks=1000
   _tickrate=full
@@ -422,4 +422,4 @@ for _p in "${pkgname[@]}"; do
 done
 
 b2sums=('4660b21626343d609e36ab0e30a25eff4b3593a344aa2b49bfc649520a954746d11daeece545030f6ba161bb4173c180a485239c023ef37e68ed85b7641a4b57'
-        '9d584fdf4aba38749ee90f6beb9ad4e047bd95c949e535cf4c67ea88de738788639fd3fcca0273ca17db9b927b2ac1a795ad25775ea0801e0dc3b4cc5b78ffff')
+        '0ad1c31abb18e81722ce2ca3a24e3d84336a432bc7a710a34950d78cc8f454d0f10f667343ab2fb0082dfab784c0abb392d4dcfc606d08561433b07bcda361b5')
