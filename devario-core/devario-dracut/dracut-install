@@ -5,9 +5,6 @@ lines=()
 # Read the optional config file for automation
 if [[ -f /etc/devario-dracut.conf ]]; then
 	source /etc/devario-dracut.conf
-elif [[ -f /etc/dracut-cachyos.conf ]]; then
-	# Compatibility with the pre-rename configuration path
-	source /etc/dracut-cachyos.conf
 fi
 
 nvidia_modules="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
