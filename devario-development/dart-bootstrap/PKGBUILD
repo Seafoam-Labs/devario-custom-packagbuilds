@@ -3,7 +3,7 @@
 # same repository as the real dart: no shared ALPM name, no shared path, and no provides,
 # so no downstream dependency can ever resolve to this seed instead of dart.
 pkgname=dart-bootstrap
-pkgver=3.13.5
+pkgver=3.13.7
 pkgrel=1
 pkgdesc='The dart programming language SDK (bootstrap seed)'
 arch=('x86_64')
@@ -13,7 +13,7 @@ depends=('glibc')
 # Preserve the prebuilt SDK exactly as distributed.
 options=('!strip' '!debug' '!lto')
 source=("https://storage.googleapis.com/dart-archive/channels/stable/release/$pkgver/sdk/dartsdk-linux-x64-release.zip")
-sha256sums=('ea864bc64df30a6b8bdf30b2e32550f7717d9a890de8f40293aeabb924fe232b')
+sha256sums=('eb99aed266efbcb615c6ae21c12f52cfe935b9f208bccc5fea7f64c21e867229')
 
 package() {
   install -d "$pkgdir/opt/$pkgname-sdk"
