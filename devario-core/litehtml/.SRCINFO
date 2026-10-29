@@ -1,7 +1,7 @@
 pkgbase = litehtml
 	pkgdesc = Fast and lightweight HTML/CSS rendering engine
 	pkgver = 0.10
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/litehtml/litehtml
 	arch = x86_64
 	license = BSD-3-Clause

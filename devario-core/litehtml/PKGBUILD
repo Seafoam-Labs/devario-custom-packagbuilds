@@ -4,7 +4,7 @@
 
 pkgname=litehtml
 pkgver=0.10
-pkgrel=2
+pkgrel=3
 pkgdesc='Fast and lightweight HTML/CSS rendering engine'
 url='https://github.com/litehtml/litehtml'
 arch=(x86_64)
