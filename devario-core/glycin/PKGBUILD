@@ -4,7 +4,7 @@
 
 pkgbase=glycin
 pkgname=(glycin glycin-gtk4 glycin-docs)
-pkgver=2.2.1
+pkgver=2.2.5
 pkgrel=1
 pkgdesc="Sandboxed and extendable image decoding"
 arch=(x86_64)
@@ -39,7 +39,7 @@ makedepends=(
 )
 checkdepends=(dav1d ffmpeg rav1e svt-av1)
 source=("https://download.gnome.org/sources/glycin/${pkgver%.*}/glycin-$pkgver.tar.xz")
-sha256sums=('937ae571d76c0de5e59db944d1194981360be37ee97875729781bc3816ddeafe')
+sha256sums=('0766c32b80fcd858258cfd8cbb42783efc835d0e9256fdbfa6bdad034bb0717e')
 
 export CARGO_PROFILE_RELEASE_DEBUG=2 CARGO_PROFILE_RELEASE_STRIP=false
 export CARGO_PROFILE_RELEASE_LTO=true CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
