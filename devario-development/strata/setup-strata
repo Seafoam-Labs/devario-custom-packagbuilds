@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 set -euo pipefail
 
-# Adapted from ~/Documents/setup-strata.sh for the packaged Terminal 0.1.52.
-# Upstream interfaces: Strata v0.2.7, docs/TERMINAL_LAUNCH.md and docs/NVFP4.md.
+# Adapted from ~/Documents/setup-strata.sh for the packaged Terminal 0.1.54.
+# Upstream interfaces: Strata v0.2.8, docs/TERMINAL_LAUNCH.md and docs/NVFP4.md.
 quant=nvfp4
 context=64k
 port=8080
