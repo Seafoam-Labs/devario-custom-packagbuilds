@@ -1,5 +1,70 @@
 # Missing dependency builds for Shelly
 
+## Emacs's libotf gap closes with a new recipe (2026-10-30)
+
+`devario-core.db` lists `libotf` in the `%DEPENDS%` of the published `emacs` and
+`emacs-wayland` `31.1-2` outputs, and no repository publishes `libotf`:
+`devario-core` holds 1220 entries and `seafoam-labs` 84, and neither has it. The
+2026-09-30 audit recorded the same gap in
+[`report.txt`](audits/devario-core-2026-09-30/report.txt) and in
+[`missing-requirements.csv`](audits/devario-core-2026-09-30/missing-requirements.csv)
+lines 133 and 370. Add [devario-libs/libotf](devario-libs/libotf/PKGBUILD)
+`0.9.16-6`, imported from [the Arch packaging repository](https://gitlab.archlinux.org/archlinux/packaging/packages/libotf)
+with `replace-freetype-config.patch`, `.nvchecker.toml` and the upstream 0BSD
+grant carried verbatim, and record the import in `DEVARIO-UPSTREAM.json`.
+
+Three deliberate deviations, each commented in the recipe:
+
+- `license=('LGPL-2.1-or-later')` replaces Arch's bare `LGPL`. `src/otf.h` and
+  every `Makefile.am` in the release say "either version 2.1 of the License, or
+  (at your option) any later version", which is what Arch's own database already
+  states for the sibling `m17n-lib` and `m17n-db` entries.
+- `depends=(freetype2)` drops Arch's `libxaw`. `libotf.so.1.0.0` needs
+  `libfreetype.so.6` and `libc.so.6` alone, and X11 appears only in
+  `example/otfview.c`, linked through `@X11_XT_XAW_XMU@` in
+  `example/Makefile.am`. With no `X11/Xaw/Command.h` in the build root,
+  `configure`'s `AC_CHECK_HEADERS` probe sets `no_x`, `X11_UNAVAILABLE` becomes
+  true, and `otfview` stays out of `bin_PROGRAMS`. The package ships `otfdump`,
+  `otflist`, `otftobdf`, `libotf-config`, `otf.h`, `libotf.so{,.1,.1.0.0}` and
+  `libotf.pc`, and not `otfview`; the staged `libotf.a` and `libotf.la` are
+  dropped by the packager's default `!staticlibs` and `!libtool` options, as in
+  Arch's own output. Emacs's runtime closure is therefore unchanged, and
+  `libxaw` plus its own unpublished `libxmu` and `libxpm` are not pulled in for
+  one example program.
+- `provides=('libotf.so' 'libotf.so=1-64')` and the `readelf` checks in
+  `package()` follow the ABI convention here: `-version-info 1:0:0` in
+  `src/Makefile.am` pins the SONAME to `libotf.so.1`.
+
+`prepare()` runs `autoreconf -fiv`, which is what makes the patch effective:
+`freetype-config` no longer exists, and the `configure` shipped in the release
+aborts with `Freetype library wan't found in your system!` when it is not
+regenerated. The autotools that step needs are already published, and
+`freetype2 2.14.3-2` supplies the pkg-config module the patch looks for.
+
+| Order | Recipe | Required by |
+| --- | --- | --- |
+| already published | `autoconf 2.73-1`, `automake 1.19-1`, `libtool 2.6.2-5`, `pkgconf 3.0.10-1`, `freetype2 2.14.3-2` | `libotf` |
+| 1 | [devario-libs/libotf](devario-libs/libotf/PKGBUILD) | `emacs`, `emacs-wayland` |
+
+Publish the output into `devario-core`, where Emacs is published, then refresh
+the worker's repository metadata before retrying an Emacs install or rebuild.
+
+Validation: `shelly build --review-only` completed with two warnings, both on the
+`freetype-config` lines the patch removes, and `shelly build --makesrcinfo`
+printed a block identical to the checked-in `.SRCINFO`. A host probe in a
+temporary tree showed the patch applying cleanly under `patch -p1 --dry-run`,
+`configure` reporting `checking for X11/Xaw/Command.h... no`, and a staged
+install holding `usr/bin/{libotf-config,otfdump,otflist,otftobdf}`,
+`usr/include/otf.h`, `usr/lib/libotf.so{,.1,.1.0.0}` and
+`usr/lib/pkgconfig/libotf.pc` with no `otfview`. The recipe's own checks pass
+against that tree: ELF64, `Library soname: [libotf.so.1]`, and `NEEDED` limited
+to `libfreetype.so.6` and `libc.so.6`. The release archive checksum matches the
+recipe. This host ships no `autoconf` or `automake`, so the probe ran the shipped
+`configure` with a `freetype-config` shim backed by `pkg-config` and with the
+maintainer rebuild rules stubbed; the worker runs the recipe's real
+`autoreconf -fiv`. No isolated worker build, publication, or Emacs rebuild was
+performed.
+
 ## PAM documentation prerequisites (2026-10-27)
 
 The `pam` failure lists three missing packages twice: once for repository

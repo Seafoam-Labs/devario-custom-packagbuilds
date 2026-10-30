@@ -1,0 +1,48 @@
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Ashish Shukla <wahjava.ml@gmail.com>
+
+pkgname=libotf
+pkgver=0.9.16
+pkgrel=6
+pkgdesc='OpenType Font library'
+url='https://www.nongnu.org/m17n/'
+# Arch states the bare family name; src/otf.h and each Makefile.am state
+# "version 2.1 of the License, or (at your option) any later version".
+license=('LGPL-2.1-or-later')
+arch=('x86_64')
+# Arch carries libxaw for the otfview example alone: src/libotf.la links
+# nothing but freetype and libc, so the dependency is dropped here and
+# configure's AC_CHECK_HEADERS([X11/Xaw/Command.h]) probe sets X11_UNAVAILABLE,
+# which leaves otfview out of example/Makefile.am's bin_PROGRAMS.
+depends=('freetype2')
+# Shelly keeps a bare .so provision without expanding it to the SONAME, so
+# declare the version that src/Makefile.am's -version-info 1:0:0 pins.
+provides=('libotf.so' 'libotf.so=1-64')
+source=("https://download.savannah.gnu.org/releases/m17n/${pkgname}-${pkgver}.tar.gz"
+        'replace-freetype-config.patch')
+sha256sums=('68db0ca3cda2d46a663a92ec26e6eb5adc392ea5191bcda74268f0aefa78066b'
+            'edd0f86332f4d809dfb0ab66da547c946e5d79a907a7eaddc4d2166c78205668')
+
+prepare() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	patch -p1 -i ${srcdir}/replace-freetype-config.patch
+	autoreconf -fiv
+}
+
+build() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	autoreconf -i
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make DESTDIR="${pkgdir}" install
+	# libotf.so is libtool's bare symlink to libotf.so.1.0.0; following it
+	# confirms both that link and the SONAME the provision promises.
+	LC_ALL=C readelf -h "$pkgdir/usr/lib/libotf.so" \
+		| grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+	LC_ALL=C readelf -d "$pkgdir/usr/lib/libotf.so" \
+		| grep -Fq 'Library soname: [libotf.so.1]' || return 1
+}

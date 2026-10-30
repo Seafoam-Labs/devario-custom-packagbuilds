@@ -1,0 +1,4 @@
+[libotf]
+source = 'regex'
+url = 'http://download.savannah.nongnu.org/releases/m17n/'
+regex = 'libotf-([\d.]+).tar'
