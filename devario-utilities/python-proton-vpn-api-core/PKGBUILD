@@ -2,7 +2,7 @@
 # Maintainer: Ali Molaei <ali dot molaei at protonmail dot com>
 
 pkgname=python-proton-vpn-api-core
-pkgver=5.8.7
+pkgver=5.8.11
 pkgrel=1
 _protun_commit=12e7755a112f59b7b843da79290b3de25febf653
 pkgdesc="The proton-vpn-core-api acts as a facade to the other Proton VPN components, exposing a uniform API to the available Proton VPN services."
@@ -53,7 +53,7 @@ source=(
   "protun::git+https://github.com/ProtonVPN/protun.git#commit=${_protun_commit}"
   fix-protun-dbus-startup-race.patch
 )
-sha256sums=('ff64d11ede325f151e4e3ff55283bbbee185e109aee0959e3e5c933591e62f40'
+sha256sums=('5c65fe324f9fda3daaa2fc94bd755428302b38b9e6c0134cc2b117b33469ccca'
             '3f90b4967711c9750042b5621695ed91c374fab92d5e8fa2100645862a47f66b'
             '36b89eacb44d3e4a63522db312ce8a138b1b80234b862566a59c2b6f8e2a0a7d')
 

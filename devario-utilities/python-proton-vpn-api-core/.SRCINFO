@@ -1,6 +1,6 @@
 pkgbase = python-proton-vpn-api-core
 	pkgdesc = The proton-vpn-core-api acts as a facade to the other Proton VPN components, exposing a uniform API to the available Proton VPN services.
-	pkgver = 5.8.7
+	pkgver = 5.8.11
 	pkgrel = 1
 	url = https://github.com/ProtonVPN/python-proton-vpn-api-core
 	arch = x86_64
@@ -36,10 +36,10 @@ pkgbase = python-proton-vpn-api-core
 	replaces = python-proton-vpn-local-agent
 	replaces = python-proton-vpn-network-manager
 	options = !lto
-	source = git+https://github.com/ProtonVPN/python-proton-vpn-api-core.git#tag=v5.8.7
+	source = git+https://github.com/ProtonVPN/python-proton-vpn-api-core.git#tag=v5.8.11
 	source = protun::git+https://github.com/ProtonVPN/protun.git#commit=12e7755a112f59b7b843da79290b3de25febf653
 	source = fix-protun-dbus-startup-race.patch
-	sha256sums = ff64d11ede325f151e4e3ff55283bbbee185e109aee0959e3e5c933591e62f40
+	sha256sums = 5c65fe324f9fda3daaa2fc94bd755428302b38b9e6c0134cc2b117b33469ccca
 	sha256sums = 3f90b4967711c9750042b5621695ed91c374fab92d5e8fa2100645862a47f66b
 	sha256sums = 36b89eacb44d3e4a63522db312ce8a138b1b80234b862566a59c2b6f8e2a0a7d
 
