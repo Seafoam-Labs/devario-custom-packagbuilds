@@ -1,7 +1,7 @@
 pkgbase = qtengine
 	pkgdesc = Configurable Qt 5 and Qt 6 platform theme using KDE color schemes
-	pkgver = 0.2.2
-	pkgrel = 5
+	pkgver = 0.2.4
+	pkgrel = 1
 	url = https://github.com/kossLAN/qtengine
 	install = qtengine.install
 	arch = x86_64
@@ -22,9 +22,9 @@ pkgbase = qtengine
 	depends = kiconthemes>=6.20.0
 	conflicts = qtengine-bin
 	conflicts = qtengine-git
-	source = qtengine-0.2.2.tar.gz::https://github.com/kossLAN/qtengine/archive/refs/tags/0.2.2.tar.gz
+	source = qtengine-0.2.4.tar.gz::https://github.com/kossLAN/qtengine/archive/refs/tags/0.2.4.tar.gz
 	source = config.example.json
-	sha256sums = 8406285955ac735c8b208a73ad4d106535b32da47e25f050a5be18bbc9f0445e
+	sha256sums = 8f70dd48c7c2d6d897a1cc023a5436574cfdc288be4f5c0648c6474dd0b4ce87
 	sha256sums = 5dfcc6479a03140e492eff69936c708d1bffba3edf9d5312b27b5efff61fa06e
 
 pkgname = qtengine
