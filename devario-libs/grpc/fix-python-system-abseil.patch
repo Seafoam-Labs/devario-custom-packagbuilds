@@ -2,8 +2,8 @@ diff --git a/setup.py b/setup.py
 index 6ff80ee..1eab62e 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -515,7 +515,7 @@ def cython_extensions_and_necessity():
-                 + list(CYTHON_HELPER_C_FILES)
+@@ -486,7 +486,7 @@ def cython_extensions_and_necessity():
+                 + list(GRPCIO_CC_SRCS)
                  + core_c_files
                  + asm_files
 -                + ["third_party/abseil-cpp/absl/log/initialize.cc"]

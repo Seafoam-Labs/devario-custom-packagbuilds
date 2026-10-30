@@ -1,7 +1,7 @@
 pkgbase = grpc
 	pkgdesc = High performance, open source, general RPC framework that puts mobile and HTTP/2 first.
-	pkgver = 1.84.0
-	pkgrel = 2
+	pkgver = 1.85.0
+	pkgrel = 1
 	url = https://grpc.io
 	arch = x86_64
 	license = Apache-2.0
@@ -9,33 +9,34 @@ pkgbase = grpc
 	makedepends = benchmark
 	makedepends = c-ares
 	makedepends = chrpath
-	makedepends = cmake
+	makedepends = cmake>=3.22
 	makedepends = cython
 	makedepends = cython
 	makedepends = git
 	makedepends = ninja
-	makedepends = openssl
+	makedepends = openssl>=1.1.0
 	makedepends = php
 	makedepends = php-legacy
-	makedepends = protobuf
+	makedepends = protobuf=36.1
 	makedepends = pkgconf
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-setuptools
-	makedepends = python-typing_extensions
+	makedepends = python-typing_extensions>=4.12
+	makedepends = python-typing_extensions<5
 	makedepends = python-wheel
 	makedepends = re2
 	makedepends = re2c
-	source = grpc::git+https://github.com/grpc/grpc.git#tag=v1.84.0
+	source = grpc::git+https://github.com/grpc/grpc.git#tag=v1.85.0
 	source = grpc-grpc-proto::git+https://github.com/grpc/grpc-proto.git
 	source = grpc-googletest::git+https://github.com/google/googletest.git
 	source = https://github.com/protocolbuffers/protobuf/archive/v36.1/protobuf-36.1.tar.gz
 	source = fix-python-system-abseil.patch
-	sha256sums = 1c63b6bb0b846345491c00e00db11694a78a9e61f24f580252fa2e1ffbad056f
+	sha256sums = 89de8049594b94cd229fe4377031a464f70ea809da1e20065d4174901efd3135
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = 7a7baff8207a57f3fe5c233d432a09eba67bdfb55a3145839d0817cae8e807a4
-	sha256sums = 24a8dc761deff4a39b5fc9a7fb2b65c049e600b14c548a28f52376b98c456a7e
+	sha256sums = 4864e9ac189865bf1a012eea05fd4cf6eb11516150e73739bff536eae848099e
 
 pkgname = grpc
 	depends = glibc
@@ -44,7 +45,7 @@ pkgname = grpc
 	depends = systemd-libs
 	depends = c-ares
 	depends = protobuf
-	depends = openssl
+	depends = openssl>=1.1.0
 	depends = re2
 	depends = abseil-cpp
 	provides = libupb.so
@@ -66,13 +67,14 @@ pkgname = python-grpcio
 	depends = libgcc
 	depends = libstdc++
 	depends = zlib
-	depends = openssl
+	depends = openssl>=1.1.0
 	depends = c-ares
 	depends = python
 	depends = re2
 	depends = abseil-cpp
 	depends = python-grpcio-tools
-	depends = python-typing_extensions
+	depends = python-typing_extensions>=4.12
+	depends = python-typing_extensions<5
 
 pkgname = python-grpcio-tools
 	pkgdesc = Python protobuf generator for GRPC
@@ -83,7 +85,8 @@ pkgname = python-grpcio-tools
 	depends = python
 	depends = python-setuptools
 	depends = python-protobuf
-	depends = python-typing_extensions
+	depends = python-typing_extensions>=4.12
+	depends = python-typing_extensions<5
 
 pkgname = php-grpc
 	pkgdesc = gRPC module for PHP

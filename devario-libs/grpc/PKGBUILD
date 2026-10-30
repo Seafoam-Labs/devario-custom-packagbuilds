@@ -5,8 +5,8 @@
 
 pkgbase='grpc'
 pkgname=('grpc' 'python-grpcio' 'python-grpcio-tools' 'php-grpc' 'php-legacy-grpc' 'grpc-cli')
-pkgver=1.84.0
-pkgrel=2
+pkgver=1.85.0
+pkgrel=1
 _protobuf_ver=36.1
 pkgdesc="High performance, open source, general RPC framework that puts mobile and HTTP/2 first."
 arch=('x86_64')
@@ -17,20 +17,20 @@ makedepends=(
   'benchmark'
   'c-ares'
   'chrpath'
-  'cmake'
+  'cmake>=3.22'
   'cython'
   'cython'
   'git'
   'ninja'
-  'openssl'
+  'openssl>=1.1.0'
   'php'
   'php-legacy'
-  'protobuf'
+  'protobuf=36.1'
   'pkgconf'
   'python-build'
   'python-installer'
   'python-setuptools'
-  'python-typing_extensions'
+  'python-typing_extensions>=4.12' 'python-typing_extensions<5'
   'python-wheel'
   're2'
   're2c'
@@ -42,11 +42,11 @@ source=(
     "https://github.com/protocolbuffers/protobuf/archive/v${_protobuf_ver}/protobuf-${_protobuf_ver}.tar.gz"
     "fix-python-system-abseil.patch"
 )
-sha256sums=('1c63b6bb0b846345491c00e00db11694a78a9e61f24f580252fa2e1ffbad056f'
+sha256sums=('89de8049594b94cd229fe4377031a464f70ea809da1e20065d4174901efd3135'
             'SKIP'
             'SKIP'
             '7a7baff8207a57f3fe5c233d432a09eba67bdfb55a3145839d0817cae8e807a4'
-            '24a8dc761deff4a39b5fc9a7fb2b65c049e600b14c548a28f52376b98c456a7e')
+            '4864e9ac189865bf1a012eea05fd4cf6eb11516150e73739bff536eae848099e')
 
 prepare() {
   cd "$pkgbase"
@@ -60,7 +60,7 @@ prepare() {
   patch -p1 -i "$srcdir/fix-python-system-abseil.patch"
 
   # CMake only downloads third party depends when folder does not exist
-  rmdir third_party/{cel-spec,envoy-api,xds,googleapis,protoc-gen-validate}
+  rmdir third_party/{autosharding,cel-spec,envoy-api,xds,googleapis,protoc-gen-validate}
 
   cp -a src/php{,-legacy}
 
@@ -159,7 +159,7 @@ check() {
 }
 
 package_grpc() {
-  depends=('glibc' 'libgcc' 'zlib' 'systemd-libs' 'c-ares' 'protobuf' 'openssl' 're2' 'abseil-cpp')
+  depends=('glibc' 'libgcc' 'zlib' 'systemd-libs' 'c-ares' 'protobuf' 'openssl>=1.1.0' 're2' 'abseil-cpp')
   provides=(
     'libupb.so'
     'libgrpcpp_channelz.so'
@@ -187,13 +187,13 @@ package_python-grpcio() {
     'libgcc'
     'libstdc++'
     'zlib'
-    'openssl'
+    'openssl>=1.1.0'
     'c-ares'
     'python'
     're2'
     'abseil-cpp'
     'python-grpcio-tools'
-    'python-typing_extensions'
+    'python-typing_extensions>=4.12' 'python-typing_extensions<5'
     )
 
   cd "$srcdir/$pkgbase"
@@ -203,7 +203,7 @@ package_python-grpcio() {
 
 package_python-grpcio-tools() {
   pkgdesc='Python protobuf generator for GRPC'
-  depends=('glibc' 'libgcc' 'libstdc++' 'protobuf' 'python' 'python-setuptools' 'python-protobuf' 'python-typing_extensions')
+  depends=('glibc' 'libgcc' 'libstdc++' 'protobuf' 'python' 'python-setuptools' 'python-protobuf' 'python-typing_extensions>=4.12' 'python-typing_extensions<5')
 
   cd "$srcdir/$pkgbase"
   install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
