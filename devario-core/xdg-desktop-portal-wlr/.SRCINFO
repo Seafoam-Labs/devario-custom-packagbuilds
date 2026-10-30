@@ -1,0 +1,29 @@
+pkgbase = xdg-desktop-portal-wlr
+	pkgdesc = xdg-desktop-portal backend for wlroots
+	pkgver = 0.8.5
+	pkgrel = 1
+	url = https://github.com/emersion/xdg-desktop-portal-wlr
+	arch = x86_64
+	license = MIT
+	makedepends = meson>=0.60.0
+	makedepends = scdoc>=1.9.7
+	makedepends = wayland-protocols>=1.37
+	depends = glibc
+	depends = grim
+	depends = libdrm
+	depends = libinih
+	depends = libpipewire>=0.3.62
+	depends = mesa
+	depends = pipewire
+	depends = pipewire-session-manager
+	depends = slurp
+	depends = systemd-libs
+	depends = wayland
+	depends = xdg-desktop-portal
+	provides = xdg-desktop-portal-impl
+	source = https://github.com/emersion/xdg-desktop-portal-wlr/archive/v0.8.5/xdg-desktop-portal-wlr-0.8.5.tar.gz
+	source = wlr-portals.conf
+	sha512sums = 9ec31507a4e6bf9763b6daafe0f0897cdac8be60465535a841397c0a6cb9cf2e16acda4ea0196e52b660e0e75f31ff89ee0c75b2ed8ac44ee6dd616c5a554969
+	sha512sums = 71f3383c3f62100dc669c519d107614a4566e808deddf66a179dd2bf175dc272a2390965cf38cd11dc4f0db0dc5cc7104712805034b9bced5874d62b03a579c2
+
+pkgname = xdg-desktop-portal-wlr
