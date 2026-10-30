@@ -1,0 +1,102 @@
+pkgbase=ghostty
+pkgname=(ghostty ghostty-shell-integration ghostty-terminfo ghostty-nautilus)
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='Fast, native terminal emulator'
+arch=('x86_64')
+url='https://github.com/ghostty-org/ghostty'
+license=('MIT')
+
+depends=(
+  bzip2 fontconfig freetype2 glibc glib2 gtk4 gtk4-layer-shell
+  harfbuzz 'libadwaita>=1.7' libglvnd libpng libx11 libxkbcommon
+  oniguruma pixman wayland zlib
+)
+makedepends=(
+  'zig>=0.17.0' 'zig<0.18' 'blueprint-compiler>=0.20.0' pandoc-cli
+  glib2-devel gobject-introspection gettext libxml2
+  pkgconf wayland-protocols git ncurses
+)
+
+_archive="ghostty-$pkgver"
+source=("$_archive.tar.gz::https://codeload.github.com/ghostty-org/ghostty/tar.gz/refs/tags/v$pkgver")
+# Refresh for the release archive in the separate checksum validation stage.
+sha256sums=('2e2a2516f9bea89a4991ad7c9401b77682eed366387a5b1d7c629472b5d11a43')
+
+prepare() {
+  case "$(zig version)" in
+    0.17.*) ;;
+    *) printf '%s\n' 'This PKGBUILD requires Zig 0.17.x.' >&2; return 1 ;;
+  esac
+
+  cd "$srcdir/$_archive"
+  export ZIG_GLOBAL_CACHE_DIR="$srcdir/zig-global-cache"
+  zig build --fetch=all
+}
+
+build() {
+  cd "$srcdir/$_archive"
+  export ZIG_GLOBAL_CACHE_DIR="$srcdir/zig-global-cache"
+
+  # Select system libraries explicitly using Zig's dependency layout.
+  DESTDIR="$srcdir/staged" zig build \
+    --prefix /usr \
+    --summary all \
+    -Doptimize=fast \
+    -Dcpu=baseline \
+    -Dgtk-x11=true \
+    -Dgtk-wayland=true \
+    -Dpie=true \
+    -Demit-docs=true \
+    -Dversion-string="$pkgver" \
+    -fsys=freetype \
+    -fsys=harfbuzz \
+    -fsys=fontconfig \
+    -fsys=libpng \
+    -fsys=zlib \
+    -fsys=oniguruma \
+    -fsys=gtk4-layer-shell \
+    --build-id=sha1
+}
+
+package_ghostty() {
+  depends+=(ghostty-shell-integration ghostty-terminfo)
+  optdepends=('ghostty-nautilus: Open in Ghostty in GNOME Files')
+
+  cp -a "$srcdir/staged/." "$pkgdir/"
+  install -Dm644 "$srcdir/$_archive/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  rm -r "$pkgdir/usr/share/terminfo" \
+    "$pkgdir/usr/share/ghostty/shell-integration" \
+    "$pkgdir/usr/share/nautilus-python"
+}
+
+package_ghostty-shell-integration() {
+  pkgdesc='Shell integration scripts for Ghostty'
+  depends=()
+
+  install -d "$pkgdir/usr/share/ghostty"
+  cp -a "$srcdir/staged/usr/share/ghostty/shell-integration" \
+    "$pkgdir/usr/share/ghostty/"
+  install -Dm644 "$srcdir/$_archive/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_ghostty-terminfo() {
+  pkgdesc='Terminfo for Ghostty'
+  depends=()
+
+  install -d "$pkgdir/usr/share"
+  cp -a "$srcdir/staged/usr/share/terminfo" "$pkgdir/usr/share/"
+  install -Dm644 "$srcdir/$_archive/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_ghostty-nautilus() {
+  pkgdesc='Open in Ghostty for GNOME Files'
+  depends=(ghostty nautilus-python)
+  license=('GPL-2.0-or-later')
+
+  install -d "$pkgdir/usr/share"
+  cp -a "$srcdir/staged/usr/share/nautilus-python" "$pkgdir/usr/share/"
+}

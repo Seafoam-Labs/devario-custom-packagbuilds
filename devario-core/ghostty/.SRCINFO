@@ -1,0 +1,74 @@
+pkgbase = ghostty
+	pkgdesc = Fast, native terminal emulator
+	pkgver = 1.4.0
+	pkgrel = 1
+	url = https://github.com/ghostty-org/ghostty
+	arch = x86_64
+	license = MIT
+	makedepends = zig>=0.17.0
+	makedepends = zig<0.18
+	makedepends = blueprint-compiler>=0.20.0
+	makedepends = pandoc-cli
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = gettext
+	makedepends = libxml2
+	makedepends = pkgconf
+	makedepends = wayland-protocols
+	makedepends = git
+	makedepends = ncurses
+	depends = bzip2
+	depends = fontconfig
+	depends = freetype2
+	depends = glibc
+	depends = glib2
+	depends = gtk4
+	depends = gtk4-layer-shell
+	depends = harfbuzz
+	depends = libadwaita>=1.7
+	depends = libglvnd
+	depends = libpng
+	depends = libx11
+	depends = libxkbcommon
+	depends = oniguruma
+	depends = pixman
+	depends = wayland
+	depends = zlib
+	source = ghostty-1.4.0.tar.gz::https://codeload.github.com/ghostty-org/ghostty/tar.gz/refs/tags/v1.4.0
+	sha256sums = 2e2a2516f9bea89a4991ad7c9401b77682eed366387a5b1d7c629472b5d11a43
+
+pkgname = ghostty
+	depends = bzip2
+	depends = fontconfig
+	depends = freetype2
+	depends = glibc
+	depends = glib2
+	depends = gtk4
+	depends = gtk4-layer-shell
+	depends = harfbuzz
+	depends = libadwaita>=1.7
+	depends = libglvnd
+	depends = libpng
+	depends = libx11
+	depends = libxkbcommon
+	depends = oniguruma
+	depends = pixman
+	depends = wayland
+	depends = zlib
+	depends = ghostty-shell-integration
+	depends = ghostty-terminfo
+	optdepends = ghostty-nautilus: Open in Ghostty in GNOME Files
+
+pkgname = ghostty-shell-integration
+	pkgdesc = Shell integration scripts for Ghostty
+	depends = 
+
+pkgname = ghostty-terminfo
+	pkgdesc = Terminfo for Ghostty
+	depends = 
+
+pkgname = ghostty-nautilus
+	pkgdesc = Open in Ghostty for GNOME Files
+	license = GPL-2.0-or-later
+	depends = ghostty
+	depends = nautilus-python
