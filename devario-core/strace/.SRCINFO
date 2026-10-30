@@ -1,0 +1,13 @@
+pkgbase = strace
+	pkgdesc = Trace system calls and signals
+	pkgver = 7.3
+	pkgrel = 1
+	url = https://strace.io/
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	depends = glibc
+	depends = libunwind
+	source = https://strace.io/files/7.3/strace-7.3.tar.xz
+	sha256sums = 529634c40910895a9a1f3c5c1e65da2ca9ed72fb158dfc4bcc89efdf05e39b72
+
+pkgname = strace
