@@ -3,7 +3,7 @@
 # Arch Maintainer: Christian Heusel <gromit@archlinux.org>
 
 pkgname=turbostat
-pkgver=7.3
+pkgver=7.3.1
 pkgrel=1
 pkgdesc='Report processor frequency and idle statistics'
 arch=('x86_64')
@@ -14,7 +14,7 @@ options=('!strip' '!lto')
 _srcname=linux-${pkgver}
 source=("https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.xz"
         "https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.sign")
-sha256sums=('87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953'
+sha256sums=('fa595aad93734f829c963c2a90ef7c3673224fd7fdae7b49406e397cde2de231'
             'SKIP')
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
