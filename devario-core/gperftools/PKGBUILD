@@ -1,0 +1,54 @@
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+# Contributor: Dave Reisner <dreisner@archlinux.org>
+# Contributor: Alexander Rødseth <rodseth@gmail.com>
+# Contributor: Thomas Jost <schnouki@schnouki.net>
+# Contributor: JaDa <jada@archlinux.us>
+# Contributor: Joaquim Pedro <osmano807@gmail.com>
+# Contributor: Jan Rüegg <rggjan@gmail.com>
+
+pkgname=gperftools
+pkgver=2.19.2
+pkgrel=1
+pkgdesc='Fast, multi-threaded malloc and nifty performance analysis tools'
+arch=(x86_64)
+url='https://github.com/gperftools/gperftools'
+license=(BSD-3-Clause)
+depends=(
+  glibc
+  libgcc
+  libstdc++
+  libunwind
+)
+makedepends=(
+  asciidoctor
+  git
+)
+source=("git+https://github.com/gperftools/gperftools.git#tag=$pkgname-$pkgver")
+b2sums=('9c4889ea59c03bde9ecfa85924b4af98ebdb0cfba1f5a127b9770e6419953915dbdcc8465ec1af088ee157e8d15a16db9f6750708dbfca5c0b5cd91bb23d1f49')
+
+prepare() {
+  cd $pkgname
+  autoreconf -fiv
+}
+
+build() {
+  cd $pkgname
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-frame-pointers \
+    --enable-libunwind
+  make
+}
+
+check() {
+  cd $pkgname
+  make check
+}
+
+package() {
+  cd $pkgname
+  make DESTDIR="$pkgdir" install
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname/" COPYING
+}
