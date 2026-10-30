@@ -3,7 +3,7 @@
 _target_arch=arm64
 _target=aarch64-linux-gnu
 pkgname=$_target-linux-api-headers
-pkgver=7.3
+pkgver=7.3.1
 pkgrel=1
 pkgdesc="Kernel headers sanitized for use in userspace ($_target)"
 arch=(any)
@@ -11,7 +11,7 @@ url='https://www.kernel.org'
 license=(GPL2)
 makedepends=(rsync)
 source=(https://www.kernel.org/pub/linux/kernel/v7.x/linux-$pkgver.tar.{xz,sign})
-sha256sums=('87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953'
+sha256sums=('fa595aad93734f829c963c2a90ef7c3673224fd7fdae7b49406e397cde2de231'
             'SKIP')
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
