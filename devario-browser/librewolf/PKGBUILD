@@ -69,7 +69,7 @@ source=(
 validpgpkeys=('662E3CDD6FE329002D0CA5BB40339DD82B12EF16') # LibreWolf Maintainers <gpg@librewolf.net>
 sha256sums=('a796a3c80e0c565048796a342b8eaf4d128608119c7447c43ecb5455c632f49c'
             'SKIP'
-            '20ea6e622c9d75537263394b9c4c3bd0556b207839e8bde9fd3a22df29dcd350'
+            '42546b4dced6795f6facb3e26c839ae1d12c6ddef48e8024d242082c515b1149'
             '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
 
 package() {
