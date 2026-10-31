@@ -1,6 +1,6 @@
 pkgbase = lightcraft
 	pkgdesc = Non-destructive photo library and raw developer, written from scratch in pure Rust
-	pkgver = 0.15.0
+	pkgver = 0.16.0
 	pkgrel = 1
 	url = https://github.com/storytold/lightcraft
 	arch = x86_64
@@ -19,7 +19,7 @@ pkgbase = lightcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/lightcraft/archive/v0.15.0/lightcraft-0.15.0.tar.gz
-	sha256sums = f2eb8faa052c7ec4c28b60607259cc97e6d88c98575a00f5daaa174daf96ccde
+	source = https://github.com/storytold/lightcraft/archive/v0.16.0/lightcraft-0.16.0.tar.gz
+	sha256sums = a1273f4a9f68694ff1778b81d6e6e7e9de78f326c711ab57489770e8c6b76bff
 
 pkgname = lightcraft
