@@ -1,0 +1,50 @@
+pkgname=deepseek-harness
+pkgver=0.2.1rc.5
+pkgrel=1
+pkgdesc='DeepSeek AI agent harness with a plugin-based architecture'
+arch=('x86_64' 'aarch64')
+url='https://github.com/deepseek-ai/deepseek-harness'
+license=('MIT')
+depends=('nodejs>=24.9.0' 'bash' 'glibc' 'gcc-libs')
+makedepends=('npm' 'python')
+optdepends=('pnpm: install and manage profile plugins'
+            'bubblewrap: sandbox agent shell commands'
+            'git: work with Git repositories and Git-hosted plugins'
+            'xdg-utils: open the Web UI in the default browser')
+provides=("dsh=${pkgver}")
+conflicts=('dsh')
+# npm dependencies include native addons and prebuilt helper binaries.
+options=('!strip')
+_npmver=0.2.1-rc.5
+source=("${pkgname}-${_npmver}.tgz::https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${_npmver}.tgz")
+noextract=("${pkgname}-${_npmver}.tgz")
+sha256sums=('60987566f19e0ded1f7918c00a65c19c56ea25f5977ee0bfd5697c5c113ec4e1')
+
+build() {
+  # Keep npm's cache and installation inside the build tree. Lifecycle scripts
+  # select native addons and restore node-pty's executable spawn helper.
+  npm install --global \
+    --prefix "${srcdir}/npm" \
+    --cache "${srcdir}/npm-cache" \
+    --allow-scripts=@deepseek-ai/dsh-subprocess-local,koffi,node-pty,@google/genai,protobufjs \
+    --omit=dev --no-audit --no-fund --no-update-notifier \
+    "${srcdir}/${pkgname}-${_npmver}.tgz"
+}
+
+check() {
+  "${srcdir}/npm/bin/dsh" --version
+  "${srcdir}/npm/bin/dsh" --help >/dev/null
+}
+
+package() {
+  install -dm755 "${pkgdir}/usr/lib/node_modules/@deepseek-ai" "${pkgdir}/usr/bin"
+  cp -a --no-preserve=ownership "${srcdir}/npm/lib/node_modules/@deepseek-ai/dsh" \
+    "${pkgdir}/usr/lib/node_modules/@deepseek-ai/"
+  ln -s ../lib/node_modules/@deepseek-ai/dsh/lib/bin.js "${pkgdir}/usr/bin/dsh"
+
+  local appdir="${pkgdir}/usr/lib/node_modules/@deepseek-ai/dsh"
+  # npm's hidden installation metadata can contain absolute build paths.
+  find "${appdir}" -name .package-lock.json -delete
+  install -Dm644 "${appdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 "${appdir}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+}

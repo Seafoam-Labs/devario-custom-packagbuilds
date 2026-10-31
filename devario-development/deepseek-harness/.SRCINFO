@@ -1,0 +1,26 @@
+pkgbase = deepseek-harness
+	pkgdesc = DeepSeek AI agent harness with a plugin-based architecture
+	pkgver = 0.2.1rc.5
+	pkgrel = 1
+	url = https://github.com/deepseek-ai/deepseek-harness
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	makedepends = npm
+	makedepends = python
+	depends = nodejs>=24.9.0
+	depends = bash
+	depends = glibc
+	depends = gcc-libs
+	optdepends = pnpm: install and manage profile plugins
+	optdepends = bubblewrap: sandbox agent shell commands
+	optdepends = git: work with Git repositories and Git-hosted plugins
+	optdepends = xdg-utils: open the Web UI in the default browser
+	provides = dsh=0.2.1rc.5
+	conflicts = dsh
+	noextract = deepseek-harness-0.2.1-rc.5.tgz
+	options = !strip
+	source = deepseek-harness-0.2.1-rc.5.tgz::https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.2.1-rc.5.tgz
+	sha256sums = 60987566f19e0ded1f7918c00a65c19c56ea25f5977ee0bfd5697c5c113ec4e1
+
+pkgname = deepseek-harness
