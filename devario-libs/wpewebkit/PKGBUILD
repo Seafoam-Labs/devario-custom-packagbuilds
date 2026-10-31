@@ -5,8 +5,8 @@ pkgname=(
   wpewebkit
   wpewebkit-docs
 )
-pkgver=2.54.1
-pkgrel=2
+pkgver=2.54.2
+pkgrel=1
 pkgdesc="Embeddable web content engine"
 url="https://wpewebkit.org"
 arch=(x86_64)
@@ -39,48 +39,48 @@ license=(
 )
 depends=(
   at-spi2-core
-  atk
+  'atk>=2.16.0'
   bubblewrap
   cairo
   enchant
   expat
   fontconfig
-  freetype2
-  glib2
+  'freetype2>=2.9.0'
+  'glib2>=2.70.0'
   glibc
   gst-plugins-bad-libs
   gst-plugins-base-libs
   gstreamer
-  harfbuzz
-  harfbuzz-icu
+  'harfbuzz>=2.7.4'
+  'harfbuzz-icu>=2.7.4'
   hyphen
-  icu
+  'icu>=70.1'
   lcms2
   libatomic
-  libavif
+  'libavif>=0.9.0'
   libdrm
-  libepoxy
+  'libepoxy>=1.5.4'
   libgcc
-  libgcrypt
-  libinput
+  'libgcrypt>=1.7.0'
+  'libinput>=1.19.0'
   libjpeg-turbo
-  libjxl
+  'libjxl>=0.7.0'
   libpng
   libseccomp
-  libsoup3
+  'libsoup3>=3.0.0'
   libstdc++
   libsystemd
   libtasn1
   libwebp
-  libxkbcommon
-  libxml2
-  libxslt
+  'libxkbcommon>=0.4.0'
+  'libxml2>=2.9.13'
+  'libxslt>=1.1.13'
   mesa
   openjpeg2
   sqlite
   ttf-font
-  wayland
-  woff2
+  'wayland>=1.20'
+  'woff2>=1.0.2'
   xdg-dbus-proxy
   zlib
 )
@@ -90,23 +90,23 @@ makedepends=(
   gi-docgen
   glib2-devel
   gobject-introspection
-  gperf
+  'gperf>=3.0.1'
   gst-plugins-bad
   lld
   ninja
   python
-  ruby
+  'ruby>=2.5'
   ruby-stdlib
   systemd
   unifdef
-  wayland-protocols
+  'wayland-protocols>=1.24'
 )
 source=(
   $url/releases/wpewebkit-$pkgver.tar.xz{,.asc}
 )
-sha256sums=('0de8bdfba011f9cd63ba9a9171fa6038dd2c08237894f4082abbb821f29d3fe9'
+sha256sums=('f3284e19e47fcb5ac8c63c2e1c113dbd65b2423eb8a545f5b345707829004f56'
             'SKIP')
-b2sums=('1f40b659a7fa664807c5331fde669464da0038ee9c353be0dab6c2c661b961bd5e9f97fcfb62d3ef7e40e8f8a2ac80c0f9456e5b9a7c73c79d7247f06f236f11'
+b2sums=('26b92727a29ddd5aea1518faf208ff719c25db209f63c44ccf731b4cf818b2c37b2dc356e10638fffedcd3606cf0ed0ba3fa061af62c0a9edaecba953e12d2e8'
         'SKIP')
 validpgpkeys=(
   # https://wpewebkit.org/release/verify/
