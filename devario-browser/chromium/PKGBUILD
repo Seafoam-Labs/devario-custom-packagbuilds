@@ -166,13 +166,11 @@ _unwanted_bundled_libs=(
 )
 depends+=(${_system_libs[@]})
 
-# Google API keys (see https://www.chromium.org/developers/how-tos/api-keys)
-# Note: These are for Arch Linux use ONLY. For your own distribution, please
-# get your own set of keys.
-#
-# Starting with Chromium 89 (2021-03-02) the OAuth2 credentials have been left
-# out: https://archlinux.org/news/chromium-losing-sync-support-in-early-march/
-_google_api_key=AIzaSyDwr302FpOSkGRpLlUpPThNTDPbXcIn_FM
+# The upstream Google API key is registered to Arch Linux and Google's API terms
+# bind a key to the entity that accepted them, so this recipe builds keyless.
+# OAuth2 credentials are not baked in either: upstream dropped them in Chromium 89
+# and use-oauth2-client-switches-as-default.patch moves them to runtime switches.
+# See GOOGLE-API-KEYS.md for the Devario registration follow-up.
 
 prepare() {
   # rustup install nightly
@@ -351,7 +349,6 @@ build() {
     'use_qt5=false'
     'use_qt6=true'
     'moc_qt6_path="/usr/lib/qt6"'
-    "google_api_key=\"$_google_api_key\""
     'use_clang_modules=false'
   )
 

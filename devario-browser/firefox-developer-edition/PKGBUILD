@@ -3,7 +3,7 @@
 
 pkgname=firefox-developer-edition
 pkgver=160.0b2
-pkgrel=1
+pkgrel=2
 pkgdesc="Fast, Private & Safe Web Browser (Developer Edition)"
 url="https://www.mozilla.org/firefox/developer/"
 arch=(x86_64)
@@ -102,10 +102,9 @@ b2sums=('95da2d36a00ac52b2df93fddcf596a20527d2a9a1f7e33e4591d5b35e119dc906eec5be
         '826db294d078c66e6bf3561c3c6de32d7522251b2ccbd47ab26fb6380988f117d854a726c36f45ddd2e846a1456ca0f6c883733d1c660351430f2d1fbc95b1eb'
         'ff0ba11844e99ab1b1fed91d70c6f45837198ba43e77313c8b9c48a621e40c459953fc35283b6b6eafb5641510a5ce1e18ebda4d7d076f8212810391c0a9234b')
 
-# Google API keys (see https://www.chromium.org/developers/how-tos/api-keys)
-# Note: These are for Arch Linux use ONLY. For your own distribution, please
-# get your own set of keys. 
-_google_api_key=AIzaSyDwr302FpOSkGRpLlUpPThNTDPbXcIn_FM
+# The upstream Google API key is registered to Arch Linux and Google's API terms
+# bind a key to the entity that accepted them, so this recipe builds keyless.
+# See GOOGLE-API-KEYS.md for the Devario registration follow-up.
 
 prepare() {
   mkdir mozbuild
@@ -116,8 +115,6 @@ prepare() {
 
   # Don't let the branding override our remoting name
   sed '/^MOZ_APP_REMOTINGNAME=/d' -i browser/branding/aurora/configure.sh
-
-  echo -n "$_google_api_key" >google-api-key
 
   cat >../mozconfig <<END
 ac_add_options --enable-application=browser
@@ -144,9 +141,7 @@ export MOZ_APP_REMOTINGNAME=$pkgname
 export MOZ_DEV_EDITION=1
 export MOZ_REQUIRE_SIGNING=
 
-# Keys
-ac_add_options --with-google-location-service-api-keyfile=${PWD@Q}/google-api-key
-ac_add_options --with-google-safebrowsing-api-keyfile=${PWD@Q}/google-api-key
+# Keys: none, this build is keyless (see GOOGLE-API-KEYS.md)
 
 # System libraries
 ac_add_options --with-system-nspr

@@ -4,7 +4,7 @@
 
 pkgname=firefox
 pkgver=159.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Fast, Private & Safe Web Browser"
 url="https://www.firefox.com/"
 arch=(x86_64)
@@ -105,10 +105,9 @@ b2sums=('874818445cad4b4097d8ee152197cdaa33b8510cf1cbe314f709adb4bf828dd356a77c2
         '607d592b164a88a11a1041002d67339a9a0001469cd979d24d0fda547cec472f602f6299c198f626f2c854df3ff05bd0b1fd84ae47ee52b97a7906575f5a5f36'
         'd68378aea4d0f62d8e098ade7a6a4c5a9c1c96ce6ef919a955227f1168aa8a34e2220dd1c3f79dafad03ecb2545b25df9294036bb8ad21668b5c24997d93dfa2')
 
-# Google API keys (see https://www.chromium.org/developers/how-tos/api-keys)
-# Note: These are for Arch Linux use ONLY. For your own distribution, please
-# get your own set of keys.
-_google_api_key=AIzaSyDwr302FpOSkGRpLlUpPThNTDPbXcIn_FM
+# The upstream Google API key is registered to Arch Linux and Google's API terms
+# bind a key to the entity that accepted them, so this recipe builds keyless.
+# See GOOGLE-API-KEYS.md for the Devario registration follow-up.
 
 prepare() {
   mkdir mozbuild
@@ -123,8 +122,6 @@ prepare() {
     echo "Applying patch $src..."
     patch -Np1 < "../$src"
   done
-
-  echo -n "$_google_api_key" >google-api-key
 
   cat >../mozconfig <<END
 ac_add_options --enable-application=browser
@@ -149,9 +146,7 @@ ac_add_options --allow-addon-sideload
 export MOZILLA_OFFICIAL=1
 export MOZ_APP_REMOTINGNAME=$pkgname
 
-# Keys
-ac_add_options --with-google-location-service-api-keyfile=${PWD@Q}/google-api-key
-ac_add_options --with-google-safebrowsing-api-keyfile=${PWD@Q}/google-api-key
+# Keys: none, this build is keyless (see GOOGLE-API-KEYS.md)
 
 # System libraries
 ac_add_options --with-system-nspr
