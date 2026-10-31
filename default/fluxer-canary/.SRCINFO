@@ -1,6 +1,6 @@
 pkgbase = fluxer-canary
 	pkgdesc = Canary build of Fluxer instant messaging and VoIP application
-	pkgver = 2026.1031.35431
+	pkgver = 2026.1031.143117
 	pkgrel = 1
 	url = https://fluxer.app
 	arch = x86_64
@@ -43,7 +43,7 @@ pkgbase = fluxer-canary
 	options = !strip
 	options = !debug
 	options = emptydirs
-	source = fluxer-canary-2026.1031.35431-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/canary/linux/x64/2026.1031.35431/tar_gz
-	sha256sums = f9af652236b1b0181d419ed5752d3c26c4889f497e59b29a7295414ddbf4f593
+	source = fluxer-canary-2026.1031.143117-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/canary/linux/x64/2026.1031.143117/tar_gz
+	sha256sums = 35a6e79060a6839815aaa410ea7d4fb3dd707460cb10b104ccf02191d345eef7
 
 pkgname = fluxer-canary
