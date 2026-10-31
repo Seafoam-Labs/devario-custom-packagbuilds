@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=gridcraft
-pkgver=0.13.0
+pkgver=0.14.2
 pkgrel=1
 pkgdesc="Clean-room spreadsheet (Microsoft Excel-style) with formulas and charts"
 arch=('x86_64' 'aarch64')
@@ -15,7 +15,7 @@ depends=(
   )
 makedepends=(
     'git'
-    'rust>=1.90'
+    'rust>=1.95'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -28,10 +28,10 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('b33b6ab1f9032b0ccf6fbbe281affa618a325bf54030fa0d017a7fc1bf2f8251')
+sha256sums=('118303ad98d99767c08415733a052f9d9c01ec24f5d052f3c6bbac64e1e27c36')
 
-_commit=4328437
-_releasedate=2026-10-28
+_commit=5585084
+_releasedate=2026-10-31
 _appid=ai.storyteller.gridcraft
 
 prepare() {

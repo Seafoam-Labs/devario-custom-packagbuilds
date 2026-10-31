@@ -1,13 +1,13 @@
 pkgbase = gridcraft
 	pkgdesc = Clean-room spreadsheet (Microsoft Excel-style) with formulas and charts
-	pkgver = 0.13.0
+	pkgver = 0.14.2
 	pkgrel = 1
 	url = https://github.com/storytold/gridcraft
 	arch = x86_64
 	arch = aarch64
 	license = MIT OR Apache-2.0
 	makedepends = git
-	makedepends = rust>=1.90
+	makedepends = rust>=1.95
 	depends = glibc
 	depends = libgcc
 	depends = libxkbcommon
@@ -20,7 +20,7 @@ pkgbase = gridcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/gridcraft/archive/v0.13.0/gridcraft-0.13.0.tar.gz
-	sha256sums = b33b6ab1f9032b0ccf6fbbe281affa618a325bf54030fa0d017a7fc1bf2f8251
+	source = https://github.com/storytold/gridcraft/archive/v0.14.2/gridcraft-0.14.2.tar.gz
+	sha256sums = 118303ad98d99767c08415733a052f9d9c01ec24f5d052f3c6bbac64e1e27c36
 
 pkgname = gridcraft
