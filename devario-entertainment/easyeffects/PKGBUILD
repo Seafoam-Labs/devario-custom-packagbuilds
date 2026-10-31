@@ -5,8 +5,8 @@
 # Contributor: robertfoster
 
 pkgname=easyeffects
-pkgver=8.3.0
-pkgrel=2
+pkgver=8.3.1
+pkgrel=1
 pkgdesc='Audio Effects for Pipewire applications'
 arch=('x86_64')
 url='https://github.com/wwmm/easyeffects'
@@ -56,7 +56,7 @@ source=(
   "${url}/archive/v${pkgver}/${pkgname}-v${pkgver}.tar.gz"
   "${pkgname}.install"
 )
-sha512sums=('271d81b52fdc9aadc1c6173b85b45082a42747e08f9b41ae4155141ff8ae2057cdcae1ec60bbcf6191cad6e054bdf6b5574df0fef8dd40293f6d042b5ebeea0c'
+sha512sums=('c4c9081630e5b4f065b96ef63581f3bd2e917f12daedc52088c71868fc7c50188a1144723fc4048842e3ea96129e51ec8904e9654be49c0be3e2b514af05ff88'
             '3ac25bade559dae2c8efd4332df77387adcae413757f0b3814ba0523c17bd2ac3b7479624e4e7bc4e67e8c6961f43ea779de31e2079a7d61887f0033bc0c8101')
 
 build() {
