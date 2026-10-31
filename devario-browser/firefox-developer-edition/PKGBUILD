@@ -2,19 +2,23 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=firefox-developer-edition
-pkgver=160.0b2
-pkgrel=2
+pkgver=160.0b3
+pkgrel=1
 pkgdesc="Fast, Private & Safe Web Browser (Developer Edition)"
 url="https://www.mozilla.org/firefox/developer/"
 arch=(x86_64)
 license=(MPL-2.0)
+# Mozilla's linux-x86_64 payload carries its own nspr, nss, sqlite3, codec and
+# onnxruntime libraries, so those are not dependencies here; this list is the
+# payload's DT_NEEDED closure minus what it ships itself. libatk-1.0.so.0 and
+# libatk-bridge-2.0.so.0 come from at-spi2-core, which provides atk here, and
+# libpulse is dlopened by the payload's cubeb backend rather than linked.
 depends=(
   alsa-lib
   at-spi2-core
   bash
   cairo
   dbus
-  ffmpeg
   fontconfig
   freetype2
   gdk-pixbuf2
@@ -28,192 +32,78 @@ depends=(
   libx11
   libxcb
   libxcomposite
+  libxcursor
   libxdamage
   libxext
   libxfixes
+  libxi
   libxrandr
-  libxss
-  libxt
+  libxrender
   mime-types
-  nspr
-  nss
   pango
   ttf-font
-)
-makedepends=(
-  cbindgen
-  clang
-  diffutils
-  imake
-  jack
-  lld
-  llvm
-  mesa
-  nasm
-  nodejs
-  npm
-  onnxruntime
-  python
-  'rust>=1.90.0'
-  unzip
-  wasi-compiler-rt
-  wasi-libc
-  wasi-libc++
-  wasi-libc++abi
-  xorg-server-xvfb
-  yasm
-  zip
 )
 optdepends=(
   'hunspell-dictionary: Spell checking'
   'libnotify: Notification integration'
   'networkmanager: Location detection via available WiFi networks'
-  'onnxruntime: Local machine learning features such as smart tab groups'
   'speech-dispatcher: Text-to-Speech'
   'xdg-desktop-portal: Screensharing with Wayland'
 )
-options=(
-  !emptydirs
-  !lto
-  !makeflags
-)
+# The payload ships stripped and already carries Mozilla's own optimization and
+# hardening; re-stripping would rewrite binaries Mozilla signs.
+options=(!strip)
+# The payload's own remoting name. The source build renamed it to $pkgname so the
+# channels could coexist; firefox-dev is already distinct from firefox and
+# firefox-beta, so the rename is gone and the integration files follow the
+# payload instead of $pkgname.
+_remoting=firefox-dev
+# Mozilla's official build is keyed with Google API keys registered to Mozilla
+# itself, which the payload ships embedded in browser/omni.ja. Unkeying it would
+# mean editing the payload, unlike the keyless source build in GOOGLE-API-KEYS.md.
 source=(
-  https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz{,.asc}
+  https://archive.mozilla.org/pub/devedition/releases/$pkgver/linux-x86_64/en-US/firefox-$pkgver.tar.xz{,.asc}
   $pkgname-symbolic.svg
   $pkgname.desktop
   org.mozilla.$pkgname.metainfo.xml
-  0001-Install-under-remoting-name.patch
+  LICENSES/MPL-2.0.txt
 )
 validpgpkeys=(
   # Mozilla Software Releases <release@mozilla.com>
-  # https://blog.mozilla.org/security/2026/08/10/updated-gpg-key-for-signing-firefox-and-thunderbird-releases/
+  # https://blog.mozilla.org/security/2026-08-10/updated-gpg-key-for-signing-firefox-and-thunderbird-releases/
   14F26682D0916CDD81E37B6D61B7B526D98F0353
 )
-sha256sums=('ec5f0df850879c4ae9a398ab1cd86b05959cecd1c9638c7946bd743ea055b766'
+sha256sums=('a35ccb3e514191326da6d1cb90675a57948db0470f38377de5f3095b4b9b32d9'
             'SKIP'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9'
-            '69bda73277e9a47002a40e18021262b3c3cd88a0ca48237f42a4a5792e839af8'
+            '2eaa7e9df839d4c25259b8ad3f12f46a126e194114fae66e5bfd5731ca45c8f0'
             '48e33f75f3760387305997ee0a3fcea030a1e7310fc461e92d7b73e6cf600096'
-            'ef63a12975f108f30b00bb3290d9ca76f311d8af9c1d5dfc0d8335ad57e8f77c')
-b2sums=('95da2d36a00ac52b2df93fddcf596a20527d2a9a1f7e33e4591d5b35e119dc906eec5bef91720305de6c03fb4702d05b32cd0cf967f0fd8957fd038c842dc623'
+            '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
+b2sums=('7258e944ede8d6e0b0c0bae270e40cf0d6cc48af17b520dc548f3b6a4319b329bd3171222eba0fc8b5a1b590b3c1657e540536d247f698881f66ee21dc0a7f91'
         'SKIP'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
-        'b3e5b7f4d202eb3bd26eef851c9340c7fe10fbaeb385c3fa989af949e500e9eae6bf67f2ab2e330342cacd71ba40bb02d1840510b7555adbe539615021a5a16e'
+        '1c2d9d33210d6052c2684e1efda3057114fa55890db97829b037b397fc03ed647262053304305d702ef9c3dcb03bea439abd5bb24c8be097b48a700752c9ce11'
         '826db294d078c66e6bf3561c3c6de32d7522251b2ccbd47ab26fb6380988f117d854a726c36f45ddd2e846a1456ca0f6c883733d1c660351430f2d1fbc95b1eb'
-        'ff0ba11844e99ab1b1fed91d70c6f45837198ba43e77313c8b9c48a621e40c459953fc35283b6b6eafb5641510a5ce1e18ebda4d7d076f8212810391c0a9234b')
-
-# The upstream Google API key is registered to Arch Linux and Google's API terms
-# bind a key to the entity that accepted them, so this recipe builds keyless.
-# See GOOGLE-API-KEYS.md for the Devario registration follow-up.
-
-prepare() {
-  mkdir mozbuild
-  cd firefox-${pkgver%b*}
-
-  # Make different channels installable in parallel
-  patch -Np1 -i ../0001-Install-under-remoting-name.patch
-
-  # Don't let the branding override our remoting name
-  sed '/^MOZ_APP_REMOTINGNAME=/d' -i browser/branding/aurora/configure.sh
-
-  cat >../mozconfig <<END
-ac_add_options --enable-application=browser
-mk_add_options MOZ_OBJDIR=${PWD@Q}/obj
-
-ac_add_options --prefix=/usr
-ac_add_options --enable-release
-ac_add_options --enable-hardening
-ac_add_options --enable-optimize
-ac_add_options --enable-rust-simd
-ac_add_options --enable-linker=lld
-ac_add_options --disable-install-strip
-ac_add_options --disable-bootstrap
-ac_add_options --with-wasi-sysroot=/usr/share/wasi-sysroot
-
-# Branding
-ac_add_options --with-branding=browser/branding/aurora
-ac_add_options --enable-update-channel=aurora
-ac_add_options --with-distribution-id=org.archlinux
-ac_add_options --with-unsigned-addon-scopes=app,system
-ac_add_options --allow-addon-sideload
-export MOZILLA_OFFICIAL=1
-export MOZ_APP_REMOTINGNAME=$pkgname
-export MOZ_DEV_EDITION=1
-export MOZ_REQUIRE_SIGNING=
-
-# Keys: none, this build is keyless (see GOOGLE-API-KEYS.md)
-
-# System libraries
-ac_add_options --with-system-nspr
-ac_add_options --with-system-nss
-
-# Features
-ac_add_options --enable-alsa
-ac_add_options --enable-jack
-ac_add_options --enable-crashreporter
-ac_add_options --disable-updater
-ac_add_options --disable-tests
-END
-}
-
-build() {
-  cd firefox-${pkgver%b*}
-
-  export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
-  export MOZBUILD_STATE_PATH="$srcdir/mozbuild"
-  export MOZ_BUILD_DATE="$(date -u${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH} +%Y%m%d%H%M%S)"
-  export MOZ_NOSPAM=1
-
-  # malloc_usable_size is used in various parts of the codebase
-  CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-  CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-
-  # Breaks compilation since https://bugzilla.mozilla.org/show_bug.cgi?id=1896066
-  CFLAGS="${CFLAGS/-fexceptions/}"
-  CXXFLAGS="${CXXFLAGS/-fexceptions/}"
-
-  # LTO needs more open files
-  ulimit -n 4096
-
-  # Do 3-tier PGO
-  echo "Building instrumented browser..."
-  cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-profile-generate=cross
-END
-  ./mach build --priority normal
-
-  echo "Profiling instrumented browser..."
-  ./mach package
-  LLVM_PROFDATA=llvm-profdata JARLOG_FILE="$PWD/jarlog" \
-    dbus-run-session \
-    xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
-    ./mach python build/pgo/profileserver.py
-
-  stat -c "Profile data found (%s bytes)" merged.profdata
-  test -s merged.profdata
-
-  stat -c "Jar log found (%s bytes)" jarlog
-  test -s jarlog
-
-  echo "Removing instrumented browser..."
-  ./mach clobber objdir
-
-  echo "Building optimized browser..."
-  cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-lto=cross,full
-ac_add_options --enable-profile-use=cross
-ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
-ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
-END
-  ./mach build --priority normal
-}
+        'e57391102771f85905986aac45cb923f1738fe96ec4a520bad9a79ce68e7a5b14898cdc97d17d84dc8aff7c5aa2aab853701ef8b27c6a5fe9c1f634c19ca9d9b')
 
 package() {
-  cd firefox-${pkgver%b*}
-  DESTDIR="$pkgdir" ./mach install
   local appdir="$pkgdir/usr/lib/$pkgname"
 
-  install -Dvm644 /dev/stdin "$appdir/browser/defaults/preferences/vendor.js" <<END
+  # Repack of Mozilla's build, copied as shipped: its bundled libraries, its
+  # updater, the .sig files its content security reads, and its distribution.ini,
+  # which identifies the payload as the official build that the update and crash
+  # reporter endpoints expect.
+  install -dm755 "$appdir"
+  cp -a "$srcdir/firefox/." "$appdir/"
+
+  # Mozilla's own "the package manager owns updates" marker, which its .deb ships
+  # and this payload reads. Without it the tarball self-updates from
+  # aus5.mozilla.org on app.update.channel=aurora behind pacman's back.
+  : > "$appdir/is-packaged-app"
+
+  # defaults/pref is the prefs directory this layout reads from disk;
+  # browser/defaults/preferences exists only inside browser/omni.ja here.
+  install -Dvm644 /dev/stdin "$appdir/defaults/pref/vendor.js" <<END
 // Use LANG environment variable to choose locale
 pref("intl.locale.requested", "");
 
@@ -230,37 +120,16 @@ pref("extensions.autoDisableScopes", 11);
 pref("browser.gnome-search-provider.enabled", true);
 END
 
-  install -Dvm644 /dev/stdin "$appdir/distribution/distribution.ini" <<END
-[Global]
-id=archlinux
-version=1.0
-about=Mozilla Firefox Developer Edition for Arch Linux
-
-[Preferences]
-app.distributor=archlinux
-app.distributor.channel=$pkgname
-app.partner.archlinux=archlinux
-END
-
-  # Link up system ONNX runtime  
-  ln -srv "$pkgdir/usr/lib/libonnxruntime.so" -t "$appdir"
-
   # Install desktop icons and metadata
-  local i theme=aurora
-  for i in 16 22 24 32 48 64 128 256; do
-    install -Dvm644 browser/branding/$theme/default$i.png \
+  local i
+  for i in 16 32 48 64 128; do
+    install -Dvm644 "$appdir/browser/chrome/icons/default/default$i.png" \
       "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/$pkgname.png"
   done
-  install -Dvm644 browser/branding/$theme/content/about-logo.png \
-    "$pkgdir/usr/share/icons/hicolor/192x192/apps/$pkgname.png"
-  install -Dvm644 browser/branding/$theme/content/about-logo@2x.png \
-    "$pkgdir/usr/share/icons/hicolor/384x384/apps/$pkgname.png"
-  install -Dvm644 browser/branding/$theme/content/about-logo.svg \
-    "$pkgdir/usr/share/icons/hicolor/scalable/apps/$pkgname.svg"
 
-  install -Dvm644 ../$pkgname-symbolic.svg -t "$pkgdir/usr/share/icons/hicolor/symbolic/apps"
-  install -Dvm644 ../$pkgname.desktop -t "$pkgdir/usr/share/applications"
-  install -Dvm644 ../org.mozilla.$pkgname.metainfo.xml -t "$pkgdir/usr/share/metainfo"
+  install -Dvm644 "$srcdir/$pkgname-symbolic.svg" -t "$pkgdir/usr/share/icons/hicolor/symbolic/apps"
+  install -Dvm644 "$srcdir/$pkgname.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dvm644 "$srcdir/org.mozilla.$pkgname.metainfo.xml" -t "$pkgdir/usr/share/metainfo"
 
   # Install a wrapper to avoid confusion about binary path
   install -Dvm755 /dev/stdin "$pkgdir/usr/bin/$pkgname" <<END
@@ -268,21 +137,28 @@ END
 exec /usr/lib/$pkgname/firefox "\$@"
 END
 
-  # Replace duplicate binary with wrapper
+  # The payload's own firefox-bin stays the binary it ships: the source build's
+  # wrapper symlink existed to replace a duplicate that is not present here.
   # https://bugzilla.mozilla.org/show_bug.cgi?id=658850
-  ln -srfv "$pkgdir/usr/bin/$pkgname" "$appdir/firefox-bin"
 
-  # Use system certificates
-  if [[ -e $appdir/libnss3.so ]]; then
-    ln -sfv ../libnssckbi.so -t "$appdir"
-  fi
+  # Bundled NSS ships no libnssckbi.so and validates certificates without one, so
+  # the source build's system-certificate swap has nothing to replace.
 
-  # Register GNOME search provider
+  # MPL-2.0 asks whoever distributes the executable form to say where the source
+  # version of the same release is.
+  install -Dvm644 "$srcdir/MPL-2.0.txt" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dvm644 /dev/stdin "$pkgdir/usr/share/licenses/$pkgname/NOTICE" <<END
+Firefox Developer Edition is MPL-2.0 licensed. The Source Code Version of this
+exact build is Mozilla's own release tarball:
+https://archive.mozilla.org/pub/devedition/releases/$pkgver/source/firefox-$pkgver.source.tar.xz
+END
+
+  # Register GNOME search provider under the payload's remoting name
   install -Dvm644 /dev/stdin "$pkgdir/usr/share/gnome-shell/search-providers/$pkgname.search-provider.ini" <<END
 [Shell Search Provider]
 DesktopId=$pkgname.desktop
-BusName=org.mozilla.${pkgname//-/_}.SearchProvider
-ObjectPath=/org/mozilla/${pkgname//-/_}/SearchProvider
+BusName=org.mozilla.${_remoting//-/_}.SearchProvider
+ObjectPath=/org/mozilla/${_remoting//-/_}/SearchProvider
 Version=2
 END
 }
