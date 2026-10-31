@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    ".nvchecker.toml",
+    "PKGBUILD",
+    "librewolf.desktop",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "MPL-2.0.txt",
+]
+SPDX-FileCopyrightText = "Mozilla contributors"
+SPDX-License-Identifier = "MPL-2.0"

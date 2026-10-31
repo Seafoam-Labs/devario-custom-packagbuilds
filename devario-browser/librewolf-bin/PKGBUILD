@@ -1,0 +1,121 @@
+# Maintainer: Devario maintainers
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=librewolf-bin
+pkgver=159.0_1
+pkgrel=1
+pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom"
+arch=(x86_64)
+url="https://librewolf.net/"
+license=(MPL-2.0)
+# The payload ships its own nspr, nss, sqlite3, codec and onnxruntime
+# libraries, so those are not dependencies here; this list is its DT_NEEDED
+# closure minus what it ships itself, plus libpulse and ffmpeg, which cubeb
+# and the media stack dlopen.
+depends=(
+  alsa-lib
+  at-spi2-core
+  cairo
+  dbus
+  ffmpeg
+  fontconfig
+  freetype2
+  gdk-pixbuf2
+  glib2
+  glibc
+  gtk3
+  hicolor-icon-theme
+  libgcc
+  libpulse
+  libstdc++
+  libx11
+  libxcb
+  libxcomposite
+  libxcursor
+  libxdamage
+  libxext
+  libxfixes
+  libxi
+  libxrandr
+  libxrender
+  mime-types
+  nss
+  pango
+  ttf-font
+)
+optdepends=(
+  'hunspell-dictionary: Spell checking'
+  'libnotify: Notification integration'
+  'networkmanager: Location detection via available WiFi networks'
+  'speech-dispatcher: Text-to-Speech'
+  'xdg-desktop-portal: Screensharing with Wayland'
+)
+provides=("librewolf=$pkgver")
+conflicts=(librewolf)
+options=(!strip)
+# User-editable defaults; keep local changes as .pacnew on upgrade.
+backup=(
+  usr/lib/librewolf/librewolf.cfg
+  usr/lib/librewolf/distribution/policies.json
+)
+# Upstream tags releases <firefox>-<revision>; pacman forbids the hyphen in pkgver.
+_tag="${pkgver/_/-}"
+_baseurl="https://codeberg.org/api/packages/librewolf/generic/librewolf/$_tag"
+source=(
+  "librewolf-$_tag-linux-x86_64-package.tar.xz::$_baseurl/librewolf-$_tag-linux-x86_64-package.tar.xz"
+  "librewolf-$_tag-linux-x86_64-package.tar.xz.sig::$_baseurl/librewolf-$_tag-linux-x86_64-package.tar.xz.sig"
+  librewolf.desktop
+  MPL-2.0.txt
+)
+validpgpkeys=('662E3CDD6FE329002D0CA5BB40339DD82B12EF16') # LibreWolf Maintainers <gpg@librewolf.net>
+sha256sums=('a796a3c80e0c565048796a342b8eaf4d128608119c7447c43ecb5455c632f49c'
+            'SKIP'
+            '20ea6e622c9d75537263394b9c4c3bd0556b207839e8bde9fd3a22df29dcd350'
+            '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
+
+package() {
+  local appdir="$pkgdir/usr/lib/librewolf"
+
+  # Install the payload as shipped: its librewolf.cfg and policies.json already
+  # carry LibreWolf's hardened defaults.
+  install -dm755 "$appdir"
+  cp -a "$srcdir/librewolf/." "$appdir/"
+
+  # defaults/pref is the on-disk prefs directory this layout reads;
+  # browser/defaults/preferences exists only inside browser/omni.ja.
+  install -Dvm644 /dev/stdin "$appdir/defaults/pref/vendor.js" <<END
+// Use system-provided dictionaries
+pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+END
+
+  local i
+  for i in 16 32 48 64 128; do
+    install -Dvm644 "$appdir/browser/chrome/icons/default/default$i.png" \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/librewolf.png"
+  done
+  install -Dvm644 "$srcdir/librewolf.desktop" -t "$pkgdir/usr/share/applications"
+
+  # Wrapper, so the executable's path is not part of the interface.
+  install -Dvm755 /dev/stdin "$pkgdir/usr/bin/librewolf" <<END
+#!/bin/sh
+exec /usr/lib/librewolf/librewolf "\$@"
+END
+
+  # The payload duplicates its executable; point it back at the wrapper.
+  # https://bugzilla.mozilla.org/show_bug.cgi?id=658850
+  ln -sf /usr/bin/librewolf "$appdir/librewolf-bin"
+
+  # NSS loads its trust module only from the application directory, and the
+  # payload ships none, so link the system module provided by nss.
+  ln -s /usr/lib/libnssckbi.so "$appdir/libnssckbi.so"
+
+  # MPL-2.0 asks distributors of the executable form to say where the source is.
+  install -Dvm644 "$srcdir/MPL-2.0.txt" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dvm644 /dev/stdin "$pkgdir/usr/share/licenses/$pkgname/NOTICE" <<END
+LibreWolf is MPL-2.0 licensed. The Source Code Version of this exact build is
+the upstream source tag for this release:
+https://codeberg.org/librewolf/source/src/tag/$_tag
+END
+}
+
+# vim:set sw=2 sts=-1 et:
