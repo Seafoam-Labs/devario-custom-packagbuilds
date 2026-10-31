@@ -26,6 +26,7 @@ path = [
     "*.metainfo.xml",
     "*.patch",
     "*.svg",
+    "MPL-2.0.txt",
 ]
 SPDX-FileCopyrightText = "Firefox contributors"
 SPDX-License-Identifier = "MPL-2.0"

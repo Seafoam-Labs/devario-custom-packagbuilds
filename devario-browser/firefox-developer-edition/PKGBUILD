@@ -66,7 +66,10 @@ source=(
   $pkgname-symbolic.svg
   $pkgname.desktop
   org.mozilla.$pkgname.metainfo.xml
-  LICENSES/MPL-2.0.txt
+  # The builder ships local sources as flat related-file names and rejects any
+  # path separator, so this copy of the license text sits beside the PKGBUILD
+  # rather than in the LICENSES/ directory that holds it for REUSE.
+  MPL-2.0.txt
 )
 validpgpkeys=(
   # Mozilla Software Releases <release@mozilla.com>
