@@ -6,7 +6,7 @@ pkgname=(
   webkit2gtk-4.1
   webkit2gtk-4.1-docs
 )
-pkgver=2.54.1
+pkgver=2.54.2
 pkgrel=1
 pkgdesc="Web content engine for GTK"
 url="https://webkitgtk.org"
@@ -39,56 +39,56 @@ license=(
   Unicode-TOU
 )
 depends=(
-  at-spi2-core
+  'at-spi2-core>=2.5.3'
   atk
   bubblewrap
-  cairo
+  'cairo>=1.16.0'
   enchant
   expat
   fontconfig
-  freetype2
+  'freetype2>=2.9.0'
   gdk-pixbuf2
-  glib2
+  'glib2>=2.70.0'
   glibc
   gst-plugins-bad-libs
   gst-plugins-base-libs
   gstreamer
-  gtk3
-  harfbuzz
-  harfbuzz-icu
+  'gtk3>=3.22.0'
+  'harfbuzz>=2.7.4'
+  'harfbuzz-icu>=2.7.4'
   hyphen
-  icu
+  'icu>=70.1'
   lcms2
   libatomic
-  libavif
+  'libavif>=0.9.0'
   libdrm
   libegl
-  libepoxy
+  'libepoxy>=1.5.4'
   libgcc
-  libgcrypt
+  'libgcrypt>=1.7.0'
   libgl
   libgles
   libjpeg-turbo
-  libjxl
-  libmanette
+  'libjxl>=0.7.0'
+  'libmanette>=0.2.4'
   libpng
   libseccomp
   libsecret
-  libsoup3
+  'libsoup3>=3.0.0'
   libstdc++
   libsystemd
   libtasn1
   libwebp
   libx11
-  libxml2
-  libxslt
+  'libxml2>=2.9.13'
+  'libxslt>=1.1.13'
   mesa
   openjpeg2
   pango
   sqlite
   ttf-font
-  wayland
-  woff2
+  'wayland>=1.20'
+  'woff2>=1.0.2'
   xdg-dbus-proxy
   zlib
 )
@@ -107,14 +107,14 @@ makedepends=(
   ruby-stdlib
   systemd
   unifdef
-  wayland-protocols
+  'wayland-protocols>=1.24'
 )
 source=(
   $url/releases/webkitgtk-$pkgver.tar.xz{,.asc}
 )
-sha256sums=('ea0bbb02dbdbc596874a4e7ad35b66645b3e0a232bd0e4081de5ed92eb0a397d'
+sha256sums=('a76345b391bef6211fb5ab6cfab2e86b285d18cda17cbb9ade595f1252b86065'
             'SKIP')
-b2sums=('79c124b40fce5604c2adc81df7b640d1827b5e44577f1f728da77745f6f9859208d2ff51417d7a752c618ec02d62b3bb6b79f1db8230f83e5aed24b60f899928'
+b2sums=('9d159dd567544217fb59f71d337c74cbb7801335bdd292e7f1a5f72de021b28ab616158f9ffcf287b26fbdb2e9c6f6ccd434a6d92da68c5adac20ad726bae371'
         'SKIP')
 validpgpkeys=(
   # https://www.webkitgtk.org/verifying.html

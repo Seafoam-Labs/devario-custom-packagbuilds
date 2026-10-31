@@ -1,6 +1,6 @@
 pkgbase = webkit2gtk-4.1
 	pkgdesc = Web content engine for GTK
-	pkgver = 2.54.1
+	pkgver = 2.54.2
 	pkgrel = 1
 	url = https://webkitgtk.org
 	arch = x86_64
@@ -42,66 +42,66 @@ pkgbase = webkit2gtk-4.1
 	makedepends = ruby-stdlib
 	makedepends = systemd
 	makedepends = unifdef
-	makedepends = wayland-protocols
-	depends = at-spi2-core
+	makedepends = wayland-protocols>=1.24
+	depends = at-spi2-core>=2.5.3
 	depends = atk
 	depends = bubblewrap
-	depends = cairo
+	depends = cairo>=1.16.0
 	depends = enchant
 	depends = expat
 	depends = fontconfig
-	depends = freetype2
+	depends = freetype2>=2.9.0
 	depends = gdk-pixbuf2
-	depends = glib2
+	depends = glib2>=2.70.0
 	depends = glibc
 	depends = gst-plugins-bad-libs
 	depends = gst-plugins-base-libs
 	depends = gstreamer
-	depends = gtk3
-	depends = harfbuzz
-	depends = harfbuzz-icu
+	depends = gtk3>=3.22.0
+	depends = harfbuzz>=2.7.4
+	depends = harfbuzz-icu>=2.7.4
 	depends = hyphen
-	depends = icu
+	depends = icu>=70.1
 	depends = lcms2
 	depends = libatomic
-	depends = libavif
+	depends = libavif>=0.9.0
 	depends = libdrm
 	depends = libegl
-	depends = libepoxy
+	depends = libepoxy>=1.5.4
 	depends = libgcc
-	depends = libgcrypt
+	depends = libgcrypt>=1.7.0
 	depends = libgl
 	depends = libgles
 	depends = libjpeg-turbo
-	depends = libjxl
-	depends = libmanette
+	depends = libjxl>=0.7.0
+	depends = libmanette>=0.2.4
 	depends = libpng
 	depends = libseccomp
 	depends = libsecret
-	depends = libsoup3
+	depends = libsoup3>=3.0.0
 	depends = libstdc++
 	depends = libsystemd
 	depends = libtasn1
 	depends = libwebp
 	depends = libx11
-	depends = libxml2
-	depends = libxslt
+	depends = libxml2>=2.9.13
+	depends = libxslt>=1.1.13
 	depends = mesa
 	depends = openjpeg2
 	depends = pango
 	depends = sqlite
 	depends = ttf-font
-	depends = wayland
-	depends = woff2
+	depends = wayland>=1.20
+	depends = woff2>=1.0.2
 	depends = xdg-dbus-proxy
 	depends = zlib
-	source = https://webkitgtk.org/releases/webkitgtk-2.54.1.tar.xz
-	source = https://webkitgtk.org/releases/webkitgtk-2.54.1.tar.xz.asc
+	source = https://webkitgtk.org/releases/webkitgtk-2.54.2.tar.xz
+	source = https://webkitgtk.org/releases/webkitgtk-2.54.2.tar.xz.asc
 	validpgpkeys = 5AA3BC334FD7E3369E7C77B291C559DBE4C9123B
 	validpgpkeys = 013A0127AC9C65B34FFA62526C1009B693975393
-	sha256sums = ea0bbb02dbdbc596874a4e7ad35b66645b3e0a232bd0e4081de5ed92eb0a397d
+	sha256sums = a76345b391bef6211fb5ab6cfab2e86b285d18cda17cbb9ade595f1252b86065
 	sha256sums = SKIP
-	b2sums = 79c124b40fce5604c2adc81df7b640d1827b5e44577f1f728da77745f6f9859208d2ff51417d7a752c618ec02d62b3bb6b79f1db8230f83e5aed24b60f899928
+	b2sums = 9d159dd567544217fb59f71d337c74cbb7801335bdd292e7f1a5f72de021b28ab616158f9ffcf287b26fbdb2e9c6f6ccd434a6d92da68c5adac20ad726bae371
 	b2sums = SKIP
 
 pkgname = webkit2gtk-4.1
