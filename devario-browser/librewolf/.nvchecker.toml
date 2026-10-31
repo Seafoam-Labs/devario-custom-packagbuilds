@@ -1,4 +1,4 @@
-[librewolf-bin]
+[librewolf]
 source = "jq"
 url = "https://codeberg.org/api/v1/repos/librewolf/bsys6/releases/latest"
 filter = '.tag_name | gsub("-"; "_")'

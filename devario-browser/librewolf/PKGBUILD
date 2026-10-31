@@ -1,7 +1,7 @@
 # Maintainer: Devario maintainers
 # shellcheck shell=bash disable=SC2034,SC2154
 
-pkgname=librewolf-bin
+pkgname=librewolf
 pkgver=159.0_1
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom"
@@ -10,11 +10,12 @@ url="https://librewolf.net/"
 license=(MPL-2.0)
 # The payload ships its own nspr, nss, sqlite3, codec and onnxruntime
 # libraries, so those are not dependencies here; this list is its DT_NEEDED
-# closure minus what it ships itself, plus libpulse and ffmpeg, which cubeb
-# and the media stack dlopen.
+# closure minus what it ships itself, plus bash for the /bin/sh wrapper and
+# libpulse and ffmpeg, which cubeb and the media stack dlopen.
 depends=(
   alsa-lib
   at-spi2-core
+  bash
   cairo
   dbus
   ffmpeg
@@ -50,8 +51,6 @@ optdepends=(
   'speech-dispatcher: Text-to-Speech'
   'xdg-desktop-portal: Screensharing with Wayland'
 )
-provides=("librewolf=$pkgver")
-conflicts=(librewolf)
 options=(!strip)
 # User-editable defaults; keep local changes as .pacnew on upgrade.
 backup=(

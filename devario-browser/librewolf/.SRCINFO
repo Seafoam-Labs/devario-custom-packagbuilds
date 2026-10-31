@@ -1,4 +1,4 @@
-pkgbase = librewolf-bin
+pkgbase = librewolf
 	pkgdesc = Community-maintained fork of Firefox, focused on privacy, security and freedom
 	pkgver = 159.0_1
 	pkgrel = 1
@@ -7,6 +7,7 @@ pkgbase = librewolf-bin
 	license = MPL-2.0
 	depends = alsa-lib
 	depends = at-spi2-core
+	depends = bash
 	depends = cairo
 	depends = dbus
 	depends = ffmpeg
@@ -39,8 +40,6 @@ pkgbase = librewolf-bin
 	optdepends = networkmanager: Location detection via available WiFi networks
 	optdepends = speech-dispatcher: Text-to-Speech
 	optdepends = xdg-desktop-portal: Screensharing with Wayland
-	provides = librewolf=159.0_1
-	conflicts = librewolf
 	options = !strip
 	backup = usr/lib/librewolf/librewolf.cfg
 	backup = usr/lib/librewolf/distribution/policies.json
@@ -54,4 +53,4 @@ pkgbase = librewolf-bin
 	sha256sums = 20ea6e622c9d75537263394b9c4c3bd0556b207839e8bde9fd3a22df29dcd350
 	sha256sums = 66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172
 
-pkgname = librewolf-bin
+pkgname = librewolf
