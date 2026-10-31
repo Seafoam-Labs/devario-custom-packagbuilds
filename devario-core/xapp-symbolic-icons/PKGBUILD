@@ -1,0 +1,26 @@
+# Maintainer:
+
+pkgname=xapp-symbolic-icons
+pkgver=1.1.1
+pkgrel=1
+pkgdesc='A set of symbolic icons for GTK applications and projects'
+arch=(any)
+url='https://github.com/xapp-project/xapp-symbolic-icons'
+license=(LGPL-3.0-only)
+depends=(hicolor-icon-theme)
+makedepends=(
+  git
+  meson
+)
+optdepends=('python: for xsi-replace-adwaita-symbolic command')
+source=("git+https://github.com/xapp-project/xapp-symbolic-icons#tag=$pkgver")
+b2sums=('4c6ef3b1eabd9e67236c614028314289799626b2f7a66b2fd89596b7378fd6529796baeede97a421315adb6107171c3a468e2b7071d09096e5c106741214ccf6')
+
+build() {
+  arch-meson $pkgname build
+  meson compile -C build
+}
+
+package(){
+  meson install -C build --destdir="$pkgdir"
+}
