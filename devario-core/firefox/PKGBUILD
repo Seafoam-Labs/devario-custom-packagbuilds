@@ -140,7 +140,8 @@ ac_add_options --with-wasi-sysroot=/usr/share/wasi-sysroot
 # Branding
 ac_add_options --enable-official-branding
 ac_add_options --enable-update-channel=release
-ac_add_options --with-distribution-id=org.archlinux
+# Devario's own distributor identity, not Arch's (see GOOGLE-API-KEYS.md)
+ac_add_options --with-distribution-id=com.devario
 ac_add_options --with-unsigned-addon-scopes=app,system
 ac_add_options --allow-addon-sideload
 export MOZILLA_OFFICIAL=1
@@ -237,16 +238,18 @@ pref("extensions.autoDisableScopes", 11);
 pref("browser.gnome-search-provider.enabled", true);
 END
 
+  # First-run distributor identity: the archlinux tokens here made this build
+  # report itself as Arch's partner build (see GOOGLE-API-KEYS.md)
   install -Dvm644 /dev/stdin "$appdir/distribution/distribution.ini" <<END
 [Global]
-id=archlinux
+id=devario
 version=1.0
-about=Mozilla Firefox for Arch Linux
+about=Mozilla Firefox for Devario
 
 [Preferences]
-app.distributor=archlinux
+app.distributor=devario
 app.distributor.channel=$pkgname
-app.partner.archlinux=archlinux
+app.partner.devario=devario
 END
 
   # Link up system ONNX runtime
