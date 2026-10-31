@@ -3,19 +3,19 @@
 
 pkgbase=wasi-libc++
 pkgname=(wasi-libc++ wasi-libc++abi)
-pkgver=23.1.1
+pkgver=23.1.4
 pkgrel=1
 pkgdesc="LLVM C++ standard library (WASI)"
 url="https://libcxx.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 arch=('any')
 depends=('wasi-libc' 'wasi-compiler-rt')
-makedepends=('clang' 'cmake' 'ninja' 'python' 'llvm' 'lld' 'wasm-component-ld')
+makedepends=('clang' 'cmake>=3.20.0' 'ninja' 'python' 'llvm' 'lld' 'wasm-component-ld')
 options=('!buildflags' 'staticlibs')
 source=("https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-project-$pkgver.src.tar.xz"{,.sig}
         0001-libc-chrono-Fix-years-months-periods-on-GCC-i386.patch
         0002-libcxx-wasi-has-no-definition-of-rune_table-for-loca.patch)
-sha512sums=('e51c45f01e95272771bfee8382b213a2e21d3c62e273ff58967cfe40b87f45d2b37a4797b8b83fab025ed7a0ad32adef48406ade2d049da3d7f1799b30edea39'
+sha512sums=('1443531768d7040677302e4468b95b345511f10881a072e703814e9e10316d6ce12f56e8d1fbab5c350550380ae8d242acebb68c833fa385ea7777f05d8bde23'
             'SKIP'
             '7af2a96d7b6cf3b93a5e31aafad2af21b4a764f3da20c581816a2a97933860af41b81590e29e1673c2b823b8f23aedadbd75c441ec3dbc248124d0c3d673a95f'
             'e361c363e42cad504fce0e0418cc81704f5f6be216a330b2a234d602d039580f5670d58aa6668c29fd77fa4226ce35fc874fd3ad4b5334de47d0ca662e23d436')

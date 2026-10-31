@@ -1,12 +1,12 @@
 pkgbase = wasi-libc++
 	pkgdesc = LLVM C++ standard library (WASI)
-	pkgver = 23.1.1
+	pkgver = 23.1.4
 	pkgrel = 1
 	url = https://libcxx.llvm.org/
 	arch = any
 	license = Apache-2.0 WITH LLVM-exception
 	makedepends = clang
-	makedepends = cmake
+	makedepends = cmake>=3.20.0
 	makedepends = ninja
 	makedepends = python
 	makedepends = llvm
@@ -16,15 +16,15 @@ pkgbase = wasi-libc++
 	depends = wasi-compiler-rt
 	options = !buildflags
 	options = staticlibs
-	source = https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.1/llvm-project-23.1.1.src.tar.xz
-	source = https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.1/llvm-project-23.1.1.src.tar.xz.sig
+	source = https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.4/llvm-project-23.1.4.src.tar.xz
+	source = https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.4/llvm-project-23.1.4.src.tar.xz.sig
 	source = 0001-libc-chrono-Fix-years-months-periods-on-GCC-i386.patch
 	source = 0002-libcxx-wasi-has-no-definition-of-rune_table-for-loca.patch
 	validpgpkeys = 474E22316ABF4785A88C6E8EA2C794A986419D8A
 	validpgpkeys = D574BD5D1D0E98895E3BF90044F2485E45D59042
 	validpgpkeys = FFB3368980F3E6BB5737145A316C56D064CACBA5
 	validpgpkeys = 71046D1E9C6656BDD61171873E83BABF4A4F9E85
-	sha512sums = e51c45f01e95272771bfee8382b213a2e21d3c62e273ff58967cfe40b87f45d2b37a4797b8b83fab025ed7a0ad32adef48406ade2d049da3d7f1799b30edea39
+	sha512sums = 1443531768d7040677302e4468b95b345511f10881a072e703814e9e10316d6ce12f56e8d1fbab5c350550380ae8d242acebb68c833fa385ea7777f05d8bde23
 	sha512sums = SKIP
 	sha512sums = 7af2a96d7b6cf3b93a5e31aafad2af21b4a764f3da20c581816a2a97933860af41b81590e29e1673c2b823b8f23aedadbd75c441ec3dbc248124d0c3d673a95f
 	sha512sums = e361c363e42cad504fce0e0418cc81704f5f6be216a330b2a234d602d039580f5670d58aa6668c29fd77fa4226ce35fc874fd3ad4b5334de47d0ca662e23d436
@@ -32,7 +32,7 @@ pkgbase = wasi-libc++
 pkgname = wasi-libc++
 	depends = wasi-libc
 	depends = wasi-compiler-rt
-	depends = wasi-libc++abi=23.1.1-1
+	depends = wasi-libc++abi=23.1.4-1
 
 pkgname = wasi-libc++abi
 	pkgdesc = Low level support for the LLVM C++ standard library (WASI)
