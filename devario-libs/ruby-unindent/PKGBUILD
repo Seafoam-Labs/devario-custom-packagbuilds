@@ -17,6 +17,8 @@ prepare() {
   cd unindent-$pkgver
   # https://github.com/mynyml/unindent/pull/2
   sed -i 's/-rubygems//' Rakefile
+  # RubyGems 4 removed Specification#has_rdoc= (rubygems/rubygems#9084)
+  sed '/^\s*s\.has_rdoc\s*=/d' -i unindent.gemspec
 }
 
 build() {
