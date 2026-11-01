@@ -13,7 +13,6 @@ license=('MIT')
 depends=(
   ruby
   ruby-diff-lcs
-  ruby-ffi
   ruby-rspec-support
 )
 makedepends=(
@@ -25,6 +24,8 @@ checkdepends=(
   ruby-childprocess
   ruby-cucumber
   ruby-drb
+  # ruby-ffi is a Gemfile test dep only; Arch over-declares it in depends
+  ruby-ffi
   ruby-minitest
   ruby-mutex_m
   ruby-rake

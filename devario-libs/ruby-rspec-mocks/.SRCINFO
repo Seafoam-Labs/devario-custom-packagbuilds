@@ -9,6 +9,7 @@ pkgbase = ruby-rspec-mocks
 	checkdepends = ruby-childprocess
 	checkdepends = ruby-cucumber
 	checkdepends = ruby-drb
+	checkdepends = ruby-ffi
 	checkdepends = ruby-minitest
 	checkdepends = ruby-mutex_m
 	checkdepends = ruby-rake
@@ -20,7 +21,6 @@ pkgbase = ruby-rspec-mocks
 	makedepends = ruby-rdoc
 	depends = ruby
 	depends = ruby-diff-lcs
-	depends = ruby-ffi
 	depends = ruby-rspec-support
 	options = !emptydirs
 	source = ruby-rspec-mocks::git+https://github.com/rspec/rspec#tag=rspec-mocks-v3.13.7
