@@ -18,8 +18,9 @@ prepare() {
   cd nanotest-$pkgver
   # https://github.com/mynyml/nanotest/pull/3
   sed 's/-rubygems //' -i Rakefile
-  # https://github.com/mynyml/nanotest/pull/4
-  sed 's/MiniTest::Unit::TestCase/MiniTest::Test/' -i test/test_nanotest.rb
+  # https://github.com/mynyml/nanotest/pull/4, retargeted at minitest 6 (no MiniTest alias);
+  # test_helper.rb sets the same constant
+  sed 's/MiniTest::Unit::TestCase/Minitest::Test/' -i test/test_nanotest.rb test/test_helper.rb
   # RubyGems 4 removed Specification#has_rdoc= (rubygems/rubygems#9084)
   sed '/^\s*s\.has_rdoc\s*=/d' -i nanotest.gemspec
 }
