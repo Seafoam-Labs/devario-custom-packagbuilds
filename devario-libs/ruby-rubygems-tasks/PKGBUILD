@@ -8,8 +8,8 @@ arch=(any)
 url='https://github.com/postmodern/rubygems-tasks'
 license=(MIT)
 depends=(ruby-irb ruby-rake)
-makedepends=(git ruby-yard)
-checkdepends=(ruby-rspec)
+# the Rakefile requires rspec/core/rake_task at top level, so build() needs ruby-rspec even with --no-check
+makedepends=(git ruby-rspec ruby-yard)
 options=(!emptydirs)
 source=(git+https://github.com/postmodern/rubygems-tasks.git#tag=v$pkgver)
 sha256sums=('4e55777b95f3cd340da8453f3f3ff77ecfaefea6dc7cef1b220e0ffbaf1404d7')
