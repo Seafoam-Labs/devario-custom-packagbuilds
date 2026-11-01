@@ -1,19 +1,19 @@
 pkgbase = tesseract
 	pkgdesc = An OCR program
-	pkgver = 5.5.3
+	pkgver = 5.5.4
 	pkgrel = 1
 	url = https://github.com/tesseract-ocr/tesseract
 	arch = x86_64
 	license = APACHE
-	makedepends = icu
-	makedepends = pango
+	makedepends = icu>=52.1
+	makedepends = pango>=1.38.0
 	makedepends = asciidoc
 	depends = libgcc
 	depends = libgomp
 	depends = libstdc++
 	depends = curl
 	depends = libarchive
-	depends = leptonica
+	depends = leptonica>=1.80
 	optdepends = icu: for text2image
 	optdepends = pango: for text2image
 	optdepends = tesseract-data-afr: OCR data (afr)
@@ -144,8 +144,8 @@ pkgbase = tesseract
 	optdepends = tesseract-data-yor: OCR data (yor)
 	provides = libtesseract.so
 	provides = libtesseract.so=5-64
-	source = https://github.com/tesseract-ocr/tesseract/archive/5.5.3/tesseract-5.5.3.tar.gz
-	sha256sums = 9218e62793116d42a9f6d14cd9348518b27f382096eea3d0f2d1a24616bb5884
+	source = https://github.com/tesseract-ocr/tesseract/archive/5.5.4/tesseract-5.5.4.tar.gz
+	sha256sums = a8dbf8b8c8ee427ff6ad1d99116502feaf59440af1adb893caf60a6576826cf4
 
 pkgname = tesseract
 	depends = libgcc
@@ -153,6 +153,6 @@ pkgname = tesseract
 	depends = libstdc++
 	depends = curl
 	depends = libarchive
-	depends = leptonica
+	depends = leptonica>=1.80
 	depends = tessdata
 	depends = tesseract-data-osd
