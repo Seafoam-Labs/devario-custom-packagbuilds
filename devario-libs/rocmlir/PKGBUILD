@@ -30,6 +30,9 @@ build() {
     -B build
     -S "$pkgname"
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
+    # GNUInstallDirs picks lib64 for /opt/rocm, but the install rules put
+    # librockCompiler.a in lib; keep the CMake config beside it.
+    -D CMAKE_INSTALL_LIBDIR=lib
     -D CMAKE_BUILD_TYPE=Release
     -D CMAKE_C_COMPILER=amdclang
     -D CMAKE_CXX_COMPILER=amdclang++
