@@ -1,0 +1,18 @@
+pkgbase = ruby-hoe
+	pkgdesc = Hoe is a rake/rubygems helper for project Rakefiles
+	pkgver = 4.7.1
+	pkgrel = 1
+	url = https://www.zenspider.com/projects/hoe.html
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = ruby-minitest
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-rake
+	options = !emptydirs
+	source = git+https://github.com/seattlerb/hoe#tag=v4.7.1
+	sha512sums = cb1dfce80b669ee274d9a87e6552a55b85058a8cebd9c1582bede2f77bb1c5faf73caa2e98b895ea0ae990fe6f8158eaeff7a8693bfbd7a10f451a0fadf57bd1
+	b2sums = 287754dc9ed088e4075b7145dca4634e1c54dfc0942436db3db53f4a5a1e39b1b58cca1f9f142cfbccbf7257955272429efb98aef1d9cb986dbf4d1fd1ef4796
+
+pkgname = ruby-hoe

@@ -1,0 +1,55 @@
+# Maintainer: Tim Meusel <tim@bastelfreak.de>
+# Maintainer: Hyacinthe Cartiaux <hyacinthe@archlinux.org>
+# Contributor: Artem Vorotnikov <artem@vorotnikov.me>
+# Contributor: Tim Meusel <tim@bastelfreak.de>
+# Contributor: Mario Finelli <mario at finel dot li>
+
+_gemname='minitar'
+pkgname="ruby-${_gemname}"
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='A pure-Ruby library that provides the ability to deal with POSIX tar(1) archive files'
+arch=('any')
+url='https://github.com/halostatue/minitar/'
+license=('Ruby' 'BSD-2-Clause')
+makedepends=('ruby-rdoc' 'ruby-rake' 'ruby-hoe' 'ruby-minitest' 'ruby-base64')
+depends=(ruby)
+source=("https://github.com/halostatue/minitar/archive/v${pkgver}/${pkgname}-v${pkgver}.tar.gz")
+options=("!emptydirs")
+sha512sums=('c76e212c0ae69910acc66eee7673722aecdc08147f29aef0881af604c475893a3cefd05436df08c003c502e2eee9aa72d1bf253117dba5c017f1ad94a1df9366')
+
+prepare() {
+  cd "${_gemname}-${pkgver}"
+  # update the gemspec to allow newer versions of rake
+  sed --in-place 's|~>|>=|g' "${_gemname}.gemspec"
+  # remove references to cloud CI pipelines (they require more gems and don't bring any value)
+  sed --in-place '/minitest\/focus/d' test/minitest_helper.rb
+  # fix for recent ruby-hoe versions
+  sed --in-place '/trusted_release/d' Rakefile
+  printf '== %s\n\n* Release\n' "$pkgver" > History.txt
+  rm -f Gemfile
+}
+
+build() {
+  cd "${_gemname}-${pkgver}"
+  rake gem
+}
+
+check() {
+  cd "${_gemname}-${pkgver}"
+  rake test
+}
+
+package() {
+  cd "${_gemname}-${pkgver}"
+  local _gemdir
+  _gemdir="$(gem env gemdir)"
+  gem install --verbose --ignore-dependencies --no-user-install --install-dir "${pkgdir}/${_gemdir}" --bindir "${pkgdir}/usr/bin" "pkg/${_gemname}-${pkgver}.gem"
+
+  install -Dm 644 LICENCE.md -t "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm 644 CODE_OF_CONDUCT.md CONTRIBUTING.md SECURITY.md README.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+
+  rm -rf "${pkgdir}/${_gemdir}/cache"
+}
+
+# vim: ts=2 sw=2 et:

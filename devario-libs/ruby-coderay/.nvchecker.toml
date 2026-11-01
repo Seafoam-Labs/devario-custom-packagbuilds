@@ -1,0 +1,4 @@
+[ruby-coderay]
+source = "git"
+git = "https://github.com/rubychan/coderay.git"
+prefix = "v"

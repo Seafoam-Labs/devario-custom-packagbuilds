@@ -1,0 +1,36 @@
+pkgbase = ruby-cucumber
+	pkgdesc = Behaviour Driven Development with elegance and joy
+	pkgver = 12.0.1
+	pkgrel = 1
+	url = https://github.com/cucumber/cucumber-ruby
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	checkdepends = ruby-nokogiri
+	checkdepends = ruby-rspec
+	checkdepends = ruby-webrick
+	makedepends = git
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-base64
+	depends = ruby-builder
+	depends = ruby-cucumber-ci-environment
+	depends = ruby-cucumber-core
+	depends = ruby-cucumber-cucumber-expressions
+	depends = ruby-cucumber-gherkin
+	depends = ruby-cucumber-html-formatter
+	depends = ruby-cucumber-messages
+	depends = ruby-cucumber-query
+	depends = ruby-diff-lcs
+	depends = ruby-logger
+	depends = ruby-mime-types
+	depends = ruby-mini_mime
+	depends = ruby-multi_test
+	depends = ruby-sys-uname
+	depends = ruby-rake
+	options = !emptydirs
+	source = git+https://github.com/cucumber/cucumber-ruby.git#tag=v12.0.1
+	sha512sums = a24d330795af7611235ca3801ceabce912d5bed22c3bdc514f989e55681bdd6814bc4bafe12f0bbc15a1a2529726f5848a00ab9852932575f75af969540a42dd
+	b2sums = 2b552fb7dbe4a28214b737111aa40454b129f4bb530660a3fb24143c88c83bb0338e044bcd9401da16dea1fa025ce3c6d246c5687b87421f35055150c967e9a6
+
+pkgname = ruby-cucumber

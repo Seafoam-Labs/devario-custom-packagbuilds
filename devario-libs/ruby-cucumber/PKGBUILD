@@ -1,0 +1,98 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+
+pkgname=ruby-cucumber
+pkgver=12.0.1
+pkgrel=1
+pkgdesc="Behaviour Driven Development with elegance and joy"
+arch=(any)
+url='https://github.com/cucumber/cucumber-ruby'
+license=(MIT)
+depends=(
+  ruby
+  ruby-base64
+  ruby-builder
+  ruby-cucumber-ci-environment
+  ruby-cucumber-core
+  ruby-cucumber-cucumber-expressions
+  ruby-cucumber-gherkin
+  ruby-cucumber-html-formatter
+  ruby-cucumber-messages
+  ruby-cucumber-query
+  ruby-diff-lcs
+  ruby-logger
+  ruby-mime-types
+  ruby-mini_mime
+  ruby-multi_test
+  ruby-sys-uname
+  ruby-rake
+)
+makedepends=(
+  git
+  ruby-rdoc
+)
+checkdepends=(
+  ruby-bundler
+  ruby-nokogiri
+  ruby-rspec
+  ruby-webrick
+)
+options=(!emptydirs)
+source=(
+  "git+https://github.com/cucumber/cucumber-ruby.git#tag=v$pkgver"
+)
+sha512sums=('a24d330795af7611235ca3801ceabce912d5bed22c3bdc514f989e55681bdd6814bc4bafe12f0bbc15a1a2529726f5848a00ab9852932575f75af969540a42dd')
+b2sums=('2b552fb7dbe4a28214b737111aa40454b129f4bb530660a3fb24143c88c83bb0338e044bcd9401da16dea1fa025ce3c6d246c5687b87421f35055150c967e9a6')
+
+prepare() {
+  cd cucumber-ruby
+
+  sed -i \
+    -e 's|~>|>=|' \
+    -e "s/, '< [0-9]\+'//" \
+    cucumber.gemspec
+  sed -i '/[rR]ubo[cC]op/d' Rakefile
+
+  rm Gemfile
+
+  sed -i -e 's/bundle exec //' gem_tasks/cck.rake compatibility/cck_spec.rb
+}
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd cucumber-ruby
+  gem build cucumber.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    cucumber-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd cucumber-ruby
+  # cck disabled: "ci" is not supported in latest cucumber-messages
+  PATH="$PWD/tmp_install/usr/bin:$PATH" GEM_HOME="tmp_install/$_gemdir" rake spec cucumber
+}
+
+package() {
+  cd cucumber-ruby
+  cp -a tmp_install/* "$pkgdir"/
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}
