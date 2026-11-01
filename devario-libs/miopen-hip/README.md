@@ -9,10 +9,15 @@ resolve to the same package. MIOpen finds `rocMLIR::rockCompiler` through
 `libMIOpen.so`; `rocmlir` is a makedepend, and the package copies the rocMLIR
 and LLVM notices because that code is redistributed in the binary.
 
-MIOpen still uses the targets returned by
-`rocm-supported-gfx -e gfx1010,gfx1012,gfx1153`; it does not inherit the
-reduced six-target list from the hipBLASLt recipe. Tests are removed during
-prepare because they require an AMD GPU, and LTO is disabled.
+MIOpen builds device code for `gfx11-generic` and `gfx12-generic` instead of
+the 20-entry `rocm-supported-gfx -e gfx1010,gfx1012,gfx1153` list, the same
+coverage decision `migraphx` carries: gfx1100-1103 and gfx1150-1153 for the
+first target, gfx1200/1201 for the second. `GPU_TARGETS` becomes one
+`--offload-arch` per entry and MIOpen links `hip::device` into the library, so
+the arch list multiplied every translation unit's compile; the four
+`ck_header_only` layernorm instances are the only sources that emit device
+code. Tests are removed during prepare because they require an AMD GPU, and
+LTO is disabled.
 
 The earlier 3–6 hour clean-build estimate on the Ryzen 7 3800X with 96 GB RAM
 was a planning estimate, not a measurement. The multi-hour LLVM/MLIR compiler

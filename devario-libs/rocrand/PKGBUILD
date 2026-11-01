@@ -4,7 +4,7 @@
 
 pkgname=rocrand
 pkgver=10.0
-pkgrel=3
+pkgrel=4
 pkgdesc='Pseudo-random and quasi-random number generator on ROCm'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rocRAND/en/latest/index.html'
@@ -34,7 +34,9 @@ build() {
     -D CMAKE_BUILD_TYPE=None
     -D CMAKE_TOOLCHAIN_FILE=toolchain-linux.cmake
     -D CMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++
-    -D GPU_TARGETS="$(rocm-supported-gfx)"
+    # Device code is emitted once per target; the two generic targets cover
+    # gfx1100-1103/gfx1150-1153 and gfx1200/1201, as migraphx uses.
+    -D GPU_TARGETS="gfx11-generic;gfx12-generic"
     # -fcf-protection is not supported by HIP, see
     # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
     -D CMAKE_CXX_FLAGS="${CXXFLAGS} -fcf-protection=none"

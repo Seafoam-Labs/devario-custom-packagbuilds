@@ -45,6 +45,9 @@ build() {
   # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
   # /etc/profile.d/rocm.sh; Shelly's build shell does not source profile.d.
   export PATH="/opt/rocm/bin:$PATH"
+  # --hip-link makes the driver append -lamdhip64; it infers the ROCm root
+  # from the compiler path and misses /opt/rocm/lib without ROCM_PATH.
+  export ROCM_PATH=/opt/rocm
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   CXXFLAGS+=" -fcf-protection=none"

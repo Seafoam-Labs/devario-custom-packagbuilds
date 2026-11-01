@@ -4,7 +4,7 @@
 
 pkgname=rocsparse
 pkgver=7.2.4
-pkgrel=1
+pkgrel=2
 pkgdesc='BLAS for sparse computation on top of ROCm'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/index.html'
@@ -38,7 +38,9 @@ build() {
     -D CMAKE_CXX_COMPILER=amdclang++
     -D CMAKE_CXX_FLAGS="${CXXFLAGS} -fcf-protection=none"
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
-    -D GPU_TARGETS="$(rocm-supported-gfx -e gfx950)"
+    # Device code is emitted once per target; the two generic targets cover
+    # gfx1100-1103/gfx1150-1153 and gfx1200/1201, as migraphx uses.
+    -D GPU_TARGETS="gfx11-generic;gfx12-generic"
   )
   cmake "${cmake_args[@]}"
   cmake --build build

@@ -5,7 +5,7 @@
 
 pkgname=rccl
 pkgver=7.2.4
-pkgrel=1
+pkgrel=2
 pkgdesc="ROCm Communication Collectives Library"
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rccl/en/latest/index.html'
@@ -57,6 +57,9 @@ build() {
     -D CMAKE_INSTALL_PREFIX=/opt/rocm
     -D ENABLE_MSCCL_KERNEL=OFF
     -D ENABLE_MSCCLPP=OFF
+    # Replace the upstream 11-target default; the two generic targets cover
+    # gfx1100-1103/gfx1150-1153 and gfx1200/1201.
+    -D GPU_TARGETS="gfx11-generic;gfx12-generic"
   )
   cmake "${cmake_args[@]}"
   cmake --build build

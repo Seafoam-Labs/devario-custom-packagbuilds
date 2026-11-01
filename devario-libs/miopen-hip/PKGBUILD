@@ -80,6 +80,9 @@ build() {
   # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
   # /etc/profile.d/rocm.sh; Shelly's build shell does not source profile.d.
   export PATH="/opt/rocm/bin:$PATH"
+  # --hip-link makes the driver append -lamdhip64; it infers the ROCm root
+  # from the compiler path and misses /opt/rocm/lib without ROCM_PATH.
+  export ROCM_PATH=/opt/rocm
 
   local fdeep_args=(
     -S $pkgname-frugally-deep
@@ -123,7 +126,9 @@ build() {
     -D CMAKE_PREFIX_PATH="$srcdir/deps/usr/lib/cmake"
     -D rocMLIR_DIR=/opt/rocm/lib/cmake/rocmlir
     -D CMAKE_POLICY_VERSION_MINIMUM=3.5
-    -D GPU_TARGETS="$(rocm-supported-gfx -e gfx1010,gfx1012,gfx1153)"
+    # Device code is emitted once per target; the two generic targets cover
+    # gfx1100-1103/gfx1150-1153 and gfx1200/1201, as migraphx uses.
+    -D GPU_TARGETS="gfx11-generic;gfx12-generic"
   )
   cmake "${cmake_args[@]}"
   cmake --build build

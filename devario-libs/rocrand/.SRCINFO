@@ -1,7 +1,7 @@
 pkgbase = rocrand
 	pkgdesc = Pseudo-random and quasi-random number generator on ROCm
 	pkgver = 10.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://rocm.docs.amd.com/projects/rocRAND/en/latest/index.html
 	arch = x86_64
 	license = MIT
