@@ -20,8 +20,10 @@ pkgbase = rccl
 	source = rccl::git+https://github.com/ROCm/rccl#tag=rocm-7.2.4
 	source = rccl-json::git+https://github.com/nlohmann/json.git
 	source = rccl-mscclpp::git+https://github.com/microsoft/mscclpp.git
+	source = trace-hwreg-guard-generic-gfx-targets.patch
 	sha256sums = c47a838050a0188258fc318a82013d400fcaba661a2a58300bff8e51f77e20ec
 	sha256sums = SKIP
 	sha256sums = SKIP
+	sha256sums = b0971ad7e7a36e3f0fe747d7a9f92e300d49ae7a9d526a28af4296bedb90d06b
 
 pkgname = rccl

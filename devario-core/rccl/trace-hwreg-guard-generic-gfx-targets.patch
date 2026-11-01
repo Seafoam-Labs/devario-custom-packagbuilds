@@ -1,0 +1,32 @@
+src/device/common.h: guard the colltrace hw-id read on the gfx11/gfx12 families
+
+Upstream skips the "s_getreg_b32 %0, hwreg(HW_REG_HW_ID)" read for
+__gfx1100__/__gfx1101__/__gfx1102__/__gfx1200__/__gfx1201__ only. clang defines
+__gfx11_generic__ and the family macro __GFX11__ for --offload-arch=gfx11-generic
+(never __gfx1100__), so building for the generic targets still emits the asm and
+lld fails the offload link of librccl.so with
+
+    lld: error: ld-temp.o <inline asm>:1:25: invalid hardware register: not supported on this GPU
+
+because HW_REG_HW_ID exists only through gfx9 (gfx10 aliases it to HW_REG_HW_ID1).
+Guard on the family macros instead, which also covers gfx1103, gfx1150-1154 and
+gfx1250 that the named-chip list misses. The traced data_0 field stays unset, as
+it already does upstream for gfx1100 and gfx1200.
+
+---
+ src/device/common.h | 1 + 1 -
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/device/common.h b/src/device/common.h
+index ada2eba..4425cbf 100644
+--- a/src/device/common.h
++++ b/src/device/common.h
+@@ -26,7 +26,7 @@
+   { __atomic_store_n((DST), (SRC), __ATOMIC_SEQ_CST); }
+ #endif
+ 
+-#if defined(__gfx1100__) || defined(__gfx1101__) || defined(__gfx1102__) || defined(__gfx1200__) || defined(__gfx1201__)
++#if defined(__GFX11__) || defined(__GFX12__)
+ #define __trace_hwreg()
+ #else
+ #define __trace_hwreg() \

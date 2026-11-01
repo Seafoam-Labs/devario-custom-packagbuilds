@@ -16,10 +16,12 @@ source=(
   "${pkgname}::git+https://github.com/ROCm/rccl#tag=rocm-$pkgver"
   "${pkgname}-json::git+https://github.com/nlohmann/json.git"
   "${pkgname}-mscclpp::git+https://github.com/microsoft/mscclpp.git"
+  "trace-hwreg-guard-generic-gfx-targets.patch"
 )
 sha256sums=('c47a838050a0188258fc318a82013d400fcaba661a2a58300bff8e51f77e20ec'
             'SKIP'
-            'SKIP')
+            'SKIP'
+            'b0971ad7e7a36e3f0fe747d7a9f92e300d49ae7a9d526a28af4296bedb90d06b')
 options=(!lto)
 
 prepare() {
@@ -30,6 +32,10 @@ prepare() {
   git config submodule."ext-src/mscclpp".url "${srcdir}/${pkgname}"-mscclpp
 
   git -c protocol.file.allow=always submodule update --init --recursive
+
+  # Upstream gates the colltrace hw-id read on named gfx11/12 chips, which the generic
+  # targets do not define, so gate it on the gfx11/gfx12 family macros instead.
+  patch -Np1 -i "$srcdir/trace-hwreg-guard-generic-gfx-targets.patch"
 }
 
 build() {
