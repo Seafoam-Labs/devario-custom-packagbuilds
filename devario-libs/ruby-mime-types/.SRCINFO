@@ -1,0 +1,19 @@
+pkgbase = ruby-mime-types
+	pkgdesc = MIME Content-Type database
+	pkgver = 3.7.0
+	pkgrel = 1
+	url = https://github.com/mime-types/ruby-mime-types/
+	arch = any
+	license = MIT
+	checkdepends = ruby-rake
+	checkdepends = ruby-hoe
+	checkdepends = ruby-minitest
+	checkdepends = ruby-minitest-hooks
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-mime-types-data
+	options = !emptydirs
+	source = ruby-mime-types-3.7.0.tar.gz::https://github.com/mime-types/mime-types/archive/refs/tags/v3.7.0.tar.gz
+	sha256sums = afabe971c4d24a3c1419cb5fdecd541becda8ea6b78c451f410223fb65f33b09
+
+pkgname = ruby-mime-types

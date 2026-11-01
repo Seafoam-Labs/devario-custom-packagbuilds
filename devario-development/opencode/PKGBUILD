@@ -2,8 +2,8 @@
 # Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
 
 pkgname=opencode
-pkgver=2.0.26
-pkgrel=2
+pkgver=2.2.5
+pkgrel=1
 pkgdesc='The open source coding agent'
 arch=('x86_64')
 url='https://github.com/anomalyco/opencode'
@@ -16,7 +16,8 @@ depends=(
   'tar'
 )
 makedepends=(
-  'bun>=1.4.2'
+  'bun>=1.4.4'
+  'bun<2'
   'git'
 )
 optdepends=(
@@ -29,7 +30,7 @@ options=(
 )
 _target=opencode-linux-x64-baseline
 source=("git+$url.git#tag=v$pkgver")
-b2sums=('362811886cbd34e63037b48c6402ca53bcdab31cc7fbb4fdc047d8232f24af5aebb594c4046fdf39e437b33df853eca41c788de65bffba637e8526fd479b2337')
+b2sums=('7cea1cbf241901c6ad4b5a3880d1df3533cb526f783af5060b3d54fbe39ba947d0c68ae0ad1f0433c0526fd720a4b6ae758378c33409de736a52ef47b376f225')
 
 prepare() {
   cd "$srcdir/$pkgname"
@@ -38,7 +39,7 @@ prepare() {
 
 build() {
   cd "$srcdir/$pkgname/packages/cli"
-  OPENCODE_VERSION="$pkgver" bun run ./script/build.ts --target="$_target" --skip-install
+  OPENCODE_VERSION="$pkgver" OPENCODE_TARGET="${_target#opencode-}" bun run ./script/build.ts --skip-install
 
   # Generate these before packaging so a failed command cannot be hidden by a pipe.
   local binary="dist/${_target/opencode/cli}/bin/opencode"

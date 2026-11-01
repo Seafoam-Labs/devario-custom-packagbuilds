@@ -1,46 +1,33 @@
-MIGraphX packaging notes (2026-10-11)
+MIGraphX packaging notes (2026-11-01)
 
-The native recipe is MIGraphX 7.2.3, package release 7. Each clean build first
-builds rocMLIR at commit `6671a1ee31d44e1f2f7743a26a71ffc4ce9169bf`, selected
-from MIGraphX's upstream requirements. It enables `BUILD_FAT_LIBROCKCOMPILER`
-and disables shared libraries, builds the static compiler and its required
-LLVM/MLIR components, then installs them into a temporary dependency prefix.
-Only after that does it configure and compile MIGraphX. Installing the
-MIOpen binary does not supply or skip this separate compiler build.
+The native recipe is MIGraphX 7.2.3, package release 8. It no longer builds
+rocMLIR inline. The pinned compiler comes from `devario-libs/rocmlir`, which
+builds the same rocMLIR tree with `BUILD_FAT_LIBROCKCOMPILER=ON` and installs
+`librockCompiler.a`, its headers, and `rocmlir-config.cmake` under `/opt/rocm`.
+MIGraphX finds `rocMLIR::rockCompiler` through `rocMLIR_DIR` and links the
+static archive into `libmigraphx_gpu.so`. `rocmlir` is therefore a makedepend,
+not a runtime dependency; `hsa-rocr` remains a runtime dependency through the
+exported target.
 
-The recipe already disables tests, Python bindings, Composable Kernel
+Device code is built for `gfx11-generic` and `gfx12-generic` instead of the
+complete `rocm-supported-gfx` list. This follows `rocsolver` and
+`composable-kernel`, which already use `gfx11-generic`. The generic targets
+cover gfx1100-1103 and gfx1150-1153, and gfx1200/1201. Review the supported
+GPU set before widening or narrowing that list; `GPU_TARGETS` becomes one
+`--offload-arch` per entry in the device library.
+
+The recipe still disables tests, Python bindings, Composable Kernel
 integration, hipBLASLt integration, and LTO. The local patch guards a
-hipBLASLt-specific call so the disabled integration can build. GPU targets
-still come from the complete `rocm-supported-gfx` output.
+hipBLASLt-specific call so the disabled integration can build. A clean build
+now measures only the MIGraphX host and device stages; the multi-hour
+LLVM/MLIR compiler build happens once in `rocmlir`, not on every `migraphx`
+pkgrel. The observed clean build before the split was 3h45m on the Ryzen 7
+3800X with 96 GB RAM, almost all of it the compiler stage.
 
-The earlier estimate for a clean build on the Ryzen 7 3800X with 96 GB RAM
-was 2–5 hours of compilation and linking, assuming SSD storage, about 16
-parallel jobs, and installed dependencies. That was a planning estimate,
-not a benchmark; downloads and isolated-root preparation are additional.
-
-Future native rebuilds need the rocMLIR compilation separated from MIGraphX:
-
-1. Package the compatible pinned rocMLIR static compiler, headers, CMake
-   metadata, and any libraries needed by downstream linking. Confirm that
-   the exported `rocMLIR::rockCompiler` target works from an installed prefix.
-2. Change MIGraphX to depend on that package and find its installed CMake
-   configuration. Remove the bundled rocMLIR checkout, `build-mlir` stage,
-   and temporary dependency-prefix wiring once the external package is
-   validated. Adjust license installation to preserve the notices needed
-   for compiler code statically linked into the resulting package.
-3. Check whether MIOpen can consume the same compiler package by comparing
-   its required revision and build options. Do not assume arbitrary rocMLIR
-   versions or the libraries bundled inside a MIOpen binary are compatible.
-4. Review GPU coverage separately. Reducing `GPU_TARGETS` can reduce device
-   compilation, but does not remove the bundled LLVM/MLIR compiler stage.
-5. Measure each stage on the builder and validate the installed package with
-   representative model compilation and inference on the retained GPUs.
-   Keep backend changes separate from the dependency split so regressions
-   can be attributed to the relevant change.
-
-This restructuring is not implemented in the current PKGBUILD. Installing
-several output packages from the same monolithic build would still repeat
-the expensive compiler build; its artifacts must become reusable inputs.
+MIOpen 7.2.4 pins the same rocMLIR commit: tags `rocm-7.2.2` and `rocm-7.2.3`
+are the same tree, and that is the tree MIGraphX 7.2.3 selects. MIOpen can
+adopt the `rocmlir` package in a follow-up; it still builds its own compiler
+until that change is validated.
 
 The temporary workaround is the standalone
 [`import-arch-migraphx.fish`](../../scripts/import-arch-migraphx.fish) script.

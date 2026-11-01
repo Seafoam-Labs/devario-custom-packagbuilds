@@ -1,0 +1,4 @@
+[ruby-nanotest]
+source = "git"
+git = "https://github.com/mynyml/nanotest.git"
+prefix = "v"

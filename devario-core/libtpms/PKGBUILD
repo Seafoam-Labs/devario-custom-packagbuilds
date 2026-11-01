@@ -1,0 +1,60 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Jonas Witschel <diabonas@archlinux.org>
+
+pkgname=libtpms
+pkgver=0.10.2
+pkgrel=2
+pkgdesc='Library providing a software emulation of a Trusted Platform Module (TPM 1.2 and TPM 2.0)'
+arch=('x86_64')
+url='https://github.com/stefanberger/libtpms'
+license=('BSD-3-Clause')
+depends=(
+  'glibc'
+  'openssl'
+)
+makedepends=('git')
+# Shelly keeps a bare .so provision without expanding it to the SONAME, so
+# declare the 0 that configure.ac's -version-info 10:2:10 pins.
+provides=('libtpms.so' 'libtpms.so=0-64')
+source=("git+$url.git?signed#tag=v$pkgver")
+sha512sums=('5c809f685b91e34a61c74f8bf9ee74533fbd47a6138e1b2343f93c8d496eb71e237963ab263728a8c204371117221978730b6459e2cde401dff3939c3b2b0777')
+validpgpkeys=('B818B9CADF9089C2D5CEC66B75AD65802A0B4211') # Stefan Berger <stefanb@linux.vnet.ibm.com>
+
+prepare() {
+	cd "$pkgname"
+
+	# Fix build failure with GCC 15 and later
+	git cherry-pick -n a405c830fb2d696c57cbc11695ad297fc18c1207
+
+	autoreconf --install --force
+}
+
+build() {
+	cd "$pkgname"
+  ./configure \
+    --prefix=/usr \
+    --with-openssl \
+    --with-tpm2
+	make
+}
+
+check() {
+	cd "$pkgname"
+	make check
+}
+
+package() {
+	cd "$pkgname"
+	make DESTDIR="$pkgdir" install
+	install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+
+	# libtpms.so is libtool's bare symlink to libtpms.so.0.10.2; following it
+	# confirms both that link and the SONAME the provision promises.
+	_verify_soname "$pkgdir/usr/lib/libtpms.so" libtpms.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

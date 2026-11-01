@@ -1,0 +1,20 @@
+pkgbase = ruby-diff-lcs
+	pkgdesc = Diff::LCS computes the difference between two Enumerable sequences using the McIlroy-Hunt longest common subsequence (LCS) algorithm
+	pkgver = 1.6.2
+	pkgrel = 1
+	url = https://github.com/halostatue/diff-lcs
+	arch = any
+	license = MIT
+	license = PerlArtistic
+	license = GPL2
+	checkdepends = ruby-hoe
+	checkdepends = ruby-rake
+	checkdepends = ruby-rspec
+	makedepends = ruby-rdoc
+	depends = ruby
+	options = !emptydirs
+	source = https://github.com/halostatue/diff-lcs/archive/v1.6.2/ruby-diff-lcs-1.6.2.tar.gz
+	sha512sums = 79c25336f8f6bb66da6fa148ff1d8802b2631dfc50b6655cf9b6fed207333df8e3079b00cef3ccb4e1802c65fa0d62b9939f53d73c30e0bf1f3dce5f2cfbc949
+	b2sums = f8276ad867e5a30f3f1cac446faec7cbe7eb67aa8e22b829db288859d50897f90c6fec57699e36524c21349c8f85c615bc8ca8141eeeb8d2f432d5b8165cf03a
+
+pkgname = ruby-diff-lcs

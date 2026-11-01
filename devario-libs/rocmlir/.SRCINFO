@@ -1,0 +1,19 @@
+pkgbase = rocmlir
+	pkgdesc = AMD's MLIR-based compiler for ROCm (rockCompiler)
+	pkgver = 7.2.3
+	pkgrel = 1
+	url = https://github.com/ROCm/rocMLIR
+	arch = x86_64
+	license = MIT AND Apache-2.0 WITH LLVM-exception
+	makedepends = git
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = rocm-cmake
+	makedepends = rocm-llvm
+	makedepends = hsa-rocr
+	depends = hsa-rocr
+	options = !lto
+	source = rocmlir::git+https://github.com/ROCm/rocMLIR#tag=rocm-7.2.3
+	sha256sums = 674cf03c6d5d0fb65e7b57c71cb0671cc29e1672446f4abb39c13cd9296aa9ef
+
+pkgname = rocmlir

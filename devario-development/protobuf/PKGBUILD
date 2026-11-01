@@ -10,7 +10,7 @@
 
 pkgbase='protobuf'
 pkgname=('protobuf' 'python-protobuf' 'ruby-google-protobuf')
-pkgver=36.1
+pkgver=36.2
 pkgrel=1
 pkgdesc="Protocol Buffers - Google's data interchange format"
 arch=('x86_64')
@@ -25,7 +25,7 @@ depends=(
 )
 makedepends=(
   'bazelisk'
-  'cmake'
+  'cmake>=3.16'
   'git'
   'gtest'
   'python-build'
@@ -46,7 +46,7 @@ source=(
   git+https://github.com/protocolbuffers/protobuf.git#tag=v$pkgver
   protobuf-fix-build-type-none.patch
 )
-sha512sums=('d319a7b67b4755976a972b98fc5b82cfa0c4fc9e71013a4cc7820f421d1e092efb6480aadf30ed078a19a876281c438217375dd0321cd9c5916b003921fd78d4'
+sha512sums=('d6b5e43bf5b63a45011ea7b3645ee3a06a913e41173ade58b35b344871cbc54ba27fabcbd620176fdd3270a35fe608cc1e655c1aea3199354d7cb8560ea76efb'
             '18bc71031bbcbc3810a9985fa670465040f06a6c104ab8079b56bdfc499bb6cec40805a0cefd455031142490a576dc60aa8000523877ac0353b93558e9beabbd')
 
 options=(!lto)

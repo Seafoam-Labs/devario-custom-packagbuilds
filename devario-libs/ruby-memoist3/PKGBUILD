@@ -1,0 +1,62 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+_name=memoist3
+pkgname=ruby-$_name
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="ActiveSupport::Memoizable with a few enhancements (updated for Ruby 3)"
+arch=(any)
+url="https://github.com/honzasterba/memoist"
+license=('MIT')
+depends=('ruby')
+makedepends=('git' 'ruby-rdoc')
+checkdepends=('ruby-benchmark-ips' 'ruby-bundler' 'ruby-minitest' 'ruby-rake')
+options=(!emptydirs)
+# Upstream does not provide a release tags, pin the commit
+source=("$pkgname::git+$url.git#commit=3cd437eb04f05182c5c0a2515dc3de4091d169db")
+sha256sums=('404e5d03f9ad1d01a36c42d4c0281ee1357709f0bdfd362637dbf6e3fa90ce5b')
+
+prepare() {
+  cd "$pkgname"
+
+  # update gemspec/Gemfile to allow newer version of the dependencies
+  sed --in-place --regexp-extended 's|~>|>=|g' "memoist.gemspec"
+}
+
+build() {
+  cd "$pkgname"
+
+  local _gemdir="$(gem env gemdir)"
+
+  # Gemspec name doesn't match gem name
+  gem build "memoist.gemspec"
+
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --build-root "tmp_install" \
+    "${_name}-${pkgver}.gem"
+
+
+  # remove unrepreducible files
+  rm --force --recursive --verbose \
+    "tmp_install${_gemdir}/cache/" \
+    "tmp_install${_gemdir}/gems/${_gemname}-${pkgver}/vendor/" \
+    "tmp_install${_gemdir}/doc/${_gemname}-${pkgver}/ri/ext/"
+}
+
+check() {
+  cd "$pkgname"
+
+  local _gemdir="$(gem env gemdir)"
+
+  GEM_HOME="tmp_install${_gemdir}" rake
+}
+
+package() {
+  cd "$pkgname"
+
+  cp --archive --verbose tmp_install/* "${pkgdir}"
+
+  install --verbose -D --mode=0644 LICENSE.md --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+}

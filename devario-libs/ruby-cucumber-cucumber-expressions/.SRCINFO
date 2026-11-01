@@ -1,0 +1,17 @@
+pkgbase = ruby-cucumber-cucumber-expressions
+	pkgdesc = Cucumber Expressions - a simpler alternative to Regular Expressions
+	pkgver = 20.1.0
+	pkgrel = 1
+	url = https://github.com/cucumber/cucumber-expressions/tree/main/ruby
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = ruby-rake
+	makedepends = ruby-rspec
+	depends = ruby
+	depends = ruby-bigdecimal
+	options = !emptydirs
+	source = git+https://github.com/cucumber/cucumber-expressions.git#tag=v20.1.0
+	sha256sums = 69a7e88fa6f607b17c7af01762fff10be08339e56fcbbcb3cec933aceb44cc51
+
+pkgname = ruby-cucumber-cucumber-expressions

@@ -1,0 +1,19 @@
+pkgbase = ruby-memoist3
+	pkgdesc = ActiveSupport::Memoizable with a few enhancements (updated for Ruby 3)
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/honzasterba/memoist
+	arch = any
+	license = MIT
+	checkdepends = ruby-benchmark-ips
+	checkdepends = ruby-bundler
+	checkdepends = ruby-minitest
+	checkdepends = ruby-rake
+	makedepends = git
+	makedepends = ruby-rdoc
+	depends = ruby
+	options = !emptydirs
+	source = ruby-memoist3::git+https://github.com/honzasterba/memoist.git#commit=3cd437eb04f05182c5c0a2515dc3de4091d169db
+	sha256sums = 404e5d03f9ad1d01a36c42d4c0281ee1357709f0bdfd362637dbf6e3fa90ce5b
+
+pkgname = ruby-memoist3

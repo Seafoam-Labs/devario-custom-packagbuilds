@@ -1,0 +1,5 @@
+[ruby-diff-lcs]
+source = "git"
+git = "https://github.com/halostatue/diff-lcs.git"
+prefix = "v"
+exclude_regex = ".*beta.*"

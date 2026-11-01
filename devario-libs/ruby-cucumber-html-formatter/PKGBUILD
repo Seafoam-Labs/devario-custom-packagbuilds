@@ -1,0 +1,75 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+
+pkgname=ruby-cucumber-html-formatter
+pkgver=24.2.0
+pkgrel=1
+pkgdesc="HTML formatter for Cucumber"
+arch=(any)
+url='https://github.com/cucumber/html-formatter/tree/main/ruby'
+license=(MIT)
+depends=(
+  ruby
+  ruby-cucumber-messages
+)
+makedepends=(
+  git
+  npm
+  ruby-bundler
+  ruby-rake
+  ruby-rspec
+)
+options=(!emptydirs)
+source=(
+  "git+https://github.com/cucumber/html-formatter.git#tag=v$pkgver"
+)
+sha512sums=('fd8c3f47c3c2b3647b4127b7de34858027b982f42986b1df32f8af8686ca4bf1c7553e3bc2012db107f2e2047c1c53065e8fe1275c430e9c92ab6b84e6c151f9')
+b2sums=('3561125a0eca1e237bef09da282cf9f69e8bc2c1d23b6908e59f1a38d6cf45ac1ff17855426e5d9937b0171aa5ee83c28e51689a3afcf956c84fbebee4e3ea42')
+
+prepare() {
+  cd html-formatter
+  sed -r -e 's|~>|>=|g' -e "s/, '< 35'//" -i ruby/cucumber-html-formatter.gemspec
+
+  # Arch package builds disallow npm git dependencies; this config is lint-only.
+  sed -i '/"@cucumber\/biome-config":/d' javascript/package.json javascript/package-lock.json
+  sed -i '/"node_modules\/@cucumber\/biome-config": {/,/    },/d' javascript/package-lock.json
+}
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd html-formatter
+  make prepare
+  cd ruby
+  gem build cucumber-html-formatter.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    cucumber-html-formatter-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd html-formatter/ruby
+  GEM_HOME="tmp_install/$_gemdir" rake
+}
+
+package() {
+  cd html-formatter/ruby
+  cp -a tmp_install/* "$pkgdir"/
+}

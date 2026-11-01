@@ -1,0 +1,62 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=ruby-cucumber-query
+pkgver=16.1.1
+pkgrel=1
+pkgdesc="Cucumber Query - query messages"
+arch=(any)
+url='https://github.com/cucumber/query/tree/main/ruby'
+license=(MIT)
+depends=(
+  ruby
+  ruby-cucumber-messages
+)
+makedepends=(
+  git
+  ruby-rdoc
+)
+checkdepends=(
+  ruby-rspec
+)
+options=(!emptydirs)
+source=(git+https://github.com/cucumber/query.git#tag=v$pkgver)
+sha512sums=('df00d2ba550444eecbd7d806694c54a59230d19a5578df06757c8ea13c3eb0b919f81183e15fb3f4b1c1427ac7b798c7890bae55871e39c1affab4053ffd41db')
+b2sums=('1242f8374e1af947d216b49c205eefae4c996b442bfef0f4312a9a4c8d79495d2bdebf74ffa25a159864340516609402f4b6ecd476ec480beef4c292b9e9af1b')
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd query/ruby
+  gem build cucumber-query.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    cucumber-query-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd query/ruby
+  GEM_HOME="tmp_install/$_gemdir" rspec
+}
+
+package() {
+  cd query/ruby
+  cp -a tmp_install/* "$pkgdir"/
+  install -Dm644 ../LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

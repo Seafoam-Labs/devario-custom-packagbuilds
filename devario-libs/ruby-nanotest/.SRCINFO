@@ -1,0 +1,15 @@
+pkgbase = ruby-nanotest
+	pkgdesc = Extremely mynymal test framework
+	pkgver = 0.9.4.1
+	pkgrel = 5
+	url = https://github.com/mynyml/nanotest
+	arch = any
+	license = MIT
+	checkdepends = ruby-rake
+	makedepends = ruby-minitest
+	depends = ruby
+	options = !emptydirs
+	source = https://github.com/mynyml/nanotest/archive/v0.9.4.1/ruby-nanotest-0.9.4.1.tar.gz
+	sha256sums = 8596cea1a553596cf71ff7dc866620e126e0e568946eb64f6ed41a356925ffbb
+
+pkgname = ruby-nanotest

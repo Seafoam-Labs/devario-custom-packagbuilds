@@ -1,0 +1,21 @@
+pkgbase = limine
+	pkgdesc = An advanced, portable, multiprotocol bootloader
+	pkgver = 12.9.6
+	pkgrel = 1
+	url = https://github.com/Limine-Bootloader/Limine
+	install = limine.install
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = git
+	makedepends = nasm
+	makedepends = mtools
+	makedepends = llvm
+	makedepends = lld
+	makedepends = clang
+	depends = glibc
+	source = git+https://github.com/Limine-Bootloader/Limine.git#tag=v12.9.6?signed
+	validpgpkeys = 05D29860D0A0668AAEFB9D691F3C021BECA23821
+	validpgpkeys = 6C222EA6B2BD216AA406516AC868F0B6DE38409D
+	sha256sums = 60ebfefbe492a7a0077eef53ae52cfb4c0156a06aa20750d87c21d48250f2389
+
+pkgname = limine

@@ -1,0 +1,19 @@
+pkgbase = python-annotated-doc
+	pkgdesc = Document parameters, class attributes, return types, and variables inline, with Annotated
+	pkgver = 0.0.5
+	pkgrel = 1
+	url = https://github.com/fastapi/annotated-doc
+	arch = any
+	license = MIT
+	checkdepends = python-pytest
+	checkdepends = python-typing_extensions
+	checkdepends = python-typer
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-pdm-backend
+	depends = python
+	source = annotated-doc-0.0.5.tar.gz::https://github.com/fastapi/annotated-doc/archive/0.0.5.tar.gz
+	sha256sums = b1df640b7d5658b8d3807b42d51291ed3f24e43d4a059092c11495a3f7714fc9
+
+pkgname = python-annotated-doc

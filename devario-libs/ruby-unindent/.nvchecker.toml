@@ -1,0 +1,4 @@
+[ruby-unindent]
+source = "git"
+git = "https://github.com/mynyml/unindent.git"
+prefix = "v"

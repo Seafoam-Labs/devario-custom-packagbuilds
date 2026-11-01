@@ -1,0 +1,20 @@
+pkgbase = ruby-rack
+	pkgdesc = Minimal, modular, and adaptable interface for developing web applications
+	pkgver = 3.2.8
+	pkgrel = 1
+	url = https://rack.github.io/
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	checkdepends = ruby-minitest
+	checkdepends = ruby-minitest-global_expectations
+	checkdepends = ruby-rake
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-erb
+	options = !emptydirs
+	source = https://github.com/rack/rack/archive/v3.2.8/ruby-rack-3.2.8.tar.gz
+	sha512sums = d0c04e498d4fba2dd910dc01387ceec922f6c505332776d2670795e8b28fe1760de11a47af510694761d2ea2b818d86dc5bf8347290dae77b7b77e734beab376
+	b2sums = b0b02903242d037bc5bc652c1056c6b8d98f7df79122c62b2eff69dbe601b9bdf3132b4573c0a4b1cf282d34298d3738c6fafd2ec8f9b58b8725b3a5197395dd
+
+pkgname = ruby-rack

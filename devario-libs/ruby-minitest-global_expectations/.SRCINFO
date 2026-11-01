@@ -1,0 +1,18 @@
+pkgbase = ruby-minitest-global_expectations
+	pkgdesc = Support minitest expectation methods for all objects
+	pkgver = 1.0.2
+	pkgrel = 1
+	url = https://github.com/jeremyevans/minitest-global_expectations
+	arch = any
+	license = MIT
+	makedepends = ruby-rdoc
+	makedepends = ruby-rake
+	makedepends = ruby-bundler
+	depends = ruby
+	depends = ruby-minitest
+	options = !emptydirs
+	source = https://github.com/jeremyevans/minitest-global_expectations/archive/1.0.2/ruby-minitest-global_expectations-1.0.2.tar.gz
+	sha512sums = 7465abee1e23ce3629e8632d2ac262108ec3990261d8bd5975697a8f4de4ae63ceda75ad0a33ecea85dcb4dfff61044fb6079a866c203812e01945bba58c8055
+	b2sums = 823a2e4f16a5cb7187c42a0e787cb3275c8a8d6746fb7ae72b4e59e76f5fe90c3bf19b21c42035e3cb0a34cfbe73cd52437fcbe662d6651b3805edde4ac1ab7e
+
+pkgname = ruby-minitest-global_expectations

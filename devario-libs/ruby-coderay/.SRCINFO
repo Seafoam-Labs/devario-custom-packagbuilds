@@ -1,0 +1,25 @@
+pkgbase = ruby-coderay
+	pkgdesc = Fast and easy syntax highlighting for selected languages
+	pkgver = 1.1.3
+	pkgrel = 8
+	url = https://github.com/rubychan/coderay
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	checkdepends = ruby-rake
+	checkdepends = ruby-redcloth
+	checkdepends = ruby-rspec
+	checkdepends = ruby-shoulda-context
+	checkdepends = ruby-simplecov
+	checkdepends = ruby-term-ansicolor
+	checkdepends = ruby-test-unit
+	checkdepends = ruby-tins
+	makedepends = ruby-rdoc
+	depends = ruby
+	options = !emptydirs
+	source = https://github.com/rubychan/coderay/archive/v1.1.3/ruby-coderay-1.1.3.tar.gz
+	source = ruby-coderay-ruby-3.patch::https://github.com/rubychan/coderay/commit/c1c15034749684fcad91ad2bcb2fcd2056faf18d.patch
+	sha256sums = b69aa65951e5381fa807f347780030cfe557910427b5d26b9e0a309682186c8a
+	sha256sums = c2ab034f01d4b4f2d16e5bef5de040edf4760d9828f9c5cefcd0372b0f6cbd57
+
+pkgname = ruby-coderay

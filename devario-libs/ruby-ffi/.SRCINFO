@@ -1,0 +1,27 @@
+pkgbase = ruby-ffi
+	pkgdesc = Ruby FFI
+	pkgver = 1.17.4
+	pkgrel = 1
+	url = https://github.com/ffi/ffi
+	arch = x86_64
+	license = BSD-3-Clause
+	license = MIT
+	checkdepends = ruby-bigdecimal
+	makedepends = git
+	makedepends = ruby-bundler
+	makedepends = ruby-rake
+	makedepends = ruby-rake-compiler
+	makedepends = ruby-rdoc
+	makedepends = ruby-rspec
+	depends = glibc
+	depends = libffi
+	depends = ruby
+	options = !emptydirs
+	source = ruby-ffi::git+https://github.com/ffi/ffi#tag=v1.17.4
+	source = github.com-libffi-libffi::git+https://github.com/libffi/libffi
+	sha512sums = f52d99d372a786214958acfb586626bb01d8ef9846cfe18b1064b7a510c079104bb14a8d020f3c3e7e74085f17af49e1df26a228e7637eedd574c923e5687afe
+	sha512sums = SKIP
+	b2sums = d4396c66880fd4e813b5a15d4eb235f716c9a29b404a0f55e9963c9d907cdfe9462d63a8c8c45317ea3b2f2ce62a69664e41c86e78c165cc0c3a3142d577b13f
+	b2sums = SKIP
+
+pkgname = ruby-ffi

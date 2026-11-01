@@ -1,0 +1,51 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Contributor: Daniel M. Capella <polyzen@archlinux.org>
+
+_name=tzdata
+pkgname=python-tzdata
+pkgver=2026.6
+pkgrel=1
+pkgdesc='Provider of IANA time zone data'
+arch=(any)
+url=https://github.com/python/tzdata
+license=(Apache-2.0)
+depends=(python)
+makedepends=(
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+checkdepends=(
+  python-pytest
+  python-pytest-subtests
+)
+source=($_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz)
+sha512sums=('d21d23e6008eb3efa161b4809eed0aa3f711fcd7e326100593fb0a89a32c2324243a38f4580dfaf5ca6d803b60684c17c5560516213ed75fec79bbf4c6d53643')
+b2sums=('51e35c7d194134b899c2130059ce76c1980a66ecb7e669d315b614d0ccc8ca7f790f3f8c7c78d76a54d783e79c62fb0384b870a4c2c70106bb7f0f56fdc7df2e')
+
+build() {
+  cd $_name-$pkgver
+  python -m build --wheel --skip-dependency-check --no-isolation
+}
+
+check() {
+  local pytest_options=(
+    -vv
+  )
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+  cd $_name-$pkgver
+  # install to temporary location, as importlib is used
+  python -m installer --destdir=test_dir dist/*.whl
+  export PYTHONPATH="$PWD/test_dir/$site_packages:$PYTHONPATH"
+  pytest "${pytest_options[@]}"
+}
+
+package() {
+  cd $_name-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  ln -s /etc/localtime "$pkgdir/$site_packages/$_name/zoneinfo/localtime"
+}

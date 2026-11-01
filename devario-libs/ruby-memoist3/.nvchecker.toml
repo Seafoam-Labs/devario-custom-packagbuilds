@@ -1,0 +1,3 @@
+[ruby-memoist3]
+source = "gems"
+gems = "memoist3"

@@ -13,7 +13,7 @@ _langs=(afr amh ara asm aze aze_cyrl bel ben bod bos bre bul cat ceb ces
     tel tgk tgl tha tir ton tur uig ukr urd uzb uzb_cyrl vie yid yor)
 
 pkgname=tesseract
-pkgver=5.5.3
+pkgver=5.5.4
 pkgrel=1
 pkgdesc='An OCR program'
 arch=(x86_64)
@@ -25,9 +25,9 @@ depends=(
   libstdc++
   curl
   libarchive
-  leptonica
+  'leptonica>=1.80'
 )
-makedepends=(icu pango asciidoc)
+makedepends=('icu>=52.1' 'pango>=1.38.0' asciidoc)
 optdepends=('icu: for text2image'
             'pango: for text2image')
 for _lang in "${_langs[@]}"; do
@@ -36,7 +36,7 @@ done
 # Shelly keeps bare .so provisions, so declare the SONAME alongside it.
 provides=(libtesseract.so 'libtesseract.so=5-64')
 source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('9218e62793116d42a9f6d14cd9348518b27f382096eea3d0f2d1a24616bb5884')
+sha256sums=('a8dbf8b8c8ee427ff6ad1d99116502feaf59440af1adb893caf60a6576826cf4')
 
 build() {
   cd "$srcdir"/$pkgname-${pkgver}

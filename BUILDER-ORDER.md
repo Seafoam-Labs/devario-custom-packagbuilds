@@ -2,7 +2,7 @@
 
 For every package added or updated in commit `8a82447`, use [the commit build order](LATEST-BUILD-ORDER.md): 1,321 outputs from 900 affected recipes, individually listed in stages and labeled by change type.
 
-Each stage below lists every package by name, with its build recipe and bootstrap requirement. The order covers **908 recipes in 28 stages**: the 896 new recipes and 12 reused existing recipes from this application expansion.
+Each stage below lists every package by name, with its build recipe and bootstrap requirement. The order covers **909 recipes in 28 stages**: the 897 new recipes and 12 reused existing recipes from this application expansion.
 
 ## Follow this sequence
 
@@ -16,7 +16,7 @@ If a bootstrap group cannot be provisioned, stop that group and its dependents. 
 
 ## Packages by stage
 
-**1329 package outputs from 908 recipes.** Every package is listed individually below. Rows sharing a recipe are split outputs: **build that recipe once**, then publish its outputs. The scope remains 896 new recipes plus 12 reused existing recipes.
+**1330 package outputs from 909 recipes.** Every package is listed individually below. Rows sharing a recipe are split outputs: **build that recipe once**, then publish its outputs. The scope remains 897 new recipes plus 12 reused existing recipes.
 
 Work through stages 01–28. Publish dependencies and refresh the builder repository before the next stage. Independent groups within a stage can build in parallel. A bootstrap label means the group needs seed packages before it can build; see `bootstrap-order.txt`.
 
@@ -1293,7 +1293,7 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 
 ### Stage 19
 
-98 packages from 13 recipes.
+99 packages from 14 recipes.
 
 | Package | Build recipe | Bootstrap requirement |
 | --- | --- | --- |
@@ -1301,6 +1301,7 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 | `liblas` | [devario-libs/liblas](devario-libs/liblas/PKGBUILD) | — |
 | `localsearch` | [devario-utilities/localsearch](devario-utilities/localsearch/PKGBUILD) | — |
 | `localsearch-testutils` | [devario-utilities/localsearch](devario-utilities/localsearch/PKGBUILD) | — |
+| `rocmlir` | [devario-libs/rocmlir](devario-libs/rocmlir/PKGBUILD) | — |
 | `miopen-hip` | [devario-libs/miopen-hip](devario-libs/miopen-hip/PKGBUILD) | — |
 | `network-manager-applet` | [devario-core/network-manager-applet](devario-core/network-manager-applet/PKGBUILD) | — |
 | `nm-connection-editor` | [devario-core/network-manager-applet](devario-core/network-manager-applet/PKGBUILD) | — |
@@ -1580,9 +1581,9 @@ this repository:
 - Bootstrap queue, `bootstrap-order.txt`: seed requirements in stage order.
 - Alternative packages, `package-alternatives.json`: JDK/JRE, Node.js, Vim/GVim, Lazarus and OpenCV installation choices.
 
-The separate Neovim and isolation-builder Texinfo hook repairs are outside the 908-recipe application manifest. Texinfo uses dependencies present in the saved repository snapshot; Neovim requires its own dependency plan. TeX Live’s hook correction is included in the main queue. See [the hook guide](HOOK-BUILDS.md).
+The separate Neovim and isolation-builder Texinfo hook repairs are outside the 909-recipe application manifest. Texinfo uses dependencies present in the saved repository snapshot; Neovim requires its own dependency plan. TeX Live’s hook correction is included in the main queue. See [the hook guide](HOOK-BUILDS.md).
 
-All 3,730 recorded dependency edges were checked: every dependency outside its own group is in an earlier stage. Current PKGBUILD hashes match the audited manifest. The plan remains tied to the saved repository/provider snapshot; re-resolve it if dependency metadata, available providers, or recipes change. Full builds were not run to create this order.
+All 3,730 recorded dependency edges were checked: every dependency outside its own group is in an earlier stage. The rocmlir recipe was added to stage 19 after that audit; its dependencies are all in earlier stages. Current PKGBUILD hashes match the audited manifest. The plan remains tied to the saved repository/provider snapshot; re-resolve it if dependency metadata, available providers, or recipes change. Full builds were not run to create this order.
 
 The stage files came from the audited graph, which is not retained.
 `LATEST-BUILD-ORDER.tsv` is the machine-readable build-order list that survives

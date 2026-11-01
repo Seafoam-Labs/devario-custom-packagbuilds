@@ -1,0 +1,74 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+
+pkgname=ruby-cucumber-gherkin
+pkgver=42.0.1
+pkgrel=1
+pkgdesc="Gherkin for Ruby"
+arch=(any)
+url='https://github.com/cucumber/gherkin/blob/main/ruby'
+license=(MIT)
+depends=(
+  ruby
+  ruby-cucumber-messages
+)
+makedepends=(
+  git
+  ruby-rake
+  ruby-rspec
+)
+checkdepends=(
+  ruby-bundler
+)
+options=(!emptydirs)
+source=(
+  "git+https://github.com/cucumber/gherkin.git#tag=v$pkgver"
+)
+sha512sums=('4b600ec5cd843144976502cc0202d94a22db7a366a5bd7c6a8368f8a69446333768fadea2f0867bfdc44089ba0273352a414cb3c62357c155fea91e43b686298')
+b2sums=('c8b98d6b3587948c23afef627233f17e0877a516a6671cc987105481ff6036c95e164f179c0bc0e9a41767ba4f0cda9eef53cfe5940016a1e106c81eced7d2f6')
+
+prepare() {
+  cd gherkin
+
+  cd ruby
+
+  sed -r -e 's|~>|>=|g' -e "s/, '< 35'//" -i cucumber-gherkin.gemspec
+}
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd gherkin/ruby
+  gem build cucumber-gherkin.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    cucumber-gherkin-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd gherkin/ruby
+  GEM_HOME="tmp_install/$_gemdir" rake
+}
+
+package() {
+  cd gherkin/ruby
+  cp -a tmp_install/* "$pkgdir"/
+  install -Dm644 ../LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

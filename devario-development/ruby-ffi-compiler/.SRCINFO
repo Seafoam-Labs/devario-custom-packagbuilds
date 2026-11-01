@@ -1,0 +1,19 @@
+pkgbase = ruby-ffi-compiler
+	pkgdesc = Ruby library for automating compilation of native libraries for use with ffi
+	pkgver = 1.4.3
+	pkgrel = 1
+	epoch = 1
+	url = https://github.com/ffi/ffi-compiler
+	arch = any
+	license = Apache-2.0
+	makedepends = git
+	makedepends = ruby-rspec
+	makedepends = ruby-rubygems-tasks
+	makedepends = ruby-rdoc
+	depends = ruby-ffi
+	depends = ruby-rake
+	options = !emptydirs
+	source = git+https://github.com/ffi/ffi-compiler.git#tag=1.4.3
+	sha256sums = 644f479aca6be05e3e58f375ff74592058934061dc1bd1ec88aeecb4e716fc5a
+
+pkgname = ruby-ffi-compiler

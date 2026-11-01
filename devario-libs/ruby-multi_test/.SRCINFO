@@ -1,0 +1,19 @@
+pkgbase = ruby-multi_test
+	pkgdesc = Wafter-thin gem to help control rogue test/unit/autorun requires
+	pkgver = 2.0.0
+	pkgrel = 1
+	url = https://github.com/cucumber/multi_test
+	arch = any
+	license = MIT
+	checkdepends = ruby-activesupport
+	checkdepends = ruby-bundler
+	checkdepends = ruby-minitest
+	checkdepends = ruby-rspec
+	checkdepends = ruby-test-unit
+	makedepends = git
+	depends = ruby
+	options = !emptydirs
+	source = git+https://github.com/cucumber/multi_test.git#tag=v2.0.0
+	sha256sums = 029a9b5ae1803b67c6e4b68753ab5cb21227bf8dd176384aa8ddfa51aafb08fb
+
+pkgname = ruby-multi_test

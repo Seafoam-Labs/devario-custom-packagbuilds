@@ -1,22 +1,24 @@
-MIOpen packaging notes (2026-10-11)
+MIOpen packaging notes (2026-11-01)
 
-The native recipe is ROCm 7.2.4, package release 1. Every clean build currently
-builds frugally-deep, rocMLIR 7.2.2, half, and then MIOpen. In particular,
-rocMLIR is built in Release mode with `BUILD_FAT_LIBROCKCOMPILER=ON` and staged
-into the temporary dependency prefix. MIOpen uses the targets returned by
-`rocm-supported-gfx -e gfx1010,gfx1012,gfx1153`; it does not inherit the reduced
-six-target list from the hipBLASLt recipe. Tests are removed during prepare
-because they require an AMD GPU, and LTO is disabled.
+The native recipe is ROCm 7.2.4, package release 2. Every clean build now
+builds frugally-deep, half, and then MIOpen; the pinned rocMLIR compiler comes
+from `devario-libs/rocmlir`. Tags `rocm-7.2.2` and `rocm-7.2.3` point at the
+same rocMLIR commit, so MIOpen's previous 7.2.2 pin and MIGraphX's 7.2.3 pin
+resolve to the same package. MIOpen finds `rocMLIR::rockCompiler` through
+`rocMLIR_DIR=/opt/rocm/lib/cmake/rocmlir` and links the static archive into
+`libMIOpen.so`; `rocmlir` is a makedepend, and the package copies the rocMLIR
+and LLVM notices because that code is redistributed in the binary.
 
-On the Ryzen 7 3800X builder with 96 GB RAM, the earlier 3–6 hour clean-build
-estimate was a planning estimate, not a measurement. The repeated compiler
-build is the reason for the Arch binary stopgap. Future rebuilds need rocMLIR
-packaged separately, with its installed compiler library and CMake metadata
-reused by MIOpen. Verify ABI, runtime library packaging, and ROCm version
-compatibility when doing that split. Then measure the remaining MIOpen build,
-review its GPU coverage, and retain reusable build stages where upstream
-supports them. Reducing GPU targets alone does not remove the rocMLIR build.
-This restructuring has not been implemented in the PKGBUILD.
+MIOpen still uses the targets returned by
+`rocm-supported-gfx -e gfx1010,gfx1012,gfx1153`; it does not inherit the
+reduced six-target list from the hipBLASLt recipe. Tests are removed during
+prepare because they require an AMD GPU, and LTO is disabled.
+
+The earlier 3–6 hour clean-build estimate on the Ryzen 7 3800X with 96 GB RAM
+was a planning estimate, not a measurement. The multi-hour LLVM/MLIR compiler
+build now happens once in `rocmlir`, not on every MIOpen pkgrel. Measure the
+remaining MIOpen build and validate the installed package with representative
+model compilation and inference on the retained GPUs.
 
 Use [`import-arch-miopen-hip.fish`](../../scripts/import-arch-miopen-hip.fish)
 to import `miopen-hip-7.2.4-1-x86_64.pkg.tar.zst` from the Arch Linux Archive.

@@ -1,0 +1,18 @@
+pkgbase = ruby-sys-uname
+	pkgdesc = An interface for gathering information about your current platform
+	pkgver = 1.5.1
+	pkgrel = 1
+	url = https://github.com/djberg96/sys-uname
+	arch = any
+	license = Apache-2.0
+	checkdepends = ruby-rake
+	checkdepends = ruby-rspec
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-ffi
+	depends = ruby-memoist3
+	options = !emptydirs
+	source = https://github.com/djberg96/sys-uname/archive/sys-uname-1.5.1.tar.gz
+	sha256sums = 701f9bd30b376194e91b2329ba2596da604d5b62ced4660b130baf5a110d9d43
+
+pkgname = ruby-sys-uname

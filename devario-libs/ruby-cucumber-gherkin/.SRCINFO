@@ -1,0 +1,19 @@
+pkgbase = ruby-cucumber-gherkin
+	pkgdesc = Gherkin for Ruby
+	pkgver = 42.0.1
+	pkgrel = 1
+	url = https://github.com/cucumber/gherkin/blob/main/ruby
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	makedepends = git
+	makedepends = ruby-rake
+	makedepends = ruby-rspec
+	depends = ruby
+	depends = ruby-cucumber-messages
+	options = !emptydirs
+	source = git+https://github.com/cucumber/gherkin.git#tag=v42.0.1
+	sha512sums = 4b600ec5cd843144976502cc0202d94a22db7a366a5bd7c6a8368f8a69446333768fadea2f0867bfdc44089ba0273352a414cb3c62357c155fea91e43b686298
+	b2sums = c8b98d6b3587948c23afef627233f17e0877a516a6671cc987105481ff6036c95e164f179c0bc0e9a41767ba4f0cda9eef53cfe5940016a1e106c81eced7d2f6
+
+pkgname = ruby-cucumber-gherkin
