@@ -1,0 +1,24 @@
+pkgbase = usbutils
+	pkgdesc = Inspect USB devices and their descriptors
+	pkgver = 020
+	pkgrel = 1
+	url = https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usbutils.git/
+	arch = x86_64
+	license = GPL-2.0-only
+	license = GPL-2.0-or-later
+	license = GPL-3.0-only
+	license = LGPL-2.1-or-later
+	license = MIT
+	makedepends = meson>=0.60.0
+	makedepends = systemd>=196
+	depends = glibc
+	depends = hwdata
+	depends = libusb>=1.0.22
+	depends = systemd-libs>=196
+	optdepends = coreutils: lsusb.py helper
+	optdepends = python: lsusb.py helper
+	optdepends = sh: usb-devices helper
+	source = https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-020.tar.xz
+	sha256sums = 20287d68fcd9ebb50a05ba0645a4af7583bd8dfc7307215ba121e4bc6d057aa1
+
+pkgname = usbutils
