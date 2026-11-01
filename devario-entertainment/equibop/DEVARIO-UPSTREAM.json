@@ -9,7 +9,7 @@
   "commit": "127132450e11f183fa55127473faa5e0383b23ff",
   "local_adaptations": [
     "Build application from release source with locked preparation and offline ASAR bundling.",
-    "Bundle the official Electron 43.7.1 runtime matching bun.lock, with architecture-specific SHA256 checksums.",
+    "Bundle the official Electron 44.9.3 runtime matching bun.lock, with architecture-specific SHA256 checksums.",
     "Preserve upstream Electron fuses and sandbox helper; include Electron/Chromium licensing. No system electron43 runtime dependency."
   ]
 }
