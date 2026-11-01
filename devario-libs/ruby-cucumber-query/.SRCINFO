@@ -1,0 +1,18 @@
+pkgbase = ruby-cucumber-query
+	pkgdesc = Cucumber Query - query messages
+	pkgver = 16.1.1
+	pkgrel = 1
+	url = https://github.com/cucumber/query/tree/main/ruby
+	arch = any
+	license = MIT
+	checkdepends = ruby-rspec
+	makedepends = git
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-cucumber-messages
+	options = !emptydirs
+	source = git+https://github.com/cucumber/query.git#tag=v16.1.1
+	sha512sums = df00d2ba550444eecbd7d806694c54a59230d19a5578df06757c8ea13c3eb0b919f81183e15fb3f4b1c1427ac7b798c7890bae55871e39c1affab4053ffd41db
+	b2sums = 1242f8374e1af947d216b49c205eefae4c996b442bfef0f4312a9a4c8d79495d2bdebf74ffa25a159864340516609402f4b6ecd476ec480beef4c292b9e9af1b
+
+pkgname = ruby-cucumber-query

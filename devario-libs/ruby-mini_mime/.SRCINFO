@@ -1,0 +1,16 @@
+pkgbase = ruby-mini_mime
+	pkgdesc = A lightweight mime type lookup toy
+	pkgver = 1.1.5
+	pkgrel = 3
+	url = https://github.com/discourse/mini_mime
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	checkdepends = ruby-minitest
+	checkdepends = ruby-rake
+	depends = ruby
+	options = !emptydirs
+	source = ruby-mini_mime-1.1.5.tar.gz::https://github.com/discourse/mini_mime/archive/refs/tags/v1.1.5.tar.gz
+	sha256sums = 920dcec03f599d654bed03a465801d85a3c4d9691c97fd5dc67ace013c1ad60e
+
+pkgname = ruby-mini_mime

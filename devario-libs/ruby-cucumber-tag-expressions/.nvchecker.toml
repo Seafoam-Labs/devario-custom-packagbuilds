@@ -1,0 +1,4 @@
+[ruby-cucumber-tag-expressions]
+source = "git"
+git = "https://github.com/cucumber/tag-expressions.git"
+prefix = "v"

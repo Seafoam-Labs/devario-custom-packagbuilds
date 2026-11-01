@@ -1,0 +1,4 @@
+[ruby-mime-types]
+source = "gems"
+gems = "mime-types"
+exclude_regex = ".*pre.*"

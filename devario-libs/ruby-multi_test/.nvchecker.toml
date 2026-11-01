@@ -1,0 +1,4 @@
+[ruby-multi_test]
+source = "git"
+git = "https://github.com/cucumber/multi_test.git"
+prefix = "v"

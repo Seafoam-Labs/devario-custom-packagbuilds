@@ -1,0 +1,76 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+
+pkgname=ruby-cucumber-core
+pkgver=20.0.0
+pkgrel=1
+pkgdesc="Core library for the Cucumber BDD app"
+arch=(any)
+url='https://github.com/cucumber/cucumber-ruby-core'
+license=(MIT)
+depends=(
+  ruby
+  ruby-cucumber-gherkin
+  ruby-cucumber-messages
+  ruby-cucumber-tag-expressions
+)
+makedepends=(
+  git
+  ruby-rake
+  ruby-rdoc
+  ruby-rspec
+  ruby-unindent
+)
+checkdepends=(
+  ruby-bundler
+  ruby-simplecov
+)
+options=(!emptydirs)
+source=("git+https://github.com/cucumber/cucumber-ruby-core.git#tag=v$pkgver")
+sha512sums=('db9795e02a0a67a8bc479dca1bc6391c4cb087755476415cdf4a79f72aa9e5e4638d1d0f5f1e2cf481b36052dbcfb2c683b9c407d0b49ac9b4f2e63ab898db51')
+b2sums=('c22fc7781e495949d635a1ee2fbc9e54d9eade64beba3c8a482ec3529041c33b4ac4250f8fc2a0d9108940f9307a7156f2f8e15efc32b1959944a3aa43dae6a2')
+
+prepare() {
+  cd cucumber-ruby-core
+
+  sed -i -r -e 's|~>|>=|g' -e "s/, '< [0-9]+'//" cucumber-core.gemspec
+  sed -i '/[rR]ubo[cC]op/d' cucumber-core.gemspec Rakefile
+}
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd cucumber-ruby-core
+  gem build cucumber-core.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    cucumber-core-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd cucumber-ruby-core
+  GEM_HOME="tmp_install/$_gemdir" rake spec spec:slow
+}
+
+package() {
+  cd cucumber-ruby-core
+  cp -a tmp_install/* "$pkgdir"/
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}

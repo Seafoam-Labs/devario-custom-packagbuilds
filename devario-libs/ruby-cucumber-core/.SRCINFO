@@ -1,0 +1,24 @@
+pkgbase = ruby-cucumber-core
+	pkgdesc = Core library for the Cucumber BDD app
+	pkgver = 20.0.0
+	pkgrel = 1
+	url = https://github.com/cucumber/cucumber-ruby-core
+	arch = any
+	license = MIT
+	checkdepends = ruby-bundler
+	checkdepends = ruby-simplecov
+	makedepends = git
+	makedepends = ruby-rake
+	makedepends = ruby-rdoc
+	makedepends = ruby-rspec
+	makedepends = ruby-unindent
+	depends = ruby
+	depends = ruby-cucumber-gherkin
+	depends = ruby-cucumber-messages
+	depends = ruby-cucumber-tag-expressions
+	options = !emptydirs
+	source = git+https://github.com/cucumber/cucumber-ruby-core.git#tag=v20.0.0
+	sha512sums = db9795e02a0a67a8bc479dca1bc6391c4cb087755476415cdf4a79f72aa9e5e4638d1d0f5f1e2cf481b36052dbcfb2c683b9c407d0b49ac9b4f2e63ab898db51
+	b2sums = c22fc7781e495949d635a1ee2fbc9e54d9eade64beba3c8a482ec3529041c33b4ac4250f8fc2a0d9108940f9307a7156f2f8e15efc32b1959944a3aa43dae6a2
+
+pkgname = ruby-cucumber-core

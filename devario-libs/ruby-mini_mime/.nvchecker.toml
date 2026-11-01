@@ -1,0 +1,3 @@
+[ruby-mini_mime]
+source = "gems"
+gems = "mini_mime"

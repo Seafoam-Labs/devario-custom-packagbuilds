@@ -1,0 +1,20 @@
+pkgbase = ruby-cucumber-html-formatter
+	pkgdesc = HTML formatter for Cucumber
+	pkgver = 24.2.0
+	pkgrel = 1
+	url = https://github.com/cucumber/html-formatter/tree/main/ruby
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = npm
+	makedepends = ruby-bundler
+	makedepends = ruby-rake
+	makedepends = ruby-rspec
+	depends = ruby
+	depends = ruby-cucumber-messages
+	options = !emptydirs
+	source = git+https://github.com/cucumber/html-formatter.git#tag=v24.2.0
+	sha512sums = fd8c3f47c3c2b3647b4127b7de34858027b982f42986b1df32f8af8686ca4bf1c7553e3bc2012db107f2e2047c1c53065e8fe1275c430e9c92ab6b84e6c151f9
+	b2sums = 3561125a0eca1e237bef09da282cf9f69e8bc2c1d23b6908e59f1a38d6cf45ac1ff17855426e5d9937b0171aa5ee83c28e51689a3afcf956c84fbebee4e3ea42
+
+pkgname = ruby-cucumber-html-formatter

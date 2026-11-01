@@ -1,0 +1,4 @@
+[ruby-builder]
+source = "git"
+git = "https://github.com/rails/builder.git"
+prefix = "v"

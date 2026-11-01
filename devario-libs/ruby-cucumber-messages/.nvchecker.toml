@@ -1,0 +1,4 @@
+[ruby-cucumber-messages]
+source = "git"
+git = "https://github.com/cucumber/messages.git"
+prefix = "v"

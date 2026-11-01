@@ -1,0 +1,74 @@
+# Maintainer: Andreas Schleifer <segaja@archlinux.org>
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=ruby-sys-uname
+pkgver=1.5.1
+pkgrel=1
+pkgdesc='An interface for gathering information about your current platform'
+arch=(any)
+url='https://github.com/djberg96/sys-uname'
+# Arch declares bare Apache; upstream's LICENSE is the Apache-2.0 text and its gemspec says Apache-2.0
+license=(Apache-2.0)
+depends=(
+  ruby
+  ruby-ffi
+  ruby-memoist3
+)
+makedepends=(
+  ruby-rdoc
+)
+checkdepends=(
+  ruby-rake
+  ruby-rspec
+)
+options=(!emptydirs)
+source=(https://github.com/djberg96/sys-uname/archive/sys-uname-$pkgver.tar.gz)
+sha256sums=('701f9bd30b376194e91b2329ba2596da604d5b62ced4660b130baf5a110d9d43')
+
+prepare() {
+  cd sys-uname-sys-uname-$pkgver
+  sed -r 's|~>|>=|g' -i sys-uname.gemspec
+
+  sed -r -i \
+    -e '/[rR]ubo[cC]op/d' \
+    Rakefile \
+    sys-uname.gemspec
+}
+
+build() {
+  local _gemdir="$(gem env gemdir)"
+  cd sys-uname-sys-uname-$pkgver
+  gem build sys-uname.gemspec
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --install-dir "tmp_install/$_gemdir" \
+    --bindir "tmp_install/usr/bin" \
+    sys-uname-$pkgver.gem
+  find "tmp_install/$_gemdir/gems/" \
+    -type f \
+    \( \
+        -iname "*.o" -o \
+        -iname "*.c" -o \
+        -iname "*.so" -o \
+        -iname "*.time" -o \
+        -iname "gem.build_complete" -o \
+        -iname "Makefile" \
+    \) \
+    -delete
+  rm -r tmp_install/$_gemdir/cache
+}
+
+check() {
+  local _gemdir="$(gem env gemdir)"
+  cd sys-uname-sys-uname-$pkgver
+  GEM_HOME="tmp_install/$_gemdir" rake
+}
+
+package() {
+  cd sys-uname-sys-uname-$pkgver
+  cp -a tmp_install/* "$pkgdir"/
+}

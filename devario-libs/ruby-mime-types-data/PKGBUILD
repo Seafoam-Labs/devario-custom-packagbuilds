@@ -1,0 +1,78 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Anatol Pomozov <anatol.pomozov@gmail.com>
+
+_name=mime-types-data
+pkgname=ruby-$_name
+pkgver=3.2026.1027
+pkgrel=1
+pkgdesc='provides a registry for information about MIME media type definitions'
+arch=(any)
+url='https://github.com/mime-types/mime-types-data/'
+license=(MIT)
+depends=(ruby)
+makedepends=('ruby-rdoc')
+options=(!emptydirs)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/mime-types/$_name/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('5605e616fda44fc461d931a0b385f3868dce5db4d11eaf257be0227e27a64e12')
+
+prepare() {
+  cd "${_name}-${pkgver}"
+
+  # update gemspec/Gemfile to allow newer version of the dependencies
+  sed --in-place --regexp-extended 's|~>|>=|g' "${_name}.gemspec"
+}
+
+build() {
+  cd "${_name}-${pkgver}"
+
+  local _gemdir="$(gem env gemdir)"
+
+  gem build "${_name}.gemspec"
+
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --build-root "tmp_install" \
+    "${_name}-${pkgver}.gem"
+
+  # remove unrepreducible files
+  rm --force --recursive --verbose \
+    "tmp_install/${_gemdir}/cache/" \
+    "tmp_install/${_gemdir}/gems/${_name}-${pkgver}/vendor/" \
+    "tmp_install/${_gemdir}/doc/${_name}-${pkgver}/ri/ext/"
+
+  find "tmp_install/${_gemdir}/gems/" \
+    -type f \
+    \( \
+      -iname "*.o" -o \
+      -iname "*.c" -o \
+      -iname "*.so" -o \
+      -iname "*.time" -o \
+      -iname "gem.build_complete" -o \
+      -iname "Makefile" \
+    \) \
+    -delete
+
+  find "tmp_install/${_gemdir}/extensions/" \
+    -type f \
+    \( \
+      -iname "mkmf.log" -o \
+      -iname "gem_make.out" \
+    \) \
+    -delete
+}
+
+# This project does not have tests, use the tests in ruby-mime-types instead to
+# confirm proper functioning package
+
+package() {
+  cd "${_name}-${pkgver}"
+
+  cp --archive --verbose tmp_install/* "${pkgdir}"
+
+  install --verbose -D --mode=0644 LICENCE.md --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# vim: ts=2 sw=2 et:

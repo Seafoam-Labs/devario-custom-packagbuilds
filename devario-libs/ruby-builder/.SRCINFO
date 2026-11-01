@@ -1,0 +1,18 @@
+pkgbase = ruby-builder
+	pkgdesc = Provide a simple way to create XML markup and data structures
+	pkgver = 3.3.0
+	pkgrel = 1
+	url = https://github.com/rails/builder
+	arch = any
+	license = MIT
+	checkdepends = ruby-minitest
+	makedepends = ruby-bundler
+	makedepends = ruby-rake
+	makedepends = ruby-rdoc
+	depends = ruby
+	options = !emptydirs
+	source = https://github.com/rails/builder/archive/v3.3.0/ruby-builder-v3.3.0.tar.gz
+	sha512sums = 0392b59a4c0fd1bdfcd078fbdf14a7ec2a0226393fb290862f9088146aed6b6087aea0e4e2232d4fd1a0397fa0958a2937841194a099f024927f061f74d150ea
+	b2sums = 8733514f801f2ee9085d5978d8cb6025c5c16151e2f99f90ead6ccf445b255e527ff629b4a6872001c1c969fa885f794167e01f3a610460ef8604e3d76aac5ac
+
+pkgname = ruby-builder

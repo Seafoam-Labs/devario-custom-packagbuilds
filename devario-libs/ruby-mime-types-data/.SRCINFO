@@ -1,0 +1,14 @@
+pkgbase = ruby-mime-types-data
+	pkgdesc = provides a registry for information about MIME media type definitions
+	pkgver = 3.2026.1027
+	pkgrel = 1
+	url = https://github.com/mime-types/mime-types-data/
+	arch = any
+	license = MIT
+	makedepends = ruby-rdoc
+	depends = ruby
+	options = !emptydirs
+	source = ruby-mime-types-data-3.2026.1027.tar.gz::https://github.com/mime-types/mime-types-data/archive/refs/tags/v3.2026.1027.tar.gz
+	sha256sums = 5605e616fda44fc461d931a0b385f3868dce5db4d11eaf257be0227e27a64e12
+
+pkgname = ruby-mime-types-data

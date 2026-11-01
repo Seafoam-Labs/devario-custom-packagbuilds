@@ -1,0 +1,91 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Alexsandr Pavlov <kidoz@mail.ru>
+
+_name=mime-types
+pkgname=ruby-mime-types
+pkgver=3.7.0
+pkgrel=1
+pkgdesc='MIME Content-Type database'
+arch=('any')
+url='https://github.com/mime-types/ruby-mime-types/'
+license=('MIT')
+depends=('ruby' 'ruby-mime-types-data')
+makedepends=('ruby-rdoc')
+checkdepends=('ruby-rake' 'ruby-hoe' 'ruby-minitest'{,-hooks})
+options=('!emptydirs')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/mime-types/$_name/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('afabe971c4d24a3c1419cb5fdecd541becda8ea6b78c451f410223fb65f33b09')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+
+  # update gemspec/Gemfile to allow newer version of the dependencies
+  sed --in-place --regexp-extended 's|~>|>=|g' "${_name}.gemspec"
+
+  # remove ruby-minitest-focus requirement
+  sed '/minitest\/focus/d' -i test/minitest_helper.rb
+
+  # trusted releases don't exist yet
+  sed '/trusted_release/d' -i Rakefile
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+
+  local _gemdir="$(gem env gemdir)"
+
+  gem build "${_name}.gemspec"
+
+  gem install \
+    --local \
+    --verbose \
+    --ignore-dependencies \
+    --no-user-install \
+    --build-root "tmp_install" \
+    "${_name}-${pkgver}.gem"
+
+  # remove unrepreducible files
+  rm --force --recursive --verbose \
+    "tmp_install/${_gemdir}/cache/" \
+    "tmp_install/${_gemdir}/gems/${_name}-${pkgver}/vendor/" \
+    "tmp_install/${_gemdir}/doc/${_name}-${pkgver}/ri/ext/"
+
+  find "tmp_install/${_gemdir}/gems/" \
+    -type f \
+    \( \
+      -iname "*.o" -o \
+      -iname "*.c" -o \
+      -iname "*.so" -o \
+      -iname "*.time" -o \
+      -iname "gem.build_complete" -o \
+      -iname "Makefile" \
+    \) \
+    -delete
+
+  find "tmp_install/${_gemdir}/extensions/" \
+    -type f \
+    \( \
+      -iname "mkmf.log" -o \
+      -iname "gem_make.out" \
+    \) \
+    -delete
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+
+  local _gemdir="$(gem env gemdir)"
+
+  GEM_HOME="tmp_install/${_gemdir}" rake test
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  cp --archive --verbose tmp_install/* "${pkgdir}"
+
+  install --verbose -D --mode=0644 LICENCE.md --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# vim: ts=2 sw=2 et:

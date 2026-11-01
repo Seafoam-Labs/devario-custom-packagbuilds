@@ -1,0 +1,4 @@
+[ruby-cucumber-query]
+source = "git"
+git = "https://github.com/cucumber/query.git"
+prefix = "v"

@@ -1,0 +1,4 @@
+[ruby-cucumber-ci-environment]
+source = "git"
+git = "https://github.com/cucumber/ci-environment.git"
+prefix = "v"

@@ -1,0 +1,22 @@
+pkgbase = ruby-sequel
+	pkgdesc = Sequel: The Database Toolkit for Ruby
+	pkgver = 5.109.0
+	pkgrel = 1
+	url = https://github.com/jeremyevans/sequel
+	arch = any
+	license = MIT
+	checkdepends = ruby-minitest
+	checkdepends = ruby-minitest-global_expectations
+	checkdepends = ruby-minitest-hooks
+	checkdepends = ruby-rake
+	makedepends = git
+	makedepends = ruby-rdoc
+	depends = ruby
+	depends = ruby-bigdecimal
+	depends = ruby-csv
+	options = !emptydirs
+	source = git+https://github.com/jeremyevans/sequel.git#tag=5.109.0
+	sha512sums = 23e7df71fbc0b3785747e1aa6e4320ed519853547378b30f5bb03b8d2666c4219185d807369f8bddfe633e98d22225bff7efc02a579387f90e000b09f98ae149
+	b2sums = c5b13760685e868e52860e4f038c5b85b2ec15faf9ac541f9d1ce42ecb103d3309427a5278650c2df1840e316bfbbeb29ca5fe027dfb08a998b60c1b80f4320a
+
+pkgname = ruby-sequel
