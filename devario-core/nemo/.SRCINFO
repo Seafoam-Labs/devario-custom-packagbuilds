@@ -1,0 +1,52 @@
+pkgbase = nemo
+	pkgdesc = File manager for Cinnamon (Nautilus fork)
+	pkgver = 6.8.1
+	pkgrel = 1
+	url = https://github.com/linuxmint/nemo
+	arch = x86_64
+	license = GPL-3.0-or-later AND LGPL-2.1-or-later
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = gtk-doc
+	makedepends = intltool
+	makedepends = libgsf
+	makedepends = meson>=0.64.0
+	depends = at-spi2-core
+	depends = bash
+	depends = cairo
+	depends = cinnamon-desktop
+	depends = dconf
+	depends = exempi
+	depends = libgcc
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = gstreamer>=1.14
+	depends = gst-plugins-base-libs>=1.14
+	depends = gst-plugins-base
+	depends = gst-plugin-gtk
+	depends = gvfs
+	depends = hicolor-icon-theme
+	depends = json-glib
+	depends = libexif
+	depends = libx11
+	depends = libxmlb
+	depends = pango>=1.44.0
+	depends = python
+	depends = python-cairo
+	depends = python-gobject
+	depends = xapp
+	optdepends = catdoc: search helpers support for legacy MS Word files
+	optdepends = cinnamon-translations: i18n
+	optdepends = ffmpegthumbnailer: support for video thumbnails
+	optdepends = ghostscript: search helpers support for PostScript files
+	optdepends = libgsf: search helpers support for MS Office files
+	optdepends = libreoffice: search helpers support for legacy MS PowerPoint files
+	optdepends = poppler: search helpers support for PDF files
+	optdepends = python-xlrd: search helpers support for legacy MS Excel files
+	source = git+https://github.com/linuxmint/nemo.git#tag=6.8.1
+	b2sums = c6ec65597d668e5a4283a549b229f1ccb758764e63e116d549971bea8b4f84332364be34bbc72314384e32a753291c1dfb4d1d94e6292c1bf1e9596c28ecbf7e
+
+pkgname = nemo
