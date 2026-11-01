@@ -1,0 +1,36 @@
+# Maintainer: Devario maintainers
+
+_pkgname=typer-slim
+pkgname=python-typer-slim
+pkgver=0.24.0
+pkgrel=1
+pkgdesc="Build great CLIs. Easy to code. Based on Python type hints"
+arch=(any)
+url="https://typer.tiangolo.com/"
+license=(MIT)
+depends=(python-typer)
+makedepends=(
+  python-build
+  python-installer
+  python-pdm-backend
+)
+# No Arch or AUR recipe exists for the split, so the source is the PyPI sdist.
+# PyPI serves it under the normalized underscore form of the distribution name.
+_archive="typer_slim-$pkgver"
+source=("https://files.pythonhosted.org/packages/source/${_pkgname::1}/$_pkgname/$_archive.tar.gz")
+sha256sums=('f0ed36127183f52ae6ced2ecb2521789995992c521a46083bfcdbb652d22ad34')
+
+build() {
+  cd "$_archive"
+  # The sdist carries every typer variant and selects one through this
+  # variable; typer-slim is the metadata-only shim that requires typer.
+  TIANGOLO_BUILD_PACKAGE=typer-slim python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_archive"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# vim:set ts=2 sw=2 et:

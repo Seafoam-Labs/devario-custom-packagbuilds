@@ -1,0 +1,3 @@
+[python-typer-slim]
+source = "pypi"
+pypi = "typer-slim"

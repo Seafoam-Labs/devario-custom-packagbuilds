@@ -1,0 +1,36 @@
+# Maintainer: Devario maintainers
+
+_name=coherent.licensed
+pkgname=python-coherent-licensed
+pkgver=0.5.2
+pkgrel=1
+pkgdesc="License management tooling for Coherent System and skeleton projects"
+arch=(any)
+url="https://github.com/coherent-oss/coherent.licensed"
+license=(MIT)
+depends=(python)
+# The build-system pins flit-core >=3.11,<4, so the 3.x split is the owner;
+# python-flit-core publishes 4.1.0.
+makedepends=(
+  python-build
+  python-flit-core3
+  python-installer
+)
+# Named after the PyPI distribution as PEP 503 normalizes it, because that is
+# the name python-inflect asks for; upstream calls the project coherent.licensed.
+_archive="coherent_licensed-$pkgver"
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_archive.tar.gz")
+sha256sums=('d8071403ce742d3ac3592ddc4fb7057a46caffb415b928b4d52802e5f208416d')
+
+build() {
+  cd "$_archive"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_archive"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# vim:set ts=2 sw=2 et:
