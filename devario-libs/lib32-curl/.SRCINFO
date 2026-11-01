@@ -1,6 +1,6 @@
 pkgbase = lib32-curl
 	pkgdesc = command line tool and library for transferring data with URLs (32-bit)
-	pkgver = 8.22.0
+	pkgver = 8.23.0
 	pkgrel = 1
 	url = https://curl.se/
 	arch = x86_64
@@ -21,9 +21,9 @@ pkgbase = lib32-curl
 	makedepends = lib32-openssl
 	makedepends = lib32-zlib
 	makedepends = lib32-zstd
-	source = git+https://github.com/curl/curl.git?signed#tag=curl-8_22_0
+	source = git+https://github.com/curl/curl.git?signed#tag=curl-8_23_0
 	validpgpkeys = 27EDEAF22F3ABCEB50DB9A125CC908FDB71E12C2
-	sha512sums = 398cd510438960167f65fc7733b8a371808f17ba89809ed8dcce67cc5bcaa91a736d316a28ab95bef72ec5ec3e32705498a066bb6ac5e1d74d37ffeb68f4fe81
+	sha512sums = 4be9e14dc61c465d1f4e56bed597350ffa66cc49f6b60c29ff196897e8b72cdfb7fc0ad503f3e7f8902b13f085a8138a5e06ca402e50014bda372909eb04798d
 
 pkgname = lib32-curl
 	depends = curl
