@@ -1,26 +1,59 @@
 pkgbase = deepseek-harness
-	pkgdesc = DeepSeek AI agent harness with a plugin-based architecture
+	pkgdesc = DeepSeek Harness desktop AI agent with an integrated workspace and terminal
 	pkgver = 0.2.1rc.5
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/deepseek-ai/deepseek-harness
 	arch = x86_64
 	arch = aarch64
 	license = MIT
+	checkdepends = desktop-file-utils
+	makedepends = gcc
+	makedepends = git
+	makedepends = make
+	makedepends = nodejs>=24.9.0
 	makedepends = npm
+	makedepends = pkgconf
+	makedepends = pnpm>=11.28.5
 	makedepends = python
-	depends = nodejs>=24.9.0
+	depends = alsa-lib
+	depends = at-spi2-core
 	depends = bash
-	depends = glibc
+	depends = cairo
+	depends = dbus
+	depends = expat
 	depends = gcc-libs
-	optdepends = pnpm: install and manage profile plugins
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = hicolor-icon-theme
+	depends = libcups
+	depends = libdrm
+	depends = libx11
+	depends = libxcb
+	depends = libxcomposite
+	depends = libxdamage
+	depends = libxext
+	depends = libxfixes
+	depends = libxkbcommon
+	depends = libxrandr
+	depends = libvips>=8.18.7
+	depends = mesa
+	depends = nspr
+	depends = nss
+	depends = pango
 	optdepends = bubblewrap: sandbox agent shell commands
 	optdepends = git: work with Git repositories and Git-hosted plugins
-	optdepends = xdg-utils: open the Web UI in the default browser
+	optdepends = xdg-utils: open external links
+	optdepends = zenity: native folder selection
 	provides = dsh=0.2.1rc.5
 	conflicts = dsh
-	noextract = deepseek-harness-0.2.1-rc.5.tgz
 	options = !strip
-	source = deepseek-harness-0.2.1-rc.5.tgz::https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.2.1-rc.5.tgz
-	sha256sums = 60987566f19e0ded1f7918c00a65c19c56ea25f5977ee0bfd5697c5c113ec4e1
+	options = !debug
+	source = deepseek-harness-0.2.1-rc.5.tar.gz::https://github.com/deepseek-ai/deepseek-harness/archive/refs/tags/dsh-v0.2.1-rc.5.tar.gz
+	source = linux-desktop.patch
+	source = deepseek-harness.desktop
+	sha256sums = a2b94ff1183a87bb1f1d898c6274ae5f8b78accc38931594afd97b58cf0db81f
+	sha256sums = 6bbe510c6b6146c7e9073b8f0d50517654346197b3d484f4d36b80a03be9b108
+	sha256sums = 42567b92d12db5d1356d6b1fe8d5346c6b4fdf23067d9eb8236a0acc8685861a
 
 pkgname = deepseek-harness

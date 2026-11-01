@@ -1,50 +1,112 @@
 pkgname=deepseek-harness
 pkgver=0.2.1rc.5
-pkgrel=1
-pkgdesc='DeepSeek AI agent harness with a plugin-based architecture'
+pkgrel=2
+pkgdesc='DeepSeek Harness desktop AI agent with an integrated workspace and terminal'
 arch=('x86_64' 'aarch64')
 url='https://github.com/deepseek-ai/deepseek-harness'
 license=('MIT')
-depends=('nodejs>=24.9.0' 'bash' 'glibc' 'gcc-libs')
-makedepends=('npm' 'python')
-optdepends=('pnpm: install and manage profile plugins'
-            'bubblewrap: sandbox agent shell commands'
+depends=('alsa-lib' 'at-spi2-core' 'bash' 'cairo' 'dbus' 'expat' 'gcc-libs'
+         'glib2' 'glibc' 'gtk3' 'hicolor-icon-theme' 'libcups' 'libdrm'
+         'libx11' 'libxcb' 'libxcomposite' 'libxdamage' 'libxext' 'libxfixes'
+         'libxkbcommon' 'libxrandr' 'libvips>=8.18.7' 'mesa' 'nspr' 'nss' 'pango')
+makedepends=('gcc' 'git' 'make' 'nodejs>=24.9.0' 'npm' 'pkgconf' 'pnpm>=11.28.5' 'python')
+checkdepends=('desktop-file-utils')
+optdepends=('bubblewrap: sandbox agent shell commands'
             'git: work with Git repositories and Git-hosted plugins'
-            'xdg-utils: open the Web UI in the default browser')
+            'xdg-utils: open external links'
+            'zenity: native folder selection')
 provides=("dsh=${pkgver}")
 conflicts=('dsh')
-# npm dependencies include native addons and prebuilt helper binaries.
-options=('!strip')
-_npmver=0.2.1-rc.5
-source=("${pkgname}-${_npmver}.tgz::https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${_npmver}.tgz")
-noextract=("${pkgname}-${_npmver}.tgz")
-sha256sums=('60987566f19e0ded1f7918c00a65c19c56ea25f5977ee0bfd5697c5c113ec4e1')
+# Keep the upstream Electron ABI and the sealed runtime's bytes intact.
+options=('!strip' '!debug')
+_upstreamver=0.2.1-rc.5
+_commit=b830ec950faba0a46dda564be3e2d854afed94f1
+_srcname="deepseek-harness-dsh-v${_upstreamver}"
+source=("${pkgname}-${_upstreamver}.tar.gz::https://github.com/deepseek-ai/deepseek-harness/archive/refs/tags/dsh-v${_upstreamver}.tar.gz"
+        'linux-desktop.patch'
+        'deepseek-harness.desktop')
+sha256sums=('a2b94ff1183a87bb1f1d898c6274ae5f8b78accc38931594afd97b58cf0db81f'
+            '6bbe510c6b6146c7e9073b8f0d50517654346197b3d484f4d36b80a03be9b108'
+            '42567b92d12db5d1356d6b1fe8d5346c6b4fdf23067d9eb8236a0acc8685861a')
+
+_build_environment() {
+  export CI=1 LEFTHOOK=0
+  export npm_config_cache="${srcdir}/npm-cache"
+  export XDG_CACHE_HOME="${srcdir}/cache"
+  export DSH_CLIENT_COMMIT_HASH="${_commit}"
+  export DSH_DESKTOP_BUILD_COMMIT="${_commit}" DSH_DESKTOP_BUILD_DIRTY=1
+  export DSH_DESKTOP_TARGET_PLATFORM=linux DSH_DESKTOP_UNSIGNED=1
+  export DSH_DESKTOP_APP_ID=com.deepseek.harness
+  export CSC_IDENTITY_AUTO_DISCOVERY=false
+  # The two aggregate TypeScript compilers are memory-intensive.
+  export DSH_GATE_CONCURRENCY=2
+  case "$CARCH" in
+    x86_64) export DSH_DESKTOP_TARGET_ARCH=x64 ;;
+    aarch64) export DSH_DESKTOP_TARGET_ARCH=arm64 ;;
+    *) return 1 ;;
+  esac
+  _targetdir="${srcdir}/${_srcname}/apps/desktop/.desktop-build/targets/linux-${DSH_DESKTOP_TARGET_ARCH}"
+  _appdir="${_targetdir}/unsigned-artifacts/linux-unpacked"
+  if [[ "$CARCH" == aarch64 ]]; then
+    _appdir="${_targetdir}/unsigned-artifacts/linux-arm64-unpacked"
+  fi
+}
+
+prepare() {
+  cd "${srcdir}/${_srcname}"
+  patch -Np1 -i "${srcdir}/linux-desktop.patch"
+  _build_environment
+  pnpm install --frozen-lockfile --store-dir "${srcdir}/pnpm-store"
+}
 
 build() {
-  # Keep npm's cache and installation inside the build tree. Lifecycle scripts
-  # select native addons and restore node-pty's executable spawn helper.
-  npm install --global \
-    --prefix "${srcdir}/npm" \
-    --cache "${srcdir}/npm-cache" \
-    --allow-scripts=@deepseek-ai/dsh-subprocess-local,koffi,node-pty,@google/genai,protobufjs \
-    --omit=dev --no-audit --no-fund --no-update-notifier \
-    "${srcdir}/${pkgname}-${_npmver}.tgz"
+  cd "${srcdir}/${_srcname}"
+  _build_environment
+  pnpm run build:official
+
+  # Follow upstream's production-runtime assembly, bypassing only the
+  # macOS/Windows release uploader and signing-specific target dispatcher.
+  pnpm run release:pack --family dsh --out "${_targetdir}/packed/dsh" --concurrency 4
+  pnpm --dir apps/desktop-host pack --pack-destination "${_targetdir}/packed/dsh"
+  pnpm run release:pack --family vendor --out "${_targetdir}/packed/vendor" --concurrency 4
+  mkdir -p "${_targetdir}/packed/landlock"
+  pnpm --dir native/system run build:ts
+  pnpm --dir native/system/packages/entry pack --pack-destination "${_targetdir}/packed/landlock"
+  pnpm --dir apps/desktop run prepare:runtime
+  pnpm --dir apps/desktop run prepare:packages
+  # Electron's system GLib conflicts with Sharp's bundled GLib on Linux.
+  # Rebuild against system libvips before sealing and checking the runtime.
+  npm install --prefix "${_targetdir}/sharp-build" --ignore-scripts \
+    --no-audit --no-fund --package-lock=false \
+    sharp@0.35.5 node-addon-api@8.9.2 node-gyp@12.4.0
+  SHARP_FORCE_GLOBAL_LIBVIPS=1 npm --prefix "${_targetdir}/sharp-build/node_modules/sharp" run build
+  pnpm --dir apps/desktop run prepare:dsh
+  pnpm --dir apps/desktop exec electron-builder --linux --"${DSH_DESKTOP_TARGET_ARCH}" \
+    --dir --publish never --config electron-builder.config.mjs
 }
 
 check() {
-  "${srcdir}/npm/bin/dsh" --version
-  "${srcdir}/npm/bin/dsh" --help >/dev/null
+  cd "${srcdir}/${_srcname}"
+  _build_environment
+  desktop-file-validate "${srcdir}/deepseek-harness.desktop"
+  # Boots the bundled Host and verifies CLI, plugins and runtime resources
+  # in temporary profiles, without opening a window or touching user data.
+  pnpm --dir apps/desktop exec tsx scripts/smoke-packaged-runtime.ts --unsigned
+  "${_appdir}/resources/runtime/cli/bin/dsh" --version
 }
 
 package() {
-  install -dm755 "${pkgdir}/usr/lib/node_modules/@deepseek-ai" "${pkgdir}/usr/bin"
-  cp -a --no-preserve=ownership "${srcdir}/npm/lib/node_modules/@deepseek-ai/dsh" \
-    "${pkgdir}/usr/lib/node_modules/@deepseek-ai/"
-  ln -s ../lib/node_modules/@deepseek-ai/dsh/lib/bin.js "${pkgdir}/usr/bin/dsh"
-
-  local appdir="${pkgdir}/usr/lib/node_modules/@deepseek-ai/dsh"
-  # npm's hidden installation metadata can contain absolute build paths.
-  find "${appdir}" -name .package-lock.json -delete
-  install -Dm644 "${appdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  install -Dm644 "${appdir}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  cd "${srcdir}/${_srcname}"
+  _build_environment
+  install -dm755 "${pkgdir}/opt/${pkgname}" "${pkgdir}/usr/bin"
+  cp -a "${_appdir}/." "${pkgdir}/opt/${pkgname}/"
+  # Preserve Chromium's sandbox helper instead of disabling the sandbox.
+  chmod 4755 "${pkgdir}/opt/${pkgname}/chrome-sandbox"
+  ln -s "/opt/${pkgname}/deepseek-harness" "${pkgdir}/usr/bin/deepseek-harness"
+  ln -s "/opt/${pkgname}/resources/runtime/cli/bin/dsh" "${pkgdir}/usr/bin/dsh"
+  install -Dm644 "${srcdir}/deepseek-harness.desktop" \
+    "${pkgdir}/usr/share/applications/deepseek-harness.desktop"
+  install -Dm644 apps/desktop/resources/icon-windows.png \
+    "${pkgdir}/usr/share/icons/hicolor/1024x1024/apps/deepseek-harness.png"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
