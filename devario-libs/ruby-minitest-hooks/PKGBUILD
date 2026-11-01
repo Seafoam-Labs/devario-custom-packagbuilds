@@ -13,9 +13,13 @@ depends=(
 )
 makedepends=(
   git
-  ruby-minitest-global_expectations
   ruby-rake
   ruby-rdoc
+)
+# Arch has these in makedepends, but build() only runs gem build/install: check()'s rake is the
+# only consumer. Leaving them plan-visible would drag ruby-sqlite3 and the unpublished sqlcipher.
+checkdepends=(
+  ruby-minitest-global_expectations
   ruby-sequel
   ruby-sqlite3
 )
