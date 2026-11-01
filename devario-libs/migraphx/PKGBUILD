@@ -42,6 +42,9 @@ prepare() {
 }
 
 build() {
+  # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
+  # /etc/profile.d/rocm.sh; Shelly's build shell does not source profile.d.
+  export PATH="/opt/rocm/bin:$PATH"
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   CXXFLAGS+=" -fcf-protection=none"
@@ -69,6 +72,10 @@ build() {
 }
 
 package() {
+  # The CMake cache holds the bare compiler names, so an install-time
+  # regeneration needs the same PATH as the build.
+  export PATH="/opt/rocm/bin:$PATH"
+
   DESTDIR="$pkgdir" cmake --install build
   install -Dm644 "$pkgname/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 /usr/share/licenses/rocmlir/LICENSE \

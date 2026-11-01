@@ -77,6 +77,10 @@ prepare() {
 }
 
 build() {
+  # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
+  # /etc/profile.d/rocm.sh; Shelly's build shell does not source profile.d.
+  export PATH="/opt/rocm/bin:$PATH"
+
   local fdeep_args=(
     -S $pkgname-frugally-deep
         -B build-frugally-deep
@@ -126,6 +130,10 @@ build() {
 }
 
 package() {
+  # The CMake cache holds the bare compiler names, so an install-time
+  # regeneration needs the same PATH as the build.
+  export PATH="/opt/rocm/bin:$PATH"
+
   DESTDIR="$pkgdir" cmake --install build
 
   install -Dm644 "$_dirname/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"

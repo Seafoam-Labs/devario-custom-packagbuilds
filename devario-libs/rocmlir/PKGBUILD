@@ -10,7 +10,10 @@ makedepends=(
   git
   cmake
   ninja
+  python
+  hip-runtime-amd
   rocm-cmake
+  rocm-device-libs
   rocm-llvm
   hsa-rocr
 )
@@ -21,6 +24,9 @@ sha256sums=('674cf03c6d5d0fb65e7b57c71cb0671cc29e1672446f4abb39c13cd9296aa9ef')
 options=(!lto)
 
 build() {
+  # amdclang lives in /opt/rocm/bin, which rocm-core only puts on PATH through
+  # /etc/profile.d/rocm.sh; Shelly's build shell does not source profile.d.
+  export PATH="/opt/rocm/bin:$PATH"
   # -fcf-protection is not supported by HIP, see
   # https://rocm.docs.amd.com/projects/llvm-project/en/latest/reference/rocmcc.html#support-status-of-other-clang-options
   CXXFLAGS+=" -fcf-protection=none"
@@ -44,6 +50,10 @@ build() {
 }
 
 package() {
+  # The CMake cache holds the bare compiler names, so an install-time
+  # regeneration needs the same PATH as the build.
+  export PATH="/opt/rocm/bin:$PATH"
+
   DESTDIR="$pkgdir" cmake --install build
   install -Dm644 "$pkgname/LICENSE.TXT" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"

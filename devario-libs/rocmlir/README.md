@@ -26,8 +26,16 @@ once for that change.
 
 Validation status: the installed CMake package and static archive can only be
 confirmed by a worker build. Build and publish rocmlir first, then refresh the
-worker's repository database so migraphx resolves the new makedepend. Check
-that MIGraphX configures with `rocMLIR_DIR=/opt/rocm/lib/cmake/rocmlir`, links
-`librockCompiler.a` into `libmigraphx_gpu.so`, and no longer compiles LLVM/MLIR
-itself. MIOpen still builds its own compiler until a separate change validates
-this package for it.
+worker's repository database so migraphx and miopen-hip resolve the new
+makedepend. Check that MIGraphX configures with
+`rocMLIR_DIR=/opt/rocm/lib/cmake/rocmlir`, links `librockCompiler.a` into
+`libmigraphx_gpu.so`, and no longer compiles LLVM/MLIR itself.
+
+The first worker attempt failed at configure because Shelly's build shell does
+not source `/etc/profile.d/rocm.sh`, so `amdclang` was not on PATH. Both stages
+now export `/opt/rocm/bin`, which also puts `/opt/rocm` into CMake's prefix
+search: the Rock dialect calls `find_package(hsa-runtime64 REQUIRED)` without a
+hint, and the tool and device-library stages require `hip`, `hiprtc` and
+`AMDDeviceLibs`. The recipe therefore lists hip-runtime-amd and
+rocm-device-libs as makedepends, plus python because the vendored LLVM and the
+test tree require a Python 3 interpreter at configure time.
