@@ -1,0 +1,4 @@
+[ruby-rspec-core]
+source = "git"
+git = "https://github.com/rspec/rspec.git"
+exclude_regex = ".*(pre|rc|alpha|beta|dev).*"
