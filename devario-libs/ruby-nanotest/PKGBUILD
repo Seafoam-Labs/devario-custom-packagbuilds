@@ -20,6 +20,8 @@ prepare() {
   sed 's/-rubygems //' -i Rakefile
   # https://github.com/mynyml/nanotest/pull/4
   sed 's/MiniTest::Unit::TestCase/MiniTest::Test/' -i test/test_nanotest.rb
+  # RubyGems 4 removed Specification#has_rdoc= (rubygems/rubygems#9084)
+  sed '/^\s*s\.has_rdoc\s*=/d' -i nanotest.gemspec
 }
 
 build() {
