@@ -1293,7 +1293,7 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 
 ### Stage 19
 
-98 packages from 13 recipes.
+99 packages from 14 recipes.
 
 | Package | Build recipe | Bootstrap requirement |
 | --- | --- | --- |
@@ -1301,6 +1301,7 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 | `liblas` | [devario-libs/liblas](devario-libs/liblas/PKGBUILD) | — |
 | `localsearch` | [devario-utilities/localsearch](devario-utilities/localsearch/PKGBUILD) | — |
 | `localsearch-testutils` | [devario-utilities/localsearch](devario-utilities/localsearch/PKGBUILD) | — |
+| `rocmlir` | [devario-libs/rocmlir](devario-libs/rocmlir/PKGBUILD) | — |
 | `miopen-hip` | [devario-libs/miopen-hip](devario-libs/miopen-hip/PKGBUILD) | — |
 | `network-manager-applet` | [devario-core/network-manager-applet](devario-core/network-manager-applet/PKGBUILD) | — |
 | `nm-connection-editor` | [devario-core/network-manager-applet](devario-core/network-manager-applet/PKGBUILD) | — |
@@ -1398,7 +1399,7 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 
 ### Stage 20
 
-17 packages from 7 recipes.
+16 packages from 6 recipes.
 
 | Package | Build recipe | Bootstrap requirement |
 | --- | --- | --- |
@@ -1408,7 +1409,6 @@ Jump to stage: [01](#stage-01) · [02](#stage-02) · [03](#stage-03) · [04](#st
 | `lib32-libcurl-gnutls` | [devario-libs/lib32-curl](devario-libs/lib32-curl/PKGBUILD) | — |
 | `libnautilus-extension` | [devario-utilities/nautilus](devario-utilities/nautilus/PKGBUILD) | — |
 | `libnautilus-extension-docs` | [devario-utilities/nautilus](devario-utilities/nautilus/PKGBUILD) | — |
-| `rocmlir` | [devario-libs/rocmlir](devario-libs/rocmlir/PKGBUILD) | — |
 | `migraphx` | [devario-libs/migraphx](devario-libs/migraphx/PKGBUILD) | — |
 | `nautilus` | [devario-utilities/nautilus](devario-utilities/nautilus/PKGBUILD) | — |
 | `rocm-hip-libraries` | [devario-development/rocm-hip-sdk](devario-development/rocm-hip-sdk/PKGBUILD) | — |
@@ -1583,7 +1583,7 @@ this repository:
 
 The separate Neovim and isolation-builder Texinfo hook repairs are outside the 909-recipe application manifest. Texinfo uses dependencies present in the saved repository snapshot; Neovim requires its own dependency plan. TeX Live’s hook correction is included in the main queue. See [the hook guide](HOOK-BUILDS.md).
 
-All 3,730 recorded dependency edges were checked: every dependency outside its own group is in an earlier stage. The rocmlir recipe was added to stage 20 after that audit; its dependencies are all in earlier stages. Current PKGBUILD hashes match the audited manifest. The plan remains tied to the saved repository/provider snapshot; re-resolve it if dependency metadata, available providers, or recipes change. Full builds were not run to create this order.
+All 3,730 recorded dependency edges were checked: every dependency outside its own group is in an earlier stage. The rocmlir recipe was added to stage 19 after that audit; its dependencies are all in earlier stages. Current PKGBUILD hashes match the audited manifest. The plan remains tied to the saved repository/provider snapshot; re-resolve it if dependency metadata, available providers, or recipes change. Full builds were not run to create this order.
 
 The stage files came from the audited graph, which is not retained.
 `LATEST-BUILD-ORDER.tsv` is the machine-readable build-order list that survives
