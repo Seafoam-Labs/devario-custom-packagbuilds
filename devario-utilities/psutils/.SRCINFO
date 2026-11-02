@@ -1,0 +1,23 @@
+pkgbase = psutils
+	pkgdesc = A set of postscript utilities
+	pkgver = 3.3.17
+	pkgrel = 1
+	url = https://github.com/rrthomas/psutils
+	arch = any
+	license = GPL-3.0-only
+	checkdepends = ghostscript
+	checkdepends = python-pytest-datafiles
+	checkdepends = python-wand
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-argparse-manpage
+	makedepends = python-setuptools
+	depends = libpaper
+	depends = python
+	depends = python-puremagic
+	depends = python-pypdf
+	source = https://github.com/rrthomas/psutils/releases/download/v3.3.17/psutils-3.3.17.tar.gz
+	sha256sums = 3ff76cc9f9fb535ec553d1591de56d6dbaa0d9f4df86778f6a49731ebd764cdf
+
+pkgname = psutils

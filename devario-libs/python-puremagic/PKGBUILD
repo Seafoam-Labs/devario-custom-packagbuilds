@@ -1,0 +1,44 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+
+pkgname=python-puremagic
+pkgver=2.2.0
+pkgrel=1
+pkgdesc="A Python module that will identify a file based off it's magic numbers"
+arch=(any)
+url='https://github.com/cdgriffith/puremagic'
+license=(MIT)
+depends=(python)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-setuptools-scm
+  python-wheel
+)
+checkdepends=(python-pytest)
+source=("$pkgname::git+$url#tag=$pkgver")
+sha512sums=('e6ee1b512e17e02f074b3fca3ffabf78d66576d979450eaaa7cc7d45b71cc039ef71721ba94389110ed881ce73cc96ecd71a241fa30abf68bccfe8cf727971f2')
+b2sums=('d5041198f9ddc74d82a57476424e2a6838e54dfaa64d9d96eb58fae9cb63008faaf81161c1a96c1b2a1f16735be35c827e71cbe5b2a4c5b02ad20d9391b62675')
+
+build() {
+  cd "$pkgname"
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgname"
+
+  PYTHONPATH="$PWD:$PYTHONPATH" pytest -v
+}
+
+package() {
+  cd "$pkgname"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # license
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}
