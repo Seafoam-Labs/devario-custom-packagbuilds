@@ -1,0 +1,4 @@
+[terminus-font]
+source = 'regex'
+url = 'https://sourceforge.net/projects/terminus-font/best_release.json'
+regex = 'terminus-font-([\d.]+).tar'

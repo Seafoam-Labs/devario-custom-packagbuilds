@@ -1,0 +1,7 @@
+[xdg-utils]
+source = "gitlab"
+gitlab = "xdg/xdg-utils"
+host = "gitlab.freedesktop.org"
+use_max_tag = true
+prefix = "v"
+exclude_regex = ".*(alpha|beta|pre|rc).*"

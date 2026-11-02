@@ -1,0 +1,5 @@
+[uwsm]
+source = "git"
+git = "https://github.com/Vladimir-csp/uwsm.git"
+prefix = "v"
+include_regex = 'v\d+\.\d+\.\d+'

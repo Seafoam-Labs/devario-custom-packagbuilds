@@ -1,0 +1,4 @@
+[slurp]
+source = "git"
+git = "https://github.com/emersion/slurp.git"
+prefix = "v"

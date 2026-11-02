@@ -1,0 +1,20 @@
+pkgbase = fribidi
+	pkgdesc = A Free Implementation of the Unicode Bidirectional Algorithm
+	pkgver = 1.0.18
+	pkgrel = 2
+	url = https://github.com/fribidi/fribidi
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = git
+	makedepends = help2man
+	makedepends = meson
+	depends = glibc
+	provides = libfribidi.so
+	provides = libfribidi.so=0-64
+	source = git+https://github.com/fribidi/fribidi?signed#tag=v1.0.18
+	source = git+https://github.com/fribidi/c2man#commit=577ed4095383ef5284225d45709e6b5f0598a064
+	validpgpkeys = 0AD041B27CA166DDA1FE3BAEA7B3409C0CA4ED14
+	b2sums = 2afe854d69e196c4d21900548ac8763a4ca323f681543ee8dac97d98bdff5cc6e9fa638f620fa9004f55d0830f618d8b8862f32a9fcccc95c074f205f01b7f4f
+	b2sums = 4ce1f0e039bbac3d7015eff10b9738ac4b58dc59f736a8f7ba12857d67092444f500928447a08004ae3548ffb2c788a849ac76c89924db2d82653f547cc4cc6a
+
+pkgname = fribidi

@@ -1,0 +1,34 @@
+pkgbase = greetd
+	pkgdesc = Generic greeter daemon
+	pkgver = 0.10.3
+	pkgrel = 2
+	url = https://git.sr.ht/~kennylevinsen/greetd
+	arch = x86_64
+	license = GPL-3.0-only
+	makedepends = cargo
+	makedepends = scdoc
+	depends = glibc
+	depends = libgcc
+	depends = systemd
+	source = greetd-0.10.3.tar.gz::https://git.sr.ht/~kennylevinsen/greetd/archive/0.10.3.tar.gz
+	source = greetd.sysusers
+	source = greetd.pam
+	sha256sums = ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b
+	sha256sums = 896b7c9b5ec9c9c5795842db9b0f0d792b9d0ceda35891c5c169a9150795b8d1
+	sha256sums = 993a3096c2b113e6800f2abbd5d4233ebf1a97eef423990d3187d665d3490b92
+
+pkgname = greetd
+	depends = glibc
+	depends = libgcc
+	depends = systemd
+	depends = greetd-agreety
+	depends = greetd-greeter
+	depends = pam
+	backup = etc/greetd/config.toml
+	backup = etc/pam.d/greetd
+
+pkgname = greetd-agreety
+	depends = glibc
+	depends = libgcc
+	depends = greetd
+	provides = greetd-greeter

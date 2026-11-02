@@ -1,0 +1,44 @@
+# Maintainer: Robin Candau <antiz@archlinux.org>
+
+pkgname=wlroots0.20
+_pkgname=wlroots
+pkgver=0.20.2
+pkgrel=2
+pkgdesc="Modular Wayland compositor library"
+url="https://gitlab.freedesktop.org/wlroots/wlroots"
+license=('MIT')
+arch=('x86_64')
+# libdisplay-info.so and libvulkan.so stay bare: their providers publish no
+# versioned provision, so naming one here would not resolve.
+depends=('glibc' 'libdisplay-info.so' 'libdrm' 'libglvnd' 'libinput' 'liblcms2.so=2-64' 'libliftoff.so=0-64'
+         'libpixman-1.so=0-64' 'libseat.so=1-64' 'libudev.so=1-64' 'libvulkan.so' 'libwayland-client.so=0-64'
+         'libwayland-server.so=0-64' 'libxcb' 'libxkbcommon.so=0-64'
+         'wayland-protocols' 'opengl-driver' 'xcb-util-errors' 'xcb-util-renderutil' 'xcb-util-wm')
+makedepends=('git' 'glslang' 'meson' 'ninja' 'systemd' 'vulkan-headers' 'xorg-xwayland')
+optdepends=('xorg-xwayland: Xwayland support'
+            'vulkan-validation-layers: validation layers for the experimental vulkan renderer backend')
+# The SONAME upstream ships is the bare file name: it carries no numeric
+# version to derive libfoo.so=N-64 from, and the API series is already in it.
+provides=("libwlroots-${pkgver%.*}.so")
+source=("${pkgname}::git+${url}.git#tag=${pkgver}?signed")
+sha256sums=('6c8595da579a8df74bc307294c2485e90f5379b84390381f500da33ff3f276d2')
+validpgpkeys=('34FF9526CFEF0E97A340E2E40FDE7BE0E88F5E48'  # Simon Ser
+              '9DDA3B9FA5D58DD5392C78E652CB6609B22DA89A'  # Drew DeVault
+              '4100929B33EEB0FD1DB852797BC79407090047CA') # Sway signing key)
+
+build() {
+	arch-meson "${pkgname}" build
+	ninja -C build
+}
+
+package() {
+	DESTDIR="${pkgdir}" ninja -C build install
+	_verify_soname "${pkgdir}/usr/lib/libwlroots-${pkgver%.*}.so" "libwlroots-${pkgver%.*}.so" || return 1
+	install -Dm 644 "${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+# Nothing pins this provide, so catch a SONAME change at build time instead.
+_verify_soname() {
+	LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+	LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
