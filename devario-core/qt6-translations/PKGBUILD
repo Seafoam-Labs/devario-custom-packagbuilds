@@ -3,8 +3,8 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=qt6-translations
-_pkgver=6.12.0
-pkgver=${_pkgver/-/}
+# Literal pkgver instead of the Qt family's pkgver=${_pkgver/-/}: recipe preparation needs one literal version.
+pkgver=6.12.0
 pkgrel=3
 arch=(any)
 url='https://www.qt.io'
@@ -23,7 +23,7 @@ makedepends=(cmake
              "qt6-tools=$pkgver")
 groups=(qt6)
 _pkgfn=${pkgname/6-/}
-source=(git+https://code.qt.io/qt/$_pkgfn#tag=v$_pkgver)
+source=(git+https://code.qt.io/qt/$_pkgfn#tag=v$pkgver)
 sha256sums=('9c84757693c2fac477b2552004e1147d959c15f65c953dac7cf91739d0b056e1')
 
 build() {

@@ -1,7 +1,7 @@
 # Maintainer: Zoey Bauer <zoey.erin.bauer@gmail.com>
 # Maintainer: Caroline Snyder <hirpeng@gmail.com>
 pkgname=pori
-pkgver=0.1.0
+pkgver=0.2.0
 pkgrel=1
 pkgdesc="Pori: Systemd Mount Manager"
 arch=('x86_64')
@@ -16,12 +16,14 @@ depends=(
     'polkit'
     'udisks2'
 )
-makedepends=('zig>=0.16')
+# Pori 0.2.0 needs Zig 0.17 (build.zig.zon minimum_zig_version); the 0.1.0 recipe allowed 0.16.
+makedepends=('zig>=0.17')
 
 # Source tarball from GitHub release
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/Seafoam-Labs/Pori/archive/v${pkgver}.tar.gz")
 
-sha256sums=('SKIP')
+# Deviation from the upstream recipe: pin the release tarball instead of its SKIP.
+sha256sums=('34ca896f1514978473985af30f32168de2407f73a17cc84a780248ab7cb17350')
 
 build() {
   cd "$srcdir/Pori-${pkgver}/Pori.Ui"
