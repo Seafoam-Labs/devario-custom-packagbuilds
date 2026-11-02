@@ -8,43 +8,40 @@ arch=(x86_64)
 license=('GPL-3.0-or-later')
 url="https://www.gnu.org/software/cpio"
 depends=('glibc')
-makedepends=('git' 'rsync' 'wget')
 options=('!emptydirs')
-source=("git+https://git.savannah.gnu.org/git/cpio.git?signed#tag=v${pkgver}"
-        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
-        "git+https://github.com/coreutils/gnulib.git"
-        "git+https://git.savannah.gnu.org/git/paxutils.git")
+# Savannah 500s while packing cpio.git (job 5330), and d788ea96's gnulib mirror cannot
+# cover it: no mirror carries the signed v2.15 tag. Build the release tarball instead,
+# which is pre-bootstrapped (generated configure, gnu/, 28 po/*.gmo, doc/cpio.info), so
+# gnulib and paxutils are pinned to the release rather than to a floating submodule
+# gitlink, and git, rsync and wget leave makedepends with ./bootstrap gone.
+source=("https://ftp.gnu.org/gnu/cpio/cpio-${pkgver}.tar.gz"{,.sig}
+        0001-Fix-c23-conformity.patch)
 validpgpkeys=('325F650C4C2B6AD58807327A3602B07F55D0C732') # Sergey Poznyakoff <gray@gnu.org>
-b2sums=('a440520f0cb0d77cff6fc8a44b13f32454a1052ce1d79a4733ebeaafcc0af3404a906edf0aecbc86c69b95b4b55005f63c20746f688672223bd751054f378a99'
+b2sums=('e678111682335f4218d6d0e27d7e3a81b1e9c87ad5963402f73e735265480f296a8ce4fd00a4e7f591bbc7affcb3d433675c1df2d59c23e5d4ed6ba03e2964b8'
         'SKIP'
-        'SKIP')
+        'cc886d7429e30f959cd63794b9ab1bb13dc9ceeed8a321c83a7cbc6cfe41674322a7c9414976de1002f0938d62d0590757174f63ef1bfe4e4cdbef0d0ca77f71')
 
 prepare() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
 
-  git submodule init
-  git config submodule.gnulib.url "${srcdir}/gnulib"
-  git config submodule.paxutils.url "${srcdir}/paxutils"
-  git -c protocol.file.allow=always submodule update
-
-  #fix c23 conformity https://cgit.git.savannah.gnu.org/cgit/cpio.git/commit/?id=f42137f5ab9cf07d1e62edc05e0212688d3ebaa2
-  git cherry-pick -n 'f42137f5ab9cf07d1e62edc05e0212688d3ebaa2'
-
-  ./bootstrap
+  # Upstream's c23 fix postdates the 2.15 release, so the tarball still declares xstat
+  # and copy_function with empty parameter lists, which C23 reads as "no parameters".
+  # https://cgit.git.savannah.gnu.org/cgit/cpio.git/commit/?id=f42137f5ab9cf07d1e62edc05e0212688d3ebaa2
+  patch -Np1 -i "${srcdir}/0001-Fix-c23-conformity.patch"
 }
 
 build() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   ./configure --prefix=/usr --mandir=/usr/share/man --with-rmt=/dev/null
   make
 }
 
 check() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   make check
 }
 
 package() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 }

@@ -5,17 +5,14 @@ pkgbase = cpio
 	url = https://www.gnu.org/software/cpio
 	arch = x86_64
 	license = GPL-3.0-or-later
-	makedepends = git
-	makedepends = rsync
-	makedepends = wget
 	depends = glibc
 	options = !emptydirs
-	source = git+https://git.savannah.gnu.org/git/cpio.git?signed#tag=v2.15
-	source = git+https://github.com/coreutils/gnulib.git
-	source = git+https://git.savannah.gnu.org/git/paxutils.git
+	source = https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.gz
+	source = https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.gz.sig
+	source = 0001-Fix-c23-conformity.patch
 	validpgpkeys = 325F650C4C2B6AD58807327A3602B07F55D0C732
-	b2sums = a440520f0cb0d77cff6fc8a44b13f32454a1052ce1d79a4733ebeaafcc0af3404a906edf0aecbc86c69b95b4b55005f63c20746f688672223bd751054f378a99
+	b2sums = e678111682335f4218d6d0e27d7e3a81b1e9c87ad5963402f73e735265480f296a8ce4fd00a4e7f591bbc7affcb3d433675c1df2d59c23e5d4ed6ba03e2964b8
 	b2sums = SKIP
-	b2sums = SKIP
+	b2sums = cc886d7429e30f959cd63794b9ab1bb13dc9ceeed8a321c83a7cbc6cfe41674322a7c9414976de1002f0938d62d0590757174f63ef1bfe4e4cdbef0d0ca77f71
 
 pkgname = cpio
