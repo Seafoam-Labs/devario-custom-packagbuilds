@@ -9,7 +9,7 @@ url='https://github.com/Seafoam-Labs/Shelly-ALPM'
 license=('GPL-3.0-only')
 
 # Use the build-tool subset of Shelly.PackageManager/src/alpm/build_root.zig.
-# Recipes may assume the base-devel toolchain; omit pacman and archlinux-keyring.
+# Recipes may assume the base-devel toolchain; omit pacman.
 # Shelly supplies the native builder, package operations, and root provisioning.
 depends=(
   'autoconf'
