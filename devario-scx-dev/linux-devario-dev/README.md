@@ -1,19 +1,19 @@
-# linux-devario-dev — Devario kernel (7.2 development)
+# linux-devario — Devario kernel (7.3)
 
-The development kernel track, intended for ongoing `sched_ext` work and testing. Changes in this branch may be experimental and should be validated before wider deployment.
+The regular Devario kernel recipe for the Linux 7.3 source series. Its defaults match the Devario release policy while still permitting local experiments.
 
 This directory contains the `PKGBUILD` and a versioned `config`. Devario builds
 its own kernel packages from [Seafoam Labs' Linux source tree](https://github.com/Seafoam-Labs/linux).
-The release source archives use the `devario-dev-<version>-<N>` naming scheme.
+The release source archives use the `devario-<version>-<N>` naming scheme.
 Devario distributes and signs its own packages.
 
 ## Packages
 
 The recipe produces:
 
-- `linux-devario-dev` — kernel image and modules;
-- `linux-devario-dev-headers` — headers and build files for external modules;
-- `linux-devario-dev-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
+- `linux-devario` — kernel image and modules;
+- `linux-devario-headers` — headers and build files for external modules;
+- `linux-devario-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
 
 ## Default configuration
 
@@ -32,7 +32,7 @@ The defaults below come from `_release_opts` in `PKGBUILD`:
 | `_hugepage` | `always` | Default transparent hugepage policy (`always`, `madvise`). |
 | `_cc_harder` | `yes` | Enable kernel `-O3` optimization. |
 | `_per_gov` | `no` | Do not select `performance` in place of `schedutil` as the default governor. |
-| `_lru_marie` | `yes` | Enable LRU MARIE and its configured defragmentation support. |
+| `_lru_cast` | `yes` | Enable LRU CAST. |
 | `_localmodcfg` | `no` | Do not restrict the module set using `modprobed-db`. |
 | `_use_current` | `no` | Start from the shipped `config`, not `/proc/config.gz`. |
 | `_makenconfig` / `_makexconfig` | `no` / `no` | Disable interactive configuration frontends. |
@@ -54,7 +54,7 @@ makepkg -s
 For a custom local kernel, override options through the environment:
 
 ```bash
-_processor_opt=native _build_debug=yes makepkg -s
+_processor_opt=generic_v2 _HZ_ticks=500 makepkg -s
 ```
 
 For example, `_localmodcfg=yes` uses the module database at
@@ -82,7 +82,7 @@ build toolchain or replace testing in a controlled build environment.
 ## Source tags and package versions
 
 - `pkgver` follows the kernel version selected by `_major` and `_minor`.
-- `_tagrel` is the release index `N` in `devario-dev-<version>-<N>`.
+- `_tagrel` is the release index `N` in `devario-<version>-<N>`.
 - `pkgrel` is `<_tagrel>.<_rebuild>`. Increase `_rebuild` when rebuilding the
   same source tag, or reset it to `1` for a newly tagged source release.
 - The source archive and the shipped `config` are inputs to the package build.
@@ -90,7 +90,7 @@ build toolchain or replace testing in a controlled build environment.
 ## Updating the recipe
 
 1. Review the intended source changes and publish or select the corresponding
-   `devario-dev-<version>-<N>` release in
+   `devario-<version>-<N>` release in
    [Seafoam-Labs/linux](https://github.com/Seafoam-Labs/linux).
 2. Update `_major`, `_minor`, and `_tagrel` as needed; review the vendored
    `config` against the new source tree (`make olddefconfig` and a config diff).
@@ -98,7 +98,7 @@ build toolchain or replace testing in a controlled build environment.
 4. Build in a clean environment with `_devario_release=yes`, then test kernel
    boot, external-module/header compatibility, and upgrades before publishing.
 
-**Branch note:** This variant uses the `devario-dev-<version>-<N>` tag namespace, not the regular `devario-<version>-<N>` namespace. A newer version number alone does not imply that development changes are suitable for production.
+**Branch note:** The `7.2/linux-devario` directory packages the same `linux-devario` name for a different source series. Choose the intended directory and source tag when preparing a release.
 
 ## Credits and provenance
 

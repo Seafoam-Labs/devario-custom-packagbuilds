@@ -10,8 +10,8 @@
 ##### Package identity ########################################################
 
 _pkgsuffix=devario-dev
-_major=7.2
-_minor=13
+_major=7.3
+_minor=1
 # Release number of the devario-dev-<version>-<N> tag on GitHub.
 _tagrel=1
 
@@ -60,7 +60,7 @@ _die() {
 # _hugepage       transparent hugepage default: always, madvise
 # _cc_harder      yes: build with -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
 # _per_gov        yes: performance as default cpufreq governor (instead of schedutil)
-# _lru_marie      yes: enable LRU MARIE (CONFIG_LRU_MARIE, default on, with defrag)
+# _lru_cast      yes: enable LRU CAST (CONFIG_LRU_CAST)
 # _localmodcfg    yes: build only modules listed in a modprobed-db database
 #                 (path in _localmodcfg_path); https://wiki.archlinux.org/title/Modprobed-db
 # _use_current    yes: start from the running kernel's /proc/config.gz instead of
@@ -78,7 +78,7 @@ _release_opts=(
   _hugepage=always
   _cc_harder=yes
   _per_gov=no
-  _lru_marie=yes
+  _lru_cast=yes
   _localmodcfg=no
   _use_current=no
   _makenconfig=no
@@ -230,10 +230,10 @@ prepare() {
   esac
   echo "Selected '$_hugepage' transparent hugepage mode"
 
-  ### LRU MARIE
-  if [ "$_lru_marie" = "yes" ]; then
-    echo "Enabling LRU_MARIE..."
-    scripts/config -e LRU_MARIE -e LRU_MARIE_DEFAULT_ON -e LRU_MARIE_DEFRAG
+  ### LRU CAST
+  if [ "$_lru_cast" = "yes" ]; then
+    echo "Enabling LRU_CAST..."
+    scripts/config -e LRU_CAST
   fi
 
   ### DRM panic screen with QR code
@@ -421,5 +421,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('9ef848a23c4c37be03bcefb3b2f1d6c387682261028a5da169c1982c812304ef37ef90ba41d9fe99b2e06340db1febc8444d025f8b9f6f93c7e9c6af7a5c5bd1'
-        'b7039e2692254b5642e66a045dbeae88b18c5ab63cda2588a925a8e0e09445a00c1fc224939588cd634278e913e5d66b9adec7f08f4cec85f4752a89b01e2ebf')
+b2sums=('208477244ab8ccbbcb2bab32862f1887045f354ef6d022774517ac03355fc7e2bbdf35713fad3df987624e1fadf406dd312f4db04c9b28d896041bf331c8995e'
+        '0ad1c31abb18e81722ce2ca3a24e3d84336a432bc7a710a34950d78cc8f454d0f10f667343ab2fb0082dfab784c0abb392d4dcfc606d08561433b07bcda361b5')
