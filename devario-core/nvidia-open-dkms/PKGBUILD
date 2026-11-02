@@ -3,7 +3,7 @@
 
 pkgname=nvidia-open-dkms
 pkgver=615.78.08
-pkgrel=1
+pkgrel=2
 pkgdesc='NVIDIA open kernel modules - module sources'
 arch=('x86_64')
 url='https://github.com/NVIDIA/open-gpu-kernel-modules'
@@ -15,11 +15,15 @@ replaces=('nvidia-dkms')
 options=('!strip')
 
 _pkg="NVIDIA-kernel-module-source-${pkgver}"
-source=("https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/${_pkg}.tar.xz")
-sha512sums=('5ced2c7e3e9df21f8494ea439ac2103307fcbcb295a3f11e5fdf4f1dbeda3f0b13800a06f8147ebd064f98897c24e92f5de82023a8ca43a582694d951c9620c9')
+source=("https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/${_pkg}.tar.xz"
+        '0001-fix-runtime-D3-on-Linux-7.3.patch')
+sha512sums=('5ced2c7e3e9df21f8494ea439ac2103307fcbcb295a3f11e5fdf4f1dbeda3f0b13800a06f8147ebd064f98897c24e92f5de82023a8ca43a582694d951c9620c9'
+            'fc1c7ba4da72c2717e7d159feade19a06e2790919e25e90a77aa31e26c10ef3d2df0955a9c7772e9804bf1620677eb58e3d7230413c6ba9e49508a3508e8de0e')
 
 prepare() {
     cd "${srcdir}/${_pkg}"
+
+    patch -Np1 -i "${srcdir}/0001-fix-runtime-D3-on-Linux-7.3.patch"
 
     # Use a source timestamp rather than the time of each DKMS build.
     sed -i 's/^DATE.*/DATE = date -r version.mk/' utils.mk
