@@ -1,0 +1,64 @@
+# Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
+
+_pkgname=nap
+pkgname=nap-tools-git
+pkgver=0.6.6.r37.g5092cfd
+pkgrel=1
+pkgdesc="Userspace tools for the nap cpuidle governor: napctl, weight persistence units and the napviz viewer (git)"
+arch=('any')
+url="https://github.com/firelzrd/nap"
+license=('GPL-2.0-only')
+depends=('python')
+makedepends=('git')
+provides=("nap-tools")
+conflicts=("nap-tools")
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$_pkgname"
+  # No tags upstream; the governor version is in the newest patch name
+  # (patches/{stable,testing}/0001-<kver>-nap-v<ver>.patch).
+  local _ver
+  _ver=$(find patches -name '*-nap-v*.patch' \
+           | sed -E 's/.*-nap-v([0-9.]+)\.patch$/\1/' | sort -V | tail -n1)
+  printf '%s.r%s.g%s' "${_ver:-0}" \
+    "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+prepare() {
+  cd "$_pkgname/tools"
+  # Upstream installs to /usr/local/sbin; Arch has a merged /usr/bin.
+  sed -i 's|/usr/local/sbin/napctl|/usr/bin/napctl|' nap-state*.service
+}
+
+check() {
+  cd "$_pkgname/tools"
+  local _t="$srcdir/check"
+  rm -rf "$_t"; mkdir -p "$_t"
+
+  python -m py_compile napctl
+
+  # napviz.html embeds the built-in default model as a weight blob: use it to
+  # exercise the blob parser/checksum and averaging without a nap kernel.
+  sed -nE 's/^const NAP_DEFAULT_BLOB = "([^"]+)";$/\1/p' napviz.html \
+    | base64 -d > "$_t/default.blob"
+  test -s "$_t/default.blob"
+
+  export NAPCTL_SYSFS="$_t/no-sysfs"
+  python napctl info "$_t/default.blob"
+  python napctl average "$_t/avg.blob" "$_t/default.blob" "$_t/default.blob"
+  cmp "$_t/default.blob" "$_t/avg.blob"
+}
+
+package() {
+  cd "$_pkgname/tools"
+
+  install -Dm755 napctl -t "$pkgdir/usr/bin/"
+  install -Dm644 nap-state.service nap-state-save.service nap-state-save.timer \
+    -t "$pkgdir/usr/lib/systemd/system/"
+
+  install -Dm644 napviz.html -t "$pkgdir/usr/share/$_pkgname/"
+  install -Dm644 README -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 ../README.md "$pkgdir/usr/share/doc/$pkgname/README.governor.md"
+}
