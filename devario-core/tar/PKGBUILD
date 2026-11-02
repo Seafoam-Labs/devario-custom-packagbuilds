@@ -6,7 +6,7 @@
 pkgbase=tar
 pkgname=(tar tar-scripts)
 pkgver=1.35
-pkgrel=5
+pkgrel=6
 pkgdesc='Utility used to store, backup, and transport files'
 arch=('x86_64')
 url='https://www.gnu.org/software/tar/'
@@ -17,7 +17,8 @@ options=('!emptydirs')
 install=tar.install
 validpgpkeys=('325F650C4C2B6AD58807327A3602B07F55D0C732') # Sergey Poznyakoff <gray@gnu.org>
 source=("git+https://git.savannah.gnu.org/git/tar.git#tag=v${pkgver}?signed"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "git+https://git.savannah.gnu.org/git/paxutils.git"
         "https://ftp.gnu.org/gnu/tar/tar-${pkgver}.tar.gz"{,.sig}
         "fix-libacl-conflicts.patch")

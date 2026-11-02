@@ -5,7 +5,7 @@
 
 pkgname=wget
 pkgver=1.25.0
-pkgrel=6
+pkgrel=7
 pkgdesc='Network utility to retrieve files from the web'
 url='https://www.gnu.org/software/wget/wget.html'
 arch=('x86_64')
@@ -17,7 +17,8 @@ makedepends=('autoconf-archive' 'git' 'gperf' 'perl')
 optdepends=('ca-certificates: HTTPS downloads')
 backup=('etc/wgetrc')
 source=("git+https://gitlab.com/gnuwget/wget.git?signed#tag=v${pkgver}"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "https://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.lz"{,.sig})
 sha256sums=('c63fd5c082a3a7ecf9309c2334df95e61abfc413cbefe81e5ed5d40a4301344e'
             'SKIP'

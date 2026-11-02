@@ -4,7 +4,7 @@
 
 pkgname=sed
 pkgver=4.10
-pkgrel=2
+pkgrel=3
 pkgdesc='GNU stream editor'
 arch=('x86_64')
 url='https://www.gnu.org/software/sed/'
@@ -14,7 +14,8 @@ makedepends=('git' 'wget' 'gettext')
 checkdepends=('glibc-locales')
 validpgpkeys=('155D3FC500C834486D1EEA677FD9FCCB000BEEEE') # Jim Meyering <meyering@meta.com>
 source=("git+https://git.savannah.gnu.org/git/sed.git#tag=v${pkgver}?signed"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "https://ftp.gnu.org/gnu/sed/sed-${pkgver}.tar.gz"{,.sig})
 sha256sums=('d28f7150773847031de56a7de4ba5fa17273097845f3a449be23bd65f283324b'
             'SKIP'

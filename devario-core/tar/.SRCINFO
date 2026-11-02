@@ -1,7 +1,7 @@
 pkgbase = tar
 	pkgdesc = Utility used to store, backup, and transport files
 	pkgver = 1.35
-	pkgrel = 5
+	pkgrel = 6
 	url = https://www.gnu.org/software/tar/
 	install = tar.install
 	arch = x86_64
@@ -10,7 +10,7 @@ pkgbase = tar
 	makedepends = git
 	options = !emptydirs
 	source = git+https://git.savannah.gnu.org/git/tar.git#tag=v1.35?signed
-	source = git+https://git.savannah.gnu.org/git/gnulib.git
+	source = git+https://github.com/coreutils/gnulib.git
 	source = git+https://git.savannah.gnu.org/git/paxutils.git
 	source = https://ftp.gnu.org/gnu/tar/tar-1.35.tar.gz
 	source = https://ftp.gnu.org/gnu/tar/tar-1.35.tar.gz.sig

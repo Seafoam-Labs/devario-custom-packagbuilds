@@ -4,7 +4,7 @@
 
 pkgname=gzip
 pkgver=1.15
-pkgrel=1
+pkgrel=2
 pkgdesc='GNU compression utility'
 arch=('x86_64')
 url='https://www.gnu.org/software/gzip/'
@@ -17,7 +17,8 @@ optdepends=('diffutils: zdiff/zcmp support'
             'util-linux: zmore support')
 validpgpkeys=('155D3FC500C834486D1EEA677FD9FCCB000BEEEE') # Jim Meyering <jim@meyering.net>
 source=("git+https://git.savannah.gnu.org/git/gzip.git?signed#tag=v${pkgver}"
-        "git+https://git.savannah.gnu.org/git/gnulib.git")
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git")
 sha256sums=('1496b08cdd5320634b59860b09c6c5048ebb04b32a723fa39a3652f08102e2ba'
             'SKIP')
 

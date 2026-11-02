@@ -4,7 +4,7 @@
 
 pkgname=m4
 pkgver=1.4.21
-pkgrel=2
+pkgrel=3
 pkgdesc="The GNU macro processor"
 arch=('x86_64')
 url="https://www.gnu.org/software/m4"
@@ -13,7 +13,8 @@ depends=('glibc')
 makedepends=('git' 'gperf' 'help2man' 'python')
 validpgpkeys=('71C2CC22B1C4602927D2F3AAA7A16B4A2527436A')   # Eric Blake
 source=("git+https://git.savannah.gnu.org/git/${pkgname}.git#tag=v${pkgver}?signed"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "https://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('e14e79fa4b627df597fa773766658291830ae404cb6ce67bf2015531db193fc6'
             'SKIP'

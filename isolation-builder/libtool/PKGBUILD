@@ -10,7 +10,7 @@ pkgbase=libtool
 pkgname=(libtool lib32-libltdl)
 pkgver=2.6.2
 _commit=309bb53a8adfb22c6e5869cc8da049bf123e5438
-pkgrel=5
+pkgrel=6
 _gccver=16
 pkgdesc='A generic library support script'
 arch=(aarch64 x86_64)
@@ -35,7 +35,8 @@ checkdepends=(
 )
 source=(
   git+https://git.savannah.gnu.org/git/libtool.git#commit=$_commit
-  git+https://git.savannah.gnu.org/git/gnulib.git
+  # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+  git+https://github.com/coreutils/gnulib.git
   gnulib-bootstrap::git+https://github.com/gnulib-modules/bootstrap.git
 )
 b2sums=('feab7320948202806bb4fa96b3a8724faf24f4033cc4fc34fe6342f31e1f93edca04980138e9bbd2d21c7d412cbd7ac276fb28f0423e138df3bc889657264a0d'

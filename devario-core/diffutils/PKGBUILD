@@ -4,7 +4,7 @@
 
 pkgname=diffutils
 pkgver=3.12
-pkgrel=2
+pkgrel=3
 pkgdesc='Utility programs used for creating patch files'
 arch=('x86_64')
 url='https://www.gnu.org/software/diffutils'
@@ -13,7 +13,8 @@ depends=('glibc')
 makedepends=('git' 'gperf' 'help2man' 'python' 'wget')
 validpgpkeys=('155D3FC500C834486D1EEA677FD9FCCB000BEEEE') # Jim Meyering <meyering@meta.com>
 source=("git+https://git.savannah.gnu.org/git/diffutils.git?signed#tag=v${pkgver}"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "https://ftp.gnu.org/gnu/diffutils/diffutils-${pkgver}.tar.gz"{,.sig})
 b2sums=('d7e72109db2b1607c2d17253df9232555d0dd3a87a2d1a1f90fac4ecdc4035a538c08078c741eea987eb37b0ab8c772553abddbc986fbeeda186fff7d2ff31da'
         'SKIP'

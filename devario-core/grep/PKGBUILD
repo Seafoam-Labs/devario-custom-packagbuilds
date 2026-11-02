@@ -4,7 +4,7 @@
 
 pkgname=grep
 pkgver=3.12
-pkgrel=2
+pkgrel=3
 pkgdesc='A string search utility'
 arch=('x86_64')
 license=('GPL-3.0-or-later')
@@ -14,7 +14,8 @@ makedepends=('gperf' 'git' 'python' 'texinfo' 'wget')
 checkdepends=('glibc-locales')
 validpgpkeys=('155D3FC500C834486D1EEA677FD9FCCB000BEEEE') # Jim Meyering <meyering@meta.com>
 source=("git+https://git.savannah.gnu.org/git/grep.git?signed#tag=v${pkgver}"
-        "git+https://git.savannah.gnu.org/git/gnulib.git"
+        # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+        "git+https://github.com/coreutils/gnulib.git"
         "https://ftp.gnu.org/gnu/grep/grep-${pkgver}.tar.gz"{,.sig})
 sha256sums=('9543190d9ca2201ea46fddaeb39031a0acde1f6aa4351a72f33ef3455e6dd41e'
             'SKIP'

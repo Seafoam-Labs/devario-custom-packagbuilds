@@ -1,7 +1,7 @@
 pkgbase = m4
 	pkgdesc = The GNU macro processor
 	pkgver = 1.4.21
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.gnu.org/software/m4
 	arch = x86_64
 	license = GPL-3.0-or-later
@@ -11,7 +11,7 @@ pkgbase = m4
 	makedepends = python
 	depends = glibc
 	source = git+https://git.savannah.gnu.org/git/m4.git#tag=v1.4.21?signed
-	source = git+https://git.savannah.gnu.org/git/gnulib.git
+	source = git+https://github.com/coreutils/gnulib.git
 	source = https://ftp.gnu.org/gnu/m4/m4-1.4.21.tar.xz
 	source = https://ftp.gnu.org/gnu/m4/m4-1.4.21.tar.xz.sig
 	validpgpkeys = 71C2CC22B1C4602927D2F3AAA7A16B4A2527436A

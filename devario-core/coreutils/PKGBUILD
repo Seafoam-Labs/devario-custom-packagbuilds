@@ -6,7 +6,7 @@
 
 pkgname=coreutils
 pkgver=9.12
-pkgrel=3
+pkgrel=4
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('x86_64')
 license=(
@@ -30,7 +30,8 @@ makedepends=(
 )
 source=(
   git+https://git.savannah.gnu.org/git/coreutils.git?signed#tag=v${pkgver}
-  git+https://git.savannah.gnu.org/git/gnulib.git
+  # Savannah 500s while packing gnulib; the GitHub repo is the upstream mirror.
+  git+https://github.com/coreutils/gnulib.git
   https://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz{,.sig}
   # https://lists.gnu.org/archive/html/coreutils/2026-09/msg00064.html
   0001-env-printenv-only-quote-when-outputting-to-terminals.patch
