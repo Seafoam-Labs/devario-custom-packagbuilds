@@ -1,0 +1,31 @@
+pkgbase = sequoia-sq
+	pkgdesc = Command-line frontends for Sequoia
+	pkgver = 1.4.1
+	pkgrel = 2
+	url = https://sequoia-pgp.org/
+	arch = x86_64
+	groups = sequoia
+	license = LGPL-2.0-or-later
+	makedepends = capnproto
+	makedepends = cargo
+	makedepends = clang
+	makedepends = git
+	makedepends = openssl
+	depends = glibc
+	depends = libgcc
+	depends = sqlite
+	replaces = sequoia
+	options = !lto
+	source = git+https://gitlab.com/sequoia-pgp/sequoia-sq.git?signed#tag=v1.4.1
+	validpgpkeys = CBCD8F030588653EEDD7E2659B7DD433F254904A
+	validpgpkeys = 8F17777118A33DDA9BA48E62AACB3243630052D9
+	sha512sums = 7ca83034833630272f9516ef0cc7c3c64120cda61264d5b897791279872f30aa39b3299b9cbb7f726bc0d30b7ac40726e1087a77e3da0ace657e09f28641daeb
+	b2sums = 47044a338b787a657acbb44ffe32d09b34f60086a3fde8d1e0125937ac74f1b1e4af2f2a71fa900c161ad7d26bd848aa014a134921c8fd5948917bae070bf2b5
+
+pkgname = sequoia-sq
+	depends = glibc
+	depends = libgcc
+	depends = sqlite
+	depends = openssl
+	depends = libcrypto.so=3-64
+	depends = libssl.so=3-64

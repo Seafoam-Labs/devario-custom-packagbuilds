@@ -1,0 +1,5 @@
+[voa]
+source = "git"
+git = "https://gitlab.archlinux.org/archlinux/alpm/voa"
+prefix = "voa/"
+include_regex = "^voa/.*$"

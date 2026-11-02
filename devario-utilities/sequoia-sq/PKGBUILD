@@ -1,0 +1,70 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: David Runge <dvzrv@archlinux.org>
+
+pkgname=sequoia-sq
+pkgver=1.4.1
+pkgrel=2
+pkgdesc='Command-line frontends for Sequoia'
+url='https://sequoia-pgp.org/'
+arch=(x86_64)
+license=(LGPL-2.0-or-later)
+groups=(sequoia)
+replaces=(sequoia)
+depends=(
+  glibc
+  libgcc
+  sqlite
+)
+makedepends=(
+  capnproto
+  cargo
+  clang
+  git
+  openssl
+)
+options=(!lto)
+source=(git+https://gitlab.com/sequoia-pgp/sequoia-sq.git?signed#tag=v$pkgver)
+sha512sums=('7ca83034833630272f9516ef0cc7c3c64120cda61264d5b897791279872f30aa39b3299b9cbb7f726bc0d30b7ac40726e1087a77e3da0ace657e09f28641daeb')
+b2sums=('47044a338b787a657acbb44ffe32d09b34f60086a3fde8d1e0125937ac74f1b1e4af2f2a71fa900c161ad7d26bd848aa014a134921c8fd5948917bae070bf2b5')
+validpgpkeys=(
+  CBCD8F030588653EEDD7E2659B7DD433F254904A  # Justus Winter <justus@sequoia-pgp.org>
+  8F17777118A33DDA9BA48E62AACB3243630052D9  # Neal H. Walfield <neal@sequoia-pgp.org>
+)
+
+pkgver() {
+  cd $pkgname
+  git describe --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/v//g'
+}
+
+prepare() {
+  cd $pkgname
+  cargo fetch --locked --target host-tuple
+}
+
+build() {
+  cd $pkgname
+  export CARGO_TARGET_DIR=../target
+  export ASSET_OUT_DIR=../target
+  # NOTE: we select specific (default) features, as there are multiple crypto backends
+  cargo build --release --frozen --no-default-features --features crypto-openssl
+}
+
+check() {
+  cd $pkgname
+  cargo test --frozen --no-default-features --features crypto-openssl
+}
+
+package() {
+  # openssl publishes both SONAMEs; Arch leaves them bare.
+  depends+=(
+    openssl libcrypto.so=3-64 libssl.so=3-64
+  )
+
+  install -vDm 755 target/release/sq -t "$pkgdir/usr/bin"
+  install -vDm 644 target/shell-completions/sq.bash "$pkgdir/usr/share/bash-completion/completions/sq"
+  install -vDm 644 target/shell-completions/_sq -t "$pkgdir/usr/share/zsh/site-functions/"
+  install -vDm 644 target/shell-completions/sq.fish -t "$pkgdir/usr/share/fish/vendor_completions.d/"
+  install -vDm 644 target/man-pages/*.1 -t "$pkgdir/usr/share/man/man1/"
+}
+
+# vim: ts=2 sw=2 et:

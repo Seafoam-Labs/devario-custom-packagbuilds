@@ -1,0 +1,63 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+
+pkgname=voa
+pkgver=0.7.6
+pkgrel=1
+pkgdesc="CLI for interacting with the File Hierarchy for the Verification of OS Artifacts (VOA)"
+arch=(x86_64)
+url="https://voa.archlinux.page"
+_url="https://gitlab.archlinux.org/archlinux/alpm/voa"
+license=('Apache-2.0 OR MIT')
+depends=(
+  glibc
+  libgcc
+)
+makedepends=(
+  git
+  just
+  lowdown
+  rust
+  rust-script
+)
+checkdepends=(
+  cargo-nextest
+)
+source=(
+  $pkgname::git+${_url}.git?signed#tag=$pkgname/$pkgver
+)
+sha512sums=('5f0110dbd40acd326ff2b9f9a6088aff76ec177193b8f8164ca11d9d25b116fcd5387108305eee9ecc21f069387d5ece9cc55303f09fc403c52a3383097cbb9a')
+b2sums=('a4a685ca712bd3870089122aad81d81ecc614c25bb024e2381fbbe4414ea1113c91e9b3458edafa178349c8d42cf1de1d1ea8bb322771199b97eeb86d5e9aba5')
+validpgpkeys=(991F6E3F0765CF6295888586139B09DA5BF0D338)  # David Runge <dvzrv@archlinux.org>
+
+prepare() {
+  cd $pkgname
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd $pkgname
+  cargo build --features cli --frozen --release --package voa
+
+  just generate shell_completions voa
+  just generate specifications voa-config
+  just generate manpages voa
+}
+
+check() {
+  cd $pkgname
+  # Arch calls an unavailable uid command; id -u supplies the runtime user.
+  XDG_RUNTIME_DIR="/run/user/$(id -u)/" cargo nextest run --package voa
+}
+
+package() {
+  cd $pkgname
+  install -vDm 755 target/release/$pkgname -t "$pkgdir/usr/bin/"
+
+  install -vDm 644 output/manpages/*.1 -t "$pkgdir/usr/share/man/man1/"
+  install -vDm 644 output/manpages/*.5 -t "$pkgdir/usr/share/man/man5/"
+  install -vDm 644 output/shell_completions/_$pkgname -t "$pkgdir/usr/share/zsh/site-functions/"
+  install -vDm 644 output/shell_completions/$pkgname.fish -t "$pkgdir/usr/share/fish/vendor_completions.d/"
+  install -vDm 644 output/shell_completions/$pkgname.bash "$pkgdir/usr/share/bash-completion/completions/$pkgname"
+
+  install -vDm 644 LICENSES/*.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

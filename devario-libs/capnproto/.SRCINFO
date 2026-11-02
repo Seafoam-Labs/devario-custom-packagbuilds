@@ -1,0 +1,40 @@
+pkgbase = capnproto
+	pkgdesc = Cap'n Proto serialization/RPC system
+	pkgver = 1.5.0
+	pkgrel = 2
+	url = https://capnproto.org/
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = openssl
+	depends = zlib
+	provides = libcapnp.so
+	provides = libcapnp.so=1.5.0-64
+	provides = libcapnp-json.so
+	provides = libcapnp-json.so=1.5.0-64
+	provides = libcapnp-rpc.so
+	provides = libcapnp-rpc.so=1.5.0-64
+	provides = libcapnpc.so
+	provides = libcapnpc.so=1.5.0-64
+	provides = libcapnp-websocket.so
+	provides = libcapnp-websocket.so=1.5.0-64
+	provides = libkj-async.so
+	provides = libkj-async.so=1.5.0-64
+	provides = libkj-gzip.so
+	provides = libkj-gzip.so=1.5.0-64
+	provides = libkj-http.so
+	provides = libkj-http.so=1.5.0-64
+	provides = libkj-test.so
+	provides = libkj-test.so=1.5.0-64
+	provides = libkj-tls.so
+	provides = libkj-tls.so=1.5.0-64
+	provides = libkj.so
+	provides = libkj.so=1.5.0-64
+	source = capnproto-1.5.0.tar.gz::https://github.com/capnproto/capnproto/archive/v1.5.0.tar.gz
+	sha512sums = d3072f590212d40010fa7946e000ac9fe927c9058fcda518c14275c7a217207db644d44a124398873d3875bb5f1f8e52dbeccfbc4b4c003e8e35fd83486fc343
+	b2sums = 2e2170f7610069c5044cb00bf047784b2c8da8b32ee189c2e3f46606c3f11e7318bf1c833a3627f78a186238aa9f36cc5240cf991f97fb4c675ee472f877288b
+
+pkgname = capnproto

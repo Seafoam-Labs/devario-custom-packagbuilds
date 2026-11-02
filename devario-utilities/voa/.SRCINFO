@@ -1,0 +1,21 @@
+pkgbase = voa
+	pkgdesc = CLI for interacting with the File Hierarchy for the Verification of OS Artifacts (VOA)
+	pkgver = 0.7.6
+	pkgrel = 1
+	url = https://voa.archlinux.page
+	arch = x86_64
+	license = Apache-2.0 OR MIT
+	checkdepends = cargo-nextest
+	makedepends = git
+	makedepends = just
+	makedepends = lowdown
+	makedepends = rust
+	makedepends = rust-script
+	depends = glibc
+	depends = libgcc
+	source = voa::git+https://gitlab.archlinux.org/archlinux/alpm/voa.git?signed#tag=voa/0.7.6
+	validpgpkeys = 991F6E3F0765CF6295888586139B09DA5BF0D338
+	sha512sums = 5f0110dbd40acd326ff2b9f9a6088aff76ec177193b8f8164ca11d9d25b116fcd5387108305eee9ecc21f069387d5ece9cc55303f09fc403c52a3383097cbb9a
+	b2sums = a4a685ca712bd3870089122aad81d81ecc614c25bb024e2381fbbe4414ea1113c91e9b3458edafa178349c8d42cf1de1d1ea8bb322771199b97eeb86d5e9aba5
+
+pkgname = voa

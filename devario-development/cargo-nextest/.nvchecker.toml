@@ -1,0 +1,3 @@
+[cargo-nextest]
+source = "git"
+git = "https://github.com/nextest-rs/nextest.git"
