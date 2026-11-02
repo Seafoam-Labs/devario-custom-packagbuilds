@@ -3,14 +3,14 @@
 # Contributor: Igor Scabini <furester @ gmail.com>
 
 pkgname=cython
-pkgver=3.3.0
-pkgrel=3
+pkgver=3.3.1
+pkgrel=1
 pkgdesc='C-Extensions for Python'
 arch=(x86_64)
 url='https://cython.org'
 license=(Apache-2.0)
 depends=(glibc
-         python
+         'python>=3.9'
          python-numpy
          python-pygments
          python-setuptools)
@@ -19,13 +19,7 @@ makedepends=(git
              python-installer
              python-wheel)
 source=(git+https://github.com/cython/cython#tag=$pkgver)
-sha256sums=('89b5fcbb67c01e6c8fd079da74be1290c6f36ef10201dd7281eee8d6c17abe41')
-
-prepare() {
-  cd cython
-  git cherry-pick -n 2ea7297e5f732e1bfa6e562662df145170bb0bfc # Fix int comparison with GCC+LTO
-  git cherry-pick -n f4b7aafeac5325098f71af0cff3127392e6a844c # Fix conflicts with C++ types
-}
+sha256sums=('3b7972f370ee510778ce68a66b27f6a1ebb830b4889d3f7a207476aae6ab1e24')
 
 build() {
   cd cython
