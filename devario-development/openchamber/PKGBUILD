@@ -1,5 +1,5 @@
 pkgname=openchamber-bin
-pkgver=2.5.2
+pkgver=2.6.0
 pkgrel=1
 pkgdesc='OpenChamber desktop workspace for AI coding with bundled OpenCode'
 arch=('x86_64' 'aarch64')
@@ -57,8 +57,8 @@ options=('!strip' '!debug')
 _release="https://github.com/openchamber/openchamber/releases/download/v$pkgver"
 source=("openchamber-$pkgver-LICENSE::https://raw.githubusercontent.com/openchamber/openchamber/v$pkgver/LICENSE")
 sha256sums=('1f6e869a3feff6b4eb07907afc89176562b1f4324389f163d9fd94f09864b44e')
-sha256sums_x86_64=('a8b1284f12c93446e572f480e1b09a597601b881634ec814d125275721d31ce8')
-sha256sums_aarch64=('4e2ea3a464a9b39e138680a7596ceda365f17a91f7d3f13270190377fdda2857')
+sha256sums_x86_64=('88eb1ff1c156fd7975bf83e4053d87cf98d0d8262235d101b799888b929a537c')
+sha256sums_aarch64=('5f50c6354b8907fe823f1e05764d6d5225be591325d56aa196edd81a372c575e')
 source_x86_64=("$_release/OpenChamber-$pkgver-linux-amd64.deb")
 source_aarch64=("$_release/OpenChamber-$pkgver-linux-arm64.deb")
 
