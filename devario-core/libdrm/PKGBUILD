@@ -2,13 +2,16 @@
 
 pkgname=libdrm
 pkgver=2.4.134
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace interface to kernel DRM services"
 url="https://dri.freedesktop.org/"
 arch=(x86_64)
 license=('MIT')
 depends=('libpciaccess' 'glibc')
-makedepends=('python-docutils' 'meson')
+# meson.build looks cairo up unconditionally (cairo-tests is a feature option, so
+# required:auto) and modetest links it; builds run --no-check, which never installs
+# checkdepends, so the build-time copy has to be a makedepend.
+makedepends=('python-docutils' 'meson' 'cairo')
 checkdepends=('cairo')
 optdepends=('cairo: needed for modetest tool')
 replaces=('libdrm-new' 'libdrm-nouveau')
