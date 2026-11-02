@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=deckcraft
-pkgver=0.13.1
+pkgver=0.14.1
 pkgrel=1
 pkgdesc="Clean-room reimplementation of Microsoft PowerPoint for slide decks"
 arch=('x86_64' 'aarch64')
@@ -31,10 +31,10 @@ optdepends=(
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
 # Previous release checksum; must be refreshed by the separate checksum step.
-sha256sums=('c5e91ca9cb2b87509648e5633722a251eaf12d95dffd84ef46aec2aa858066e8')
+sha256sums=('6e03f2e9532c0102ec01d8be8bba556a0191ee11d5ca64412a5b48457afddfb7')
 
-_commit=4ce2944630b04188dee8504c14151994d06c416a
-_releasedate=2026-10-31
+_commit=ee39ff67816d0039143ec7c98ea604cefe0cd2e5
+_releasedate=2026-11-01
 _appid=ai.storyteller.deckcraft
 
 prepare() {
