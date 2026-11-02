@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-fortran
+_srcname=tree_sitter_fortran
+pkgver=0.6.0
+pkgrel=1
+pkgdesc='Python bindings for the fortran Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/stadelmanma/tree-sitter-fortran
+license=('MIT')
+depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/4b/a1/491e2b0264fa30939975309d94dff00dc00ab445a7d8d5ee30476c888a44/tree_sitter_fortran-0.6.0.tar.gz")
+sha256sums=('65fea540148ae431335b3920267dffaeeb157ef2b21c0716798c751f6a9e193b')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

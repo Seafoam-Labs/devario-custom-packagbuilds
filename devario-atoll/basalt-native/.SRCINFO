@@ -1,0 +1,33 @@
+pkgbase = basalt-native
+	pkgdesc = Local Qwen inference engine optimized for Zen 5 and NVIDIA Blackwell
+	pkgver = 0.2.0
+	pkgrel = 2
+	url = https://github.com/jesdga95/basalt
+	arch = x86_64
+	license = MIT
+	license = OFL-1.1
+	checkdepends = python-numpy
+	checkdepends = python-yaml
+	checkdepends = python-tqdm
+	makedepends = cmake>=3.24
+	makedepends = ninja
+	makedepends = gcc>=14
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = cuda>=13.4
+	depends = nvidia-utils
+	depends = python>=3.10
+	depends = python-jinja
+	depends = python-markupsafe
+	depends = python-regex
+	depends = python-pillow
+	depends = python-psutil
+	provides = basalt=0.2.0
+	conflicts = basalt
+	conflicts = basalt-git
+	options = !lto
+	source = basalt-0.2.0.tar.gz::https://codeload.github.com/jesdga95/basalt/tar.gz/refs/tags/v0.2.0
+	sha256sums = 13310c9008b2afb475eb827b0aa221969932dace0f6cdc2d40f7c71cbcd34947
+
+pkgname = basalt-native

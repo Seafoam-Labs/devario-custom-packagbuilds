@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-c-sharp
+_srcname=tree_sitter_c_sharp
+pkgver=0.23.5
+pkgrel=1
+pkgdesc='Python bindings for the c-sharp Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/tree-sitter/tree-sitter-c-sharp
+license=('MIT')
+depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/9f/fb/7e2962bc1901daf264e7ce263b168e0139304a5f8f66c9b2baf20e550f87/tree_sitter_c_sharp-0.23.5.tar.gz")
+sha256sums=('2635c7d5ec93e59f2e831b571bed99c4cc68a5d183a0994020aa769e1b990a71')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

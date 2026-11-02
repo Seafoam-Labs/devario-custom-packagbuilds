@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-lua
+_srcname=tree_sitter_lua
+pkgver=0.5.0
+pkgrel=1
+pkgdesc='Python bindings for the lua Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/tree-sitter-grammars/tree-sitter-lua
+license=('MIT')
+depends=(glibc 'python>=3.10' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/94/07/98d7c5f60c9a79a1d40f85e59b7c25a0102d2eebcc5a83608c7c308edf22/tree_sitter_lua-0.5.0.tar.gz")
+sha256sums=('0e46356038ccb8ce1049289104c56230003448309a335f2e353f1edc7b373552')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE.md -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

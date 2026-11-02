@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-javascript
+_srcname=tree_sitter_javascript
+pkgver=0.25.0
+pkgrel=1
+pkgdesc='Python bindings for the javascript Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/tree-sitter/tree-sitter-javascript
+license=('MIT')
+depends=(glibc 'python>=3.10' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/59/e0/e63103c72a9d3dfd89a31e02e660263ad84b7438e5f44ee82e443e65bbde/tree_sitter_javascript-0.25.0.tar.gz")
+sha256sums=('329b5414874f0588a98f1c291f1b28138286617aa907746ffe55adfdcf963f38')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

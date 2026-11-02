@@ -1,0 +1,20 @@
+pkgbase = python-rapidfuzz
+	pkgdesc = Fast fuzzy string matching for Python
+	pkgver = 3.14.6
+	pkgrel = 1
+	url = https://github.com/rapidfuzz/RapidFuzz
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-scikit-build-core>=0.11
+	depends = glibc
+	depends = python>=3.11
+	depends = libgcc
+	depends = libstdc++
+	source = python-rapidfuzz-3.14.6.tar.gz::https://files.pythonhosted.org/packages/18/97/226c43b7b5d957bc3840ed52ea99eed261f99834c4619be7a4742cbaeafa/rapidfuzz-3.14.6.tar.gz
+	sha256sums = e13a8160d017b499ec7a2fa9d0ce1ae2e7377080815785819f966fb235d4eb60
+
+pkgname = python-rapidfuzz

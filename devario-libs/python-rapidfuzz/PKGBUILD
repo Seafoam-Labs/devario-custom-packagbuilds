@@ -1,0 +1,28 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-rapidfuzz
+_srcname=rapidfuzz
+pkgver=3.14.6
+pkgrel=1
+pkgdesc='Fast fuzzy string matching for Python'
+arch=('x86_64')
+url=https://github.com/rapidfuzz/RapidFuzz
+license=('MIT')
+depends=(glibc 'python>=3.11' libgcc libstdc++)
+makedepends=(cmake ninja python-build python-installer 'python-scikit-build-core>=0.11')
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/18/97/226c43b7b5d957bc3840ed52ea99eed261f99834c4619be7a4742cbaeafa/rapidfuzz-3.14.6.tar.gz")
+sha256sums=('e13a8160d017b499ec7a2fa9d0ce1ae2e7377080815785819f966fb235d4eb60')
+
+build() {
+  cd "$_srcname-$pkgver"
+  # Fail if native compilation fails instead of silently using Python fallback.
+  export RAPIDFUZZ_BUILD_EXTENSION=1
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 extern/rapidfuzz-cpp/LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-rapidfuzz-cpp"
+  install -Dm644 extern/taskflow/LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-taskflow"
+}

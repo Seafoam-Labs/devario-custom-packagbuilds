@@ -1,0 +1,19 @@
+pkgbase = python-tree-sitter-ruby
+	pkgdesc = Python bindings for the ruby Tree-sitter grammar
+	pkgver = 0.23.1
+	pkgrel = 1
+	url = https://github.com/tree-sitter/tree-sitter-ruby
+	arch = x86_64
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python>=3.9
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	source = python-tree-sitter-ruby-0.23.1.tar.gz::https://files.pythonhosted.org/packages/09/5b/6d24be4fde4743481bd8e3fd24b434870cb6612238c8544b71fe129ed850/tree_sitter_ruby-0.23.1.tar.gz
+	sha256sums = 886ed200bfd1f3ca7628bf1c9fefd42421bbdba70c627363abda67f662caa21e
+
+pkgname = python-tree-sitter-ruby

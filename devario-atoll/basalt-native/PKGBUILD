@@ -1,0 +1,97 @@
+# Target: Ryzen 9 9950X3D (Zen 5) and GeForce RTX 5090 (sm_120).
+pkgname=basalt-native
+pkgver=0.2.0
+pkgrel=2
+pkgdesc='Local Qwen inference engine optimized for Zen 5 and NVIDIA Blackwell'
+arch=('x86_64')
+url='https://github.com/jesdga95/basalt'
+license=('MIT' 'OFL-1.1')
+depends=('glibc' 'libgcc' 'libstdc++' 'cuda>=13.4' 'nvidia-utils'
+         'python>=3.10' 'python-jinja' 'python-markupsafe' 'python-regex'
+         'python-pillow' 'python-psutil')
+makedepends=('cmake>=3.24' 'ninja' 'gcc>=14')
+checkdepends=('python-numpy' 'python-yaml' 'python-tqdm')
+provides=("basalt=$pkgver")
+conflicts=('basalt' 'basalt-git')
+options=('!lto')
+source=("basalt-$pkgver.tar.gz::https://codeload.github.com/jesdga95/basalt/tar.gz/refs/tags/v$pkgver")
+sha256sums=('13310c9008b2afb475eb827b0aa221969932dace0f6cdc2d40f7c71cbcd34947')
+
+prepare() {
+  cd "$srcdir/basalt-$pkgver"
+
+  # Runtime resources must survive removal of the build tree.
+  sed -i \
+    -e 's|BASALT_SOURCE_DIR="${CMAKE_SOURCE_DIR}"|BASALT_SOURCE_DIR="/usr/share/basalt"|' \
+    -e 's|BASALT_BENCH_ENGINE="$<TARGET_FILE:basalt>"|BASALT_BENCH_ENGINE="/usr/bin/basalt"|g' \
+    -e 's|BASALT_BENCH_DEVICE="$<TARGET_FILE:basalt-device>"|BASALT_BENCH_DEVICE="/usr/bin/basalt-device"|' \
+    -e 's|BASALT_BENCH_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/data/bench"|BASALT_BENCH_FIXTURES="/usr/share/basalt/data/bench"|g' \
+    -e 's|BASALT_BENCH_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"|BASALT_BENCH_SOURCE_DIR="/usr/share/basalt"|' \
+    -e "s|project(basalt VERSION 0.1.0 |project(basalt VERSION $pkgver |" \
+    CMakeLists.txt
+
+  # ggml's nearest_int needs a separately rounded multiply before its magic-number
+  # addition. FMA contraction changes Q8_K codes at rounding boundaries.
+  cat >> CMakeLists.txt <<'EOF'
+
+set_property(SOURCE src/kernels/cpu/ggml/ggml_quants.c APPEND PROPERTY
+             COMPILE_OPTIONS -ffp-contract=off)
+EOF
+
+  # An archive has no Git metadata; do not stamp the packaging repository's HEAD.
+  # Mark the release as modified because its runtime paths have been patched.
+  cat > cmake/git_stamp.cmake <<'EOF'
+file(WRITE "${OUT}" "#define BASALT_BENCH_GIT \"f0bb833c49\"\n#define BASALT_BENCH_DIRTY 1\n")
+EOF
+}
+
+build() {
+  cmake -S "$srcdir/basalt-$pkgver" -B "$srcdir/build" -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_C_COMPILER=/usr/bin/gcc \
+    -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
+    -DCMAKE_CUDA_HOST_COMPILER=/usr/bin/g++ \
+    -DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc \
+    -DCUDAToolkit_ROOT=/opt/cuda \
+    -DCMAKE_CUDA_ARCHITECTURES=120-real \
+    -DCMAKE_C_FLAGS="${CFLAGS} -march=znver5 -mtune=znver5" \
+    -DCMAKE_CXX_FLAGS="${CXXFLAGS} -march=znver5 -mtune=znver5" \
+    -DCMAKE_CUDA_FLAGS='-Xcompiler=-march=znver5,-mtune=znver5' \
+    -DCMAKE_EXE_LINKER_FLAGS="${LDFLAGS}" \
+    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+    -DCMAKE_INSTALL_RPATH=/opt/cuda/lib64 \
+    -DBUILD_TESTING=ON
+  cmake --build "$srcdir/build"
+}
+
+check() {
+  # CPU tests use synthetic fixtures; model packs and a working GPU are optional.
+  ctest --test-dir "$srcdir/build" -L cpu --output-on-failure
+  cd "$srcdir/basalt-$pkgver"
+  PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s serve/tests -t .
+}
+
+package() {
+  cd "$srcdir/basalt-$pkgver"
+  local binary file
+  for binary in basalt basalt-bench basalt-probe basalt-vision; do
+    install -Dm755 "bin/$binary" "$pkgdir/usr/bin/$binary"
+  done
+  install -Dm755 "$srcdir/build/basalt-device" "$pkgdir/usr/bin/basalt-device"
+
+  # Keep the server's private imports, web UI and expert profiles together.
+  install -dm755 "$pkgdir/usr/share/basalt"
+  cp -r serve data "$pkgdir/usr/share/basalt/"
+  rm -rf "$pkgdir/usr/share/basalt/serve/tests"
+  find "$pkgdir/usr/share/basalt" -type d -name __pycache__ -prune -exec rm -rf {} +
+  for file in model_file.py tokenizer.py gguf_reader.py; do
+    install -Dm644 "tools/$file" "$pkgdir/usr/share/basalt/tools/$file"
+  done
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 THIRD_PARTY_LICENSES "$pkgdir/usr/share/licenses/$pkgname/THIRD_PARTY_LICENSES"
+  install -Dm644 serve/web/fonts/OFL.txt "$pkgdir/usr/share/licenses/$pkgname/OFL.txt"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  cp -r docs "$pkgdir/usr/share/doc/$pkgname/"
+}

@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-json
+_srcname=tree_sitter_json
+pkgver=0.24.8
+pkgrel=1
+pkgdesc='Python bindings for the json Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/tree-sitter/tree-sitter-json
+license=('MIT')
+depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/d7/29/e92df6dca3a6b2ab1c179978be398059817e1173fbacd47e832aaff3446b/tree_sitter_json-0.24.8.tar.gz")
+sha256sums=('ca8486e52e2d261819311d35cf98656123d59008c3b7dcf91e61d2c0c6f3120e')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

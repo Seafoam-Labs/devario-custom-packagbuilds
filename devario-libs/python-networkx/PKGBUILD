@@ -1,0 +1,26 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-networkx
+_srcname=networkx
+pkgver=3.7
+pkgrel=1
+pkgdesc='Python tools for creating and manipulating graphs and networks'
+arch=('any')
+url=https://networkx.org/
+license=('BSD-3-Clause')
+depends=('python>=3.12')
+makedepends=(python-build python-installer 'python-setuptools>=77.0.3')
+# Upstream excludes this interpreter release.
+conflicts=('python=3.14.1')
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/dc/76/3af777226b63a5e64a6b36b1ec5855c14e2b94a37096d4760e595fc43511/networkx-3.7.tar.gz")
+sha256sums=('fd77a511bd90f39f3d016351345b52cf5319b813bdca01de3f755d3cca62e96a')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

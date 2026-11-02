@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-kotlin
+_srcname=tree_sitter_kotlin
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='Python bindings for the kotlin Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/tree-sitter-grammars/tree-sitter-kotlin
+license=('MIT')
+depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/58/bb/bdab3665eeca21246130eec79c76e42456cfa72d59606266ecdbf37f9a96/tree_sitter_kotlin-1.1.0.tar.gz")
+sha256sums=('322a35bdae75e25ae64dae6027be609c5422fab282084117816c4ebcda6168da')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

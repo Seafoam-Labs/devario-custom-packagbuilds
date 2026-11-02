@@ -1,0 +1,19 @@
+pkgbase = python-tree-sitter-kotlin
+	pkgdesc = Python bindings for the kotlin Tree-sitter grammar
+	pkgver = 1.1.0
+	pkgrel = 1
+	url = https://github.com/tree-sitter-grammars/tree-sitter-kotlin
+	arch = x86_64
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python>=3.9
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	source = python-tree-sitter-kotlin-1.1.0.tar.gz::https://files.pythonhosted.org/packages/58/bb/bdab3665eeca21246130eec79c76e42456cfa72d59606266ecdbf37f9a96/tree_sitter_kotlin-1.1.0.tar.gz
+	sha256sums = 322a35bdae75e25ae64dae6027be609c5422fab282084117816c4ebcda6168da
+
+pkgname = python-tree-sitter-kotlin

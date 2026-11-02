@@ -1,0 +1,19 @@
+pkgbase = python-tree-sitter-objc
+	pkgdesc = Python bindings for the objc Tree-sitter grammar
+	pkgver = 3.0.2
+	pkgrel = 1
+	url = https://github.com/tree-sitter-grammars/tree-sitter-objc
+	arch = x86_64
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python>=3.9
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	source = python-tree-sitter-objc-3.0.2.tar.gz::https://files.pythonhosted.org/packages/d6/f2/f979251e2100753160fcee515bc36ee60997c2e79d166232c93bc6519e02/tree_sitter_objc-3.0.2.tar.gz
+	sha256sums = ac55aefe8a4f3ea6f1da2a2e05372a4f37100001934e36a81e0f96c4c6252809
+
+pkgname = python-tree-sitter-objc

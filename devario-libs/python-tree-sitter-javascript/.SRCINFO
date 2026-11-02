@@ -1,0 +1,19 @@
+pkgbase = python-tree-sitter-javascript
+	pkgdesc = Python bindings for the javascript Tree-sitter grammar
+	pkgver = 0.25.0
+	pkgrel = 1
+	url = https://github.com/tree-sitter/tree-sitter-javascript
+	arch = x86_64
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python>=3.10
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	source = python-tree-sitter-javascript-0.25.0.tar.gz::https://files.pythonhosted.org/packages/59/e0/e63103c72a9d3dfd89a31e02e660263ad84b7438e5f44ee82e443e65bbde/tree_sitter_javascript-0.25.0.tar.gz
+	sha256sums = 329b5414874f0588a98f1c291f1b28138286617aa907746ffe55adfdcf963f38
+
+pkgname = python-tree-sitter-javascript

@@ -1,0 +1,86 @@
+pkgbase = graphify
+	pkgdesc = Turn code, documents, and media into a queryable knowledge graph
+	pkgver = 0.9.100
+	pkgrel = 1
+	url = https://github.com/Graphify-Labs/graphify
+	arch = any
+	license = Apache-2.0
+	license = MIT
+	checkdepends = python-pytest
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools>=83.0.0
+	depends = python>=3.10
+	depends = python-networkx>=3.4
+	depends = python-numpy>=1.21
+	depends = python-rapidfuzz>=3.0
+	depends = python-yaml>=6.0
+	depends = python-tomli>=2.0.1
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	depends = python-tree-sitter-python>=0.23
+	depends = python-tree-sitter-python<0.26
+	depends = python-tree-sitter-javascript>=0.23
+	depends = python-tree-sitter-javascript<0.26
+	depends = python-tree-sitter-typescript>=0.23
+	depends = python-tree-sitter-typescript<0.25
+	depends = python-tree-sitter-go>=0.23
+	depends = python-tree-sitter-go<0.26
+	depends = python-tree-sitter-rust>=0.23
+	depends = python-tree-sitter-rust<0.25
+	depends = python-tree-sitter-java>=0.23
+	depends = python-tree-sitter-java<0.25
+	depends = python-tree-sitter-groovy>=0.1
+	depends = python-tree-sitter-groovy<0.3
+	depends = python-tree-sitter-c>=0.23
+	depends = python-tree-sitter-c<0.25
+	depends = python-tree-sitter-cpp>=0.23
+	depends = python-tree-sitter-cpp<0.25
+	depends = python-tree-sitter-ruby>=0.23
+	depends = python-tree-sitter-ruby<0.25
+	depends = python-tree-sitter-c-sharp>=0.23
+	depends = python-tree-sitter-c-sharp<0.25
+	depends = python-tree-sitter-kotlin>=1.0
+	depends = python-tree-sitter-kotlin<2.0
+	depends = python-tree-sitter-scala>=0.23
+	depends = python-tree-sitter-scala<0.27
+	depends = python-tree-sitter-php>=0.23
+	depends = python-tree-sitter-php<0.25
+	depends = python-tree-sitter-swift>=0.7
+	depends = python-tree-sitter-swift<0.9
+	depends = python-tree-sitter-lua>=0.2
+	depends = python-tree-sitter-lua<0.6
+	depends = python-tree-sitter-zig>=1.0
+	depends = python-tree-sitter-zig<2.0
+	depends = python-tree-sitter-powershell>=0.26
+	depends = python-tree-sitter-powershell<0.28
+	depends = python-tree-sitter-elixir>=0.3
+	depends = python-tree-sitter-elixir<0.5
+	depends = python-tree-sitter-objc>=3.0
+	depends = python-tree-sitter-objc<4.0
+	depends = python-tree-sitter-julia>=0.23
+	depends = python-tree-sitter-julia<0.25
+	depends = python-tree-sitter-verilog>=1.0
+	depends = python-tree-sitter-verilog<2.0
+	depends = python-tree-sitter-fortran>=0.6
+	depends = python-tree-sitter-fortran<0.8
+	depends = python-tree-sitter-bash>=0.23
+	depends = python-tree-sitter-bash<0.27
+	depends = python-tree-sitter-json>=0.23
+	depends = python-tree-sitter-json<0.26
+	optdepends = git: repository integration
+	optdepends = python-pypdf>=6.19.0: PDF extraction (with python-markdownify)
+	optdepends = python-markdownify: PDF extraction (with python-pypdf)
+	optdepends = python-docx: Word document extraction
+	optdepends = python-openpyxl: Excel and Google Sheets support
+	optdepends = python-watchdog: rebuild graphs when files change
+	optdepends = python-matplotlib: SVG graph export
+	optdepends = python-pillow>=13.0.0: SVG graph export
+	optdepends = python-openai: OpenAI-compatible, Gemini, and Ollama backends
+	optdepends = python-tiktoken: token counting for OpenAI-compatible backends
+	optdepends = python-anthropic: Claude API backend
+	optdepends = python-boto3: AWS Bedrock backend
+	source = https://github.com/Graphify-Labs/graphify/releases/download/v0.9.100/graphifyy-0.9.100.tar.gz
+	sha256sums = 14d0e0a87d3418d46f6f5ba80c12d29860c1055a9ce389a737fa381db7988ce5
+
+pkgname = graphify

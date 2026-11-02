@@ -1,0 +1,24 @@
+# Dependency version selected from Graphify v0.9.100's uv.lock.
+pkgname=python-tree-sitter-swift
+_srcname=tree_sitter_swift
+pkgver=0.7.4
+pkgrel=1
+pkgdesc='Python bindings for the swift Tree-sitter grammar'
+arch=('x86_64')
+url=https://github.com/alex-pinkus/tree-sitter-swift
+license=('MIT')
+depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
+makedepends=(python-build python-installer python-setuptools python-wheel)
+source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/f2/98/8265b5ee5f590654935742d89c187460deb867411307680e1ed7cb39979a/tree_sitter_swift-0.7.4.tar.gz")
+sha256sums=('1676a8ee04442993b84c239291d5976b823d22d25b02cfc5161a1bd644b390f5')
+
+build() {
+  cd "$_srcname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$_srcname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

@@ -1,0 +1,19 @@
+pkgbase = python-tree-sitter-lua
+	pkgdesc = Python bindings for the lua Tree-sitter grammar
+	pkgver = 0.5.0
+	pkgrel = 1
+	url = https://github.com/tree-sitter-grammars/tree-sitter-lua
+	arch = x86_64
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python>=3.10
+	depends = python-tree-sitter>=0.25
+	depends = python-tree-sitter<0.26
+	source = python-tree-sitter-lua-0.5.0.tar.gz::https://files.pythonhosted.org/packages/94/07/98d7c5f60c9a79a1d40f85e59b7c25a0102d2eebcc5a83608c7c308edf22/tree_sitter_lua-0.5.0.tar.gz
+	sha256sums = 0e46356038ccb8ce1049289104c56230003448309a335f2e353f1edc7b373552
+
+pkgname = python-tree-sitter-lua
