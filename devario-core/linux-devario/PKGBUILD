@@ -11,9 +11,9 @@
 
 _pkgsuffix=devario
 _major=7.3
-_minor=0
+_minor=1
 # Release number of the devario-<version>-<N> tag on GitHub.
-_tagrel=8
+_tagrel=1
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
@@ -70,7 +70,7 @@ _die() {
 # _build_debug    yes: also produce a -dbg package with the unstripped vmlinux
 
 _release_opts=(
-  _rebuild=2
+  _rebuild=1
   _processor_opt=generic_v3
   _HZ_ticks=1000
   _tickrate=full
@@ -421,5 +421,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('79a024824e3479e9253afcf4e3b0c31714dca17c03659a9a457b01ea0d05217ed54f43e02b2380fb94adb4a310c5ddcb64e074355ebb27e446c03e584308a9f9'
+b2sums=('4d4647f40bc809cfb354aa446e5d8591900bff2d006dd7d60d883965ac4ae4251c722e67a6fbd3dc171940d561dabe60fbb718de644b2ca244d062acfa09e328'
         '0ad1c31abb18e81722ce2ca3a24e3d84336a432bc7a710a34950d78cc8f454d0f10f667343ab2fb0082dfab784c0abb392d4dcfc606d08561433b07bcda361b5')
