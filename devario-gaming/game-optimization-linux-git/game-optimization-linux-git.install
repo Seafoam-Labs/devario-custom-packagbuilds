@@ -1,0 +1,7 @@
+post_install() {
+  cat <<'MSG'
+==> For Steam launch profiles, each user runs once:
+      game-optimization-install-runner
+    (writes ~/.local/share/game-optimization-linux/bin/game-optimization-run)
+MSG
+}

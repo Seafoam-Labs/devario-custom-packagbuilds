@@ -1,0 +1,24 @@
+#!/bin/sh
+# game-optimization-install-runner -- distribution-package variant.
+#
+# GameOpti's Steam launch options always call the runner at
+# ~/.local/share/game-optimization-linux/bin/game-optimization-run
+# (services/host_bootstrap.py). Upstream's native installer pip-installs a
+# private copy of the source tree there; with the system package the runner is
+# already /usr/bin/game-optimization-run, so this only writes a small wrapper
+# that follows package updates.
+set -eu
+
+# Always under $HOME, like default_runner_path(); XDG_DATA_HOME is not consulted there.
+target_dir="$HOME/.local/share/game-optimization-linux/bin"
+target="$target_dir/game-optimization-run"
+
+mkdir -p "$target_dir"
+tmp=$(mktemp "$target_dir/.game-optimization-run.XXXXXX")
+trap 'rm -f "$tmp"' EXIT
+printf '%s\n' '#!/bin/sh' 'exec /usr/bin/game-optimization-run "$@"' > "$tmp"
+chmod 0755 "$tmp"
+mv -f "$tmp" "$target"
+trap - EXIT
+
+printf 'Installed Game Optimization Runner: %s\n' "$target"
