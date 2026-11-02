@@ -1,7 +1,10 @@
 # zlib for Shelly isolated builds
 
-This recipe builds `zlib`, `zlib-static`, and `minizip` version `1:1.3.2-4`,
+This recipe builds `zlib`, `zlib-static`, and `minizip` version `1:1.3.2-5`,
 based on [Arch's zlib packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/zlib/-/blob/main/PKGBUILD).
+Revision 5 declares `libz.so=1-64` next to the bare provide so the ABI stays
+pinned: `zlib-ng-compat` publishes the same SONAME, and `file` now depends on
+the versioned form.
 
 The checksum failure comes from GitHub's generated patch for commit
 `36ff1be48ef696cc67b0855f7c8537ce0276210d`. Its `index` line now uses ten-character

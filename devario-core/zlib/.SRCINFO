@@ -1,7 +1,7 @@
 pkgbase = zlib
 	pkgdesc = Compression library implementing the deflate compression method found in gzip and PKZIP
 	pkgver = 1.3.2
-	pkgrel = 4
+	pkgrel = 5
 	epoch = 1
 	url = https://www.zlib.net/
 	arch = x86_64
@@ -24,6 +24,7 @@ pkgbase = zlib
 pkgname = zlib
 	depends = glibc
 	provides = libz.so
+	provides = libz.so=1-64
 
 pkgname = zlib-static
 	pkgdesc = Compression library implementing the deflate compression method found in gzip and PKZIP - static library
