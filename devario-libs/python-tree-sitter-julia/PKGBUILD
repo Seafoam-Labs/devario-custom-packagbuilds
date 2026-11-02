@@ -1,16 +1,17 @@
 # Dependency version selected from Graphify v0.9.100's uv.lock.
 pkgname=python-tree-sitter-julia
-_srcname=tree_sitter_julia
+_srcname=tree-sitter-julia
 pkgver=0.23.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the julia Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/tree-sitter/tree-sitter-julia
 license=('MIT')
 depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/d5/e7/1ff7d38967471f13b77420cdfc58ce170c8ceb83ff4b55ce50744c076e79/tree_sitter_julia-0.23.1.tar.gz")
-sha256sums=('07607c4fc902b21e6821622f56b08aa2321b921fe0644e2ab4aba1747e6c8808')
+# The PyPI sdist omits the generated parser headers; use the complete tag archive.
+source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-julia/tar.gz/refs/tags/v0.23.1")
+sha256sums=('9f6926734e09110dd4792f6c327c6b547834b52b8ce2bc7c1eba2ed4f7f7aba0')
 
 build() {
   cd "$_srcname-$pkgver"

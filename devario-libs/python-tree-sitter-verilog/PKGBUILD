@@ -1,16 +1,17 @@
 # Dependency version selected from Graphify v0.9.100's uv.lock.
 pkgname=python-tree-sitter-verilog
-_srcname=tree_sitter_verilog
+_srcname=tree-sitter-verilog
 pkgver=1.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the verilog Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/tree-sitter/tree-sitter-verilog
 license=('MIT')
 depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/d1/b6/9b3b72c3478caa07c346550c66c6e77759c76785c82d1dd5408230e58e45/tree_sitter_verilog-1.0.3.tar.gz")
-sha256sums=('d4043cba50e1ba8402396e3106e17de755c86eca311b23ab826e018ea9818984')
+# The PyPI sdist omits the generated parser headers; use the complete tag archive.
+source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-verilog/tar.gz/refs/tags/v1.0.3")
+sha256sums=('2b985c74fa7d0035db7415908935cf1ba7eea3d928ccebfa1d89541d5b6fa7b4')
 
 build() {
   cd "$_srcname-$pkgver"

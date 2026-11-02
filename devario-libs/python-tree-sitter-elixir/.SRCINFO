@@ -1,7 +1,7 @@
 pkgbase = python-tree-sitter-elixir
 	pkgdesc = Python bindings for the elixir Tree-sitter grammar
 	pkgver = 0.3.5
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/elixir-lang/tree-sitter-elixir
 	arch = x86_64
 	license = Apache-2.0
@@ -13,7 +13,7 @@ pkgbase = python-tree-sitter-elixir
 	depends = python>=3.9
 	depends = python-tree-sitter>=0.25
 	depends = python-tree-sitter<0.26
-	source = python-tree-sitter-elixir-0.3.5.tar.gz::https://files.pythonhosted.org/packages/e8/83/0501ee426bcd40cf5f765ce66ff2e7136d438ff4e65aeb08991f9826d4e5/tree_sitter_elixir-0.3.5.tar.gz
-	sha256sums = ead089393b1ce732304e6b6fb0bc0ab79e3295663d697be025bd49f0f367b74d
+	source = python-tree-sitter-elixir-0.3.5-upstream.tar.gz::https://codeload.github.com/elixir-lang/tree-sitter-elixir/tar.gz/refs/tags/v0.3.5
+	sha256sums = 7d8bf37949e2bea75a19d38491d7680ed1c9f0f5a41a5235832d718ec174c7c4
 
 pkgname = python-tree-sitter-elixir

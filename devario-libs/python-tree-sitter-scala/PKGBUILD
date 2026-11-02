@@ -1,16 +1,17 @@
 # Dependency version selected from Graphify v0.9.100's uv.lock.
 pkgname=python-tree-sitter-scala
-_srcname=tree_sitter_scala
+_srcname=tree-sitter-scala
 pkgver=0.26.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the scala Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/tree-sitter/tree-sitter-scala
 license=('MIT')
 depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/eb/6a/a0943e330a926dee64b440dd7957687f8a494fcb77e1df39643324a94ce3/tree_sitter_scala-0.26.3.tar.gz")
-sha256sums=('e08b8e81c3e529239a0123d234fdaa34f1e2f1ab67d6034924ec74190a45e5a3')
+# The PyPI sdist omits the generated parser headers; use the complete tag archive.
+source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-scala/tar.gz/refs/tags/v0.26.3")
+sha256sums=('c9218f731cbab1d62b975ad51de4479087332de380e191739e08d61e0ac8f99f')
 
 build() {
   cd "$_srcname-$pkgver"

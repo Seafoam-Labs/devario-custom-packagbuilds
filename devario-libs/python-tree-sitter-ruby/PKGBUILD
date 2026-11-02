@@ -1,16 +1,17 @@
 # Dependency version selected from Graphify v0.9.100's uv.lock.
 pkgname=python-tree-sitter-ruby
-_srcname=tree_sitter_ruby
+_srcname=tree-sitter-ruby
 pkgver=0.23.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the ruby Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/tree-sitter/tree-sitter-ruby
 license=('MIT')
 depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/09/5b/6d24be4fde4743481bd8e3fd24b434870cb6612238c8544b71fe129ed850/tree_sitter_ruby-0.23.1.tar.gz")
-sha256sums=('886ed200bfd1f3ca7628bf1c9fefd42421bbdba70c627363abda67f662caa21e')
+# The PyPI sdist omits the generated parser headers; use the complete tag archive.
+source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-ruby/tar.gz/refs/tags/v0.23.1")
+sha256sums=('e7e49577ddc1f2de8e42d42353b477e338c15bbb95b2558e123ddc13d88789f0')
 
 build() {
   cd "$_srcname-$pkgver"

@@ -1,7 +1,7 @@
 pkgbase = python-tree-sitter-json
 	pkgdesc = Python bindings for the json Tree-sitter grammar
 	pkgver = 0.24.8
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/tree-sitter/tree-sitter-json
 	arch = x86_64
 	license = MIT
@@ -13,7 +13,7 @@ pkgbase = python-tree-sitter-json
 	depends = python>=3.9
 	depends = python-tree-sitter>=0.25
 	depends = python-tree-sitter<0.26
-	source = python-tree-sitter-json-0.24.8.tar.gz::https://files.pythonhosted.org/packages/d7/29/e92df6dca3a6b2ab1c179978be398059817e1173fbacd47e832aaff3446b/tree_sitter_json-0.24.8.tar.gz
-	sha256sums = ca8486e52e2d261819311d35cf98656123d59008c3b7dcf91e61d2c0c6f3120e
+	source = python-tree-sitter-json-0.24.8-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-json/tar.gz/refs/tags/v0.24.8
+	sha256sums = acf6e8362457e819ed8b613f2ad9a0e1b621a77556c296f3abea58f7880a9213
 
 pkgname = python-tree-sitter-json

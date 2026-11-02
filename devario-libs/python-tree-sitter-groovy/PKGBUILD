@@ -1,16 +1,17 @@
 # Dependency version selected from Graphify v0.9.100's uv.lock.
 pkgname=python-tree-sitter-groovy
-_srcname=tree_sitter_groovy
+_srcname=tree-sitter-groovy
 pkgver=0.1.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the groovy Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/amaanq/tree-sitter-groovy
 license=('MIT')
 depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/e8/1f/400d296618ea95932e6a3d299eababda0d138f4b0cfeaacdf50601c40ca9/tree_sitter_groovy-0.1.2.tar.gz")
-sha256sums=('49b004c4ae946d3f01a602f325cd8996423e034e5b3ad36fc34a1d1e42afa8da')
+# The PyPI sdist omits the generated parser headers; use the complete tag archive.
+source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/amaanq/tree-sitter-groovy/tar.gz/refs/tags/v0.1.2")
+sha256sums=('d3eafa455e3a092d79c2d3488fa58a461c1a18cdfa1b7edb22e168b513e454fe')
 
 build() {
   cd "$_srcname-$pkgver"
