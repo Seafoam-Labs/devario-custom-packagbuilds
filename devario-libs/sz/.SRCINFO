@@ -1,11 +1,11 @@
 pkgbase = sz
 	pkgdesc = Modular parametrizable lossy compressor framework for scientific data
-	pkgver = 3.3.2
-	pkgrel = 2
+	pkgver = 3.4.0
+	pkgrel = 1
 	url = https://szcompressor.org/
 	arch = x86_64
 	license = LicenseRef-BSD-3-Clause-UChicago-Argonne
-	makedepends = cmake
+	makedepends = cmake>=3.19
 	makedepends = gtest
 	makedepends = ninja
 	depends = glibc
@@ -15,7 +15,7 @@ pkgbase = sz
 	depends = libgomp
 	depends = libstdc++
 	depends = zstd
-	source = sz-3.3.2.tar.gz::https://github.com/szcompressor/SZ3/archive/refs/tags/v3.3.2.tar.gz
-	b2sums = c5234f58d196682ae02834df2738476740446e8ca6beea9435aafabf0d6fedd5799599e9f83ef4c0c769fca6b44ce5cdb941ec85113239c7e80467ab26edfcb7
+	source = sz-3.4.0.tar.gz::https://github.com/szcompressor/SZ3/archive/refs/tags/v3.4.0.tar.gz
+	b2sums = 5fb8c16c30f48b99c85e78e17e44f32046d0fc4aa1edd269e322a4e26cd33de2c2824e05b47e51f9347b2e9052242b778d650f112efc37ce53091a62349993e8
 
 pkgname = sz
