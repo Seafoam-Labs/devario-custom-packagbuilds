@@ -1,0 +1,22 @@
+pkgbase = egl-wayland2
+	pkgdesc = EGLStream-based Wayland external platform (2)
+	pkgver = 1.0.2
+	pkgrel = 2
+	url = https://github.com/NVIDIA/egl-wayland2
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = git
+	makedepends = libglvnd>=1.3.4
+	makedepends = meson
+	makedepends = wayland-protocols
+	depends = eglexternalplatform
+	depends = mesa
+	depends = glibc
+	depends = libdrm
+	depends = wayland
+	provides = libnvidia-egl-wayland2.so
+	provides = libnvidia-egl-wayland2.so=1-64
+	source = git+https://github.com/NVIDIA/egl-wayland2#tag=v1.0.2
+	b2sums = SKIP
+
+pkgname = egl-wayland2

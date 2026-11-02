@@ -1,0 +1,4 @@
+[egl-x11]
+source = "git"
+git = "https://github.com/NVIDIA/egl-x11.git"
+prefix = "v"

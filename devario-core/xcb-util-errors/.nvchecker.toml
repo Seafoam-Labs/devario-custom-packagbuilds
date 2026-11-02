@@ -1,0 +1,7 @@
+[xcb-util-errors]
+source = "gitlab"
+host = "gitlab.freedesktop.org"
+gitlab = "xorg/lib/libxcb-errors"
+prefix = 'xcb-util-errors-'
+include_regex = 'xcb-util-errors-.*'
+use_max_tag = true
