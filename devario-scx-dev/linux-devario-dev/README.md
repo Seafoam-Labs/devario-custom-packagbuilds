@@ -1,19 +1,19 @@
-# linux-devario — Devario kernel (7.3)
+# linux-devario-dev — Devario kernel (7.3 development)
 
-The regular Devario kernel recipe for the Linux 7.3 source series. Its defaults match the Devario release policy while still permitting local experiments.
+The development kernel track for the Linux 7.3 source series, intended for ongoing `sched_ext` work and testing. Changes in this branch may be experimental and should be validated before wider deployment. The recipe follows `devario-core/linux-devario` and differs only in package name and source tag namespace.
 
 This directory contains the `PKGBUILD` and a versioned `config`. Devario builds
 its own kernel packages from [Seafoam Labs' Linux source tree](https://github.com/Seafoam-Labs/linux).
-The release source archives use the `devario-<version>-<N>` naming scheme.
+The release source archives use the `devario-dev-<version>-<N>` naming scheme.
 Devario distributes and signs its own packages.
 
 ## Packages
 
 The recipe produces:
 
-- `linux-devario` — kernel image and modules;
-- `linux-devario-headers` — headers and build files for external modules;
-- `linux-devario-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
+- `linux-devario-dev` — kernel image and modules;
+- `linux-devario-dev-headers` — headers and build files for external modules;
+- `linux-devario-dev-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
 
 ## Default configuration
 
@@ -82,7 +82,7 @@ build toolchain or replace testing in a controlled build environment.
 ## Source tags and package versions
 
 - `pkgver` follows the kernel version selected by `_major` and `_minor`.
-- `_tagrel` is the release index `N` in `devario-<version>-<N>`.
+- `_tagrel` is the release index `N` in `devario-dev-<version>-<N>`.
 - `pkgrel` is `<_tagrel>.<_rebuild>`. Increase `_rebuild` when rebuilding the
   same source tag, or reset it to `1` for a newly tagged source release.
 - The source archive and the shipped `config` are inputs to the package build.
@@ -90,7 +90,7 @@ build toolchain or replace testing in a controlled build environment.
 ## Updating the recipe
 
 1. Review the intended source changes and publish or select the corresponding
-   `devario-<version>-<N>` release in
+   `devario-dev-<version>-<N>` release in
    [Seafoam-Labs/linux](https://github.com/Seafoam-Labs/linux).
 2. Update `_major`, `_minor`, and `_tagrel` as needed; review the vendored
    `config` against the new source tree (`make olddefconfig` and a config diff).
@@ -98,7 +98,7 @@ build toolchain or replace testing in a controlled build environment.
 4. Build in a clean environment with `_devario_release=yes`, then test kernel
    boot, external-module/header compatibility, and upgrades before publishing.
 
-**Branch note:** The `7.2/linux-devario` directory packages the same `linux-devario` name for a different source series. Choose the intended directory and source tag when preparing a release.
+**Branch note:** This variant uses the `devario-dev-<version>-<N>` tag namespace, not the regular `devario-<version>-<N>` namespace. A newer version number alone does not imply that development changes are suitable for production. Keep the `PKGBUILD` and `config` in step with `devario-core/linux-devario`: apart from the package identity and checksums they are meant to stay identical.
 
 ## Credits and provenance
 
