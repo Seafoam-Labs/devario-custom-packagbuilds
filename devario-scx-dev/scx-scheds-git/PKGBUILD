@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.5.devario.4.r0.gb19726e95
-pkgrel=6
+pkgrel=7
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -78,6 +78,7 @@ e9bd82d2535ca460737c7e3828eb3b9313af9c42 # scx_flow: bump to 4.8.16
 dc3449304ce385b86756ca6681914b8bce639062 # scx_flow: bump to 4.8.23
 0bbfda44a7825990459f8078bcc6140b177f47c5 # scx_pandemonium: bump to 5.24.0
 473b8e75e481a4125bdba71fb68c620a58b5f660 # scx_rustsched_loader: append the scheduler version to the ops name
+0298b476e9b7d3f9327ea07e34b913e9a8728a6f # scx_flow: bump to 4.8.27
 )
 
 _reverts=(
