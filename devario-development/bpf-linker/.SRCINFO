@@ -1,6 +1,6 @@
 pkgbase = bpf-linker
 	pkgdesc = Simple BPF static linker
-	pkgver = 0.12.0
+	pkgver = 0.13.0
 	pkgrel = 1
 	url = https://github.com/aya-rs/bpf-linker
 	arch = x86_64
@@ -15,7 +15,7 @@ pkgbase = bpf-linker
 	depends = llvm-libs>=23
 	depends = llvm-libs<24
 	depends = clang
-	source = bpf-linker-0.12.0.tar.gz::https://github.com/aya-rs/bpf-linker/archive/refs/tags/v0.12.0.tar.gz
-	sha256sums = b338f41fb9bb690693eaa9021bb1c28e6dfe894ad5ff60385a0343aa269c0c02
+	source = bpf-linker-0.13.0.tar.gz::https://github.com/aya-rs/bpf-linker/archive/refs/tags/v0.13.0.tar.gz
+	sha256sums = c2d0cdd32b6566301b93a8a8c44030330c2fdce85edc0ee3e6c5bef35f2a2186
 
 pkgname = bpf-linker
