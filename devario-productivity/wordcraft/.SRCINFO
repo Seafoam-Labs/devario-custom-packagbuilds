@@ -1,6 +1,6 @@
 pkgbase = wordcraft
 	pkgdesc = Clean-room reimplementation of Microsoft Word for documents and .docx
-	pkgver = 0.14.0
+	pkgver = 0.15.0
 	pkgrel = 1
 	url = https://github.com/storytold/wordcraft
 	arch = x86_64
@@ -19,7 +19,7 @@ pkgbase = wordcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/wordcraft/archive/v0.14.0/wordcraft-0.14.0.tar.gz
-	sha256sums = d35c399acbd438c3c536e31a78f35d3fc7074afcc992e8c7e092fc41fb866aa6
+	source = https://github.com/storytold/wordcraft/archive/v0.15.0/wordcraft-0.15.0.tar.gz
+	sha256sums = 164414206491bbd011e58e039e9e17b9c055875d66307792ad5778b930f6a328
 
 pkgname = wordcraft
