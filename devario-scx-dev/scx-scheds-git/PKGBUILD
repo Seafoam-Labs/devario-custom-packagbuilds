@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.5.devario.4.r0.gb19726e95
-pkgrel=1
+pkgrel=4
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -76,6 +76,7 @@ f36905421c8195eeb93cce8f5306bf14c361956a # scx_cake: claim an idle owner for a p
 d7faa4cc75e4b3b05535fe9d1a6e3c1c45640155 # scx_cake: bump version to 1.3.0
 e9bd82d2535ca460737c7e3828eb3b9313af9c42 # scx_flow: bump to 4.8.16
 dc3449304ce385b86756ca6681914b8bce639062 # scx_flow: bump to 4.8.23
+0bbfda44a7825990459f8078bcc6140b177f47c5 # scx_pandemonium: bump to 5.24.0
 )
 
 _reverts=(
