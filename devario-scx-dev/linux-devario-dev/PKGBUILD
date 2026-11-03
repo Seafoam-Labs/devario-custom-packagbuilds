@@ -60,7 +60,7 @@ _die() {
 # _hugepage       transparent hugepage default: always, madvise
 # _cc_harder      yes: build with -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
 # _per_gov        yes: performance as default cpufreq governor (instead of schedutil)
-# _lru_cast      yes: enable LRU CAST (CONFIG_LRU_CAST)
+# _lru_cast       yes: enable LRU CAST (CONFIG_LRU_CAST); no: build without it
 # _localmodcfg    yes: build only modules listed in a modprobed-db database
 #                 (path in _localmodcfg_path); https://wiki.archlinux.org/title/Modprobed-db
 # _use_current    yes: start from the running kernel's /proc/config.gz instead of
@@ -231,10 +231,13 @@ prepare() {
   echo "Selected '$_hugepage' transparent hugepage mode"
 
   ### LRU CAST
-  if [ "$_lru_cast" = "yes" ]; then
-    echo "Enabling LRU_CAST..."
-    scripts/config -e LRU_CAST
-  fi
+  # Explicit both ways: LRU_CAST is "default y" in mm/Kconfig, and with
+  # _use_current=yes the running kernel's config would otherwise keep it on.
+  case "$_lru_cast" in
+    yes) echo "Enabling LRU_CAST..."; scripts/config -e LRU_CAST;;
+    no)  echo "Disabling LRU_CAST..."; scripts/config -d LRU_CAST;;
+    *)   _die "_lru_cast='$_lru_cast' is invalid (yes, no)";;
+  esac
 
   ### DRM panic screen with QR code
   echo "Enabling QR code panic screen..."
