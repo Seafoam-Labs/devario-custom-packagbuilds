@@ -1,11 +1,10 @@
 pkgbase = groff
 	pkgdesc = GNU troff text-formatting system
 	pkgver = 1.24.2
-	pkgrel = 1
+	pkgrel = 2
 	url = https://www.gnu.org/software/groff/groff.html
 	arch = x86_64
 	license = GPL-3.0-or-later
-	makedepends = git
 	makedepends = netpbm
 	makedepends = psutils
 	makedepends = libxaw
@@ -21,11 +20,13 @@ pkgbase = groff
 	options = !docs
 	options = !emptydirs
 	options = !makeflags
-	source = git+https://git.savannah.gnu.org/git/groff.git?signed#tag=1.24.2
+	source = https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz
+	source = https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz.sig
 	source = site.tmac
 	validpgpkeys = 2D0C08D2B0AD0D3D8626670272D23FBAC99D4E75
 	validpgpkeys = 8773D61D68E30E072B10DC1AD19E9C7D71266DCE
-	b2sums = 51dfb48d7ad28d29cd2468ccf5553767fcd7f6905d8829eb2bb5fab66fe6df0c913be077e173a358d00d851a7d1f7f8825424b3488620838dea809268103a595
+	b2sums = fe94bc1403525285fac7a38bcf58329552a792d637ef752dffa8fd9343815c668a1f57d815b40aa84bd8f3e1e05572402277fec6b0f61a606886b743554372b0
+	b2sums = SKIP
 	b2sums = 39087d04a2af011820e9428c3c01da4be63cd34125bb087097b4e56865806e33e3e20a666885110ab71d36eeafdbfb01202ca4ee45d6cdeed8ab71d83852341b
 
 pkgname = groff

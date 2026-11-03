@@ -2,7 +2,7 @@
 
 pkgname=groff
 pkgver=1.24.2
-pkgrel=1
+pkgrel=2
 pkgdesc='GNU troff text-formatting system'
 arch=('x86_64')
 url='https://www.gnu.org/software/groff/groff.html'
@@ -14,7 +14,6 @@ depends=(
   perl
 )
 makedepends=(
-  git
   netpbm
   psutils
   libxaw
@@ -32,23 +31,26 @@ options=(
   !makeflags
 )
 validpgpkeys=(
-  '2D0C08D2B0AD0D3D8626670272D23FBAC99D4E75' # G. Branden Robinson <g.branden.robinson@gmail.com
-  '8773D61D68E30E072B10DC1AD19E9C7D71266DCE' # Bertrand Garrigues <bertrand.garrigues@laposte.net>
+  '2D0C08D2B0AD0D3D8626670272D23FBAC99D4E75' # Bertrand Garrigues <bertrand.garrigues@laposte.net>
+  '8773D61D68E30E072B10DC1AD19E9C7D71266DCE' # G. Branden Robinson <g.branden.robinson@gmail.com>
 )
+# Savannah 500s while packing groff.git, which aborts the source stage before any build stage
+# runs (SourceVcsFailed), and no mirror carries the signed 1.24.2 tag: Distrotech and qunixorg
+# stop at the 1.02 series, val-verde has no tags, and mirror/gray-zone/agordon have no groff
+# repo. Build the release tarball instead: it is pre-bootstrapped (generated configure,
+# Makefile.in, gnulib_m4/), so ./bootstrap and the gnulib revision it floats to go away, and git
+# leaves makedepends with it. ftp.gnu.org signs the tarball with G. Branden Robinson's key,
+# verified against keys/pgp.
 source=(
-  git+https://git.savannah.gnu.org/git/groff.git?signed#tag=${pkgver}
+  "https://ftp.gnu.org/gnu/groff/groff-${pkgver}.tar.gz"{,.sig}
   site.tmac
 )
-b2sums=('51dfb48d7ad28d29cd2468ccf5553767fcd7f6905d8829eb2bb5fab66fe6df0c913be077e173a358d00d851a7d1f7f8825424b3488620838dea809268103a595'
+b2sums=('fe94bc1403525285fac7a38bcf58329552a792d637ef752dffa8fd9343815c668a1f57d815b40aa84bd8f3e1e05572402277fec6b0f61a606886b743554372b0'
+        'SKIP'
         '39087d04a2af011820e9428c3c01da4be63cd34125bb087097b4e56865806e33e3e20a666885110ab71d36eeafdbfb01202ca4ee45d6cdeed8ab71d83852341b')
 
-prepare() {
-  cd "${pkgname}"
-  ./bootstrap
-}  
-
 build() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   ./configure \
     --prefix=/usr \
     --with-x \
@@ -57,12 +59,12 @@ build() {
 }
 
 check() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   make check
 }
 
 package() {
-  cd "${pkgname}"
+  cd "${pkgname}-${pkgver}"
   make DESTDIR="$pkgdir" install
   
   # add compatibility symlinks
