@@ -1,5 +1,123 @@
 # Missing dependency builds for Shelly
 
+## Five unowned references block the Wayland substrate, the portal and GameOpti (2026-11-03)
+
+The worker reported:
+
+```text
+[worker] devario-core/wayland failed: IncompleteDependencyPlan: PKGBUILD: mdbook (not_in_repositories);
+
+[worker] devario-core/libinput failed: IncompleteDependencyPlan: PKGBUILD: python-libevdev (not_in_repositories);
+
+[worker] devario-core/wlroots0.20 failed: IncompleteDependencyPlan: PKGBUILD: libwayland-client.so=0-64 (not_in_repositories); PKGBUILD: libwayland-server.so=0-64 (not_in_repositories);
+
+[worker] devario-core/xdg-desktop-portal failed: IncompleteDependencyPlan: PKGBUILD: geoclue (not_in_repositories); PKGBUILD: python-sphinxext-opengraph (not_in_repositories);
+
+[worker] devario-gaming/game-optimization-install failed: IncompleteDependencyPlan: PKGBUILD: python-py7zr (not_in_repositories);
+```
+
+Seven entries, five missing packages. `mdbook`, `python-libevdev`, `geoclue`,
+`python-sphinxext-opengraph` and `python-py7zr` are published by no repository
+(read 2026-11-03: `devario-core` 1221, `devario-libs` 1233, `devario-utilities` 312,
+`devario-development` 341, `devario-entertainment` 11, `seafoam-labs` 84 entries) and
+own no recipe folder here, so the worker has nothing to build them from. The two
+`wlroots0.20` entries are not gaps of their own; they are the `wayland` failure seen
+from the consumer side.
+
+All five are Arch official packages, and none is a row in
+[arch-sourced-packages.md](chunks/arch-sourced-packages.md) or any
+[chunks/](chunks/) worklist: they are dependency-only references, so closing them adds
+recipes outside the 450-recipe import plan instead of repointing an existing row.
+
+`wlroots0.20` is one publication behind, not five packages short. Published
+`wayland` is `1.26.0-1` and its `%PROVIDES%` block carries the four bare
+names only (`libwayland-client.so`, `libwayland-cursor.so`, `libwayland-egl.so`,
+`libwayland-server.so`), because that is what the recipe declared and Shelly's
+packager preserves a bare `.so` provision as written. The chunk-2 import
+[devario-core/wayland/PKGBUILD](devario-core/wayland/PKGBUILD) is `1.26.0-2` and
+declares the versioned form next to the bare name, with the ELF64/SONAME probe in
+`package_wayland()`. [wlroots0.20](devario-core/wlroots0.20/PKGBUILD) names
+`libwayland-client.so=0-64` and `libwayland-server.so=0-64`, and no published package
+provides either string. So the chain is: `mdbook` unplannable → `wayland 1.26.0-2`
+unbuilt and unpublished → the two provisions do not exist → `wlroots0.20` cannot plan.
+
+Do not fix this by loosening `wlroots0.20`: reverting those two entries to the bare
+`libwayland-*.so` depends is the tree-sitter 0.27 failure mode again. `wlroots0.20` is
+the only recipe in the tree that names a versioned wayland provision, so publishing
+`wayland 1.26.0-2` closes both entries with no other consumer affected.
+
+`python-libevdev` also dangles on an already-published package. Published
+`libinput-tools 1.32.0-1` lists `python-libevdev` in `%DEPENDS%` and no repository
+provides it, so that output is unsatisfiable at install time independently of the
+reported `libinput` failure. This is the same shape as the Emacs/`libotf` gap in the
+next section: the fix is a new recipe, not a recipe edit.
+
+Build plan, one stage per publish-and-refresh step:
+
+| Stage | Recipe to import (Arch state 2026-11-03) | Unblocks |
+| --- | --- | --- |
+| 1 | `mdbook` `extra::0.5.4-1` | `wayland` |
+| 1 | `python-libevdev` `extra::0.13.1-1` | `libinput`, `libwacom`, published `libinput-tools` |
+| 1 | `geoclue` `extra::2.8.2-2` | `xdg-desktop-portal` |
+| 1 | `python-sphinxext-opengraph` `extra::0.13.0-1` | `xdg-desktop-portal` |
+| 1 | `python-brotlicffi` `1.2.1.0-1`, `python-inflate64` `1.0.4-2`, `python-multivolumefile` `0.2.3-10`, `python-pybcj` `1.0.8-1`, `python-pyppmd` `1.2.0-2`, `python-cjkwrap` `2.2-14` | `python-py7zr` |
+| 2 | [wayland](devario-core/wayland/PKGBUILD) `1.26.0-2`, [libwacom](devario-core/libwacom/PKGBUILD), [xdg-desktop-portal](devario-core/xdg-desktop-portal/PKGBUILD), `python-texttable` `1.7.2-1` | publishes the versioned wayland provisions |
+| 3 | [wlroots0.20](devario-core/wlroots0.20/PKGBUILD), [libinput](devario-core/libinput/PKGBUILD), `python-py7zr` `1.1.4-1` | GameOpti |
+| 4 | [game-optimization-linux-git](devario-gaming/game-optimization-linux-git/PKGBUILD) | - |
+
+The worker labels the gaming row `devario-gaming/game-optimization-install`; the folder
+and pkgbase here are `devario-gaming/game-optimization-linux-git`, which installs
+`/usr/bin/game-optimization-install-runner` and provides `game-optimization-linux`.
+
+Every stage-1 recipe's runtime and build closure already resolves against published
+Devario packages, including `mdbook`'s `cargo` makedepend, which comes from published
+`rust 1:1.99.0-1`. `python-texttable` is the only new recipe that consumes another new
+recipe (it names `python-cjkwrap` as a makedepend), which is why it sits in stage 2
+instead of stage 1.
+
+Publish each stage and refresh the worker's repository database before the next one;
+uploading recipes alone does not satisfy `not_in_repositories`.
+
+What the report does not mean:
+
+- [xorgproto](devario-core/xorgproto/PKGBUILD) references `python-libevdev` in
+  `checkdepends` only. Builds here run `--no-check`, so `checkdepends` are not installed;
+  that the report names `libinput`, which lists the package in `makedepends`, and not
+  `xorgproto` is consistent with them staying out of the plan too.
+- `optdepends` never enter a plan: that is why `libwacom`'s
+  `python-libevdev: for libwacom-show-stylus` and `xdg-desktop-portal`'s
+  `geoclue: Location portal` strings are harmless by themselves. `libwacom` is still
+  blocked, but by its own `makedepends` entry, so it is in stage 2 even though this
+  report does not name it.
+- `xdg-desktop-portal`'s other makedepends are fine: `gamemode`, `flatpak`, `umockdev`,
+  `libportal`, `rtkit`, `doxygen`, `xmlto`, `graphviz` and `docbook-xsl` all already own a
+  recipe folder in this tree, while none of the five names the worker reported owns one.
+  That contrast is the quickest way to tell a `not_in_repositories` entry from a recipe
+  bug.
+- The four recipes that advertise `geoclue` to their users are not blocked either:
+  [webkit2gtk-4.1](devario-development/webkit2gtk-4.1/PKGBUILD),
+  [webkitgtk-6.0](devario-libs/webkitgtk-6.0/PKGBUILD),
+  [wpewebkit](devario-libs/wpewebkit/PKGBUILD) and
+  [qt6-positioning](devario-libs/qt6-positioning/PKGBUILD) name it in `optdepends`
+  alone. Arch publishes the service under the `geoclue` name and adds
+  `provides=(geoclue2=<pkgver>-<pkgrel>)`, which is what those option strings will
+  resolve to once the recipe is imported.
+
+Group placement is still a decision to make when importing. Following where the peers
+already live, `mdbook` and `python-sphinxext-opengraph` fit `devario-development`
+(next to `xmlto`, `umockdev` and the other Sphinx extensions), `python-libevdev` and the
+`python-py7zr` chain fit `devario-libs` (next to `python-pyudev` and
+`python-matplotlib`), and `geoclue` fits `devario-core` (next to `rtkit`, `upower` and
+`avahi`).
+
+Validation: read the six signed pacman databases at mirrors.seafoam-labs.org and matched
+each reported name and each versioned provision string against their `%NAME%`,
+`%PROVIDES%` and `%DEPENDS%` blocks, confirmed the stage-1 closures against Arch's
+package search JSON, and sourced each local PKGBUILD's dependency arrays to check which
+names lack a recipe folder. No recipe was imported, no `.SRCINFO` regenerated, no build,
+`--isolated --check`, or publication was performed; stage 2 onward has not been retried
+on the worker.
+
 ## Emacs's libotf gap closes with a new recipe (2026-10-30)
 
 `devario-core.db` lists `libotf` in the `%DEPENDS%` of the published `emacs` and
