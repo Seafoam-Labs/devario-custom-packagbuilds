@@ -70,7 +70,7 @@ _die() {
 # _build_debug    yes: also produce a -dbg package with the unstripped vmlinux
 
 _release_opts=(
-  _rebuild=1
+  _rebuild=2
   _processor_opt=generic_v3
   _HZ_ticks=1000
   _tickrate=full
@@ -78,7 +78,7 @@ _release_opts=(
   _hugepage=always
   _cc_harder=yes
   _per_gov=no
-  _lru_cast=yes
+  _lru_cast=no
   _localmodcfg=no
   _use_current=no
   _makenconfig=no
