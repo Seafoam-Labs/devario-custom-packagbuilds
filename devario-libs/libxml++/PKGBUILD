@@ -20,6 +20,8 @@ depends=(
   libxml2
 )
 makedepends=(
+  # The tutorial step resolves the DocBook HTML catalog; without these stylesheets it
+  # exits 4 after the library has already linked.
   docbook-xsl
   git
   glibmm-docs

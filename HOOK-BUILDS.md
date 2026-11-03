@@ -51,6 +51,15 @@ Likewise, rebuild-detector's preparation step mentions the old hook directory
 as the text to replace in its upstream Makefile. Its staged package was verified
 to install `/usr/share/rlpm/hooks/rebuild-detector.hook`.
 
+An Arch import that ships hooks follows the same rule rather than Arch's path:
+[luarocks](devario-development/luarocks/PKGBUILD) installs its five
+`luarocks-make-manifest` hooks under `/usr/share/rlpm/hooks`, not
+`usr/share/libalpm/hooks`, because `HookDirMode = Replace` leaves the installed
+system reading only the RLPM directory. The move also keeps them out of the
+worker's way: the hook directory a build root scans is compiled into the Shelly
+binary, so a hook left at Arch's path can fire during root provisioning, which is
+how PackageKit's ALPM hook once killed a consumer's build.
+
 ## Verification
 
 - Six package hook-layout tests passed, including staged Neovim and Texinfo

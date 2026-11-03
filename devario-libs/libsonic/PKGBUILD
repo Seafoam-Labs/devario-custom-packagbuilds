@@ -8,6 +8,9 @@ arch=('x86_64')
 url="https://github.com/waywardgeek/sonic"
 license=('Apache')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/waywardgeek/sonic/archive/refs/tags/release-${pkgver}.tar.gz"
+        # Upstream's Makefile drops -fPIC under the builder's LDFLAGS, so the shared link
+        # fails with R_X86_64_PC32 relocations against stderr. The patch keeps -fPIC and
+        # passes the SONAME option outside LDFLAGS.
         "ldflags.patch")
 sha512sums=('e70510c89c4f29c30f2a3443a1c4fc1aab2c99147e2ebd1dea3cbb2b89b8bdcee14dc504600ac1f04e82d32c19f17b06fbb417311853beb764c24d15687a126f'
             'c8dcbd5f8718c3b388f1796ec6780f6c6910f0eac6a6da32cf8f9e9da73cbc24b45cb48f3ed020f7dadf31bd47ac126e6973356a0e62d2114bf7f9c9f624ff0f')
