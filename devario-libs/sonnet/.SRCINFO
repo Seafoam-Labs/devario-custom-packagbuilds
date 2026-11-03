@@ -1,33 +1,34 @@
 pkgbase = sonnet
 	pkgdesc = Spelling framework for Qt
-	pkgver = 6.30.0
+	pkgver = 6.31.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
+	makedepends = cmake>=3.30
 	makedepends = aspell
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.31.0
 	makedepends = hspell
 	makedepends = hunspell
 	makedepends = libvoikko
-	makedepends = qt6-declarative
-	makedepends = qt6-tools
+	makedepends = qt6-declarative>=6.10.0
+	makedepends = qt6-tools>=6.10.0
 	depends = libstdc++
 	depends = glibc
-	depends = qt6-base
+	depends = qt6-base>=6.10.0
 	optdepends = aspell: spell checking via aspell
 	optdepends = hspell: spell checking for Hebrew
 	optdepends = hunspell: spell checking via hunspell
 	optdepends = libvoikko: Finnish support via Voikko
 	optdepends = qt6-declarative: QML bindings
-	source = https://download.kde.org/stable/frameworks/6.30/sonnet-6.30.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.30/sonnet-6.30.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.31/sonnet-6.31.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.31/sonnet-6.31.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 1574ef5c17f38e315de104b94580ccc1b7ec1db2650cb4bace2e14159bf61e10
+	sha256sums = 8a0db04df7c8d9d386dddc2e5d94f1504b15c63b3dc091a4eeb2519788b5aec6
 	sha256sums = SKIP
 
 pkgname = sonnet
