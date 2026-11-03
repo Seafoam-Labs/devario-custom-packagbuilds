@@ -28,6 +28,45 @@ PINNED = {
     'libverto': {'libverto.so': 'libverto.so=1-64', 'libverto-libevent.so': 'libverto-libevent.so=1-64'},
     'oniguruma': {'libonig.so': 'libonig.so=5-64'},
     'p11-kit': {'libp11-kit.so': 'libp11-kit.so=0-64'},
+    # Compiler support, numeric libraries, and language runtimes. Every value here
+    # is the SONAME the published archive carries, read with `readelf -d`.
+    'duktape': {'libduktape.so': 'libduktape.so=207-64',
+                'libduktaped.so': 'libduktaped.so=207-64'},
+    'fftw': {'libfftw3.so': 'libfftw3.so=3-64',
+             'libfftw3_omp.so': 'libfftw3_omp.so=3-64',
+             'libfftw3_threads.so': 'libfftw3_threads.so=3-64',
+             'libfftw3f.so': 'libfftw3f.so=3-64',
+             'libfftw3f_omp.so': 'libfftw3f_omp.so=3-64',
+             'libfftw3f_threads.so': 'libfftw3f_threads.so=3-64',
+             'libfftw3l.so': 'libfftw3l.so=3-64',
+             'libfftw3l_omp.so': 'libfftw3l_omp.so=3-64',
+             'libfftw3l_threads.so': 'libfftw3l_threads.so=3-64',
+             'libfftw3q.so': 'libfftw3q.so=3-64',
+             'libfftw3q_omp.so': 'libfftw3q_omp.so=3-64',
+             'libfftw3q_threads.so': 'libfftw3q_threads.so=3-64',
+             'libfftw3_mpi.so': 'libfftw3_mpi.so=3-64',
+             'libfftw3f_mpi.so': 'libfftw3f_mpi.so=3-64',
+             'libfftw3l_mpi.so': 'libfftw3l_mpi.so=3-64'},
+    'gtest': {'libgmock.so': 'libgmock.so=1.18.0-64',
+              'libgmock_main.so': 'libgmock_main.so=1.18.0-64',
+              'libgtest.so': 'libgtest.so=1.18.0-64',
+              'libgtest_main.so': 'libgtest_main.so=1.18.0-64'},
+    'jemalloc': {'libjemalloc.so': 'libjemalloc.so=2-64'},
+    'libedit': {'libedit.so': 'libedit.so=0-64'},
+    'libisl': {'libisl.so': 'libisl.so=23-64'},
+    'pahole': {'libdwarves.so': 'libdwarves.so=1-64',
+               'libdwarves_emit.so': 'libdwarves_emit.so=1-64',
+               'libdwarves_reorganize.so': 'libdwarves_reorganize.so=1-64'},
+    'pcre': {'libpcre.so': 'libpcre.so=1-64',
+             'libpcre16.so': 'libpcre16.so=0-64',
+             'libpcre32.so': 'libpcre32.so=0-64',
+             'libpcreposix.so': 'libpcreposix.so=0-64',
+             'libpcrecpp.so': 'libpcrecpp.so=0-64'},
+    'shaderc': {'libshaderc_shared.so': 'libshaderc_shared.so=1-64'},
+    'tomlplusplus': {'libtomlplusplus.so': 'libtomlplusplus.so=3-64'},
+    'yaml-cpp': {'libyaml-cpp.so': 'libyaml-cpp.so=0.9-64'},
+    'yyjson': {'libyyjson.so': 'libyyjson.so=0-64'},
+    'zeromq': {'libzmq.so': 'libzmq.so=5-64'},
 }
 
 # Providers outside these recipes that publish only an unpinned provision, so a consumer here
@@ -36,6 +75,25 @@ UNPINNED_PROVIDERS = {'libkrb5.so'}
 
 ARRAY = re.compile(r'^(\s*)(\w+)(\+?)=\((.*?)\)', re.M | re.S)
 ELEMENT = re.compile(r"'[^']*'|\"[^\"]*\"|[^\s'\"#]+")
+
+
+def braces(word):
+    """Expand the bash brace form a PKGBUILD array may hold, as bash would."""
+    parts = []
+    i = 0
+    while i < len(word):
+        if word[i] == '{' and '}' in word[i:]:
+            end = word.index('}', i)
+            parts.append(word[i + 1:end].split(','))
+            i = end + 1
+        else:
+            parts.append(word[i])
+            i += 1
+    out = ['']
+    for part in parts:
+        choices = part if isinstance(part, list) else (part,)
+        out = [head + choice for head in out for choice in choices]
+    return out
 
 
 def arrays(recipe, key):
@@ -48,7 +106,7 @@ def arrays(recipe, key):
         for element in ELEMENT.findall(match.group(4)):
             element = element.strip('\'"')
             if element:
-                found.append(element)
+                found.extend(braces(element))
     return found
 
 

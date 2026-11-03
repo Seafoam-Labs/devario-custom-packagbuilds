@@ -1,0 +1,5 @@
+[llvm20]
+source = "git"
+git = "https://github.com/llvm/llvm-project.git"
+include_regex = 'llvmorg-20\.\d+\.\d+'
+prefix = "llvmorg-"

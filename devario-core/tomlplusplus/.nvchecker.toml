@@ -1,0 +1,5 @@
+[tomlplusplus]
+source = "github"
+github = "marzer/tomlplusplus"
+prefix = "v"
+use_max_tag = true
