@@ -12,7 +12,8 @@ url='https://github.com/libfuse/libfuse'
 arch=(x86_64)
 makedepends=(
   glibc
-  libiconv
+  # Arch's libiconv is dropped: libfuse only probes cc.has_function('iconv'),
+  # which glibc satisfies on its own, and no Devario repository publishes libiconv.
   liburing
   meson
   numactl

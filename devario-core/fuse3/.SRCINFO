@@ -5,7 +5,6 @@ pkgbase = fuse3
 	url = https://github.com/libfuse/libfuse
 	arch = x86_64
 	makedepends = glibc
-	makedepends = libiconv
 	makedepends = liburing
 	makedepends = meson
 	makedepends = numactl
