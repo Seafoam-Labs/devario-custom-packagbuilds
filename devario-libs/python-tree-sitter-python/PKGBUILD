@@ -1,20 +1,38 @@
-# Dependency version selected from Graphify v0.9.100's uv.lock.
+# Graphify parser dependency: use the complete upstream release archive.
+# The PyPI 0.25.0 source distribution omits src/scanner.c.
 pkgname=python-tree-sitter-python
-_srcname=tree_sitter_python
+_srcname=tree-sitter-python
 pkgver=0.25.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Python bindings for the python Tree-sitter grammar'
 arch=('x86_64')
 url=https://github.com/tree-sitter/tree-sitter-python
 license=('MIT')
 depends=(glibc 'python>=3.10' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26')
 makedepends=(python-build python-installer python-setuptools python-wheel)
-source=("$pkgname-$pkgver.tar.gz::https://files.pythonhosted.org/packages/b8/8b/c992ff0e768cb6768d5c96234579bf8842b3a633db641455d86dd30d5dac/tree_sitter_python-0.25.0.tar.gz")
-sha256sums=('b13e090f725f5b9c86aa455a268553c65cadf325471ad5b65cd29cac8a1a68ac')
+source=("$_srcname-$pkgver.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-python/tar.gz/refs/tags/v$pkgver")
+sha256sums=('4609a3665a620e117acf795ff01b9e965880f81745f287a16336f4ca86cf270c')
 
 build() {
   cd "$_srcname-$pkgver"
+  test -s src/scanner.c
   python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$_srcname-$pkgver"
+  local _lib
+  for _lib in build/lib.*; do
+    PYTHONPATH="$_lib" python -c '
+import tree_sitter_python
+from tree_sitter import Language, Parser
+parser = Parser(Language(tree_sitter_python.language()))
+tree = parser.parse(b"def example():\n    return 1\n")
+assert not tree.root_node.has_error, tree.root_node
+assert tree.root_node.children[0].type == "function_definition"
+print("Python grammar import and parsing passed")
+'
+  done
 }
 
 package() {

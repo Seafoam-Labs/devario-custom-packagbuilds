@@ -1,0 +1,35 @@
+pkgbase = project-maya
+	pkgdesc = Local LLM inference with GPU-specific engine setup and a browser dashboard
+	pkgver = 1.1.42
+	pkgrel = 1
+	url = https://github.com/mw00/project-maya
+	arch = x86_64
+	license = MIT
+	license = Apache-2.0
+	license = ISC
+	license = OFL-1.1
+	depends = bash
+	depends = coreutils
+	depends = tar
+	depends = gzip
+	depends = util-linux
+	depends = python>=3.10
+	depends = python-pip
+	depends = git
+	depends = cmake>=3.24
+	depends = ninja
+	depends = gcc
+	optdepends = cuda: NVIDIA engine compilation and CUDA libraries
+	optdepends = nvidia-utils: NVIDIA GPU driver userspace
+	optdepends = hip-runtime-amd: experimental AMD GPU backend
+	optdepends = hipblas: experimental AMD BLAS backend
+	optdepends = hipblaslt: experimental AMD BLAS tuning
+	optdepends = rocm-llvm: experimental AMD GPU compiler
+	source = project-maya-cd48762b6d4888205c130238dbc0c7f7904993cf.tar.gz::https://codeload.github.com/mw00/project-maya/tar.gz/cd48762b6d4888205c130238dbc0c7f7904993cf
+	source = project-maya
+	source = README.md
+	sha256sums = 38b542f87366950be8df970df45d2d85b1fd762293ed81dfc9a571088b5d3671
+	sha256sums = 151c819ee45c48e8c3927acbdc1fce44cac149f0bde4166c724547d5edb1101b
+	sha256sums = aa8867f55309affaea2576a4878e919457ab975975856103baa8dc68cd963401
+
+pkgname = project-maya

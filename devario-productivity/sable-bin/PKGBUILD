@@ -1,0 +1,61 @@
+# Maintainer: Devario maintainers
+
+pkgname=sable-bin
+pkgver=2.3.1
+pkgrel=1
+pkgdesc='Matrix chat client built with Rust and Svelte (upstream Electron binary)'
+arch=('x86_64' 'aarch64')
+url='https://git.sable.moe/SableClient/sable-next'
+license=('AGPL-3.0-or-later')
+# Keep the matching Electron runtime and native modules shipped by upstream.
+depends=('alsa-lib' 'at-spi2-core' 'cairo' 'dbus' 'expat' 'glib2' 'glibc'
+         'gtk3' 'hicolor-icon-theme' 'libcups' 'libgcc' 'libnotify'
+         'libpipewire' 'libpulse' 'libsecret' 'libx11' 'libxcb'
+         'libxcomposite' 'libxdamage' 'libxext' 'libxfixes' 'libxkbcommon'
+         'libxrandr' 'libxss' 'libxtst' 'mesa' 'nspr' 'nss' 'pango'
+         'systemd-libs' 'util-linux-libs' 'xdg-utils')
+makedepends=('libarchive')
+optdepends=('libappindicator: system tray integration'
+            'xdg-desktop-portal: screen sharing and desktop integration')
+provides=("sable=${pkgver}")
+conflicts=('sable')
+options=('!strip' '!debug')
+source=("sable-${pkgver}.LICENSE::${url}/raw/tag/v${pkgver}/LICENSE")
+source_x86_64=("sable-${pkgver}-amd64.deb::${url}/releases/download/v${pkgver}/sable-${pkgver}-amd64.deb")
+source_aarch64=("sable-${pkgver}-arm64.deb::${url}/releases/download/v${pkgver}/sable-${pkgver}-arm64.deb")
+noextract=("sable-${pkgver}-amd64.deb" "sable-${pkgver}-arm64.deb")
+sha256sums=('eeff0694051cb01aea1198dfe13d781388ca6dca450bc37098d3d7aef93e8d97')
+sha256sums_x86_64=('6a01870acef9f30f2fa6bd10a43a760b127df48a513f7b190016aa23cdc63225')
+sha256sums_aarch64=('1b489a19d94262bc4fa1d66311e8a55a583d3ab98d181c2c6f2abdcb29afac86')
+
+package() {
+  local _debarch
+  case "$CARCH" in
+    x86_64) _debarch=amd64 ;;
+    aarch64) _debarch=arm64 ;;
+    *) return 1 ;;
+  esac
+
+  # Extract the application, desktop entry, icons and changelog, without
+  # executing the Debian package's maintainer scripts.
+  bsdtar -xOf "$srcdir/sable-${pkgver}-${_debarch}.deb" 'data.tar*' \
+    > "$srcdir/sable-data.tar"
+  bsdtar -xpf "$srcdir/sable-data.tar" -C "$pkgdir" ./opt ./usr
+  find "$pkgdir" -type d -exec chmod 755 {} +
+  chmod 4755 "$pkgdir/opt/Sable/chrome-sandbox"
+
+  # Shelly manages updates. The marker also prevents Sable from creating
+  # a duplicate desktop entry in the user's home directory.
+  rm -f "$pkgdir/opt/Sable/resources/app-update.yml"
+  printf '%s\n' 'shelly' > "$pkgdir/opt/Sable/resources/package-type"
+
+  install -dm755 "$pkgdir/usr/bin"
+  ln -s /opt/Sable/sable "$pkgdir/usr/bin/sable"
+
+  install -Dm644 "$srcdir/sable-${pkgver}.LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  ln -s /opt/Sable/LICENSE.electron.txt \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE.electron.txt"
+  ln -s /opt/Sable/LICENSES.chromium.html \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSES.chromium.html"
+}
