@@ -1,6 +1,6 @@
 pkgbase = obsidian
 	pkgdesc = A powerful knowledge base that works on top of a local folder of plain text Markdown files
-	pkgver = 1.14.5
+	pkgver = 1.15.0
 	pkgrel = 1
 	url = https://obsidian.md
 	install = obsidian.install
@@ -48,9 +48,9 @@ pkgbase = obsidian
 	sha256sums = 55a5d7fa8a1cbbc2c857836cb1504a64235eef071302e203f193c267ce4d997d
 	sha256sums = f016fa35f25b7220690f8030bec1514b662bbcb231d3507ec3751d2ade42ba7e
 	sha256sums = d9fdc14f9c2fb95bb38310281268fdad413c1b49fa93213df3184f9b0ca1175c
-	source_x86_64 = https://github.com/obsidianmd/obsidian-releases/releases/download/v1.14.5/obsidian-1.14.5.tar.gz
-	sha256sums_x86_64 = 1bc6547c889d7d02c3f2c5b55884cba14980bfac4ada32c0bdc6ec6db542aaf8
-	source_aarch64 = https://github.com/obsidianmd/obsidian-releases/releases/download/v1.14.5/obsidian-1.14.5-arm64.tar.gz
-	sha256sums_aarch64 = ba1d2e7070acffb39a795e81c48c3a2119c44be526337dd8ff58963f3ab2052a
+	source_x86_64 = https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.0/obsidian-1.15.0.tar.gz
+	sha256sums_x86_64 = 75594ae09914ca0191dde13c0697dee653322287a3a806c15519332d9ada14d3
+	source_aarch64 = https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.0/obsidian-1.15.0-arm64.tar.gz
+	sha256sums_aarch64 = 7e1bdd82fc65dcc3c03de5b8a85a8d79258f94642ba27987c2d1188b9763e903
 
 pkgname = obsidian
