@@ -1,0 +1,35 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+
+pkgname=python-pyppmd
+_pyname=${pkgname#python-}
+pkgver=1.2.0
+pkgrel=2
+pkgdesc='PPM compression/decompression library'
+arch=(x86_64)
+url="https://codeberg.org/miurahr/$_pyname"
+# bare 'LGPL' is not an SPDX id; PyPI records LGPL-2.1-or-later for the shipped LICENSE
+license=(LGPL-2.1-or-later)
+depends=(python)
+makedepends=(python-{build,installer,wheel}
+             python-setuptools-scm)
+checkdepends=(python-pytest-benchmark python-py-cpuinfo python-hypothesis)
+_archive="$_pyname-$pkgver"
+source=("https://files.pythonhosted.org/packages/source/${_pyname::1}/${_pyname}/$_archive.tar.gz")
+sha256sums=('cc04af92f1d26831ec96963439dfb27c96467b5452b94436a6af696649a121fd')
+
+build() {
+	cd "$_archive"
+	python -m build -wn
+}
+
+check() {
+	cd "$_archive"
+	local _pyver=cpython-$(python -c 'import sys; print("".join(map(str, sys.version_info[:2])))')
+	export PYTHONPATH="$PWD/build/lib.linux-$CARCH-$_pyver"
+	python -m pytest
+}
+
+package() {
+	cd "$_archive"
+	python -m installer -d "$pkgdir" dist/*.whl
+}

@@ -1,0 +1,17 @@
+pkgbase = python-cjkwrap
+	pkgdesc = A library for wrapping and filling CJK text.
+	pkgver = 2.2
+	pkgrel = 14
+	url = https://github.com/fgallaire/cjkwrap
+	arch = any
+	license = LGPL-3.0-or-later
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = git+https://github.com/fgallaire/cjkwrap.git#tag=v2.2
+	sha512sums = a4d3e26e0a8401f8b157bdd682c01ec286c6a0e3f7a16cea97ad27abf6dfc73a3c255164ce8da8afb42fec5db83603a464a6757946c1f72fbfc489ebd145b2fc
+
+pkgname = python-cjkwrap

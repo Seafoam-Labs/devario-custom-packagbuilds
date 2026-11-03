@@ -20,14 +20,16 @@ Seven entries, five missing packages. `mdbook`, `python-libevdev`, `geoclue`,
 `python-sphinxext-opengraph` and `python-py7zr` are published by no repository
 (read 2026-11-03: `devario-core` 1221, `devario-libs` 1233, `devario-utilities` 312,
 `devario-development` 341, `devario-entertainment` 11, `seafoam-labs` 84 entries) and
-own no recipe folder here, so the worker has nothing to build them from. The two
-`wlroots0.20` entries are not gaps of their own; they are the `wayland` failure seen
-from the consumer side.
+owned no recipe folder here when the report arrived, so the worker had nothing to build
+them from. The two `wlroots0.20` entries are not gaps of their own; they are the
+`wayland` failure seen from the consumer side.
 
 All five are Arch official packages, and none is a row in
 [arch-sourced-packages.md](chunks/arch-sourced-packages.md) or any
 [chunks/](chunks/) worklist: they are dependency-only references, so closing them adds
-recipes outside the 450-recipe import plan instead of repointing an existing row.
+recipes outside the 450-recipe import plan instead of repointing an existing row. Those
+recipes landed the same day: twelve folders forked verbatim from the Arch packaging
+repositories, one per reference plus the `python-py7zr` runtime closure.
 
 `wlroots0.20` is one publication behind, not five packages short. Published
 `wayland` is `1.26.0-1` and its `%PROVIDES%` block carries the four bare
@@ -52,28 +54,37 @@ provides it, so that output is unsatisfiable at install time independently of th
 reported `libinput` failure. This is the same shape as the Emacs/`libotf` gap in the
 next section: the fix is a new recipe, not a recipe edit.
 
-Build plan, one stage per publish-and-refresh step:
+Build plan, one stage per publish-and-refresh step. The twelve new recipes are in the
+tree; nothing is built or published yet, and every version below is what the imported
+recipe declares.
 
-| Stage | Recipe to import (Arch state 2026-11-03) | Unblocks |
+| Stage | Recipe | Unblocks |
 | --- | --- | --- |
-| 1 | `mdbook` `extra::0.5.4-1` | `wayland` |
-| 1 | `python-libevdev` `extra::0.13.1-1` | `libinput`, `libwacom`, published `libinput-tools` |
-| 1 | `geoclue` `extra::2.8.2-2` | `xdg-desktop-portal` |
-| 1 | `python-sphinxext-opengraph` `extra::0.13.0-1` | `xdg-desktop-portal` |
-| 1 | `python-brotlicffi` `1.2.1.0-1`, `python-inflate64` `1.0.4-2`, `python-multivolumefile` `0.2.3-10`, `python-pybcj` `1.0.8-1`, `python-pyppmd` `1.2.0-2`, `python-cjkwrap` `2.2-14` | `python-py7zr` |
-| 2 | [wayland](devario-core/wayland/PKGBUILD) `1.26.0-2`, [libwacom](devario-core/libwacom/PKGBUILD), [xdg-desktop-portal](devario-core/xdg-desktop-portal/PKGBUILD), `python-texttable` `1.7.2-1` | publishes the versioned wayland provisions |
-| 3 | [wlroots0.20](devario-core/wlroots0.20/PKGBUILD), [libinput](devario-core/libinput/PKGBUILD), `python-py7zr` `1.1.4-1` | GameOpti |
+| 1 | [devario-development/mdbook](devario-development/mdbook/PKGBUILD) `0.5.4-1` | `wayland` |
+| 1 | [devario-libs/python-libevdev](devario-libs/python-libevdev/PKGBUILD) `0.13.1-1` | `libinput`, `libwacom`, published `libinput-tools` |
+| 1 | [devario-core/geoclue](devario-core/geoclue/PKGBUILD) `2.8.2-2` | `xdg-desktop-portal` |
+| 1 | [devario-development/python-sphinxext-opengraph](devario-development/python-sphinxext-opengraph/PKGBUILD) `0.13.0-1` | `xdg-desktop-portal` |
+| 1 | [python-brotlicffi](devario-libs/python-brotlicffi/PKGBUILD) `1.2.1.0-1`, [python-inflate64](devario-libs/python-inflate64/PKGBUILD) `1.0.4-2`, [python-multivolumefile](devario-libs/python-multivolumefile/PKGBUILD) `0.2.3-10`, [python-pybcj](devario-libs/python-pybcj/PKGBUILD) `1.0.8-1`, [python-pyppmd](devario-libs/python-pyppmd/PKGBUILD) `1.2.0-2`, [python-cjkwrap](devario-libs/python-cjkwrap/PKGBUILD) `2.2-14` | the `python-py7zr` closure |
+| 2 | [wayland](devario-core/wayland/PKGBUILD) `1.26.0-2`, [libwacom](devario-core/libwacom/PKGBUILD), [xdg-desktop-portal](devario-core/xdg-desktop-portal/PKGBUILD), [python-texttable](devario-libs/python-texttable/PKGBUILD) `1.7.2-1` | publishes the versioned wayland provisions |
+| 3 | [wlroots0.20](devario-core/wlroots0.20/PKGBUILD), [libinput](devario-core/libinput/PKGBUILD), [python-py7zr](devario-libs/python-py7zr/PKGBUILD) `1.1.4-1` | GameOpti |
 | 4 | [game-optimization-linux-git](devario-gaming/game-optimization-linux-git/PKGBUILD) | - |
 
 The worker labels the gaming row `devario-gaming/game-optimization-install`; the folder
 and pkgbase here are `devario-gaming/game-optimization-linux-git`, which installs
 `/usr/bin/game-optimization-install-runner` and provides `game-optimization-linux`.
 
-Every stage-1 recipe's runtime and build closure already resolves against published
-Devario packages, including `mdbook`'s `cargo` makedepend, which comes from published
-`rust 1:1.99.0-1`. `python-texttable` is the only new recipe that consumes another new
-recipe (it names `python-cjkwrap` as a makedepend), which is why it sits in stage 2
-instead of stage 1.
+Of the 90 `depends` and `makedepends` entries the twelve recipes declare, 83 resolve
+against packages Devario already publishes, and the remaining 7 are the batch's own
+edges: `python-py7zr` on its six archive-format libraries plus `python-texttable`, and
+`python-texttable` on `python-cjkwrap` as a makedepend. Nothing in the batch needs a
+recipe that does not exist yet, and `mdbook`'s `cargo` makedepend resolves through
+published `rust 1:1.99.0-1`, which provides `cargo`.
+
+Four of the twelve deviate from upstream in one line each, replacing a license field that
+is not a valid SPDX identifier: `mdbook` `MPL2` to `MPL-2.0`, and `python-inflate64`,
+`python-multivolumefile` and `python-pyppmd` from bare `LGPL` to `LGPL-2.1-or-later`,
+each named in a comment above the array. The remaining eight are byte-identical to the
+Arch packaging repositories.
 
 Publish each stage and refresh the worker's repository database before the next one;
 uploading recipes alone does not satisfy `not_in_repositories`.
@@ -101,21 +112,27 @@ What the report does not mean:
   [qt6-positioning](devario-libs/qt6-positioning/PKGBUILD) name it in `optdepends`
   alone. Arch publishes the service under the `geoclue` name and adds
   `provides=(geoclue2=<pkgver>-<pkgrel>)`, which is what those option strings will
-  resolve to once the recipe is imported.
+  resolve to once the recipe is published.
 
-Group placement is still a decision to make when importing. Following where the peers
-already live, `mdbook` and `python-sphinxext-opengraph` fit `devario-development`
-(next to `xmlto`, `umockdev` and the other Sphinx extensions), `python-libevdev` and the
-`python-py7zr` chain fit `devario-libs` (next to `python-pyudev` and
-`python-matplotlib`), and `geoclue` fits `devario-core` (next to `rtkit`, `upower` and
-`avahi`).
+Group placement follows the kind of package, not the recipe that needs it: `mdbook` and
+`python-sphinxext-opengraph` went to `devario-development` beside `xmlto`, `umockdev` and
+the other Sphinx extensions; `python-libevdev` and the whole `python-py7zr` closure to
+`devario-libs` beside `python-pyudev` and `python-matplotlib`; `geoclue` to
+`devario-core` beside `rtkit`, `upower` and `avahi`. Shelly plans across repositories, so
+`libinput` naming a `devario-libs` package costs nothing.
 
-Validation: read the six signed pacman databases at mirrors.seafoam-labs.org and matched
-each reported name and each versioned provision string against their `%NAME%`,
-`%PROVIDES%` and `%DEPENDS%` blocks, confirmed the stage-1 closures against Arch's
-package search JSON, and sourced each local PKGBUILD's dependency arrays to check which
-names lack a recipe folder. No recipe was imported, no `.SRCINFO` regenerated, no build,
-`--isolated --check`, or publication was performed; stage 2 onward has not been retried
+Validation: each recipe was forked from its Arch packaging repository's `main` tarball and
+diffed back against it, which leaves the eight unchanged and the four with only the
+license line and its comment; `.SRCINFO` was regenerated with
+`shelly build --makesrcinfo` and matches upstream apart from those four license lines,
+last byte `10` in every file; `shelly build --review-only --json` exits 0 for all twelve
+with six warnings, all of them upstream hook text Shelly cannot resolve statically
+(`cargo fetch` in `mdbook`'s `prepare()` and dynamic command construction inside the
+`check()` of `python-sphinxext-opengraph`, `python-inflate64`, `python-pybcj` and
+`python-pyppmd`, none of which runs under `--no-check`). Dependency resolution was measured
+by parsing the six signed pacman databases at mirrors.seafoam-labs.org and sourcing each
+PKGBUILD's `depends` and `makedepends` arrays. No recipe was built, no `--isolated --check`
+run, nothing published, and no worker row repointed; stage 2 onward has not been retried
 on the worker.
 
 ## Emacs's libotf gap closes with a new recipe (2026-10-30)
