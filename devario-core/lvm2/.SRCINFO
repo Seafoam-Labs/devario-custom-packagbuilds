@@ -1,0 +1,50 @@
+pkgbase = lvm2
+	pkgdesc = Device mapper and Logical Volume Manager
+	pkgver = 2.03.44
+	pkgrel = 2
+	url = https://sourceware.org/lvm2/
+	arch = x86_64
+	license = GPL-2.0-only
+	license = LGPL-2.1-only
+	makedepends = git
+	makedepends = systemd
+	makedepends = libaio
+	makedepends = thin-provisioning-tools
+	source = git+https://gitlab.com/lvmteam/lvm2.git?signed#tag=v2_03_44
+	validpgpkeys = 88437EF5C077BD113D3B7224228191C1567E2C17
+	validpgpkeys = D501A478440AE2FD130A1BE8B9112431E509039F
+	sha256sums = 4dd89400d5089ca6ee7b3f421736629f08da4edc5d7ac2d34fb1fe029f134758
+
+pkgname = lvm2
+	pkgdesc = Logical Volume Manager 2 utilities
+	url = https://sourceware.org/lvm2/
+	depends = bash
+	depends = device-mapper>=2.03.44
+	depends = glibc
+	depends = libaio
+	depends = libaio.so=1-64
+	depends = readline
+	depends = libreadline.so=8-64
+	depends = systemd-libs
+	depends = libudev.so=1-64
+	depends = thin-provisioning-tools
+	depends = util-linux-libs
+	depends = libblkid.so
+	conflicts = lvm
+	conflicts = mkinitcpio<38-1
+	backup = etc/lvm/lvm.conf
+	backup = etc/lvm/lvmlocal.conf
+
+pkgname = device-mapper
+	pkgdesc = Device mapper userspace library and tools
+	url = http://sourceware.org/dm/
+	depends = bash
+	depends = glibc
+	depends = libgcc
+	depends = libgcc_s.so=1-64
+	depends = systemd-libs
+	depends = libudev.so=1-64
+	provides = libdevmapper.so
+	provides = libdevmapper.so=1.02-64
+	provides = libdevmapper-event.so
+	provides = libdevmapper-event.so=1.02-64

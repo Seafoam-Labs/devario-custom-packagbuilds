@@ -67,14 +67,73 @@ PINNED = {
     'yaml-cpp': {'libyaml-cpp.so': 'libyaml-cpp.so=0.9-64'},
     'yyjson': {'libyyjson.so': 'libyyjson.so=0-64'},
     'zeromq': {'libzmq.so': 'libzmq.so=5-64'},
+    # Storage, boot, and installer path. libdevmapper is published under lvm2's
+    # device-mapper output, libbd_* under the matching libblockdev output.
+    'cryptsetup': {'libcryptsetup.so': 'libcryptsetup.so=12-64'},
+    'e2fsprogs': {'libcom_err.so': 'libcom_err.so=2-64',
+                  'libe2p.so': 'libe2p.so=2-64',
+                  'libext2fs.so': 'libext2fs.so=2-64',
+                  'libss.so': 'libss.so=2-64'},
+    'efivar': {'libefiboot.so': 'libefiboot.so=1-64',
+               'libefisec.so': 'libefisec.so=1-64',
+               'libefivar.so': 'libefivar.so=1-64'},
+    'f2fs-tools': {'libf2fs.so': 'libf2fs.so=11-64',
+                   'libf2fs_format.so': 'libf2fs_format.so=10-64'},
+    'libblockdev': {'libbd_utils.so': 'libbd_utils.so=3-64',
+                    'libblockdev.so': 'libblockdev.so=3-64',
+                    'libbd_btrfs.so': 'libbd_btrfs.so=3-64',
+                    'libbd_crypto.so': 'libbd_crypto.so=3-64',
+                    'libbd_dm.so': 'libbd_dm.so=3-64',
+                    'libbd_fs.so': 'libbd_fs.so=3-64',
+                    'libbd_loop.so': 'libbd_loop.so=3-64',
+                    'libbd_lvm.so': 'libbd_lvm.so=3-64',
+                    'libbd_lvm-dbus.so': 'libbd_lvm-dbus.so=3-64',
+                    'libbd_mdraid.so': 'libbd_mdraid.so=3-64',
+                    'libbd_mpath.so': 'libbd_mpath.so=3-64',
+                    'libbd_nvdimm.so': 'libbd_nvdimm.so=3-64',
+                    'libbd_nvme.so': 'libbd_nvme.so=3-64',
+                    'libbd_part.so': 'libbd_part.so=3-64',
+                    'libbd_smart.so': 'libbd_smart.so=3-64',
+                    'libbd_smartmontools.so': 'libbd_smartmontools.so=3-64',
+                    'libbd_swap.so': 'libbd_swap.so=3-64'},
+    'lvm2': {'libdevmapper.so': 'libdevmapper.so=1.02-64',
+             'libdevmapper-event.so': 'libdevmapper-event.so=1.02-64'},
+    'udisks2': {'libudisks2.so': 'libudisks2.so=0-64'},
+    # No provision of their own, but every .so they depend on is pinned above or
+    # by a published provider, so their depends belong in this guard too.
+    'efibootmgr': {},
+    'parted': {},
+    'squashfs-tools': {},
+    'thin-provisioning-tools': {},
 }
 
 # Providers outside these recipes that publish only an unpinned provision, so a consumer here
-# cannot name a versioned form of them without making itself uninstallable.
-UNPINNED_PROVIDERS = {'libkrb5.so'}
+# cannot name a versioned form of them without making itself uninstallable. util-linux-libs
+# (libblkid, libmount, libfdisk), kmod (libkmod) and polkit (libpolkit-*) own recipe folders
+# but no versioned provision, so their pins are a separate change with their own pkgrel bump.
+UNPINNED_PROVIDERS = {'libkrb5.so', 'libblkid.so', 'libmount.so', 'libfdisk.so', 'libkmod.so',
+                      'libpolkit-agent-1.so', 'libpolkit-gobject-1.so'}
 
 ARRAY = re.compile(r'^(\s*)(\w+)(\+?)=\((.*?)\)', re.M | re.S)
 ELEMENT = re.compile(r"'[^']*'|\"[^\"]*\"|[^\s'\"#]+")
+
+
+def strip_comments(text):
+    """Drop what bash would read as a comment, so an array's annotations are not elements."""
+    cleaned = []
+    for line in text.splitlines():
+        kept, quote = [], None
+        for ch in line:
+            if quote:
+                if ch == quote:
+                    quote = None
+            elif ch in '\'"':
+                quote = ch
+            elif ch == '#' and (not kept or kept[-1].isspace()):
+                break
+            kept.append(ch)
+        cleaned.append(''.join(kept))
+    return '\n'.join(cleaned)
 
 
 def braces(word):
@@ -98,7 +157,7 @@ def braces(word):
 
 def arrays(recipe, key):
     """Every assignment to `key` in the recipe, top level or inside a package_* function."""
-    text = (recipe / 'PKGBUILD').read_text()
+    text = strip_comments((recipe / 'PKGBUILD').read_text())
     found = []
     for match in ARRAY.finditer(text):
         if match.group(2) != key:

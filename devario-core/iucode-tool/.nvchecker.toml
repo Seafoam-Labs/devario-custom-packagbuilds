@@ -1,0 +1,4 @@
+[iucode-tool]
+source = 'git'
+git = 'https://gitlab.com/iucode-tool/iucode-tool.git'
+prefix = 'v'

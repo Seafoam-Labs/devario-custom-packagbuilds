@@ -1,0 +1,14 @@
+pkgbase = iucode-tool
+	pkgdesc = Tool to manipulate Intel® IA-32/X86-64 microcode bundles
+	pkgver = 2.3.1
+	pkgrel = 6
+	url = https://gitlab.com/iucode-tool/iucode-tool/wikis/home
+	arch = x86_64
+	license = GPL-2.0-or-later
+	makedepends = git
+	depends = glibc
+	source = git+https://gitlab.com/iucode-tool/iucode-tool.git?signed#tag=v2.3.1
+	validpgpkeys = C467A717507BBAFED3C160920BD9E81139CB4807
+	sha256sums = 934a3d39c18c6d01e5cfed9675cddb15cc8e02188474f6d82e4922902f899ed1
+
+pkgname = iucode-tool
