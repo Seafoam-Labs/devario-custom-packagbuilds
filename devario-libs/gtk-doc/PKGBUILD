@@ -3,7 +3,7 @@
 
 pkgname=gtk-doc
 pkgver=1.37.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Documentation tool for public library API"
 url="https://gitlab.gnome.org/GNOME/gtk-doc"
 arch=(any)
@@ -20,10 +20,15 @@ depends=(
   python-pygments
   sh
 )
+# meson.build adds parameterized to python.find_installation's module list when the
+# tests option is on (a boolean defaulting true), so setup fails without it; builds
+# run --no-check, which never installs checkdepends, so the build-time copy has to be
+# a makedepend.
 makedepends=(
   dblatex
   git
   meson
+  python-parameterized
   yelp-tools
 )
 checkdepends=(

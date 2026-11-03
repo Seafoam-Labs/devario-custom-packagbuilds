@@ -1,6 +1,6 @@
 pkgbase = firefox-developer-edition
 	pkgdesc = Fast, Private & Safe Web Browser (Developer Edition)
-	pkgver = 160.0b3
+	pkgver = 160.0b4
 	pkgrel = 1
 	url = https://www.mozilla.org/firefox/developer/
 	arch = x86_64
@@ -13,13 +13,13 @@ pkgbase = firefox-developer-edition
 	depends = fontconfig
 	depends = freetype2
 	depends = gdk-pixbuf2
-	depends = glib2
-	depends = glibc
-	depends = gtk3
+	depends = glib2>=2.42
+	depends = glibc>=2.17
+	depends = gtk3>=3.14
 	depends = hicolor-icon-theme
 	depends = libgcc
 	depends = libpulse
-	depends = libstdc++
+	depends = libstdc++>=4.8.1
 	depends = libx11
 	depends = libxcb
 	depends = libxcomposite
@@ -39,20 +39,20 @@ pkgbase = firefox-developer-edition
 	optdepends = speech-dispatcher: Text-to-Speech
 	optdepends = xdg-desktop-portal: Screensharing with Wayland
 	options = !strip
-	source = https://archive.mozilla.org/pub/devedition/releases/160.0b3/linux-x86_64/en-US/firefox-160.0b3.tar.xz
-	source = https://archive.mozilla.org/pub/devedition/releases/160.0b3/linux-x86_64/en-US/firefox-160.0b3.tar.xz.asc
+	source = https://archive.mozilla.org/pub/devedition/releases/160.0b4/linux-x86_64/en-US/firefox-160.0b4.tar.xz
+	source = https://archive.mozilla.org/pub/devedition/releases/160.0b4/linux-x86_64/en-US/firefox-160.0b4.tar.xz.asc
 	source = firefox-developer-edition-symbolic.svg
 	source = firefox-developer-edition.desktop
 	source = org.mozilla.firefox-developer-edition.metainfo.xml
 	source = MPL-2.0.txt
 	validpgpkeys = 14F26682D0916CDD81E37B6D61B7B526D98F0353
-	sha256sums = a35ccb3e514191326da6d1cb90675a57948db0470f38377de5f3095b4b9b32d9
+	sha256sums = b948f76e72924002f3cff6d6e4d53c7b0d2a60f5bb3591ad36fde4b48edb820f
 	sha256sums = SKIP
 	sha256sums = a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9
 	sha256sums = 2eaa7e9df839d4c25259b8ad3f12f46a126e194114fae66e5bfd5731ca45c8f0
 	sha256sums = 48e33f75f3760387305997ee0a3fcea030a1e7310fc461e92d7b73e6cf600096
 	sha256sums = 66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172
-	b2sums = 7258e944ede8d6e0b0c0bae270e40cf0d6cc48af17b520dc548f3b6a4319b329bd3171222eba0fc8b5a1b590b3c1657e540536d247f698881f66ee21dc0a7f91
+	b2sums = b19d72015edb3bb88aef91e7ca79149f33d136ec7be2dda9d71ee3481835d5cb1c009b18ea351e96f20c93ca88323d883bc8c54ab5c8f38fbcf2fc6ced033405
 	b2sums = SKIP
 	b2sums = 63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34
 	b2sums = 1c2d9d33210d6052c2684e1efda3057114fa55890db97829b037b397fc03ed647262053304305d702ef9c3dcb03bea439abd5bb24c8be097b48a700752c9ce11

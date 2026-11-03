@@ -1,7 +1,7 @@
 pkgbase = gtk-doc
 	pkgdesc = Documentation tool for public library API
 	pkgver = 1.37.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gitlab.gnome.org/GNOME/gtk-doc
 	arch = any
 	license = GFDL-1.1-or-later
@@ -12,6 +12,7 @@ pkgbase = gtk-doc
 	makedepends = dblatex
 	makedepends = git
 	makedepends = meson
+	makedepends = python-parameterized
 	makedepends = yelp-tools
 	depends = docbook-xml
 	depends = docbook-xsl

@@ -1,0 +1,42 @@
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Contributor: Eli Schwartz <eschwartz@archlinux.org>
+# Contributor: Alexandre Filgueria <alexfilgueira@antergos.com>
+# Contributor: Jan de Groot <jan@archlinux.org>
+
+pkgname=cinnamon-desktop
+pkgver=6.8.0
+pkgrel=1
+pkgdesc='Library with common API for various Cinnamon modules'
+arch=(x86_64)
+url='https://github.com/linuxmint/cinnamon-desktop'
+license=('GPL-2.0-or-later AND LGPL-2.0-or-later')
+depends=(
+  cairo
+  dconf
+  gdk-pixbuf2
+  glib2
+  glibc
+  gtk3
+  libgcc
+  libpulse
+  libx11
+  libxkbfile
+  systemd-libs
+)
+makedepends=(
+  git
+  glib2-devel
+  gobject-introspection
+  meson
+)
+source=("git+https://github.com/linuxmint/cinnamon-desktop.git#tag=$pkgver")
+b2sums=('0c8cbccc133b797fd8b1556a04eb069c97415beee967a8702597796dd6e1f13f0932645a4f7c15505799478cca1972429963c9bf63964c06fdd683f8c1ba4684')
+
+build() {
+  arch-meson $pkgname build
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir="$pkgdir"
+}

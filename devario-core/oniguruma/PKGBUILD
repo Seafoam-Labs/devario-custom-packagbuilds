@@ -1,0 +1,48 @@
+# Maintainer: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Contributor: Andreas Wagner <Andreas dot Wagner at em dot uni-frankfurt dot de>
+# Contributor: qubeck <qubeck [AT] disroot [DOT] org>
+
+pkgname=oniguruma
+pkgver=6.9.10
+pkgrel=4
+pkgdesc='A regular expressions library'
+arch=(x86_64)
+url='https://github.com/kkos/oniguruma'
+license=(BSD-2-Clause)
+provides=(libonig.so 'libonig.so=5-64')
+source=("https://github.com/kkos/oniguruma/releases/download/v${pkgver}/onig-${pkgver}.tar.gz")
+sha256sums=('2a5cfc5ae259e4e97f86b68dfffc152cdaffe94e2060b770cb827238d769fc05')
+
+build() {
+  cd "onig-${pkgver}"
+
+  ./configure \
+    --prefix=/usr \
+    --enable-shared \
+    --disable-static \
+    --enable-binary-compatible-posix-api=yes
+  make
+}
+
+check() {
+  cd "onig-${pkgver}"
+
+  make all-test
+}
+
+package() {
+  cd "onig-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+  _verify_soname "${pkgdir}/usr/lib/libonig.so" libonig.so.5 || return 1
+  install -Dm644 doc/* \
+    -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm644 COPYING \
+    -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

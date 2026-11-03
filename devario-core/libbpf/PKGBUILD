@@ -1,0 +1,49 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor:  Adrian Bacircea <adrian.bacircea@gmail.com>
+
+pkgname=libbpf
+pkgver=1.8.0
+pkgrel=2
+pkgdesc='Library for loading eBPF programs and reading and manipulating eBPF objects from user-space'
+url='https://github.com/libbpf/libbpf'
+arch=(x86_64)
+license=('LGPL-2.1-only OR BSD-2-Clause')
+depends=(
+  glibc
+  libelf
+  linux-api-headers
+  zlib
+)
+makedepends=(
+  git
+)
+provides=(
+  libbpf.so
+  'libbpf.so=1-64'
+)
+source=(
+  "git+${url}#tag=v${pkgver}"
+)
+sha512sums=('b5494a4e2637b9fd5210f05a733d2d0ac983f123a6e6c7c286f6e003db109b7b3c582920898bd8616756825ae0df040211a870347f4410e839cd8dc9306f61c5')
+b2sums=('65ec0141ccd4ecd9694713cdd8ffabf3a06541ca4fc2b7a8c83b35a9e3cc3639303ef54a68620cf1083bb5a8bcd4a21ef3437d52800553b8133628d1b928ed13')
+
+build() {
+  cd libbpf
+  make -C src
+}
+
+package() {
+  cd libbpf
+  make -C src DESTDIR="${pkgdir}" LIBSUBDIR=lib install
+  _verify_soname "${pkgdir}/usr/lib/libbpf.so" libbpf.so.1 || return 1
+  install -Dm 644 README.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 644 LICENSE.BSD-2-Clause -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+# vim:set sw=2 sts=-1 et:
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

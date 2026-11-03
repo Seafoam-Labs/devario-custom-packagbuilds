@@ -1,0 +1,70 @@
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Christian Hesse <mail@eworm.de>
+
+pkgname=f2fs-tools
+pkgver=1.17.0
+pkgrel=2
+pkgdesc='Tools for Flash-Friendly File System (F2FS)'
+arch=('x86_64')
+url='https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/about/'
+# Shelly keeps bare .so provisions unversioned, so declare the SONAME the
+# published payload carries.
+provides=('libf2fs.so' 'libf2fs.so=11-64' 'libf2fs_format.so' 'libf2fs_format.so=10-64')
+depends=('glibc'
+         'lz4' 'liblz4.so=1-64'
+         # util-linux-libs declares no versioned libblkid provision yet.
+         'util-linux-libs' 'libblkid.so' 'libuuid.so=1-64')
+makedepends=('git')
+license=('GPL-2.0-only AND (GPL-2.0-only OR LGPL-2.1-only)')
+validpgpkeys=('D3452A79D8C2B4EAC656F4224014A87E824850D2') # Jaegeuk Kim <jaegeuk@kernel.org>
+source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git#tag=${pkgver}")
+sha256sums=('12d7a10d16c16bc222b2b6eee4b31273436c0d8b0e701f475faf1ac5cd52dd30')
+
+_backports=(
+)
+
+_reverts=(
+)
+
+prepare() {
+  cd "${pkgname}"
+
+  local _c
+  for _c in "${_backports[@]}"; do
+    if [[ $_c == *..* ]]; then
+      git log --oneline --reverse "${_c}"
+    else
+      git log --oneline -1 "${_c}"
+    fi
+    git cherry-pick -n -m1 "${_c}"
+  done
+  for _c in "${_reverts[@]}"; do
+    git log --oneline -1 "${_c}"
+    git revert -n "${_c}"
+  done
+
+  autoreconf -fi
+}
+
+build() {
+  cd "${pkgname}"
+
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin
+  make
+}
+
+package() {
+  cd "${pkgname}"
+
+  make DESTDIR="${pkgdir}/" sbindir=/usr/bin install
+  _verify_soname "${pkgdir}/usr/lib/libf2fs.so" libf2fs.so.11 || return 1
+  _verify_soname "${pkgdir}/usr/lib/libf2fs_format.so" libf2fs_format.so.10 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

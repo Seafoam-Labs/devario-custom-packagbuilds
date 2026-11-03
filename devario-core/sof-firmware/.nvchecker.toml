@@ -1,0 +1,4 @@
+[sof-bin]
+source = "git"
+git = "https://github.com/thesofproject/sof-bin.git"
+prefix = "v"

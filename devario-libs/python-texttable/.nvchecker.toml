@@ -1,0 +1,4 @@
+[python-texttable]
+source = "git"
+git = "https://github.com/foutaise/texttable.git"
+prefix = "v"

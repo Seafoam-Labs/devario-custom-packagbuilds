@@ -1,0 +1,19 @@
+pkgbase = python-pyppmd
+	pkgdesc = PPM compression/decompression library
+	pkgver = 1.2.0
+	pkgrel = 2
+	url = https://codeberg.org/miurahr/pyppmd
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = python-pytest-benchmark
+	checkdepends = python-py-cpuinfo
+	checkdepends = python-hypothesis
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-setuptools-scm
+	depends = python
+	source = https://files.pythonhosted.org/packages/source/p/pyppmd/pyppmd-1.2.0.tar.gz
+	sha256sums = cc04af92f1d26831ec96963439dfb27c96467b5452b94436a6af696649a121fd
+
+pkgname = python-pyppmd

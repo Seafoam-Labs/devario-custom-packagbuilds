@@ -60,7 +60,7 @@ _die() {
 # _hugepage       transparent hugepage default: always, madvise
 # _cc_harder      yes: build with -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
 # _per_gov        yes: performance as default cpufreq governor (instead of schedutil)
-# _lru_cast      yes: enable LRU CAST (CONFIG_LRU_CAST)
+# _lru_cast       yes: enable LRU CAST (CONFIG_LRU_CAST); no: build without it
 # _localmodcfg    yes: build only modules listed in a modprobed-db database
 #                 (path in _localmodcfg_path); https://wiki.archlinux.org/title/Modprobed-db
 # _use_current    yes: start from the running kernel's /proc/config.gz instead of
@@ -70,7 +70,7 @@ _die() {
 # _build_debug    yes: also produce a -dbg package with the unstripped vmlinux
 
 _release_opts=(
-  _rebuild=1
+  _rebuild=2
   _processor_opt=generic_v3
   _HZ_ticks=1000
   _tickrate=full
@@ -78,7 +78,7 @@ _release_opts=(
   _hugepage=always
   _cc_harder=yes
   _per_gov=no
-  _lru_cast=yes
+  _lru_cast=no
   _localmodcfg=no
   _use_current=no
   _makenconfig=no
@@ -231,10 +231,13 @@ prepare() {
   echo "Selected '$_hugepage' transparent hugepage mode"
 
   ### LRU CAST
-  if [ "$_lru_cast" = "yes" ]; then
-    echo "Enabling LRU_CAST..."
-    scripts/config -e LRU_CAST
-  fi
+  # Explicit both ways: LRU_CAST is "default y" in mm/Kconfig, and with
+  # _use_current=yes the running kernel's config would otherwise keep it on.
+  case "$_lru_cast" in
+    yes) echo "Enabling LRU_CAST..."; scripts/config -e LRU_CAST;;
+    no)  echo "Disabling LRU_CAST..."; scripts/config -d LRU_CAST;;
+    *)   _die "_lru_cast='$_lru_cast' is invalid (yes, no)";;
+  esac
 
   ### DRM panic screen with QR code
   echo "Enabling QR code panic screen..."
@@ -422,4 +425,4 @@ for _p in "${pkgname[@]}"; do
 done
 
 b2sums=('208477244ab8ccbbcb2bab32862f1887045f354ef6d022774517ac03355fc7e2bbdf35713fad3df987624e1fadf406dd312f4db04c9b28d896041bf331c8995e'
-        '0ad1c31abb18e81722ce2ca3a24e3d84336a432bc7a710a34950d78cc8f454d0f10f667343ab2fb0082dfab784c0abb392d4dcfc606d08561433b07bcda361b5')
+        '5459445379f656a356ffca60c3bc30f4cb275b0a4ccbd9d0520812b65c6be1517de852811d1e5b35226a1342a4aa16b28f87afadab987bf2f9edb0966dcee25b')

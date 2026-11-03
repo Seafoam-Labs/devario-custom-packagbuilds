@@ -740,3 +740,28 @@ recipe to Remora and retry. If verified HTTPS downloads fail at SourceForge as
 well, investigate the build root's clock, CA trust store, and TLS backend.
 Certificate and signature verification remain enabled. The remote worker retry
 has not been performed here.
+
+## The mm family keeps two ABI generations side by side
+
+Package suffixes identify the ABI, not the upstream release. GTK3 consumers
+require `libatkmm-1.6.so` and `libcairomm-1.0.so`, while the modern stack ships
+`atkmm-2.36`, `cairomm-1.16`, `glibmm-2.68` and `libsigc++-3.0`. Both generations
+are installable at once: each recipe provides only its own library ABI, verifies
+the real ELF64 SONAME in `package()`, and none provides, replaces or conflicts
+with a sibling package name, so documentation packages keep separate names too.
+
+The corrected legacy recipes carry `epoch=1` because Devario once published the
+modern sources under the legacy names: `atkmm 1:2.28.5-1` and
+`cairomm 1:1.14.6-1` must sort above those archives, so keep the epoch when
+refreshing them. An installation holding the mistakenly named modern libraries
+has to upgrade `atkmm`, `cairomm` and their documentation to the epoch-1 packages
+before, or inside the same transaction as, the parallel modern packages, or the
+old archives keep owning the modern paths. Do not add `conflicts` or `replaces`
+against the correctly named legacy packages to work around that transitional
+state.
+
+`python3 tests/test-gtk3-binding-abi.py` checks both generations' ABI guards, the
+rejection of wrong or missing ELF libraries, separate package identities and
+provisions, and the upgrade order. `mm-common` bootstraps from the legacy
+`libsigc++` and `libsigc++-docs` only, so it has no dependency on the new sigc++
+package.

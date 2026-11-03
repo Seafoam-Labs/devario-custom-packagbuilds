@@ -34,6 +34,22 @@ build() {
     -DGRAPHITE2_VM_TYPE=direct
   )
 
+  # TeX Live's hooks never run in a build root, so there is no ls-R and the packaged
+  # fmtutil.cnf holds no format entries: pdflatex aborts on the missing format and the
+  # docs target fails - dblatex for manual.pdf, doxygen's make -C latex for refman.pdf.
+  # Assemble fmtutil.cnf and updmap.cfg from the collection fragments and generate them
+  # per-user, the way the RLPM texlive hooks do on an installed system.
+  export FORCE_SOURCE_DATE=1 # make pdftex adhere to SOURCE_DATE_EPOCH in the shipped refman.pdf
+  export TEXMF='{$TEXMFAUXTREES$TEXMFCONFIG,$TEXMFVAR,$TEXMFHOME,$TEXMFLOCAL,$TEXMFSYSCONFIG,$TEXMFSYSVAR,$TEXMFDIST}'
+  export TEXMFCONFIG="$srcdir/texmf-config" TEXMFVAR="$srcdir/texmf-var"
+  mkdir -p "$TEXMFCONFIG/web2c"
+  cat /usr/share/texmf-dist/web2c/fmtutil-hdr.cnf /var/lib/texmf/devario/installedpkgs/*.fmts \
+    > "$TEXMFCONFIG/web2c/fmtutil.cnf"
+  cat /usr/share/texmf-dist/web2c/updmap-hdr.cfg /var/lib/texmf/devario/installedpkgs/*.maps \
+    > "$TEXMFCONFIG/web2c/updmap.cfg"
+  fmtutil-user --byfmt pdflatex
+  updmap-user
+
   cmake -S graphite2-${pkgver} -B build "${cmake_options[@]}"
   cmake --build build
   cmake --build build -t docs -j1

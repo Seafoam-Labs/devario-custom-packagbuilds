@@ -1,0 +1,23 @@
+pkgbase = efivar
+	pkgdesc = Tools and libraries to work with EFI variables
+	pkgver = 39
+	pkgrel = 3
+	url = https://github.com/rhboot/efivar
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = grub
+	makedepends = git
+	makedepends = mandoc
+	depends = glibc
+	provides = libefiboot.so
+	provides = libefiboot.so=1-64
+	provides = libefisec.so
+	provides = libefisec.so=1-64
+	provides = libefivar.so
+	provides = libefivar.so=1-64
+	source = git+https://github.com/rhboot/efivar?signed#tag=39
+	validpgpkeys = B00B48BC731AA8840FED9FB0EED266B70F4FEF10
+	sha512sums = SKIP
+	b2sums = SKIP
+
+pkgname = efivar

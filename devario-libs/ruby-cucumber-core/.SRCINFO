@@ -1,6 +1,6 @@
 pkgbase = ruby-cucumber-core
 	pkgdesc = Core library for the Cucumber BDD app
-	pkgver = 20.0.0
+	pkgver = 20.1.0
 	pkgrel = 1
 	url = https://github.com/cucumber/cucumber-ruby-core
 	arch = any
@@ -17,8 +17,8 @@ pkgbase = ruby-cucumber-core
 	depends = ruby-cucumber-messages
 	depends = ruby-cucumber-tag-expressions
 	options = !emptydirs
-	source = git+https://github.com/cucumber/cucumber-ruby-core.git#tag=v20.0.0
-	sha512sums = db9795e02a0a67a8bc479dca1bc6391c4cb087755476415cdf4a79f72aa9e5e4638d1d0f5f1e2cf481b36052dbcfb2c683b9c407d0b49ac9b4f2e63ab898db51
-	b2sums = c22fc7781e495949d635a1ee2fbc9e54d9eade64beba3c8a482ec3529041c33b4ac4250f8fc2a0d9108940f9307a7156f2f8e15efc32b1959944a3aa43dae6a2
+	source = git+https://github.com/cucumber/cucumber-ruby-core.git#tag=v20.1.0
+	sha512sums = 0f5cb94a8d1abe4c723be266674d043e5dcd2a342a58badd942568422ee85825cab3eda29d815a6b96e9fa4aba3e8113d402cd0eefa640fbc4a87d26830d08ac
+	b2sums = 920bbe997659b0b4d4869f0ab801b3e44a82bcacb9b00f2d515653e09d3d843d19f0c613177f02f288c3aa20ea6ec1209cad4963b88bdf26996b83d1455db4a5
 
 pkgname = ruby-cucumber-core
