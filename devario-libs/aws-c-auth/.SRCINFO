@@ -1,6 +1,6 @@
 pkgbase = aws-c-auth
 	pkgdesc = C99 library implementation of AWS client-side authentication: standard credentials providers and signing
-	pkgver = 1.0.1
+	pkgver = 1.0.3
 	pkgrel = 1
 	url = https://github.com/awslabs/aws-c-auth
 	arch = x86_64
@@ -12,7 +12,7 @@ pkgbase = aws-c-auth
 	depends = aws-c-io
 	depends = aws-c-sdkutils
 	depends = glibc
-	source = https://github.com/awslabs/aws-c-auth/archive/v1.0.1/aws-c-auth-1.0.1.tar.gz
-	b2sums = 8e5ed88410030b45d47309fbe342abfdc6814a52745ec1214ebed424a1defc1562149c55d04f5c94ed79e498a1f49ced63f40eaf1b7ca9fd6ee828cc1d113c57
+	source = https://github.com/awslabs/aws-c-auth/archive/v1.0.3/aws-c-auth-1.0.3.tar.gz
+	b2sums = 0e354be3fe0e379ae75e7bd6b421ea4a6317162b09a11cc3314ca9d8c12c89266a02bd9fc39195e6915b25c646a2c98b96bef73c45dad3d2b064747d67c375c6
 
 pkgname = aws-c-auth
