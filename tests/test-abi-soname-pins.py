@@ -105,14 +105,50 @@ PINNED = {
     'parted': {},
     'squashfs-tools': {},
     'thin-provisioning-tools': {},
+    # Network, PKI, and cryptography. libnm is published by networkmanager's libnm output and
+    # libbluetooth.so by bluez's bluez-libs output; iptables declares its four libraries in both
+    # of its outputs, so the probe runs in the _package() helper both of them call.
+    'bluez': {'libbluetooth.so': 'libbluetooth.so=3-64'},
+    'iptables': {'libip4tc.so': 'libip4tc.so=2-64',
+                 'libip6tc.so': 'libip6tc.so=2-64',
+                 'libipq.so': 'libipq.so=0-64',
+                 'libxtables.so': 'libxtables.so=12-64'},
+    'libnice': {'libnice.so': 'libnice.so=10-64'},
+    'libnl': {'libnl-3.so': 'libnl-3.so=200-64',
+              'libnl-cli-3.so': 'libnl-cli-3.so=200-64',
+              'libnl-genl-3.so': 'libnl-genl-3.so=200-64',
+              'libnl-idiag-3.so': 'libnl-idiag-3.so=200-64',
+              'libnl-nf-3.so': 'libnl-nf-3.so=200-64',
+              'libnl-route-3.so': 'libnl-route-3.so=200-64',
+              'libnl-xfrm-3.so': 'libnl-xfrm-3.so=200-64'},
+    'libpcap': {'libpcap.so': 'libpcap.so=1-64'},
+    'libsodium': {'libsodium.so': 'libsodium.so=26-64'},
+    'libssh': {'libssh.so': 'libssh.so=4-64'},
+    'libteam': {'libteam.so': 'libteam.so=5-64',
+                'libteamdctl.so': 'libteamdctl.so=0-64'},
+    'networkmanager': {'libnm.so': 'libnm.so=0-64'},
+    'npth': {'libnpth.so': 'libnpth.so=0-64'},
+    # No provision of their own here either, but every .so depend names a versioned
+    # provision its provider publishes.
+    'dbus-broker': {},
+    'gnupg': {},
+    'gnutls': {},
+    'openldap': {},
+    'pinentry': {},
 }
 
 # Providers outside these recipes that publish only an unpinned provision, so a consumer here
 # cannot name a versioned form of them without making itself uninstallable. util-linux-libs
 # (libblkid, libmount, libfdisk), kmod (libkmod) and polkit (libpolkit-*) own recipe folders
 # but no versioned provision, so their pins are a separate change with their own pkgrel bump.
+# nettle3 (libnettle, libhogweed) owns no recipe folder at all and its SONAMEs are
+# libnettle.so.8 and libhogweed.so.6, so the only versioned names published today -
+# libnettle.so=9-64 and libhogweed.so=7-64 - belong to nettle 4.0, which ships neither.
+# That is why devario-utilities/sequoia-sqv keeps its nettle depends verbatim: its binary
+# needs libnettle.so.8, and naming the nettle 4 provision installs a library it cannot load.
 UNPINNED_PROVIDERS = {'libkrb5.so', 'libblkid.so', 'libmount.so', 'libfdisk.so', 'libkmod.so',
-                      'libpolkit-agent-1.so', 'libpolkit-gobject-1.so'}
+                      'libpolkit-agent-1.so', 'libpolkit-gobject-1.so',
+                      'libnettle.so', 'libhogweed.so'}
 
 ARRAY = re.compile(r'^(\s*)(\w+)(\+?)=\((.*?)\)', re.M | re.S)
 ELEMENT = re.compile(r"'[^']*'|\"[^\"]*\"|[^\s'\"#]+")
