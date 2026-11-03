@@ -1,0 +1,26 @@
+pkgbase = cinnamon-desktop
+	pkgdesc = Library with common API for various Cinnamon modules
+	pkgver = 6.8.0
+	pkgrel = 1
+	url = https://github.com/linuxmint/cinnamon-desktop
+	arch = x86_64
+	license = GPL-2.0-or-later AND LGPL-2.0-or-later
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = meson
+	depends = cairo
+	depends = dconf
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = libgcc
+	depends = libpulse
+	depends = libx11
+	depends = libxkbfile
+	depends = systemd-libs
+	source = git+https://github.com/linuxmint/cinnamon-desktop.git#tag=6.8.0
+	b2sums = 0c8cbccc133b797fd8b1556a04eb069c97415beee967a8702597796dd6e1f13f0932645a4f7c15505799478cca1972429963c9bf63964c06fdd683f8c1ba4684
+
+pkgname = cinnamon-desktop
