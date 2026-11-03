@@ -1,7 +1,7 @@
 # Maintainer: Devario maintainers
 pkgname=python-pydata-sphinx-theme
 _name=pydata_sphinx_theme
-pkgver=0.23.0
+pkgver=0.24.0
 pkgrel=1
 pkgdesc='Bootstrap-based Sphinx theme from the PyData community'
 arch=(any)
@@ -28,7 +28,7 @@ makedepends=(
   'python-sphinx-theme-builder>=0.3.2'
 )
 source=("https://files.pythonhosted.org/packages/source/p/pydata-sphinx-theme/$_name-$pkgver.tar.gz")
-sha256sums=('f9e647e0bb3f1d8eaa6d866248812711211313627cc4ae76b5f88a17a4be38ce')
+sha256sums=('bc9050daac696ab62c817e324ef29ee43720c2e6068fde809c76a52d4c788ac2')
 
 prepare() {
   cd "$_name-$pkgver"
