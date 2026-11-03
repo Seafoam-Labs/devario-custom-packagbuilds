@@ -1,0 +1,34 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+bundle=/usr/share/project-maya
+workspace=${PROJECT_MAYA_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/project-maya}
+if [[ $workspace != /* ]]; then
+  printf '%s\n' 'project-maya: PROJECT_MAYA_HOME/XDG_DATA_HOME must be an absolute path.' >&2
+  exit 1
+fi
+mkdir -p -- "$workspace"
+
+# Serialize source refreshes. Do not hold the lock while the model is running.
+exec 9>"$workspace/.package.lock"
+flock 9
+commit=$(cat "$bundle/commit")
+installed=''
+if [[ -f $workspace/.package-commit ]]; then
+  installed=$(cat "$workspace/.package-commit")
+fi
+if [[ $installed != "$commit" ]]; then
+  tar -xzf "$bundle/source.tar.gz" -C "$workspace" --strip-components=1 --no-same-owner
+  printf '%s\n' "$commit" > "$workspace/.package-commit"
+fi
+flock -u 9
+exec 9>&-
+
+# Package updates own the source; upstream's updater requires a Git checkout.
+export MAYA_UPDATE_CHECK=0
+# CUDA's package installs nvcc here; a new login is not needed after installation.
+if [[ -d /opt/cuda/bin ]]; then
+  export PATH="/opt/cuda/bin:$PATH"
+fi
+cd -- "$workspace"
+exec /bin/sh ./maya.sh "$@"
