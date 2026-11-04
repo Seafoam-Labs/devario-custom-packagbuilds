@@ -3,7 +3,7 @@ shopt -s extglob
 pkgbase=python
 pkgname=(python python-tests)
 pkgver=3.14.9
-pkgrel=2
+pkgrel=3
 _pybasever=${pkgver%.*}
 pkgdesc="The Python programming language"
 arch=('x86_64')
@@ -88,7 +88,8 @@ package_python() {
               'sqlite: for a default database integration'
               'xz: for lzma'
               'tk: for tkinter')
-  provides=('python3' 'python-externally-managed')
+  # The versioned form beside the bare name lets a consumer state a python3 floor
+  provides=('python3' "python3=$pkgver" 'python-externally-managed')
   replaces=('python3' 'python-externally-managed')
 
   cd Python-${pkgver}
