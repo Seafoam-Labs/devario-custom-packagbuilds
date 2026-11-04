@@ -1,0 +1,7 @@
+[mesa]
+source = "git"
+git = "https://gitlab.freedesktop.org/mesa/mesa.git"
+include_regex = 'mesa-\d+\.\d+\.\d+(-rc\d+)?'
+prefix = "mesa-"
+from_pattern = '-([a-z])'
+to_pattern = '\1'
