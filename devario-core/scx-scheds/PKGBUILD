@@ -9,8 +9,8 @@ _mode=release
 pkgname=scx-scheds
 _gitname=scx
 pkgver=1.1.4
-_tagver=1.1.5-devario4
-pkgrel=7
+_tagver=1.1.5-devario5
+pkgrel=8
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -35,7 +35,7 @@ options=(!lto)
 backup=('etc/default/scx')
 #source=("git+https://github.com/sched-ext/scx#tag=v$pkgver")
 source=("git+https://github.com/Seafoam-Labs/scx#tag=v$_tagver")
-sha256sums=('6dc9b1b0b93a2d648dd88331a967299a2cf4a63065dd32505e28bda654da60ea')
+sha256sums=('7680c2cc765e713879711b5c0829f8b79e70753aedc71c8ad5b3bf115ec55ed7')
 
 
 _backports=(
