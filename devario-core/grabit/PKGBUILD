@@ -1,0 +1,60 @@
+# Maintainer: creations <creations@creations.works>
+# Adapted from the Arch User Repository recipe for Devario.
+
+pkgname=grabit
+pkgver=0.8.0
+pkgrel=1
+pkgdesc="Screenshot, screen-recording, OCR, and uploader for wlroots and KDE Plasma 6 Wayland compositors"
+arch=('x86_64' 'aarch64')
+url="https://heliopolis.live/creations/grabit"
+license=('AGPL-3.0-or-later')
+depends=(
+  'cairo'
+  'curl'
+  'dbus'
+  'file'
+  'json-c'
+  'libpng'
+  'libpipewire'
+  'libxkbcommon'
+  'wayland'
+)
+makedepends=(
+  'wayland-protocols'
+)
+optdepends=(
+  'ffmpeg: --record support'
+  'tesseract: --tesseract (OCR) support'
+  'tesseract-data-eng: English OCR data'
+  'translate-shell: --translate (OCR -> translated text) support'
+  'libjpeg-turbo: JPEG output (--format jpeg)'
+  'libwebp: WebP output (--format webp)'
+  'pipewire: pw-play (default shutter-sound player)'
+  'libpulse: paplay (alternative sound player)'
+  'alsa-utils: aplay (alternative sound player)'
+  'sox: play (alternative sound player)'
+)
+conflicts=('grabit-bin' 'grabit-git')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
+sha256sums=('93d02b9457f4dcd5cc0ea0a13773389b27fb14c8c32e4f545e05c7fc3159e84d')
+
+build() {
+  cd "$srcdir/$pkgname"
+  make all VERSION="$pkgver"
+}
+
+check() {
+  cd "$srcdir/$pkgname"
+  make test
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+
+  make install DESTDIR="$pkgdir" PREFIX=/usr
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 OPTIONS.md "$pkgdir/usr/share/doc/$pkgname/OPTIONS.md"
+  install -Dm644 PLUGINS.md "$pkgdir/usr/share/doc/$pkgname/PLUGINS.md"
+}
