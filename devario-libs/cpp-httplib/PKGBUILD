@@ -9,12 +9,14 @@ pkgdesc='A C++ header-only HTTP/HTTPS server and client library'
 arch=(any)
 url=https://github.com/yhirose/cpp-httplib
 license=(MIT)
+# Devario ships the mbedtls crypto in the namespaced mbedtls3 slot, so the
+# optional mbedtls TLS backend (the meson default is openssl) resolves there.
 makedepends=(
   brotli
   git
   meson
   ninja
-  mbedtls
+  mbedtls3
   openssl
   python
   zlib
@@ -23,7 +25,7 @@ makedepends=(
 checkdepends=(gtest)
 optdepends=(
   'brotli: Brotli compression support'
-  'mbedtls: HTTPS support'
+  'mbedtls3: HTTPS support'
   'openssl: HTTPS support'
   'zlib: Zlib compression support'
   'zstd: Zstandard compression support'

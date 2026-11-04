@@ -27,13 +27,14 @@ depends=(
 )
 makedepends=(
   git
-  vice
-  xa
   libusb
   libresidfp
   libexsid
   libgcrypt
 )
+# Upstream also lists vice and xa; they only drive the optional VICE testsuite
+# and the sidtune demo, neither of which this package builds, so they are not
+# build requirements here.
 optdepends=(
   'vice: better SID support'
   'libusb: USBSID support'

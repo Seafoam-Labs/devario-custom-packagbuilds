@@ -1,0 +1,6 @@
+{
+  "name": "libftdi",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libftdi/-/archive/main/libftdi-main.tar.gz",
+  "sha256": "9f3bf7f6ae9a7e534586b6f90acecb8f40f28854f48d1460a7488afcc88174db",
+  "bytes": 14656
+}
