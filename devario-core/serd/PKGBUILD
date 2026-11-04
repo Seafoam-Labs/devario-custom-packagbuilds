@@ -2,14 +2,18 @@
 
 pkgname=serd
 pkgver=0.32.10
-pkgrel=2
+pkgrel=3
 pkgdesc='Lightweight C library for RDF syntax supporting reading/writing Turtle and NTriples'
 arch=('x86_64')
 url='https://drobilla.net/software/serd.html'
 license=('0BSD OR ISC' 'BSD-3-Clause' 'ISC')
 depends=('glibc')
 makedepends=('meson')
-provides=('libserd-0.so')
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  'libserd-0.so'
+  'libserd-0.so=0-64'
+)
 source=("https://download.drobilla.net/$pkgname-$pkgver.tar.xz")
 sha256sums=('b0e93b49e52f01a049475b7886ef140407115a32d3b1e5dc5f95141c88275d1c')
 
@@ -30,8 +34,15 @@ check() {
 
 package() {
   DESTDIR="$pkgdir" meson install -C build
+  _verify_soname "$pkgdir/usr/lib/libserd-0.so" libserd-0.so.0 || return 1
   install -Dm644 "$pkgname-$pkgver/COPYING" \
     "$pkgdir/usr/share/licenses/$pkgname/COPYING"
   install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" \
     "$pkgname-$pkgver"/LICENSES/*.txt
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

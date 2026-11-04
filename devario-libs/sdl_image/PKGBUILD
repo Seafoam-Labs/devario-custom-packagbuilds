@@ -1,0 +1,50 @@
+# Maintainer: Bert Peters <bertptrs@archlinux.org>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Allan McRae <allan@archlinux.org>
+# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
+
+pkgname=sdl_image
+pkgver=1.2.12
+pkgrel=11
+pkgdesc="A simple library to load images of various formats as SDL surfaces"
+url="https://github.com/libsdl-org/SDL_image"
+arch=(x86_64)
+license=(LicenseRef-SDL)
+depends=('sdl>=1.2.13' libpng libjpeg-turbo libtiff zlib)
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  'libSDL_image-1.2.so'
+  'libSDL_image-1.2.so=0-64'
+)
+source=(https://www.libsdl.org/projects/SDL_image/release/SDL_image-$pkgver.tar.gz)
+sha256sums=('0b90722984561004de84847744d566809dbb9daf732a9e503b91a1b5a84e5699')
+
+prepare() {
+  cd SDL_image-$pkgver
+  # --foreign is needed, otherwise automake fails due to the files AUTHORS,
+  # ChangeLog and NEWS not being present.
+  export AUTOMAKE='automake --foreign'
+  autoreconf --force --install
+}
+
+build() {
+  cd SDL_image-$pkgver
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd SDL_image-$pkgver
+  make DESTDIR="$pkgdir" install
+  # SDL_image installs no unversioned libSDL_image-1.2.so: libSDL_image.so is the linker name.
+  _verify_soname "$pkgdir/usr/lib/libSDL_image.so" libSDL_image-1.2.so.0 || return 1
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 COPYING
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 et:

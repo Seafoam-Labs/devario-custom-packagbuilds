@@ -2,14 +2,18 @@
 
 pkgname=zix
 pkgver=0.8.2
-pkgrel=2
+pkgrel=3
 pkgdesc='Lightweight C library of portability wrappers and data structures'
 arch=('x86_64')
 url='https://drobilla.net/software/zix.html'
 license=('0BSD OR ISC')
 depends=('glibc')
 makedepends=('meson')
-provides=('libzix-0.so')
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  'libzix-0.so'
+  'libzix-0.so=0-64'
+)
 source=("https://download.drobilla.net/$pkgname-$pkgver.tar.xz")
 sha256sums=('4c73aab0f8cbbfe56b00c8c6d648316021e699c5ae6cbf254391ef309047e67b')
 
@@ -27,8 +31,15 @@ check() {
 
 package() {
   DESTDIR="$pkgdir" meson install -C build
+  _verify_soname "$pkgdir/usr/lib/libzix-0.so" libzix-0.so.0 || return 1
   install -Dm644 "$pkgname-$pkgver/COPYING" \
     "$pkgdir/usr/share/licenses/$pkgname/COPYING"
   install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" \
     "$pkgname-$pkgver"/LICENSES/*.txt
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
 }

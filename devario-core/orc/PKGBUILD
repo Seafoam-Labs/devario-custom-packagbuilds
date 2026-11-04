@@ -1,0 +1,65 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=orc
+pkgname=(orc)
+pkgver=0.4.44
+pkgrel=2
+pkgdesc="Optimized Inner Loop Runtime Compiler"
+url="https://gstreamer.freedesktop.org/modules/orc.html"
+arch=(x86_64)
+license=(BSD-3-Clause)
+depends=(
+  glibc
+)
+# hotdoc publishes in no Devario repository, so orc ships no orc-docs split.
+makedepends=(
+  clang
+  git
+  llvm
+  meson
+  valgrind
+)
+source=("git+https://gitlab.freedesktop.org/gstreamer/orc.git?signed#tag=$pkgver")
+b2sums=('9a8a076322f2d3933bd731f21b0bf5b7c0aeec4426fdaa92b8e74d625c495aab2a0f976a58cbc7e1fbbae901999c9f27088ea3bd2b5d024f4e079c4874484c74')
+validpgpkeys=(
+  D637032E45B8C6585B9456565D2EEE6F6F349D7C # Tim-Philipp Müller <tim@centricular.com>
+)
+
+prepare() {
+  cd orc
+}
+
+build() {
+  arch-meson orc build -Dhotdoc=disabled
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_orc() {
+  # Shelly keeps a bare .so provision without expanding it to the SONAME.
+  provides=(
+    liborc-0.4.so
+    'liborc-0.4.so=0-64'
+    liborc-test-0.4.so
+    'liborc-test-0.4.so=0-64'
+  )
+
+  meson install -C build --destdir "$pkgdir"
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 orc/COPYING
+
+  _verify_soname "$pkgdir/usr/lib/liborc-0.4.so" liborc-0.4.so.0 || return 1
+  _verify_soname "$pkgdir/usr/lib/liborc-test-0.4.so" liborc-test-0.4.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:

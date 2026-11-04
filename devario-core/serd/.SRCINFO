@@ -1,0 +1,17 @@
+pkgbase = serd
+	pkgdesc = Lightweight C library for RDF syntax supporting reading/writing Turtle and NTriples
+	pkgver = 0.32.10
+	pkgrel = 3
+	url = https://drobilla.net/software/serd.html
+	arch = x86_64
+	license = 0BSD OR ISC
+	license = BSD-3-Clause
+	license = ISC
+	makedepends = meson
+	depends = glibc
+	provides = libserd-0.so
+	provides = libserd-0.so=0-64
+	source = https://download.drobilla.net/serd-0.32.10.tar.xz
+	sha256sums = b0e93b49e52f01a049475b7886ef140407115a32d3b1e5dc5f95141c88275d1c
+
+pkgname = serd

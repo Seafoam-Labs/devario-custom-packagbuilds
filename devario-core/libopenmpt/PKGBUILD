@@ -1,0 +1,65 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+
+pkgname=libopenmpt
+pkgver=0.8.10
+pkgrel=2
+pkgdesc="A library to render tracker music to a PCM audio stream"
+arch=(x86_64)
+url="https://lib.openmpt.org/libopenmpt/"
+license=(BSD-3-Clause)
+depends=(
+  flac
+  glibc
+  libgcc
+  libogg  # required by pkgconf
+  libpulse
+  libsndfile
+  libstdc++
+  libvorbis
+  mpg123
+  portaudio
+  zlib
+)
+makedepends=(
+  autoconf-archive
+  doxygen
+  help2man
+)
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  libopenmpt.so
+  'libopenmpt.so=0-64'
+)
+source=($pkgname-$pkgver.tar.gz::https://lib.openmpt.org/files/libopenmpt/src/$pkgname-$pkgver+release.autotools.tar.gz)
+sha512sums=('c6eba868e1f9b65a1c8a4829b461ffe8a1411527336de31131e1f2494f271d2f364ec6f884cbcd93bea7dedb85e18a601fb4537ebdee8f7a3c1eb6116ca7d592')
+b2sums=('64a287640f3aca1495a6f77391fdd7165c1b6c736bd7295595f9e7b8d3d0647c8c77eb9fc28427faa45541e178ad0a17f283770dd21882b2d9ed8e6d8759eb63')
+
+prepare() {
+  cd $pkgname-$pkgver+release.autotools
+  autoreconf -fiv
+}
+
+build() {
+  cd $pkgname-$pkgver+release.autotools
+  ./configure --prefix=/usr
+  # prevent excessive overlinking due to libtool
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+check() {
+  make -k check -C $pkgname-$pkgver+release.autotools
+}
+
+package() {
+  cd $pkgname-$pkgver+release.autotools
+  make DESTDIR="$pkgdir" install
+  _verify_soname "$pkgdir/usr/lib/libopenmpt.so" libopenmpt.so.0 || return 1
+  install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
