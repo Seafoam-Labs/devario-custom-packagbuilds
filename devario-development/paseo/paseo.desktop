@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Paseo
+Comment=Workspace for coding agents
+Exec=paseo-desktop %U
+Terminal=false
+Type=Application
+Icon=paseo
+StartupWMClass=Paseo
+Categories=Development;
+MimeType=x-scheme-handler/paseo;

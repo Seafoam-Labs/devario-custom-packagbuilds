@@ -1,0 +1,2286 @@
+Subject: [PATCH] editor: integrate ZLS through the authenticated daemon connection
+
+Add native completion, diagnostics, hover, definitions and references for Zig
+and ZON buffers. Run ZLS on the project host; bind process ownership to the
+connection and reclaim idle sessions. Synchronize unsaved buffers with UTF-16
+positions and document versions, and reject stale query results.
+
+Keep Zig/ZLS optional. Detect incompatible toolchains and expose restart/error
+status in the editor. Respect ZLS configuration and project check steps for
+compiler diagnostics. Gate clients on a nativeZls daemon capability.
+
+Includes protocol, stdio framing/lifecycle, real ZLS, daemon end-to-end, and
+CodeMirror browser regression tests. Apply after the native Zig grammar patch.
+
+diff --git a/package-lock.json b/package-lock.json
+index 1a37060..ac66223 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -2699,6 +2699,18 @@
+         "node": ">=16"
+       }
+     },
++    "node_modules/@codemirror/autocomplete": {
++      "version": "6.20.4",
++      "resolved": "https://registry.npmjs.org/@codemirror/autocomplete/-/autocomplete-6.20.4.tgz",
++      "integrity": "sha512-yF8RhOf2SXlg00+qtupzLhrglcas61boqaONiNcbPIebHCpJocpqTBA6dyrtUrQO47hqyTdeob/3XnYilT7TaQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@codemirror/language": "^6.0.0",
++        "@codemirror/state": "^6.0.0",
++        "@codemirror/view": "^6.17.0",
++        "@lezer/common": "^1.0.0"
++      }
++    },
+     "node_modules/@codemirror/commands": {
+       "version": "6.10.4",
+       "resolved": "https://registry.npmjs.org/@codemirror/commands/-/commands-6.10.4.tgz",
+@@ -2734,6 +2746,17 @@
+         "@codemirror/language": "^6.0.0"
+       }
+     },
++    "node_modules/@codemirror/lint": {
++      "version": "6.9.7",
++      "resolved": "https://registry.npmjs.org/@codemirror/lint/-/lint-6.9.7.tgz",
++      "integrity": "sha512-28/+iWLYxKxsvGYhSYL7zaCZqLz5+FFFDq9tVsvGv9kv8RY4fFAchJ5WX9M3YrrRlTIsECjsXPqeNgnSmNP2dg==",
++      "license": "MIT",
++      "dependencies": {
++        "@codemirror/state": "^6.0.0",
++        "@codemirror/view": "^6.42.0",
++        "crelt": "^1.0.5"
++      }
++    },
+     "node_modules/@codemirror/search": {
+       "version": "6.7.1",
+       "resolved": "https://registry.npmjs.org/@codemirror/search/-/search-6.7.1.tgz",
+@@ -37634,8 +37657,10 @@
+       "name": "@getpaseo/app",
+       "version": "0.15.0",
+       "dependencies": {
++        "@codemirror/autocomplete": "6.20.4",
+         "@codemirror/commands": "6.10.4",
+         "@codemirror/language": "6.12.4",
++        "@codemirror/lint": "6.9.7",
+         "@codemirror/search": "6.7.1",
+         "@codemirror/state": "6.7.1",
+         "@codemirror/view": "6.43.6",
+diff --git a/packages/app/package.json b/packages/app/package.json
+index a6d0392..3b2dac8 100644
+--- a/packages/app/package.json
++++ b/packages/app/package.json
+@@ -43,8 +43,10 @@
+     "test:android": "expo prebuild --platform android --no-install && cd android && ./gradlew :paseo-native-trace:testReleaseUnitTest :react-native-enriched-markdown:testReleaseUnitTest --tests '*InlineCodeFormattingTest' --no-daemon --max-workers=2 -Dorg.gradle.parallel=false"
+   },
+   "dependencies": {
++    "@codemirror/autocomplete": "6.20.4",
+     "@codemirror/commands": "6.10.4",
+     "@codemirror/language": "6.12.4",
++    "@codemirror/lint": "6.9.7",
+     "@codemirror/search": "6.7.1",
+     "@codemirror/state": "6.7.1",
+     "@codemirror/view": "6.43.6",
+diff --git a/packages/app/src/file-panels/source/editor/view.tsx b/packages/app/src/file-panels/source/editor/view.tsx
+index 217afd2..f5b482a 100644
+--- a/packages/app/src/file-panels/source/editor/view.tsx
++++ b/packages/app/src/file-panels/source/editor/view.tsx
+@@ -5,6 +5,10 @@ import type { WorkspaceFileLocation } from "@/workspace/file-open";
+ import type { FileEditorModel } from "./model";
+ 
+ export function FileEditorView(_props: {
++  serverId: string;
++  workspaceRoot: string;
++  absolutePath: string;
++  onNavigate(location: WorkspaceFileLocation): void;
+   model: FileEditorModel;
+   filename: string;
+   location: WorkspaceFileLocation;
+diff --git a/packages/app/src/file-panels/source/editor/view.web.tsx b/packages/app/src/file-panels/source/editor/view.web.tsx
+index ca8ee0e..55959a0 100644
+--- a/packages/app/src/file-panels/source/editor/view.web.tsx
++++ b/packages/app/src/file-panels/source/editor/view.web.tsx
+@@ -1,3 +1,4 @@
++import { ZigTools } from "./zls/tools.web";
+ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+ import { FileFind, FileFindModel } from "../find/index.web";
+ import { Annotation, Compartment, EditorState, Transaction } from "@codemirror/state";
+@@ -9,6 +10,10 @@ import type { FileEditorModel } from "./model";
+ import { editorBaseExtensions, editorTheme, type EditorVisualTheme } from "./extensions.web";
+ 
+ interface FileEditorViewProps {
++  serverId: string;
++  workspaceRoot: string;
++  absolutePath: string;
++  onNavigate(location: WorkspaceFileLocation): void;
+   model: FileEditorModel;
+   filename: string;
+   location: WorkspaceFileLocation;
+@@ -35,6 +40,10 @@ function wrappingForFile(filename: string) {
+ }
+ 
+ export function FileEditorView({
++  serverId,
++  workspaceRoot,
++  absolutePath,
++  onNavigate,
+   model,
+   filename,
+   location,
+@@ -45,6 +54,7 @@ export function FileEditorView({
+   onVimModeChange,
+   onReady,
+ }: FileEditorViewProps) {
++  const [editorView, setEditorView] = useState<EditorView | null>(null);
+   const [find] = useState(() => new FileFindModel());
+   const hostRef = useRef<HTMLDivElement>(null);
+   const viewRef = useRef<EditorView | null>(null);
+@@ -92,6 +102,7 @@ export function FileEditorView({
+       }),
+     });
+     viewRef.current = view;
++    setEditorView(view);
+     onCursorChangeRef.current({ line: 1, column: 1 });
+     values.onReady();
+     return () => {
+@@ -167,6 +178,16 @@ export function FileEditorView({
+         style={HOST_STYLE}
+       />
+       <FileFind model={find} editor={viewRef} />
++      {editorView && /\.(zig|zon)$/i.test(filename) && workspaceRoot && (
++        <ZigTools
++          view={editorView}
++          model={model}
++          serverId={serverId}
++          cwd={workspaceRoot}
++          path={absolutePath}
++          onNavigate={onNavigate}
++        />
++      )}
+     </div>
+   );
+ }
+@@ -174,6 +195,7 @@ export function FileEditorView({
+ const remoteUpdate = Annotation.define<boolean>();
+ const FRAME_STYLE = {
+   display: "flex",
++  flexDirection: "column",
+   position: "relative",
+   flex: 1,
+   minHeight: 0,
+diff --git a/packages/app/src/file-panels/source/editor/zls/document.test.ts b/packages/app/src/file-panels/source/editor/zls/document.test.ts
+new file mode 100644
+index 0000000..031bd0f
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/document.test.ts
+@@ -0,0 +1,92 @@
++import { describe, expect, it } from "vitest";
++import type { ZlsInput, ZlsResult } from "@getpaseo/protocol/zig-lsp";
++import { ZlsDocument } from "./document";
++
++function deferred<T>() {
++  let resolve!: (value: T) => void;
++  const promise = new Promise<T>((done) => {
++    resolve = done;
++  });
++  return { promise, resolve };
++}
++describe("ZLS document ordering", () => {
++  it("coalesces edits made during initialization before requesting completion", async () => {
++    const opening = deferred<ZlsResult>();
++    const messages: ZlsInput[] = [];
++    const doc = new ZlsDocument(
++      async (input) => {
++        messages.push(input);
++        if (input.action === "open") return opening.promise;
++        return { version: "version" in input ? input.version : undefined, completions: [] };
++      },
++      "/repo",
++      "main.zig",
++      "a",
++    );
++    doc.update("ab");
++    doc.update("abc");
++    const query = doc.query("completion", { line: 0, character: 3 });
++    opening.resolve({ documentId: "test" });
++    await query;
++    expect(messages.map((m) => m.action)).toEqual(["open", "change", "query"]);
++    expect(messages[1]).toMatchObject({ version: 2, content: "abc" });
++    doc.close();
++  });
++  it("discards a query response after a newer edit", async () => {
++    const completion = deferred<ZlsResult>();
++    const doc = new ZlsDocument(
++      async (input) =>
++        input.action === "open"
++          ? { documentId: "test" }
++          : input.action === "query"
++            ? completion.promise
++            : {},
++      "/repo",
++      "main.zig",
++      "a",
++    );
++    await doc.ready();
++    const query = doc.query("completion", { line: 0, character: 1 });
++    await doc.flush();
++    doc.update("newer");
++    completion.resolve({ version: 0, completions: [] });
++    expect(await query).toBeNull();
++    doc.close();
++  });
++  it("closes a session that finishes opening after its tab is gone", async () => {
++    const opening = deferred<ZlsResult>();
++    const messages: ZlsInput[] = [];
++    const doc = new ZlsDocument(
++      async (input) => {
++        messages.push(input);
++        return input.action === "open" ? opening.promise : {};
++      },
++      "/repo",
++      "main.zig",
++      "a",
++    );
++    doc.close();
++    opening.resolve({ documentId: "test" });
++    await expect(doc.ready()).rejects.toThrow("closed");
++    expect(messages.at(-1)).toEqual({ action: "close", documentId: "test" });
++  });
++  it("sends didSave after the corresponding buffer update", async () => {
++    const messages: ZlsInput[] = [];
++    const doc = new ZlsDocument(
++      async (input) => {
++        messages.push(input);
++        return input.action === "open" ? { documentId: "test" } : {};
++      },
++      "/repo",
++      "main.zig",
++      "a",
++    );
++    doc.update("saved");
++    await doc.saved();
++    expect(messages.slice(1)).toEqual([
++      { action: "change", documentId: "test", version: 1, content: "saved" },
++      { action: "save", documentId: "test", version: 1 },
++    ]);
++    doc.close();
++  });
++});
+diff --git a/packages/app/src/file-panels/source/editor/zls/document.ts b/packages/app/src/file-panels/source/editor/zls/document.ts
+new file mode 100644
+index 0000000..90e7fd2
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/document.ts
+@@ -0,0 +1,100 @@
++import type { ZlsInput, ZlsResult, LspPosition } from "@getpaseo/protocol/zig-lsp";
++
++export type ZlsTransport = (input: ZlsInput) => Promise<ZlsResult>;
++
++/** Serializes buffer updates, but lets edits overtake slow queries. */
++export class ZlsDocument {
++  version = 0;
++  private id: string | null = null;
++  private closed = false;
++  private failure: Error | null = null;
++  private sentVersion = 0;
++  private content: string;
++  private opening: Promise<void>;
++  private queue: Promise<void> = Promise.resolve();
++
++  constructor(
++    private transport: ZlsTransport,
++    cwd: string,
++    path: string,
++    content: string,
++  ) {
++    this.content = content;
++    this.opening = transport({ action: "open", cwd, path, content })
++      .then(async (result) => {
++        if (!result.documentId) throw new Error("The daemon did not open a ZLS session");
++        this.id = result.documentId;
++        if (this.closed)
++          await this.transport({ action: "close", documentId: this.id }).catch(() => {});
++      })
++      .catch((error) => {
++        this.failure = error;
++        throw error;
++      });
++    // Opening can fail before a caller asks for ready().
++    void this.opening.catch(() => {});
++  }
++  async ready() {
++    await this.opening;
++    this.assertOpen();
++  }
++  update(content: string) {
++    if (content === this.content) return;
++    this.content = content;
++    this.version++;
++  }
++  async flush() {
++    const operation = this.queue.then(async () => {
++      await this.ready();
++      const version = this.version;
++      if (version === this.sentVersion) return;
++      await this.transport({
++        action: "change",
++        documentId: this.id!,
++        version,
++        content: this.content,
++      });
++      this.sentVersion = version;
++    });
++    this.queue = operation.catch((error) => {
++      this.failure = error;
++    });
++    await operation;
++  }
++  async query(method: "completion" | "hover" | "definition" | "references", position: LspPosition) {
++    const version = this.version;
++    await this.flush();
++    if (version !== this.version) return null;
++    const result = await this.transport({
++      action: "query",
++      documentId: this.id!,
++      version,
++      method,
++      position,
++    });
++    return !this.closed && this.version === version && result.version === version ? result : null;
++  }
++  async diagnostics() {
++    const version = this.version;
++    await this.flush();
++    if (version !== this.version) return null;
++    const result = await this.transport({ action: "diagnostics", documentId: this.id!, version });
++    return !this.closed && this.version === version && result.version === version
++      ? (result.diagnostics ?? [])
++      : null;
++  }
++  async saved() {
++    const version = this.version;
++    await this.flush();
++    if (this.version === version)
++      await this.transport({ action: "save", documentId: this.id!, version });
++  }
++  close() {
++    this.closed = true;
++    if (this.id) void this.transport({ action: "close", documentId: this.id }).catch(() => {});
++  }
++  private assertOpen() {
++    if (this.closed) throw new Error("ZLS editor closed");
++    if (this.failure) throw this.failure;
++  }
++}
+diff --git a/packages/app/src/file-panels/source/editor/zls/extensions.browser.test.ts b/packages/app/src/file-panels/source/editor/zls/extensions.browser.test.ts
+new file mode 100644
+index 0000000..bab3b48
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/extensions.browser.test.ts
+@@ -0,0 +1,123 @@
++import { afterEach, expect, it } from "vitest";
++import { EditorView } from "@codemirror/view";
++import { EditorState } from "@codemirror/state";
++import { startCompletion, acceptCompletion, completionStatus } from "@codemirror/autocomplete";
++import { diagnosticCount, openLintPanel } from "@codemirror/lint";
++import { ZlsDocument } from "./document";
++import { zlsExtensions, displayDiagnostics } from "./extensions";
++import type { ZlsInput, ZlsLocation } from "@getpaseo/protocol/zig-lsp";
++
++let view: EditorView | undefined;
++let session: ZlsDocument | undefined;
++afterEach(() => {
++  session?.close();
++  view?.destroy();
++  document.body.replaceChildren();
++});
++
++it("shows and accepts a completion snippet and renders clickable diagnostics", async () => {
++  session = new ZlsDocument(
++    async (input) => {
++      if (input.action === "open") return { documentId: "fixture" };
++      if (input.action === "query")
++        return {
++          version: input.version,
++          completions: [{ label: "hello", insertText: "hello(${1:name})", snippet: true }],
++        };
++      return {};
++    },
++    "/repo",
++    "main.zig",
++    "hel",
++  );
++  await session.ready();
++  view = new EditorView({
++    parent: document.body,
++    state: EditorState.create({
++      doc: "hel",
++      selection: { anchor: 3 },
++      extensions: zlsExtensions({
++        document: session,
++        changed() {},
++        locations() {},
++        error(error) {
++          throw error;
++        },
++      }),
++    }),
++  });
++  view.focus();
++  startCompletion(view);
++  await expect.poll(() => completionStatus(view!.state)).toBe("active");
++  expect(document.querySelector(".cm-tooltip-autocomplete")?.textContent).toContain("hello");
++  await expect.poll(() => acceptCompletion(view!)).toBe(true);
++  expect(view.state.doc.toString()).toBe("hello(name)");
++  expect(view.state.sliceDoc(view.state.selection.main.from, view.state.selection.main.to)).toBe(
++    "name",
++  );
++  displayDiagnostics(view, [
++    {
++      message: "unknown identifier",
++      severity: 1,
++      range: { start: { line: 0, character: 6 }, end: { line: 0, character: 10 } },
++    },
++  ]);
++  expect(diagnosticCount(view.state)).toBe(1);
++  openLintPanel(view);
++  await expect
++    .poll(() => document.querySelector(".cm-diagnostic-error")?.textContent)
++    .toContain("unknown identifier");
++  expect(document.querySelector(".cm-lintRange-error")).not.toBeNull();
++});
++
++it("routes F12 and Shift-F12 to definition and reference locations", async () => {
++  const queries: ZlsInput[] = [];
++  const shown: { items: ZlsLocation[]; kind: string }[] = [];
++  session = new ZlsDocument(
++    async (input) => {
++      queries.push(input);
++      if (input.action === "open") return { documentId: "fixture" };
++      if (input.action === "query")
++        return {
++          version: input.version,
++          locations: [
++            {
++              path: "/repo/helper.zig",
++              range: { start: { line: 4, character: 2 }, end: { line: 4, character: 8 } },
++            },
++          ],
++        };
++      return {};
++    },
++    "/repo",
++    "main.zig",
++    "helper",
++  );
++  await session.ready();
++  view = new EditorView({
++    parent: document.body,
++    state: EditorState.create({
++      doc: "helper",
++      extensions: zlsExtensions({
++        document: session,
++        changed() {},
++        locations(items, kind) {
++          shown.push({ items, kind });
++        },
++        error(error) {
++          throw error;
++        },
++      }),
++    }),
++  });
++  view.focus();
++  view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "F12", bubbles: true }));
++  await expect.poll(() => shown.length).toBe(1);
++  expect(shown[0]).toMatchObject({ kind: "definition", items: [{ path: "/repo/helper.zig" }] });
++  view.contentDOM.dispatchEvent(
++    new KeyboardEvent("keydown", { key: "F12", shiftKey: true, bubbles: true }),
++  );
++  await expect.poll(() => shown.length).toBe(2);
++  expect(shown[1].kind).toBe("references");
++  expect(queries.filter((q) => q.action === "query")).toHaveLength(2);
++});
+diff --git a/packages/app/src/file-panels/source/editor/zls/extensions.ts b/packages/app/src/file-panels/source/editor/zls/extensions.ts
+new file mode 100644
+index 0000000..6724458
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/extensions.ts
+@@ -0,0 +1,169 @@
++import {
++  autocompletion,
++  completionKeymap,
++  snippet,
++  type Completion,
++  type CompletionContext,
++} from "@codemirror/autocomplete";
++import { lintGutter, setDiagnostics, type Diagnostic } from "@codemirror/lint";
++import { EditorView, hoverTooltip, keymap } from "@codemirror/view";
++import { Prec } from "@codemirror/state";
++import type { ZlsCompletion, ZlsDiagnostic, ZlsLocation } from "@getpaseo/protocol/zig-lsp";
++import { ZlsDocument } from "./document";
++import { fromLspRange, toLspPosition } from "./positions";
++
++export function completionOption(
++  item: ZlsCompletion,
++  version: number,
++  document: ZlsDocument,
++): Completion {
++  return {
++    label: item.filterText ?? item.label,
++    displayLabel: item.label,
++    detail: item.detail,
++    type:
++      item.kind === 3 || item.kind === 2
++        ? "function"
++        : item.kind === 14
++          ? "keyword"
++          : item.kind === 7 || item.kind === 22
++            ? "type"
++            : "variable",
++    apply(view, completion, from, to) {
++      if (document.version !== version) return;
++      const range = item.range ? fromLspRange(view.state.doc, item.range) : { from, to };
++      if (!range) return;
++      const edits = (item.additionalTextEdits ?? []).map((edit) => {
++        const bounds = fromLspRange(view.state.doc, edit.range);
++        return bounds ? { ...bounds, insert: edit.newText } : null;
++      });
++      if (edits.some((edit) => !edit)) return;
++      const additional = edits.filter((edit) => edit !== null).sort((a, b) => a.from - b.from);
++      if (
++        additional.some(
++          (edit, i) =>
++            (edit.from <= range.to && edit.to >= range.from) ||
++            (i > 0 && additional[i - 1].to >= edit.from),
++        )
++      )
++        return;
++      if (additional.length) {
++        const transaction = view.state.update({ changes: additional });
++        range.from = transaction.changes.mapPos(range.from, 1);
++        range.to = transaction.changes.mapPos(range.to, 1);
++        view.dispatch(transaction);
++      }
++      if (item.snippet) snippet(item.insertText)(view, completion, range.from, range.to);
++      else
++        view.dispatch({
++          changes: { ...range, insert: item.insertText },
++          selection: { anchor: range.from + item.insertText.length },
++          userEvent: "input.complete",
++        });
++    },
++  };
++}
++
++export function displayDiagnostics(view: EditorView, diagnostics: ZlsDiagnostic[]) {
++  const converted: Diagnostic[] = diagnostics.flatMap((diagnostic) => {
++    const range = fromLspRange(view.state.doc, diagnostic.range);
++    if (!range) return [];
++    const severity: Diagnostic["severity"] =
++      diagnostic.severity === 1 ? "error" : diagnostic.severity === 2 ? "warning" : "info";
++    return [{ ...range, severity, message: diagnostic.message, source: "ZLS" }];
++  });
++  view.dispatch(setDiagnostics(view.state, converted));
++}
++
++export function zlsExtensions(input: {
++  document: ZlsDocument;
++  changed(): void;
++  locations(items: ZlsLocation[], kind: "definition" | "references"): void;
++  error(error: unknown): void;
++}) {
++  const { document } = input;
++  const navigate = (
++    view: EditorView,
++    method: "definition" | "references",
++    pos = view.state.selection.main.head,
++  ) => {
++    void document
++      .query(method, toLspPosition(view.state.doc, pos))
++      .then((result) => {
++        if (result) input.locations(result.locations ?? [], method);
++      })
++      .catch(input.error);
++    return true;
++  };
++  return [
++    lintGutter(),
++    autocompletion({
++      override: [
++        async (context: CompletionContext) => {
++          const word = context.matchBefore(/@?[\w]*/);
++          const previous = context.state.sliceDoc(Math.max(0, context.pos - 1), context.pos);
++          if (!context.explicit && !word?.text && previous !== "." && previous !== "@") return null;
++          const version = document.version;
++          try {
++            const result = await document.query(
++              "completion",
++              toLspPosition(context.state.doc, context.pos),
++            );
++            if (!result || context.aborted) return null;
++            const items = [...(result.completions ?? [])].sort((a, b) =>
++              (a.sortText ?? a.label).localeCompare(b.sortText ?? b.label),
++            );
++            return {
++              from: word?.from ?? context.pos,
++              options: items.map((item) => completionOption(item, version, document)),
++            };
++          } catch (error) {
++            input.error(error);
++            return null;
++          }
++        },
++      ],
++    }),
++    hoverTooltip(async (view, pos) => {
++      try {
++        const result = await document.query("hover", toLspPosition(view.state.doc, pos));
++        if (!result?.hover) return null;
++        return {
++          pos,
++          above: true,
++          create() {
++            const dom = globalThis.document.createElement("pre");
++            dom.textContent = result.hover!;
++            dom.style.cssText =
++              "white-space:pre-wrap;max-width:60ch;max-height:25em;overflow:auto;padding:8px;margin:0";
++            return { dom };
++          },
++        };
++      } catch (error) {
++        input.error(error);
++        return null;
++      }
++    }),
++    Prec.high(
++      keymap.of([
++        ...completionKeymap,
++        { key: "F12", run: (view) => navigate(view, "definition") },
++        { key: "Shift-F12", run: (view) => navigate(view, "references") },
++      ]),
++    ),
++    EditorView.domEventHandlers({
++      mousedown(event, view) {
++        if (event.button !== 0 || !(event.ctrlKey || event.metaKey)) return false;
++        const pos = view.posAtCoords({ x: event.clientX, y: event.clientY });
++        if (pos === null) return false;
++        event.preventDefault();
++        return navigate(view, "definition", pos);
++      },
++    }),
++    EditorView.updateListener.of((update) => {
++      if (!update.docChanged) return;
++      document.update(update.state.doc.toString());
++      input.changed();
++    }),
++  ];
++}
+diff --git a/packages/app/src/file-panels/source/editor/zls/positions.test.ts b/packages/app/src/file-panels/source/editor/zls/positions.test.ts
+new file mode 100644
+index 0000000..529683e
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/positions.test.ts
+@@ -0,0 +1,21 @@
++import { describe, expect, it } from "vitest";
++import { EditorState } from "@codemirror/state";
++import { fromLspPosition, fromLspRange, toLspPosition } from "./positions";
++
++describe("LSP UTF-16 positions", () => {
++  it("round-trips emoji and line boundaries", () => {
++    const { doc } = EditorState.create({ doc: "🌊a\nβ" });
++    expect(toLspPosition(doc, 3)).toEqual({ line: 0, character: 3 });
++    expect(fromLspPosition(doc, { line: 1, character: 1 })).toBe(5);
++    for (let offset = 0; offset <= doc.length; offset++)
++      expect(fromLspPosition(doc, toLspPosition(doc, offset))).toBe(offset);
++  });
++  it("rejects invalid ranges instead of applying them to other text", () => {
++    const { doc } = EditorState.create({ doc: "abc" });
++    expect(
++      fromLspRange(doc, { start: { line: 0, character: 3 }, end: { line: 0, character: 1 } }),
++    ).toBeNull();
++    expect(fromLspPosition(doc, { line: 2, character: 0 })).toBeNull();
++    expect(fromLspPosition(doc, { line: 0, character: 4 })).toBeNull();
++  });
++});
+diff --git a/packages/app/src/file-panels/source/editor/zls/positions.ts b/packages/app/src/file-panels/source/editor/zls/positions.ts
+new file mode 100644
+index 0000000..914920a
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/positions.ts
+@@ -0,0 +1,18 @@
++import type { Text } from "@codemirror/state";
++import type { LspPosition, LspRange } from "@getpaseo/protocol/zig-lsp";
++
++/** CodeMirror and our negotiated LSP positions both count UTF-16 code units. */
++export function toLspPosition(doc: Text, offset: number): LspPosition {
++  const line = doc.lineAt(offset);
++  return { line: line.number - 1, character: offset - line.from };
++}
++export function fromLspPosition(doc: Text, position: LspPosition): number | null {
++  if (position.line < 0 || position.line >= doc.lines || position.character < 0) return null;
++  const line = doc.line(position.line + 1);
++  return position.character <= line.length ? line.from + position.character : null;
++}
++export function fromLspRange(doc: Text, range: LspRange): { from: number; to: number } | null {
++  const from = fromLspPosition(doc, range.start),
++    to = fromLspPosition(doc, range.end);
++  return from !== null && to !== null && to >= from ? { from, to } : null;
++}
+diff --git a/packages/app/src/file-panels/source/editor/zls/tools.browser.test.tsx b/packages/app/src/file-panels/source/editor/zls/tools.browser.test.tsx
+new file mode 100644
+index 0000000..1345d6e
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/tools.browser.test.tsx
+@@ -0,0 +1,93 @@
++import React from "react";
++import { flushSync } from "react-dom";
++import { createRoot, type Root } from "react-dom/client";
++import { afterEach, expect, it, vi } from "vitest";
++import { EditorView } from "@codemirror/view";
++import type { FileEditorModel } from "../model";
++import type { ZlsInput } from "@getpaseo/protocol/zig-lsp";
++import { ZigTools } from "./tools.web";
++
++const runtime = vi.hoisted(() => ({
++  connected: true,
++  supported: true,
++  calls: [] as ZlsInput[],
++  client: { editorZls: vi.fn() },
++}));
++vi.mock("@/runtime/host-runtime", () => ({
++  useHostRuntimeClient: () => runtime.client,
++  useHostRuntimeIsConnected: () => runtime.connected,
++}));
++vi.mock("@/runtime/host-features", () => ({ useHostFeature: () => runtime.supported }));
++let root: Root;
++let view: EditorView;
++afterEach(() => {
++  root?.unmount();
++  view?.destroy();
++  document.body.replaceChildren();
++  runtime.connected = true;
++  runtime.supported = true;
++});
++
++it("opens cross-file definition targets and restarts cleanly across disconnects", async () => {
++  let counter = 0;
++  runtime.calls = [];
++  runtime.client.editorZls.mockImplementation(async (input: ZlsInput) => {
++    runtime.calls.push(input);
++    if (input.action === "open") return { documentId: `document-${++counter}` };
++    if (input.action === "query")
++      return {
++        version: input.version,
++        locations: [
++          {
++            path: "/repo/helper.zig",
++            range: { start: { line: 7, character: 2 }, end: { line: 7, character: 8 } },
++          },
++        ],
++      };
++    if (input.action === "diagnostics") return { version: input.version, diagnostics: [] };
++    return {};
++  });
++  const container = document.createElement("div");
++  document.body.append(container);
++  root = createRoot(container);
++  view = new EditorView({ parent: document.body, doc: "answer" });
++  const model = {
++    getSnapshot: () => ({ status: "clean" }),
++    subscribe: () => () => {},
++  } as unknown as FileEditorModel;
++  const navigate = vi.fn();
++  const render = () =>
++    flushSync(() =>
++      root.render(
++        <ZigTools
++          view={view}
++          model={model}
++          serverId="host"
++          cwd="/repo"
++          path="/repo/main.zig"
++          onNavigate={navigate}
++        />,
++      ),
++    );
++  render();
++  await expect.poll(() => container.textContent).toContain("ZLS ready");
++  const button = (name: string) =>
++    [...container.querySelectorAll("button")].find((item) => item.textContent === name)!;
++  button("Definition").click();
++  await expect.poll(() => navigate.mock.calls.length).toBe(1);
++  expect(navigate).toHaveBeenCalledWith({ path: "/repo/helper.zig", lineStart: 8 });
++  button("Restart ZLS").click();
++  await expect.poll(() => counter).toBe(2);
++  expect(
++    runtime.calls.some((input) => input.action === "close" && input.documentId === "document-1"),
++  ).toBe(true);
++  runtime.connected = false;
++  render();
++  await expect.poll(() => container.textContent).toContain("disconnected");
++  runtime.connected = true;
++  render();
++  await expect.poll(() => counter).toBe(3);
++  // Parent editor teardown can run before the child React cleanup.
++  view.destroy();
++  root.unmount();
++});
+diff --git a/packages/app/src/file-panels/source/editor/zls/tools.web.tsx b/packages/app/src/file-panels/source/editor/zls/tools.web.tsx
+new file mode 100644
+index 0000000..5fa6f39
+--- /dev/null
++++ b/packages/app/src/file-panels/source/editor/zls/tools.web.tsx
+@@ -0,0 +1,229 @@
++import { resolveFilePreviewReadTarget } from "@/file-explorer/preview-target";
++import { useEffect, useRef, useState } from "react";
++import { Compartment, StateEffect } from "@codemirror/state";
++import { EditorView } from "@codemirror/view";
++import { openLintPanel } from "@codemirror/lint";
++import type { ZlsLocation } from "@getpaseo/protocol/zig-lsp";
++import { useHostRuntimeClient, useHostRuntimeIsConnected } from "@/runtime/host-runtime";
++import { useHostFeature } from "@/runtime/host-features";
++import type { WorkspaceFileLocation } from "@/workspace/file-open";
++import type { FileEditorModel } from "../model";
++import { ZlsDocument } from "./document";
++import { displayDiagnostics, zlsExtensions } from "./extensions";
++import { fromLspRange, toLspPosition } from "./positions";
++
++export function ZigTools({
++  view,
++  model,
++  serverId,
++  cwd,
++  path,
++  onNavigate,
++}: {
++  view: EditorView;
++  model: FileEditorModel;
++  serverId: string;
++  cwd: string;
++  path: string;
++  onNavigate(location: WorkspaceFileLocation): void;
++}) {
++  const client = useHostRuntimeClient(serverId);
++  const connected = useHostRuntimeIsConnected(serverId);
++  const supported = useHostFeature(serverId, "nativeZls");
++  const [status, setStatus] = useState("Starting ZLS…");
++  const [count, setCount] = useState(0);
++  const [locations, setLocations] = useState<ZlsLocation[]>([]);
++  const [generation, setGeneration] = useState(0);
++  const active = useRef<ZlsDocument | null>(null);
++  const [compartment] = useState(() => new Compartment());
++  const navigateRef = useRef(onNavigate);
++  navigateRef.current = onNavigate;
++  const choose = (location: ZlsLocation) => {
++    if (location.path === path) {
++      const range = fromLspRange(view.state.doc, location.range);
++      if (range)
++        view.dispatch({
++          selection: { anchor: range.from, head: range.to },
++          effects: EditorView.scrollIntoView(range.from, { y: "center" }),
++        });
++      view.focus();
++    } else navigateRef.current({ path: location.path, lineStart: location.range.start.line + 1 });
++    setLocations([]);
++  };
++  const chooseRef = useRef(choose);
++  chooseRef.current = choose;
++
++  useEffect(() => {
++    setLocations([]);
++    setCount(0);
++    if (!connected || !client) {
++      setStatus("ZLS: disconnected");
++      return;
++    }
++    if (!supported) {
++      setStatus("ZLS requires the patched daemon on this host");
++      return;
++    }
++    const target = resolveFilePreviewReadTarget({ path, workspaceRoot: cwd });
++    if (!target) {
++      setStatus("ZLS: file location unavailable");
++      return;
++    }
++    const document = new ZlsDocument(
++      (input) => client.editorZls(input),
++      target.cwd,
++      target.path,
++      view.state.doc.toString(),
++    );
++    active.current = document;
++    let stopped = false;
++    let pollTimer: ReturnType<typeof setTimeout> | undefined;
++    let changeTimer: ReturnType<typeof setTimeout> | undefined;
++    const reportError = (error: unknown) => {
++      if (stopped) return;
++      const message = error instanceof Error ? error.message : String(error);
++      setStatus(`ZLS: ${message}`);
++      // A suspended browser may outlive the daemon's idle-session lease.
++      if (message.includes("ZLS session expired")) setGeneration((value) => value + 1);
++    };
++    const showLocations = (items: ZlsLocation[], kind: "definition" | "references") => {
++      if (stopped) return;
++      if (kind === "definition" && items.length === 1) chooseRef.current(items[0]);
++      else {
++        setLocations(items);
++        setStatus(
++          items.length
++            ? `ZLS: ${items.length} ${kind === "references" ? "references" : "definitions"}`
++            : "ZLS: no results",
++        );
++      }
++    };
++    const poll = async () => {
++      try {
++        const diagnostics = await document.diagnostics();
++        if (!stopped && diagnostics) {
++          displayDiagnostics(view, diagnostics);
++          setCount(diagnostics.length);
++        }
++      } catch (error) {
++        reportError(error);
++      }
++      if (!stopped) pollTimer = setTimeout(poll, 1000);
++    };
++    setStatus("Starting ZLS…");
++    // The compartment is appended once for this connection, then removed on teardown.
++    const extensions = zlsExtensions({
++      document,
++      changed() {
++        setLocations([]);
++        setCount(0);
++        clearTimeout(changeTimer);
++        queueMicrotask(() => {
++          if (!stopped) displayDiagnostics(view, []);
++        });
++        changeTimer = setTimeout(() => {
++          void document.flush().catch(reportError);
++        }, 80);
++      },
++      locations: showLocations,
++      error: reportError,
++    });
++    view.dispatch({
++      effects:
++        compartment.get(view.state) === undefined
++          ? StateEffect.appendConfig.of(compartment.of(extensions))
++          : compartment.reconfigure(extensions),
++    });
++    let previousStatus = model.getSnapshot().status;
++    const unsubscribe = model.subscribe(() => {
++      const snapshot = model.getSnapshot();
++      if (snapshot.status === "clean" && previousStatus === "saving")
++        void document.saved().catch(reportError);
++      previousStatus = snapshot.status;
++    });
++    void document
++      .ready()
++      .then(() => {
++        if (!stopped) {
++          setStatus("ZLS ready");
++          void poll();
++        }
++      })
++      .catch(reportError);
++    return () => {
++      stopped = true;
++      unsubscribe();
++      clearTimeout(pollTimer);
++      clearTimeout(changeTimer);
++      document.close();
++      active.current = null;
++      if (view.dom.isConnected) {
++        view.dispatch({ effects: compartment.reconfigure([]) });
++        displayDiagnostics(view, []);
++      }
++    };
++  }, [client, connected, supported, cwd, path, model, view, generation, compartment]);
++
++  const query = (method: "definition" | "references") => {
++    const document = active.current;
++    if (!document) return;
++    void document
++      .query(method, toLspPosition(view.state.doc, view.state.selection.main.head))
++      .then((result) => {
++        if (!result) return;
++        const items = result.locations ?? [];
++        if (method === "definition" && items.length === 1) chooseRef.current(items[0]);
++        else {
++          setLocations(items);
++          setStatus(items.length ? `ZLS: ${items.length} results` : "ZLS: no results");
++        }
++      })
++      .catch((error) => {
++        if (active.current === document) setStatus(`ZLS: ${String(error)}`);
++      });
++  };
++  return (
++    <div
++      style={{
++        borderTop: "1px solid currentColor",
++        padding: 6,
++        fontSize: 12,
++        maxHeight: "35%",
++        overflow: "auto",
++      }}
++    >
++      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
++        <span role="status">{status}</span>
++        <button
++          type="button"
++          onClick={() => {
++            openLintPanel(view);
++            view.focus();
++          }}
++        >
++          Problems ({count})
++        </button>
++        <button type="button" title="F12 or Ctrl/Cmd-click" onClick={() => query("definition")}>
++          Definition
++        </button>
++        <button type="button" title="Shift-F12" onClick={() => query("references")}>
++          References
++        </button>
++        <button type="button" onClick={() => setGeneration((value) => value + 1)}>
++          Restart ZLS
++        </button>
++      </div>
++      {locations.length > 0 && (
++        <ul aria-label="ZLS navigation results" style={{ margin: "6px 0", paddingLeft: 20 }}>
++          {locations.map((location, i) => (
++            <li key={`${location.path}:${location.range.start.line}:${i}`}>
++              <button type="button" onClick={() => choose(location)}>
++                {location.path}:{location.range.start.line + 1}:{location.range.start.character + 1}
++              </button>
++            </li>
++          ))}
++        </ul>
++      )}
++    </div>
++  );
++}
+diff --git a/packages/app/src/file-panels/source/panel.tsx b/packages/app/src/file-panels/source/panel.tsx
+index 23ea42f..e740f76 100644
+--- a/packages/app/src/file-panels/source/panel.tsx
++++ b/packages/app/src/file-panels/source/panel.tsx
+@@ -1,3 +1,4 @@
++import { usePaneContext } from "@/panels/pane-context";
+ import {
+   useCallback,
+   useEffect,
+@@ -9,6 +10,7 @@ import {
+ } from "react";
+ import {
+   useFileText,
++  useWorkspace,
+   type PluginFilePanelProps,
+   type PluginFilePanelParams,
+ } from "@getpaseo/plugin/client";
+@@ -164,6 +166,8 @@ function EditableTextFile({
+   preview: Preview,
+ }: TextFilePanelProps) {
+   const { settings } = useAppSettings();
++  const workspaceRoot = useWorkspace(workspaceId, (workspace) => workspace.directory);
++  const { openFileInWorkspace } = usePaneContext();
+   const { t } = useTranslation();
+   const [model] = useState(() => new FileEditorModel({ file }));
+   const [view, setView] = useTextFileView(params, revision);
+@@ -241,6 +245,10 @@ function EditableTextFile({
+         <Preview text={snapshot.content} params={params} workspaceId={workspaceId} host={host} />
+       ) : (
+         <SourceEditor
++          serverId={host.id}
++          workspaceRoot={workspaceRoot ?? ""}
++          absolutePath={file.path}
++          onNavigate={(location) => openFileInWorkspace({ location, disposition: "preferred" })}
+           model={model}
+           filename={params.path}
+           location={editorLocation}
+diff --git a/packages/client/src/daemon-client.ts b/packages/client/src/daemon-client.ts
+index 3aa91f8..6761f6c 100644
+--- a/packages/client/src/daemon-client.ts
++++ b/packages/client/src/daemon-client.ts
+@@ -1,3 +1,4 @@
++import type { ZlsInput, ZlsResult } from "@getpaseo/protocol/zig-lsp";
+ import {
+   ChunkedTransport,
+   ChunkedTransportProtocolError,
+@@ -5264,6 +5265,15 @@ export class DaemonClient {
+     return { initial: snapshot.initial, subscription, unsubscribe: subscription.release };
+   }
+ 
++  async editorZls(input: ZlsInput): Promise<ZlsResult> {
++    const payload = await this.sendCorrelatedSessionRequest({
++      message: { type: "editor.zls.request", input },
++      responseType: "editor.zls.response",
++    });
++    if (payload.error) throw new Error(payload.error);
++    return payload.result ?? {};
++  }
++
+   async writeFile(input: {
+     cwd: string;
+     path: string;
+diff --git a/packages/protocol/src/messages.ts b/packages/protocol/src/messages.ts
+index 18654bf..ad36eea 100644
+--- a/packages/protocol/src/messages.ts
++++ b/packages/protocol/src/messages.ts
+@@ -1,3 +1,4 @@
++import { ZlsInputSchema, ZlsResultSchema } from "./zig-lsp.js";
+ import { AgentMessageSchema } from "./agent-message.js";
+ import {
+   HostsListRequestSchema,
+@@ -2871,6 +2872,20 @@ export const FileUnsubscribeRequestSchema = z.object({
+   requestId: z.string(),
+ });
+ 
++export const EditorZlsRequestSchema = z.object({
++  type: z.literal("editor.zls.request"),
++  input: ZlsInputSchema,
++  requestId: z.string(),
++});
++export const EditorZlsResponseSchema = z.object({
++  type: z.literal("editor.zls.response"),
++  payload: z.object({
++    requestId: z.string(),
++    result: ZlsResultSchema.optional(),
++    error: z.string().optional(),
++  }),
++});
++
+ export const FileWriteRequestSchema = z.object({
+   type: z.literal("fs.file.write.request"),
+   cwd: z.string(),
+@@ -3439,6 +3454,7 @@ export const SessionInboundMessageSchema = z.discriminatedUnion("type", [
+   FileSubscribeRequestSchema,
+   FileUnsubscribeRequestSchema,
+   FileWriteRequestSchema,
++  EditorZlsRequestSchema,
+   FileEntryCreateRequestSchema,
+   FileEntryRenameRequestSchema,
+   FileEntryDuplicateRequestSchema,
+@@ -3775,6 +3791,7 @@ export const ServerInfoStatusPayloadSchema = z
+         workspaceFileEditing: z.boolean().optional(),
+         // COMPAT(fileByteWrites): added in v0.13.0, remove gate after 2027-04-20.
+         fileByteWrites: z.boolean().optional(),
++        nativeZls: z.boolean().optional(),
+         // COMPAT(providerUsageList): added in v0.1.98, drop the gate when daemon floor >= v0.1.98.
+         providerUsageList: z.boolean().optional(),
+         // COMPAT(agentDetach): added in v0.1.98, remove gate after 2026-12-19 once daemon floor >= v0.1.98.
+@@ -7183,6 +7200,7 @@ export const SessionOutboundMessageSchema = z.discriminatedUnion("type", [
+   FileSubscribeResponseSchema,
+   FileUnsubscribeResponseSchema,
+   FileWriteResponseSchema,
++  EditorZlsResponseSchema,
+   FileEntryCreateResponseSchema,
+   FileEntryRenameResponseSchema,
+   FileEntryDuplicateResponseSchema,
+diff --git a/packages/protocol/src/messages.zls.test.ts b/packages/protocol/src/messages.zls.test.ts
+new file mode 100644
+index 0000000..173bf01
+--- /dev/null
++++ b/packages/protocol/src/messages.zls.test.ts
+@@ -0,0 +1,57 @@
++import { describe, expect, it } from "vitest";
++import {
++  SessionInboundMessageSchema,
++  SessionOutboundMessageSchema,
++  ServerInfoStatusPayloadSchema,
++} from "./messages.js";
++
++describe("native ZLS protocol", () => {
++  it("validates editor requests and rejects unbounded buffers or arbitrary methods", () => {
++    const request = {
++      type: "editor.zls.request",
++      requestId: "id",
++      input: { action: "open", cwd: "/repo", path: "main.zig", content: "const x = 1;" },
++    };
++    expect(SessionInboundMessageSchema.parse(request)).toEqual(request);
++    expect(
++      SessionInboundMessageSchema.safeParse({
++        ...request,
++        input: { ...request.input, content: "x".repeat(1024 * 1024 + 1) },
++      }).success,
++    ).toBe(false);
++    expect(
++      SessionInboundMessageSchema.safeParse({
++        ...request,
++        input: {
++          action: "query",
++          documentId: "d739952f-0c18-448e-aabd-e71c2e08cc99",
++          version: 0,
++          method: "executeCommand",
++          position: { line: 0, character: 0 },
++        },
++      }).success,
++    ).toBe(false);
++  });
++  it("round-trips locations and leaves the feature optional for older hosts", () => {
++    const response = {
++      type: "editor.zls.response",
++      payload: {
++        requestId: "id",
++        result: {
++          version: 3,
++          locations: [
++            {
++              path: "/repo/helper.zig",
++              range: { start: { line: 0, character: 1 }, end: { line: 0, character: 2 } },
++            },
++          ],
++        },
++      },
++    };
++    expect(SessionOutboundMessageSchema.parse(response)).toEqual(response);
++    expect(
++      ServerInfoStatusPayloadSchema.parse({ status: "server_info", serverId: "old", features: {} })
++        .features?.nativeZls,
++    ).toBeUndefined();
++  });
++});
+diff --git a/packages/protocol/src/zig-lsp.ts b/packages/protocol/src/zig-lsp.ts
+new file mode 100644
+index 0000000..2145027
+--- /dev/null
++++ b/packages/protocol/src/zig-lsp.ts
+@@ -0,0 +1,67 @@
++import { z } from "zod";
++
++export const LspPositionSchema = z.object({
++  line: z.number().int().nonnegative(),
++  character: z.number().int().nonnegative(),
++});
++export const LspRangeSchema = z.object({ start: LspPositionSchema, end: LspPositionSchema });
++export const LspEditSchema = z.object({ range: LspRangeSchema, newText: z.string() });
++export const ZlsDiagnosticSchema = z.object({
++  range: LspRangeSchema,
++  message: z.string(),
++  severity: z.number().int().min(1).max(4).optional(),
++});
++export const ZlsCompletionSchema = z.object({
++  label: z.string(),
++  detail: z.string().optional(),
++  sortText: z.string().optional(),
++  filterText: z.string().optional(),
++  kind: z.number().optional(),
++  insertText: z.string(),
++  snippet: z.boolean(),
++  range: LspRangeSchema.optional(),
++  additionalTextEdits: z.array(LspEditSchema).optional(),
++});
++export const ZlsLocationSchema = z.object({ path: z.string(), range: LspRangeSchema });
++const document = { documentId: z.string().uuid() };
++const version = { version: z.number().int().nonnegative() };
++export const ZlsInputSchema = z.discriminatedUnion("action", [
++  z.object({
++    action: z.literal("open"),
++    cwd: z.string().min(1),
++    path: z.string().min(1),
++    content: z.string().max(1024 * 1024),
++  }),
++  z.object({
++    action: z.literal("change"),
++    ...document,
++    ...version,
++    content: z.string().max(1024 * 1024),
++  }),
++  z.object({ action: z.literal("save"), ...document, ...version }),
++  z.object({
++    action: z.literal("query"),
++    ...document,
++    ...version,
++    method: z.enum(["completion", "hover", "definition", "references"]),
++    position: LspPositionSchema,
++  }),
++  z.object({ action: z.literal("diagnostics"), ...document, ...version }),
++  z.object({ action: z.literal("close"), ...document }),
++]);
++export const ZlsResultSchema = z.object({
++  documentId: z.string().optional(),
++  version: z.number().optional(),
++  completions: z.array(ZlsCompletionSchema).optional(),
++  isIncomplete: z.boolean().optional(),
++  diagnostics: z.array(ZlsDiagnosticSchema).optional(),
++  locations: z.array(ZlsLocationSchema).optional(),
++  hover: z.string().nullable().optional(),
++});
++export type ZlsInput = z.infer<typeof ZlsInputSchema>;
++export type ZlsResult = z.infer<typeof ZlsResultSchema>;
++export type LspPosition = z.infer<typeof LspPositionSchema>;
++export type LspRange = z.infer<typeof LspRangeSchema>;
++export type ZlsCompletion = z.infer<typeof ZlsCompletionSchema>;
++export type ZlsDiagnostic = z.infer<typeof ZlsDiagnosticSchema>;
++export type ZlsLocation = z.infer<typeof ZlsLocationSchema>;
+diff --git a/packages/server/src/server/authorization/operation-permissions.ts b/packages/server/src/server/authorization/operation-permissions.ts
+index f7a5b17..8b9a46c 100644
+--- a/packages/server/src/server/authorization/operation-permissions.ts
++++ b/packages/server/src/server/authorization/operation-permissions.ts
+@@ -102,6 +102,8 @@ const INBOUND_PERMISSION = {
+   "fs.entry.rename.request": "workspace.write",
+   "fs.file.subscribe.request": "workspace.read",
+   "fs.file.unsubscribe.request": "workspace.read",
++  // ZLS can execute project build scripts; require the same permission as terminals.
++  "editor.zls.request": "workspace.write",
+   "fs.file.write.request": "workspace.write",
+   get_daemon_config_request: "daemon.read",
+   get_providers_snapshot_request: ["daemon.read", "hub.execute"],
+@@ -338,6 +340,7 @@ const OUTBOUND_PERMISSION = {
+   "fs.file.subscribe.response": "workspace.read",
+   "fs.file.unsubscribe.response": "workspace.read",
+   "fs.file.update": "workspace.read",
++  "editor.zls.response": "workspace.write",
+   "fs.file.write.response": "workspace.write",
+   get_daemon_config_response: "daemon.read",
+   get_providers_snapshot_response: ["daemon.read", "hub.execute"],
+diff --git a/packages/server/src/server/editor/lsp-process.test.ts b/packages/server/src/server/editor/lsp-process.test.ts
+new file mode 100644
+index 0000000..32a0ef6
+--- /dev/null
++++ b/packages/server/src/server/editor/lsp-process.test.ts
+@@ -0,0 +1,50 @@
++import { describe, expect, it } from "vitest";
++import { LspReader, LspProcess } from "./lsp-process.js";
++
++function frame(value: unknown) {
++  const body = Buffer.from(JSON.stringify(value));
++  return Buffer.concat([Buffer.from(`Content-Length: ${body.length}\r\n\r\n`), body]);
++}
++describe("LSP framing", () => {
++  it("handles UTF-8 byte lengths, split headers and multiple frames", () => {
++    const a = { jsonrpc: "2.0", id: 1, result: "🌊 héllo" };
++    const b = { jsonrpc: "2.0", method: "ready", params: {} };
++    const input = Buffer.concat([frame(a), frame(b)]);
++    const reader = new LspReader();
++    const output = [];
++    for (const byte of input) output.push(...reader.push(Buffer.from([byte])));
++    expect(output).toEqual([a, b]);
++    expect(new LspReader().push(input)).toEqual([a, b]);
++  });
++  it("rejects malformed, oversized and invalid-JSON responses", () => {
++    expect(() => new LspReader().push(Buffer.from("Content-Length: 9000000\r\n\r\n"))).toThrow();
++    expect(() => new LspReader().push(Buffer.from("Missing: length\r\n\r\n"))).toThrow();
++    expect(() => new LspReader().push(Buffer.from("Content-Length: 1\r\n\r\nx"))).toThrow();
++  });
++});
++
++it("times out unresponsive servers and rejects new requests after close", async () => {
++  const process = new LspProcess({
++    command: globalThis.process.execPath,
++    args: ["-e", "setTimeout(() => process.exit(0), 250)"],
++    cwd: "/tmp",
++    configuration: {},
++    notification() {},
++    timeoutMs: 30,
++  });
++  await expect(process.request("initialize", {})).rejects.toThrow("timed out");
++  process.close();
++  expect(() => process.request("completion", {})).toThrow("closed");
++});
++
++it("reports a missing server without leaving pending requests", async () => {
++  const process = new LspProcess({
++    command: "/nonexistent/paseo-zls-test",
++    cwd: "/tmp",
++    configuration: {},
++    notification() {},
++    timeoutMs: 1000,
++  });
++  await expect(process.request("initialize", {})).rejects.toThrow("Unable to start ZLS");
++  process.close();
++});
+diff --git a/packages/server/src/server/editor/lsp-process.ts b/packages/server/src/server/editor/lsp-process.ts
+new file mode 100644
+index 0000000..b84e9c9
+--- /dev/null
++++ b/packages/server/src/server/editor/lsp-process.ts
+@@ -0,0 +1,197 @@
++import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
++
++const MAX_MESSAGE = 8 * 1024 * 1024;
++
++/** Content-Length counts UTF-8 bytes, and either headers or bodies may span chunks. */
++export class LspReader {
++  private buffer: Buffer = Buffer.alloc(0);
++  push(chunk: Buffer): unknown[] {
++    this.buffer = Buffer.concat([this.buffer, chunk]);
++    const messages: unknown[] = [];
++    for (;;) {
++      const end = this.buffer.indexOf("\r\n\r\n");
++      if (end < 0) {
++        if (this.buffer.length > 8192) throw new Error("Oversized LSP header");
++        break;
++      }
++      if (end > 8192) throw new Error("Oversized LSP header");
++      const match = /^Content-Length:\s*(\d+)\s*$/im.exec(this.buffer.subarray(0, end).toString());
++      const length = match ? Number(match[1]) : NaN;
++      if (!Number.isSafeInteger(length) || length < 0 || length > MAX_MESSAGE)
++        throw new Error("Invalid LSP message size");
++      if (this.buffer.length < end + 4 + length) break;
++      messages.push(JSON.parse(this.buffer.subarray(end + 4, end + 4 + length).toString("utf8")));
++      this.buffer = this.buffer.subarray(end + 4 + length);
++    }
++    return messages;
++  }
++}
++
++export interface LspProcessOptions {
++  command: string;
++  args?: string[];
++  cwd: string;
++  env?: NodeJS.ProcessEnv;
++  notification(method: string, params: any): void;
++  configuration: Record<string, unknown>;
++  timeoutMs?: number;
++}
++
++/** Reusable stdio JSON-RPC transport. It never executes server-provided commands or edits. */
++export class LspProcess {
++  private child: ChildProcessWithoutNullStreams;
++  private nextId = 1;
++  private pending = new Map<
++    number,
++    { resolve(value: any): void; reject(error: Error): void; timer: NodeJS.Timeout }
++  >();
++  private failure: Error | null = null;
++  private closing = false;
++  private stderr = "";
++
++  constructor(private options: LspProcessOptions) {
++    this.child = spawn(options.command, options.args ?? [], {
++      cwd: options.cwd,
++      env: options.env ?? process.env,
++      stdio: ["pipe", "pipe", "pipe"],
++    });
++    const reader = new LspReader();
++    this.child.stdout.on("data", (chunk: Buffer) => {
++      try {
++        for (const message of reader.push(chunk)) this.receive(message);
++      } catch (error) {
++        this.fail(new Error(`Invalid ZLS response: ${String(error)}`));
++        this.close();
++      }
++    });
++    this.child.stderr.on("data", (chunk: Buffer) => {
++      this.stderr = (this.stderr + chunk.toString()).slice(-4096);
++    });
++    this.child.on("error", (error) =>
++      this.fail(
++        new Error(
++          `Unable to start ZLS (${options.command}): ${error.message}. Install ZLS on the daemon host or set PASEO_ZLS_PATH.`,
++        ),
++      ),
++    );
++    this.child.on("exit", (code, signal) =>
++      this.fail(new Error(`ZLS exited (${signal ?? code}). ${this.stderr.trim()}`)),
++    );
++    this.child.stdin.on("error", (error) => this.fail(error));
++  }
++
++  assertAlive() {
++    if (this.failure) throw this.failure;
++    if (this.closing) throw new Error("ZLS session closed");
++  }
++
++  request(method: string, params: unknown): Promise<any> {
++    this.assertAlive();
++    if (this.pending.size >= 64) return Promise.reject(new Error("Too many pending ZLS requests"));
++    const id = this.nextId++;
++    return new Promise((resolve, reject) => {
++      const timer = setTimeout(() => {
++        this.pending.delete(id);
++        try {
++          this.notify("$/cancelRequest", { id });
++        } catch {}
++        reject(new Error(`ZLS timed out: ${method}`));
++      }, this.options.timeoutMs ?? 15000);
++      this.pending.set(id, { resolve, reject, timer });
++      try {
++        this.send({ jsonrpc: "2.0", id, method, params });
++      } catch (error) {
++        clearTimeout(timer);
++        this.pending.delete(id);
++        reject(error);
++      }
++    });
++  }
++
++  notify(method: string, params: unknown) {
++    this.send({ jsonrpc: "2.0", method, params });
++  }
++
++  private send(message: unknown) {
++    this.assertAlive();
++    this.write(message);
++  }
++
++  private write(message: unknown) {
++    const body = Buffer.from(JSON.stringify(message));
++    if (body.length > MAX_MESSAGE || this.child.stdin.writableLength > MAX_MESSAGE)
++      throw new Error("ZLS input queue is full");
++    this.child.stdin.write(
++      Buffer.concat([Buffer.from(`Content-Length: ${body.length}\r\n\r\n`), body]),
++    );
++  }
++
++  private receive(message: any) {
++    if (!message || typeof message !== "object" || message.jsonrpc !== "2.0")
++      throw new Error("Invalid JSON-RPC message");
++    if (typeof message.method === "string") {
++      if (message.id !== undefined) {
++        let result: unknown;
++        if (message.method === "workspace/configuration") {
++          result = (message.params?.items ?? []).map((item: any) =>
++            !item.section || item.section === "zls" ? this.options.configuration : null,
++          );
++        } else if (message.method === "window/workDoneProgress/create") result = null;
++        else {
++          this.send({
++            jsonrpc: "2.0",
++            id: message.id,
++            error: { code: -32601, message: "Unsupported client method" },
++          });
++          return;
++        }
++        this.send({ jsonrpc: "2.0", id: message.id, result });
++      } else this.options.notification(message.method, message.params);
++      return;
++    }
++    const request = this.pending.get(message.id);
++    if (!request) return;
++    clearTimeout(request.timer);
++    this.pending.delete(message.id);
++    if (message.error) request.reject(new Error(message.error.message ?? "ZLS request failed"));
++    else request.resolve(message.result);
++  }
++
++  private fail(error: Error) {
++    this.failure ??= error;
++    for (const item of this.pending.values()) {
++      clearTimeout(item.timer);
++      item.reject(this.failure);
++    }
++    this.pending.clear();
++  }
++
++  close() {
++    if (this.closing) return;
++    const shutdown = this.failure
++      ? Promise.resolve()
++      : this.request("shutdown", null).catch(() => {});
++    this.closing = true;
++    // The normal LSP shutdown lets ZLS stop build-on-save children. Dead servers
++    // still get bounded termination, including when a request is stuck.
++    const term = setTimeout(() => this.child.kill("SIGTERM"), 2000);
++    const kill = setTimeout(() => this.child.kill("SIGKILL"), 4000);
++    term.unref();
++    kill.unref();
++    const clear = () => {
++      clearTimeout(term);
++      clearTimeout(kill);
++    };
++    this.child.once("exit", clear);
++    if (this.child.exitCode !== null || this.child.signalCode !== null) clear();
++    void shutdown.finally(() => {
++      if (!this.failure) {
++        try {
++          this.write({ jsonrpc: "2.0", method: "exit", params: null });
++        } catch {}
++      }
++      this.child.stdin.end();
++      this.fail(new Error("ZLS session closed"));
++    });
++  }
++}
+diff --git a/packages/server/src/server/editor/zls-real.test.ts b/packages/server/src/server/editor/zls-real.test.ts
+new file mode 100644
+index 0000000..dd13297
+--- /dev/null
++++ b/packages/server/src/server/editor/zls-real.test.ts
+@@ -0,0 +1,129 @@
++import { afterEach, beforeEach, describe, expect, it } from "vitest";
++import { mkdtemp, writeFile, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
++import { ZlsService } from "./zls-service.js";
++
++// Package check() opts in with checkdepends Zig + ZLS. Unit tests remain portable.
++describe.skipIf(process.env.PASEO_TEST_ZLS !== "1")("real ZLS", () => {
++  let dir: string;
++  let service: ZlsService;
++  const owner = {};
++  beforeEach(async () => {
++    dir = await mkdtemp(path.join(tmpdir(), "paseo-zls-real-"));
++    await writeFile(path.join(dir, "helper.zig"), "pub const answer: u32 = 42;\n");
++    service = new ZlsService();
++  });
++  afterEach(async () => {
++    service.dispose();
++    await rm(dir, { recursive: true, force: true });
++  });
++  it("completes unsaved text, hovers and navigates imports, reports and clears errors", async () => {
++    const content = 'const helper = @import("helper.zig");\nconst value = helper.answer;\n';
++    await writeFile(path.join(dir, "main.zig"), content);
++    const { documentId } = await service.execute(
++      { action: "open", cwd: dir, path: "main.zig", content },
++      owner,
++    );
++    const query = (
++      method: "definition" | "references" | "completion" | "hover",
++      line: number,
++      character: number,
++      version = 0,
++    ) =>
++      service.execute(
++        {
++          action: "query",
++          documentId: documentId!,
++          version,
++          method,
++          position: { line, character },
++        },
++        owner,
++      );
++    const definitions = await query("definition", 1, 24);
++    expect(
++      definitions.locations?.some(
++        (item) => item.path === path.join(dir, "helper.zig") && item.range.start.line === 0,
++      ),
++    ).toBe(true);
++    expect((await query("hover", 1, 24)).hover).toContain("u32");
++    expect((await query("references", 0, 8)).locations?.length).toBeGreaterThan(0);
++    const unsaved = 'const helper = @import("helper.zig");\nconst value = helper.\n';
++    await service.execute(
++      { action: "change", documentId: documentId!, version: 1, content: unsaved },
++      owner,
++    );
++    expect(
++      (await query("completion", 1, 21, 1)).completions?.some((item) =>
++        item.label.includes("answer"),
++      ),
++    ).toBe(true);
++    await service.execute(
++      { action: "change", documentId: documentId!, version: 2, content: "const x = ;\n" },
++      owner,
++    );
++    await expect
++      .poll(
++        async () =>
++          (
++            await service.execute(
++              { action: "diagnostics", documentId: documentId!, version: 2 },
++              owner,
++            )
++          ).diagnostics?.length,
++        { timeout: 10000 },
++      )
++      .toBeGreaterThan(0);
++    await service.execute(
++      { action: "change", documentId: documentId!, version: 3, content },
++      owner,
++    );
++    await expect
++      .poll(
++        async () =>
++          (
++            await service.execute(
++              { action: "diagnostics", documentId: documentId!, version: 3 },
++              owner,
++            )
++          ).diagnostics?.length,
++        { timeout: 10000 },
++      )
++      .toBe(0);
++    await service.execute({ action: "close", documentId: documentId! }, owner);
++  }, 30000);
++  it("reports compiler errors from a project's check step", async () => {
++    await writeFile(
++      path.join(dir, "build.zig"),
++      `const std = @import("std");
++pub fn build(b: *std.Build) void {
++    const exe = b.addExecutable(.{
++        .name = "check-fixture",
++        .root_module = b.createModule(.{ .root_source_file = b.path("main.zig"), .target = b.graph.host }),
++    });
++    b.step("check", "Check compilation").dependOn(&exe.step);
++}
++`,
++    );
++    const content = "pub fn main() void { const n: u8 = 300; _ = n; }\n";
++    await writeFile(path.join(dir, "main.zig"), content);
++    const { documentId } = await service.execute(
++      { action: "open", cwd: dir, path: "main.zig", content },
++      owner,
++    );
++    await service.execute({ action: "save", documentId: documentId!, version: 0 }, owner);
++    await expect
++      .poll(
++        async () => {
++          const result = await service.execute(
++            { action: "diagnostics", documentId: documentId!, version: 0 },
++            owner,
++          );
++          return result.diagnostics?.map((item) => item.message).join("\n") ?? "";
++        },
++        { timeout: 30000 },
++      )
++      .toMatch(/cannot represent|300/);
++  }, 40000);
++});
+diff --git a/packages/server/src/server/editor/zls-service.test.ts b/packages/server/src/server/editor/zls-service.test.ts
+new file mode 100644
+index 0000000..41d9f6d
+--- /dev/null
++++ b/packages/server/src/server/editor/zls-service.test.ts
+@@ -0,0 +1,131 @@
++import { afterEach, beforeEach, describe, expect, it } from "vitest";
++import { mkdtemp, writeFile, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
++import {
++  ZlsService,
++  normalizeCompletions,
++  normalizeLocations,
++  compatibleVersions,
++} from "./zls-service.js";
++import type { LspProcess, LspProcessOptions } from "./lsp-process.js";
++
++let dir: string;
++let service: ZlsService;
++const owner = {};
++let processes: {
++  options: LspProcessOptions;
++  notifications: { method: string; params: any }[];
++  closed: boolean;
++}[];
++beforeEach(async () => {
++  dir = await mkdtemp(path.join(tmpdir(), "paseo-zls-unit-"));
++  await writeFile(path.join(dir, "main.zig"), "const x = 1;");
++  processes = [];
++  service = new ZlsService((options) => {
++    const fake = { options, notifications: [] as { method: string; params: any }[], closed: false };
++    processes.push(fake);
++    return {
++      request: async () => ({ capabilities: {} }),
++      notify: (method: string, params: any) => fake.notifications.push({ method, params }),
++      assertAlive() {
++        if (fake.closed) throw new Error("closed");
++      },
++      close() {
++        fake.closed = true;
++      },
++    } as unknown as LspProcess;
++  });
++});
++afterEach(async () => {
++  service.dispose();
++  await rm(dir, { recursive: true, force: true });
++});
++
++async function open(who = owner) {
++  return (
++    await service.execute(
++      { action: "open", cwd: dir, path: "main.zig", content: "const x = 1;" },
++      who,
++    )
++  ).documentId!;
++}
++describe("ZLS session ownership and synchronization", () => {
++  it("isolates buffers, rejects foreign tokens, and releases disconnected owners", async () => {
++    const id = await open();
++    const other = {};
++    await open(other);
++    await expect(
++      service.execute({ action: "diagnostics", documentId: id, version: 0 }, other),
++    ).rejects.toThrow("expired");
++    service.releaseOwner(owner);
++    expect(processes[0].closed).toBe(true);
++    expect(processes[1].closed).toBe(false);
++    await expect(open()).rejects.toThrow("closed");
++  });
++  it("rejects traversal and non-Zig files", async () => {
++    await expect(
++      service.execute({ action: "open", cwd: dir, path: "../outside.zig", content: "" }, owner),
++    ).rejects.toThrow();
++    await writeFile(path.join(dir, "file.txt"), "");
++    await expect(
++      service.execute({ action: "open", cwd: dir, path: "file.txt", content: "" }, owner),
++    ).rejects.toThrow("Zig and ZON");
++    expect(processes).toHaveLength(0);
++  });
++  it("drops old diagnostic versions and sends full updates and saves", async () => {
++    const id = await open();
++    const diagnostic = {
++      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 5 } },
++      message: "error",
++      severity: 1,
++    };
++    const notify = processes[0].options.notification;
++    const uri = processes[0].notifications.find((n) => n.method === "textDocument/didOpen")!.params
++      .textDocument.uri;
++    notify("textDocument/publishDiagnostics", { uri, version: 0, diagnostics: [diagnostic] });
++    expect(
++      (await service.execute({ action: "diagnostics", documentId: id, version: 0 }, owner))
++        .diagnostics,
++    ).toHaveLength(1);
++    await service.execute(
++      { action: "change", documentId: id, version: 1, content: "const x = 2;" },
++      owner,
++    );
++    notify("textDocument/publishDiagnostics", { uri, version: 0, diagnostics: [diagnostic] });
++    expect(
++      (await service.execute({ action: "diagnostics", documentId: id, version: 1 }, owner))
++        .diagnostics,
++    ).toEqual([]);
++    await expect(
++      service.execute({ action: "change", documentId: id, version: 0, content: "stale" }, owner),
++    ).rejects.toThrow("Stale");
++    await service.execute({ action: "save", documentId: id, version: 1 }, owner);
++    expect(processes[0].notifications.at(-1)?.method).toBe("textDocument/didSave");
++  });
++  it("normalizes insert/replace completions and cross-file LocationLinks", () => {
++    const range = { start: { line: 2, character: 1 }, end: { line: 2, character: 4 } };
++    expect(
++      normalizeCompletions({
++        items: [
++          {
++            label: "hello",
++            insertTextFormat: 2,
++            textEdit: { newText: "hello(${1:name})", insert: range, replace: range },
++          },
++        ],
++      })[0],
++    ).toMatchObject({ insertText: "hello(${1:name})", snippet: true, range });
++    expect(
++      normalizeLocations([{ targetUri: "file:///tmp/a%20b.zig", targetSelectionRange: range }]),
++    ).toEqual([{ path: "/tmp/a b.zig", range }]);
++    expect(normalizeLocations([{ uri: "https://example.com", range }])).toEqual([]);
++  });
++});
++
++it("checks release series while allowing compatible patch releases", () => {
++  expect(compatibleVersions("0.17.0", "0.17.1")).toBe(true);
++  expect(compatibleVersions("0.16.0", "0.17.0")).toBe(false);
++  expect(compatibleVersions("0.17.0-dev.1", "0.17.0")).toBe(false);
++  expect(compatibleVersions("invalid", "invalid")).toBe(false);
++});
+diff --git a/packages/server/src/server/editor/zls-service.ts b/packages/server/src/server/editor/zls-service.ts
+new file mode 100644
+index 0000000..7bcaba9
+--- /dev/null
++++ b/packages/server/src/server/editor/zls-service.ts
+@@ -0,0 +1,293 @@
++import { execFile } from "node:child_process";
++import { promisify } from "node:util";
++import { randomUUID } from "node:crypto";
++import { access, realpath, stat } from "node:fs/promises";
++import path from "node:path";
++import { fileURLToPath, pathToFileURL } from "node:url";
++import {
++  LspRangeSchema,
++  LspEditSchema,
++  ZlsDiagnosticSchema,
++  type ZlsInput,
++  type ZlsResult,
++  type ZlsDiagnostic,
++  type ZlsCompletion,
++  type ZlsLocation,
++} from "@getpaseo/protocol/zig-lsp";
++import { resolveExplorerFilePath } from "../file-explorer/service.js";
++import { LspProcess, type LspProcessOptions } from "./lsp-process.js";
++
++const execFileAsync = promisify(execFile);
++const startLsp = (options: LspProcessOptions) => new LspProcess(options);
++
++export function compatibleVersions(zig: string, zls: string): boolean {
++  const series = (value: string) => /^(\d+\.\d+)\./.exec(value.trim())?.[1];
++  return (
++    !!series(zig) && series(zig) === series(zls) && zig.includes("-dev") === zls.includes("-dev")
++  );
++}
++
++interface Document {
++  owner: object;
++  process: LspProcess;
++  uri: string;
++  version: number;
++  diagnostics: ZlsDiagnostic[];
++  touched: number;
++}
++
++/** Each editor buffer has its own server: different clients' unsaved text cannot collide. */
++export class ZlsService {
++  private documents = new Map<string, Document>();
++  private disposed = false;
++  private toolchain: Promise<void> | null = null;
++  private releasedOwners = new WeakSet<object>();
++  private timer: NodeJS.Timeout;
++  constructor(private factory: (options: LspProcessOptions) => LspProcess = startLsp) {
++    this.timer = setInterval(() => {
++      for (const [id, doc] of this.documents) if (Date.now() - doc.touched > 90000) this.close(id);
++    }, 30000);
++    this.timer.unref();
++  }
++
++  async execute(input: ZlsInput, owner: object): Promise<ZlsResult> {
++    if (this.disposed || this.releasedOwners.has(owner)) throw new Error("ZLS connection closed");
++    if (input.action === "open") return this.open(input, owner);
++    const doc = this.documents.get(input.documentId);
++    if (!doc || doc.owner !== owner) throw new Error("ZLS session expired; reconnect the editor");
++    doc.touched = Date.now();
++    if (input.action === "close") {
++      this.close(input.documentId);
++      return {};
++    }
++    doc.process.assertAlive();
++    if (input.action === "change") {
++      if (input.version <= doc.version) throw new Error("Stale ZLS document update");
++      doc.version = input.version;
++      doc.diagnostics = [];
++      doc.process.notify("textDocument/didChange", {
++        textDocument: { uri: doc.uri, version: doc.version },
++        contentChanges: [{ text: input.content }],
++      });
++      return { version: doc.version };
++    }
++    if (input.version !== doc.version) throw new Error("Stale ZLS document version");
++    if (input.action === "save") {
++      doc.process.notify("textDocument/didSave", { textDocument: { uri: doc.uri } });
++      return { version: doc.version };
++    }
++    if (input.action === "diagnostics")
++      return { version: doc.version, diagnostics: doc.diagnostics };
++    const result = await doc.process.request(`textDocument/${input.method}`, {
++      textDocument: { uri: doc.uri },
++      position: input.position,
++      ...(input.method === "references" ? { context: { includeDeclaration: true } } : {}),
++      ...(input.method === "completion" ? { context: { triggerKind: 1 } } : {}),
++    });
++    // A response to an earlier buffer must never edit or navigate the current one.
++    if (doc.version !== input.version) return { version: input.version };
++    if (input.method === "completion")
++      return {
++        version: doc.version,
++        completions: normalizeCompletions(result),
++        isIncomplete: !Array.isArray(result) && result?.isIncomplete === true,
++      };
++    if (input.method === "hover")
++      return { version: doc.version, hover: hoverText(result?.contents) };
++    return { version: doc.version, locations: normalizeLocations(result) };
++  }
++
++  private async open(
++    input: Extract<ZlsInput, { action: "open" }>,
++    owner: object,
++  ): Promise<ZlsResult> {
++    if (this.documents.size >= 32) throw new Error("Too many open Zig editors");
++    const cwd = await realpath(input.cwd);
++    const file = await resolveExplorerFilePath({ root: cwd, relativePath: input.path });
++    if (!/\.(zig|zon)$/i.test(file)) throw new Error("ZLS supports Zig and ZON files only");
++    if (!(await stat(file)).isFile()) throw new Error("ZLS requires a regular file");
++    const root = await projectRoot(file, cwd);
++    if (this.factory === startLsp) await this.verifyToolchain();
++    if (this.disposed || this.releasedOwners.has(owner)) throw new Error("ZLS connection closed");
++    if (this.documents.size >= 32) throw new Error("Too many open Zig editors");
++    const id = randomUUID();
++    const uri = pathToFileURL(file).href;
++    const configuration: Record<string, unknown> = {};
++    if (process.env.PASEO_ZIG_PATH) configuration.zig_exe_path = process.env.PASEO_ZIG_PATH;
++    const doc: Document = {
++      owner,
++      uri,
++      version: 0,
++      diagnostics: [],
++      touched: Date.now(),
++      process: this.factory({
++        command: process.env.PASEO_ZLS_PATH || "zls",
++        cwd: root,
++        configuration,
++        notification: (method, params) => {
++          if (method !== "textDocument/publishDiagnostics" || params?.uri !== uri) return;
++          if (params.version !== undefined && params.version !== doc.version) return;
++          const parsed = ZlsDiagnosticSchema.array().safeParse(params.diagnostics);
++          if (parsed.success) doc.diagnostics = parsed.data.slice(0, 2000);
++        },
++      }),
++    };
++    this.documents.set(id, doc);
++    try {
++      const initialized = await doc.process.request("initialize", {
++        processId: process.pid,
++        clientInfo: { name: "Paseo", version: "0.15.0" },
++        rootUri: pathToFileURL(root).href,
++        workspaceFolders: [{ uri: pathToFileURL(root).href, name: path.basename(root) }],
++        initializationOptions: configuration,
++        capabilities: {
++          general: { positionEncodings: ["utf-16"] },
++          workspace: { configuration: true, workspaceFolders: true },
++          textDocument: {
++            synchronization: { didSave: true },
++            completion: {
++              completionItem: {
++                snippetSupport: true,
++                insertReplaceSupport: true,
++                documentationFormat: ["plaintext"],
++              },
++            },
++            hover: { contentFormat: ["plaintext"] },
++            definition: { linkSupport: true },
++            publishDiagnostics: { versionSupport: true },
++          },
++        },
++      });
++      if (
++        initialized?.capabilities?.positionEncoding &&
++        initialized.capabilities.positionEncoding !== "utf-16"
++      )
++        throw new Error("ZLS selected an unsupported position encoding");
++      if (!this.documents.has(id)) throw new Error("ZLS editor closed during startup");
++      doc.process.notify("initialized", {});
++      doc.process.notify("textDocument/didOpen", {
++        textDocument: {
++          uri,
++          languageId: /\.zon$/i.test(file) ? "zon" : "zig",
++          version: 0,
++          text: input.content,
++        },
++      });
++      return { documentId: id, version: 0 };
++    } catch (error) {
++      this.close(id);
++      throw error;
++    }
++  }
++
++  private verifyToolchain(): Promise<void> {
++    return (this.toolchain ??= (async () => {
++      let zig: string, zls: string;
++      try {
++        const results = await Promise.all([
++          execFileAsync(process.env.PASEO_ZIG_PATH || "zig", ["version"], {
++            timeout: 5000,
++            maxBuffer: 4096,
++          }),
++          execFileAsync(process.env.PASEO_ZLS_PATH || "zls", ["--version"], {
++            timeout: 5000,
++            maxBuffer: 4096,
++          }),
++        ]);
++        [zig, zls] = results.map((result) => result.stdout.trim());
++      } catch (error) {
++        throw new Error(
++          `Zig/ZLS unavailable on the daemon host. Install both or set PASEO_ZIG_PATH and PASEO_ZLS_PATH. ${String(error)}`,
++        );
++      }
++      if (!compatibleVersions(zig, zls))
++        throw new Error(
++          `Zig ${zig} and ZLS ${zls} are incompatible. Use matching release series (or matching nightly builds).`,
++        );
++    })().catch((error) => {
++      this.toolchain = null;
++      throw error;
++    }));
++  }
++
++  private close(id: string) {
++    const doc = this.documents.get(id);
++    if (!doc) return;
++    this.documents.delete(id);
++    try {
++      doc.process.notify("textDocument/didClose", { textDocument: { uri: doc.uri } });
++    } catch {}
++    doc.process.close();
++  }
++  releaseOwner(owner: object) {
++    this.releasedOwners.add(owner);
++    for (const [id, doc] of this.documents) if (doc.owner === owner) this.close(id);
++  }
++  dispose() {
++    this.disposed = true;
++    clearInterval(this.timer);
++    for (const id of this.documents.keys()) this.close(id);
++  }
++}
++
++async function projectRoot(file: string, cwd: string): Promise<string> {
++  for (let dir = path.dirname(file); ; dir = path.dirname(dir)) {
++    for (const name of ["build.zig", "build.zig.zon"]) {
++      try {
++        await access(path.join(dir, name));
++        return dir;
++      } catch {}
++    }
++    if (dir === cwd || path.dirname(dir) === dir) return cwd;
++  }
++}
++
++export function normalizeCompletions(result: any): ZlsCompletion[] {
++  const items = Array.isArray(result) ? result : result?.items;
++  if (!Array.isArray(items)) return [];
++  return items.slice(0, 1000).flatMap((item: any) => {
++    if (typeof item?.label !== "string") return [];
++    const edit = item.textEdit;
++    const range = LspRangeSchema.safeParse(edit?.replace ?? edit?.range);
++    const additional = LspEditSchema.array().safeParse(item.additionalTextEdits);
++    return [
++      {
++        label: item.label,
++        ...(typeof item.detail === "string" ? { detail: item.detail } : {}),
++        ...(typeof item.sortText === "string" ? { sortText: item.sortText } : {}),
++        ...(typeof item.filterText === "string" ? { filterText: item.filterText } : {}),
++        ...(typeof item.kind === "number" ? { kind: item.kind } : {}),
++        insertText:
++          typeof edit?.newText === "string"
++            ? edit.newText
++            : typeof item.insertText === "string"
++              ? item.insertText
++              : item.label,
++        snippet: item.insertTextFormat === 2,
++        ...(range.success ? { range: range.data } : {}),
++        ...(additional.success ? { additionalTextEdits: additional.data } : {}),
++      },
++    ];
++  });
++}
++
++export function normalizeLocations(result: any): ZlsLocation[] {
++  return (Array.isArray(result) ? result : result ? [result] : [])
++    .slice(0, 2000)
++    .flatMap((location: any) => {
++      const uri = location.targetUri ?? location.uri;
++      const range = LspRangeSchema.safeParse(location.targetSelectionRange ?? location.range);
++      if (typeof uri !== "string" || !uri.startsWith("file:") || !range.success) return [];
++      try {
++        return [{ path: fileURLToPath(uri), range: range.data }];
++      } catch {
++        return [];
++      }
++    });
++}
++
++export function hoverText(contents: any): string | null {
++  if (Array.isArray(contents)) return contents.map(hoverText).filter(Boolean).join("\n\n") || null;
++  if (typeof contents === "string") return contents;
++  return typeof contents?.value === "string" ? contents.value : null;
++}
+diff --git a/packages/server/src/server/editor/zls.e2e.test.ts b/packages/server/src/server/editor/zls.e2e.test.ts
+new file mode 100644
+index 0000000..deedb76
+--- /dev/null
++++ b/packages/server/src/server/editor/zls.e2e.test.ts
+@@ -0,0 +1,45 @@
++import { describe, expect, it } from "vitest";
++import { mkdtemp, writeFile, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
++import { createDaemonTestContext } from "../test-utils/index.js";
++
++describe.skipIf(process.env.PASEO_TEST_ZLS !== "1")("ZLS over the daemon connection", () => {
++  it("opens, queries and closes a Zig buffer through the public client", async () => {
++    const dir = await mkdtemp(path.join(tmpdir(), "paseo-zls-wire-"));
++    const context = await createDaemonTestContext();
++    try {
++      const content = "const answer: u32 = 42;\nconst value = answer;\n";
++      await writeFile(path.join(dir, "main.zig"), content);
++      const opened = await context.client.editorZls({
++        action: "open",
++        cwd: dir,
++        path: "main.zig",
++        content,
++      });
++      expect(opened.documentId).toBeTruthy();
++      const result = await context.client.editorZls({
++        action: "query",
++        documentId: opened.documentId!,
++        version: 0,
++        method: "definition",
++        position: { line: 1, character: 16 },
++      });
++      expect(result.locations?.[0]).toMatchObject({
++        path: path.join(dir, "main.zig"),
++        range: { start: { line: 0, character: 6 } },
++      });
++      await context.client.editorZls({ action: "close", documentId: opened.documentId! });
++      await expect(
++        context.client.editorZls({
++          action: "diagnostics",
++          documentId: opened.documentId!,
++          version: 0,
++        }),
++      ).rejects.toThrow("expired");
++    } finally {
++      await context.cleanup();
++      await rm(dir, { recursive: true, force: true });
++    }
++  }, 45000);
++});
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 00c8529..cc6338a 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -1,3 +1,4 @@
++import { ZlsService } from "./editor/zls-service.js";
+ import { type WorkspaceRuntimeStore } from "./workspace-runtime-store/index.js";
+ import type { AgentMessageDelivery } from "./agent/agent-messages/index.js";
+ import { AgentDirectory } from "./agent/directory.js";
+@@ -819,6 +820,7 @@ export class Session {
+   private readonly providerCatalogSession: ProviderCatalogSession;
+   private readonly usageSession: UsageSession;
+   private readonly speechModelsSession: SpeechModelsSession;
++  private readonly zlsService = new ZlsService();
+   private readonly workspaceFilesSession: WorkspaceFilesSession;
+   private readonly agentConfigSession: AgentConfigSession;
+   private readonly projectConfigSession: ProjectConfigSession;
+@@ -1337,6 +1339,7 @@ export class Session {
+   }
+ 
+   clearAgentTimelineSubscription(source: object): void {
++    this.zlsService.releaseOwner(source);
+     void this.delivery
+       .detach(source)
+       .catch((err) => this.sessionLogger.error({ err }, "Failed to release source subscriptions"));
+@@ -3128,6 +3131,25 @@ export class Session {
+     source?: object,
+   ): Promise<void> | undefined {
+     switch (msg.type) {
++      case "editor.zls.request":
++        return this.zlsService.execute(msg.input, source ?? this).then(
++          (result) =>
++            this.emitForSource(
++              { type: "editor.zls.response", payload: { requestId: msg.requestId, result } },
++              source,
++            ),
++          (error) =>
++            this.emitForSource(
++              {
++                type: "editor.zls.response",
++                payload: {
++                  requestId: msg.requestId,
++                  error: error instanceof Error ? error.message : String(error),
++                },
++              },
++              source,
++            ),
++        );
+       case "file_explorer_request":
+         return this.workspaceFilesSession.handleFileExplorerRequest(msg, source);
+       case "fs.file.subscribe.request":
+@@ -8728,6 +8750,7 @@ export class Session {
+   public async cleanup(): Promise<void> {
+     this.sessionLogger.trace({}, "agent.session.lifecycle.cleanup");
+     this.isCleanedUp = true;
++    this.zlsService.dispose();
+     this.unsubscribeSetupObservation();
+     await this.delivery.close();
+ 
+diff --git a/packages/server/src/server/websocket-server.ts b/packages/server/src/server/websocket-server.ts
+index 7089812..f3232a6 100644
+--- a/packages/server/src/server/websocket-server.ts
++++ b/packages/server/src/server/websocket-server.ts
+@@ -2104,6 +2104,7 @@ export class VoiceAssistantWebSocketServer {
+         workspaceFileEditing: true,
+         // COMPAT(fileByteWrites): added in v0.13.0, remove gate after 2027-04-20.
+         fileByteWrites: true,
++        nativeZls: true,
+         // COMPAT(providerUsageList): added in v0.1.98, drop the gate when daemon floor >= v0.1.98.
+         providerUsageList: true,
+         // COMPAT(agentDetach): added in v0.1.98, remove gate after 2026-12-19 once daemon floor >= v0.1.98.

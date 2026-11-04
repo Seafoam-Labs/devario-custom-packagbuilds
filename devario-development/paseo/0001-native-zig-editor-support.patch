@@ -1,0 +1,232 @@
+From: Devario maintainers
+Subject: [PATCH] highlight: add native Zig and ZON editing support
+
+Register a shared Zig stream parser for the built-in CodeMirror editor and
+static source/diff previews. Handle Zig literals, builtins, primitive types,
+comments and delimiter indentation without an external editor plugin.
+
+Includes regression tests for ZON, ranges, quoted identifiers, multiline
+strings, indentation and source-text preservation. No new npm dependencies.
+
+diff --git a/packages/highlight/src/__tests__/zig.test.ts b/packages/highlight/src/__tests__/zig.test.ts
+new file mode 100644
+index 0000000..6133e9f
+--- /dev/null
++++ b/packages/highlight/src/__tests__/zig.test.ts
+@@ -0,0 +1,93 @@
++import { describe, expect, it } from "vitest";
++import { EditorState } from "@codemirror/state";
++import { getIndentation, indentUnit } from "@codemirror/language";
++import { highlightCode } from "../highlighter.js";
++import { getLanguageForFile } from "../parsers.js";
++
++function tokens(source: string, filename = "main.zig") {
++  return highlightCode(source, filename).flat();
++}
++
++describe("native Zig support", () => {
++  it("shares a language between Zig, ZON, the editor and previews", () => {
++    const zig = getLanguageForFile("src/main.ZIG");
++    expect(zig).not.toBeNull();
++    expect(getLanguageForFile("build.zig.zon")).toBe(zig);
++    expect(tokens('.{ .name = .demo, .version = "0.1.0" }', "build.zig.zon")).toContainEqual({
++      text: '"0.1.0"',
++      style: "string",
++    });
++  });
++
++  it("highlights keywords, arbitrary-width types, builtins and literals", () => {
++    const result = tokens(
++      "pub fn main() void { const n: u257 = @as(u257, 42); const ok = true; const p = null; }",
++    );
++    for (const [text, style] of [
++      ["pub", "keyword"],
++      ["fn", "keyword"],
++      ["void", "type"],
++      ["u257", "type"],
++      ["@as", "function"],
++      ["42", "number"],
++      ["true", "literal"],
++      ["null", "literal"],
++    ])
++      expect(result).toContainEqual({ text, style });
++  });
++
++  it("recognizes quoted identifiers and escaped string and character literals", () => {
++    expect(tokens('const @"a name" = "a\\\"b"; const c = \'\\n\';')).toEqual(
++      expect.arrayContaining([
++        { text: '@"a name"', style: "variable" },
++        { text: '"a\\\"b"', style: "string" },
++        { text: "'\\n'", style: "string" },
++      ]),
++    );
++  });
++
++  it("keeps comments and multiline strings from affecting the next line", () => {
++    const source = [
++      "//! documentation",
++      "const text =",
++      "    \\\\hello // {",
++      "    \\\\world",
++      ";",
++      "const x = 1;",
++    ].join("\n");
++    const lines = highlightCode(source, "main.zig");
++    expect(lines[0]).toEqual([{ text: "//! documentation", style: "comment" }]);
++    expect(lines[2]).toContainEqual({ text: "\\\\hello // {", style: "string" });
++    expect(lines[5]).toContainEqual({ text: "const", style: "keyword" });
++    expect(highlightCode('"unfinished\nconst x = 1;', "main.zig")[1]).toContainEqual({
++      text: "const",
++      style: "keyword",
++    });
++  });
++
++  it("separates ranges from decimal and hexadecimal floats", () => {
++    const result = tokens("0..10 0...10 1.25e-3 0x1.fp+2 0b1010 0o755 1_000");
++    for (const text of ["0", "10", "1.25e-3", "0x1.fp+2", "0b1010", "0o755", "1_000"])
++      expect(result).toContainEqual({ text, style: "number" });
++    expect(result).toContainEqual({ text: "..", style: "punctuation" });
++    expect(result).toContainEqual({ text: "...", style: "punctuation" });
++  });
++
++  it("indents blocks and ignores braces inside comments and strings", () => {
++    const language = getLanguageForFile("main.zig")!;
++    const doc = 'pub fn main() void {\n    const text = "}"; // {\n    const n = 1;\n}';
++    const state = EditorState.create({ doc, extensions: [language, indentUnit.of("    ")] });
++    expect(getIndentation(state, state.doc.line(3).from)).toBe(4);
++    expect(getIndentation(state, state.doc.line(4).from)).toBe(0);
++    expect(state.languageDataAt("commentTokens", 0)).toContainEqual({ line: "//" });
++  });
++
++  it("preserves all source text including CRLF and non-ASCII strings", () => {
++    const source = 'const message = "héllo 🌊";\r\n// λ\r\n';
++    expect(
++      highlightCode(source, "main.zig")
++        .map((line) => line.map((t) => t.text).join(""))
++        .join("\n"),
++    ).toBe(source);
++  });
++});
+diff --git a/packages/highlight/src/parsers.ts b/packages/highlight/src/parsers.ts
+index 06c3129..3ef17a1 100644
+--- a/packages/highlight/src/parsers.ts
++++ b/packages/highlight/src/parsers.ts
+@@ -19,6 +19,7 @@ import type { Parser } from "@lezer/common";
+ import { csharpLanguage } from "./csharp/language.js";
+ import { astroParser } from "./astro/parser.js";
+ import { vueParser } from "./vue/parser.js";
++import { zigLanguage } from "./zig/language.js";
+ import { nixLanguage } from "./nix/language.js";
+ import { parser as svelteBaseParser } from "./svelte/parser.js";
+ import { configureNesting, defaultNesting } from "./svelte/nesting.js";
+@@ -72,6 +73,9 @@ const languagesByExtension: Record<string, Language> = {
+   // YAML
+   yaml: language(yamlParser),
+   yml: language(yamlParser),
++  // Zig and Zig Object Notation (including build.zig.zon).
++  zig: zigLanguage,
++  zon: zigLanguage,
+   // Rust
+   rs: language(rustParser),
+   // Swift
+diff --git a/packages/highlight/src/zig/language.ts b/packages/highlight/src/zig/language.ts
+new file mode 100644
+index 0000000..32f30b9
+--- /dev/null
++++ b/packages/highlight/src/zig/language.ts
+@@ -0,0 +1,95 @@
++import { StreamLanguage, type StreamParser } from "@codemirror/language";
++
++// A lexical grammar shared by the editable source pane and static file/diff previews.
++// Zig's multiline strings consist of independently prefixed lines; ordinary strings
++// and character literals never continue onto the next line, including while editing.
++const keywords = new Set(
++  (
++    `addrspace align allowzero and anyframe anytype asm async await break callconv catch ` +
++    `comptime const continue defer else enum errdefer error export extern fn for if inline ` +
++    `linksection noalias noinline nosuspend opaque or orelse packed pub resume return ` +
++    `section struct suspend switch test threadlocal try union unreachable usingnamespace ` +
++    `var volatile while`
++  ).split(" "),
++);
++const types = new Set(
++  (
++    `anyerror anyopaque bool c_char c_int c_long c_longdouble c_longlong c_short c_uint ` +
++    `c_ulong c_ulonglong c_ushort comptime_float comptime_int f16 f32 f64 f80 f128 ` +
++    `isize noreturn type usize void`
++  ).split(" "),
++);
++
++interface ZigState {
++  brackets: { close: string; indent: number }[];
++}
++
++const zigParser: StreamParser<ZigState> = {
++  name: "zig",
++  startState: () => ({ brackets: [] }),
++  copyState: (state) => ({ brackets: state.brackets.map((entry) => ({ ...entry })) }),
++  token(stream, state) {
++    if (stream.eatSpace()) return null;
++    if (stream.match("//")) {
++      stream.skipToEnd();
++      return "comment";
++    }
++    if (stream.match("\\\\")) {
++      stream.skipToEnd();
++      return "string";
++    }
++    // Quoted identifiers are identifiers, not builtins or string values.
++    const quotedIdentifier = stream.match('@"');
++    if (quotedIdentifier || stream.peek() === '"' || stream.peek() === "'") {
++      const quote = quotedIdentifier ? '"' : stream.next();
++      while (!stream.eol()) {
++        const character = stream.next();
++        if (character === "\\") stream.next();
++        else if (character === quote) break;
++      }
++      return quotedIdentifier ? "variableName" : "string";
++    }
++    if (stream.match(/^@[A-Za-z_][A-Za-z0-9_]*/)) return "variableName.function";
++    // Do not swallow the range operator in 0..10 or 0...10 as a decimal point.
++    if (
++      stream.match(/^0x[0-9a-fA-F][0-9a-fA-F_]*(?:\.(?!\.)[0-9a-fA-F_]*)?(?:[pP][+-]?[0-9_]+)?/) ||
++      stream.match(/^0b[01][01_]*/) ||
++      stream.match(/^0o[0-7][0-7_]*/) ||
++      stream.match(/^[0-9][0-9_]*(?:\.(?!\.)[0-9_]+)?(?:[eE][+-]?[0-9_]+)?/)
++    )
++      return "number";
++    if (stream.match(/^[A-Za-z_][A-Za-z0-9_]*/)) {
++      const word = stream.current();
++      if (keywords.has(word)) return "keyword";
++      if (types.has(word) || /^[iu][0-9]+$/.test(word)) return "typeName";
++      if (word === "true" || word === "false") return "bool";
++      if (word === "null" || word === "undefined") return "null";
++      return "variableName";
++    }
++    const character = stream.next()!;
++    const closing = { "(": ")", "[": "]", "{": "}" }[character];
++    if (closing) {
++      state.brackets.push({ close: closing, indent: stream.indentation() });
++      return "bracket";
++    }
++    if (/^[)\]}]$/.test(character)) {
++      if (state.brackets.at(-1)?.close === character) state.brackets.pop();
++      return "bracket";
++    }
++    if (/^[,;.:]$/.test(character)) return "punctuation";
++    if (/^[+*/%=!<>|&^?~\-]$/.test(character)) return "operator";
++    return null;
++  },
++  indent(state, textAfter, context) {
++    const bracket = state.brackets.at(-1);
++    if (!bracket) return 0;
++    return bracket.indent + (textAfter.trimStart().startsWith(bracket.close) ? 0 : context.unit);
++  },
++  languageData: {
++    commentTokens: { line: "//" },
++    closeBrackets: { brackets: ["(", "[", "{", '"', "'"] },
++    indentOnInput: /^\s*[}\])]/,
++  },
++};
++
++export const zigLanguage = StreamLanguage.define(zigParser);

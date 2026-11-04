@@ -1,6 +1,6 @@
 pkgname=paseo
 pkgver=0.15.0
-pkgrel=1
+pkgrel=3
 pkgdesc='Desktop workspace for coding agents with a bundled Paseo server and CLI'
 arch=('x86_64')
 url='https://paseo.sh'
@@ -41,36 +41,90 @@ depends=(
   'util-linux-libs'
   'xdg-utils'
 )
-makedepends=('libarchive')
+makedepends=('nodejs>=22' 'npm' 'python' 'gcc' 'make' 'pkgconf' 'patch')
+checkdepends=('desktop-file-utils' 'zig' 'zls')
 optdepends=(
   'libappindicator-gtk3: system tray integration'
   'openssh: remote connections over SSH'
+  'zig: Zig compiler for native editor language features'
+  'zls: native Zig completion, diagnostics, hover and navigation'
   'xdg-desktop-portal: desktop integration on Wayland'
 )
 provides=("paseo-desktop=$pkgver")
 conflicts=('paseo-desktop')
 # Preserve the bundled Electron runtime and native Node modules.
 options=('!strip' '!debug')
-source=("paseo-$pkgver-LICENSE::https://raw.githubusercontent.com/getpaseo/paseo/v$pkgver/LICENSE")
-sha256sums=('79d5aedce6aa0adc547336dc1bd34c5cc9308ba110fac7079ed97515ee573ad3')
-source_x86_64=("https://github.com/getpaseo/paseo/releases/download/v$pkgver/Paseo-$pkgver-amd64.deb")
-sha256sums_x86_64=('9b37e15469422be4cf6fad9aa4865a61e1a8129f3a9ca142362ded679bf29ca1')
+source=(
+  "paseo-$pkgver.tar.gz::https://codeload.github.com/getpaseo/paseo/tar.gz/refs/tags/v$pkgver"
+  '0001-native-zig-editor-support.patch'
+  '0002-native-zls-integration.patch'
+  'paseo.desktop'
+)
+sha256sums=('99a84cc7ae6ec312237c2d55b438a19af7632ff18bf59cba3c19031bf356a9cc'
+            '6be65be32ddf82abc22b3dac1c3451d2491dae282a759530758592f461dcf493'
+            '6a2ae1c657cdba0b58c1bf2194abfeebcb2353c1e1a40980b1f7e3bee4c712b7'
+            '51b1379df3825ad02a50d4f96541bee5d3d3ec53b705fb7dcce85be1838a144b')
+
+_build_environment() {
+  export npm_config_cache="$srcdir/npm-cache"
+  export ELECTRON_CACHE="$srcdir/electron-cache"
+  export ELECTRON_BUILDER_CACHE="$srcdir/electron-builder-cache"
+  export XDG_CACHE_HOME="$srcdir/xdg-cache"
+  export EXPO_NO_TELEMETRY=1
+  export CI=1
+}
+
+prepare() {
+  cd "paseo-$pkgver"
+  patch -Np1 -i "$srcdir/0001-native-zig-editor-support.patch"
+  patch -Np1 -i "$srcdir/0002-native-zls-integration.patch"
+  _build_environment
+
+  # The lockfile pins the JS dependencies and the bundled Electron runtime.
+  # Only initialize native dependencies needed by the Linux desktop build;
+  # skip mobile SDK downloads and the repository's git-hook installer.
+  printf '%s\n' 'allow-scripts=esbuild,node-pty,electron,sharp' > .npmrc
+  npm ci --ignore-scripts --no-audit --no-fund
+  npm rebuild esbuild node-pty electron sharp
+  npm run postinstall
+}
+
+build() {
+  cd "paseo-$pkgver"
+  _build_environment
+  npm run build:desktop -- --linux --x64 --dir --publish never
+}
+
+check() {
+  cd "paseo-$pkgver"
+  _build_environment
+  npm run test --workspace=@getpaseo/highlight
+  npm run test --workspace=@getpaseo/protocol -- src/messages.zls.test.ts
+  npm run test --workspace=@getpaseo/app -- src/file-panels/source/editor/zls --project=unit
+  PASEO_TEST_ZLS=1 ZIG_GLOBAL_CACHE_DIR="$srcdir/zig-test-cache" \
+    npm exec --workspace=@getpaseo/server -- vitest run \
+    src/server/editor src/server/authorization/index.test.ts --maxWorkers=1
+  desktop-file-validate "$srcdir/paseo.desktop"
+}
 
 package() {
-  # The builder unpacks the .deb container; install only its application payload.
-  bsdtar -xf "$srcdir/data.tar.xz" -C "$pkgdir" --no-same-owner ./opt ./usr
-
+  cd "paseo-$pkgver"
   local appdir="$pkgdir/opt/Paseo"
-  # Shelly manages updates instead of electron-updater's Debian installer.
+  install -dm755 "$appdir"
+  cp -a packages/desktop/release/linux-unpacked/. "$appdir/"
+
+  # Shelly manages updates instead of electron-updater.
   rm -f "$appdir/resources/package-type" "$appdir/resources/app-update.yml"
   chmod 4755 "$appdir/chrome-sandbox"
 
   install -dm755 "$pkgdir/usr/bin"
   ln -s /opt/Paseo/Paseo "$pkgdir/usr/bin/paseo-desktop"
   ln -s /opt/Paseo/resources/bin/paseo "$pkgdir/usr/bin/paseo"
+  install -Dm644 "$srcdir/paseo.desktop" "$pkgdir/usr/share/applications/paseo.desktop"
+  install -Dm644 packages/desktop/assets/icon.png \
+    "$pkgdir/usr/share/icons/hicolor/512x512/apps/paseo.png"
 
-  install -Dm644 "$srcdir/paseo-$pkgver-LICENSE" \
-    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 "$appdir/LICENSE.electron.txt" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE.electron.txt"
   install -Dm644 "$appdir/LICENSES.chromium.html" \
