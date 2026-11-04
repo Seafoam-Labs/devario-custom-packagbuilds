@@ -24,6 +24,7 @@ path = [
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
 
+# Arch names Apache-2.0 for *.patch and vendors no text; LICENSES/Apache-2.0.txt is local.
 [[annotations]]
 path = [
     "*.patch",
