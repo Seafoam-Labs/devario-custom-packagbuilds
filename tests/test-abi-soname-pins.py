@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guard the versioned SONAME provisions of the fan-in ABI libraries in devario-core.
+"""Guard the versioned SONAME provisions of the fan-in ABI libraries in this tree.
 
 Each recipe here publishes a shared object, so every bare `libfoo.so` provision it declares
 must be paired with the `libfoo.so=N-64` form Shelly carries into `.PKGINFO`, and each pinned
@@ -135,7 +135,54 @@ PINNED = {
     'gnutls': {},
     'openldap': {},
     'pinentry': {},
+    # Audio codecs and DSP libraries. `serd`, `zix` and `ncurses` carry the provisions
+    # their consumers name, and `alsa-lib` already published both of its pins.
+    # `rubberband` also ships `librubberband-jni.so`, whose own SONAME carries no
+    # version, so it has no versioned form to declare.
+    'alsa-lib': {'libasound.so': 'libasound.so=2-64', 'libatopology.so': 'libatopology.so=2-64'},
+    'flac': {'libFLAC.so': 'libFLAC.so=14-64', 'libFLAC++.so': 'libFLAC++.so=11-64'},
+    'lame': {'libmp3lame.so': 'libmp3lame.so=0-64'},
+    'libbs2b': {'libbs2b.so': 'libbs2b.so=0-64'},
+    'libfdk-aac': {'libfdk-aac.so': 'libfdk-aac.so=2-64'},
+    'libfreeaptx': {'libfreeaptx.so': 'libfreeaptx.so=0-64'},
+    'liblc3': {'liblc3.so': 'liblc3.so=1-64'},
+    'libldac': {'libldacBT_abr.so': 'libldacBT_abr.so=2-64', 'libldacBT_enc.so': 'libldacBT_enc.so=2-64'},
+    'libogg': {'libogg.so': 'libogg.so=0-64'},
+    'libopenmpt': {'libopenmpt.so': 'libopenmpt.so=0-64'},
+    'libsamplerate': {'libsamplerate.so': 'libsamplerate.so=0-64'},
+    'libvorbis': {'libvorbis.so': 'libvorbis.so=0-64', 'libvorbisenc.so': 'libvorbisenc.so=2-64',
+                  'libvorbisfile.so': 'libvorbisfile.so=3-64'},
+    'mpg123': {'libmpg123.so': 'libmpg123.so=0-64', 'libout123.so': 'libout123.so=0-64',
+               'libsyn123.so': 'libsyn123.so=0-64'},
+    'ncurses': {'libncurses++w.so': 'libncurses++w.so=6-64', 'libformw.so': 'libformw.so=6-64',
+                'libmenuw.so': 'libmenuw.so=6-64', 'libpanelw.so': 'libpanelw.so=6-64',
+                'libncursesw.so': 'libncursesw.so=6-64'},
+    'opencore-amr': {'libopencore-amrnb.so': 'libopencore-amrnb.so=0-64',
+                     'libopencore-amrwb.so': 'libopencore-amrwb.so=0-64'},
+    'opus': {'libopus.so': 'libopus.so=0-64'},
+    'orc': {'liborc-0.4.so': 'liborc-0.4.so=0-64', 'liborc-test-0.4.so': 'liborc-test-0.4.so=0-64'},
+    'rtaudio': {'librtaudio.so': 'librtaudio.so=7-64'},
+    'rubberband': {'librubberband.so': 'librubberband.so=3-64'},
+    'sbc': {'libsbc.so': 'libsbc.so=1-64'},
+    'sdl_image': {'libSDL_image-1.2.so': 'libSDL_image-1.2.so=0-64'},
+    'serd': {'libserd-0.so': 'libserd-0.so=0-64'},
+    'sndio': {'libsndio.so': 'libsndio.so=7-64'},
+    'speex': {'libspeex.so': 'libspeex.so=1-64'},
+    'sord': {'libsord-0.so': 'libsord-0.so=0-64'},
+    'sratom': {'libsratom-0.so': 'libsratom-0.so=0-64'},
+    'vamp-plugin-sdk': {'libvamp-hostsdk.so': 'libvamp-hostsdk.so=3-64',
+                        'libvamp-sdk.so': 'libvamp-sdk.so=2-64'},
+    'zix': {'libzix-0.so': 'libzix-0.so=0-64'},
+    # No provision of their own, but every .so depend names a pinned provider.
+    'alsa-utils': {},
 }
+
+# rtaudio and sdl_image live in devario-libs; the guard follows the recipe, not the group.
+GROUP = {'rtaudio': 'devario-libs', 'sdl_image': 'devario-libs'}
+
+# A probe has to name a file the package really installs, which is not always the bare
+# provision: SDL_image ships libSDL_image-1.2.so.0 and the libSDL_image.so linker name only.
+PROBE_PATH = {'sdl_image': {'libSDL_image-1.2.so': 'libSDL_image.so'}}
 
 # Providers outside these recipes that publish only an unpinned provision, so a consumer here
 # cannot name a versioned form of them without making itself uninstallable. util-linux-libs
@@ -208,48 +255,52 @@ def arrays(recipe, key):
 class AbiSonamePins(unittest.TestCase):
     def recipes(self):
         for pkgbase in sorted(PINNED):
-            recipe = ROOT / 'devario-core' / pkgbase
-            self.assertTrue((recipe / 'PKGBUILD').is_file(), f'devario-core/{pkgbase}/PKGBUILD is missing')
-            self.assertTrue((recipe / '.SRCINFO').is_file(), f'devario-core/{pkgbase}/.SRCINFO is missing')
-            yield pkgbase, recipe
+            group = GROUP.get(pkgbase, 'devario-core')
+            recipe = ROOT / group / pkgbase
+            name = '%s/%s' % (group, pkgbase)
+            self.assertTrue((recipe / 'PKGBUILD').is_file(), f'{name}/PKGBUILD is missing')
+            self.assertTrue((recipe / '.SRCINFO').is_file(), f'{name}/.SRCINFO is missing')
+            yield name, recipe
 
     def test_every_bare_provision_is_paired_with_its_versioned_form(self):
-        for pkgbase, recipe in self.recipes():
+        for name, recipe in self.recipes():
             declared = arrays(recipe, 'provides')
-            for bare, pinned in PINNED[pkgbase].items():
-                self.assertIn(bare, declared, f'devario-core/{pkgbase} dropped the bare {bare} provide')
-                self.assertIn(pinned, declared, f'devario-core/{pkgbase} does not declare {pinned}')
+            for bare, pinned in PINNED[name.split('/')[1]].items():
+                self.assertIn(bare, declared, f'{name} dropped the bare {bare} provide')
+                self.assertIn(pinned, declared, f'{name} does not declare {pinned}')
             srcinfo = (recipe / '.SRCINFO').read_text()
-            for pinned in PINNED[pkgbase].values():
+            for pinned in PINNED[name.split('/')[1]].values():
                 self.assertIn(f'provides = {pinned}', srcinfo,
-                              f'devario-core/{pkgbase}/.SRCINFO is stale: no {pinned}')
+                              f'{name}/.SRCINFO is stale: no {pinned}')
 
     def test_every_pinned_provision_has_a_matching_probe(self):
-        for pkgbase, recipe in self.recipes():
+        for name, recipe in self.recipes():
+            pkgbase = name.split('/')[1]
             text = (recipe / 'PKGBUILD').read_text()
             for bare, pinned in PINNED[pkgbase].items():
                 soname = f'{bare}.{pinned.split("=")[1].split("-")[0]}'
-                probe = re.search(r'_verify_soname\s+"?\$\{?pkgdir\}?[^"]*?/' + re.escape(bare)
+                probed = PROBE_PATH.get(pkgbase, {}).get(bare, bare)
+                probe = re.search(r'_verify_soname\s+"?\$\{?pkgdir\}?[^"]*?/' + re.escape(probed)
                                   + r'"+\s+' + re.escape(soname) + r'\s*\|\|\s*return 1', text)
                 self.assertIsNotNone(probe,
-                                     f'devario-core/{pkgbase} declares {pinned} without probing {soname}')
+                                     f'{name} declares {pinned} without probing {soname}')
 
     def test_no_recipe_here_depends_on_an_unpinned_provision_it_can_pin(self):
         provided = {bare: pinned for pins in PINNED.values() for bare, pinned in pins.items()}
-        for pkgbase, recipe in self.recipes():
+        for name, recipe in self.recipes():
             for dep in arrays(recipe, 'depends'):
                 base = re.split(r'[=<>]', dep)[0]
                 if not base.endswith('.so'):
                     continue
                 if base in provided:
                     self.assertEqual(dep, provided[base],
-                                     f'devario-core/{pkgbase} depends on bare {base}, which is '
+                                     f'{name} depends on bare {base}, which is '
                                      f'published as {provided[base]} in this recipe set')
                     continue
                 if '=' in dep:
                     continue  # pinned against a provider that already declares the versioned form
                 self.assertIn(base, UNPINNED_PROVIDERS,
-                              f'devario-core/{pkgbase} depends on bare {base} with no pinned provider '
+                              f'{name} depends on bare {base} with no pinned provider '
                               'recorded for it')
 
 

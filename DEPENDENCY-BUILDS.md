@@ -103,10 +103,10 @@ and pkgbase here are `game-optimization-linux-git`, which installs
 
 ## Open: published packages whose depends nothing provides
 
-Read 2026-11-03 across all fourteen databases. Every row is an install-time gap today,
-independent of any worker plan.
+Read 2026-11-03 across all fourteen databases, with the batch-8 import folded in 2026-11-04. Every
+row is an install-time gap today, independent of any worker plan.
 
-Recipe present, output unpublished (12):
+Recipe present, output unpublished (13):
 
 | Reference | Consumer |
 | --- | --- |
@@ -115,15 +115,16 @@ Recipe present, output unpublished (12):
 | [python-fsspec](devario-libs/python-fsspec/PKGBUILD), [python-pyarrow](devario-libs/python-pyarrow/PKGBUILD) | `python-gdal` |
 | [python-libevdev](devario-libs/python-libevdev/PKGBUILD) | `libinput-tools` `1.32.0-1` |
 | [python-tomli-w](devario-libs/python-tomli-w/PKGBUILD) | `bubblejail-git` |
+| [vamp-plugin-sdk](devario-core/vamp-plugin-sdk/PKGBUILD) | `rubberband-vamp` |
 
-No recipe anywhere (15):
+No recipe anywhere (14):
 
 | Reference | Consumer |
 | --- | --- |
 | `xf86-input-libinput` | `xorg-server` |
 | `lua51-compat53`, `lua52-compat53` | `lua51-luarocks`, `lua52-luarocks` |
 | `libwpe`, `wpebackend-fdo` | `gst-plugin-wpe` |
-| `vamp-host`, `vamp-plugin-sdk` | `rubberband-vamp` |
+| `vamp-host` | `rubberband-vamp` |
 | `libpanel` | `sysprof` |
 | `liblphobos` | `btdu` |
 | `lirc` | `pulseaudio-lirc` |
@@ -132,6 +133,10 @@ No recipe anywhere (15):
 | `python-pyinotify` | `ds-inhibit` |
 | `python-cattrs` | `bubblejail-git` |
 | `dgop` | `dms-shell` |
+
+`vamp-host` is no package anywhere: in Arch it is a virtual provide that vamp-capable hosts
+(`ardour`, `audacity`, `sonic-visualiser`) declare, and no Devario package declares it, so
+`rubberband-vamp` stays uninstallable until one of them lands.
 
 `python-strictyaml` also names no provider and owns no recipe. It reaches a plan only as
 a `makedepends` of the published [meson](devario-core/meson/PKGBUILD) recipe, so rebuilding

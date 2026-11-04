@@ -7,7 +7,7 @@
 
 pkgbase=kitty
 pkgname=(kitty kitty-terminfo kitty-shell-integration)
-pkgver=0.49.2
+pkgver=0.50.0
 pkgrel=1
 pkgdesc="A modern, hackable, featureful, OpenGL-based terminal emulator"
 arch=('x86_64')
@@ -18,7 +18,7 @@ depends=(
     'dbus'
     'freetype2'
     'fontconfig'
-    'harfbuzz'
+    'harfbuzz>=2.2.0'
     'hicolor-icon-theme'
     'lcms2'
     'libgl'
@@ -30,13 +30,14 @@ depends=(
     'libxkbcommon-x11'
     'libxi'
     'openssl'
+    # python3 is an unversioned provision of python here, so this name carries no floor
     'python3'
     'wayland'
     'xxhash'
     'zlib'
 )
 makedepends=(
-    'go'
+    'go>=1.26.0'
     'libxinerama'
     'libxrandr'
     'shader-slang'
@@ -46,7 +47,7 @@ makedepends=(
 )
 options=("!lto")
 source=("https://github.com/kovidgoyal/${pkgbase}/releases/download/v${pkgver}/${pkgbase}-${pkgver}.tar.xz"{,.sig})
-b2sums=('b0e56149d0cfc34b86bf13c1b516e56180a64e899a881ab976f43c1fd8b8fa8ec430f31458d3b49af74fda981def58b7505708ddea7bac14d1a7e252db38037f'
+b2sums=('291ee2eca3541811ad3adda8b7cca24fd0d46b82446551116613f078e55a8c36a5073dace05dcbd9a7e72f642130cf261ff733dcdeaa0c4852c6194b06712fb2'
         'SKIP')
 validpgpkeys=('3CE1780F78DD88DF45194FD706BC317B515ACE7C') # Kovid Goyal
 

@@ -1,24 +1,25 @@
 pkgbase = kconfig
 	pkgdesc = Configuration system
-	pkgver = 6.30.0
+	pkgver = 6.31.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
+	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.31.0
 	makedepends = qt6-tools
 	depends = libstdc++
 	depends = glibc
-	depends = qt6-base
-	depends = qt6-declarative
-	source = https://download.kde.org/stable/frameworks/6.30/kconfig-6.30.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.30/kconfig-6.30.0.tar.xz.sig
+	depends = qt6-base>=6.10.0
+	depends = qt6-declarative>=6.10.0
+	source = https://download.kde.org/stable/frameworks/6.31/kconfig-6.31.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.31/kconfig-6.31.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 0e98bac324cd716849202d4b246a948e363d6792a8eb09c78417cdde9559f56e
+	sha256sums = 5572e3e098f7cf5d06c78cd941924333c0e84646d2a18aa6b4c9a6f7eae8a5c9
 	sha256sums = SKIP
 
 pkgname = kconfig

@@ -1,0 +1,46 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: PelPix <kylebloss@pelpix.info>
+# Contributor: DrZaius <lou[at]fakeoutdoorsman[dot]com>
+
+pkgname=libfdk-aac
+pkgver=3.0.0
+pkgrel=2
+pkgdesc='Fraunhofer FDK AAC codec library'
+arch=(x86_64)
+url=https://sourceforge.net/projects/opencore-amr/
+license=(LicenseRef-Fraunhofer)
+depends=(glibc)
+makedepends=(git)
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  libfdk-aac.so
+  'libfdk-aac.so=2-64'
+)
+source=(git+https://github.com/mstorsjo/fdk-aac.git#tag=v${pkgver})
+b2sums=('a7171040e5e4ba76319698565473610b954a791cace26468e3293567cbbf61b9e75eb0a400d4f5da62062ce0afe00c58751808c7958f3f229031a3d3ce69679a')
+
+prepare() {
+  cd fdk-aac
+  ./autogen.sh
+}
+
+build() {
+  cd fdk-aac
+  ./configure \
+    --prefix=/usr \
+    --disable-static
+  make
+}
+
+package () {
+  cd fdk-aac
+  make DESTDIR="${pkgdir}" install
+  _verify_soname "${pkgdir}/usr/lib/libfdk-aac.so" libfdk-aac.so.2 || return 1
+  install -Dm 644 NOTICE -t "${pkgdir}"/usr/share/licenses/${pkgname}/
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

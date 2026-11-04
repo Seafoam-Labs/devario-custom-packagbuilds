@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kcodecs
-pkgver=6.30.0
+pkgver=6.31.0
 pkgrel=1
 pkgdesc='Provide a collection of methods to manipulate strings using various encodings'
 arch=(x86_64)
@@ -11,14 +11,15 @@ url='https://develop.kde.org/products/frameworks/'
 license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(libstdc++
          glibc
-         qt6-base)
-makedepends=(doxygen
-             extra-cmake-modules
+         'qt6-base>=6.10.0')
+makedepends=('cmake>=3.30'
+             doxygen
+             'extra-cmake-modules>=6.31.0'
              gperf
              qt6-tools)
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('a42c79ff3237b73789d1c63cdfd848c0d59671ce5e93723a2efa128f00cb3450'
+sha256sums=('2d889f4afd881ae3bc532753c7a2758f45842d4ca828a171d52c8f396128d081'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>

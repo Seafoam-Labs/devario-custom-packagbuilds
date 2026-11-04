@@ -1,28 +1,29 @@
 pkgbase = ki18n
 	pkgdesc = Advanced internationalization framework
-	pkgver = 6.30.0
+	pkgver = 6.31.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
+	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.31.0
 	makedepends = python
-	makedepends = qt6-declarative
+	makedepends = qt6-declarative>=6.10.0
 	makedepends = qt6-tools
 	depends = libstdc++
 	depends = glibc
 	depends = iso-codes
-	depends = qt6-base
+	depends = qt6-base>=6.10.0
 	optdepends = python: to compile .ts files
 	optdepends = qt6-declarative: ktranscript plugin and QML bindings
-	source = https://download.kde.org/stable/frameworks/6.30/ki18n-6.30.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.30/ki18n-6.30.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.31/ki18n-6.31.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.31/ki18n-6.31.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = dfbfc8af89b3bc68810b094bf87746db87c3eeb35b75caeb1882681ebed563bd
+	sha256sums = 9fa271c7a33b856451de1ed3ff105626c2763fbd3b11d3210b02cb30de43f2ba
 	sha256sums = SKIP
 
 pkgname = ki18n

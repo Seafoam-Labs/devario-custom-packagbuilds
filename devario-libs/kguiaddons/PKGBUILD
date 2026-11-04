@@ -3,8 +3,8 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kguiaddons
-pkgver=6.30.0
-pkgrel=2
+pkgver=6.31.0
+pkgrel=1
 pkgdesc='Addons to QtGui'
 arch=(x86_64)
 url='https://develop.kde.org/products/frameworks/'
@@ -12,23 +12,25 @@ license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(glibc
          libstdc++
          libx11
-         qt6-base
-         wayland)
-makedepends=(doxygen
-             extra-cmake-modules
-             plasma-wayland-protocols
+         'qt6-base>=6.10.0'
+         'wayland>=1.9')
+makedepends=('cmake>=3.30'
+             doxygen
+             'extra-cmake-modules>=6.31.0'
+             'plasma-wayland-protocols>=1.15.0'
              pyside6
              python-build
              python-setuptools
              qt6-declarative
              qt6-tools
+             'qt6-wayland>=6.10.0'
              shiboken6-generator
-             wayland-protocols)
+             'wayland-protocols>=1.39')
 optdepends=('pyside6: Python bindings'
             'qt6-declarative: QML bindings')
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('e98864228d1c5e23f3428025eb9928697374fdc3eddebb3a9dec570de028a62d'
+sha256sums=('d440bbe350282b03c828d5987a6db1f0a4f5d87a528907bf19e1e5bb76d4b219'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB  # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1) # Nicolas Fella <nicolas.fella@kde.org>
