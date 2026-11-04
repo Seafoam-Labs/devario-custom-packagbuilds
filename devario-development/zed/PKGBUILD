@@ -1,6 +1,6 @@
 pkgname=zed
-pkgver=1.26.2
-pkgrel=4
+pkgver=1.27.0
+pkgrel=1
 pkgdesc='A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter'
 arch=(x86_64)
 url=https://zed.dev
@@ -45,7 +45,7 @@ replaces=(zed-editor)
 _archive="$pkgname-$pkgver"
 source=("$_url/archive/v$pkgver/$_archive.tar.gz"
         "0001-provider-usage-panel.patch")
-sha256sums=('c101b00c4634a836c43664778b29f3a0f49777f88966d863905e3607a30e776a'
+sha256sums=('0e7bec0a4f27ed4d3a9007b136bea8c820e50d60bd96a78a444a93c520726b0a'
             'e98ba88721f037918161235b4de964ab15ba89ac43798218e652f174b2eb7fd5')
 
 _binname=zeditor
