@@ -23,6 +23,7 @@ path = [
     "greetd-config.toml",
     "greetd-gpu-driver.conf",
     "migrate-overlay.py",
+    "mimeapps.list",
 ]
 SPDX-FileCopyrightText = "Devario maintainers"
 SPDX-License-Identifier = "0BSD"
