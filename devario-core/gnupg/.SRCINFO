@@ -23,6 +23,7 @@ pkgbase = gnupg
 	makedepends = libassuan
 	makedepends = librsvg
 	makedepends = npth
+	makedepends = ocl-icd
 	makedepends = pcsclite
 	makedepends = readline
 	depends = glibc

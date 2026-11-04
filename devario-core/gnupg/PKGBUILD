@@ -46,6 +46,7 @@ makedepends=(
   libassuan
   librsvg
   npth
+  ocl-icd  # the imagemagick convert used for doc/ is linked against libOpenCL.so.1
   pcsclite
   readline
 )
