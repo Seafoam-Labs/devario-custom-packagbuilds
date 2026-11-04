@@ -1,6 +1,6 @@
 pkgbase = vorta
 	pkgdesc = Desktop backup client for Borg Backup
-	pkgver = 0.11.6
+	pkgver = 0.12.0
 	pkgrel = 1
 	url = https://vorta.borgbase.com/
 	arch = any
@@ -18,7 +18,7 @@ pkgbase = vorta
 	makedepends = qt6-tools
 	depends = borg
 	depends = hicolor-icon-theme
-	depends = python>=3.10
+	depends = python>=3.11
 	depends = python-packaging
 	depends = python-peewee
 	depends = python-platformdirs>=2.6.0
@@ -32,7 +32,7 @@ pkgbase = vorta
 	optdepends = networkmanager: Wi-Fi and metered connection detection
 	optdepends = openssh: access remote repositories and generate SSH keys
 	optdepends = python-pyfuse3: mount backup archives with Borg
-	source = vorta-0.11.6.tar.gz::https://github.com/borgbase/vorta/archive/refs/tags/v0.11.6.tar.gz
-	sha256sums = f86531adedfaad3543418ca2907f5613005800d9c534ffcea481bce51f641e88
+	source = vorta-0.12.0.tar.gz::https://github.com/borgbase/vorta/archive/refs/tags/v0.12.0.tar.gz
+	sha256sums = d91c60ff18581fe896b6d8f92c34de31ea916233eea838bdcf77fc47198bed84
 
 pkgname = vorta
