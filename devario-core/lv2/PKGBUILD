@@ -10,8 +10,11 @@ arch=(x86_64)
 url="https://lv2plug.in/"
 license=(ISC)
 # lv2-docs needs python-rdflib, and its lint tests need codespell, flake8,
-# python-black and python-pylint: none of these publish in a Devario repository,
-# so lv2 builds with -Ddocs=disabled and ships no lv2-docs split.
+# python-black and python-pylint: none of these publish in a Devario repository.
+# Meson treats both tooling lookups as required unless their feature option is
+# disabled, so lv2 builds with -Ddocs=disabled -Dtests=disabled and ships no
+# lv2-docs split. Disabling docs alone leaves meson setup failing on
+# "python3 is missing modules: rdflib".
 makedepends=(
   asciidoc
   doxygen
@@ -48,12 +51,14 @@ prepare() {
 }
 
 build() {
-  arch-meson $pkgbase-$pkgver build -Ddocs=disabled
+  arch-meson $pkgbase-$pkgver build -Ddocs=disabled -Dtests=disabled
   meson compile -C build
 }
 
 check() {
-  meson test -C build || : # syntax and codespell tests fail
+  # serdi and sord_validate publish in a Devario repository, so the data tests meson
+  # registers on finding them still run, and the serdi syntax test fails as Arch reports.
+  meson test -C build || :
 }
 
 package_lv2() {

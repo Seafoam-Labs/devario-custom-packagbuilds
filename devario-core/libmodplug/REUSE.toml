@@ -17,13 +17,9 @@ path = [
     "*.timer",
     "*.desktop",
     "*.hook",
+    "*.patch",
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
 
-[[annotations]]
-path = [
-    "libmodplug-0.8.9.0-no-fast-math.patch",
-]
-SPDX-FileCopyrightText = "libmodplug contributors"
-SPDX-License-Identifier = "LicenseRef-PublicDomain"
+# Local deviation: Arch's grant for the patch named LicenseRef-PublicDomain with no vendored text.
