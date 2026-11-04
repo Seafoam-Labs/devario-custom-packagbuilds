@@ -1,0 +1,10 @@
+{
+  "name": "xpcog",
+  "url": "https://raw.githubusercontent.com/losnoco/XPCog/main/packaging/arch/PKGBUILD",
+  "sha256": "cbc0c2ccb9d0458f1b8dde3cba12738ab90cee4b94d33fa8915b33cba57a256e",
+  "bytes": 7924,
+  "retrieved_on": "2026-11-04",
+  "local_adaptation": false,
+  "note": "Upstream distribution recipe, packaged unchanged; the identical recipe is published in the AUR as xpcog.",
+  "aur": "https://aur.archlinux.org/packages/xpcog"
+}

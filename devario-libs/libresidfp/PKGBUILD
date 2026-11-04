@@ -1,0 +1,55 @@
+# Adapted from Arch Linux packaging for explicit Shelly ABI provisions.
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+
+pkgname=libresidfp
+pkgver=1.2.3
+pkgrel=1
+pkgdesc='Cycle exact SID emulation'
+arch=(x86_64)
+url='https://github.com/libsidplayfp/libresidfp'
+license=(GPL-2.0-only)
+# Upstream names its SONAMEs inside package(); Shelly carries only what the
+# recipe declares, so pin them here against the SONAME the build produces.
+depends=(
+  glibc
+  libgcc
+  libgcc_s.so=1-64
+  libstdc++
+  libstdc++.so=6-64
+)
+makedepends=(git)
+provides=(
+  libresidfp.so
+  'libresidfp.so=0-64'
+)
+source=("$pkgname::git+$url#tag=v$pkgver")
+sha512sums=('c359e3eb61a67c18ede32eb494dc3323c79d8b838fa9b78d67342a26038a6c6bcf5cd90329adc2bbe24ed8cbea608f35b02c8d99fd5947629b97084ac9057782')
+b2sums=('54c37cd33dbefd444dbebc6a69118ec1630705a32abff7a44d3cda5a3a8354f0f2a1e80e7b4970c156b9514f8a1f3804de2a3700fd74482cc1c594946f1ff11b')
+
+prepare() {
+  cd "$pkgname"
+
+  autoreconf -vfi
+}
+
+build() {
+  cd "$pkgname"
+
+  ./configure --prefix=/usr
+
+  make
+}
+
+package() {
+  cd "$pkgname"
+
+  DESTDIR="$pkgdir" make install
+
+  _verify_soname "$pkgdir/usr/lib/libresidfp.so" libresidfp.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

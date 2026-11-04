@@ -1,0 +1,95 @@
+# Adapted from Arch Linux packaging for explicit Shelly ABI provisions.
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Contributor: Alexander F. Rødseth <xyproto@archlinux.org>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Simon Perry <aur [at] sanxion [dot] net>
+# Contributor: Jonas Nyrén <jonas.nyren*mindkiller.com>
+
+pkgname=libsidplayfp
+pkgver=3.1.2
+pkgrel=1
+pkgdesc='Library to play Commodore 64 music'
+arch=(x86_64)
+url='https://github.com/libsidplayfp/libsidplayfp'
+license=(GPL-2.0-only)
+# Upstream names its SONAMEs inside package(); Shelly carries only what the
+# recipe declares, so pin them here against the SONAMEs the build produces.
+depends=(
+  glibc
+  libgcc
+  libgcc_s.so=1-64
+  libstdc++
+  libstdc++.so=6-64
+  libresidfp
+  libresidfp.so=0-64
+  libexsid
+  libexsid.so=2-64
+)
+makedepends=(
+  git
+  vice
+  xa
+  libusb
+  libresidfp
+  libexsid
+  libgcrypt
+)
+optdepends=(
+  'vice: better SID support'
+  'libusb: USBSID support'
+)
+provides=(
+  libsidplayfp.so
+  'libsidplayfp.so=7-64'
+  libstilview.so
+  'libstilview.so=0-64'
+)
+source=(
+  "$pkgname::git+$url#tag=v$pkgver"
+  'github.com-libsidplayfp-exsid-driver::git+https://github.com/libsidplayfp/exsid-driver'
+  'github.com-LouDnl-USBSID-Pico-driver::git+https://github.com/LouDnl/USBSID-Pico-driver'
+)
+sha512sums=('699aef01de7eeb0b68e544909160334ed2ac00d500360f7d9cd4667e029b85832315ca04c6ae1bd6d336be56f5c0bc47b03171a40e1f6964d3dd6c49626105b0'
+            'SKIP'
+            'SKIP')
+b2sums=('6d6aec53d82249a4c9b5e491ede7eb6f5e5fe52886794057940702888d2e25970678ca2d8ade9be193b7c780b8eeba7bfe1a6ce3ce27080d9f96d35965f6da23'
+        'SKIP'
+        'SKIP')
+
+prepare() {
+  cd "$pkgname"
+
+  # prepare git submodule(s)
+  git submodule init
+  git config submodule.src/builders/exsid-builder/driver.url "$srcdir/github.com-libsidplayfp-exsid-driver"
+  git config submodule.src/builders/usbsid-builder/driver.url "$srcdir/github.com-LouDnl-USBSID-Pico-driver"
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  cd "$pkgname"
+
+  autoreconf -vfi
+
+  ./configure \
+    --prefix=/usr \
+    --with-exsid \
+    --with-usbsid
+
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+  make
+}
+
+package() {
+  DESTDIR="$pkgdir" make -C "$pkgname" install
+
+  _verify_soname "$pkgdir/usr/lib/libsidplayfp.so" libsidplayfp.so.7 || return 1
+  _verify_soname "$pkgdir/usr/lib/libstilview.so" libstilview.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

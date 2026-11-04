@@ -1,0 +1,46 @@
+# Adapted from Arch Linux packaging for Devario.
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: sum01 <sum01@protonmail.com>
+
+pkgname=cpp-httplib
+pkgver=0.63.0
+pkgrel=1
+pkgdesc='A C++ header-only HTTP/HTTPS server and client library'
+arch=(any)
+url=https://github.com/yhirose/cpp-httplib
+license=(MIT)
+makedepends=(
+  brotli
+  git
+  meson
+  ninja
+  mbedtls
+  openssl
+  python
+  zlib
+  zstd
+)
+checkdepends=(gtest)
+optdepends=(
+  'brotli: Brotli compression support'
+  'mbedtls: HTTPS support'
+  'openssl: HTTPS support'
+  'zlib: Zlib compression support'
+  'zstd: Zstandard compression support'
+)
+source=(git+${url}.git#tag=v${pkgver})
+b2sums=('cf98b9a370a193235cecc95053590660225f60ec585a4b454757a8dbb6ab8809e71b487586fd2de79df4c6564212a980abe4b91f191fe6a2c0209c823116d110')
+
+build() {
+  arch-meson cpp-httplib build
+  meson compile -C build
+}
+
+#check() {
+#  ctest --test-dir build -F
+#}
+
+package() {
+  DESTDIR="${pkgdir}" meson install -C build
+  install -Dm 644 cpp-httplib/LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}/
+}

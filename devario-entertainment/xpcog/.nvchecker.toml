@@ -1,0 +1,4 @@
+[xpcog]
+source = "git"
+git = "https://github.com/losnoco/XPCog.git"
+prefix = "v"

@@ -1,0 +1,40 @@
+pkgbase = libsidplayfp
+	pkgdesc = Library to play Commodore 64 music
+	pkgver = 3.1.2
+	pkgrel = 1
+	url = https://github.com/libsidplayfp/libsidplayfp
+	arch = x86_64
+	license = GPL-2.0-only
+	makedepends = git
+	makedepends = vice
+	makedepends = xa
+	makedepends = libusb
+	makedepends = libresidfp
+	makedepends = libexsid
+	makedepends = libgcrypt
+	depends = glibc
+	depends = libgcc
+	depends = libgcc_s.so=1-64
+	depends = libstdc++
+	depends = libstdc++.so=6-64
+	depends = libresidfp
+	depends = libresidfp.so=0-64
+	depends = libexsid
+	depends = libexsid.so=2-64
+	optdepends = vice: better SID support
+	optdepends = libusb: USBSID support
+	provides = libsidplayfp.so
+	provides = libsidplayfp.so=7-64
+	provides = libstilview.so
+	provides = libstilview.so=0-64
+	source = libsidplayfp::git+https://github.com/libsidplayfp/libsidplayfp#tag=v3.1.2
+	source = github.com-libsidplayfp-exsid-driver::git+https://github.com/libsidplayfp/exsid-driver
+	source = github.com-LouDnl-USBSID-Pico-driver::git+https://github.com/LouDnl/USBSID-Pico-driver
+	sha512sums = 699aef01de7eeb0b68e544909160334ed2ac00d500360f7d9cd4667e029b85832315ca04c6ae1bd6d336be56f5c0bc47b03171a40e1f6964d3dd6c49626105b0
+	sha512sums = SKIP
+	sha512sums = SKIP
+	b2sums = 6d6aec53d82249a4c9b5e491ede7eb6f5e5fe52886794057940702888d2e25970678ca2d8ade9be193b7c780b8eeba7bfe1a6ce3ce27080d9f96d35965f6da23
+	b2sums = SKIP
+	b2sums = SKIP
+
+pkgname = libsidplayfp
