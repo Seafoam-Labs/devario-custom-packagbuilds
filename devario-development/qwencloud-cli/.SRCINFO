@@ -1,0 +1,15 @@
+pkgbase = qwencloud-cli
+	pkgdesc = QwenCloud CLI for account authentication, usage, subscriptions and model invocation
+	pkgver = 1.5.0
+	pkgrel = 1
+	url = https://github.com/QwenCloud/qwencloud-cli
+	arch = any
+	license = Apache-2.0
+	makedepends = npm
+	depends = nodejs>=20
+	noextract = qwencloud-cli-1.5.0.tgz
+	options = !strip
+	source = https://registry.npmjs.org/@qwencloud/qwencloud-cli/-/qwencloud-cli-1.5.0.tgz
+	sha256sums = 5a860ed9582832f7bb464c289b57df891343243713b0aca3ed788c8ba1f4b11f
+
+pkgname = qwencloud-cli

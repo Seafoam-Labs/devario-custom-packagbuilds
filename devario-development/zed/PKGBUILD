@@ -1,6 +1,6 @@
 pkgname=zed
 pkgver=1.26.2
-pkgrel=1
+pkgrel=4
 pkgdesc='A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter'
 arch=(x86_64)
 url=https://zed.dev
@@ -35,14 +35,18 @@ makedepends=(cargo
              cargo-about
              clang
              cmake
+             patch
              protobuf
              vulkan-headers
              vulkan-validation-layers)
-optdepends=('org.freedesktop.secrets: to keep you logged into your Zed account')
+optdepends=('org.freedesktop.secrets: to keep you logged into your Zed account'
+            'opencode: populate provider allowances using the opencode-quota plugin')
 replaces=(zed-editor)
 _archive="$pkgname-$pkgver"
-source=("$_url/archive/v$pkgver/$_archive.tar.gz")
-sha256sums=('c101b00c4634a836c43664778b29f3a0f49777f88966d863905e3607a30e776a')
+source=("$_url/archive/v$pkgver/$_archive.tar.gz"
+        "0001-provider-usage-panel.patch")
+sha256sums=('c101b00c4634a836c43664778b29f3a0f49777f88966d863905e3607a30e776a'
+            'e98ba88721f037918161235b4de964ab15ba89ac43798218e652f174b2eb7fd5')
 
 _binname=zeditor
 _appid=dev.zed.Zed
@@ -64,6 +68,7 @@ _srcenv() {
 
 prepare() {
 	_srcenv
+	patch --batch --forward --fuzz=0 -p1 -i "$srcdir/0001-provider-usage-panel.patch"
 	cargo fetch --locked --target host-tuple
 	export DO_STARTUP_NOTIFY="true"
 	export APP_ICON="zed"
@@ -91,12 +96,12 @@ build() {
 	target/release/cli --completions zsh > completions.zsh
 }
 
-# Tests assume access to vulkan video drivers, Wayland window creation,
-# detecting system keymaps, etc. Until there is something sensical for
-# a package to test in the suite, just skip it by default.
+# Only the allowance parsers and account identity tests; no display server or live accounts.
 check() {
 	_srcenv
-	# cargo test --frozen --all-features
+	export CARGO_PROFILE_TEST_DEBUG=0
+	cargo test --frozen --package language_model --package language_models --lib usage
+	cargo test --frozen --package agent_ui --lib provider_usage::
 }
 
 package() {

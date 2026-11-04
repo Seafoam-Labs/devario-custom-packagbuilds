@@ -7,3 +7,13 @@ path = [
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = ["0001-provider-usage-panel.patch"]
+SPDX-FileCopyrightText = "Zed contributors and Devario contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = ["README"]
+SPDX-FileCopyrightText = "Devario contributors"
+SPDX-License-Identifier = "0BSD"

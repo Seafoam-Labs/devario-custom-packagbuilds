@@ -1,0 +1,6 @@
+version = 1
+
+[[annotations]]
+path = ["PKGBUILD", ".SRCINFO"]
+SPDX-FileCopyrightText = "2026 Devario contributors"
+SPDX-License-Identifier = "0BSD"

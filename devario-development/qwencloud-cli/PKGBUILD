@@ -1,0 +1,33 @@
+pkgname=qwencloud-cli
+pkgver=1.5.0
+pkgrel=1
+pkgdesc='QwenCloud CLI for account authentication, usage, subscriptions and model invocation'
+arch=('any')
+url='https://github.com/QwenCloud/qwencloud-cli'
+license=('Apache-2.0')
+# commander 14 requires Node 20, despite the top-level package declaring >=18.
+depends=('nodejs>=20')
+makedepends=('npm')
+options=('!strip')
+source=("https://registry.npmjs.org/@qwencloud/qwencloud-cli/-/qwencloud-cli-${pkgver}.tgz")
+noextract=("qwencloud-cli-${pkgver}.tgz")
+sha256sums=('5a860ed9582832f7bb464c289b57df891343243713b0aca3ed788c8ba1f4b11f')
+
+build() {
+  # The published archive already contains the compiled CLI. Do not run its
+  # source-only prepare script, or install into the build user's global prefix.
+  npm install --global --prefix "$srcdir/npm-root" \
+    --cache "$srcdir/npm-cache" --ignore-scripts \
+    --no-audit --no-fund --no-update-notifier \
+    "$srcdir/qwencloud-cli-${pkgver}.tgz"
+}
+
+package() {
+  install -d "$pkgdir/usr/lib" "$pkgdir/usr/bin"
+  cp -a "$srcdir/npm-root/lib/node_modules" "$pkgdir/usr/lib/"
+  ln -s ../lib/node_modules/@qwencloud/qwencloud-cli/dist/bin/qwencloud.js \
+    "$pkgdir/usr/bin/qwencloud"
+  install -Dm644 \
+    "$pkgdir/usr/lib/node_modules/@qwencloud/qwencloud-cli/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

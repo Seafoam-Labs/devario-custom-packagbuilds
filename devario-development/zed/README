@@ -1,0 +1,260 @@
+Devario provider usage panel (Zed 1.26.2-4)
+
+Only Zed is patched. Stock OpenCode plus @slkiser/opencode-quota supplies the
+usage data through the plugin's public v3 JSON export. Zed reads that local file
+directly: no OpenCode patch, private ACP extension, custom agent name, or agent
+connection is needed for the usage panel.
+
+Open the Agent Panel and select Provider usage. All, OpenCode and Zed filters
+separate the accounts. Select an account to expand its independent allowances.
+The active conversation's context appears separately when the agent reports it.
+Account allowance is never calculated from conversation tokens.
+
+Setup
+
+1. Add the plugin using your normal OpenCode installation:
+
+     opencode plugin add @slkiser/opencode-quota
+
+   Restart OpenCode and use /quota_status to check setup. Use a plugin release
+   supporting JSON export schema version 3 (the 6.x plugin supports this).
+
+2. Enable Quota file (JSON) on the plugin's Plugin tab, or merge this setting
+   into opencode-quota/settings.jsonc inside your OpenCode config directory
+   (normally ~/.config/opencode/opencode-quota/settings.jsonc on Linux):
+
+     { "system": { "exportFile": true } }
+
+   The default export is ~/.cache/opencode/quota-export.json, or
+   $XDG_CACHE_HOME/opencode/quota-export.json. OpenCode Quota must run and perform
+   quota checks to update it. Zed only reads the export; it never triggers a
+   provider check. An existing export remains readable when OpenCode closes.
+
+3. Install the patched Zed package and open Provider usage. Your existing
+   OpenCode ACP configuration can remain unchanged, including registry-managed
+   OpenCode. No project or active conversation is required to read the export.
+
+If you use the plugin's custom system.exportPath, set OPENCODE_QUOTA_EXPORT_PATH
+to the same absolute file path in ZED'S launch environment. A leading ~/ is
+expanded. This variable no longer belongs in an agent_servers env object;
+Zed reads the file itself. Restart Zed after changing its launch environment.
+Without an override, Zed and the plugin need the same user/XDG cache directory.
+The reader does not inspect private plugin settings or credentials.
+
+Codex / ChatGPT quota setup with slkiser
+
+Use OpenCode's OpenAI provider login for the slkiser export read by this panel.
+A separate Codex CLI installation is not required for this setup.
+
+1. Install @slkiser/opencode-quota and enable Quota file (JSON) as described
+   under Setup. Start OpenCode with your normal user account:
+
+     opencode
+
+2. Enter /connect, choose OpenAI, then select Codex browser (legacy) or
+   Codex device code (legacy). Complete authorization with the ChatGPT account
+   whose allowance you want to see. These are the login methods required by
+   slkiser's current provider documentation, checked 2026-11-04.
+
+   The plugin currently reports quota unavailable for the separate Sign in with
+   ChatGPT login method and for API-key logins. A login that can make model
+   requests does not necessarily grant access to the quota endpoint.
+
+3. Run /quota_settings and ensure the OpenAI provider is enabled. Then run
+   /quota_status and /quota. Confirm that OpenAI allowance rows appear before
+   troubleshooting Zed. The provider may be labeled OpenAI rather than Codex.
+
+4. With JSON export enabled, open the patched Zed's Agent Panel > Provider
+   usage > OpenCode and expand the OpenAI account. Refresh after the plugin
+   updates its export; Zed reads the file at most once per minute while visible.
+
+If the legacy login choices are absent, inspect the authentication options in
+your OpenCode version; these instructions cannot substitute another credential
+type. If the plugin reports quota unavailable for Sign in with ChatGPT, repeat
+/connect using a supported Codex login when available. An existing Codex CLI
+login alone is not the documented setup for slkiser; the auth.json fallback
+described below belongs to the alternative usage-limits plugin.
+
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/providers.md#openai-and-xai
+
+QwenCloud Token Plan through Bailian (working account setup)
+
+Install Bailian globally with npm (requires Node.js and npm):
+
+  sudo npm install -g bailian-cli
+  bl --version
+
+The following commands were confirmed working by the user for their QwenCloud
+account. Run these login and quota commands as your normal user, without sudo:
+
+  bl auth login --console --console-site international
+  bl auth status --output json
+  bl usage token-plan --output json
+
+Complete the international console authorization in the browser. Check that
+auth status identifies the intended account and that usage token-plan returns
+its quota. The international site flag is needed on login; the successful
+sequence above does not require an explicit region flag.
+
+To connect this quota to the panel:
+
+1. Keep Bailian installed and ensure command -v bl succeeds in the environment
+   used to launch OpenCode. Slkiser uses bl for subsequent quota refreshes.
+2. Restart OpenCode and enable Alibaba Token Plan in /quota_settings > Providers.
+   The plugin uses this provider label even for this QwenCloud account.
+3. Run /quota_status and /quota to verify that the plugin reads the allowance.
+4. Enable Quota file (JSON) as described under Setup, then open the patched Zed's
+   Agent Panel > Provider usage > OpenCode and refresh after the export updates.
+
+This uses slkiser's existing Alibaba Token Plan reader, which calls
+bl usage token-plan --output json. No direct qwencloud adapter is needed for an
+account whose quota is accessible through this working Bailian route. The CLI
+commands are user-confirmed; check the plugin and panel separately using the
+steps above. Other accounts may have different console access.
+
+The earlier blanket claim that a QwenCloud account cannot use Bailian for quota
+was incorrect. The separate qwencloud CLI setup below is optional for this route.
+
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/providers.md#alibaba-token-plan
+
+QwenCloud CLI setup (optional, separate management client)
+
+QwenCloud's qwencloud command is separate from Qwen Code's qwen command and
+Bailian's bl command. Installing or logging into one does not configure the
+others. The instructions below install and authenticate the QwenCloud CLI.
+They do not connect qwencloud directly to @slkiser/opencode-quota. Use the
+working Bailian route above to feed the panel when it exposes your quota.
+
+1. From the root of devario-custom-packagbuilds, review and build/install the
+   included QwenCloud CLI recipe with Shelly:
+
+     shelly build --help
+     cat devario-development/qwencloud-cli/PKGBUILD
+     shelly build devario-development/qwencloud-cli/PKGBUILD --sync-deps --install
+
+   Shelly manages the system installation and dependencies. The recipe packages
+   the official @qwencloud/qwencloud-cli 1.5.0 npm release and verifies its source
+   checksum. npm is used only inside the package build. The build needs network
+   access for npm dependencies. Run Shelly as your normal user and follow its
+   privilege prompts. Do not run the login commands below as root.
+
+2. Check that the command is available:
+
+     command -v qwencloud
+     qwencloud version
+
+3. Start interactive account login:
+
+     qwencloud auth login
+
+   Follow the browser authorization flow using the QwenCloud account that owns
+   your subscription. For a terminal without a browser, initialize device login:
+
+     qwencloud auth login --init-only --format json
+
+   Open the returned verification URL and finish authorization, then run:
+
+     qwencloud auth login --complete --timeout 180
+
+4. Verify authentication and query the account:
+
+     qwencloud auth status --format json
+     qwencloud subscription status --plan token --format json
+     qwencloud usage summary --format json
+
+   auth status should report authenticated and server_verified as true. A model
+   API key is not a replacement for this management login. Subscription status
+   and usage are different results; do not assume a usage total is a remaining
+   allowance. If a command fails, use qwencloud doctor --format json to diagnose
+   it. Keep credentials and account output out of repository files.
+
+Slkiser has no direct QwenCloud CLI adapter. Its custom providers accept HTTP
+APIs or local estimates; they cannot execute qwencloud commands. Direct use of
+this CLI would require a new adapter that validates quota results and publishes
+them through the existing v3 export. That adapter is not included here and is
+not required for the working Bailian route above. Do not rename or wrap
+qwencloud as bl: their command syntax and response formats differ.
+
+OpenCode terminal alternative (does not feed this Zed panel)
+
+@mynameistito/opencode-usage-limits documents both Codex and QwenCloud support.
+After installing and authenticating qwencloud above, install that plugin with
+the OpenCode version packaged here (plugin add is global; no -g flag):
+
+  opencode plugin add @mynameistito/opencode-usage-limits@latest
+
+Merge into ~/.config/opencode/usage-limits.jsonc, preserving other settings:
+
+  { "providers": { "codex": { "enabled": true }, "qwen": { "enabled": true } } }
+
+Restart OpenCode and check its Usage Limits sidebar. Codex uses an existing
+OpenCode OpenAI login or falls back to ~/.codex/auth.json. QwenCloud uses its
+own CLI login. This alternative provides OpenCode TUI output, not the slkiser
+JSON export consumed by this Zed patch. Installing it alongside slkiser does
+not transfer its QwenCloud rows into slkiser's export.
+
+References (checked 2026-11-04):
+
+  https://docs.qwencloud.com/api-reference/preparation/cli
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/providers.md#custom-providers
+  https://github.com/mynameistito/opencode-plugins/tree/main/packages/opencode-usage-limits
+
+Alibaba and other providers
+
+OpenCode Quota owns the provider readers, authentication, cache and refresh
+schedules. Its readers include Alibaba Token Plan personal quotas and team-seat
+credits, plus OpenAI, Claude, Copilot, OpenRouter, DeepSeek and others. Follow
+its provider setup instructions; Alibaba still needs the Bailian CLI and the
+appropriate console or team credentials. This patch does not install plugins
+or provider CLIs, authenticate, or query providers on the plugin's behalf.
+
+  https://github.com/slkiser/opencode-quota
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/providers.md#alibaba-token-plan
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/external-integration.md
+
+The OpenCode list is shared local plugin state, not the current project's
+credential inventory. It appears once even if several OpenCode agents are
+configured. Account names are plugin display identities, not credential IDs;
+Zed does not infer that they match a particular OpenCode key. Native Zed
+accounts stay separate, even for the same provider.
+
+Data handling
+
+- Provider-reported, locally derived and estimated values remain distinguished.
+- Partial results retain their available rows and show the plugin's errors.
+- Text balances, budgets and status values are displayed as exported. Schema v3
+  has no separate numeric used/limit/remaining amounts; Zed does not parse them
+  out of formatted text or invent percentages for value rows.
+- Percentage bars are bounded to 0..100. The original percentage remains in
+  text, including negative values when a quota has been exceeded.
+- Reset times and per-provider fetchedAt timestamps are preserved. Rereading
+  an old export does not make it fresh. Values older than five minutes, or
+  without a known observation time, are labeled Stale.
+- The tab rereads at most once per minute while visible in the active panel.
+  Refresh reads the latest export; it does not refresh the plugin's providers.
+- A missing file shows setup guidance. Malformed/unsupported/oversized exports
+  fail safely, with any retained last-known UI values marked Stale. Empty
+  snapshots remove obsolete rows. Individual plugin failures show their status
+  without borrowing prior values from another account.
+- Reading happens on Zed's background executor. Only a regular file bounded
+  to 2 MiB is read. No usage subprocess or credential read is needed. The reader
+  writes no files; the plugin owns its persistent cache and export.
+
+The export must be available on the machine running Zed. A remote OpenCode
+agent's cache is not fetched through ACP; use a local plugin instance or arrange
+for the export file to be available locally. Remote conversation context still
+uses Zed's existing agent protocol as before.
+
+Native Zed allowance readers remain available for compatible ChatGPT subscription
+logins, OpenRouter, DeepSeek and Vercel AI Gateway. Other native providers report
+unavailable until a native reader exists. Custom proxy credentials are not
+forwarded to public provider billing endpoints.
+
+Validation
+
+check() runs the Rust allowance tests and the direct export reader's tests.
+Synthetic fixtures cover account separation, provenance, formatted values,
+partial/error states, old/missing timestamps, file updates, missing/empty/
+malformed exports, size limits and export-path selection without live accounts.
+Full release package builds and interactive GUI testing are separate from these
+checks.
