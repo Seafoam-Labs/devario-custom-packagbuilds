@@ -13,6 +13,7 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "fix_includes_path.patch",
+    "libftdi-1.5-swig-4.5.patch",
 ]
 SPDX-FileCopyrightText = "libftdi contributors"
 SPDX-License-Identifier = "LGPL-2.1-only"
