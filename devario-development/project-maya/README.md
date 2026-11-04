@@ -1,7 +1,7 @@
 # Project Maya
 
-This package ships upstream version 1.1.51 at commit
-`3a47bbe8883f61ed4724d4b43f9dd46f7703a733`, its source, bundled Python wheels,
+This package ships upstream version 1.1.53 at commit
+`7c4aa56ed7faea2788705d8e85dd58e892d19f4b`, its source, bundled Python wheels,
 and the `project-maya` launcher (`setup-maya` is an alias).
 It is a source/setup package: GPU engines are compiled by upstream's setup for
 your hardware on first use, not while building this package. Model weights are
@@ -17,7 +17,7 @@ shelly install standard ./project-maya-*.pkg.tar.zst
 Add `--sync-deps` to the build command if dependencies are missing. Install the
 GPU backend separately. For NVIDIA, install `cuda` and the appropriate NVIDIA
 driver; CUDA 13 supports RTX 20 and newer, while V100/Pascal need CUDA 12.
-Experimental AMD support needs ROCm 7, including HIP, hipBLAS, hipBLASLt and the
+AMD support needs ROCm 7, including HIP, hipBLAS, hipBLASLt and the
 ROCm compiler. Consult upstream's `docs/AMD_MAYA.md` for supported cards.
 
 Run as your normal user:
@@ -26,7 +26,7 @@ Run as your normal user:
 project-maya --help
 project-maya --check
 project-maya
-# Experimental AMD:
+# AMD:
 project-maya --backend hip
 ```
 
@@ -49,4 +49,4 @@ configuration, models and builds. Edits to upstream source files are overwritten
 Stop Maya before upgrading. Removing the package leaves user data intact.
 
 Upstream source and instructions:
-<https://github.com/mw00/project-maya/tree/3a47bbe8883f61ed4724d4b43f9dd46f7703a733>.
+<https://github.com/mw00/project-maya/tree/7c4aa56ed7faea2788705d8e85dd58e892d19f4b>.
