@@ -1,0 +1,16 @@
+pkgbase = linuwu-sense-gpu-mode-dkms
+	pkgdesc = Acer Nitro/Predator WMI driver (linuwu-sense) with gpu_mode for GPU Operating, DKMS
+	pkgver = 1.0.0.1
+	pkgrel = 1
+	url = https://github.com/abduvaliy-engineer/Linuwu-Sense
+	install = linuwu-sense-gpu-mode-dkms.install
+	arch = any
+	license = GPL-2.0-or-later
+	depends = dkms
+	optdepends = linux-headers: build the module for the stock Arch kernel (use your kernel's headers package)
+	provides = linuwu-sense-dkms
+	conflicts = linuwu-sense-dkms
+	source = linuwu-sense-75ce417b7eb1f85f6c74d83c6148ce61b2cfb6ff.tar.gz::https://github.com/abduvaliy-engineer/Linuwu-Sense/archive/75ce417b7eb1f85f6c74d83c6148ce61b2cfb6ff.tar.gz
+	sha256sums = 4181f87561c90aac58bb281096914bcb1244b0521180eef40efae88399bcd799
+
+pkgname = linuwu-sense-gpu-mode-dkms

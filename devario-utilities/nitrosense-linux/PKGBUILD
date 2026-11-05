@@ -1,0 +1,93 @@
+# Maintainer: Abduvaliy Abdulazizov <abduvaliy dot hbai at gmail dot com>
+#
+# Adapted for Devario from
+# https://github.com/abduvaliy-engineer/Nitro-Sense/tree/main/packaging/aur/nitrosense-linux
+#
+# Acer's artwork is fetched from the Microsoft Store during build(), as in
+# upstream, and every extracted file is checked against data/acer-assets.tsv.
+# Set NITROSENSE_ASSETS to a local NitroSense app.asar, WindowsApps folder or
+# .msix/.appxbundle for an offline build. The artwork remains the property of
+# Acer Inc.; see LicenseRef-Acer in /usr/share/licenses/.
+#
+# Electron is bundled from the official release archive instead of depending on
+# the separate electron43 package, so the application uses the exact build that
+# upstream tests (install.sh's ELECTRON_VERSION and ELECTRON_SHA256).
+
+pkgname=nitrosense-linux
+pkgver=0.15.1
+pkgrel=1
+_electronver=43.8.6
+pkgdesc='Recreation of Acer NitroSense for Nitro laptops: modes, fans, keyboard lighting, battery, monitoring'
+arch=('x86_64')
+url='https://github.com/abduvaliy-engineer/Nitro-Sense'
+license=('GPL-3.0-or-later' 'MIT' 'LicenseRef-Acer')
+depends=('c-ares' 'glibc' 'gtk3' 'libevent' 'libffi' 'libpulse' 'nss' 'zlib'
+         'linuwu-sense-gpu-mode-dkms' 'python')
+makedepends=('libarchive')
+optdepends=('hyprpicker: pick lighting colours from the screen on Hyprland'
+            'nvidia-utils: NVIDIA GPU clock and usage on the Monitoring page')
+options=('!strip')
+backup=('etc/xdg/autostart/nitrosense.desktop')
+install=nitrosense-linux.install
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        "electron-v$_electronver-linux-x64.zip::https://github.com/electron/electron/releases/download/v$_electronver/electron-v$_electronver-linux-x64.zip")
+sha256sums=('87059b2067501843a2d248d9ab5617521dfd302c80cbbc4128216274f35a725c'
+            '1c657678e0701c5d55b18a3fe18cd9e8a0a375c976292fbfb8406ab13a763402')
+
+build() {
+  cd "Nitro-Sense-$pkgver"
+  local artwork=${NITROSENSE_ASSETS:-}
+  if [ -z "$artwork" ]; then
+    artwork=$srcdir/NitroSense.msix
+    [ -s "$artwork" ] || python3 -I tools/fetch-nitrosense.py "$artwork"
+  fi
+  python3 -I tools/extract-acer-assets.py "$artwork" data/acer-assets.tsv app/assets/acer
+}
+
+package() {
+  cd "Nitro-Sense-$pkgver"
+  local dest=/usr/lib/$pkgname
+  local licenses=$pkgdir/usr/share/licenses/$pkgname
+
+  install -d "$pkgdir$dest"
+  cp -r app "$pkgdir$dest/"
+  # Live Update leaves installing new versions to the package manager (app/backend/updates.js).
+  echo aur >"$pkgdir$dest/app/packaged"
+
+  # Bundle the exact Electron build upstream uses. bsdtar preserves the
+  # executable bits; chrome-sandbox needs its setuid bit for the Chromium sandbox.
+  install -d "$pkgdir$dest/electron"
+  bsdtar -xf "$srcdir/electron-v$_electronver-linux-x64.zip" -C "$pkgdir$dest/electron"
+  [ "$(cat "$pkgdir$dest/electron/version")" = "$_electronver" ]
+  chmod u+s "$pkgdir$dest/electron/chrome-sandbox"
+  chmod -R go-w "$pkgdir$dest/electron"
+
+  install -d "$pkgdir/usr/bin"
+  printf '#!/bin/sh\nexec %s/electron/electron %s/app "$@"\n' "$dest" "$dest" >"$pkgdir/usr/bin/nitrosense"
+  chmod 755 "$pkgdir/usr/bin/nitrosense"
+  # The per-user steps a package can't do: the linuwu_sense group and the NitroSense key.
+  install -Dm755 data/nitrosense-setup "$pkgdir/usr/bin/nitrosense-setup"
+  install -Dm644 data/nitrosense.desktop "$pkgdir/usr/share/applications/nitrosense.desktop"
+  # Like NitroSense, it starts hidden at login so App Sync and the mode-change flash keep working.
+  install -d "$pkgdir/etc/xdg/autostart"
+  printf '[Desktop Entry]\nType=Application\nName=NitroSense\nExec=nitrosense --hidden\nNoDisplay=true\n' \
+    >"$pkgdir/etc/xdg/autostart/nitrosense.desktop"
+
+  # The linuwu_sense group may use the driver's controls and the keyboard lighting without root.
+  install -Dm644 data/70-nitrosense.rules "$pkgdir/usr/lib/udev/rules.d/70-nitrosense.rules"
+  # The Mode Switch Key service; the rules above start it for keyboards that report the key.
+  install -Dm755 data/nitrosense-modekey "$pkgdir$dest/nitrosense-modekey"
+  install -d "$pkgdir/usr/lib/systemd/system"
+  sed "s|@MODEKEY@|$dest/nitrosense-modekey|" data/nitrosense-modekey@.service \
+    >"$pkgdir/usr/lib/systemd/system/nitrosense-modekey@.service"
+  install -d "$pkgdir/usr/lib/sysusers.d"
+  echo 'g linuwu_sense - -' >"$pkgdir/usr/lib/sysusers.d/$pkgname.conf"
+
+  install -Dm644 LICENSE "$licenses/LICENSE"
+  install -Dm644 app/vendor/three/LICENSE "$licenses/three.js-LICENSE"
+  install -Dm644 app/vendor/lottie/LICENSE.md "$licenses/lottie-web-LICENSE.md"
+  install -Dm644 "$pkgdir$dest/electron/LICENSE" "$licenses/electron-LICENSE"
+  install -Dm644 "$pkgdir$dest/electron/LICENSES.chromium.html" "$licenses/electron-LICENSES.chromium.html"
+  printf '%s\n' "The artwork in $dest/app/assets/acer (icons, fonts, backgrounds, animations and 3D models)" \
+    "belongs to Acer Inc. The GPL and MIT licenses of this package don't cover it." >"$licenses/LicenseRef-Acer"
+}
