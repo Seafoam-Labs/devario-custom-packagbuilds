@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=cadcraft
-pkgver=0.17.0
+pkgver=0.17.1
 pkgrel=1
 pkgdesc="Clean-room computer-aided design and drafting app for 2D drawings (DXF/DWG)"
 arch=('x86_64' 'aarch64')
@@ -28,11 +28,11 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-# Pending separate checksum refresh for v0.17.0: the digest below is from v0.6.2.
-sha256sums=('370af1c04677c4fcde49c88485e526a1701f66dfd8650101b46c9c45b138b25b')
+# Pending separate checksum refresh for v0.17.1: the digest below is from v0.6.2.
+sha256sums=('c81f84ada82aee7d55d09fbf3a69c35862e89df92666bdb69a9b8b9e1df7ee46')
 
-_commit=f389d6a72e3fc160ea125b4f264d68f64cbe2aba
-_releasedate=2026-11-03
+_commit=a54d694f4f7a0df84b33cc30bd29e03e2eead216
+_releasedate=2026-11-05
 _appid=ai.storyteller.cadcraft
 
 prepare() {
