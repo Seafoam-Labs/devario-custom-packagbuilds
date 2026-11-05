@@ -6,7 +6,7 @@ pkgbase = kmod
 	arch = x86_64
 	license = LGPL-2.1-or-later
 	license = GPL-2.0-or-later
-	checkdepends = linux-headers
+	checkdepends = linux-devario-headers
 	checkdepends = libelf
 	makedepends = git
 	makedepends = meson>=0.61.0
