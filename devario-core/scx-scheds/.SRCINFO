@@ -1,0 +1,25 @@
+pkgbase = scx-scheds
+	pkgdesc = sched_ext schedulers and tools
+	pkgver = 1.1.5
+	pkgrel = 1
+	url = https://github.com/sched-ext/scx
+	arch = x86_64
+	license = GPL-2.0-only
+	makedepends = bpf-linker
+	makedepends = cargo
+	makedepends = clang
+	makedepends = git
+	makedepends = llvm
+	makedepends = llvm-libs
+	makedepends = rust-src
+	depends = libseccomp
+	depends = libelf
+	depends = zlib
+	conflicts = scx-tools
+	replaces = scx-tools
+	options = !lto
+	backup = etc/default/scx
+	source = git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario
+	sha256sums = 9398783a1ced482858892dd321349713662f17fab96e10030adfd118e4062b19
+
+pkgname = scx-scheds
