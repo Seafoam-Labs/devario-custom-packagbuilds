@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=designcraft
-pkgver=0.17.1
+pkgver=0.17.2
 pkgrel=1
 pkgdesc="Page layout and desktop publishing editor, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -27,7 +27,7 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('77a1ad63f00deaa2bce92ee4399af763c7344806d20e4f6ff07e9b51cb491330')
+sha256sums=('73fde84d7142ab05d9069bdbf9929aaa4747b1ce3c6a820c3317c79f5d0653fe')
 
 _commit=62eb28ec7e9dab86e38340b3193873ea5ca91d65
 _releasedate=2026-11-04
