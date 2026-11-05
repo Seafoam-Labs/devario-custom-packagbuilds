@@ -1,7 +1,7 @@
 # Mesa 26.3.0-rc3
 
 Bleeding-edge Mesa, based on `devario-core/mesa`, with the same split package
-names and epoch. Packaged version: `1:26.3.0rc3-2`.
+names and epoch. Packaged version: `1:26.3.0rc3-3`.
 
 The upstream release contains `.EXT_image_drm_format_modifier = true` in
 `src/amd/vulkan/radv_physical_device.c`, removing the GFX9 gate that excluded
@@ -21,4 +21,5 @@ stack; 32-bit Mesa is packaged separately.
 
 Source: <https://archive.mesa3d.org/mesa-26.3.0-rc3.tar.xz> and its detached
 signature. SHA-256 and BLAKE2 checksums are pinned in the PKGBUILD, including
-the new `mach2` Rust subproject.
+the new `mach2` Rust subproject. Venus protocol 1.1.3 is also pinned and staged
+as a local Meson subproject for builds with wrap downloads disabled.

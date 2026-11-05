@@ -1,0 +1,27 @@
+--- a/kernel-open/nvidia/nv-pci.c
++++ b/kernel-open/nvidia/nv-pci.c
+@@ -45,6 +45,8 @@
+ #include <linux/completion.h>
+ #include <linux/iommu.h>
+ #include <linux/kthread.h>
++#include <linux/fs_struct.h>
++#include <linux/version.h>
+ 
+ #if defined(NV_SEQ_READ_ITER_PRESENT)
+ #include <linux/seq_file.h>
+@@ -481,7 +483,14 @@
+                    NV_PCI_SLOT_NUMBER(pci_dev));
+     if (ret > 0 && ret < sizeof(filename))
+     {
+-        struct file *file = filp_open(filename, O_RDONLY, 0);
++        struct file *file;
++
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 3, 0)
++        scoped_with_init_fs()
++            file = filp_open(filename, O_RDONLY, 0);
++#else
++        file = filp_open(filename, O_RDONLY, 0);
++#endif
+         if (!IS_ERR(file))
+         {
+ #if defined(NV_SEQ_READ_ITER_PRESENT)

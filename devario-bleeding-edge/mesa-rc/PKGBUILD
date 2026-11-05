@@ -26,7 +26,7 @@ pkgname=(
 )
 pkgver=26.3.0rc3
 _pkgver=${pkgver/[a-z]/-&}
-pkgrel=2
+pkgrel=3
 epoch=1
 pkgdesc="Open-source OpenGL drivers"
 url="https://www.mesa3d.org/"
@@ -229,8 +229,17 @@ source+=("mach2-0.7.0.tar.gz::https://static.crates.io/crates/mach2/0.7.0/downlo
 sha256sums+=('b0d28e293f2b8c9d2b2d1c0193bd3c1cbdc0d2cf396888dc01162f7cf9d6c3f3')
 b2sums+=('032c0291c2277b7d5af614ddebf5368fb7f892d173495245334387436773a459e4535f83d3a209aa58f1f825b55dfce43be0119dbf7fbe09f5a4a03a390fd273')
 
+# Mesa 26.3 moved the Venus protocol into an external subproject.
+source+=("https://gitlab.freedesktop.org/virgl/venus-protocol/-/archive/v1.1.3/venus-protocol-v1.1.3.tar.gz")
+sha256sums+=('c5a362ca28e0a35042db1baeadaf9183500b216841e49d72714b80bae50b4445')
+b2sums+=('fcbee5d82bfa70fe979e68b53bf5c6519564f120741433042060c2b3a2a9e1e15ddd80611fe36052e0c2b06115a97bd657c243b31459e25e26180d119444d2e6')
+
 prepare() {
   cd mesa-$_pkgver
+
+  # Match venus-protocol.wrap's directory without enabling network downloads.
+  mkdir -p subprojects/venus-protocol-1.1.3
+  cp -a "$srcdir/venus-protocol-v1.1.3/." subprojects/venus-protocol-1.1.3/
 
   local src
   for src in "${source[@]}"; do

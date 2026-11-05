@@ -1,7 +1,7 @@
 pkgbase = mesa
 	pkgdesc = Open-source OpenGL drivers
 	pkgver = 26.3.0rc3
-	pkgrel = 2
+	pkgrel = 3
 	epoch = 1
 	url = https://www.mesa3d.org/
 	arch = x86_64
@@ -89,6 +89,7 @@ pkgbase = mesa
 	source = once_cell-1.8.0.tar.gz::https://static.crates.io/crates/once_cell/1.8.0/download
 	source = syn-2.0.87.tar.gz::https://static.crates.io/crates/syn/2.0.87/download
 	source = mach2-0.7.0.tar.gz::https://static.crates.io/crates/mach2/0.7.0/download
+	source = https://gitlab.freedesktop.org/virgl/venus-protocol/-/archive/v1.1.3/venus-protocol-v1.1.3.tar.gz
 	validpgpkeys = 946D09B5E4C9845E63075FF1D961C596A7203456
 	validpgpkeys = 71C4B75620BC75708B4BDB254C95FAAB3EB073EC
 	validpgpkeys = 8703B6700E7EE06D7A39B8D6EDAE37B02CEB490D
@@ -128,6 +129,7 @@ pkgbase = mesa
 	sha256sums = 692fcb63b64b1758029e0a96ee63e049ce8c5948587f2f7208df04625e5f6b56
 	sha256sums = 25aa4ce346d03a6dcd68dd8b4010bcb74e54e62c90c573f394c46eae99aba32d
 	sha256sums = b0d28e293f2b8c9d2b2d1c0193bd3c1cbdc0d2cf396888dc01162f7cf9d6c3f3
+	sha256sums = c5a362ca28e0a35042db1baeadaf9183500b216841e49d72714b80bae50b4445
 	b2sums = 75bbd94069b5fcd406fa89529d261b72cf2816c31cab3f088aba8b1e9c2c1f2862cda2b84f1e7c1c6d3ba0e487839cc3e9e3e6b6f09e46e6d6efeb0ea10a71fc
 	b2sums = SKIP
 	b2sums = 5fed0ea98fea7b72e9d015bddbc5337d936eb3a07f358e29421d081e76bf927bc270be5ef98e38b969b0a59a362c5b330554b446f81627821f52b2fbea0bb12c
@@ -161,6 +163,7 @@ pkgbase = mesa
 	b2sums = 7681b1a7497b5711e663773c1a7e076f333c06c10d3f289079a781c36f050c1620cc279742ea8e5b15ec48f3d6038a6079bbda7fee3ae8e1128bd916d53ed43a
 	b2sums = 93385f64103fdb482bec34c7912474ae7a5935948715e6eb9a54907e0db5c39f089f6cd393bab33c935c59a1bbb0f4099431f206343811c1a450554d96a35756
 	b2sums = 032c0291c2277b7d5af614ddebf5368fb7f892d173495245334387436773a459e4535f83d3a209aa58f1f825b55dfce43be0119dbf7fbe09f5a4a03a390fd273
+	b2sums = fcbee5d82bfa70fe979e68b53bf5c6519564f120741433042060c2b3a2a9e1e15ddd80611fe36052e0c2b06115a97bd657c243b31459e25e26180d119444d2e6
 
 pkgname = mesa
 	depends = expat
@@ -182,8 +185,8 @@ pkgname = mesa
 	depends = zlib
 	depends = zstd
 	optdepends = opengl-man-pages: for the OpenGL API man pages
-	provides = libva-mesa-driver=1:26.3.0rc3-2
-	provides = mesa-libgl=1:26.3.0rc3-2
+	provides = libva-mesa-driver=1:26.3.0rc3-3
+	provides = mesa-libgl=1:26.3.0rc3-3
 	provides = libva-driver
 	provides = opengl-driver
 	conflicts = libva-mesa-driver<1:24.2.7-1
