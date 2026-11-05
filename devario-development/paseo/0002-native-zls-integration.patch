@@ -55,7 +55,7 @@ index 1a37060..ac66223 100644
        "resolved": "https://registry.npmjs.org/@codemirror/search/-/search-6.7.1.tgz",
 @@ -37634,8 +37657,10 @@
        "name": "@getpaseo/app",
-       "version": "0.15.0",
+       "version": "0.15.1",
        "dependencies": {
 +        "@codemirror/autocomplete": "6.20.4",
          "@codemirror/commands": "6.10.4",
@@ -2007,7 +2007,7 @@ index 0000000..7bcaba9
 +    try {
 +      const initialized = await doc.process.request("initialize", {
 +        processId: process.pid,
-+        clientInfo: { name: "Paseo", version: "0.15.0" },
++        clientInfo: { name: "Paseo", version: "0.15.1" },
 +        rootUri: pathToFileURL(root).href,
 +        workspaceFolders: [{ uri: pathToFileURL(root).href, name: path.basename(root) }],
 +        initializationOptions: configuration,
