@@ -309,6 +309,7 @@ PINNED = {
         "libgnomekbd.so": "libgnomekbd.so=8-64",
         "libgnomekbdui.so": "libgnomekbdui.so=8-64",
     },
+    "libpanel": {"libpanel-1.so": "libpanel-1.so=1-64"},
     "libproxy": {"libproxy.so": "libproxy.so=1-64"},
     "libsigc++": {"libsigc-2.0.so": "libsigc-2.0.so=0-64"},
     "libsoup3": {"libsoup-3.0.so": "libsoup-3.0.so=0-64"},
