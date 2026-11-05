@@ -6,6 +6,7 @@ pkgbase = emacs
 	license = GPL-3.0-or-later
 	makedepends = gtk3
 	makedepends = libgccjit
+	makedepends = libxpm
 	makedepends = tree-sitter
 	depends = gmp
 	depends = gnutls
@@ -48,6 +49,7 @@ pkgname = emacs
 	depends = libgtk-3.so
 	depends = libharfbuzz.so
 	depends = libtree-sitter.so=0.27-64
+	depends = libxpm
 	replaces = emacs-nativecomp
 
 pkgname = emacs-nox
