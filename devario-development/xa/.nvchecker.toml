@@ -1,0 +1,4 @@
+[xa]
+source = "regex"
+url = "https://www.floodgap.com/retrotech/xa/dists/"
+regex = 'xa-([\d.]+).tar'

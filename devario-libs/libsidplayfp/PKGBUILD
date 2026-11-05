@@ -27,14 +27,17 @@ depends=(
 )
 makedepends=(
   git
+  xa
   libusb
   libresidfp
   libexsid
   libgcrypt
 )
-# Upstream also lists vice and xa; they only drive the optional VICE testsuite
-# and the sidtune demo, neither of which this package builds, so they are not
-# build requirements here.
+# xa assembles the .a65 sources into src/psiddrv.bin and the two
+# src/sidtune/sidplayer.bin arrays the library compiles in; the git tag carries
+# the .a65 sources only, and the generated arrays are BUILT_SOURCES of every
+# build. Arch lists vice too, but that drives only the --enable-testsuite suite,
+# which this recipe does not build, so vice stays an optdepends.
 optdepends=(
   'vice: better SID support'
   'libusb: USBSID support'

@@ -6,6 +6,7 @@ pkgbase = libsidplayfp
 	arch = x86_64
 	license = GPL-2.0-only
 	makedepends = git
+	makedepends = xa
 	makedepends = libusb
 	makedepends = libresidfp
 	makedepends = libexsid
