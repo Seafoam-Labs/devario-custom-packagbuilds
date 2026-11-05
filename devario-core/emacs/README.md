@@ -4,6 +4,8 @@ Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/pac
 
 One build produces `emacs`, `emacs-nox`, and `emacs-wayland`. Install only one variant; the latter two provide `emacs` and conflict with it. Native compilation needs `libgccjit`, supplied by the existing GCC recipe. The upstream source list includes the two Tree-sitter patches, but its current `prepare()` does not apply them. Upstream packaging has no `check()` hook.
 
+Emacs' `configure` aborts the X11 build when `X11/xpm.h` is missing (`The following required libraries were not found: libXpm`). Arch's recipe does not declare it, so `libxpm` is a `makedepends` here and only the `emacs` output depends on it: `emacs-nox` builds `--without-x`, and the `--with-pgtk` wayland build links neither libXpm nor X11.
+
 The permitted upstream signing fingerprints are:
 
 - `17E90D521672C04631B1183EE78DAE0F3115E06B`

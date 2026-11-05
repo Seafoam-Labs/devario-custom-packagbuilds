@@ -4,7 +4,7 @@
 pkgname=imagemagick
 pkgver=7.1.2.35
 _pkgver=${pkgver%.*}-${pkgver##*.}
-pkgrel=1
+pkgrel=2
 pkgdesc='An image viewing/manipulation program'
 url='https://www.imagemagick.org/'
 arch=(x86_64)
@@ -24,6 +24,9 @@ depends=(bzip2
          libxext
          libxml2
          libzip
+         # the magick binary carries a hard DT_NEEDED on libOpenCL.so.1, so
+         # ocl-icd is a runtime depends, not an optdepend
+         ocl-icd
          libgcc
          libstdc++
          libgomp
@@ -40,7 +43,6 @@ optdepends=('ghostscript: PS/PDF support'
             'libultrahdr: UHDR support'
             'libwebp: WEBP support'
             'libwmf: WMF support'
-            'ocl-icd: OpenCL support'
             'openexr: OpenEXR support'
             'openjpeg2: JPEG2000 support'
             'djvulibre: DJVU support'

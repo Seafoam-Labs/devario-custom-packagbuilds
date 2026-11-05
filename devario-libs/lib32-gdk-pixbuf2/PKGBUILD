@@ -76,7 +76,7 @@ package() {
   find "$pkgdir/usr/bin" -type f -not -name gdk-pixbuf-query-loaders -delete
   mv "$pkgdir"/usr/bin/gdk-pixbuf-query-loaders{,-32}
 
-  install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 *.hook
+  install -Dt "$pkgdir/usr/share/rlpm/hooks" -m644 *.hook
 }
 
 # vim:set sw=2 sts=-1 et:

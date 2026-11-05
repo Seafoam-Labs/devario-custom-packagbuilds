@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Exercise GGML split-package ownership without a GPU or installed SDKs."""
+
 from pathlib import Path
 import subprocess
 import tempfile
@@ -37,9 +38,19 @@ class GgmlPackaging(unittest.TestCase):
                 dest = work / "packages" / name
                 dest.mkdir(parents=True)
                 subprocess.run(
-                    ["bash", "-ec", 'source "$1"; cd "$2"; pkgname=$3; '
-                     'pkgdir=$4; "package_$pkgname"', "bash", str(RECIPE),
-                     str(work), name, str(dest)], check=True, capture_output=True,
+                    [
+                        "bash",
+                        "-ec",
+                        'source "$1"; cd "$2"; pkgname=$3; '
+                        'pkgdir=$4; "package_$pkgname"',
+                        "bash",
+                        str(RECIPE),
+                        str(work),
+                        name,
+                        str(dest),
+                    ],
+                    check=True,
+                    capture_output=True,
                 )
                 for p in dest.rglob("*"):
                     if p.is_file() or p.is_symlink():
@@ -55,19 +66,66 @@ class GgmlPackaging(unittest.TestCase):
             for name in PACKAGES:
                 self.assertEqual(owners[f"usr/share/licenses/{name}/LICENSE"], name)
 
-    def test_cpu_install_does_not_require_accelerator_runtimes(self):
-        metadata = subprocess.check_output(
-            ["makepkg", "--printsrcinfo"], cwd=RECIPE.parent, text=True
+    def recipe_metadata(self):
+        # No makepkg on this host: source the PKGBUILD and run each package_<name>
+        # with only the file-install commands stubbed, then dump the resulting depends.
+        output = subprocess.check_output(
+            [
+                "bash",
+                "-c",
+                """
+set -e
+source "$1"
+for name in "${pkgname[@]}"; do
+  (
+    pkgname="$name"
+    pkgdir="$PWD/pkg-$name"
+    mkdir -p "$pkgdir"
+    cp() { :; }
+    rm() { :; }
+    install() { :; }
+    "package_$name"
+    printf '==>%s\\n' "$name"
+    for dep in "${depends[@]}"; do printf 'depends = %s\\n' "$dep"; done
+  )
+done
+""",
+                "bash",
+                str(RECIPE),
+            ],
+            text=True,
         )
-        base = metadata.split("\npkgname = ggml\n", 1)[1].split("\npkgname = ", 1)[0]
-        dependencies = [line.split(" = ", 1)[1] for line in base.splitlines()
-                        if line.strip().startswith("depends = ")]
-        self.assertTrue(set(dependencies).isdisjoint(
-            {"cuda", "nccl", "zendnn", "openvino", "vulkan-icd-loader"}
-        ))
+        sections = {}
+        for block in output.split("==>")[1:]:
+            lines = block.splitlines()
+            sections[lines[0]] = [
+                line.split(" = ", 1)[1]
+                for line in lines[1:]
+                if line.startswith("depends = ")
+            ]
+        return sections
+
+    def test_cpu_install_does_not_require_accelerator_runtimes(self):
+        sections = self.recipe_metadata()
+        base = sections["ggml"]
+        self.assertTrue(base)
+        self.assertTrue(
+            set(base).isdisjoint(
+                {"cuda", "nccl", "zendnn", "openvino", "vulkan-icd-loader"}
+            )
+        )
+        pin = subprocess.check_output(
+            [
+                "bash",
+                "-c",
+                'source "$1"; printf "%s-%s" "$pkgver" "$pkgrel"',
+                "bash",
+                str(RECIPE),
+            ],
+            text=True,
+        )
         for name in PACKAGES[1:]:
-            section = metadata.split(f"\npkgname = {name}\n", 1)[1].split("\npkgname = ", 1)[0]
-            self.assertIn("depends = ggml=0.26.0-3", section)
+            self.assertIn(f"ggml={pin}", sections[name])
 
 
 if __name__ == "__main__":

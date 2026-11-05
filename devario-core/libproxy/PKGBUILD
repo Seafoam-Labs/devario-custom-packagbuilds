@@ -1,0 +1,80 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=libproxy
+pkgname=(
+  libproxy
+  libproxy-docs
+)
+pkgver=0.5.12
+pkgrel=2
+pkgdesc="Automatic proxy configuration management library"
+url="https://libproxy.github.io/libproxy/"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  curl
+  duktape
+  glib2
+  glibc
+  libgcc
+)
+makedepends=(
+  gi-docgen
+  git
+  gobject-introspection
+  gsettings-desktop-schemas
+  meson
+  vala
+)
+source=(
+  "git+https://github.com/libproxy/libproxy#tag=$pkgver"
+)
+b2sums=('aa049e4f7f37683b5c64e35770e9c3e5463d4fcf81e259c9bbd2facbd34f2eec46f28a455d9252bef475bf33bf39c70fa274a8470f5c6279f5e9e1c2de1e04b9')
+
+prepare() {
+  cd libproxy
+}
+
+build() {
+  local meson_options=(
+    -D release=true
+  )
+
+  arch-meson libproxy build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_libproxy() {
+  # Shelly keeps a bare .so provision without expanding it to the SONAME.
+  provides=(
+    libproxy.so
+    libproxy.so=1-64
+  )
+  conflicts=('libproxy-webkit<0.5.0-1')
+
+  meson install -C build --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libproxy.so" libproxy.so.1 || return 1
+
+  mkdir -p doc/usr/share
+  mv {"$pkgdir",doc}/usr/share/doc
+}
+
+package_libproxy-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mv doc/* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:

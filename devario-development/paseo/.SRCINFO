@@ -1,7 +1,7 @@
 pkgbase = paseo
 	pkgdesc = Desktop workspace for coding agents with a bundled Paseo server and CLI
-	pkgver = 0.15.0
-	pkgrel = 3
+	pkgver = 0.15.2
+	pkgrel = 1
 	url = https://paseo.sh
 	arch = x86_64
 	license = Apache-2.0
@@ -54,17 +54,17 @@ pkgbase = paseo
 	optdepends = zig: Zig compiler for native editor language features
 	optdepends = zls: native Zig completion, diagnostics, hover and navigation
 	optdepends = xdg-desktop-portal: desktop integration on Wayland
-	provides = paseo-desktop=0.15.0
+	provides = paseo-desktop=0.15.2
 	conflicts = paseo-desktop
 	options = !strip
 	options = !debug
-	source = paseo-0.15.0.tar.gz::https://codeload.github.com/getpaseo/paseo/tar.gz/refs/tags/v0.15.0
+	source = paseo-0.15.2.tar.gz::https://codeload.github.com/getpaseo/paseo/tar.gz/refs/tags/v0.15.2
 	source = 0001-native-zig-editor-support.patch
 	source = 0002-native-zls-integration.patch
 	source = paseo.desktop
-	sha256sums = 99a84cc7ae6ec312237c2d55b438a19af7632ff18bf59cba3c19031bf356a9cc
+	sha256sums = 03dfae0f9384bc215a69b2f41860833e418747e907fd5fe1660521cbd591e773
 	sha256sums = 6be65be32ddf82abc22b3dac1c3451d2491dae282a759530758592f461dcf493
-	sha256sums = 6a2ae1c657cdba0b58c1bf2194abfeebcb2353c1e1a40980b1f7e3bee4c712b7
+	sha256sums = 63a772e22ec4e66683b51dede955bc384f5fab74c1c8a9d234f929b2789a4ad1
 	sha256sums = 51b1379df3825ad02a50d4f96541bee5d3d3ec53b705fb7dcce85be1838a144b
 
 pkgname = paseo

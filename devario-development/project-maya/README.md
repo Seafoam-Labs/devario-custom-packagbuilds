@@ -1,7 +1,7 @@
 # Project Maya
 
-This package ships upstream version 1.1.53 at commit
-`7c4aa56ed7faea2788705d8e85dd58e892d19f4b`, its source, bundled Python wheels,
+This package ships upstream version 1.1.54 at commit
+`c1670044bbc09310f35f9d00f7596c50ae8a38f1`, its source, bundled Python wheels,
 and the `project-maya` launcher (`setup-maya` is an alias).
 It is a source/setup package: GPU engines are compiled by upstream's setup for
 your hardware on first use, not while building this package. Model weights are
@@ -49,4 +49,4 @@ configuration, models and builds. Edits to upstream source files are overwritten
 Stop Maya before upgrading. Removing the package leaves user data intact.
 
 Upstream source and instructions:
-<https://github.com/mw00/project-maya/tree/7c4aa56ed7faea2788705d8e85dd58e892d19f4b>.
+<https://github.com/mw00/project-maya/tree/c1670044bbc09310f35f9d00f7596c50ae8a38f1>.

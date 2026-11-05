@@ -1,0 +1,41 @@
+# Maintainer: Thomas Bächler <thomas@archlinux.org>
+pkgname=v4l-utils
+pkgver=1.32.0
+pkgrel=3
+pkgdesc="Userspace tools and conversion library for Video 4 Linux"
+arch=('x86_64')
+url="https://linuxtv.org/"
+provides=("libv4l=$pkgver")
+replaces=('libv4l')
+conflicts=('libv4l')
+backup=(etc/rc_maps.cfg)
+license=('LGPL')
+depends=('hicolor-icon-theme' 'libgcc' 'libbpf' 'libjpeg-turbo'  'systemd-libs' 'json-c')
+makedepends=('qt6-base' 'qt6-5compat' 'alsa-lib' 'meson' 'clang' 'doxygen')
+optdepends=('qt6-base: for qv4l2 and qvidcap'
+            'qt6-5compat: for qv4l2'
+            'alsa-lib: for qv4l2')
+# linuxtv.org now answers every non-browser fetch with an Anubis proof-of-work challenge page
+# under HTTP 200, so the isolated job stores that HTML as the tarball and dies at
+# SourceChecksumMismatch. The Debian pool carries the upstream bytes intact: its orig tarball
+# hashes to the checksum below and its .asc verifies Good against the key in keys/pgp.
+source=("${pkgname}-${pkgver}.tar.xz::https://deb.debian.org/debian/pool/main/v/v4l-utils/v4l-utils_${pkgver}.orig.tar.xz"
+        "${pkgname}-${pkgver}.tar.xz.asc::https://deb.debian.org/debian/pool/main/v/v4l-utils/v4l-utils_${pkgver}.orig.tar.xz.asc")
+sha256sums=('6828828a17775526eb93fb258a9294d1d1073d633c344dd71ecd4e7a1ffb7dfc'
+            'SKIP')
+validpgpkeys=('05D0169C26E41593418129DF199A64FADFB500FF') # Gregor Jasny <gjasny@googlemail.com>
+
+prepare() {
+  # HACK: inform upstream to make this configurable
+  cd "${pkgname}-${pkgver}"
+  sed -i 's/sbin/bin/' utils/v4l2-dbg/meson.build
+}
+
+build() {
+  arch-meson -Dgconv=disabled "${pkgname}-${pkgver}" build
+  meson compile -C build
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}

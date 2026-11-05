@@ -103,10 +103,11 @@ and pkgbase here are `game-optimization-linux-git`, which installs
 
 ## Open: published packages whose depends nothing provides
 
-Read 2026-11-03 across all fourteen databases, with the batch-8 import folded in 2026-11-04. Every
-row is an install-time gap today, independent of any worker plan.
+Read 2026-11-03 across all fourteen databases, with the batch-8 import folded in 2026-11-04 and
+the libpanel recipe on 2026-11-05. Every row is an install-time gap today, independent of any
+worker plan.
 
-Recipe present, output unpublished (13):
+Recipe present, output unpublished (14):
 
 | Reference | Consumer |
 | --- | --- |
@@ -116,8 +117,9 @@ Recipe present, output unpublished (13):
 | [python-libevdev](devario-libs/python-libevdev/PKGBUILD) | `libinput-tools` `1.32.0-1` |
 | [python-tomli-w](devario-libs/python-tomli-w/PKGBUILD) | `bubblejail-git` |
 | [vamp-plugin-sdk](devario-core/vamp-plugin-sdk/PKGBUILD) | `rubberband-vamp` |
+| [libpanel](devario-core/libpanel/PKGBUILD) | `sysprof` |
 
-No recipe anywhere (14):
+No recipe anywhere (13):
 
 | Reference | Consumer |
 | --- | --- |

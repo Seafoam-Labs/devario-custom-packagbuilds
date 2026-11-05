@@ -1,0 +1,11 @@
+{
+  "name": "socat",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsocat/repository/archive.tar.gz?sha=2780a63c6a5b47b4f5f1a14d682dbe80e931ac69",
+  "sha256": "4eddcd832ad06ef789fa96026beb2d9e288d810d9633de93eba3ff4fb92c17b6",
+  "bytes": 9052,
+  "commit": "2780a63c6a5b47b4f5f1a14d682dbe80e931ac69",
+  "local_changes": [
+    "Pin the libssl.so and libreadline.so dependencies to the SONAMEs Devario publishes.",
+    "Install the upstream license texts under /usr/share/licenses/socat."
+  ]
+}

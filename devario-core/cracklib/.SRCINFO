@@ -1,16 +1,16 @@
 pkgbase = cracklib
 	pkgdesc = Password Checking Library
-	pkgver = 2.10.3
+	pkgver = 2.10.4
 	pkgrel = 1
 	url = https://github.com/cracklib/cracklib
 	arch = x86_64
 	license = GPL-2.0-or-later
 	depends = glibc
 	depends = zlib
-	source = https://github.com/cracklib/cracklib/releases/download/v2.10.3/cracklib-2.10.3.tar.gz
-	source = https://github.com/cracklib/cracklib/releases/download/v2.10.3/cracklib-2.10.3.tar.gz.asc
+	source = https://github.com/cracklib/cracklib/releases/download/v2.10.4/cracklib-2.10.4.tar.gz
+	source = https://github.com/cracklib/cracklib/releases/download/v2.10.4/cracklib-2.10.4.tar.gz.asc
 	validpgpkeys = FCE0F8C65F5B2972C2EB55E2350D0B0705E9C3CB
-	b2sums = 4b493f3275d81c886c4f2f4d36726c90dd5b2d9a6aead959bb2a3e1e1f7d2b08816f68dc4cceafe32317424212237a20e9cd35066ffb8debbd3c201275a0fa85
+	b2sums = d78833f5ce2f77331878ddcdad6ac911771a4c901e3ac1964c74db29ce01bac7076d3c394471a260e88d47781ecb67fd68d6d0fae63f0cbebc818f061bb570b5
 	b2sums = SKIP
 
 pkgname = cracklib

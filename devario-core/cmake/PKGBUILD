@@ -3,8 +3,8 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=cmake
-pkgver=4.4.3
-pkgrel=2
+pkgver=4.4.5
+pkgrel=1
 pkgdesc='A cross-platform open-source make system'
 arch=('x86_64')
 url="https://www.cmake.org/"
@@ -22,7 +22,10 @@ depends=(cppdap
          ncurses
          rhash
          zlib)
-makedepends=(emacs
+# emacs-nox instead of Arch's emacs: the published emacs build links libXpm
+# but does not declare it, so it cannot start in the isolated build root;
+# batch byte-compile of cmake-mode.el only needs a headless Emacs.
+makedepends=(emacs-nox
              git
              nlohmann-json
              python-sphinx
@@ -33,7 +36,7 @@ optdepends=(
   'qt6-base: cmake-gui'
 )
 source=(git+https://gitlab.kitware.com/cmake/cmake.git#tag=v$pkgver?signed)
-sha512sums=('031a1544690f8980066519f410784f823644f70e1725fbdd52b505bf4d7f924586fa847abd119bacc80ee769ef3c51aaaea98fda9b904c1ff502d996528297b2')
+sha512sums=('e31e3f216675dad9d949a568fb9331208f2828c4c4297f018de039696f3cbf7aa85dd8e871a2935696d1fe5f290dc24c9e33d1fc827aba56dc35ea152cb0ac5d')
 validpgpkeys=(CBA23971357C2E6590D9EFD3EC8FEF3A7BFB4EDA) # Brad King <brad.king@kitware.com>
 
 build() {

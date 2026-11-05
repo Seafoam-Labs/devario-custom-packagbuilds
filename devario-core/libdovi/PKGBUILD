@@ -1,0 +1,66 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux>org>
+# Contributor: quietvoid <tcChlisop0@gmail.com>
+
+pkgname=libdovi
+pkgver=3.4.0
+pkgrel=2
+pkgdesc='Library to read and write Dolby Vision metadata'
+arch=(x86_64)
+url=https://github.com/quietvoid/dovi_tool/tree/main/dolby_vision
+license=(MIT)
+depends=(
+  glibc
+  libgcc
+)
+makedepends=(
+  cargo-c
+  git
+  rust
+)
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=(
+  libdovi.so
+  'libdovi.so=3-64'
+)
+source=(git+https://github.com/quietvoid/dovi_tool.git#tag=libdovi-${pkgver})
+b2sums=('5908fc46da4e900e37dd455b1006456f6ac7bd702ecdb13a377c47d476cd0006d058f974e5c26a719c90bfa179546ca2f64d37ced4a5a5a78539bcadb413b5ae')
+
+prepare() {
+  cargo fetch \
+    --manifest-path dovi_tool/dolby_vision/Cargo.toml
+}
+
+build() {
+  export CARGO_PROFILE_RELEASE_LTO=true
+  export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+  cargo cbuild \
+    --release \
+    --frozen \
+    --prefix=/usr \
+    --manifest-path dovi_tool/dolby_vision/Cargo.toml
+}
+
+check() {
+  cargo test \
+    --release \
+    --frozen \
+    --all-features \
+    --manifest-path dovi_tool/dolby_vision/Cargo.toml
+}
+
+package() {
+  cd dovi_tool/dolby_vision
+  cargo cinstall \
+    --release \
+    --frozen \
+    --prefix /usr \
+    --destdir "${pkgdir}"
+  _verify_soname "${pkgdir}/usr/lib/libdovi.so" libdovi.so.3 || return 1
+  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/libdovi/
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

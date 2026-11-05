@@ -1,6 +1,6 @@
 pkgbase = project-maya
 	pkgdesc = Local LLM inference with GPU-specific engine setup and a browser dashboard
-	pkgver = 1.1.53
+	pkgver = 1.1.54
 	pkgrel = 1
 	url = https://github.com/mw00/project-maya
 	arch = x86_64
@@ -25,11 +25,11 @@ pkgbase = project-maya
 	optdepends = hipblas: AMD BLAS backend
 	optdepends = hipblaslt: AMD BLAS tuning
 	optdepends = rocm-llvm: AMD GPU compiler
-	source = project-maya-7c4aa56ed7faea2788705d8e85dd58e892d19f4b.tar.gz::https://codeload.github.com/mw00/project-maya/tar.gz/7c4aa56ed7faea2788705d8e85dd58e892d19f4b
+	source = project-maya-c1670044bbc09310f35f9d00f7596c50ae8a38f1.tar.gz::https://codeload.github.com/mw00/project-maya/tar.gz/c1670044bbc09310f35f9d00f7596c50ae8a38f1
 	source = project-maya
 	source = README.md
-	sha256sums = aff9fb89437eb46efaeb4d34e2e4f9d10f6847ffaac5b65c40c52bc2c4d9e74a
+	sha256sums = 1f9e350eab3f0d18dcd2ed6978a4a30eba794347473dee8f3a1bc13316f4bc36
 	sha256sums = 151c819ee45c48e8c3927acbdc1fce44cac149f0bde4166c724547d5edb1101b
-	sha256sums = cf372a6809e801fbcdb538d861c0847ee97447cff98843ba5335874f38684af7
+	sha256sums = def51d5cb416b81f20f298c4ac4e1915e466c748da315ca950f156636d99354a
 
 pkgname = project-maya
