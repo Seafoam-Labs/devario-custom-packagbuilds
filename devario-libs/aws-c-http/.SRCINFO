@@ -1,6 +1,6 @@
 pkgbase = aws-c-http
 	pkgdesc = C99 implementation of the HTTP/1.1 and HTTP/2 specifications
-	pkgver = 1.1.1
+	pkgver = 1.2.0
 	pkgrel = 1
 	url = https://github.com/awslabs/aws-c-http
 	arch = x86_64
@@ -11,7 +11,7 @@ pkgbase = aws-c-http
 	depends = aws-c-compression
 	depends = aws-c-io
 	depends = glibc
-	source = https://github.com/awslabs/aws-c-http/archive/v1.1.1/aws-c-http-1.1.1.tar.gz
-	b2sums = 96b8dfdbd8278cf96072feba69e6e59d85c67b682e43c42e1808fbb1f366fb1a8fd3dc3e35504f797a7557deeabed115f8174875284502c88d92084b6657bfbe
+	source = https://github.com/awslabs/aws-c-http/archive/v1.2.0/aws-c-http-1.2.0.tar.gz
+	b2sums = 391242de535944f61363fdd52884f7819c064037a2f8b5e61f50810b2b1264cd6e1443e0b0aa018da67b4c4344f3c0ad14cfd9d51731100dfb996bd4a255a1ad
 
 pkgname = aws-c-http
