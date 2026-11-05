@@ -6,7 +6,7 @@
 pkgbase=emacs
 pkgname=(emacs emacs-nox emacs-wayland)
 pkgver=31.1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url='https://www.gnu.org/software/emacs/emacs.html'
 license=(GPL-3.0-or-later)
@@ -96,7 +96,8 @@ package_emacs() {
     libgobject-2.0.so
     libgtk-3.so
     libharfbuzz.so
-    libtree-sitter.so
+    # Shelly does not version bare .so depends; pin the SONAME this build links against
+    'libtree-sitter.so=0.27-64'
   )
   replaces=(emacs-nativecomp)
 
@@ -119,7 +120,8 @@ package_emacs-nox() {
     libgccjit
     libncursesw.so
     libsystemd.so
-    libtree-sitter.so
+    # Shelly does not version bare .so depends; pin the SONAME this build links against
+    'libtree-sitter.so=0.27-64'
     libxml2.so
     zlib
   )
@@ -148,7 +150,8 @@ package_emacs-wayland() {
     libgobject-2.0.so
     libgtk-3.so
     libharfbuzz.so
-    libtree-sitter.so
+    # Shelly does not version bare .so depends; pin the SONAME this build links against
+    'libtree-sitter.so=0.27-64'
   )
   provides=(emacs)
   conflicts=(emacs)

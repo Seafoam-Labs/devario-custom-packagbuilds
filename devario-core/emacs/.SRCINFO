@@ -1,6 +1,6 @@
 pkgbase = emacs
 	pkgver = 31.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.gnu.org/software/emacs/emacs.html
 	arch = x86_64
 	license = GPL-3.0-or-later
@@ -47,7 +47,7 @@ pkgname = emacs
 	depends = libgobject-2.0.so
 	depends = libgtk-3.so
 	depends = libharfbuzz.so
-	depends = libtree-sitter.so
+	depends = libtree-sitter.so=0.27-64
 	replaces = emacs-nativecomp
 
 pkgname = emacs-nox
@@ -61,7 +61,7 @@ pkgname = emacs-nox
 	depends = libgccjit
 	depends = libncursesw.so
 	depends = libsystemd.so
-	depends = libtree-sitter.so
+	depends = libtree-sitter.so=0.27-64
 	depends = libxml2.so
 	depends = zlib
 	provides = emacs
@@ -88,6 +88,6 @@ pkgname = emacs-wayland
 	depends = libgobject-2.0.so
 	depends = libgtk-3.so
 	depends = libharfbuzz.so
-	depends = libtree-sitter.so
+	depends = libtree-sitter.so=0.27-64
 	provides = emacs
 	conflicts = emacs
