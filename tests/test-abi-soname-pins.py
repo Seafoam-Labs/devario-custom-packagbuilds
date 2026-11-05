@@ -281,6 +281,39 @@ PINNED = {
         "libGraphicsMagickWand.so": "libGraphicsMagickWand.so=2-64",
         "libGraphicsMagick++.so": "libGraphicsMagick++.so=12-64",
     },
+    # GObject, GTK, Qt, and KDE bindings. Every value is the SONAME the published
+    # archive carries, read with readelf -d. glibmm pins the libsigc++ provision
+    # this batch publishes, and the gupnp trio pins the gssdp, gupnp and libsoup3
+    # provisions the same stage publishes, provider before consumer.
+    "gcr": {
+        "libgck-1.so": "libgck-1.so=0-64",
+        "libgcr-base-3.so": "libgcr-base-3.so=1-64",
+        "libgcr-ui-3.so": "libgcr-ui-3.so=1-64",
+    },
+    "gcr-4": {
+        "libgck-2.so": "libgck-2.so=2-64",
+        "libgcr-4.so": "libgcr-4.so=4-64",
+    },
+    "glibmm": {
+        "libglibmm-2.4.so": "libglibmm-2.4.so=1-64",
+        "libgiomm-2.4.so": "libgiomm-2.4.so=1-64",
+    },
+    "graphene": {"libgraphene-1.0.so": "libgraphene-1.0.so=0-64"},
+    "gssdp": {"libgssdp-1.6.so": "libgssdp-1.6.so=0-64"},
+    "gupnp": {"libgupnp-1.6.so": "libgupnp-1.6.so=0-64"},
+    "gupnp-igd": {"libgupnp-igd-1.6.so": "libgupnp-igd-1.6.so=0-64"},
+    "libadwaita": {"libadwaita-1.so": "libadwaita-1.so=0-64"},
+    "libcloudproviders": {"libcloudproviders.so": "libcloudproviders.so=0-64"},
+    "libgee": {"libgee-0.8.so": "libgee-0.8.so=2-64"},
+    "libgnomekbd": {
+        "libgnomekbd.so": "libgnomekbd.so=8-64",
+        "libgnomekbdui.so": "libgnomekbdui.so=8-64",
+    },
+    "libproxy": {"libproxy.so": "libproxy.so=1-64"},
+    "libsigc++": {"libsigc-2.0.so": "libsigc-2.0.so=0-64"},
+    "libsoup3": {"libsoup-3.0.so": "libsoup-3.0.so=0-64"},
+    "sdbus-cpp": {"libsdbus-c++.so": "libsdbus-c++.so=2-64"},
+    "tinysparql": {"libtinysparql-3.0.so": "libtinysparql-3.0.so=0-64"},
 }
 
 # rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and
@@ -292,6 +325,7 @@ GROUP = {
     "libresidfp": "devario-libs",
     "libsidplayfp": "devario-libs",
     "graphicsmagick": "devario-entertainment",
+    "libgee": "devario-libs",
 }
 
 # A probe has to name a file the package really installs, which is not always the bare
@@ -308,9 +342,12 @@ PROBE_PATH = {"sdl_image": {"libSDL_image-1.2.so": "libSDL_image.so"}}
 # That is why devario-utilities/sequoia-sqv keeps its nettle depends verbatim: its binary
 # needs libnettle.so.8, and naming the nettle 4 provision installs a library it cannot load.
 # vulkan-icd-loader 1.4.364-1 publishes only bare libvulkan.so, so libplacebo names it bare.
+# gtk4 1:4.24.1-2 publishes only bare libgtk-4.so, so libadwaita names it bare and pinning
+# gtk4 itself is a separate change on that recipe with its own pkgrel bump.
 UNPINNED_PROVIDERS = {
     "libkrb5.so",
     "libvulkan.so",
+    "libgtk-4.so",
     "libblkid.so",
     "libmount.so",
     "libfdisk.so",

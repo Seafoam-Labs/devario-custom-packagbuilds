@@ -1,0 +1,22 @@
+pkgbase = libayatana-appindicator
+	pkgdesc = Ayatana Application Indicators shared library
+	pkgver = 0.6.1
+	pkgrel = 1
+	url = https://github.com/AyatanaIndicators/libayatana-appindicator
+	arch = x86_64
+	license = GPL-3.0-only
+	makedepends = cmake
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = vala
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = libdbusmenu-glib
+	depends = libdbusmenu-gtk3
+	depends = libgcc
+	source = git+https://github.com/AyatanaIndicators/libayatana-appindicator#tag=0.6.1
+	sha256sums = 03c321fdb296173bd81c951bc92d10b1e22dce46cd142b4dbdf3fc3459e0182b
+
+pkgname = libayatana-appindicator

@@ -1,0 +1,31 @@
+pkgbase = libgnomekbd
+	pkgdesc = Keyboard management library
+	pkgver = 3.28.1
+	pkgrel = 3
+	epoch = 1
+	url = https://gitlab.gnome.org/Archive/libgnomekbd
+	arch = x86_64
+	license = LGPL-2.0-or-later
+	makedepends = git
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = meson
+	depends = cairo
+	depends = dconf
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = libx11
+	depends = libxklavier
+	depends = pango
+	provides = libgnomekbd.so
+	provides = libgnomekbd.so=8-64
+	provides = libgnomekbdui.so
+	provides = libgnomekbdui.so=8-64
+	source = git+https://gitlab.gnome.org/Archive/libgnomekbd.git#tag=3.28.1
+	source = 0001-Fixes-for-meson-build.patch
+	b2sums = 418a510979b0230b05a753d95518709fd8174017cdab2dad634c2d9587094361246f2d3aef554f24abffb9f0593b441af0d8df42ca851fab6fc6338e6c4925aa
+	b2sums = f880ce5a1f801ff931b315e8b5bcc0d13123ebf2f4e8e9fae727d09de346b5ef12278dc5410680d6cb828a072f23afecdae15ece92cff9b06e8c14bc108bde20
+
+pkgname = libgnomekbd

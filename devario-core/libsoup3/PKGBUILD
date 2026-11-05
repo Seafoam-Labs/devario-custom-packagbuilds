@@ -1,0 +1,101 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=libsoup3
+pkgname=(
+  libsoup3
+  libsoup3-docs
+)
+pkgver=3.8.1
+pkgrel=2
+pkgdesc="HTTP client/server library for GNOME"
+url="https://libsoup.gnome.org/"
+arch=(x86_64)
+license=(LGPL-2.0-or-later)
+depends=(
+  brotli
+  glib-networking
+  glib2
+  glibc
+  krb5
+  libnghttp2
+  libpsl
+  libsysprof-capture
+  sqlite
+  zlib
+  zstd
+)
+makedepends=(
+  gi-docgen
+  git
+  glib2-devel
+  gobject-introspection
+  meson
+  python-quart
+  samba
+  vala
+)
+checkdepends=(
+  apache
+  php-apache
+)
+source=(
+  "git+https://gitlab.gnome.org/GNOME/libsoup.git#tag=$pkgver"
+)
+b2sums=('f08a41fbf00fd087a653111e66c8bed8a64612994f568dc72453b7e03c6f02769071602b3ed26181a277c076964a648ac1738cf0b20556a57e86e4ec1a36d11d')
+
+prepare() {
+  cd libsoup
+}
+
+build() {
+  local meson_options=(
+    -D autobahn=disabled
+  )
+
+  arch-meson libsoup build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  # Python's output buffering messes with the tests reading stdout lines from
+  # http2-server.py through a pipe
+  PYTHONUNBUFFERED=1 meson test -C build --print-errorlogs
+}
+
+package_libsoup3() {
+  # Pinned: every provider publishes the versioned provision.
+  depends+=(
+    libbrotlidec.so=1-64
+    libgssapi_krb5.so=2-64
+    libg{lib,object,io}-2.0.so=0-64
+    libpsl.so=5-64
+  )
+  optdepends=('samba: Windows Domain SSO')
+  # Shelly keeps a bare .so provision without expanding it to the SONAME.
+  provides=(
+    libsoup-3.0.so
+    libsoup-3.0.so=0-64
+  )
+
+  meson install -C build --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/libsoup-3.0.so" libsoup-3.0.so.0 || return 1
+
+  mkdir -p doc/usr/share
+  mv {"$pkgdir",doc}/usr/share/doc
+}
+
+package_libsoup3-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mv doc/* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:
