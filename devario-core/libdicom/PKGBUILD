@@ -13,8 +13,11 @@ provides=(
   libdicom.so
   'libdicom.so=1-64'
 )
-makedepends=(git meson uthash)
-checkdepends=(check)
+# Upstream meson.build resolves dependency('check') at setup time (the `tests`
+# option is boolean and defaults to true), so check belongs in makedepends: a
+# checkdepend is absent from --no-check roots and setup then dies trying to
+# fetch the blocked check.wrap subproject.
+makedepends=(check git meson uthash)
 source=("$pkgname::git+$url#tag=v$pkgver")
 sha512sums=('918aa014e91ebbaad96e5961bacd0237cccba68bfaf8dbb568cd833d5ef8ea60cbe271a4c2b418885997489840cfd2d41531ce3c6a2e46831cb0defdb7018be5')
 b2sums=('98f31b5d672c73b65faa849ad64d3ca55b8b12e7dbe1a390ab78e4eec5bb5676178226462bd411884bc5fad13f81a9ec60f4f6d42d295c5c2ba63a15d322e2d1')
