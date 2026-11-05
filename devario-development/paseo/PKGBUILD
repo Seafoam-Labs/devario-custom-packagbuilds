@@ -1,5 +1,5 @@
 pkgname=paseo
-pkgver=0.15.1
+pkgver=0.15.2
 pkgrel=1
 pkgdesc='Desktop workspace for coding agents with a bundled Paseo server and CLI'
 arch=('x86_64')
@@ -60,9 +60,9 @@ source=(
   '0002-native-zls-integration.patch'
   'paseo.desktop'
 )
-sha256sums=('14d25dff47f22ed4db308a3a099fa444b7d59196fc53201d716f96c6fd665d70'
+sha256sums=('03dfae0f9384bc215a69b2f41860833e418747e907fd5fe1660521cbd591e773'
             '6be65be32ddf82abc22b3dac1c3451d2491dae282a759530758592f461dcf493'
-            'cbe889d35b0d23655d0cd5be76e39db38535e5a44050016e212024e31c25a440'
+            '63a772e22ec4e66683b51dede955bc384f5fab74c1c8a9d234f929b2789a4ad1'
             '51b1379df3825ad02a50d4f96541bee5d3d3ec53b705fb7dcce85be1838a144b')
 
 _build_environment() {
