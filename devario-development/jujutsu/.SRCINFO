@@ -1,6 +1,6 @@
 pkgbase = jujutsu
 	pkgdesc = Git-compatible VCS that is both simple and powerful
-	pkgver = 0.47.0
+	pkgver = 0.47.1
 	pkgrel = 1
 	url = https://github.com/jj-vcs/jj
 	arch = x86_64
@@ -15,7 +15,7 @@ pkgbase = jujutsu
 	depends = libgcc
 	depends = libgcc_s.so
 	optdepends = git: for push/clone/fetch actions when using git.subprocess = true
-	source = https://github.com/jj-vcs/jj/archive/refs/tags/v0.47.0/jj-0.47.0.tar.gz
-	sha256sums = ae9a52956955f7dc72cc0f37dcc16f461a267b938e4fb4e14bf7cb9e7f16fc97
+	source = https://github.com/jj-vcs/jj/archive/refs/tags/v0.47.1/jj-0.47.1.tar.gz
+	sha256sums = 838fb5ddbf474ccee6639ce68835cedf88c8285b5c812599c56688286fb0b7a6
 
 pkgname = jujutsu
