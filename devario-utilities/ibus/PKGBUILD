@@ -7,8 +7,8 @@ pkgname=(
     ibus
     libibus
 )
-pkgver=1.5.34
-pkgrel=2
+pkgver=1.5.35
+pkgrel=1
 pkgdesc="Intelligent input bus for Linux/Unix"
 arch=(x86_64)
 url="https://github.com/ibus/ibus/wiki"
@@ -53,7 +53,7 @@ makedepends=(
 )
 options=(!emptydirs)
 source=("git+https://github.com/ibus/ibus.git?signed#tag=$pkgver")
-b2sums=(5c577245af802b12fbc8f3f7ba281b012d342a3fec7fdaa991e316d93aa02a0c706240288ab87fd64742b21950000074f3dfabd0ede010569aa594c64198d8c3)
+b2sums=('4709b289a1e66e5a013bbac1699629bf0224919aacd87883eaa72024c49fc247d88a1fa36ce53e636b88a2d1adaaea1260d419fa46d555b53a01eeb419a8fd67')
 validpgpkeys=(EEA94553D1CFF4B3DAEDAB54B2F99ED770DC79EC) # Takao Fujiwara <takao.fujiwara1@gmail.com>
 
 prepare() {
