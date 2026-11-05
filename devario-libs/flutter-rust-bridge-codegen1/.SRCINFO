@@ -1,0 +1,16 @@
+pkgbase = flutter-rust-bridge-codegen1
+	pkgdesc = Flutter Rust Bridge v1 generator for RustDesk
+	pkgver = 1.82.6
+	pkgrel = 1
+	url = https://github.com/fzyzcjy/flutter_rust_bridge
+	arch = x86_64
+	license = MIT
+	depends = cargo
+	depends = cargo-expand
+	depends = clang
+	depends = glibc
+	depends = libgcc
+	source = flutter_rust_bridge-1.82.6.tar.gz::https://codeload.github.com/fzyzcjy/flutter_rust_bridge/tar.gz/refs/tags/v1.82.6
+	sha256sums = 8f84dfbccd0bb416ea249d2da44be98ade023aef40440fc74e856388673b3b7c
+
+pkgname = flutter-rust-bridge-codegen1
