@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=vectorcraft
-pkgver=0.21.0
+pkgver=0.21.1
 pkgrel=1
 pkgdesc="Vector illustration editor for SVG and PDF, written from scratch in pure Rust"
 arch=('x86_64' 'aarch64')
@@ -28,10 +28,10 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('d051a395f62511b52e7ad023f3029bfc8846871b5f2f61b19312f71e777c4efe')
+sha256sums=('6735d662f8545c843bb671daa20f4378b405afa5e2aa681b3bf40f1e2c3abf58')
 
-_commit=11862f61198c8f62c0b22b6c9a331cc5950ac98d
-_releasedate=2026-11-03
+_commit=f6aa4309b4e11a6844e156120560b4beabf17fe9
+_releasedate=2026-11-05
 _appid=ai.storyteller.vectorcraft
 
 prepare() {
