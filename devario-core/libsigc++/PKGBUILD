@@ -19,6 +19,9 @@ depends=(
   libstdc++
 )
 makedepends=(
+  # docs/manual asks xsltproc for chunk.xsl as a remote URI, which exits 4 in a
+  # network-less build root until docbook-xsl rewrites it into /etc/xml/catalog.
+  docbook-xsl
   git
   meson
   mm-common
