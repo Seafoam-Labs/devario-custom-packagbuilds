@@ -240,16 +240,58 @@ PINNED = {
     "zix": {"libzix-0.so": "libzix-0.so=0-64"},
     # No provision of their own, but every .so depend names a pinned provider.
     "alsa-utils": {},
+    # Video, imaging, and graphics codecs. Here too every value is the SONAME the
+    # published archive carries, except `libopenslide.so=1` and `libdicom.so=1`:
+    # neither has published yet, so their pins come from the upstream meson ABI
+    # version (`abi_version`/`soversion`), and Arch already publishes
+    # libopenslide.so=1-64. add-determinism ships no library but pins its zlib
+    # depend, and libass and libbluray pin the published freetype2 provision.
+    # The librsvg pair is written literal because the guard reads recipe text.
+    "add-determinism": {},
+    "dav1d": {"libdav1d.so": "libdav1d.so=7-64"},
+    "l-smash": {"liblsmash.so": "liblsmash.so=2-64"},
+    "libass": {"libass.so": "libass.so=9-64"},
+    "libbluray": {"libbluray.so": "libbluray.so=4-64"},
+    "libdicom": {"libdicom.so": "libdicom.so=1-64"},
+    "libdovi": {"libdovi.so": "libdovi.so=3-64"},
+    "libexif": {"libexif.so": "libexif.so=12-64"},
+    "libinih": {
+        "libinih.so": "libinih.so=0-64",
+        "libINIReader.so": "libINIReader.so=0-64",
+    },
+    "libjxl": {
+        "libjxl.so": "libjxl.so=0.12-64",
+        "libjxl_cms.so": "libjxl_cms.so=0.12-64",
+        "libjxl_threads.so": "libjxl_threads.so=0.12-64",
+    },
+    "libplacebo": {"libplacebo.so": "libplacebo.so=360-64"},
+    "librsvg": {"librsvg-2.so": "librsvg-2.so=2-64"},
+    "libvips": {
+        "libvips.so": "libvips.so=42-64",
+        "libvips-cpp.so": "libvips-cpp.so=42-64",
+    },
+    "libvpl": {"libvpl.so": "libvpl.so=2-64"},
+    "libvpx": {"libvpx.so": "libvpx.so=12-64"},
+    "openslide": {"libopenslide.so": "libopenslide.so=1-64"},
+    "rav1e": {"librav1e.so": "librav1e.so=0.8-64"},
+    "vid.stab": {"libvidstab.so": "libvidstab.so=1.2-64"},
+    "xvidcore": {"libxvidcore.so": "libxvidcore.so=4-64"},
+    "graphicsmagick": {
+        "libGraphicsMagick.so": "libGraphicsMagick.so=3-64",
+        "libGraphicsMagickWand.so": "libGraphicsMagickWand.so=2-64",
+        "libGraphicsMagick++.so": "libGraphicsMagick++.so=12-64",
+    },
 }
 
-# rtaudio, sdl_image and the libsidplayfp trio live in devario-libs; the guard
-# follows the recipe, not the group.
+# rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and
+# graphicsmagick lives in devario-entertainment; the guard follows the recipe, not the group.
 GROUP = {
     "rtaudio": "devario-libs",
     "sdl_image": "devario-libs",
     "libexsid": "devario-libs",
     "libresidfp": "devario-libs",
     "libsidplayfp": "devario-libs",
+    "graphicsmagick": "devario-entertainment",
 }
 
 # A probe has to name a file the package really installs, which is not always the bare
@@ -265,8 +307,10 @@ PROBE_PATH = {"sdl_image": {"libSDL_image-1.2.so": "libSDL_image.so"}}
 # libnettle.so=9-64 and libhogweed.so=7-64 - belong to nettle 4.0, which ships neither.
 # That is why devario-utilities/sequoia-sqv keeps its nettle depends verbatim: its binary
 # needs libnettle.so.8, and naming the nettle 4 provision installs a library it cannot load.
+# vulkan-icd-loader 1.4.364-1 publishes only bare libvulkan.so, so libplacebo names it bare.
 UNPINNED_PROVIDERS = {
     "libkrb5.so",
+    "libvulkan.so",
     "libblkid.so",
     "libmount.so",
     "libfdisk.so",

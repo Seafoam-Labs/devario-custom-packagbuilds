@@ -1,0 +1,102 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=librsvg
+pkgname=(
+  librsvg
+  librsvg-docs
+)
+pkgver=2.63.4
+pkgrel=2
+epoch=2
+pkgdesc="SVG rendering library"
+url="https://gitlab.gnome.org/GNOME/librsvg"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  cairo
+  dav1d
+  fontconfig
+  freetype2
+  gdk-pixbuf2
+  glib2
+  glibc
+  harfbuzz
+  libgcc
+  libxml2
+  pango
+)
+makedepends=(
+  cargo-c
+  gi-docgen
+  git
+  gobject-introspection
+  llvm
+  meson
+  python-docutils
+  rust
+  vala
+)
+checkdepends=(ttf-dejavu)
+source=(
+  # librsvg tags use SSH signatures which makepkg doesn't understand
+  "git+https://gitlab.gnome.org/GNOME/librsvg.git#tag=$pkgver"
+)
+b2sums=('9c55c6161eee4cc5762c3a19c229b27da9169d599e57fc3ec72012fe0825038b37f6355ffd422e15613f9aa5548e1a6c7a11106eb2acdf34d0f6623487303cd1')
+
+# Use debug
+export CARGO_PROFILE_RELEASE_DEBUG=2 CARGO_PROFILE_RELEASE_STRIP=false
+
+# Use LTO
+export CARGO_PROFILE_RELEASE_LTO=true CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+
+prepare() {
+  cd librsvg
+
+  cargo fetch --locked --target host-tuple
+}
+
+build() {
+  local meson_options=(
+    -D avif=enabled
+    -D pixbuf-loader=disabled
+  )
+
+  arch-meson librsvg build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs --no-rebuild
+}
+
+package_librsvg() {
+  # Shelly keeps a bare .so provision without expanding it to the SONAME.
+  # The pinned form tracks the SONAME librsvg-2.so.2; a major bump needs both lines updated.
+  provides=(
+    librsvg-2.so
+    'librsvg-2.so=2-64'
+  )
+
+  meson install -C build --no-rebuild --destdir "$pkgdir"
+  _verify_soname "$pkgdir/usr/lib/librsvg-2.so" librsvg-2.so.2 || return 1
+
+  mkdir -p doc/usr/share
+  mv {"$pkgdir",doc}/usr/share/doc
+}
+
+package_librsvg-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mv doc/* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:
