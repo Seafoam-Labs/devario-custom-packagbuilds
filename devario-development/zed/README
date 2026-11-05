@@ -1,4 +1,4 @@
-Devario provider usage panel (Zed 1.26.2-4)
+Devario provider usage panel (see PKGBUILD for the packaged Zed version)
 
 Only Zed is patched. Stock OpenCode plus @slkiser/opencode-quota supplies the
 usage data through the plugin's public v3 JSON export. Zed reads that local file
@@ -27,8 +27,11 @@ Setup
 
    The default export is ~/.cache/opencode/quota-export.json, or
    $XDG_CACHE_HOME/opencode/quota-export.json. OpenCode Quota must run and perform
-   quota checks to update it. Zed only reads the export; it never triggers a
-   provider check. An existing export remains readable when OpenCode closes.
+   quota checks to update it. With plugin 6.2.0, keep its OpenCode terminal or
+   desktop UI open: the UI polls the server for snapshots, which trigger due
+   provider checks. Starting the background service alone does not start a
+   recurring quota poll. Zed only reads the export; it never triggers a provider
+   check. An existing export remains readable when OpenCode closes.
 
 3. Install the patched Zed package and open Provider usage. Your existing
    OpenCode ACP configuration can remain unchanged, including registry-managed
@@ -217,6 +220,47 @@ credential inventory. It appears once even if several OpenCode agents are
 configured. Account names are plugin display identities, not credential IDs;
 Zed does not infer that they match a particular OpenCode key. Native Zed
 accounts stay separate, even for the same provider.
+
+Troubleshooting values that stop updating
+
+The panel's Refresh button reloads the exported file; it does not fetch new
+quota from OpenAI or Bailian. The terminal command opencode-quota show --json
+also reads cached data and does not replace a live quota poll.
+
+1. Check whether the export is being rewritten:
+
+     stat ~/.cache/opencode/quota-export.json
+
+   Substitute your XDG_CACHE_HOME or custom export path when configured. A
+   recent file timestamp alone does not prove every provider is current: each
+   provider's fetchedAt records its own check time.
+
+2. Check the service, then open the OpenCode UI from a terminal where bl works:
+
+     opencode service status
+     opencode
+
+   Keep the UI open. Run /quota to request current allowances, and use
+   /quota_status to diagnose any provider error. If the service predates your
+   CLI installation or PATH change, restart it from that terminal with
+   opencode service restart when no model turn is running, then reopen OpenCode.
+
+3. After the plugin updates the export, refresh the Zed Provider usage tab or
+   leave it visible for its next one-minute read. Check the OpenCode filter;
+   native Zed account readers are separate.
+
+Verified locally on 2026-11-05 with Zed 1.27.0-1, OpenCode 2.2.5-1 and slkiser
+6.2.0: the service was stopped and both exported checks dated from November 4.
+Starting the service alone left them unchanged; opening the OpenCode terminal
+UI produced new November 5 fetchedAt timestamps and ok results for both openai
+and alibaba-token-plan, without sending a model prompt.
+
+Current limitation: running only Zed with an ACP agent does not guarantee that
+slkiser has a UI polling its store. Unattended refresh without an OpenCode UI
+would require a separate supported polling integration or a plugin change.
+
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/external-integration.md
+  https://github.com/slkiser/opencode-quota/blob/main/docs/readme/troubleshooting.md#service-environment
 
 Data handling
 
