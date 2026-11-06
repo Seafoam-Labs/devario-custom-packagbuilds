@@ -320,6 +320,19 @@ PINNED = {
     # libstemmer.so.0, and the three consumers that name libstemmer name the package,
     # not the provision.
     "snowball": {"libstemmer.so": "libstemmer.so=0-64"},
+    # System utilities, HID, and console. Every value here is the SONAME the published
+    # archive carries, read with `readelf -d`, paired beside the bare name upstream declares.
+    "gpm": {"libgpm.so": "libgpm.so=2-64"},
+    "hidapi": {
+        "libhidapi-hidraw.so": "libhidapi-hidraw.so=0-64",
+        "libhidapi-libusb.so": "libhidapi-libusb.so=0-64",
+    },
+    "lm_sensors": {"libsensors.so": "libsensors.so=5-64"},
+    "pcsclite": {
+        "libpcsclite.so": "libpcsclite.so=1-64",
+        "libpcsclite_real.so": "libpcsclite_real.so=1-64",
+        "libpcscspy.so": "libpcscspy.so=0-64",
+    },
 }
 
 # rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and
@@ -350,10 +363,14 @@ PROBE_PATH = {"sdl_image": {"libSDL_image-1.2.so": "libSDL_image.so"}}
 # vulkan-icd-loader 1.4.364-1 publishes only bare libvulkan.so, so libplacebo names it bare.
 # gtk4 1:4.24.1-2 publishes only bare libgtk-4.so, so libadwaita names it bare and pinning
 # gtk4 itself is a separate change on that recipe with its own pkgrel bump.
+# gtk3 1:3.24.52-3 likewise publishes only bare libgdk-3.so and libgtk-3.so, so gparted
+# names both bare while its other eleven .so depends name the pinned forms their providers carry.
 UNPINNED_PROVIDERS = {
     "libkrb5.so",
     "libvulkan.so",
     "libgtk-4.so",
+    "libgdk-3.so",
+    "libgtk-3.so",
     "libblkid.so",
     "libmount.so",
     "libfdisk.so",

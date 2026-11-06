@@ -1,0 +1,19 @@
+pkgbase = waycheck
+	pkgdesc = Simple GUI that displays the protocols implemented by a Wayland compositor
+	pkgver = 1.7.0
+	pkgrel = 3
+	url = https://gitlab.freedesktop.org/serebit/waycheck
+	arch = x86_64
+	license = Apache-2.0
+	checkdepends = appstream
+	makedepends = meson
+	depends = hicolor-icon-theme
+	depends = qt6-base>=6.5
+	depends = wayland
+	source = https://gitlab.freedesktop.org/serebit/waycheck/-/archive/v1.7.0/waycheck-v1.7.0.tar.gz
+	source = https://gitlab.freedesktop.org/-/project/21343/uploads/ebfc7fe292df388dd2576e6b7329b655/waycheck-v1.7.0.tar.gz.asc
+	validpgpkeys = E87E5B39F04A5D889D8C0147F6D84143496F6680
+	b2sums = a20b8bfdf43fd673c3d49689e3d04c3883561e93cdeeb15cf4b1b4be94a4c3ee44c25a3c2eb681ebad330b06c446c1744f1a364f5ea93ed161005a952f072cb9
+	b2sums = SKIP
+
+pkgname = waycheck
