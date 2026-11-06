@@ -1,0 +1,19 @@
+pkgbase = mailcap
+	pkgdesc = Helper application and MIME type associations for file types
+	pkgver = 2.1.54
+	pkgrel = 3
+	url = https://github.com/InfrastructureServices/mailcap
+	arch = any
+	license = MIT
+	checkdepends = python
+	makedepends = git
+	provides = mime-types
+	conflicts = mime-types
+	replaces = mime-types
+	backup = etc/mailcap
+	backup = etc/mime.types
+	backup = etc/nginx/mime.types
+	source = git+https://github.com/InfrastructureServices/mailcap#tag=r2-1-54
+	b2sums = 6273b657fa31311e0240a7367322f864853285ed86a4f77f6049eb9425d41b9553f01a2b007b83d61e0e61692a3c160cbfd107f72177f220d8385497b38489c6
+
+pkgname = mailcap

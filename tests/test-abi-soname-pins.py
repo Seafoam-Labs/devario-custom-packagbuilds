@@ -315,6 +315,11 @@ PINNED = {
     "libsoup3": {"libsoup-3.0.so": "libsoup-3.0.so=0-64"},
     "sdbus-cpp": {"libsdbus-c++.so": "libsdbus-c++.so=2-64"},
     "tinysparql": {"libtinysparql-3.0.so": "libtinysparql-3.0.so=0-64"},
+    # Language bindings, the Perl cluster, and arch=any data. libstemmer is the only
+    # unpinned provision in that batch: the published archive's SONAME is
+    # libstemmer.so.0, and the three consumers that name libstemmer name the package,
+    # not the provision.
+    "snowball": {"libstemmer.so": "libstemmer.so=0-64"},
 }
 
 # rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and

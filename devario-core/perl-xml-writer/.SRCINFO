@@ -1,0 +1,13 @@
+pkgbase = perl-xml-writer
+	pkgdesc = Module for writing XML documents
+	pkgver = 0.900
+	pkgrel = 6
+	url = https://search.cpan.org/dist/XML-Writer
+	arch = any
+	license = custom
+	depends = perl
+	options = !emptydirs
+	source = https://www.cpan.org/authors/id/J/JO/JOSEPHW/XML-Writer-0.900.tar.gz
+	sha256sums = 73c8f5bd3ecf2b350f4adae6d6676d52e08ecc2d7df4a9f089fa68360d400d1f
+
+pkgname = perl-xml-writer
