@@ -1,6 +1,6 @@
 pkgbase = botan
 	pkgdesc = Crypto library written in C++
-	pkgver = 3.14.0
+	pkgver = 3.14.1
 	pkgrel = 1
 	url = https://botan.randombit.net/
 	arch = x86_64
@@ -16,10 +16,10 @@ pkgbase = botan
 	depends = zlib
 	optdepends = boost-libs: for the botan executable
 	optdepends = python: for using botan2.py
-	source = https://botan.randombit.net/releases/Botan-3.14.0.tar.xz
-	source = https://botan.randombit.net/releases/Botan-3.14.0.tar.xz.asc
+	source = https://botan.randombit.net/releases/Botan-3.14.1.tar.xz
+	source = https://botan.randombit.net/releases/Botan-3.14.1.tar.xz.asc
 	validpgpkeys = 621DAF6411E1851C4CF9A2E16211EBF1EFBADFBC
-	sha256sums = c22d66a08cd3c6dae683bdcb8384beaa9e2cbd75821e19a270047030fbe81ac7
+	sha256sums = 5b85cba0f014d344eb8e9919aee0a3bdc31e16acb05816410025be9bee1e0930
 	sha256sums = SKIP
 
 pkgname = botan
