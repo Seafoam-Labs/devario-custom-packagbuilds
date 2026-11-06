@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.5.devario.5.r6.g24f258e74
-pkgrel=1
+pkgrel=2
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -59,6 +59,7 @@ cf208cfd20854a4ea29b790f8ae4aabaa39672b5 # scx_maestro: bump libbpf to 0.27.1
 55f2ce1705f6d4a9ec2655066b60f3f7d9ba57bc # scx_maestro: move to experimental
 dd7ee99d4e29c9aceca6c44e6a98555a79a0b30a # scx_maestro: add to scx_catalog
 f96e0c5b539ab3e860dca8205b8bc3c0f34cf755 # scx_pandemonium: bump to 5.24.0
+8a4ce33b2fbdb1881bbae77bef78b652990915a3 # scx_panda: add to scx tree
 )
 
 _reverts=(
