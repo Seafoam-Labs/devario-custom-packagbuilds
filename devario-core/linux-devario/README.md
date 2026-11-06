@@ -4,7 +4,8 @@ The regular Devario kernel recipe for the Linux 7.3 source series. Its defaults 
 
 This directory contains the `PKGBUILD` and a versioned `config`. Devario builds
 its own kernel packages from [Seafoam Labs' Linux source tree](https://github.com/Seafoam-Labs/linux).
-The release source archives use the `devario-<version>-<N>` naming scheme.
+The release source archives use the `devario[-<channel>]-<version>-<N>`
+naming scheme; this recipe builds from the **stable** channel (`_channel=` empty), tags `devario-<version>-<N>`.
 Devario distributes and signs its own packages.
 
 ## Packages
@@ -82,7 +83,11 @@ build toolchain or replace testing in a controlled build environment.
 ## Source tags and package versions
 
 - `pkgver` follows the kernel version selected by `_major` and `_minor`.
-- `_tagrel` is the release index `N` in `devario-<version>-<N>`.
+- `_channel` selects the source tag channel created by `release-kernel.sh`:
+  empty for stable `devario-<version>-<N>`, or `dev`, `scx`, `gaming`,
+  `internal` for `devario-<channel>-<version>-<N>`. Channels number their
+  tags independently.
+- `_tagrel` is the release index `N` in the tag of the selected channel.
 - `pkgrel` is `<_tagrel>.<_rebuild>`. Increase `_rebuild` when rebuilding the
   same source tag, or reset it to `1` for a newly tagged source release.
 - The source archive and the shipped `config` are inputs to the package build.

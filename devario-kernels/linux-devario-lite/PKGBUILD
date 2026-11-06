@@ -14,9 +14,12 @@ _major=7.3
 _minor=3
 # Release channel of the source tag, as created by release-kernel.sh:
 #   ""        stable    devario-<version>-<N>
+#   dev       dev       devario-dev-<version>-<N>
+#   scx       scx       devario-scx-<version>-<N>
+#   gaming    gaming    devario-gaming-<version>-<N>
 #   internal  internal  devario-internal-<version>-<N>
-# (dev, scx and gaming work the same way.) Each channel numbers its tags
-# separately, so _tagrel below refers to the tag of this channel.
+# Each channel numbers its tags separately, so _tagrel below refers to the
+# tag of this channel.
 _channel=internal
 # Release number N of the devario[-<channel>]-<version>-<N> tag on GitHub.
 _tagrel=1

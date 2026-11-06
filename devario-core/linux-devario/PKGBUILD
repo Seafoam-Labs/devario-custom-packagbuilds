@@ -12,12 +12,21 @@
 _pkgsuffix=devario
 _major=7.3
 _minor=3
-# Release number of the devario-<version>-<N> tag on GitHub.
+# Release channel of the source tag, as created by release-kernel.sh:
+#   ""        stable    devario-<version>-<N>
+#   dev       dev       devario-dev-<version>-<N>
+#   scx       scx       devario-scx-<version>-<N>
+#   gaming    gaming    devario-gaming-<version>-<N>
+#   internal  internal  devario-internal-<version>-<N>
+# Each channel numbers its tags separately, so _tagrel below refers to the
+# tag of this channel.
+_channel=
+# Release number N of the devario[-<channel>]-<version>-<N> tag on GitHub.
 _tagrel=1
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
-_srctag=devario-${pkgver}-${_tagrel}
+_srctag=devario${_channel:+-$_channel}-${pkgver}-${_tagrel}
 _srcname="$_srctag"
 pkgdesc='Linux EEVDF by Devario with other patches and improvements.'
 arch=('x86_64')
