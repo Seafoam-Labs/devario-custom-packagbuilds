@@ -11,7 +11,7 @@
 
 _pkgsuffix=devario-lts
 _major=6.18
-_minor=60
+_minor=62
 # Release number of the devario-<version>-<N> tag on GitHub.
 _tagrel=1
 
@@ -416,5 +416,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('5c7ea9abf8df7da23c91150ac2e8d7d150b7cd64551473f40dfd95adaa2abfcab60e8c8f5491af4e7b7ec1629469b68b262f240d29b84c604f43cbc1e160a032'
+b2sums=('717b370d6c95ad3931de4d30d5aad6ca43e1b7f9f8c1af1ebe8f3b926593042ac07680584602fa06f199f4d6868b7da8f2264b9252b2ccc02fabf6199f0120ef'
         'fb38a4e0ae34e2c0cf81420d053cae23f9a29e61db6514a1e4030af495ff504ae035b9f2c8af34ed2aaa6c6bae8c4503c124a7e89ffea19f327d4e3ff9f392b3')
