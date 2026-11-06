@@ -1,4 +1,4 @@
-# linux-devario-lm — Devario kernel, internal channel (7.3)
+# linux-devario-llm — Devario kernel, internal channel (7.3)
 
 The Devario kernel recipe for the Linux 7.3 source series, built from the
 internal release channel. It installs alongside `linux-devario` (separate
