@@ -1,6 +1,6 @@
 pkgbase = python-hypothesis
 	pkgdesc = Advanced Quickcheck style testing library for Python
-	pkgver = 6.170.14
+	pkgver = 6.170.15
 	pkgrel = 1
 	url = https://hypothesis.readthedocs.org
 	arch = x86_64
@@ -32,8 +32,8 @@ pkgbase = python-hypothesis
 	optdepends = python-redis: for redis support
 	optdepends = python-rich: for CLI
 	optdepends = python-watchdog: for tracking file system events
-	source = python-hypothesis::git+https://github.com/HypothesisWorks/hypothesis#tag=v6.170.14
-	sha512sums = ae203ce4338305cc5a183a8878064df8a910e839f5af2c59e086e4b4b4ea7ae77475ad67e663bc4fc679482f5101809536201bb7a6cce0b463c4ec5f9b7fe05b
-	b2sums = c260d28c558fccc0e6141f155a7a9655b56146dec35174cc1042439204d5875d3a9a6e2d351e3f05422d5bea58dcdf95843bac1e99d2c19662c05947b41c6253
+	source = python-hypothesis::git+https://github.com/HypothesisWorks/hypothesis#tag=v6.170.15
+	sha512sums = d264da22c97e20f31e3c6aa73ec745d8a52449e0769ff1cb9e14926e0f502f157435accfe6b68f03a267a4bc461a44d81e5bd56ef8276a315a72f400e3870491
+	b2sums = 01eec14e6959f8e95729457a4bb2f3be319787b18aa5f04c0296fd139461b5ed14f1ab321aec672f7b8535dcbb51a03d7e21af90fa182f3e072a93ba1bf4750f
 
 pkgname = python-hypothesis
