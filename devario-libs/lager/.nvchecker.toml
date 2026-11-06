@@ -1,0 +1,5 @@
+[lager]
+source = 'github'
+github = 'arximboldi/lager'
+use_max_tag = true
+prefix = 'v'

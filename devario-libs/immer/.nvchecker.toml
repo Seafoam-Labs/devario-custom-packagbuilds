@@ -1,0 +1,5 @@
+[immer]
+source = 'github'
+github = 'arximboldi/immer'
+use_max_tag = true
+prefix = 'v'

@@ -1,0 +1,20 @@
+pkgbase = lttng-ust2.12
+	pkgdesc = LTTng user space tracing libraries for LTTng
+	pkgver = 2.12.10
+	pkgrel = 3
+	url = https://lttng.org/
+	arch = x86_64
+	license = LGPL-2.1-only
+	license = GPL-2.0-only
+	license = MIT
+	makedepends = git
+	depends = glibc
+	depends = libnuma.so=1-64
+	depends = liburcu
+	depends = python
+	conflicts = lttng-ust
+	source = git+https://github.com/lttng/lttng-ust.git?signed#tag=v2.12.10
+	validpgpkeys = 2A0B4ED915F2D3FA45F5B16217280A9781186ACF
+	b2sums = 650d4e31c1076745525a289b57b04e4de6bfef87de57f2c8e9dc724bb5c36d9071f8e8c16279724cdfbe4785d4a34fa62b47568702b4c65af03e919a9fd0a879
+
+pkgname = lttng-ust2.12

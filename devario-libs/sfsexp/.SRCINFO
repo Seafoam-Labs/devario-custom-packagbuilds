@@ -1,0 +1,12 @@
+pkgbase = sfsexp
+	pkgdesc = Small Fast S-Expression Library
+	pkgver = 1.4.1
+	pkgrel = 2
+	url = https://github.com/mjsottile/sfsexp
+	arch = x86_64
+	license = LGPL
+	depends = glibc
+	source = https://github.com/mjsottile/sfsexp/releases/download/v1.4.1/sfsexp-1.4.1.tar.gz
+	sha256sums = 15e9a18bb0d5c3c5093444a9003471c2d25ab611b4219ef1064f598668723681
+
+pkgname = sfsexp

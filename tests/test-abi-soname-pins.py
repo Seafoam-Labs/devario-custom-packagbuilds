@@ -346,6 +346,13 @@ PINNED = {
     "gspell": {"libgspell-1.so": "libgspell-1.so=3-64"},
     "libgexiv2": {"libgexiv2.so": "libgexiv2.so=2-64"},
     "xapian-core": {"libxapian.so": "libxapian.so=45-64"},
+    # Small single-purpose libraries. nettle3 keeps nettle's 3.x SONAMEs, read off
+    # the published archive: libnettle.so.8 and libhogweed.so.6, not the 9/7 pair
+    # the owned nettle 4.0 declares beside it.
+    "nettle3": {
+        "libnettle.so": "libnettle.so=8-64",
+        "libhogweed.so": "libhogweed.so=6-64",
+    },
 }
 
 # rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and
@@ -365,6 +372,7 @@ GROUP = {
     "gspell": "devario-libs",
     "libgexiv2": "devario-libs",
     "xapian-core": "devario-libs",
+    "nettle3": "devario-libs",
 }
 
 # The gexiv2 row is served by the folder named after its row, gexiv2-common, because that
@@ -379,11 +387,11 @@ PROBE_PATH = {"sdl_image": {"libSDL_image-1.2.so": "libSDL_image.so"}}
 # cannot name a versioned form of them without making itself uninstallable. util-linux-libs
 # (libblkid, libmount, libfdisk), kmod (libkmod) and polkit (libpolkit-*) own recipe folders
 # but no versioned provision, so their pins are a separate change with their own pkgrel bump.
-# nettle3 (libnettle, libhogweed) owns no recipe folder at all and its SONAMEs are
-# libnettle.so.8 and libhogweed.so.6, so the only versioned names published today -
-# libnettle.so=9-64 and libhogweed.so=7-64 - belong to nettle 4.0, which ships neither.
-# That is why devario-utilities/sequoia-sqv keeps its nettle depends verbatim: its binary
-# needs libnettle.so.8, and naming the nettle 4 provision installs a library it cannot load.
+# nettle3's SONAMEs are libnettle.so.8 and libhogweed.so.6, and its import lands
+# the pair as 3.10.2-3. devario-utilities/sequoia-sqv names libnettle.so and
+# libhogweed.so bare today: its binary needs libnettle.so.8, so it switches to
+# the 8/6 provisions once the nettle3 stage publishes, and must never name nettle
+# 4.0's libnettle.so=9-64 / libhogweed.so=7-64, which ship a library it cannot load.
 # vulkan-icd-loader 1.4.364-1 publishes only bare libvulkan.so, so libplacebo names it bare.
 # gtk4 1:4.24.1-2 publishes only bare libgtk-4.so, so libadwaita names it bare and pinning
 # gtk4 itself is a separate change on that recipe with its own pkgrel bump.
@@ -404,8 +412,6 @@ UNPINNED_PROVIDERS = {
     "libkmod.so",
     "libpolkit-agent-1.so",
     "libpolkit-gobject-1.so",
-    "libnettle.so",
-    "libhogweed.so",
     "libexiv2.so",
     "libgdk_pixbuf-2.0.so",
     "libjasper.so",

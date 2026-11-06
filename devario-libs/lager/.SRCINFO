@@ -1,0 +1,12 @@
+pkgbase = lager
+	pkgdesc = C++ library for value-oriented design using the unidirectional data-flow architecture
+	pkgver = 0.1.3
+	pkgrel = 1
+	url = https://sinusoid.es/lager
+	arch = any
+	license = Boost
+	makedepends = cmake
+	source = https://github.com/arximboldi/lager/archive/v0.1.3/lager-0.1.3.tar.gz
+	sha256sums = 55d3442d2d4306aad78fa2af5d3db01af65f4fdbfc58c4620fba13dbde82e599
+
+pkgname = lager

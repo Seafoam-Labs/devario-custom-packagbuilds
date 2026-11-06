@@ -1,0 +1,31 @@
+# Maintainer: Antonio Rojas <arojas@archlinux,org>
+
+pkgname=kseexpr
+pkgver=6.0.0.0
+pkgrel=2
+pkgdesc='An embeddable expression evaluation engine (Krita fork)'
+arch=(x86_64)
+url='https://krita.org'
+license=(GPL-3.0-or-later)
+depends=(glibc
+         ki18n
+         libgcc
+         libstdc++
+         qt6-base)
+makedepends=(extra-cmake-modules
+             git
+             qt6-tools)
+source=(git+https://invent.kde.org/graphics/kseexpr#tag=v$pkgver)
+sha256sums=('ce8cc507a0784e04fad30630e3a955c29d7c120645a16ea67df7819fd74ce764')
+
+build() {
+  cmake -B build -S $pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_DEMOS=OFF \
+    -DBUILD_TESTS=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
