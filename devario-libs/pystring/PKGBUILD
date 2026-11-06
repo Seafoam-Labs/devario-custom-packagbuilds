@@ -1,0 +1,29 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: Tércio Martins <echo dGVyY2lvd2VuZGVsQGdtYWlsLmNvbQo= | base64 -d>
+# Contributor: Alexey Pavlov <alexpux@gmail.com>
+
+pkgname=pystring
+pkgver=1.2.0
+pkgrel=1
+arch=('x86_64')
+pkgdesc="C++ functions matching the interface and behavior of python string methods with std::string"
+url="https://github.com/imageworks/pystring"
+license=('BSD-3-Clause')
+depends=(
+  'libgcc'
+  'libstdc++'
+)
+source=("$pkgname-$pkgver.tar.gz::https://github.com/imageworks/pystring/archive/v$pkgver.tar.gz")
+sha512sums=('0696553f63a2622280449b513dd9ccf92a8d7c05fad41dfa927f2bc1c3815e381348375278f7b58d932b49ea297e8b99f002c903adae49258a71120278304e84')
+
+build() {
+  cd $pkgname-$pkgver
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+  DESTDIR="$pkgdir" make install
+
+  install -Dm644 "$srcdir/$pkgname-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname"/LICENSE
+}

@@ -1,0 +1,4 @@
+[gmime3]
+source = "git"
+git = "https://github.com/jstedfast/gmime.git"
+include_regex = '\d+\.\d*[02468]\.\d+'

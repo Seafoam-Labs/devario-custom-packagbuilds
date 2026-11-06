@@ -333,6 +333,19 @@ PINNED = {
         "libpcsclite_real.so": "libpcsclite_real.so=1-64",
         "libpcscspy.so": "libpcscspy.so=0-64",
     },
+    # Application-layer imaging and document stacks. Every value here is the SONAME the
+    # published archive carries, read with `readelf -d`, paired beside the bare name
+    # upstream declares. gegl also ships libgegl-npd-0.4.so and libgegl-sc-0.4.so, whose
+    # own SONAMEs carry no version, so they have no versioned form to declare. gexiv2 is
+    # the pkgbase the gexiv2-common folder clones; its provision libgexiv2-0.16.so and
+    # libgexiv2's libgexiv2.so belong to two different pkgbases and never cross-provide.
+    "babl": {"libbabl-0.1.so": "libbabl-0.1.so=0-64"},
+    "gegl": {"libgegl-0.4.so": "libgegl-0.4.so=0-64"},
+    "gexiv2": {"libgexiv2-0.16.so": "libgexiv2-0.16.so=4-64"},
+    "gmime3": {"libgmime-3.0.so": "libgmime-3.0.so=0-64"},
+    "gspell": {"libgspell-1.so": "libgspell-1.so=3-64"},
+    "libgexiv2": {"libgexiv2.so": "libgexiv2.so=2-64"},
+    "xapian-core": {"libxapian.so": "libxapian.so=45-64"},
 }
 
 # rtaudio, sdl_image and the libsidplayfp trio live in devario-libs, and
@@ -345,7 +358,18 @@ GROUP = {
     "libsidplayfp": "devario-libs",
     "graphicsmagick": "devario-entertainment",
     "libgee": "devario-libs",
+    "babl": "devario-libs",
+    "gegl": "devario-libs",
+    "gexiv2": "devario-libs",
+    "gmime3": "devario-libs",
+    "gspell": "devario-libs",
+    "libgexiv2": "devario-libs",
+    "xapian-core": "devario-libs",
 }
+
+# The gexiv2 row is served by the folder named after its row, gexiv2-common, because that
+# split base's header output is what the repository database holds a row for.
+FOLDER = {"gexiv2": "gexiv2-common"}
 
 # A probe has to name a file the package really installs, which is not always the bare
 # provision: SDL_image ships libSDL_image-1.2.so.0 and the libSDL_image.so linker name only.
@@ -365,6 +389,9 @@ PROBE_PATH = {"sdl_image": {"libSDL_image-1.2.so": "libSDL_image.so"}}
 # gtk4 itself is a separate change on that recipe with its own pkgrel bump.
 # gtk3 1:3.24.52-3 likewise publishes only bare libgdk-3.so and libgtk-3.so, so gparted
 # names both bare while its other eleven .so depends name the pinned forms their providers carry.
+# exiv2 0.28.9-1 publishes only bare libexiv2.so, gdk-pixbuf2 2.44.8-3 only bare
+# libgdk_pixbuf-2.0.so, jasper 4.2.9-2 only bare libjasper.so and poppler-glib 26.08.0-1
+# only bare libpoppler-glib.so, so gexiv2, libgexiv2 and gegl name those four bare.
 UNPINNED_PROVIDERS = {
     "libkrb5.so",
     "libvulkan.so",
@@ -379,6 +406,10 @@ UNPINNED_PROVIDERS = {
     "libpolkit-gobject-1.so",
     "libnettle.so",
     "libhogweed.so",
+    "libexiv2.so",
+    "libgdk_pixbuf-2.0.so",
+    "libjasper.so",
+    "libpoppler-glib.so",
 }
 
 ARRAY = re.compile(r"^(\s*)(\w+)(\+?)=\((.*?)\)", re.M | re.S)
@@ -440,7 +471,7 @@ class AbiSonamePins(unittest.TestCase):
     def recipes(self):
         for pkgbase in sorted(PINNED):
             group = GROUP.get(pkgbase, "devario-core")
-            recipe = ROOT / group / pkgbase
+            recipe = ROOT / group / FOLDER.get(pkgbase, pkgbase)
             name = "%s/%s" % (group, pkgbase)
             self.assertTrue(
                 (recipe / "PKGBUILD").is_file(), f"{name}/PKGBUILD is missing"

@@ -1,0 +1,20 @@
+pkgbase = babl
+	pkgdesc = Dynamic, any to any, pixel format conversion library
+	pkgver = 0.1.128
+	pkgrel = 2
+	url = https://gegl.org/babl/
+	arch = x86_64
+	license = LGPL-3.0-or-later
+	makedepends = git
+	makedepends = meson
+	makedepends = gobject-introspection
+	makedepends = vala
+	makedepends = gi-docgen
+	depends = glibc
+	depends = lcms2
+	provides = libbabl-0.1.so
+	provides = libbabl-0.1.so=0-64
+	source = git+https://gitlab.gnome.org/GNOME/babl.git#tag=BABL_0_1_128
+	sha256sums = 9078294b47e179db6767aed37cbdd1837cbe35a2568ee12d0016b2cc9f88816d
+
+pkgname = babl

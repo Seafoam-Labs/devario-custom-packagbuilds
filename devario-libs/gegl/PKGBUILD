@@ -1,0 +1,82 @@
+# Maintainer: Christian Hesse <mail@eworm.de>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: Daniel Isenmann <daniel@archlinux.org>
+
+pkgname=gegl
+pkgver=0.4.72
+pkgrel=4
+pkgdesc='Graph based image processing framework'
+arch=('x86_64')
+url='https://www.gegl.org/'
+license=('GPL-3.0-or-later OR LGPL-3.0-or-later')
+# Pinned against the provisions their published providers declare. babl belongs to this
+# batch and stages before gegl, so its pin resolves once the batch publishes. gdk-pixbuf2,
+# jasper and poppler-glib publish bare only, so those three stay bare.
+depends=('babl' 'libbabl-0.1.so=0-64'
+         'cairo' 'libcairo.so=2-64'
+         'gdk-pixbuf2' 'libgdk_pixbuf-2.0.so'
+         'glib2' 'libgio-2.0.so=0-64' 'libglib-2.0.so=0-64' 'libgmodule-2.0.so=0-64' 'libgobject-2.0.so=0-64'
+         'glibc'
+         'jasper' 'libjasper.so'
+         'json-glib' 'libjson-glib-1.0.so=0-64'
+         'lcms2' 'liblcms2.so=2-64'
+         'lensfun' #'liblensfun.so'
+         'libgcc' 'libgcc_s.so=1-64'
+         'libgomp.so=1-64' 'libgomp.so=1-64'
+         'libjpeg-turbo' 'libjpeg.so=8-64'
+         'libpng' 'libpng16.so=16-64'
+         'libraw' #'libraw.so'
+         'librsvg' 'librsvg-2.so=2-64'
+         'libspiro' #'libspiro.so'
+         'libstdc++' 'libstdc++.so=6-64'
+         'libtiff' 'libtiff.so=6-64'
+         'libwebp' 'libwebp.so=7-64'
+         'luajit' #'libluajit-5.1.so'
+         'openexr' #'libOpenEXR-3_4.so'
+         'pango' 'libpango-1.0.so=0-64' 'libpangocairo-1.0.so=0-64'
+         'poppler-glib' 'libpoppler-glib.so'
+         'suitesparse' #'libumfpack.so'
+)
+makedepends=('git' 'gobject-introspection' 'libgexiv2' 'meson' 'python-gobject' 'sdl3'
+             'v4l-utils' 'vala' 'gi-docgen')
+optdepends=('graphviz: for gegl-introspect'
+            'sdl3: SDL3 Display plugin')
+# Shelly keeps bare .so provisions without expanding them to the SONAME. libgegl-npd-0.4.so
+# and libgegl-sc-0.4.so ship unversioned SONAMEs, so they have no versioned form to declare.
+provides=('libgegl-0.4.so' 'libgegl-0.4.so=0-64' 'libgegl-npd-0.4.so' 'libgegl-sc-0.4.so')
+source=("git+https://gitlab.gnome.org/GNOME/gegl.git#tag=GEGL_${pkgver//./_}")
+sha256sums=('b3af4073606a33df19bd08cfb4fb736c00a0e7f036e7b186d8aa0892392ec2ed')
+
+pkgver() {
+  cd "${pkgname}"
+  git describe --tags | sed 's/^GEGL_//;s/_$//;s/_/./g;s/-/+/g'
+}
+
+build() {
+  mkdir -p build
+  cd build
+  arch-meson ../"${pkgname}" \
+    -Dworkshop=true \
+    -Dmrg=disabled \
+    -Dmaxflow=disabled \
+    -Dsdl2=disabled
+  ninja
+}
+
+check() {
+  cd build
+  ninja test || :
+}
+
+package() {
+  cd build
+  DESTDIR="${pkgdir}" ninja install
+
+  _verify_soname "${pkgdir}/usr/lib/libgegl-0.4.so" libgegl-0.4.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

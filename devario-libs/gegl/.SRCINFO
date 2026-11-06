@@ -1,0 +1,71 @@
+pkgbase = gegl
+	pkgdesc = Graph based image processing framework
+	pkgver = 0.4.72
+	pkgrel = 4
+	url = https://www.gegl.org/
+	arch = x86_64
+	license = GPL-3.0-or-later OR LGPL-3.0-or-later
+	makedepends = git
+	makedepends = gobject-introspection
+	makedepends = libgexiv2
+	makedepends = meson
+	makedepends = python-gobject
+	makedepends = sdl3
+	makedepends = v4l-utils
+	makedepends = vala
+	makedepends = gi-docgen
+	depends = babl
+	depends = libbabl-0.1.so=0-64
+	depends = cairo
+	depends = libcairo.so=2-64
+	depends = gdk-pixbuf2
+	depends = libgdk_pixbuf-2.0.so
+	depends = glib2
+	depends = libgio-2.0.so=0-64
+	depends = libglib-2.0.so=0-64
+	depends = libgmodule-2.0.so=0-64
+	depends = libgobject-2.0.so=0-64
+	depends = glibc
+	depends = jasper
+	depends = libjasper.so
+	depends = json-glib
+	depends = libjson-glib-1.0.so=0-64
+	depends = lcms2
+	depends = liblcms2.so=2-64
+	depends = lensfun
+	depends = libgcc
+	depends = libgcc_s.so=1-64
+	depends = libgomp.so=1-64
+	depends = libgomp.so=1-64
+	depends = libjpeg-turbo
+	depends = libjpeg.so=8-64
+	depends = libpng
+	depends = libpng16.so=16-64
+	depends = libraw
+	depends = librsvg
+	depends = librsvg-2.so=2-64
+	depends = libspiro
+	depends = libstdc++
+	depends = libstdc++.so=6-64
+	depends = libtiff
+	depends = libtiff.so=6-64
+	depends = libwebp
+	depends = libwebp.so=7-64
+	depends = luajit
+	depends = openexr
+	depends = pango
+	depends = libpango-1.0.so=0-64
+	depends = libpangocairo-1.0.so=0-64
+	depends = poppler-glib
+	depends = libpoppler-glib.so
+	depends = suitesparse
+	optdepends = graphviz: for gegl-introspect
+	optdepends = sdl3: SDL3 Display plugin
+	provides = libgegl-0.4.so
+	provides = libgegl-0.4.so=0-64
+	provides = libgegl-npd-0.4.so
+	provides = libgegl-sc-0.4.so
+	source = git+https://gitlab.gnome.org/GNOME/gegl.git#tag=GEGL_0_4_72
+	sha256sums = b3af4073606a33df19bd08cfb4fb736c00a0e7f036e7b186d8aa0892392ec2ed
+
+pkgname = gegl

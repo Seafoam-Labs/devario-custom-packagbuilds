@@ -1,0 +1,13 @@
+pkgbase = pystring
+	pkgdesc = C++ functions matching the interface and behavior of python string methods with std::string
+	pkgver = 1.2.0
+	pkgrel = 1
+	url = https://github.com/imageworks/pystring
+	arch = x86_64
+	license = BSD-3-Clause
+	depends = libgcc
+	depends = libstdc++
+	source = pystring-1.2.0.tar.gz::https://github.com/imageworks/pystring/archive/v1.2.0.tar.gz
+	sha512sums = 0696553f63a2622280449b513dd9ccf92a8d7c05fad41dfa927f2bc1c3815e381348375278f7b58d932b49ea297e8b99f002c903adae49258a71120278304e84
+
+pkgname = pystring

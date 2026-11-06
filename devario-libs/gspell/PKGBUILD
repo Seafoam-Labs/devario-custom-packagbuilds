@@ -1,0 +1,97 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+pkgbase=gspell
+pkgname=(
+  gspell
+  gspell-docs
+)
+pkgver=1.14.5
+pkgrel=2
+pkgdesc="Spell-checking library for GTK applications"
+url="https://gitlab.gnome.org/GNOME/gspell"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(
+  enchant
+  glib2
+  glibc
+  gtk3
+  icu
+)
+makedepends=(
+  git
+  glib2-devel
+  gobject-introspection
+  gtk-doc
+  meson
+  vala
+)
+checkdepends=(
+  aspell
+  hspell
+  hunspell
+  hunspell-en_us
+  libvoikko
+  nuspell
+  xorg-server-xvfb
+)
+source=("git+https://gitlab.gnome.org/GNOME/gspell.git#tag=$pkgver")
+b2sums=('3f02b9d230bc83541b8849e9a8d772bf9a70ff75c29c36f56630f2a0526c0dd2d1e7055297a038b4889c7c6703001186cf95cf7797e32c01635e33d005e403cd')
+
+prepare() {
+  cd gspell
+}
+
+build() {
+  local meson_options=(
+    -D install_tests=false
+  )
+
+  arch-meson gspell build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  echo '*:hunspell' > enchant.ordering
+  ENCHANT_CONFIG_DIR="$PWD" \
+    xvfb-run -s '-nolisten local' \
+    meson test -C build --print-errorlogs
+}
+
+package_gspell(){
+  # Pinned against the provisions their published providers declare; gtk3 publishes
+  # libgtk-3.so bare only, so that one stays bare.
+  depends+=(
+    libenchant-2.so=2-64
+    libgtk-3.so
+    libg{lib,object,io}-2.0.so=0-64
+    libicuuc.so=78-64
+    libpango-1.0.so=0-64
+  )
+  # Shelly keeps a bare .so provision without expanding it to the SONAME. The bare name
+  # is written literal instead of the derived form because the pin reads recipe text.
+  provides+=("libgspell-1.so" "libgspell-1.so=3-64")
+
+  meson install -C build --destdir "$pkgdir"
+
+  _verify_soname "${pkgdir}/usr/lib/libgspell-1.so" libgspell-1.so.3 || return 1
+
+  mkdir -p doc/usr/share
+  mv {"$pkgdir",doc}/usr/share/gtk-doc
+}
+
+package_gspell-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mv doc/* "$pkgdir"
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:

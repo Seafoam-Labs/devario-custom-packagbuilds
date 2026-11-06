@@ -1,0 +1,70 @@
+# Maintainer: Alexander F. Rødseth <xyproto@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+pkgname=libgexiv2
+pkgver=0.14.7
+pkgrel=2
+pkgdesc="GObject-based wrapper around the Exiv2 library"
+url="https://gitlab.gnome.org/GNOME/gexiv2"
+arch=(x86_64)
+license=(GPL-2.0-or-later)
+depends=(
+  exiv2
+  glib2
+  glibc
+  libgcc
+  libstdc++
+)
+makedepends=(
+  git
+  glib2-devel
+  gobject-introspection
+  meson
+  vala
+)
+source=("git+$url.git?signed#tag=gexiv2-$pkgver")
+b2sums=('9b16539b06fb537809edf83aabc1c403a1568fad0660c4d362296eb54585f70d8f4c79a2abb5e0d1692e4fc8338f01c7cfa3c7722d6c3a624e6cbb00c9a476ed')
+validpgpkeys=(AC9CD4E32D7C7F6357BA8ADD10F6E970175D29E1) # Jens Georg <mail@jensge.org>
+
+build() {
+  local meson_options=(
+    -D gtk_doc=false
+    -D tests=true
+
+    # Shared with gexiv2 (via gexiv2-common)
+    -D python3=false
+  )
+
+  arch-meson gexiv2 build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  # Pinned against the provisions glib2 publishes; exiv2 publishes libexiv2.so bare only,
+  # so that one stays bare. gexiv2-common here means the package published by the separate
+  # gexiv2 pkgbase, not this recipe.
+  depends+=(
+    "gexiv2-common>=$pkgver-$pkgrel"
+    libexiv2.so
+    libg{lib,object,io}-2.0.so=0-64
+  )
+  # Shelly keeps a bare .so provision without expanding it to the SONAME. This provision
+  # belongs to libgexiv2 only; libgexiv2-0.16.so belongs to the gexiv2 pkgbase.
+  provides+=(libgexiv2.so libgexiv2.so=2-64)
+
+  meson install -C build --destdir "$pkgdir"
+
+  _verify_soname "${pkgdir}/usr/lib/libgexiv2.so" libgexiv2.so.2 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
+
+# vim:set sw=2 sts=-1 et:

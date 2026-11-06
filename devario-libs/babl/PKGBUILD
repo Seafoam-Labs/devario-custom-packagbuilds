@@ -1,0 +1,44 @@
+# Maintainer: Christian Hesse <mail@eworm.de>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: Daniel Isenmann <daniel@archlinux.org>
+
+pkgname=babl
+pkgver=0.1.128
+pkgrel=2
+pkgdesc='Dynamic, any to any, pixel format conversion library'
+arch=('x86_64')
+url='https://gegl.org/babl/'
+license=('LGPL-3.0-or-later')
+depends=('glibc' 'lcms2')
+makedepends=(
+    'git'
+    'meson'
+    'gobject-introspection'
+    'vala'
+    'gi-docgen'
+)
+# Shelly keeps a bare .so provision without expanding it to the SONAME.
+provides=('libbabl-0.1.so' 'libbabl-0.1.so=0-64')
+source=("git+https://gitlab.gnome.org/GNOME/babl.git#tag=BABL_${pkgver//./_}")
+sha256sums=('9078294b47e179db6767aed37cbdd1837cbe35a2568ee12d0016b2cc9f88816d')
+
+build() {
+  arch-meson "${pkgname}" build
+  ninja -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  DESTDIR="${pkgdir}" meson install -C build
+
+  _verify_soname "${pkgdir}/usr/lib/libbabl-0.1.so" libbabl-0.1.so.0 || return 1
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}
