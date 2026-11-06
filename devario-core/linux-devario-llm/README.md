@@ -1,4 +1,4 @@
-# linux-devario-lite — Devario kernel, internal channel (7.3)
+# linux-devario-lm — Devario kernel, internal channel (7.3)
 
 The Devario kernel recipe for the Linux 7.3 source series, built from the
 internal release channel. It installs alongside `linux-devario` (separate
@@ -15,9 +15,9 @@ Devario distributes and signs its own packages.
 
 The recipe produces:
 
-- `linux-devario-lite` — kernel image and modules;
-- `linux-devario-lite-headers` — headers and build files for external modules;
-- `linux-devario-lite-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
+- `linux-devario-llm` — kernel image and modules;
+- `linux-devario-llm-headers` — headers and build files for external modules;
+- `linux-devario-llm-dbg` — optional, unstripped `vmlinux` when `_build_debug=yes`.
 
 ## Default configuration
 

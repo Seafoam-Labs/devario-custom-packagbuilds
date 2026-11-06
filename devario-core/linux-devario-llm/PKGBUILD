@@ -9,7 +9,7 @@
 
 ##### Package identity ########################################################
 
-_pkgsuffix=devario-lite
+_pkgsuffix=devario-llm
 _major=7.3
 _minor=3
 # Release channel of the source tag, as created by release-kernel.sh:
