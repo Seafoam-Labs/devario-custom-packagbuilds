@@ -1,0 +1,36 @@
+# Maintainer: Daniel Bermond <dbermond@archlinux.org>
+#
+# Adapted for Devario from Arch Linux libva-nvidia-driver packaging.
+# The upstream project and package name is nvidia-vaapi-driver; provide the
+# Arch package name as an alias so dependent packages can resolve either.
+
+pkgname=nvidia-vaapi-driver
+pkgver=0.0.18
+pkgrel=1
+pkgdesc='VA-API implementation that uses NVDEC as a backend'
+arch=('x86_64')
+url='https://github.com/elFarto/nvidia-vaapi-driver/'
+license=('MIT')
+depends=('glibc' 'gst-plugins-bad-libs' 'libegl')
+makedepends=('ffnvcodec-headers' 'libva' 'meson')
+provides=('libva-nvidia-driver')
+conflicts=('libva-nvidia-driver' 'libva-vdpau-driver')
+source=("nvidia-vaapi-driver-${pkgver}.tar.gz::https://github.com/elFarto/nvidia-vaapi-driver/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('7459205cd1719a5865ab9c8969723c27e9863add5e7229e8e56c5f8816017b2a')
+
+build() {
+  cd "nvidia-vaapi-driver-${pkgver}"
+  meson setup build \
+    --prefix=/usr \
+    --libdir=lib \
+    --buildtype=plain \
+    --auto-features=enabled \
+    --wrap-mode=nodownload
+  meson compile -C build
+}
+
+package() {
+  cd "nvidia-vaapi-driver-${pkgver}"
+  meson install -C build --destdir "$pkgdir"
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
