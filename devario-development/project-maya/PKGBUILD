@@ -1,8 +1,8 @@
 # Maya builds its GPU engines for the user's hardware during first-run setup.
 pkgname=project-maya
-pkgver=1.1.55
+pkgver=1.1.56
 pkgrel=1
-_commit=c4effee67cb95fb4303720919b075fddf04b4e69
+_commit=22fc101f2c109b7e7174c975ff3c2d8e9ce0a867
 pkgdesc='Local LLM inference with GPU-specific engine setup and a browser dashboard'
 arch=('x86_64')
 url='https://github.com/mw00/project-maya'
@@ -19,9 +19,9 @@ optdepends=('cuda: NVIDIA engine compilation and CUDA libraries'
 source=("$pkgname-$_commit.tar.gz::https://codeload.github.com/mw00/project-maya/tar.gz/$_commit"
         'project-maya'
         'README.md')
-sha256sums=('85e1cc95d1dbc4c3af917a4e81e623fc62479871a7fce8735a7733a294654877'
+sha256sums=('a4863c5e5145e97443770366b5cf2f51446686343ce8539bcb0e11ca08334f65'
             '151c819ee45c48e8c3927acbdc1fce44cac149f0bde4166c724547d5edb1101b'
-            '22a29a27fb9c95b3d35a3b03c7702abfe110837fa20f7807a3a6b5b36c64834a')
+            'aeca91f0f1fe259769ccb67da1c30fd0289e323510ed99b6d99af770acffd94a')
 
 package() {
   # Retain the complete upstream tree, including vendored wheels and notices.
