@@ -17,6 +17,7 @@ _minor=3
 #   dev       dev       devario-dev-<version>-<N>
 #   scx       scx       devario-scx-<version>-<N>
 #   gaming    gaming    devario-gaming-<version>-<N>
+#   llm       llm       devario-llm-<version>-<N>
 #   internal  internal  devario-internal-<version>-<N>
 # Each channel numbers its tags separately, so _tagrel below refers to the
 # tag of this channel.

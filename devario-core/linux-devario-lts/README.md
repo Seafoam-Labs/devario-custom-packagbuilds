@@ -84,8 +84,8 @@ build toolchain or replace testing in a controlled build environment.
 - `pkgver` follows the kernel version selected by `_major` and `_minor`.
 - `_channel` selects the source tag channel created by `release-kernel.sh`:
   empty for stable `devario-<version>-<N>`, or `dev`, `scx`, `gaming`,
-  `internal` for `devario-<channel>-<version>-<N>`. Channels number their
-  tags independently.
+  `llm`, `internal` for `devario-<channel>-<version>-<N>`. Channels number
+  their tags independently.
 - `_tagrel` is the release index `N` in the tag of the selected channel.
 - `pkgrel` is `<_tagrel>.<_rebuild>`. Increase `_rebuild` when rebuilding the
   same source tag, or reset it to `1` for a newly tagged source release.
