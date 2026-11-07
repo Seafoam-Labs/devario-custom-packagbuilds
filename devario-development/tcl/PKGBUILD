@@ -3,7 +3,7 @@
 
 pkgname=tcl
 pkgver=9.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Powerful, easy-to-learn dynamic programming language'
 arch=(x86_64)
 url='http://tcl.sourceforge.net/'
@@ -22,11 +22,15 @@ prepare() {
 
 build() {
 	cd "$_archive/unix"
+	# Tcl 9's zipfs appends the script library archive to libtcl, but
+	# strip(1) discards that trailing data, leaving tclsh installed
+	# without init.tcl. Keep the traditional on-disk library instead.
 	./configure \
 		--prefix=/usr \
 		--mandir=/usr/share/man \
 		--enable-threads \
-		--enable-64bit
+		--enable-64bit \
+		--disable-zipfs
 	# Since the test targets are known-broken with a race condition in
 	# prerequisites, forcing one job at a time just out of defensiveness.
 	make -j1
@@ -70,4 +74,13 @@ package() {
 		-e "s#$srcdir/$_archive/pkgs/$itclver/generic#/usr/include#" \
 		-e "s#$srcdir/$_archive/pkgs/$itclver#/usr/include#" \
 		-i "$pkgdir/usr/lib/$itclver/itclConfig.sh"
+
+	# A tclsh without its script library still runs core builtins and exits
+	# 0, which downstream configure scripts mistake for success. Verify the
+	# packaged interpreter can load the packaged library.
+	echo 'puts $tcl_library' |
+		LD_LIBRARY_PATH="$pkgdir/usr/lib" \
+		TCL_LIBRARY="$pkgdir/usr/lib/tcl$_tclver" \
+		"$pkgdir/usr/bin/tclsh${pkgver%.*}" 2>/dev/null |
+		grep -qx "$pkgdir/usr/lib/tcl$_tclver"
 }
