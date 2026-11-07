@@ -1,6 +1,6 @@
 pkgbase = tree-sitter
-	pkgver = 0.27.1
-	pkgrel = 2
+	pkgver = 0.27.2
+	pkgrel = 1
 	url = https://github.com/tree-sitter/tree-sitter
 	arch = x86_64
 	license = MIT
@@ -11,9 +11,9 @@ pkgbase = tree-sitter
 	makedepends = libgcc
 	makedepends = rust>=1.90
 	options = !lto
-	source = git+https://github.com/tree-sitter/tree-sitter.git#commit=v0.27.1
+	source = git+https://github.com/tree-sitter/tree-sitter.git#commit=v0.27.2
 	validpgpkeys = FCC13F47A6900D64239FF13BE67890ADC4227273
-	b2sums = eb481cbb7beea9515cbfd1d6039c02ae1ffdec6cee320e12587868859b6c8e479e7bfe6a6e68eb0641a5664df91a910cf26700e3bdc782e104624b26d73de6cb
+	b2sums = 5be525b6842b2dbf1b532d0ed093ed37e1c5b919f7dc1675df25ff7e082e8bffc078a823fb83705ebad1bea7c5df79eb2e4177eb53cc45d6d9598ec17b13ff91
 
 pkgname = tree-sitter
 	pkgdesc = Incremental parsing library
