@@ -1,6 +1,6 @@
 pkgbase = 7zip
 	pkgdesc = File archiver for extremely high compression
-	pkgver = 26.05
+	pkgver = 26.06
 	pkgrel = 1
 	url = https://www.7-zip.org
 	arch = x86_64
@@ -13,8 +13,8 @@ pkgbase = 7zip
 	provides = p7zip
 	conflicts = p7zip
 	replaces = p7zip
-	source = https://github.com/ip7z/7zip/releases/download/26.05/7z2605-src.tar.xz
-	sha256sums = 0b6080b8c3e7a579161d2d495224c0e51c467576cb4c7048b0ab485ef44cc22e
+	source = https://github.com/ip7z/7zip/releases/download/26.06/7z2606-src.tar.xz
+	sha256sums = a4e374c8f864f51df48c2cfd0e1413ec3b2ea030deae852d6a655402ebb61ac4
 	makedepends_x86_64 = uasm
 
 pkgname = 7zip
