@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=wordcraft
-pkgver=0.15.2
+pkgver=0.16.0
 pkgrel=1
 pkgdesc="Clean-room reimplementation of Microsoft Word for documents and .docx"
 arch=('x86_64' 'aarch64')
@@ -27,11 +27,11 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
 source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-# Pending separate checksum refresh for v0.15.2; the value below is from v0.6.1.
-sha256sums=('931c7742bd46e52cbfd033158ecd51345a39dbfa8e5e3de37609428be7d9c982')
+# Pending separate checksum refresh for v0.16.0; the value below is from v0.6.1.
+sha256sums=('00201455e853ffb34a2a82efdb8a1ce11795ed10339a3f51cfd9dfe468e5227d')
 
-_commit=edfea68
-_releasedate=2026-11-05
+_commit=02a802c
+_releasedate=2026-11-06
 _appid=ai.storyteller.wordcraft
 
 prepare() {
