@@ -11,8 +11,8 @@
 # Contributor: Jacob Bang <julemand101@archlinux.dk>
 
 pkgname=dart
-pkgver=3.13.5
-pkgrel=2
+pkgver=3.13.7
+pkgrel=1
 pkgdesc='The dart programming language SDK'
 arch=('x86_64')
 url='https://dart.dev/'
@@ -32,7 +32,7 @@ makedepends=(
 # https://gitlab.archlinux.org/archlinux/packaging/packages/dart/-/merge_requests/14#note_335643
 #
 # Should be updated with latest commit on origin/main when new version of Dart are released.
-_depotver='08f34739d842dbef086f2a4459bd29d29c0dfd4e'  # As of 2026-10-02
+_depotver='4be4e4628e093c4ad50210db5dcfa05a88280bda'  # As of 2026-10-23
 source=(
   "git+https://github.com/dart-lang/sdk.git#tag=$pkgver"
   "git+https://chromium.googlesource.com/chromium/tools/depot_tools.git#commit=$_depotver"
@@ -40,9 +40,9 @@ source=(
   "0001-ignore-warnings-in-binaryen.patch"
 )
 
-sha256sums=('a04c0f55ccd0feecaa7d616e5bc1f5429d8948f3e17945c089d04cb1fa7d811a'
-            '6429bb1603cad3fdfea4fa101e6fe3f8e94977583dfc118584740ae8f467ad35'
-            'a5b1901a606517ffad2dcc51c13da6d479837e9383dbc729710cabf5115b8d78'
+sha256sums=('6e5d8af2484d074913a93a22a02697cdb6f1698284eb631027c166bade1ca818'
+            'e1aa792cf608fffcc74a7ca6ab29b9bc75fdb45f67205703b409aa422e6f420a'
+            'a921c2d481bdc1c78857fe3b248980139291fc10f8eef731287741feac1756c9'
             'b444edf6da2aa9f8e3ddafb7be2e359eec62ab61106b8845a39e62e62bb9ffc4')
 
 prepare() {

@@ -1,7 +1,7 @@
 pkgbase = dart
 	pkgdesc = The dart programming language SDK
-	pkgver = 3.13.5
-	pkgrel = 2
+	pkgver = 3.13.7
+	pkgrel = 1
 	url = https://dart.dev/
 	arch = x86_64
 	license = BSD-3-Clause
@@ -11,13 +11,13 @@ pkgbase = dart
 	makedepends = ninja
 	makedepends = python
 	depends = glibc
-	source = git+https://github.com/dart-lang/sdk.git#tag=3.13.5
-	source = git+https://chromium.googlesource.com/chromium/tools/depot_tools.git#commit=08f34739d842dbef086f2a4459bd29d29c0dfd4e
+	source = git+https://github.com/dart-lang/sdk.git#tag=3.13.7
+	source = git+https://chromium.googlesource.com/chromium/tools/depot_tools.git#commit=4be4e4628e093c4ad50210db5dcfa05a88280bda
 	source = DEPS.patch
 	source = 0001-ignore-warnings-in-binaryen.patch
-	sha256sums = a04c0f55ccd0feecaa7d616e5bc1f5429d8948f3e17945c089d04cb1fa7d811a
-	sha256sums = 6429bb1603cad3fdfea4fa101e6fe3f8e94977583dfc118584740ae8f467ad35
-	sha256sums = a5b1901a606517ffad2dcc51c13da6d479837e9383dbc729710cabf5115b8d78
+	sha256sums = 6e5d8af2484d074913a93a22a02697cdb6f1698284eb631027c166bade1ca818
+	sha256sums = e1aa792cf608fffcc74a7ca6ab29b9bc75fdb45f67205703b409aa422e6f420a
+	sha256sums = a921c2d481bdc1c78857fe3b248980139291fc10f8eef731287741feac1756c9
 	sha256sums = b444edf6da2aa9f8e3ddafb7be2e359eec62ab61106b8845a39e62e62bb9ffc4
 
 pkgname = dart
