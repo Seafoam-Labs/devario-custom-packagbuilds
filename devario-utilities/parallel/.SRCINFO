@@ -1,20 +1,20 @@
 pkgbase = parallel
 	pkgdesc = A shell tool for executing jobs in parallel
-	pkgver = 20260922
+	pkgver = 20261022
 	pkgrel = 1
 	url = https://www.gnu.org/software/parallel/
 	arch = any
 	license = GPL-3.0-only
-	source = https://ftp.gnu.org/gnu/parallel/parallel-20260922.tar.bz2
-	source = https://ftp.gnu.org/gnu/parallel/parallel-20260922.tar.bz2.sig
+	source = https://ftp.gnu.org/gnu/parallel/parallel-20261022.tar.bz2
+	source = https://ftp.gnu.org/gnu/parallel/parallel-20261022.tar.bz2.sig
 	source = 0001-Remove-citation-things.patch
 	validpgpkeys = CDA01A4208C4F74506107E7BD1AB451688888888
-	sha512sums = ae7bcead31b3a068900c851fc48c0239cd39d7a8310ac7cbd885ab41bee4ff6e5786bcbfeafb31bb6f445ba4142a151a464f8f9fcfbd889909e503ef18b5ee56
+	sha512sums = 69a0ea3795bb606c9275fa37a0eca9896a488d43755498543d874a5fb0e312eb00e7f219281051eaaa32525393e41bdd8c72658cbb7e1e59de03a6000e94c652
 	sha512sums = SKIP
-	sha512sums = b1b300c1e3b9d3d6ce84a82b366199c9e76b6bf4d4ab68106ab1225ea3d27b202ce23e59b63cefb41463ae8117d18ee6d48828027c0599eaef35090d72cc590d
-	b2sums = ade63e84c3426f8c1bfbcc1b301f396b09f4c4e2e516497e156097c1ab32fa9791a0a50bd89eb08e2689ec9e8056974e8be4504d0dc84fa966e2d3e9f40765ea
+	sha512sums = 26572c0a47deba4d5da461168ec4a8e6b11c19a4bda641994ae2d78021378f661c3663382a265f76cd76e728d6d3bd990457708a0243d04461834453bbf6b8bb
+	b2sums = 23bac814e98636ddf75b844ef0a96e93ddea59ba4a7974300903aa6b189f2bb94c431b259f6b7919917d7ae9d6e8b61ae12f96ba52aec709d33d5f1fb8a1d014
 	b2sums = SKIP
-	b2sums = 83c37a8a76d9ea40d6b595dd995810cf63d2fc9c2e04e2684c00925fab9a53a73d084401c463ef26a28490e984bdd5790d71236c811ad699359eb59cc84bbd14
+	b2sums = 4ace1eb0f2545ffc49c67f8afc189355a8b361074e4cd5e5bf31193d95aebf309cc79a4264ade009b674323fad11e531b567aaaa206b0f08a766dd222164df80
 
 pkgname = parallel
 	depends = perl
