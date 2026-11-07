@@ -1,0 +1,22 @@
+pkgbase = nvme-cli
+	pkgdesc = NVMe storage management utilities and library
+	pkgver = 3.2
+	pkgrel = 1
+	url = https://github.com/linux-nvme/nvme-cli
+	arch = x86_64
+	license = GPL-2.0-only
+	license = GPL-2.0-or-later
+	license = LGPL-2.1-or-later
+	makedepends = meson>=1.0.0
+	makedepends = systemd
+	depends = glibc
+	depends = json-c
+	depends = keyutils
+	depends = kmod
+	depends = libgcc
+	depends = openssl
+	depends = util-linux
+	source = nvme-cli-3.2.tar.gz::https://github.com/linux-nvme/nvme-cli/archive/refs/tags/v3.2.tar.gz
+	sha256sums = 8ad36c9fe68a01e73e0dd542afdc38cc51309ed185fa9b80e4b0a8c61831a235
+
+pkgname = nvme-cli

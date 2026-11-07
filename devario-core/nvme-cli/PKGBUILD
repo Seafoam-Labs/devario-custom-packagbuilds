@@ -1,14 +1,14 @@
 pkgname=nvme-cli
-pkgver=3.1
+pkgver=3.2
 pkgrel=1
 pkgdesc='NVMe storage management utilities and library'
 arch=('x86_64')
 url='https://github.com/linux-nvme/nvme-cli'
 license=('GPL-2.0-only' 'GPL-2.0-or-later' 'LGPL-2.1-or-later')
 depends=('glibc' 'json-c' 'keyutils' 'kmod' 'libgcc' 'openssl' 'util-linux')
-makedepends=('meson' 'systemd')
+makedepends=('meson>=1.0.0' 'systemd')
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('8a6879f1f2af53743c03a8f77f247261306300d3f3b0edfd242c5f646bdfdccb')
+sha256sums=('8ad36c9fe68a01e73e0dd542afdc38cc51309ed185fa9b80e4b0a8c61831a235')
 
 build() {
   meson setup build "$srcdir/$pkgname-$pkgver" \
@@ -19,7 +19,6 @@ build() {
     --buildtype=plain \
     --wrap-mode=nofallback \
     -Ddocs=man \
-    -Ddocs-build=false \
     -Dpython=disabled \
     -Djson-c=enabled \
     -Dkeyutils=enabled \
