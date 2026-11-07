@@ -1,6 +1,6 @@
 pkgname=python-tree-sitter-scala
 _srcname=tree-sitter-scala
-pkgver=0.26.6
+pkgver=0.26.7
 pkgrel=1
 pkgdesc='Python bindings for the scala Tree-sitter grammar'
 arch=('x86_64')
@@ -10,7 +10,7 @@ depends=(glibc 'python>=3.9' 'python-tree-sitter>=0.25' 'python-tree-sitter<0.26
 makedepends=(python-build python-installer python-setuptools python-wheel)
 # The PyPI sdist omits the generated parser headers; use the complete tag archive.
 source=("$pkgname-$pkgver-upstream.tar.gz::https://codeload.github.com/tree-sitter/tree-sitter-scala/tar.gz/refs/tags/v$pkgver")
-sha256sums=('d3a3c502446677ae4d52d745f50e9aceedbea0600225c0267a19808b49023b52')
+sha256sums=('55b4f338f28407205aa58a6705f2bdff1540347df6ddbacaa51f8170d660b9d4')
 
 build() {
   cd "$_srcname-$pkgver"
