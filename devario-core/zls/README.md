@@ -13,6 +13,11 @@ All source archives, including the three pinned Zig dependencies, have
 SHA-256 checksums. `prepare()` extracts the dependencies into directories
 named after the hashes in upstream `build.zig.zon`. Build and test hooks use
 Zig's `--system` mode to resolve those local dependencies without downloads.
+Do not replace `--system` resolution with `zig fetch`: Zig 0.17.0
+recompresses GitHub tarball cache entries with an extra top-level directory,
+so re-reading an entry from the global cache loses the dependency's
+`build.zig.zon`, the package is treated as naked, and every later build fails
+with `hash mismatch: ... but the fetched package has N-V-...`.
 Optional Tracy profiling remains disabled. Caches and build outputs stay
 inside the build directory.
 
@@ -32,7 +37,8 @@ README for prerequisites and worker setup.
 
 Bash syntax, generated Shelly metadata, all source checksums, and Shelly
 review passed with no findings. The recipe's prepare, build, check, and
-package hooks ran successfully with the matching Zig compiler. Upstream
+package hooks ran successfully with the matching Zig compiler, and dependency
+resolution was additionally verified with no network access at all. Upstream
 tests passed, and the staged executable reports the expected version. The
 staged license and schema were checked. Builds used temporary directories;
 no packages were installed or published. An isolated Shelly package build
