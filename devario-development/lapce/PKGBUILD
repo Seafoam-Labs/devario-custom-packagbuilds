@@ -1,0 +1,48 @@
+# Maintainer: Devario Linux
+
+pkgname=lapce
+pkgver=0.4.6
+pkgrel=1
+pkgdesc='Lightning-fast and powerful code editor written in Rust'
+arch=('x86_64')
+url='https://lap.dev/lapce/'
+license=('Apache-2.0')
+depends=('gcc-libs' 'glibc' 'fontconfig' 'freetype2' 'gtk3'
+         'libxcb' 'libx11' 'libxcursor' 'libxi' 'libxrandr'
+         'libxkbcommon' 'libxkbcommon-x11' 'openssl' 'vulkan-icd-loader'
+         'wayland' 'zlib')
+makedepends=('cargo' 'clang' 'cmake' 'git' 'pkgconf' 'python')
+optdepends=('vulkan-driver: GPU-accelerated rendering'
+            'xdg-desktop-portal: native file dialogs'
+            'xdg-utils: opening URLs in the default browser')
+conflicts=('lapce-bin' 'lapce-git')
+# Avoid mixing system LLVM bitcode with Rust's bundled linker.
+options=('!lto')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/lapce/lapce/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('c6790771ed0af5e242d2410d930197412af4c21c07a5a33ae5d6ac596ca7380a')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  export CARGO_TARGET_DIR=target
+  export RELEASE_TAG_NAME="v$pkgver"
+  cargo build --frozen --release --bin lapce --bin lapce-proxy
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 target/release/lapce "$pkgdir/usr/bin/lapce"
+  install -Dm755 target/release/lapce-proxy "$pkgdir/usr/bin/lapce-proxy"
+  install -Dm644 extra/linux/dev.lapce.lapce.desktop \
+    "$pkgdir/usr/share/applications/dev.lapce.lapce.desktop"
+  install -Dm644 extra/linux/dev.lapce.lapce.metainfo.xml \
+    "$pkgdir/usr/share/metainfo/dev.lapce.lapce.metainfo.xml"
+  install -Dm644 extra/images/logo.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/dev.lapce.lapce.svg"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}
