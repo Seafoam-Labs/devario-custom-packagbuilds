@@ -1,96 +1,113 @@
-# nvidia-utils for Shelly
+# NVIDIA driver stack for Devario
 
-This x86_64 recipe packages NVIDIA's prebuilt driver utilities as
-`nvidia-utils 615.71.09-2`. It is adapted from
-[Arch's 615.71.09-1 packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/nvidia-utils/-/tree/f9ae10b379f8b1d0832ec92bca1c12072aa123e9)
-at commit `f9ae10b379f8b1d0832ec92bca1c12072aa123e9`.
+Current-production NVIDIA stack for x86_64, promoted from the
+`devario-bleeding-edge` `nvidia-utils` beta (`620.70.06-2`). This recipe
+produces four packages at the same versions expected by Devario's
+installer and target configuration helper:
 
-The recipe produces only `nvidia-utils`. Arch's `opencl-nvidia` and
-`nvidia-open-dkms` split packages, the separate kernel-source download, and
-DKMS preparation are omitted. Release `2` distinguishes this adaptation from
-Arch's release `1`. The utility payload, dependencies, driver provisions,
-configuration files, and install script are retained. Path quoting in the
-source extraction and SONAME link helper is tightened.
+- `nvidia-utils` — userspace driver, firmware, utilities, X driver, and
+  Vulkan/EGL/OpenCL-adjacent payload, including the 32-bit driver libraries.
+- `opencl-nvidia` — OpenCL implementation and ICD manifest.
+- `lib32-opencl-nvidia` — 32-bit OpenCL implementation.
+- `nvidia-open-dkms` — open kernel-module sources for DKMS.
 
-All six bundled configuration sources and the NVIDIA `.run` archive retain
-Arch's SHA-512 checksums. The installer is invoked with `--extract-only`;
-packaging stages files under `$pkgdir`. `!strip` preserves the prebuilt
-binaries. `LICENSE` in this directory covers the imported Arch packaging;
-the NVIDIA driver license from the archive is installed with the package.
+`nvidia-utils` provides `lib32-nvidia-utils=620.70.06`,
+`lib32-vulkan-driver`, `lib32-opengl-driver`, and `lib32-nvidia-libgl`. It
+conflicts with and replaces the old standalone `lib32-nvidia-utils` and
+`lib32-nvidia-libgl` packages, taking ownership of their driver libraries
+under `/usr/lib32`. Its dependencies include `lib32-zlib`,
+`lib32-gcc-libs`, and `lib32-libglvnd`. Requests for `lib32-nvidia-utils`
+resolve through the versioned provide, so the standalone recipe retired
+with this promotion.
 
-The package provides `opengl-driver`, `vulkan-driver`, and `nvidia-libgl`.
-It retains Arch's conflict/replacement for `nvidia-libgl`. No additional
-explicit `.so` provisions are required by the current request.
+## Publishing
 
-## Build on the worker
+Publish all four outputs together into `devario-core` and, in the same
+repository refresh:
 
-Copy the entire directory, including `nvidia-utils.install`, to the worker.
-The build environment needs base-devel and repositories providing `libglvnd`,
-`egl-wayland`, `egl-wayland2`, `egl-gbm`, and `egl-x11`. No NVIDIA GPU is needed
-to build the archive. From the repository root:
+- remove the superseded `nvidia-utils` (615.78.08-1), `opencl-nvidia`
+  (615.71.09-1), `nvidia-open-dkms` (615.78.08-1), and `lib32-nvidia-utils`
+  (615.78.08-1) archives from the `devario-core` database, plus
+  `lib32-nvidia-utils` from `devario-libs`;
+- remove the `620.70.06-2` archives from `devario-bleeding-edge` so beta
+  users move onto the promoted release instead of staying on the beta
+  build.
+
+These packages use the normal current-branch names rather than a versioned
+`620xx` namespace; the higher version supersedes the 615 stack wherever
+`devario-core` is enabled. The `1:580xx` legacy-branch packages in
+`devario-libs` are unaffected.
+
+## Upstream
+
+`620.70.06` is the driver branch Devario currently ships. Sources:
+
+- <https://download.nvidia.com/XFree86/Linux-x86_64/620.70.06/NVIDIA-Linux-x86_64-620.70.06.run>
+- <https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-620.70.06.tar.xz>
+
+Both archives are pinned by SHA-512 in the PKGBUILD. The `.run` archive is
+extracted with `--extract-only`; `nvidia-installer` is never executed.
+
+## Packaging changes from 615
+
+- Adds `libnvidia-wayland-client`, which the 620 userspace uses for
+  `nvidia-settings` on Wayland.
+- Adds the 620 NGX payload: `libnvidia-ngx-builtin-dlssd.so.310.9.0` and
+  `ngx-builtins/nvngx_dlssd.dll`.
+- Installs `supported-gpus/supported-gpus.json` under
+  `/usr/share/doc/nvidia/`, which Devario's NVIDIA target helper reads for
+  hardware selection.
+- Keeps `NVreg_UseKernelSuspendNotifiers=1`, `/var/tmp` video-memory
+  preservation, nouveau/nova blacklisting, and the existing suspend/hibernate
+  service cleanup script.
+
+## Linux 7.3 patch
+
+`fix-runtime-D3-620.patch` is a rebased version of the runtime-D3 sysfs fix
+the 615 DKMS recipe used. The 620.70.06 driver still calls `filp_open()`
+without entering the initial filesystem context on Linux 7.3, so the patch
+adds `scoped_with_init_fs()` for 7.3 and later. The patch applies cleanly to
+the 620 source tarball.
+
+All five modules were compiled against Devario `7.3.1-1.2-devario` headers
+during beta validation.
+
+## Build
+
+From this directory:
 
 ```sh
-shelly build --review-only --json ./nvidia-utils/PKGBUILD
-shelly build --isolated --check ./nvidia-utils/PKGBUILD
+shelly build --review-only --json PKGBUILD
+shelly build --reviewed --nosign PKGBUILD
 ```
 
-There is no upstream `check()` suite for this binary repackaging recipe.
-`--check` does not exercise the GPU. After recipe edits, regenerate metadata:
+The same build includes the 32-bit libraries and the OpenCL split package.
+
+Shelly review reports dynamic-command warnings for the DKMS module index
+arithmetic and for the retained `vercmp` call in `nvidia-utils.install`.
+Both are intentional: the arithmetic indexes the five DKMS module entries,
+and the install script compares the previously installed driver version.
+
+Regenerate metadata after recipe changes:
 
 ```sh
-cd nvidia-utils
-makepkg --printsrcinfo > .SRCINFO
+yes | shelly build --makesrcinfo PKGBUILD > .SRCINFO
 ```
 
-Inspect the resulting archive before publishing:
-
-```sh
-bsdtar -xOf /path/to/nvidia-utils-615.71.09-2-x86_64.pkg.tar.zst .PKGINFO
-bsdtar -tvf /path/to/nvidia-utils-615.71.09-2-x86_64.pkg.tar.zst usr/bin/nvidia-modprobe
-```
-
-`nvidia-modprobe` should be owned by root with mode `4755`, as in Arch's
-recipe. Verify the driver provisions above in `.PKGINFO` and refresh the
-worker's repository database after publishing the archive.
-
-## Driver integration
-
-Use an NVIDIA kernel driver with the same upstream version, `615.71.09`.
-The local packaging release `-2` does not change that driver version.
-Coordinate publication and installation with the matching kernel package;
-this recipe does not supply kernel modules. Keep `lib32-nvidia-utils` and
-`opencl-nvidia` on the matching release when those optional packages are used.
-Confirm that the target GPU supports the selected driver branch before rollout.
-
-The retained modprobe configuration enables open-module suspend notifiers.
-The install script disables obsolete NVIDIA suspend services when upgrading
-from versions older than `595.58.03-1`, and disables those services on removal.
-These hooks run during package transactions, not during the build.
-
-On a test machine running the matching kernel driver, check `nvidia-smi`,
-`vulkaninfo --summary`, and OpenGL rendering (`glxinfo -B` in an X session).
-Also verify the intended Wayland/Xorg session and suspend/resume behavior.
+An isolated build still needs the worker's `devario-core` and `devario-libs`
+repositories available so its dependency closure can resolve `libglvnd`,
+`egl-wayland`, `egl-wayland2`, `egl-gbm`, `egl-x11`, and `lib32-*` packages.
 
 ## Validation
 
-Validated locally with Shelly `3.1.6r4747.g8d61a9e-1`:
-
-- Bash syntax and generated `.SRCINFO`.
-- HTTPS download and all seven SHA-512 source checksums.
-- Shelly review: one warning for the retained install script's `vercmp`
-  command substitution; its version comparison was inspected.
-- Successful native, unprivileged Shelly build with `--check`, producing
-  `nvidia-utils-615.71.09-2-x86_64.pkg.tar.zst`.
-- Archive metadata, unchanged install script, root ownership and mode `4755`
-  for `nvidia-modprobe`, and all 61 symlinks resolving inside the staged package.
-- All 212 payload paths match Arch's published file manifest. Representative
-  CUDA, NVML, EGL, and GLX libraries have the expected ELF64 class and SONAMEs.
-  Hashes of `nvidia-smi`, NVML, and GLX binaries match the installed `615.71.09`
-  reference binaries.
-
-The isolated build was attempted but could not start because the execution
-sandbox prevents sudo privilege elevation. The staged `nvidia-smi` could not
-communicate with a running NVIDIA driver, so GPU functionality, graphics
-sessions, and suspend/resume remain unverified. Run the isolated build and
-hardware checks on the worker/test machine before rollout. No host packages
-were installed or services changed during validation.
+- The beta `620.70.06-2` archives built, signed, and published from
+  `devario-bleeding-edge` are the reference payload. The promoted recipe
+  differs in `pkgdesc` and `pkgrel` only and needs one fresh `-3` build
+  before publication.
+- Both 64-bit and 32-bit archives contain the expected versioned libraries,
+  firmware, ICD manifests, and NGX payload; SONAME links resolve inside the
+  staged package.
+- `nvidia-open-dkms` carries the patched source tree and a complete
+  `dkms.conf` declaring all five modules with `kernel-open` build locations.
+- Package versions match each other and the exact `nvidia-utils=620.70.06`
+  dependency used by DKMS; the bundled multilib payload shares its version.
