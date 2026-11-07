@@ -18,8 +18,8 @@ pkgbase = syndication
 	depends = qt6-base>=6.10.0
 	source = https://download.kde.org/stable/frameworks/6.31/syndication-6.31.0.tar.xz
 	source = https://download.kde.org/stable/frameworks/6.31/syndication-6.31.0.tar.xz.sig
-	validpgpkeys = 590D53B263D6A9250ABE5F0E209C870760231085
-	validpgpkeys = 72318AC88F5F1DFBDFFC46B2A584840902449FB7
+	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
+	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
 	sha256sums = 7cd3ac299ff01736b7a9a1a2eb3700561810267a2e3af50935c3f3cce9635077
 	sha256sums = SKIP
 
