@@ -1,0 +1,56 @@
+# Maintainer: Devario Team
+#
+# Upstream: Yubico pam-u2f <https://developers.yubico.com/pam-u2f>
+# This recipe is an independent rewrite of the Arch Linux pam-u2f packaging
+# (BSD-2-Clause); it builds from the signed release tarball rather than git.
+
+pkgname=pam-u2f
+# Upstream names its artifacts with an underscore: pam_u2f.
+_name="${pkgname/-/_}"
+pkgver=1.4.0
+pkgrel=1
+pkgdesc="PAM module for U2F/FIDO2 second-factor authentication"
+arch=('x86_64')
+url="https://developers.yubico.com/pam-u2f"
+license=('BSD-2-Clause')
+depends=('libfido2' 'openssl' 'pam')
+makedepends=('asciidoc' 'cmake' 'pkg-config')
+# The module used to be distributed under the underscored name.
+replaces=("${_name}")
+source=(
+  "https://developers.yubico.com/pam-u2f/Releases/${_name}-${pkgver}.tar.gz"{,.sig}
+  "${pkgname}.conf"
+)
+sha256sums=('a59927cea38ea8d91a6836a04e20fc629edde4204b16082f703f6db378e9c634'
+            'SKIP'
+            '56aad5e7af53f92e01a11f473a4b0ac8467e5909cb4e123be8a9d71e4e828ff7')
+# Yubico release-signing keys:
+# https://developers.yubico.com/Software_Projects/Software_Signing.html
+validpgpkeys=(
+  'B70D62AA6A31AD6B9E4F9F4BDC8888925D25CA7A' # Alessio Di Mauro <alessio@yubico.com>
+  '78D997D53E9C0A2A205392ED14A19784723C9988' # Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
+  'F475928225229F58460640EAD91777C175533EE5' # Giovanni Simoni <giovanni.simoni@yubico.com>
+)
+
+build() {
+  cmake -S "${_name}-${pkgver}" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DPAM_DIR=/usr/lib/security
+  cmake --build build
+}
+
+check() {
+  ctest --test-dir build --output-on-failure
+}
+
+package() {
+  DESTDIR="${pkgdir}" cmake --install build
+
+  install -Dm 644 "${_name}-${pkgver}/COPYING" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+
+  # Let the sandboxed polkit agent open a YubiKey for the second-factor prompt.
+  install -Dm 644 "${pkgname}.conf" \
+    "${pkgdir}/usr/lib/systemd/system/polkit-agent-helper@.service.d/${pkgname}.conf"
+}

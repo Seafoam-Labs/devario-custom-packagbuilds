@@ -1,0 +1,25 @@
+pkgbase = pam-u2f
+	pkgdesc = PAM module for U2F/FIDO2 second-factor authentication
+	pkgver = 1.4.0
+	pkgrel = 1
+	url = https://developers.yubico.com/pam-u2f
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = asciidoc
+	makedepends = cmake
+	makedepends = pkg-config
+	depends = libfido2
+	depends = openssl
+	depends = pam
+	replaces = pam_u2f
+	source = https://developers.yubico.com/pam-u2f/Releases/pam_u2f-1.4.0.tar.gz
+	source = https://developers.yubico.com/pam-u2f/Releases/pam_u2f-1.4.0.tar.gz.sig
+	source = pam-u2f.conf
+	validpgpkeys = B70D62AA6A31AD6B9E4F9F4BDC8888925D25CA7A
+	validpgpkeys = 78D997D53E9C0A2A205392ED14A19784723C9988
+	validpgpkeys = F475928225229F58460640EAD91777C175533EE5
+	sha256sums = a59927cea38ea8d91a6836a04e20fc629edde4204b16082f703f6db378e9c634
+	sha256sums = SKIP
+	sha256sums = 56aad5e7af53f92e01a11f473a4b0ac8467e5909cb4e123be8a9d71e4e828ff7
+
+pkgname = pam-u2f

@@ -1,0 +1,10 @@
+version = 1
+
+[[annotations]]
+path = [
+    "PKGBUILD",
+    "pam-u2f.conf",
+    ".SRCINFO",
+]
+SPDX-FileCopyrightText = "Devario maintainers"
+SPDX-License-Identifier = "0BSD"
