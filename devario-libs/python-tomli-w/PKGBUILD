@@ -2,7 +2,7 @@
 
 pkgname=python-tomli-w
 pkgver=1.2.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A lil' TOML writer"
 url=https://github.com/hukkin/tomli-w
 license=(MIT)
@@ -25,6 +25,9 @@ pkgver() {
 
 build() {
   cd tomli-w
+  # Devario also ships flit-core 4; this project uses standard PEP 621 metadata,
+  # which flit-core 4 builds unchanged. Drop the <4 upper bound.
+  sed -i 's/flit_core>=3.2.0,<4/flit_core>=3.2.0/' pyproject.toml
   python -m build --wheel --no-isolation
 }
 
