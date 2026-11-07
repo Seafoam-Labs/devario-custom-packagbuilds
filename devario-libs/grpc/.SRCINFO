@@ -1,7 +1,7 @@
 pkgbase = grpc
 	pkgdesc = High performance, open source, general RPC framework that puts mobile and HTTP/2 first.
 	pkgver = 1.85.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://grpc.io
 	arch = x86_64
 	license = Apache-2.0
@@ -17,7 +17,7 @@ pkgbase = grpc
 	makedepends = openssl>=1.1.0
 	makedepends = php
 	makedepends = php-legacy
-	makedepends = protobuf=36.1
+	makedepends = protobuf=36.2
 	makedepends = pkgconf
 	makedepends = python-build
 	makedepends = python-installer
@@ -30,12 +30,12 @@ pkgbase = grpc
 	source = grpc::git+https://github.com/grpc/grpc.git#tag=v1.85.0
 	source = grpc-grpc-proto::git+https://github.com/grpc/grpc-proto.git
 	source = grpc-googletest::git+https://github.com/google/googletest.git
-	source = https://github.com/protocolbuffers/protobuf/archive/v36.1/protobuf-36.1.tar.gz
+	source = https://github.com/protocolbuffers/protobuf/archive/v36.2/protobuf-36.2.tar.gz
 	source = fix-python-system-abseil.patch
 	sha256sums = 89de8049594b94cd229fe4377031a464f70ea809da1e20065d4174901efd3135
 	sha256sums = SKIP
 	sha256sums = SKIP
-	sha256sums = 7a7baff8207a57f3fe5c233d432a09eba67bdfb55a3145839d0817cae8e807a4
+	sha256sums = 7e7eaf580ec77f1a392ff1ab1013c13d3b04a6716f002f697f67f3c1113f0530
 	sha256sums = 4864e9ac189865bf1a012eea05fd4cf6eb11516150e73739bff536eae848099e
 
 pkgname = grpc

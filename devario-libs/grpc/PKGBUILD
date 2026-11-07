@@ -6,8 +6,8 @@
 pkgbase='grpc'
 pkgname=('grpc' 'python-grpcio' 'python-grpcio-tools' 'php-grpc' 'php-legacy-grpc' 'grpc-cli')
 pkgver=1.85.0
-pkgrel=1
-_protobuf_ver=36.1
+pkgrel=2
+_protobuf_ver=36.2
 pkgdesc="High performance, open source, general RPC framework that puts mobile and HTTP/2 first."
 arch=('x86_64')
 url='https://grpc.io'
@@ -25,7 +25,7 @@ makedepends=(
   'openssl>=1.1.0'
   'php'
   'php-legacy'
-  'protobuf=36.1'
+  'protobuf=36.2'
   'pkgconf'
   'python-build'
   'python-installer'
@@ -45,7 +45,7 @@ source=(
 sha256sums=('89de8049594b94cd229fe4377031a464f70ea809da1e20065d4174901efd3135'
             'SKIP'
             'SKIP'
-            '7a7baff8207a57f3fe5c233d432a09eba67bdfb55a3145839d0817cae8e807a4'
+            '7e7eaf580ec77f1a392ff1ab1013c13d3b04a6716f002f697f67f3c1113f0530'
             '4864e9ac189865bf1a012eea05fd4cf6eb11516150e73739bff536eae848099e')
 
 prepare() {
