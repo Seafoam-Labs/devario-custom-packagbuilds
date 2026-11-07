@@ -4,7 +4,7 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=apache
-pkgver=2.4.69
+pkgver=2.4.70
 pkgrel=1
 pkgdesc='A high performance Unix-based HTTP server'
 arch=('x86_64')
@@ -45,7 +45,7 @@ source=(
     hardening.conf
     arch.layout
 )
-sha256sums=('c5e6ebc66e349b87d7fc6916ae7cc2a808ed348003de134cf9e9d89d3e2cc73d'
+sha256sums=('1eefd7dc95836c5872894ce8e6a37f773d5a6764f0766869d39b8bcf0b1bafc3'
             'SKIP'
             '63da1a420f4714a3e7af2672d28384419cc7eedbe7bf35baebd02938fabc15bf'
             '0bbbfae23a917b2fce0bf8f900f60319b50769224a96314e9301a75ccd078e16'
