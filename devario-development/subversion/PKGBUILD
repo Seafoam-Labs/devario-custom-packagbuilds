@@ -5,15 +5,15 @@
 # Contributor: Jason Chu <jason@archlinux.org>
 
 pkgname=subversion
-pkgver=1.14.5
-pkgrel=5
+pkgver=1.15.0
+pkgrel=1
 pkgdesc="A Modern Concurrent Version Control System"
 arch=('x86_64')
 url="https://subversion.apache.org/"
 license=('Apache-2.0')
 depends=(
-  'apr'
-  'apr-util'
+  'apr>=1.4'
+  'apr-util>=1.4'
   'bash'
   'dbus'
   'expat'
@@ -24,12 +24,12 @@ depends=(
   'libsasl'
   'libutf8proc'
   'lz4'
-  'serf'
-  'sqlite'
+  'serf>=1.3.4'
+  'sqlite>=3.24.0'
   'zlib'
 )
 # Devario: drop javahl, no published java-environment to build the JNI bindings against
-makedepends=('apache' 'python' 'python-py3c' 'perl' 'swig'
+makedepends=('apache>=2.2' 'python' 'python-py3c' 'perl' 'swig'
              'libsecret' 'ruby' 'ruby-nkf' 'python-setuptools')
 optdepends=('libsecret: for GNOME Keyring for auth credentials'
             'bash-completion: for svn bash completion'
@@ -45,18 +45,14 @@ source=(https://archive.apache.org/dist/subversion/subversion-${pkgver}.tar.bz2{
         svnserve.service
         subversion.rpath.fix.patch
         ruby-frozen-nil.patch
-        swig-4.4.patch
-        python-3.14.patch
 )
-sha512sums=('e4800564d0cc68be98f19aa58d89181de83f237f0ccff10824d9237f8c65eb0071f7176ac54e9e8f8ecbf685849bd3e94be48f678f4c23ed6a5fd7fb6edd0321'
+sha512sums=('6bb79686baab7176e9b6c519b23141f66694298c0759d1e12332fef329eaa632e4f2e65c75ae0cd05e48e16c23d7eda7c59b322bdf03707e1a46025673282ec2'
             'SKIP'
             'f7f2ceac2446cc94ac2be3404083cc54a0f1f4d04d5301f600dfafca38819669bcffdfa45f1b90b9f3cdb042469385a764f11dc1a827f10c23ddf73b7ac6c9da'
             '7775f4da5003970c9ebdc2f696ba090df194a77d9daed791875488c943f72ae496b5f9cc6f3ff9f3f4de9f352a3b518137babdea38947d1a2d5dd16aa1844036'
             'd879cd8212b8c242386dc0668d1772358a94110fabde725ad132781da7dd0893d51cba09271a566fbbd7dc5fc8962b0de3ef8c8d9959fa47f1fa6db555f440d0'
             '92087b9a70722f4d39b75345463c1b04c9db30faf9eb6fe9b911416e73570c7930dd74d3b6136c00da6adeb2a263cac75f3520ccc08ecdb56d88a8a256172af4'
-            'bb772e55acd9601121ad06b254c364e8d8cf772ca59b8df0cf4c5c5ecba110d4108d0363672f121f770550cdd052802474029e57643258f398aacd2b63ccb898'
-            '040c7aa1e642ebf2a52ce22f2292c7ba8dbe3bb919a6c91c70beefaf0a4e38cef36757d129b59339dc4bf87ca74da305a3e5385a8353ee5ab7f669170ebf4d2b'
-            '149abfbebd4ca26c39bd51237802695f3f38c361709983d821d1dba6c7d82dad8b481363bd20d857ba15bdbe334781dcf5c508db7b847305d413957960cef36d')
+            'bb772e55acd9601121ad06b254c364e8d8cf772ca59b8df0cf4c5c5ecba110d4108d0363672f121f770550cdd052802474029e57643258f398aacd2b63ccb898')
 validpgpkeys=('19BBCAEF7B19B280A0E2175E62D48FAD16A0DE01'
               '8BC4DAE0C5A4D65F404401074F7DBAA99A59B973'
               'BA3C15B1337CF0FB222BD41A1BCA6586A347943F'
@@ -69,18 +65,19 @@ validpgpkeys=('19BBCAEF7B19B280A0E2175E62D48FAD16A0DE01'
               '91BFBF4D6956BD5DF7B72D23DFE691AE331BA3DB'
               'EC25FCC105618D04ADB43429C4416167349A3BCB'
               '4FFCB55C0D0D9343CFB4611F28DB47329CFFDC63'
-              '7DC8A7BF37478FF48E33E85E2B4822B4B6340BAC')
-# Ben Reser / Stefan Sperling / Branko Čibej / Evgeny Kotkov / Bert Huijben / Philip Martin /
+              '7DC8A7BF37478FF48E33E85E2B4822B4B6340BAC'
+              '4BD60AD30B89DDDCBD7B4F7296D0F4F536758105'
+              'B5938A454FEADBD43565E85F2A56BB6322864335')
+# Ben Reser / Stefan Sperling / Branko Čibej (new signing key 4BD60AD30B89DDDCBD7B4F7296D0F4F536758105) /
+# Evgeny Kotkov / Bert Huijben / Philip Martin /
 # Stefan Fuhrmann / Stefan Hett (CODE SIGNING KEY) /Nathan Hartman (CODE SIGNING KEY) / James McCoy /
-# Mark Phippard / Daniel Sahlberg
+# Mark Phippard / Daniel Sahlberg / Timofei Zhakov (CODE SIGNING KEY)
 # See https://downloads.apache.org/subversion/subversion-${pkgver}.KEYS
 
 prepare() {
   cd ${pkgname}-${pkgver}
   patch -Np0 -i ../subversion.rpath.fix.patch
   patch -p1 -i ../ruby-frozen-nil.patch
-  patch -p1 -i ../swig-4.4.patch # Fix build with SWIG 4.4 (Fedora)
-  patch -p1 -i ../python-3.14.patch # skip failing tests with python 3.14 (Fedora)
   rm subversion/bindings/swig/proxy/*.swg
   ./autogen.sh
 }
