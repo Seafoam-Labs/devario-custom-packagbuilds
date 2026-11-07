@@ -20,3 +20,10 @@ path = [
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "0001-Add-build-flag-for-no-telemetry.patch",
+]
+SPDX-FileCopyrightText = "GitHub Inc. and cli/cli contributors"
+SPDX-License-Identifier = "MIT"

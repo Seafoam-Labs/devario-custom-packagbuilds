@@ -4,7 +4,7 @@
 # Contributor: Richard Bradfield <bradfier@fstab.me>
 
 pkgname=github-cli
-pkgver=2.102.1
+pkgver=2.103.3
 pkgrel=1
 pkgdesc="The GitHub CLI"
 arch=("x86_64")
@@ -17,9 +17,9 @@ optdepends=("git: To interact with repositories"
             "org.freedesktop.secrets: Store credentials in system keyring")
 options=(!lto)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
-        "$url/commit/cb2509cb612cf9111a12a7960afd10b0c9d2dede.patch")
-sha256sums=('6a6959d4da3302d95812d8ba1a96ffb3e21874badb0dc25f2819184c372157fd'
-            'f5c78941435a2cd7581b3ccc7f7c1f6db17e2e910bb6b87d1693ccb19ec0e7aa')
+        "0001-Add-build-flag-for-no-telemetry.patch")
+sha256sums=('bb148138a3a2fe023e57c78042fe3b42fc09171c0e8fff4cf983b227b7a2eade'
+            'faf410e42f7dc7a7953691091ea8c7bbca1565bf1f6004a390cad1ff0765517d')
 
 prepare() {
     cd "cli-${pkgver}"
@@ -29,7 +29,9 @@ prepare() {
     rm pkg/cmd/search/shared/shared_test.go \
        internal/codespaces/rpc/invoker_test.go
     # TODO: as-yet unmerged telemetry patch, see https://github.com/cli/cli/issues/13260
-    patch -p1 -i ../cb2509cb612cf9111a12a7960afd10b0c9d2dede.patch
+    # Local copy of upstream cb2509cb612c, rebased for 2.103.3: its comment-only
+    # script/build.go hunk conflicts with upstream's own GO_BUILDTAGS docs and was dropped.
+    patch -p1 -i ../0001-Add-build-flag-for-no-telemetry.patch
 }
 
 build() {
