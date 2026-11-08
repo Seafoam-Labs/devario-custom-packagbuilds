@@ -1,19 +1,20 @@
 pkgbase = python-pyproject-api
 	pkgdesc = API to interact with the python pyproject.toml based projects
-	pkgver = 1.11.3
-	pkgrel = 3
+	pkgver = 1.12.4
+	pkgrel = 1
 	url = https://github.com/tox-dev/pyproject-api
 	arch = any
 	license = MIT
 	makedepends = python-build
+	makedepends = python-hatch-fancy-pypi-readme
 	makedepends = python-hatch-vcs
 	makedepends = python-hatchling>=1.32.4
 	makedepends = python-installer
 	makedepends = python-wheel
 	depends = python
 	depends = python-packaging
-	source = pyproject-api-1.11.3.tar.gz::https://github.com/tox-dev/pyproject-api/archive/refs/tags/1.11.3.tar.gz
-	sha512sums = 0bf22696050b3cf85132a0bd7d0c8d777625a0cd4e10f7af60c0af13d30e457c47bd6ff4e58d9e1365415d4152cc7003f824de0c6f84e20490b2960b4d60f48e
-	b2sums = 9965abfb0fdb09d2d936623509913e2b29b474a0de98a853cae0e29fa3506d105692b265978b45980648d18b423e5abab33408d18ce1497794b19303d5494ed4
+	source = pyproject-api-1.12.4.tar.gz::https://github.com/tox-dev/pyproject-api/archive/refs/tags/1.12.4.tar.gz
+	sha512sums = 9c273e3b9bd76dbaaf9a73aa9b133e055a34bf441c1878297f5e76d9ceeb8ec989a2e3b833f6e0d3db4f1f8347e1cc242200954326d9130aa0395dab14671cb7
+	b2sums = c6485634dea266304337110aa7b133d7d44e5397c8bb88dea0e42c5d65bf9acbb03fa54afa939714b2c62f41e09dd6817e07ad1578c21f7e8dfc8b5245ca1aee
 
 pkgname = python-pyproject-api
