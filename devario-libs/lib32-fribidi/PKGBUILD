@@ -3,7 +3,7 @@
 # Contributor: Nezmer <Nezmer@gmail.com>
 
 pkgname=lib32-fribidi
-pkgver=1.0.17
+pkgver=1.0.18
 pkgrel=1
 pkgdesc="A Free Implementation of the Unicode Bidirectional Algorithm (32-bit)"
 url="https://github.com/fribidi/fribidi"
@@ -22,7 +22,7 @@ provides=(libfribidi.so)
 source=(
   "git+$url?signed#tag=v$pkgver"
 )
-b2sums=('ede6d955fca949a95aaccc334da509e2e43726dde599cb19f646f9da1bad405e986c03518c1b799be83b0a1ca9a920e3ac9e7b29ff8d84d11558abe32aaecc48')
+b2sums=('2afe854d69e196c4d21900548ac8763a4ca323f681543ee8dac97d98bdff5cc6e9fa638f620fa9004f55d0830f618d8b8862f32a9fcccc95c074f205f01b7f4f')
 validpgpkeys=(
   0AD041B27CA166DDA1FE3BAEA7B3409C0CA4ED14 # Dov Grobgeld <dov.grobgeld@gmail.com>
 )
