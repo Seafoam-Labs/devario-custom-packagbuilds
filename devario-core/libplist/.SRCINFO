@@ -1,6 +1,6 @@
 pkgbase = libplist
 	pkgdesc = Library to handle Apple Property List files
-	pkgver = 2.8.0
+	pkgver = 2.8.1
 	pkgrel = 1
 	url = https://libimobiledevice.org/
 	arch = x86_64
@@ -12,7 +12,7 @@ pkgbase = libplist
 	depends = libgcc
 	depends = libstdc++
 	optdepends = python: Python bindings
-	source = git+https://github.com/libimobiledevice/libplist.git#tag=2.8.0
-	b2sums = abe3a8c6300f70755b0f54b934c78ffd8e79239aded8ce4d9dd9a5c801e8ffad35248fd0e9a1562d8d57f8fe637db75784654d37a981c7f108e7aec5c75a54fa
+	source = git+https://github.com/libimobiledevice/libplist.git#tag=2.8.1
+	b2sums = a379b5db8fc74892c6914d830fb6961bbb3466f9d7ec5ddd7fa9250781e3f2e3f845ccf347500c22ac00ca7121534c20377eafc7d17040aa2e0ab16a677ba398
 
 pkgname = libplist
