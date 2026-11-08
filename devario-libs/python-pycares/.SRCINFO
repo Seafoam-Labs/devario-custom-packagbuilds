@@ -1,11 +1,11 @@
 pkgbase = python-pycares
 	pkgdesc = Python interface for c-ares
-	pkgver = 5.0.1
+	pkgver = 5.2.1
 	pkgrel = 1
 	url = https://github.com/saghul/pycares
 	arch = x86_64
 	license = MIT
-	checkdepends = python-idna
+	checkdepends = python-idna>=2.1
 	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-build
@@ -13,9 +13,10 @@ pkgbase = python-pycares
 	makedepends = python-setuptools
 	makedepends = python-wheel
 	depends = c-ares
-	depends = python-cffi
-	optdepends = python-idna
-	source = git+https://github.com/saghul/pycares.git#tag=v5.0.1
-	b2sums = 27d60776f3063e6dfc344651625e8a526872d911c1e095571999d57b4897e59bc7583244a71462d98f27d607b66cc83dfd381db8a532980cff9195166330f0ac
+	depends = python>=3.11
+	depends = python-cffi>=2.0.0b1
+	optdepends = python-idna>=2.1
+	source = git+https://github.com/saghul/pycares.git#tag=v5.2.1
+	b2sums = 632d2cfd835019056d88dd2f34ada2f9773eae94acc306fa2b38d6599927d1542b6992719b5b1b7d2581271d0ff87daeba1cb5a7982fac7a768fa3a9c5decb7f
 
 pkgname = python-pycares
