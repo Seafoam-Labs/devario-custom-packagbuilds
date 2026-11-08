@@ -3,16 +3,17 @@
 
 _pkgname=typer
 pkgname=python-typer
-pkgver=0.27.3
+pkgver=0.28.0
 pkgrel=1
 pkgdesc="Build great CLIs. Easy to code. Based on Python type hints"
 arch=('any')
 url="https://typer.tiangolo.com/"
 license=('MIT')
-depends=('python-rich' 'python-shellingham' 'python-annotated-doc')
+depends=('python>=3.10' 'python-rich>=13.8.0' 'python-shellingham>=1.3.0' 'python-annotated-doc>=0.0.2')
 makedepends=('python-setuptools' 'python-build' 'python-installer' 'python-flit-core' 'python-pdm-backend')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/tiangolo/typer/archive/${pkgver}.tar.gz")
-sha512sums=('49ee9ddceb64014848be69b1fa1c92597afccd0125a1d800fbe0c6af1b18d4785e5f7e5bad6d16b6e495833382ea1c4ed9ff73f596a68e0cfa0b717698c1209a')
+# Pending external checksum refresh for 0.28.0; the value below is from 0.27.3.
+sha512sums=('a862ce71b508c7da48cdfd8b33cc45f56227ddc009aec0497baf38a5c50db758856105b882fdce3d4c4ba986f60bada1a4541b548df0e199c29f72fa70c0570e')
 
 prepare() {
   cd typer-$pkgver
