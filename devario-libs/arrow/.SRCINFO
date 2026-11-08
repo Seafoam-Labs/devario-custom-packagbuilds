@@ -43,7 +43,7 @@ pkgbase = arrow
 	conflicts = parquet-cpp
 	source = https://archive.apache.org/dist/arrow/arrow-26.0.1/apache-arrow-26.0.1.tar.gz
 	source = https://archive.apache.org/dist/arrow/arrow-26.0.1/apache-arrow-26.0.1.tar.gz.asc
-	source = git+https://github.com/apache/parquet-testing.git#commit=e7bea05fa5bc18a032f3687e8a71128f14bb7331
+	source = git+https://github.com/apache/parquet-testing.git#commit=56653c437c8092f704a092d0d1d4e600124cd49f
 	source = git+https://github.com/apache/arrow-testing.git#commit=9ff285c88565f0f6abc855918c6a342e70e4909c
 	validpgpkeys = 265F80AB84FE03127E14F01125BCCA5220D84079
 	validpgpkeys = 08D3564B7C6A9CAFBFF6A66791D18FCF079F8007
