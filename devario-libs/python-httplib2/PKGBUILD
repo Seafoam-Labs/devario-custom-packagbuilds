@@ -8,33 +8,34 @@
 # Contributor: Anton Eliasson <devel@antoneliasson.se>
 
 pkgname=python-httplib2
-pkgver=0.32.0
-pkgrel=2
+pkgver=0.32.1
+pkgrel=1
 pkgdesc='Comprehensive HTTP client library, supporting many features'
 arch=(any)
 url='https://github.com/httplib2/httplib2'
 license=(MIT)
 depends=(
   ca-certificates
-  python
-  python-pyparsing
+  'python>=3.8'
+  'python-pyparsing>=3.1'
+  'python-pyparsing<4'
 )
 makedepends=(
   git
   python-build
   python-installer
   python-wheel
-  python-setuptools
+  'python-setuptools>=40.8.0'
 )
 optdepends=(
   'python-pysocks: SOCKS proxy client support'
 )
 source=("$pkgname::git+$url#tag=v$pkgver"
   use-system-certificates.patch)
-sha512sums=('b9e1a6b66e274b0eb6bca851d3d83f86ae50b9a8f4c290707bee33cee22c5e5e8a455466357ccc3548f8dbdf14cf8b3a395eb318fd47ac8da1b216234045a6e2'
-  '99b4d3ad273f531a0ddf429015a59263e7e79754cd404580427cd7a0d8ad6455096ff49a3fbf60009448d066925b9a10255d0d4b3e75d2a9b6c88cbd6da5bb34')
-b2sums=('faaa47766f1a74481a6b5e93e89a12cfbb31dca90db831bc9fdd6948c97ecc7180f053634c46941e9ac6e077a27f6faa9ea23ef4216a144f8adb51136592c17f'
-  '532f8208a57a2903d804ecda0e7f5076d300a3e1029c4effc29c6bb93683aaa283ae2f658c4be455d001e94afdcfbf331e06f19ac3a4c96db14210d185f5e904')
+sha512sums=('c7c95227bd601d1ed9eb247fc7400d6ced7e0caa7a1698da4078c6929c6314aae90895715a9bd7db741713ac97e776409a2e61af11d8ae4b2a33274a09e0417d'
+            '99b4d3ad273f531a0ddf429015a59263e7e79754cd404580427cd7a0d8ad6455096ff49a3fbf60009448d066925b9a10255d0d4b3e75d2a9b6c88cbd6da5bb34')
+b2sums=('c8095277ea62c0332f14794140ad72818d333558f111749af71e241fed4688527765f4310ce09175d80018999c6d360bc744c129424ad02169a899bdbe0d1ab8'
+        '532f8208a57a2903d804ecda0e7f5076d300a3e1029c4effc29c6bb93683aaa283ae2f658c4be455d001e94afdcfbf331e06f19ac3a4c96db14210d185f5e904')
 
 prepare() {
   cd "$pkgname"
