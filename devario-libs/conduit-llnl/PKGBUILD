@@ -2,8 +2,8 @@
 
 _name=conduit
 pkgname=$_name-llnl
-pkgver=0.9.9
-pkgrel=2
+pkgver=0.9.10
+pkgrel=1
 pkgdesc="Simplified data exchange library for HPC simulations"
 arch=(x86_64)
 url="https://github.com/LLNL/conduit"
@@ -17,13 +17,13 @@ depends=(
   python
 )
 makedepends=(
-  cmake
+  'cmake>=3.26'
   gcc-fortran
   ninja
   python-numpy
   python-build
   python-installer
-  python-setuptools
+  'python-setuptools>=61.0.0'
 )
 source=(
   # NOTE: the -src-with-blt tarball is used as it contains sources of git
@@ -31,7 +31,7 @@ source=(
   $_name-$pkgver-src-with-blt.tar.gz::$url/releases/download/v$pkgver/$_name-v$pkgver-src-with-blt.tar.gz
   no-pip-python-modules.patch
 )
-b2sums=('e8fe0abdf5ff9f8f5f8617b318eb8a9b12f36a6c8d05a35173de6792d92b86f66d004d22fa0c111bc9766084f5b973b13f278ec0088f5be434e25b5c63c2c09e'
+b2sums=('4adba372b48c6a7ce46138bcf83e70372c11da479e8993491c6025f244defe646fcb7dac2f69020479fe0b8a02d78d5a62f066f0888906b8cb78b7c59ffc5998'
         '509e91528034cb08bd429ee4259d909785213531112072c076f16895a0074e62275aee85ed2c998af51c4ce575501c14c4e8597b2adc14dcb4f4ea0d148673e4')
 
 prepare() {
