@@ -1,18 +1,19 @@
 pkgbase = fmt
 	pkgdesc = Open-source formatting library for C++
-	pkgver = 12.2.0
-	pkgrel = 2
+	pkgver = 12.2.1
+	pkgrel = 1
 	url = https://fmt.dev
 	arch = x86_64
 	license = MIT
-	makedepends = cmake
+	makedepends = cmake>=3.8
 	makedepends = git
 	makedepends = ninja
-	source = git+https://github.com/fmtlib/fmt.git#tag=12.2.0
-	b2sums = e095e1d8e2d95a08f8d6430360e76e9b24a4e213ee83adeeeabf93de09dde325c8e2c4bbbab0907d79f77a21ef5db55ca25f836173f3cd94aecb0cc214fc596d
+	source = git+https://github.com/fmtlib/fmt.git#tag=12.2.1
+	b2sums = 165d50cd60b7c495baf580445661c63610a7b02747234956d68904384bbd66eccb89fc4ac5d9258f17147e6e44e7a1f5dce7f612c062fcfce0c964da53f659e7
 
 pkgname = fmt
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
 	provides = libfmt.so
+	provides = libfmt.so=12-64
