@@ -1,6 +1,6 @@
 pkgbase = python-rapidjson
 	pkgdesc = Python wrapper around rapidjson
-	pkgver = 1.25
+	pkgver = 1.26
 	pkgrel = 1
 	url = https://pypi.python.org/pypi/python-rapidjson
 	arch = x86_64
@@ -11,8 +11,8 @@ pkgbase = python-rapidjson
 	makedepends = python-build
 	makedepends = python-installer
 	makedepends = python-wheel
-	depends = python
-	source = https://pypi.io/packages/source/p/python-rapidjson/python_rapidjson-1.25.tar.gz
-	sha512sums = 54696fcff78e4f70e4abca75b1156971628ecc5dca134cd621cd6a537ed595182824d3fe3286378f138b0b10a2ce000e6f3edcfd960a69a1f95b5cdbc0461219
+	depends = python>=3.10
+	source = https://pypi.io/packages/source/p/python-rapidjson/python_rapidjson-1.26.tar.gz
+	sha256sums = db95af0b5ed5f89d4f91480477a0ea8c7646283e489dd9046e28503e85e08f98
 
 pkgname = python-rapidjson
