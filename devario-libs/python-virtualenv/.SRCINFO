@@ -1,30 +1,35 @@
 pkgbase = python-virtualenv
 	pkgdesc = Virtual Python Environment builder
-	pkgver = 21.14.5
-	pkgrel = 3
+	pkgver = 21.15.6
+	pkgrel = 1
 	url = https://virtualenv.pypa.io
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-hatchling
-	makedepends = python-hatch-vcs
+	makedepends = python-hatchling>=1.28
+	makedepends = python-hatch-fancy-pypi-readme>=25.1
+	makedepends = python-hatch-vcs>=0.5
 	makedepends = python-wheel
-	depends = python
-	depends = python-distlib
-	depends = python-filelock
-	depends = python-packaging
-	depends = python-platformdirs
-	depends = python-python-discovery
+	depends = python>=3.9
+	depends = python-distlib>=0.4.3
+	depends = python-distlib<1
+	depends = python-filelock>=3.24.2
+	depends = python-filelock<5
+	depends = python-packaging>=26.3
+	depends = python-platformdirs>=4.4
+	depends = python-platformdirs<5
+	depends = python-python-discovery>=1.6.1
+	depends = python-typing_extensions>=4.16
 	conflicts = virtualenv
 	replaces = virtualenv
 	options = !makeflags
-	source = python-virtualenv::git+https://github.com/pypa/virtualenv#tag=21.14.5
+	source = python-virtualenv::git+https://github.com/pypa/virtualenv#tag=21.15.6
 	source = no-llm-crap.patch
-	sha512sums = 041271c572875c2532ca8489362e2768b4ad5953c65bc645102b508fbaaac7a5ea3304a285baac8d4e878108193c3117b68401e794e868f49f50d9b9586f7d17
-	sha512sums = 243e7a6b08616b9bd30bd32295fe52b32ce3902f462dcd21f7f5ba3979577ad79fdf571965dbb6ff8d85ddd3ac8aa52f6937bfd2c995e518c6729c84033fe8e5
-	b2sums = cfd511d5e41eee1df03b3997581615983c9134636703c0af4ce48bd1518d451bed20582a07b5625f624926e08e26b66a89d5daaa5dc30d3a0fe71a4329f16cb0
-	b2sums = f8291a2cfce1adcd1ca4d4b861967d7c6d22b7a5828978d91bc26c4d0a53268bcebb93601b23e550339a8a05dbc3cc4943fab5e8d138e268a078fb691e92f895
+	sha512sums = 281cf46232389cc1a4ac20e572e01b586bc19ae43e4895a61d70d9d9782aa54b3ac18bf06875ab2e2b17e1d625430e7e8e85a0f51f65fc4d6b6496dba4ecaa6c
+	sha512sums = 9d198995dabe340d905d63d8bd372980223033155956c522479537f26a93c83149b0a323e81abf8de0e31decd6e1f6063aae3be1f5200f872901d81acefa063e
+	b2sums = 5be087dcbdbb8190c8ad2935902dfef480a199b896b723ad7bfbbb69a561e793551e7137cfb118ed8af4e5d87f5bc86c4e826dc7ddea976c715f86ed0ee1d579
+	b2sums = 202e755826989926017b045ba310bf2a90e0e57940b851ca3add5cb28b062f4606f88c1cf3bd6b19b983d95443b19004f68d58e0fde274f8353900df1b90ffca
 
 pkgname = python-virtualenv
