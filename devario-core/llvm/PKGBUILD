@@ -164,7 +164,7 @@ package_llvm-libs() {
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
-package_llvm_gtest() {
+package_llvm-gtest() {
   pkgdesc="LLVM's GoogleTest fork and testing support static libraries"
   depends=('llvm-libs')
 
