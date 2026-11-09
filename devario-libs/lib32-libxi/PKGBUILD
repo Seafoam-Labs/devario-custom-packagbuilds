@@ -3,7 +3,7 @@
 
 _pkgbasename=libxi
 pkgname=lib32-$_pkgbasename
-pkgver=1.8.3
+pkgver=1.8.4
 pkgrel=1
 pkgdesc="X11 Input extension library (32-bit)"
 arch=('x86_64')
@@ -12,12 +12,15 @@ depends=('lib32-gcc-libs' 'lib32-libxext' 'lib32-libxfixes' $_pkgbasename)
 makedepends=('pkgconfig' 'xorgproto' 'xorg-util-macros' gcc-multilib automake)
 license=('custom')
 source=(${url}/releases/individual/lib/libXi-${pkgver}.tar.xz{,.sig})
-sha256sums=('7ad60056f01af4f786cfe93b3a7707447711626fc8da2637bec71a90409babe5'
+sha256sums=('ddd6057b89a91903bc2f884d55c8467440906945e482c36547260dff28661afc'
             'SKIP')
-validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF'  # Peter Hutterer
-              'C41C985FDCF1E5364576638B687393EE37D128F8'  # Matthieu Herrb <matthieu.herrb@laas.fr>
-              '3BB639E56F861FA2E86505690FDD682D974CA72A'  # Matt Turner <mattst88@gmail.com>
-              'FD0004A26EADFE43A4C3F249C6F7AE200374452D') # "Povilas Kanapickas <povilas@radix.lt>"
+# libXi 1.8.4 is signed with Alan Coopersmith's rotated 4096-bit key; the older
+# release-key fingerprints are expired, so they stay commented out.
+validpgpkeys=('3AB285232C46AE43D8E192F4DAB0F78EA6E7E2D2') # Alan Coopersmith <alan.coopersmith@oracle.com>
+#validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF') # Peter Hutterer
+#validpgpkeys+=('C41C985FDCF1E5364576638B687393EE37D128F8') # Matthieu Herrb <matthieu.herrb@laas.fr>
+#validpgpkeys+=('3BB639E56F861FA2E86505690FDD682D974CA72A') # Matt Turner <mattst88@gmail.com>
+#validpgpkeys+=('FD0004A26EADFE43A4C3F249C6F7AE200374452D') # Povilas Kanapickas <povilas@radix.lt>
 
 build() {
   export CC="gcc -m32"
