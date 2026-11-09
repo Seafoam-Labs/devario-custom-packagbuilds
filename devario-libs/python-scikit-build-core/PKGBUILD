@@ -2,8 +2,8 @@
 # Contributor: Blair Bonnett <blair.bonnett@gmail.com>
 
 pkgname=python-scikit-build-core
-pkgver=1.1.1
-pkgrel=2
+pkgver=1.1.2
+pkgrel=1
 pkgdesc='Next generation Python CMake adaptor and Python API for plugins'
 arch=(any)
 url='https://github.com/scikit-build/scikit-build-core'
@@ -11,7 +11,7 @@ license=(Apache-2.0)
 depends=(
   cmake
   ninja
-  python
+  'python>=3.9'
   python-packaging
   python-pathspec
 )
@@ -22,7 +22,7 @@ makedepends=(
   python-installer
 )
 source=("$url/archive/v$pkgver/${pkgname#python-}-$pkgver.tar.gz")
-b2sums=('4e4a054a97c58015ac0491157325cda92dbd0ab299b23af8a10443be0f78b26eead6cf1b63cd74e76c7e9e58d779a9188ad8480a6a5b11c86d7b1399f6c690d4')
+b2sums=('cf5863c74f78678ea81e8956db00fffa4ba630cee2fdf1e50759b67ef796398c1f72e6e174987c1e1a1c93c75d7e58c5daa552ce684479df322dc680b8372f9c')
 
 build() {
   cd ${pkgname#python-}-$pkgver

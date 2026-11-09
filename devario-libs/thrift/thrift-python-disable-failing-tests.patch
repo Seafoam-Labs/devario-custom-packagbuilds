@@ -1,8 +1,8 @@
-diff --git i/test/py/RunClientServer.py w/test/py/RunClientServer.py
-index f48224fa5..5aa38ffae 100755
---- i/test/py/RunClientServer.py
-+++ w/test/py/RunClientServer.py
-@@ -315,7 +315,7 @@ def main():
+diff --git a/test/py/RunClientServer.py b/test/py/RunClientServer.py
+index 00c61bd1c..cd1b6721c 100755
+--- a/test/py/RunClientServer.py
++++ b/test/py/RunClientServer.py
+@@ -380,7 +380,7 @@ def main():
          tests.test_feature('server', servers)
          tests.test_feature('proto', PROTOS)
          tests.test_feature('zlib', [False, True])
@@ -11,11 +11,11 @@ index f48224fa5..5aa38ffae 100755
  
  
  if __name__ == '__main__':
-diff --git i/test/py/TestClient.py w/test/py/TestClient.py
-index d80ddf46f..fa0909ddc 100755
---- i/test/py/TestClient.py
-+++ w/test/py/TestClient.py
-@@ -181,11 +181,11 @@ class AbstractTest(unittest.TestCase):
+diff --git a/test/py/TestClient.py b/test/py/TestClient.py
+index 0007ee3db..4491e724b 100755
+--- a/test/py/TestClient.py
++++ b/test/py/TestClient.py
+@@ -203,11 +203,11 @@ class AbstractTest(unittest.TestCase):
          y = self.client.testList(x)
          self.assertEqual(y, x)
  
@@ -32,11 +32,11 @@ index d80ddf46f..fa0909ddc 100755
  
      def testTypedef(self):
          print('testTypedef')
-diff --git i/test/py/TestServer.py w/test/py/TestServer.py
-index 3a2f639c0..d53a43d9a 100755
---- i/test/py/TestServer.py
-+++ w/test/py/TestServer.py
-@@ -139,10 +139,10 @@ class TestHandler(object):
+diff --git a/test/py/TestServer.py b/test/py/TestServer.py
+index 946e38004..ce67ea3b2 100755
+--- a/test/py/TestServer.py
++++ b/test/py/TestServer.py
+@@ -186,10 +186,10 @@ class TestHandler(object):
              logging.info('testList(%s)' % thing)
          return thing
  

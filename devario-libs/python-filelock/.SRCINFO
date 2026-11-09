@@ -1,17 +1,18 @@
 pkgbase = python-filelock
 	pkgdesc = A platform-independent file lock
-	pkgver = 4.0.10
-	pkgrel = 2
+	pkgver = 4.2.9
+	pkgrel = 1
 	url = https://github.com/tox-dev/filelock
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = python-build
-	makedepends = python-hatch-vcs
-	makedepends = python-hatchling
+	makedepends = python-hatch-fancy-pypi-readme>=25.1
+	makedepends = python-hatch-vcs>=0.5
+	makedepends = python-hatchling>=1.29
 	makedepends = python-installer
-	depends = python
-	source = git+https://github.com/tox-dev/filelock.git#tag=4.0.10
-	b2sums = 17617b30551f1375994ec03dd8dd25434c1426f1d430a34240a8403cb6d7ceac54994055f174e6f779d94d261378badeb2dfcd8e4cd77f01fa3aae54000c49a3
+	depends = python>=3.11
+	source = git+https://github.com/tox-dev/filelock.git#tag=4.2.9
+	b2sums = 0b1e5d46d5de9cfa937736ed36aa29f0b41a542cf8e54e4e946166fe413ece3494ea60cda9da1d553e6a359dd72997815f6865d66f3d9f0d1e73bbaee21d157f
 
 pkgname = python-filelock

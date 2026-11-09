@@ -1,6 +1,6 @@
 pkgbase = kpmcore
 	pkgdesc = Library for managing partitions
-	pkgver = 26.08.2
+	pkgver = 26.08.3
 	pkgrel = 1
 	url = https://apps.kde.org/partitionmanager/
 	arch = x86_64
@@ -28,12 +28,12 @@ pkgbase = kpmcore
 	optdepends = ntfsprogs: NTFS support
 	optdepends = udftools: UDF support
 	optdepends = xfsprogs: XFS support
-	source = https://download.kde.org/stable/release-service/26.08.2/src/kpmcore-26.08.2.tar.xz
-	source = https://download.kde.org/stable/release-service/26.08.2/src/kpmcore-26.08.2.tar.xz.sig
+	source = https://download.kde.org/stable/release-service/26.08.3/src/kpmcore-26.08.3.tar.xz
+	source = https://download.kde.org/stable/release-service/26.08.3/src/kpmcore-26.08.3.tar.xz.sig
 	validpgpkeys = CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7
 	validpgpkeys = F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87
 	validpgpkeys = D81C0CB38EB725EF6691C385BB463350D6EF31EF
-	sha256sums = 7e2ff31c59404fee030360c16be87706e3e94c3322d174c33a32fb49b13d5d59
+	sha256sums = de84307a2233e761a9d37ac1ab411363613312a5abc2ce348b366ae081da644b
 	sha256sums = SKIP
 
 pkgname = kpmcore

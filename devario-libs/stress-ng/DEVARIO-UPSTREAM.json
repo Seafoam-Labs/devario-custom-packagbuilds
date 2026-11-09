@@ -1,0 +1,6 @@
+{
+  "name": "stress-ng",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/stress-ng/-/archive/main/stress-ng-main.tar.gz",
+  "sha256": "8da04194913b8cb86de589e6f0de942e1552e25acf727461a74c60e656a77cb8",
+  "bytes": 2006
+}

@@ -3,13 +3,13 @@
 
 pkgname=python-sentry_sdk
 _pkgname=sentry-python
-pkgver=2.72.0
+pkgver=2.74.0
 pkgrel=1
 pkgdesc="The official Python SDK for Sentry.io"
 arch=('any')
 url="https://sentry.io/for/python"
 license=('MIT')
-depends=('python-urllib3' 'python-certifi')
+depends=('python-urllib3>=1.26.11' 'python-certifi')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 optdepends=('python-aiohttp: adds support for the AIOHTTP-Server Web Framework'
             'python-bottle: adds support for the Bottle Web Framework'
@@ -31,7 +31,7 @@ optdepends=('python-aiohttp: adds support for the AIOHTTP-Server Web Framework'
             'python-pure-eval: for richer stacktraces & additional variables'
             'python-executing: for richer stacktraces & better function names')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/getsentry/sentry-python/archive/refs/tags/${pkgver}.tar.gz")
-sha256sums=('be8fccac1d71fa611357ef4ca3b73377b18b428bedff713430a656634906593e')
+sha256sums=('e4fbf47093c90a61660a2b992fda27e8c21060d44792323a8786b157fe8da2ea')
 
 build() {
 	cd "${_pkgname}-${pkgver}"

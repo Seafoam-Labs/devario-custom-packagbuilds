@@ -2,7 +2,7 @@
 
 pkgname=python-pycares
 _name=${pkgname#python-}
-pkgver=5.0.1
+pkgver=5.2.1
 pkgrel=1
 pkgdesc='Python interface for c-ares'
 arch=(x86_64)
@@ -10,7 +10,8 @@ url=https://github.com/saghul/pycares
 license=(MIT)
 depends=(
   c-ares
-  python-cffi
+  'python>=3.11'
+  'python-cffi>=2.0.0b1'
 )
 makedepends=(
   git
@@ -20,12 +21,12 @@ makedepends=(
   python-wheel
 )
 checkdepends=(
-  python-idna
+  'python-idna>=2.1'
   python-pytest
 )
-optdepends=(python-idna)
+optdepends=('python-idna>=2.1')
 source=("git+$url.git#tag=v$pkgver")
-b2sums=('27d60776f3063e6dfc344651625e8a526872d911c1e095571999d57b4897e59bc7583244a71462d98f27d607b66cc83dfd381db8a532980cff9195166330f0ac')
+b2sums=('632d2cfd835019056d88dd2f34ada2f9773eae94acc306fa2b38d6599927d1542b6992719b5b1b7d2581271d0ff87daeba1cb5a7982fac7a768fa3a9c5decb7f')
 
 build() {
   cd "$_name"

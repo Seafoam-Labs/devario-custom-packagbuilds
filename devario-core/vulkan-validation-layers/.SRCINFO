@@ -1,6 +1,6 @@
 pkgbase = vulkan-validation-layers
 	pkgdesc = Vulkan Validation Layers
-	pkgver = 1.4.367
+	pkgver = 1.4.368
 	pkgrel = 1
 	url = https://www.vulkan.org/
 	arch = x86_64
@@ -21,7 +21,7 @@ pkgbase = vulkan-validation-layers
 	depends = libstdc++
 	depends = spirv-tools
 	options = !lto
-	source = git+https://github.com/KhronosGroup/Vulkan-ValidationLayers#tag=v1.4.367
-	b2sums = 4d12bf3039bbabbd35957773e7a373ebe289866817d3922c0a992c9f51e8d233c1e3b9cd638e40e6df84aa58a26ca3421a492b245cf0fa4b7ef7fc1366d2dfee
+	source = git+https://github.com/KhronosGroup/Vulkan-ValidationLayers#tag=v1.4.368
+	b2sums = 9af9621e5ed913ebe6313c1192b92d8b3b5a98bfa6d992a4c5e5eb47aaae21c30cbba4cf83fdc1edddbb23fb1250ca12251623f97ef09ca8ef48be895ebae7e2
 
 pkgname = vulkan-validation-layers

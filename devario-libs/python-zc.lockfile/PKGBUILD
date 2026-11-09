@@ -3,17 +3,17 @@
 
 pkgname=python-zc.lockfile
 _pkgname=${pkgname#python-}
-pkgver=4.0
-pkgrel=2.1
+pkgver=4.1
+pkgrel=1
 arch=('any')
 pkgdesc="Zope testing frameworks"
 url="https://github.com/zopefoundation/${_pkgname}"
 license=('ZPL-2.1')
-depends=('python')
+depends=('python>=3.11')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
 checkdepends=('python-zope-testing' 'python-zope-testrunner')
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
-sha512sums=('412fa836258cfe1c8b4492403d1d917410336fbbdf98c37a6b4a22a6ff7ffe4463ce9a77ac3c8df7bcc11acab2ccbe4435647b993bc02d941ee1967f5d00c978')
+sha512sums=('a470348c165499a853b4da12702484f75f557460ca746ea1952c829118fdadd5b6e4d38933cfceb1e1807d0ee7159df72a0f37c1a62e2219d798abe40a9e013c')
 
 build() {
 	cd "${_pkgname}-${pkgver}/"

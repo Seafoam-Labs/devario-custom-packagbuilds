@@ -3,8 +3,8 @@
 
 _name=pyproject-api
 pkgname=python-pyproject-api
-pkgver=1.11.3
-pkgrel=3
+pkgver=1.12.5
+pkgrel=1
 pkgdesc="API to interact with the python pyproject.toml based projects"
 arch=(any)
 url="https://github.com/tox-dev/pyproject-api"
@@ -15,14 +15,17 @@ depends=(
 )
 makedepends=(
   python-build
+  # pyproject-api 1.12+ declares hatch-fancy-pypi-readme in build-system
+  # requires; python-build --no-isolation fails when it is not installed
+  python-hatch-fancy-pypi-readme
   python-hatch-vcs
   'python-hatchling>=1.32.4'
   python-installer
   python-wheel
 )
 source=($_name-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz)
-sha512sums=('0bf22696050b3cf85132a0bd7d0c8d777625a0cd4e10f7af60c0af13d30e457c47bd6ff4e58d9e1365415d4152cc7003f824de0c6f84e20490b2960b4d60f48e')
-b2sums=('9965abfb0fdb09d2d936623509913e2b29b474a0de98a853cae0e29fa3506d105692b265978b45980648d18b423e5abab33408d18ce1497794b19303d5494ed4')
+sha512sums=('f23531f33f692716576626411fc14086322c9f5955f866379932743447e74cc3383e52db467d4eceb1baa1dd185b6e67649c731fa5cd7eaaa18d5d3ad40b0693')
+b2sums=('5fc0ae913a7cb191e58d2a8d5045a8cef7ef89624196e48ef7f22b6c4eaa8120b3f4932131b471d797f7a08c3d8da6c6f0c372d78fa1cdf8c07f931ae2381968')
 
 build() {
   cd $_name-$pkgver

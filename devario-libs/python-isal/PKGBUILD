@@ -1,8 +1,8 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=python-isal
-pkgver=1.8.0
-pkgrel=2
+pkgver=1.9.1
+pkgrel=1
 pkgdesc='Faster zlib and gzip compatible compression and decompression by providing python bindings for the isa-l library'
 arch=(x86_64)
 url=https://github.com/pycompression/python-isal
@@ -10,15 +10,15 @@ license=(PSF-2.0)
 depends=(
   glibc
   isa-l
-  python
+  'python>=3.11'
 )
 makedepends=(
   git
   nasm
   python-build
   python-installer
-  python-setuptools
-  python-setuptools-scm
+  'python-setuptools>=77'
+  'python-setuptools-scm>=8'
   python-wheel
 )
 checkdepends=(
@@ -30,7 +30,7 @@ source=(
   "git+$url.git#tag=v$pkgver"
   "git+https://github.com/intel/isa-l.git"
 )
-sha256sums=('33408c552fae7a31f7e7c71f63a26935a6a694c623a278daa976c66cb72ca299'
+sha256sums=('a6bb2ad5ad30d6a849442814b1c4b06058f5bc6adc45981b26cffc9e77de38d8'
             'SKIP')
 
 prepare() {

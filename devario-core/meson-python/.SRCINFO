@@ -1,22 +1,22 @@
 pkgbase = meson-python
 	pkgdesc = Meson PEP 517 Python build backend
-	pkgver = 0.22.0
-	pkgrel = 2
+	pkgver = 0.22.1
+	pkgrel = 1
 	url = https://github.com/mesonbuild/meson-python
 	arch = any
 	groups = python-build-backend
 	license = MIT
 	makedepends = git
-	makedepends = ninja
+	makedepends = ninja>=1.8.2
 	makedepends = python-build
 	makedepends = python-installer
-	depends = meson
+	depends = meson>=1.2.3
 	depends = patchelf
-	depends = python
-	depends = python-packaging
-	depends = python-pyproject-metadata
+	depends = python>=3.10
+	depends = python-packaging>=23.2
+	depends = python-pyproject-metadata>=0.9.0
 	optdepends = python-colorama: colored output
-	source = git+https://github.com/mesonbuild/meson-python#tag=0.22.0
-	sha256sums = a1615dfaba3099526c1e2de2f2374a75c4d39a93cfc8ae436ab60b31d2c494e7
+	source = git+https://github.com/mesonbuild/meson-python#tag=0.22.1
+	sha256sums = 13dee0e98f80f5c9f4506df161ec708a33f914e722ee906de78b4dfb93af2141
 
 pkgname = meson-python

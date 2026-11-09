@@ -6,17 +6,17 @@
 
 _pkgname=pyudev
 pkgname=python-$_pkgname
-pkgver=0.24.4
-pkgrel=3
+pkgver=0.24.5
+pkgrel=1
 arch=('any')
 url='https://github.com/pyudev/pyudev'
 license=('LGPL-2.1-or-later')
 pkgdesc='Python bindings to libudev'
-depends=('python' 'systemd-libs')
+depends=('python>=3.10' 'systemd-libs')
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel' 'python-sphinx')
 optdepends=('python-wxpython: WX integration')
 source=("$_pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha512sums=('d0edd89a9b024fd166d6286920a37baac5a739f89101a6d7c4dca3dad0b6d8d4a61e93c0ef1ca3795a677558579bdfecf49a5d5b61837345eed90a31fed4aa20')
+sha512sums=('91029b86572576306a4a843e972856253e873a93d5d1c92bbd77f07d49faf28fe1e4a9fd7f4fcc1fcf966091d89ce5f1d82ed1ca8561ebe485384d82ebad58b3')
 
 prepare() {
   cd $_pkgname-$pkgver

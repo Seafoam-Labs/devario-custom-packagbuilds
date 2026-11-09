@@ -1,6 +1,6 @@
 pkgname=graphify
 _pypiname=graphifyy
-pkgver=0.9.103
+pkgver=0.9.104
 pkgrel=1
 pkgdesc='Turn code, documents, and media into a queryable knowledge graph'
 arch=('any')
@@ -60,7 +60,7 @@ optdepends=(
   'python-boto3: AWS Bedrock backend'
 )
 source=("$url/releases/download/v$pkgver/$_pypiname-$pkgver.tar.gz")
-sha256sums=('9f952b309d95ea612553d0535d1f579faa84d84f996b850026f08eace717ebd0')
+sha256sums=('6dfb7798dde20dea3478b291b061fab77b66b8fd53388e0a36d0cefabd253fe6')
 
 build() {
   cd "$_pypiname-$pkgver"

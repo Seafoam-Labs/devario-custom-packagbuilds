@@ -1,23 +1,23 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=python-zlib-ng
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.1.0
+pkgrel=1
 pkgdesc="A drop-in replacement for Python's zlib and gzip modules using zlib-ng"
 arch=(x86_64)
 url=https://github.com/pycompression/python-zlib-ng
 license=(PSF-2.0)
 depends=(
   glibc
-  python
-  zlib-ng
+  'python>=3.11'
+  'zlib-ng>=2.0.7'
 )
 makedepends=(
   git
   python-build
   python-installer
-  python-setuptools
-  python-setuptools-scm
+  'python-setuptools>=77'
+  'python-setuptools-scm>=8'
   python-wheel
 )
 checkdepends=(
@@ -26,7 +26,7 @@ checkdepends=(
   python-tests
 )
 source=("git+$url.git#tag=v$pkgver")
-sha256sums=('1e91964d6a0fe6e84013a67c9243870730951ea84f8624f81583e34393832581')
+sha256sums=('a261d355a0c93bc4a7ec02d8d5ad3f1fe410d681fdc2fad2e1294360c2158987')
 
 build() {
   cd $pkgname

@@ -3,8 +3,8 @@
 # Contributor: acxz <akashpatel2008 at yahoo dot com>
 
 pkgname=rocm-smi-lib
-pkgver=7.2.0
-pkgrel=2
+pkgver=7.2.4
+pkgrel=1
 pkgdesc='ROCm System Management Interface Library'
 arch=('x86_64')
 url='https://rocm.docs.amd.com/projects/rocm_smi_lib/en/latest'
@@ -19,7 +19,7 @@ depends=(
 makedepends=('cmake')
 _git='https://github.com/ROCm/rocm-systems'
 source=("rocm-$pkgver.tar.gz::$_git/archive/rocm-$pkgver.tar.gz")
-sha256sums=('728ea7e9bf16e6ed217a0fd1a8c9afaba2dae2e7908fa4e27201e67c803c5638')
+sha256sums=('817f9c136125b8d162757a18cdc25b18b1efeb8ef36a948c85e4a672fd149de5')
 options=(!lto)
 _dirname="rocm-systems-rocm-$pkgver/projects/rocm-smi-lib"
 

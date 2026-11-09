@@ -3,7 +3,7 @@
 pkgbase=pyqt6
 pkgname=python-pyqt6
 pkgdesc='A set of Python bindings for the Qt6 toolkit'
-pkgver=6.11.0
+pkgver=6.12.0
 pkgrel=1
 arch=(x86_64)
 url='https://riverbankcomputing.com/software/pyqt/intro'
@@ -12,8 +12,9 @@ groups=(pyqt6)
 depends=(glibc
          libgcc
          libstdc++
-         python
-         python-pyqt6-sip
+         'python>=3.10'
+         'python-pyqt6-sip>=13.13'
+         'python-pyqt6-sip<14'
          qt6-base)
 optdepends=('qt6-tools: QtHelp, QtDesigner bindings'
             'qt6-svg: QtSvg bindings'
@@ -32,7 +33,8 @@ optdepends=('qt6-tools: QtHelp, QtDesigner bindings'
             'qt6-websockets: QtWebSockets bindings'
             'dbus-python: for python-dbus mainloop support')
 makedepends=(dbus-python
-             pyqt-builder
+             'pyqt-builder>=1.20'
+             'pyqt-builder<2'
              python-opengl
              qt6-connectivity
              qt6-declarative
@@ -50,18 +52,16 @@ makedepends=(dbus-python
              qt6-webchannel
              qt6-webengine
              qt6-websockets
-             sip)
+             'sip>=6.17'
+             'sip<7')
 provides=(qt6-python-bindings)
 source=(https://pypi.python.org/packages/source/P/PyQt6/pyqt6-$pkgver.tar.gz
-        qt-6.12.patch
         sip-6.17-dbus.patch)
-sha256sums=('45dd60aa69976de1918b5ced6b4e7b6a25abd2a919ecef5fd5826ecc76718889'
-            '3659cf01958007114f2ffb760f53cf0c8e1084f9ee3e5a759a71c89167000687'
+sha256sums=('d3e021b716bae880224422f9d1b894d2d53de7e60e60dbc43f860723f9cc300b'
             '2840ea925bef37ca625c1ea38e91a06156f9369e9ff8b574d67b4e3a2f69542b')
 
 prepare() {
   cd pyqt6-$pkgver
-  patch -p1 -i ../qt-6.12.patch
   patch -p1 -i ../sip-6.17-dbus.patch
 }
 

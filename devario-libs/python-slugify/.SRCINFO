@@ -1,6 +1,6 @@
 pkgbase = python-slugify
 	pkgdesc = A Python slugify application that handles unicode
-	pkgver = 9.1.2
+	pkgver = 9.1.3
 	pkgrel = 1
 	url = https://github.com/un33k/python-slugify
 	arch = any
@@ -8,12 +8,12 @@ pkgbase = python-slugify
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-setuptools
+	makedepends = python-setuptools>=77
 	makedepends = python-wheel
-	depends = python
-	depends = python-text-unidecode
+	depends = python>=3.10
+	depends = python-text-unidecode>=1.3
 	optdepends = python-unidecode: Unidecode support
-	source = git+https://github.com/un33k/python-slugify.git#tag=v9.1.2
-	b2sums = 6235d13106f2a5296800c7f1c55a70b31c11fcf8ae120ca9cfcd576397be337df6fd6bf8a48781a47dcf1f98a47897e8af8bb69b8810c7e77607ab708f44e441
+	source = git+https://github.com/un33k/python-slugify.git#tag=v9.1.3
+	b2sums = a219cdcddf006b2eb58d52481fb929d16d8035463a8b818f57f822710861dab3092da74702dc0fc3ff0d69e0611b73e21ef641d5cc139dfe5a9a73a55a51b9ca
 
 pkgname = python-slugify

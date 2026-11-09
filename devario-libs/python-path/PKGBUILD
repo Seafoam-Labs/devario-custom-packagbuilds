@@ -1,22 +1,35 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
 pkgname=python-path
-pkgver=17.1.0
-pkgrel=2
+pkgver=17.1.1
+pkgrel=1
 pkgdesc='A module wrapper for os.path'
 arch=('any')
 license=('MIT')
 url='https://github.com/jaraco/path'
-depends=('python')
+depends=('python>=3.9')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
 replaces=('python-path.py')
 conflicts=('python-path.py')
 provides=('python-path.py')
-source=("git+https://github.com/jaraco/path.git#tag=v$pkgver")
-sha512sums=('e2a101ca040fb0bb3c1bfa0746e0864d1c3345911f3c7b42b5b81663f2713ce2695bb3952597778d1f33cd4a15225ca9598b43c5e923b8a35550f3a0f8388d91')
+source=("git+https://github.com/jaraco/path.git#tag=v$pkgver"
+        "license::https://github.com/jaraco/path/raw/refs/tags/v17.1.0/LICENSE")
+sha512sums=('cc5a953a83e4b313097b760395a46f9be9ff2b4343ffadfb09019bb63eca1260a8028753cf149817c1015419203f79c4c33de8ec970af365e3afc8b314a16980'
+            'ef62311602b466397baf0b23caca66114f8838f9e78e1b067787ceb709d09e0530e85a47bbcd4c5a0905b74fdb30df0cc640910c6cc2e67886e5b18794a3583f')
 
 build() {
   cd path
+  # Upstream v17.1.1 requires the build-only setuptools plugin
+  # coherent.licensed (jaraco/skeleton#174) to inject a license file and
+  # dropped LICENSE from the repo. The plugin is PyPI-only and warns when
+  # installed outside build isolation, so drop the requirement, restore the
+  # license file from v17.1.0 and bundle it natively via PEP 639
+  # license-files. The worktree edit also forces a setuptools_scm dev
+  # version, so pin it to pkgver.
+  sed -i '/coherent\.licensed/d;/jaraco\/skeleton#174/d' pyproject.toml
+  sed -i 's/^license = "MIT"$/license = "MIT"\nlicense-files = ["LICENSE"]/' pyproject.toml
+  cp "$srcdir/license" LICENSE
+  export SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver"
   python -m build --wheel --no-isolation
 }
 

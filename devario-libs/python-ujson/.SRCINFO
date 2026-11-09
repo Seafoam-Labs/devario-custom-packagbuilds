@@ -1,7 +1,7 @@
 pkgbase = python-ujson
 	pkgdesc = Ultra fast JSON encoder and decoder for Python
-	pkgver = 6.0.0
-	pkgrel = 2
+	pkgver = 6.1.0
+	pkgrel = 1
 	url = https://github.com/ultrajson/ultrajson
 	arch = x86_64
 	license = BSD
@@ -10,8 +10,8 @@ pkgbase = python-ujson
 	makedepends = python-build
 	makedepends = python-installer
 	depends = python
-	source = https://github.com/ultrajson/ultrajson/archive/6.0.0/python-ujson-6.0.0.tar.gz
-	sha512sums = 79042cee1aba89e1f67db7d21ee2050aea346aa2a383b40ae3da170560a530b82aa0e42294f49f235ced51ac0c39808354448fae5500e23bdf9ea8ceb8949746
-	b2sums = d5dcf4837951c0167892573498ee33867cf296a22f8016c57292bb89901825c288c51c6aff3e01131398f9d296c3683b57e566312be1e5a8dab51f076753c0ff
+	source = https://github.com/ultrajson/ultrajson/archive/6.1.0/python-ujson-6.1.0.tar.gz
+	sha512sums = d3ab9c227dff738d168af60a7a8b09ec1633461a7e9e8f6cfa871ed78a0361851a28961c9b43935fc32464f8a35ea98a7dd7fb07bff9207ca9f71fc737c9496e
+	b2sums = 84051e877887662263b7334d3aab19593feca804822b3d70642b94e92f95712acea3a9c6e38cf3ed8356391321c861f9e8dc1145a3bf0614b80463300a28f897
 
 pkgname = python-ujson

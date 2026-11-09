@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=librewolf
-pkgver=159.0_1
+pkgver=159.0.1_1
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom"
 arch=(x86_64)
@@ -67,7 +67,7 @@ source=(
   MPL-2.0.txt
 )
 validpgpkeys=('662E3CDD6FE329002D0CA5BB40339DD82B12EF16') # LibreWolf Maintainers <gpg@librewolf.net>
-sha256sums=('a796a3c80e0c565048796a342b8eaf4d128608119c7447c43ecb5455c632f49c'
+sha256sums=('692524efc43922eaa3f1ed39a91e6483ad9d794996787ebbb1be3c9c9ca46f87'
             'SKIP'
             '42546b4dced6795f6facb3e26c839ae1d12c6ddef48e8024d242082c515b1149'
             '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
