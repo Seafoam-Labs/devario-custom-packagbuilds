@@ -1,7 +1,7 @@
 pkgbase = python-tempora
 	pkgdesc = Objects and routines pertaining to date and time (tempora).
-	pkgver = 5.8.1
-	pkgrel = 2
+	pkgver = 5.9.0
+	pkgrel = 1
 	url = https://github.com/jaraco/tempora
 	arch = any
 	license = MIT
@@ -13,10 +13,13 @@ pkgbase = python-tempora
 	makedepends = python-setuptools
 	makedepends = python-setuptools-scm
 	makedepends = python-wheel
-	depends = python
+	depends = python>=3.10
 	depends = python-dateutil
 	depends = python-jaraco.functools
-	source = git+https://github.com/jaraco/tempora#tag=v5.8.1
-	sha512sums = 4c59894018a320764a1fed308d6b1e48669002727c8f686d35da6eae6e818717857fd31ea4d44bab1177fbfb717e0349e019e6dc726ee247d09af768e67e1e00
+	depends = python-jaraco.context
+	depends = python-jaraco.collections
+	depends = python-more-itertools
+	source = git+https://github.com/jaraco/tempora#tag=v5.9.0
+	sha512sums = ac252d4e23823ae3116887441e7bb796b2f546871ae7860393370cdf699421ae93505c3e6a46439d8cd27c31bc8f069701cc17cd6f7fee842cf5468414e11cb7
 
 pkgname = python-tempora
