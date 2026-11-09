@@ -3,8 +3,8 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kio
-pkgver=6.30.0
-pkgrel=7
+pkgver=6.31.0
+pkgrel=1
 pkgdesc='Resource and network access abstraction'
 arch=(x86_64)
 url='https://develop.kde.org/products/frameworks/'
@@ -12,31 +12,32 @@ license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(acl
          libstdc++
          glibc
-         karchive
-         kbookmarks
-         kcolorscheme
-         kcompletion
-         kconfig
-         kcoreaddons
-         kcrash
-         kdbusaddons
-         kguiaddons
-         ki18n
-         kiconthemes
-         kitemviews
-         kjobwidgets
-         kservice
-         kwallet
-         kwidgetsaddons
-         kwindowsystem
+         'karchive>=6.31.0'
+         'kbookmarks>=6.31.0'
+         'kcolorscheme>=6.31.0'
+         'kcompletion>=6.31.0'
+         'kconfig>=6.31.0'
+         'kcoreaddons>=6.31.0'
+         'kcrash>=6.31.0'
+         'kdbusaddons>=6.31.0'
+         'kguiaddons>=6.31.0'
+         'ki18n>=6.31.0'
+         'kiconthemes>=6.31.0'
+         'kitemviews>=6.31.0'
+         'kjobwidgets>=6.31.0'
+         'kservice>=6.31.0'
+         'kwallet>=6.31.0'
+         'kwidgetsaddons>=6.31.0'
+         'kwindowsystem>=6.31.0'
          libxml2
          libxslt
-         qt6-base
-         solid
-         util-linux-libs)
-makedepends=(doxygen
-             extra-cmake-modules
-             kdoctools
+         'qt6-base>=6.10.0'
+         'solid>=6.31.0'
+         'util-linux-libs>=2.26')
+makedepends=('cmake>=3.30'
+             doxygen
+             'extra-cmake-modules>=6.31.0'
+             'kdoctools>=6.31.0'
              qt6-tools)
 optdepends=('audiocd-kio: for accessing audio CDs'
             'kded: proxy management and cookie storage'
@@ -46,7 +47,7 @@ optdepends=('audiocd-kio: for accessing audio CDs'
             'switcheroo-control: hybrid GPU support')
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('c19cbd4878347b67a9e05ee6541083f51dd90f9e58ee245b4d7634e09f9c04b2'
+sha256sums=('cdc8e3787be1f4a5c8f8a45fabab5cf540ef6380c549c6fd984f15f093b5eac0'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>
