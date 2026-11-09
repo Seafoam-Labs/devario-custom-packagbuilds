@@ -1,9 +1,9 @@
 # Maintainer: Evangelos Foutras <foutrelis@archlinux.org>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
-pkgname=('llvm' 'llvm-libs')
+pkgname=('llvm' 'llvm-libs' 'llvm-gtest')
 pkgver=23.1.5
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
@@ -132,6 +132,12 @@ package_llvm() {
   mv -f "$pkgdir"/usr/lib/lib{LLVM,LTO,Remarks}*.so* "$srcdir"
   mv -f "$pkgdir"/usr/lib/LLVMgold.so "$srcdir"
 
+  # LLVM's GoogleTest fork and the testing-support static libraries go into
+  # llvm-gtest, mirroring Alpine's llvm-gtest payload
+  mv -f "$pkgdir"/usr/lib/libllvm_gtest{,_main}.a "$srcdir"
+  mv -f "$pkgdir"/usr/lib/libLLVMTesting{Annotations,Support}.a "$srcdir"
+  mv -f "$pkgdir"/usr/include/llvm-{gtest,gmock} "$srcdir"
+
   # Remove documentation sources
   rm -r "$pkgdir"/usr/share/doc/llvm/html/{_sources,.buildinfo}
 
@@ -153,6 +159,21 @@ package_llvm-libs() {
   # https://bugs.archlinux.org/task/28479
   install -d "$pkgdir/usr/lib/bfd-plugins"
   ln -s ../LLVMgold.so "$pkgdir/usr/lib/bfd-plugins/LLVMgold.so"
+
+  install -Dm644 "$srcdir/llvm-project-$pkgver.src/llvm/LICENSE.TXT" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_llvm_gtest() {
+  pkgdesc="LLVM's GoogleTest fork and testing support static libraries"
+  depends=('llvm-libs')
+
+  install -d "$pkgdir/usr/lib" "$pkgdir/usr/include"
+  cp -P \
+    "$srcdir"/libllvm_gtest{,_main}.a \
+    "$srcdir"/libLLVMTesting{Annotations,Support}.a \
+    "$pkgdir/usr/lib/"
+  mv -f "$srcdir"/llvm-gtest "$srcdir"/llvm-gmock "$pkgdir/usr/include/"
 
   install -Dm644 "$srcdir/llvm-project-$pkgver.src/llvm/LICENSE.TXT" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
