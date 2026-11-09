@@ -4,8 +4,8 @@ Seed for `../lib32-freetype2`, one side of a four-package cycle: `lib32-freetype
 `lib32-harfbuzz`, `lib32-harfbuzz` makedepends on `lib32-freetype2` and `lib32-cairo`, and
 `lib32-cairo` depends on `lib32-fontconfig` and `lib32-freetype2`, so the worker plan cannot
 provision any of the four while none is published. This recipe builds the real source with
-harfbuzz support disabled and publishes it as `lib32-freetype2 2.14.3-1.1`; `lib32-fontconfig`,
-`lib32-cairo` and `lib32-harfbuzz` then build over it, and the real recipe follows at `2.14.3-2`.
+harfbuzz support disabled and publishes it as `lib32-freetype2 2.15.0-0.1`; `lib32-fontconfig`,
+`lib32-cairo` and `lib32-harfbuzz` then build over it, and the real recipe follows at `2.15.0-1`.
 
 Deviations from the mirrored recipe, limited to the cycle leg: `lib32-harfbuzz` is dropped from
 `makedepends` and `-D harfbuzz=dynamic` becomes `-D harfbuzz=disabled`, losing only the
