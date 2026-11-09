@@ -2,8 +2,8 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=libaec
-pkgver=1.1.7
-pkgrel=2
+pkgver=1.1.8
+pkgrel=1
 pkgdesc="Adaptive Entropy Coding library"
 arch=(x86_64)
 url="https://github.com/Deutsches-Klimarechenzentrum/libaec"
@@ -12,7 +12,7 @@ depends=(glibc)
 makedepends=(cmake)
 # Use the upstream release asset instead of the rate-limited GitLab archive.
 source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('18250fcb81c3609a5e871cd5020ec5cf95ccbf69170348f01da730edba17a4ceb812edb3a4da5099dfc73a996ab429802a9ede92c5a9cfc35da5273cf26b7735')
+b2sums=('194372bdc7c12b4f4fe83e8ac32f4602ec85656281abeb52e255bd5eb11e813369fa8dd08db6fd4c3fc83978909d9761eac7bced0a77aa428672f0d733add30c')
 
 build() {
   cmake -B build -S "$pkgname-$pkgver" \
