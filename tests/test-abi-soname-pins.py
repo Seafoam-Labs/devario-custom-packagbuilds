@@ -264,7 +264,7 @@ PINNED = {
         "libjxl_cms.so": "libjxl_cms.so=0.12-64",
         "libjxl_threads.so": "libjxl_threads.so=0.12-64",
     },
-    "libplacebo": {"libplacebo.so": "libplacebo.so=360-64"},
+    "libplacebo": {"libplacebo.so": "libplacebo.so=387-64"},
     "librsvg": {"librsvg-2.so": "librsvg-2.so=2-64"},
     "libvips": {
         "libvips.so": "libvips.so=42-64",
