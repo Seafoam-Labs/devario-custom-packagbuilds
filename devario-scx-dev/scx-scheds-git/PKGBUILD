@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.5.devario.5.r10.g9344d2633
-pkgrel=2
+pkgrel=3
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -63,6 +63,7 @@ b9f76c5ff0c18f265277cc25627bf9b60d939dc4 # scx_maestro: bump libbpf to 0.27.2
 c29fb5f0aae4bc2f7d10f34a5416b577d20779fb # scx_panda: bump to 0.2.7
 6430aebb30d8c6a86c5cb386fb30ad72ed6cde41 # scx_panda: bump to 0.2.8
 299f8366ee2cab9b39d02360033ea3ab85e08e6f # scxtui: Say on the Configured line whether the unit starts at boot
+479683e66fe495e19851a846532038098aaa3b51 # scx_flow: bump to 5.2.14
 )
 
 _reverts=(
