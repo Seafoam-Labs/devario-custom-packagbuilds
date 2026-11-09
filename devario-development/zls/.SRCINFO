@@ -1,11 +1,12 @@
 pkgbase = zls
 	pkgdesc = Zig language server for Zig 0.17
 	pkgver = 0.17.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://zigtools.org/zls/
 	arch = x86_64
 	license = MIT
-	depends = zig=0.17.0
+	depends = zig>=0.17.0
+	depends = zig<0.18
 	conflicts = zls-0.16
 	noextract = zls-0.17.0-known_folders.tar.gz
 	noextract = zls-0.17.0-diffz.tar.gz

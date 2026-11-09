@@ -1,8 +1,11 @@
 # zls
 
 Builds [ZLS 0.17.0](https://github.com/zigtools/zls/releases/tag/0.17.0) from
-source for Zig 0.17.0. Build and publish [zig](../../devario-core/zig/PKGBUILD)
-first; this recipe requires `zig=0.17.0` at build time and runtime.
+source for the Zig 0.17 series. Build and publish [zig](../../devario-core/zig/PKGBUILD)
+first; this recipe requires `zig>=0.17.0` and `zig<0.18` at build time and
+runtime, so it works with both 0.17.0 and the 0.17.1 bugfix release (either
+the `zig` package or the pinned `zig-0.17` variant, which provides
+`zig=0.17.0`).
 
 The package installs `/usr/bin/zls`, `/usr/share/zls/schema.json`, and the MIT
 license. It conflicts with `zls-0.16` because both packages use the same

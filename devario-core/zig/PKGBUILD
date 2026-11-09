@@ -2,7 +2,7 @@
 # Source build for Shelly, pinned to the Zig 0.17 release series.
 
 pkgname=zig
-pkgver=0.17.0
+pkgver=0.17.1
 pkgrel=1
 _llvmver=22.1.8-3
 _clangver=22.1.8-1
@@ -15,14 +15,14 @@ license=('MIT')
 depends=("clang22=$_clangver" "lld22=$_lldver" "llvm22-libs=$_llvmver")
 makedepends=('cmake' "llvm22=$_llvmver")
 checkdepends=('lib32-glibc')
-conflicts=('zig-0.16')
+conflicts=('zig-0.16' 'zig-0.17')
 options=('!lto')
 source=(
   "https://ziglang.org/download/${pkgver}/zig-${pkgver}.tar.xz"
   'skip-futex2-test.patch'
 )
 sha256sums=(
-  'b6c7f1728f043700d6529bac980800792f824256a9d2f1839b3d62beed0b8abd'
+  '1e89bf06610b769a8c77676c6c8d54b093a0db60f4891f2f91014829012f0e24'
   'eb30e0eb00e6ced4c99383f0658a0351f42882e303300ed1828d162d27171cd0'
 )
 

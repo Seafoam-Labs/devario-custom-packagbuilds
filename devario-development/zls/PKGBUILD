@@ -1,12 +1,14 @@
 # Build ZLS with the matching Zig release series.
 pkgname=zls
 pkgver=0.17.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Zig language server for Zig 0.17'
 arch=('x86_64')
 url='https://zigtools.org/zls/'
 license=('MIT')
-depends=('zig=0.17.0')
+# ZLS 0.17.0 targets the Zig 0.17 series; 0.17.1 is a bugfix release with no
+# language or std changes, so allow any 0.17.x compiler (zig or zig-0.17).
+depends=('zig>=0.17.0' 'zig<0.18')
 conflicts=('zls-0.16')
 options=('!lto')
 source=(
