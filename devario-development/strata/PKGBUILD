@@ -1,8 +1,8 @@
 # The release/CLI version and Terminal bundle build number are different.
 pkgname=strata-bin
-pkgver=0.2.12
+pkgver=0.2.13
 pkgrel=1
-_bundlever=0.1.58
+_bundlever=0.1.59
 pkgdesc='Strata Terminal for local LLM inference, with an easy NVIDIA setup helper'
 arch=('x86_64')
 url='https://github.com/Niko1221/Strata'
@@ -18,7 +18,7 @@ source=("$url/releases/download/v$pkgver/strata-control-$_bundlever-linux-x86_64
         'setup-strata'
         'README.md')
 noextract=("strata-control-$_bundlever-linux-x86_64.tar.gz")
-sha256sums=('fcce4c7b90f59c4f10f16181a7190b3abe79faadbc9eef38278fdc635e028817'
+sha256sums=('14a9fde3dbde5a16cd1a0d34fe04b3dca38c462114a534f8813a00fcabfc4f5d'
             '949b9b0aada7476006469e58ee4ffb0e0f68c2d9137e90a356757b61a09d37f0'
             '0267df7a12e2f36a0b6b95b71e50b69fdecb4234e03604a1553abf0ebe8e1a39'
             'ddb41829641488605eff35561dccb7758ad65210e7075f7c637314fc63a63218')
