@@ -19,6 +19,7 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "fix-runtime-D3-620.patch",
+    "fix-supported-sensor-limits.patch",
 ]
 SPDX-FileCopyrightText = "2026 treshaun"
 SPDX-License-Identifier = "0BSD"
