@@ -18,7 +18,7 @@ pkgname=(
   rust-aarch64-gnu
   rust-aarch64-musl
 )
-pkgver=1.99.0
+pkgver=1.99.1
 pkgrel=1
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
@@ -32,9 +32,9 @@ arch=(
 license=("Apache-2.0 OR MIT")
 _llvmver=23.1.3
 depends=(
-  "compiler-rt=$_llvmver"
-  "lld=$_llvmver"
-  "llvm-libs=$_llvmver"
+  compiler-rt
+  lld
+  llvm-libs
   bash
   curl
   gcc
@@ -75,7 +75,7 @@ makedepends_riscv64=(
   musl-x86_64
 )
 makedepends_x86_64=(
-  # Match the official compiler pinned by Rust 1.99.0 src/stage0.
+  # Match the official compiler pinned by Rust 1.99.1 src/stage0.
   "rust-bootstrap=1:1.98.0"
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
@@ -125,7 +125,7 @@ source_aarch64=(bootstrap.aarch64.toml)
 source_loong64=(bootstrap.loong64.toml)
 source_riscv64=(bootstrap.riscv64.toml)
 source_x86_64=(bootstrap.x86_64.toml)
-b2sums=('f4e2d97047c42067d11c31484d320f9daaaf881c78d22473b7f9ac2289a8f5979de6e75c277c49a0e3e33cd80f18aecace39f25ae78645976945798f3e512f16'
+b2sums=('b200e9114673449d5a3d227289e308f1a55450b3e887f7322324f2d9098407e03308eabc15084f90d3798f7af4a8c395da4a7973a23858af05a1f3b1de949cca'
         'SKIP'
         '1ce328590eb86e5a8d117a1d5c2c4b691d9c1a897f239ba197e14f47b660e927313133e94a518c43ceed163fc081760d5d33e2685a94af1031184a0960ffb5c7'
         '3736aa3f6f891cb94dbe549d5b2c74bc56e9d484a1598c2a446fbfd4db10a90a34f2e371c65743cf01e1266470fd6fe2fc52cbc365564c62ba61e20ea11c8e22'
