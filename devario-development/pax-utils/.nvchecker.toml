@@ -1,0 +1,4 @@
+[pax-utils]
+source = "git"
+git = "https://anongit.gentoo.org/git/proj/pax-utils.git"
+prefix = "v"
