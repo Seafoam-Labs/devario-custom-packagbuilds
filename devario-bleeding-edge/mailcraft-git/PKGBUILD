@@ -2,7 +2,7 @@
 
 pkgname=mailcraft-git
 _pkgname=mailcraft
-pkgver=0.11.1.r175.ga463819
+pkgver=0.11.1.r179.g3ca46fa
 pkgrel=1
 _appid=io.github.billsecond.mailcraft
 pkgdesc='Native mail, calendar, contacts and tasks program written in Rust (git version)'
@@ -24,6 +24,9 @@ depends=(
   'wayland'
 )
 makedepends=('cargo' 'git')
+# ring's C parts would be built as GCC LTO bytecode, which rust-lld can't read
+# (undefined ring_core_* symbols). Cargo's own LTO for the Rust code is unaffected.
+options=('!lto')
 # gpg-agent (found through gpgconf) and PKCS#11 modules are also reached at runtime only.
 optdepends=(
   'gnupg: OpenPGP signatures through gpg-agent'
@@ -45,13 +48,13 @@ pkgver() {
 
 prepare() {
   cd "$_pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=beta
   cargo fetch --locked --target "$(rustc --print host-tuple)"
 }
 
 build() {
   cd "$_pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=beta
   export CARGO_TARGET_DIR=target
   # Shown in Help › About (otherwise "dev").
   export MAILCRAFT_BUILD_SHA="$(git rev-parse HEAD)"
@@ -60,7 +63,7 @@ build() {
 
 check() {
   cd "$_pkgname"
-  export RUSTUP_TOOLCHAIN=stable
+  export RUSTUP_TOOLCHAIN=beta
   export CARGO_TARGET_DIR=target
   cargo test --frozen --release -p mailcraft-cli
 }
