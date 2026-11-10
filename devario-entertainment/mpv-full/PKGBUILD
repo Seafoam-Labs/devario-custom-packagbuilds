@@ -1,28 +1,28 @@
 # Based on Arch Linux's mpv 1:0.41.0-6 recipe by Christian Hesse,
 # Robin Candau and contributors. Local full-feature Linux adaptation.
-# Uses upstream release sources and two upstream VapourSynth compatibility fixes.
+# Uses upstream release sources; VapourSynth compatibility fixes are included upstream.
 
 pkgname=mpv-full
 epoch=1
-pkgver=0.41.0
-pkgrel=1.1
+pkgver=0.42.0
+pkgrel=1
 pkgdesc='Cross-platform media player with the full set of Linux playback backends'
 arch=('x86_64')
 license=('GPL-2.0-or-later AND LGPL-2.1-or-later')
 url='https://mpv.io/'
 depends=(
-  'alsa-lib' 'desktop-file-utils' 'ffmpeg' 'glibc' 'hicolor-icon-theme'
+  'alsa-lib' 'curl>=7.88.0' 'desktop-file-utils' 'ffmpeg>=6.1' 'glibc' 'hicolor-icon-theme'
   'jack' 'lcms2' 'libarchive' 'libass' 'libbluray' 'libcaca' 'libcdio'
-  'libcdio-paranoia' 'libdisplay-info' 'libdrm' 'libdvdnav' 'libdvdread'
-  'libegl' 'libgl' 'libglvnd' 'libjpeg-turbo' 'libpipewire' 'libplacebo'
+  'libcdio-paranoia' 'libdisplay-info' 'libdrm>=2.4.114' 'libdvdnav>=6.1.0' 'libdvdread'
+  'libegl' 'libgl' 'libglvnd' 'libjpeg-turbo' 'libpipewire' 'libplacebo>=7.387.0'
   'libpulse' 'libsixel' 'libva' 'libvdpau' 'libx11' 'libxext' 'libxfixes'
   'libxkbcommon' 'libxpresent' 'libxrandr' 'libxss' 'libxv' 'luajit'
   'mesa' 'mujs' 'openal' 'rubberband' 'sdl2' 'sndio' 'uchardet'
-  'vapoursynth' 'vulkan-icd-loader' 'wayland' 'zimg' 'zlib'
+  'vapoursynth' 'vulkan-icd-loader>=1.4.309' 'wayland>=1.23.0' 'zimg' 'zlib'
 )
 makedepends=(
-  'meson' 'python-docutils' 'ladspa' 'wayland-protocols'
-  'ffnvcodec-headers' 'vulkan-headers'
+  'meson>=1.3.0' 'python-docutils' 'ladspa' 'wayland-protocols>=1.38'
+  'ffnvcodec-headers>=11.1.5.1' 'vulkan-headers>=1.4.309'
 )
 optdepends=(
   'yt-dlp: for video-sharing websites playback'
@@ -36,20 +36,8 @@ conflicts=('mpv')
 options=('!emptydirs')
 source=(
   "https://github.com/mpv-player/mpv/archive/v${pkgver}/mpv-${pkgver}.tar.gz"
-  '0001-vapoursynth-r74.patch::https://github.com/mpv-player/mpv/commit/75b2ccfeb1ce4ed5a40ac9860fa74f3d1265e13f.patch'
-  '0002-vapoursynth-pkgconfig.patch::https://github.com/mpv-player/mpv/commit/fb6c700ecbc695ba355d998340a6e6ef9e625b70.patch'
 )
-sha256sums=(
-  'ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209'
-  'fe357801d733565b4bda28c388b300d632f34b9d9c4b7b554437e6f0dbb034f4'
-  'cd97e8445e81ec90843d2b994f7d46eb675b2b05c09e5ec0be7895c4d78f5720'
-)
-
-prepare() {
-  # mpv 0.41 predates VapourSynth R74's dynamically loaded VSScript API.
-  patch -d "mpv-${pkgver}" -Np1 -i "$srcdir/0001-vapoursynth-r74.patch"
-  patch -d "mpv-${pkgver}" -Np1 -i "$srcdir/0002-vapoursynth-pkgconfig.patch"
-}
+sha256sums=('bcfebbfa2b65a6d88dc97ea18117831072373e38b5785a2afb874ed4df5070dd')
 
 build() {
   local _meson_options=(
@@ -70,6 +58,7 @@ build() {
     -Dlibarchive=enabled
     -Dlibavdevice=enabled
     -Dlibbluray=enabled
+    -Dlibcurl=enabled
     -Dlua=luajit
     -Drubberband=enabled
     -Dsdl2-gamepad=enabled
@@ -124,7 +113,7 @@ build() {
   local -a _missing_features=()
   for _feature in CACA SNDIO ZIMG VAPOURSYNTH LUA VULKAN VAAPI VDPAU \
       WAYLAND X11 X11_CLIPBOARD CUDA_HWACCEL CUDA_INTEROP PIPEWIRE PULSE \
-      ALSA JACK OPENAL SDL2_AUDIO SDL2_VIDEO SDL2_GAMEPAD SIXEL CDDA DVDNAV DVBIN; do
+      ALSA JACK OPENAL LIBCURL SDL2_AUDIO SDL2_VIDEO SDL2_GAMEPAD SIXEL CDDA DVDNAV DVBIN; do
     grep -qx "#define HAVE_${_feature} 1" build/config.h || _missing_features+=("$_feature")
   done
   if ((${#_missing_features[@]})); then
@@ -144,7 +133,9 @@ package() {
     'libasound.so' 'libavcodec.so' 'libavdevice.so' 'libavfilter.so'
     'libavformat.so' 'libavutil.so' 'libdisplay-info.so' 'libswresample.so'
     'libswscale.so' 'libjack.so' 'liblcms2.so' 'libarchive.so' 'libass.so'
-    'libbluray.so' 'libjpeg.so' 'libplacebo.so' 'libpulse.so' 'libva.so'
+    'libbluray.so' 'libjpeg.so' 'libpulse.so' 'libva.so'
+    # libplacebo bumps its SONAME every release; pin what the binary links.
+    'libplacebo.so=387-64'
     'libva-drm.so' 'libva-wayland.so' 'libva-x11.so' 'libxkbcommon.so'
     'librubberband.so'
   )

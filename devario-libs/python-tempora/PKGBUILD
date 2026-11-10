@@ -3,16 +3,20 @@
 # Contributor: Laurent Soest <laurent.soest(at)gmail.com>
 
 pkgname=python-tempora
-pkgver=5.8.1
-pkgrel=2
+pkgver=5.9.0
+pkgrel=1
 pkgdesc="Objects and routines pertaining to date and time (tempora)."
 arch=('any')
 url="https://github.com/jaraco/tempora"
 license=('MIT')
 depends=(
-  'python'
+  'python>=3.10'
   'python-dateutil'
   'python-jaraco.functools'
+  # tempora.schedule imports these as of v5.9.0
+  'python-jaraco.context'
+  'python-jaraco.collections'
+  'python-more-itertools'
 )
 makedepends=(
   'git'
@@ -27,12 +31,17 @@ checkdepends=(
   'python-pytest-freezer'
 )
 source=("git+$url#tag=v$pkgver")
-sha512sums=('4c59894018a320764a1fed308d6b1e48669002727c8f686d35da6eae6e818717857fd31ea4d44bab1177fbfb717e0349e019e6dc726ee247d09af768e67e1e00')
+sha512sums=('ac252d4e23823ae3116887441e7bb796b2f546871ae7860393370cdf699421ae93505c3e6a46439d8cd27c31bc8f069701cc17cd6f7fee842cf5468414e11cb7')
 
 prepare() {
   cd ${pkgname#python-}
-  # Bring back license file
-  git revert -n 9a81db3c77bc106017dcd4b0853a5a94f43ae33c
+  # Bring back the license file. Upstream ships an SPDX identifier only
+  # (jaraco/skeleton#171) and injects the text with the PyPI-only
+  # coherent.licensed plugin (jaraco/skeleton#174), which --no-isolation cannot
+  # load. Reverting 9a81db3 stopped applying cleanly once pyproject.toml moved
+  # on, so take the text from the commit that removed it and let setuptools
+  # pick it up as a license file.
+  git show 9a81db3c77bc106017dcd4b0853a5a94f43ae33c^:LICENSE > LICENSE
 }
 
 build() {

@@ -1,7 +1,7 @@
 pkgbase = python-pytest-codspeed
 	pkgdesc = Pytest plugin to create CodSpeed benchmarks
-	pkgver = 5.0.3
-	pkgrel = 2
+	pkgver = 5.0.4
+	pkgrel = 1
 	url = https://github.com/CodSpeedHQ/pytest-codspeed
 	arch = any
 	license = MIT
@@ -9,15 +9,15 @@ pkgbase = python-pytest-codspeed
 	makedepends = git
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-setuptools
+	makedepends = python-setuptools>=61
 	makedepends = python-wheel
-	depends = python
-	depends = python-pytest
-	depends = python-rich
+	depends = python>=3.9
+	depends = python-pytest>=3.8
+	depends = python-rich>=13.8.1
 	depends = python-typing_extensions
 	optdepends = python-pytest-benchmark: pytest compatibility mode
 	optdepends = python-pytest-xdist: parallel test execution
-	source = git+https://github.com/CodSpeedHQ/pytest-codspeed.git#tag=v5.0.3
-	b2sums = 35ac7c15e962996c314ec01e753011458c80d399c93df7737aec0820d2c49582df4787bee50e203c97f3b2691325c818d70a767aa43b0f524cbe532329678638
+	source = git+https://github.com/CodSpeedHQ/pytest-codspeed.git#tag=v5.0.4
+	b2sums = 8706e441006b80dccfc0f45084f42b8e31805150b997f34fce91900802f53444474aa73a701ab3c0fc2482ff09153ab5d5edbb438ed3ce4776888588eca519f1
 
 pkgname = python-pytest-codspeed

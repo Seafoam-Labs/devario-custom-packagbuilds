@@ -1,6 +1,6 @@
 pkgbase = xapp-symbolic-icons
 	pkgdesc = A set of symbolic icons for GTK applications and projects
-	pkgver = 1.1.1
+	pkgver = 1.1.2
 	pkgrel = 1
 	url = https://github.com/xapp-project/xapp-symbolic-icons
 	arch = any
@@ -9,7 +9,7 @@ pkgbase = xapp-symbolic-icons
 	makedepends = meson
 	depends = hicolor-icon-theme
 	optdepends = python: for xsi-replace-adwaita-symbolic command
-	source = git+https://github.com/xapp-project/xapp-symbolic-icons#tag=1.1.1
-	b2sums = 4c6ef3b1eabd9e67236c614028314289799626b2f7a66b2fd89596b7378fd6529796baeede97a421315adb6107171c3a468e2b7071d09096e5c106741214ccf6
+	source = git+https://github.com/xapp-project/xapp-symbolic-icons#tag=1.1.2
+	b2sums = 66216e5a5a38d69f1cae346fd4de82d4f269160fe63c577c63c18cffbee5594f04f44b61cea9eb374ab63a5e25c23ae17f82b62ea6c3b4d2313996ae3c6fa182
 
 pkgname = xapp-symbolic-icons

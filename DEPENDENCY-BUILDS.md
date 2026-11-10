@@ -101,6 +101,27 @@ The worker labels the gaming row `devario-gaming/game-optimization-install`; the
 and pkgbase here are `game-optimization-linux-git`, which installs
 `/usr/bin/game-optimization-install-runner` and provides `game-optimization-linux`.
 
+## Open: publish the ffmpeg AMF and AviSynth build headers
+
+The worker's `devario-core/ffmpeg` plan fails `IncompleteDependencyPlan` on the
+`makedepends` `amf-headers` and `avisynthplus`, neither of which had a published package or a
+recipe. Three Arch imports close it, forked verbatim on 2026-11-09 at the versions Arch
+publishes today. `devil` is not in the worker report: it is an `avisynthplus` `makedepends`
+for the ImageSeq plugin, so the plan would only have moved one level down without it.
+
+| Stage | Publish | Unblocks |
+| --- | --- | --- |
+| 1 | [amf-headers](devario-libs/amf-headers/PKGBUILD) `1.5.3-1`, [devil](devario-libs/devil/PKGBUILD) `1.8.0-10` | stage 2 |
+| 2 | [avisynthplus](devario-libs/avisynthplus/PKGBUILD) `3.7.6-2` | [ffmpeg](devario-core/ffmpeg/PKGBUILD) |
+
+`shelly build --review-only --json` is exit 0 for all three and `--makesrcinfo` regenerates
+each `.SRCINFO` unchanged. Of the 18 `depends` and `makedepends` entries the three declare, 17
+resolve against packages Devario already publishes and the other is `avisynthplus`'s own
+`devil` edge. ffmpeg's own 84 global `depends` and `makedepends` resolve across the fourteen
+databases except these two names, so nothing else gates that plan. `amf-headers` pins `_tag`
+to the commit Arch built, which the AMF repository now labels `v1.5.2` while `pkgver` reads
+`1.5.3`; that is upstream's pin, so leave it as imported.
+
 ## Open: published packages whose depends nothing provides
 
 Read 2026-11-03 across all fourteen databases, with the batch-8 import folded in 2026-11-04 and

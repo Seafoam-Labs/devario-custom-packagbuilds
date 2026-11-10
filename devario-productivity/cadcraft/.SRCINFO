@@ -1,6 +1,6 @@
 pkgbase = cadcraft
 	pkgdesc = Clean-room computer-aided design and drafting app for 2D drawings (DXF/DWG)
-	pkgver = 0.18.0
+	pkgver = 0.19.0
 	pkgrel = 1
 	url = https://github.com/storytold/cadcraft
 	arch = x86_64
@@ -20,7 +20,7 @@ pkgbase = cadcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/cadcraft/archive/v0.18.0/cadcraft-0.18.0.tar.gz
-	sha256sums = e795a6e1879ddf756fc34141539fafb5a74e654057db6492f44b8e5aa91e5dc3
+	source = https://github.com/storytold/cadcraft/archive/v0.19.0/cadcraft-0.19.0.tar.gz
+	sha256sums = c10ee75305b34b142a3b8941f0ca66818fe8bef059888bf64017623e0fc02590
 
 pkgname = cadcraft

@@ -3,8 +3,8 @@
 # Contributor: Daniel M. Capella <polyzen@archlinux.org>
 
 pkgname=python-sphinx-autodoc-typehints
-pkgver=3.13.9
-pkgrel=2
+pkgver=3.17.5
+pkgrel=1
 pkgdesc='Type hints support for the Sphinx autodoc extension'
 arch=(any)
 url=https://github.com/tox-dev/sphinx-autodoc-typehints
@@ -16,18 +16,34 @@ depends=(
 makedepends=(
   git
   python-build
+  # sphinx-autodoc-typehints 3.17+ declares hatch-fancy-pypi-readme in
+  # build-system requires, and the wheel is built with --no-isolation
+  'python-hatch-fancy-pypi-readme>=25.1'
   python-hatch-vcs
   python-hatchling
   python-installer
 )
+checkdepends=(
+  python-pytest
+  python-sphobjinv
+  python-typing_extensions
+)
 source=("$pkgname::git+$url.git#tag=$pkgver")
-sha512sums=('7e8bce6d0061e90410a3ca7ffef5085edf98e0ca0555760be56b90cc67101c9d9ac10a653bf42dddd9665e7b4ed1b996e8fd6650230a77fe720b82f8ca74b30e')
-b2sums=('5787a45d70b5d1d0cdaa9afc86a787a9533aa31acb972e35947db33cb2edf4b8762cf60118f4a527f0d9eefb1584f90cda6e02af0eafbebe249984036d49645e')
+sha512sums=('6e5dc16e5a57bd1a24174fec59fc544a2868dc53ec3e1e497a7e4f2b709c2148ebc67d2bce0536c6e292848d008a3aa514b15add34c1a44fcf04fe46343e4a8e')
+b2sums=('dc818b4453593ce6444963592eef96cb352056035bb9a24a6792a7727b997f00b4de2b4c9cd8e546a2ff8b5d7c35a9c90056e98930dc2f4f357634a9ee7c4f86')
 
 build() {
   cd "$pkgname"
 
   python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgname"
+
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m pytest -v
 }
 
 package() {

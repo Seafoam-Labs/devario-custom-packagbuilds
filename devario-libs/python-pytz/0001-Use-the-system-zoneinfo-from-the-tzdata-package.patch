@@ -7,17 +7,21 @@ We don't need to ship these vendored blobs as our system copy works
 quite well.
 
 Signed-off-by: Eli Schwartz <eschwartz@archlinux.org>
+
+Refreshed for pytz 2026.6, whose open_resource() gained an
+importlib.resources fallback; both resource fallbacks are removed so
+that /usr/share/zoneinfo is the only lookup path.
 ---
- src/pytz/__init__.py | 13 +------------
+ src/pytz/__init__.py | 23 +----------------------
  src/pytz/tzfile.py   |  2 +-
  src/setup.py         |  2 --
- 3 files changed, 2 insertions(+), 15 deletions(-)
+ 3 files changed, 2 insertions(+), 25 deletions(-)
 
 diff --git a/src/pytz/__init__.py b/src/pytz/__init__.py
-index c25a1d1..3cc59ef 100644
+index 89e62c5..3dbadcd 100644
 --- a/src/pytz/__init__.py
 +++ b/src/pytz/__init__.py
-@@ -92,19 +92,8 @@ def open_resource(name):
+@@ -92,29 +92,8 @@ def open_resource(name):
      if zoneinfo_dir is not None:
          filename = os.path.join(zoneinfo_dir, *name_parts)
      else:
@@ -25,6 +29,16 @@ index c25a1d1..3cc59ef 100644
 +        filename = os.path.join('/usr', 'share',
                                  'zoneinfo', *name_parts)
 -        if not os.path.exists(filename):
+-            # pkg_resources is deprecated, try with importlib first
+-            try:
+-                from importlib.resources import files
+-            except ImportError:
+-                files = None
+-
+-            if files is not None:
+-                # retrieve the zoneinfo file Path object and return its file handle
+-                return files(__name__).joinpath('zoneinfo', *name_parts).open('rb')
+-
 -            # http://bugs.launchpad.net/bugs/383171 - we avoid using this
 -            # unless absolutely necessary to help when a broken version of
 -            # pkg_resources is installed.
@@ -39,10 +53,10 @@ index c25a1d1..3cc59ef 100644
  
  
 diff --git a/src/pytz/tzfile.py b/src/pytz/tzfile.py
-index 25117f3..98eba05 100644
+index df4a351..ae5e111 100644
 --- a/src/pytz/tzfile.py
 +++ b/src/pytz/tzfile.py
-@@ -126,7 +126,7 @@ def build_tzinfo(zone, fp):
+@@ -127,7 +127,7 @@ def build_tzinfo(zone, fp):
  if __name__ == '__main__':
      import os.path
      from pprint import pprint
@@ -52,11 +66,11 @@ index 25117f3..98eba05 100644
                        open(os.path.join(base, 'Australia', 'Melbourne'), 'rb'))
      tz = build_tzinfo('US/Eastern',
 diff --git a/src/setup.py b/src/setup.py
-index fa9a592..675618c 100644
+index 11a0dfd..71bf91b 100644
 --- a/src/setup.py
 +++ b/src/setup.py
-@@ -22,8 +22,6 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('pytz', 'zoneinfo')):
-                      for filename in filenames])
+@@ -21,8 +21,6 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('pytz', 'zoneinfo')):
+     resources.extend([os.path.join(basepath, filename) for filename in filenames])
  package_data = {'pytz': resources}
  
 -assert len(resources) > 10, 'zoneinfo files not found!'
@@ -66,4 +80,3 @@ index fa9a592..675618c 100644
      version=pytz.VERSION,
 -- 
 2.26.2
-

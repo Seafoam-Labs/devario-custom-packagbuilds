@@ -1,0 +1,13 @@
+pkgbase = libaec
+	pkgdesc = Adaptive Entropy Coding library
+	pkgver = 1.1.8
+	pkgrel = 1
+	url = https://github.com/Deutsches-Klimarechenzentrum/libaec
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = cmake
+	depends = glibc
+	source = https://github.com/Deutsches-Klimarechenzentrum/libaec/releases/download/v1.1.8/libaec-1.1.8.tar.gz
+	b2sums = 194372bdc7c12b4f4fe83e8ac32f4602ec85656281abeb52e255bd5eb11e813369fa8dd08db6fd4c3fc83978909d9761eac7bced0a77aa428672f0d733add30c
+
+pkgname = libaec

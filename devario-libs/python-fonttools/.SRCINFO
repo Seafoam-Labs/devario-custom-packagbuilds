@@ -1,7 +1,7 @@
 pkgbase = python-fonttools
 	pkgdesc = A library to manipulate font files from Python
-	pkgver = 4.66.1
-	pkgrel = 2
+	pkgver = 4.68.0
+	pkgrel = 1
 	url = https://github.com/fonttools/fonttools
 	arch = x86_64
 	license = MIT
@@ -10,8 +10,8 @@ pkgbase = python-fonttools
 	makedepends = python-installer
 	makedepends = python-setuptools
 	makedepends = python-wheel
-	depends = python
-	optdepends = python-brotli: to compress/decompress WOFF 2.0 web fonts
+	depends = python>=3.11
+	optdepends = python-brotli>=1.2.1: to compress/decompress WOFF 2.0 web fonts
 	optdepends = python-fs: to read/write UFO source files
 	optdepends = python-lxml: faster backend for XML files reading/writing
 	optdepends = python-lz4: for graphite type tables in ttLib/tables
@@ -23,7 +23,7 @@ pkgbase = python-fonttools
 	optdepends = python-uharfbuzz: to use the Harfbuzz Repacker for packing GSUB/GPOS tables
 	optdepends = python-unicodedata2: for displaying the Unicode character names when dumping the cmap table with ttx
 	optdepends = python-zopfli: faster backend fom WOFF 1.0 web fonts compression
-	source = https://github.com/fonttools/fonttools/archive/4.66.1/fonttools-4.66.1.tar.gz
-	sha256sums = dcb2ff59d87e63a9c0f0d618210cbac976540b348c04fbcf5b45497561fa8015
+	source = https://github.com/fonttools/fonttools/archive/4.68.0/fonttools-4.68.0.tar.gz
+	sha256sums = 1e3ba10c27088506768751740e3ae45769824b4d78eb37760b21c6e89ba57801
 
 pkgname = python-fonttools

@@ -1,5 +1,8 @@
 pkgname=vulkan-headers
-pkgver=1.4.364
+# Consumers resolve headers through CMake, which asks for an exact version
+# (vulkan-utility-libraries does find_package(VulkanHeaders <its pkgver>)), so
+# this package has to stay at or above every consumer in the vulkan stack.
+pkgver=1.4.368
 pkgrel=1
 pkgdesc='Vulkan header files and API registry'
 arch=('any')
@@ -7,7 +10,7 @@ url='https://github.com/KhronosGroup/Vulkan-Headers'
 license=('Apache-2.0' 'MIT')
 makedepends=('cmake' 'ninja')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('37e00e30611375938a9437477de793e355e55d486c25ab3dfd7a1a11ab0f8f07')
+sha256sums=('5c5c6f64fcce28a24cc934143a048707af036a858e4ed11d7f71fe016006ecda')
 
 build() {
   cmake -S "Vulkan-Headers-$pkgver" -B build -G Ninja \

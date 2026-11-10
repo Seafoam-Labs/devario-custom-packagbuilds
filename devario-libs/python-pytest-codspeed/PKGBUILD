@@ -1,16 +1,16 @@
 # Maintainer: Maxime Gauduin <alucryd@archlinux.org>
 
 pkgname=python-pytest-codspeed
-pkgver=5.0.3
-pkgrel=2
+pkgver=5.0.4
+pkgrel=1
 pkgdesc='Pytest plugin to create CodSpeed benchmarks'
 arch=(any)
 url=https://github.com/CodSpeedHQ/pytest-codspeed
 license=(MIT)
 depends=(
-  python
-  python-pytest
-  python-rich
+  'python>=3.9'
+  'python-pytest>=3.8'
+  'python-rich>=13.8.1'
   python-typing_extensions
 )
 optdepends=(
@@ -21,14 +21,14 @@ makedepends=(
   git
   python-build
   python-installer
-  python-setuptools
+  'python-setuptools>=61'
   python-wheel
 )
 checkdepends=(
   python-pytest-cov
 )
 source=(git+https://github.com/CodSpeedHQ/pytest-codspeed.git#tag=v${pkgver})
-b2sums=('35ac7c15e962996c314ec01e753011458c80d399c93df7737aec0820d2c49582df4787bee50e203c97f3b2691325c818d70a767aa43b0f524cbe532329678638')
+b2sums=('8706e441006b80dccfc0f45084f42b8e31805150b997f34fce91900802f53444474aa73a701ab3c0fc2482ff09153ab5d5edbb438ed3ce4776888588eca519f1')
 
 build() {
   cd pytest-codspeed

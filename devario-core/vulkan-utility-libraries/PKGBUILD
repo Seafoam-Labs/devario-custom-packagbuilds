@@ -4,7 +4,7 @@
 # Contributor: Bartosz Taudul <wolf@nereid.pl>
 
 pkgname=vulkan-utility-libraries
-pkgver=1.4.363.0
+pkgver=1.4.368
 pkgrel=1
 pkgdesc="Vulkan Utility Libraries"
 url="https://www.vulkan.org/"
@@ -26,8 +26,8 @@ options=(
   !lto
 )
 groups=(vulkan-devel)
-source=("git+https://github.com/KhronosGroup/Vulkan-Utility-Libraries#tag=vulkan-sdk-$pkgver")
-b2sums=('22851420b0291e30a909c6b57186170d2d76cc34176198531b3178b260af5e93cb8999f3e617650af0a3fd6f21fc60fb3bd60187ac5fb7b46defa00016786a6f')
+source=("git+https://github.com/KhronosGroup/Vulkan-Utility-Libraries#tag=v$pkgver")
+b2sums=('a0e80c3b7505d76007dacb448df568446bd81e717ac75bea5f4327b53a5feed32973934a9530cb85ae90afc534ecbfa65289e0a3d3bff0dbd6fd922c27cac759')
 
 build() {
   local cmake_options=(

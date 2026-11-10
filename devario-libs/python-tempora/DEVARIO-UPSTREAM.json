@@ -3,6 +3,9 @@
   "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-tempora.git",
   "revision": "2a0b189b4803aaec5eb79bee8671f364591b585a",
   "upstream_pkgbuild_sha256": "f0c1fa5deeed62819f1fd94141538919a855c209faeee3fa1117badf440a0b67",
-  "local_adaptations": [],
+  "local_adaptations": [
+    "Track the v5.9.0 tag ahead of the Arch 5.8.1-2 revision and restore the MIT license text from history; upstream carries an SPDX identifier only and injects the text with the PyPI-only coherent.licensed plugin.",
+    "Declare the jaraco.context, jaraco.collections and more-itertools runtime dependencies that tempora 5.9.0 pulls in; the Arch revision predates those imports."
+  ],
   "maintenance": "Locally maintained for Devario Python cadence; upstream is provenance only."
 }

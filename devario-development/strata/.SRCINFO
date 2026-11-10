@@ -1,6 +1,6 @@
 pkgbase = strata-bin
 	pkgdesc = Strata Terminal for local LLM inference, with an easy NVIDIA setup helper
-	pkgver = 0.2.12
+	pkgver = 0.2.13
 	pkgrel = 1
 	url = https://github.com/Niko1221/Strata
 	arch = x86_64
@@ -17,17 +17,17 @@ pkgbase = strata-bin
 	depends = zlib
 	optdepends = nvidia-utils>=580: NVIDIA GPU access for setup-strata
 	optdepends = pciutils: GPU detection for strata launch
-	provides = strata=0.2.12
+	provides = strata=0.2.13
 	conflicts = strata
 	conflicts = strata-git
-	noextract = strata-control-0.1.58-linux-x86_64.tar.gz
+	noextract = strata-control-0.1.59-linux-x86_64.tar.gz
 	options = !strip
 	options = !debug
-	source = https://github.com/Niko1221/Strata/releases/download/v0.2.12/strata-control-0.1.58-linux-x86_64.tar.gz
-	source = strata-0.2.12-LICENSE::https://raw.githubusercontent.com/Niko1221/Strata/v0.2.12/LICENSE
+	source = https://github.com/Niko1221/Strata/releases/download/v0.2.13/strata-control-0.1.59-linux-x86_64.tar.gz
+	source = strata-0.2.13-LICENSE::https://raw.githubusercontent.com/Niko1221/Strata/v0.2.13/LICENSE
 	source = setup-strata
 	source = README.md
-	sha256sums = fcce4c7b90f59c4f10f16181a7190b3abe79faadbc9eef38278fdc635e028817
+	sha256sums = 14a9fde3dbde5a16cd1a0d34fe04b3dca38c462114a534f8813a00fcabfc4f5d
 	sha256sums = 949b9b0aada7476006469e58ee4ffb0e0f68c2d9137e90a356757b61a09d37f0
 	sha256sums = 0267df7a12e2f36a0b6b95b71e50b69fdecb4234e03604a1553abf0ebe8e1a39
 	sha256sums = ddb41829641488605eff35561dccb7758ad65210e7075f7c637314fc63a63218

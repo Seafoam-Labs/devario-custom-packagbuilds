@@ -6,7 +6,7 @@
 
 pkgname=python-tox
 _name="${pkgname#python-}"
-pkgver=4.67.5
+pkgver=4.67.13
 pkgrel=1
 pkgdesc='Python virtualenv management and testing tool'
 arch=('any')
@@ -14,27 +14,29 @@ url='https://tox.readthedocs.io'
 _url="https://github.com/tox-dev/tox"
 license=(MIT)
 depends=(
-  'python'
-  'python-cachetools'
-  'python-colorama'
-  'python-filelock'
-  'python-packaging'
-  'python-platformdirs'
-  'python-pluggy'
-  'python-pyproject-api'
-  'python-python-discovery'
-  'python-tomli-w'
-  'python-virtualenv'
+  'python>=3.11'
+  'python-cachetools>=7.0.3'
+  'python-colorama>=0.4.6'
+  'python-filelock>=3.25'
+  'python-packaging>=26'
+  'python-platformdirs>=4.9.4'
+  'python-pluggy>=1.6'
+  'python-pyproject-api>=1.10'
+  'python-python-discovery>=1.9'
+  'python-tomli-w>=1.2'
+  # Required by upstream when Python < 3.13.
+  'python-typing_extensions>=4.15'
+  'python-virtualenv>=21.1'
 )
 makedepends=(
   'git'
   'python-build'
   # tox 4.34+ declares docutils and hatch-fancy-pypi-readme as build-system
   # requires; python-build --no-isolation fails when they are not installed
-  'python-docutils'
-  'python-hatch-fancy-pypi-readme'
-  'python-hatch-vcs'
-  'python-hatchling'
+  'python-docutils>=0.21'
+  'python-hatch-fancy-pypi-readme>=25.1'
+  'python-hatch-vcs>=0.5'
+  'python-hatchling>=1.29'
   'python-installer'
 )
 optdepends=(
@@ -43,7 +45,7 @@ optdepends=(
   'python-re-assert: for pytest plugin to test tox and its plugins'
 )
 source=("git+$_url.git#tag=$pkgver")
-sha512sums=('c7d2d68622947e2f687d9d6d3324c51bf0d45e2502f4abd175e6c2429b3469a54c5ac6c4c80c90892b594a1ad4fd19daf04b65fb8ca2c386a9026be35e31f4e5')
+sha512sums=('9d89e0e4f7a231b06a261f979c182a0406bf01fe0f78ed6a57d92e4aa8f0c169b3cdb8154b84ea79fb5229c380d78a723ab57d283a9258846f1d1e6de8ab316b')
 
 build() {
   cd $_name

@@ -5,18 +5,18 @@
 
 pkgname=python-fonttools
 _pyname=${pkgname#python-}
-pkgver=4.66.1
-pkgrel=2
+pkgver=4.68.0
+pkgrel=1
 pkgdesc='A library to manipulate font files from Python'
 url="https://github.com/fonttools/$_pyname"
 license=(MIT)
 arch=(x86_64)
-depends=(python)
+depends=('python>=3.11')
 makedepends=(cython
              python-{build,installer}
              python-setuptools
              python-wheel)
-optdepends=('python-brotli: to compress/decompress WOFF 2.0 web fonts'
+optdepends=('python-brotli>=1.2.1: to compress/decompress WOFF 2.0 web fonts'
             'python-fs: to read/write UFO source files'
             'python-lxml: faster backend for XML files reading/writing'
             'python-lz4: for graphite type tables in ttLib/tables'
@@ -30,7 +30,7 @@ optdepends=('python-brotli: to compress/decompress WOFF 2.0 web fonts'
             'python-zopfli: faster backend fom WOFF 1.0 web fonts compression')
 _archive="$_pyname-$pkgver"
 source=("$url/archive/$pkgver/$_archive.tar.gz")
-sha256sums=('dcb2ff59d87e63a9c0f0d618210cbac976540b348c04fbcf5b45497561fa8015')
+sha256sums=('1e3ba10c27088506768751740e3ae45769824b4d78eb37760b21c6e89ba57801')
 
 build() {
 	cd "$_archive"

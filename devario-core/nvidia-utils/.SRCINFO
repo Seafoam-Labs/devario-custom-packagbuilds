@@ -1,7 +1,7 @@
 pkgbase = nvidia-utils
 	pkgdesc = NVIDIA driver utilities
 	pkgver = 620.70.06
-	pkgrel = 3
+	pkgrel = 4
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
@@ -18,6 +18,7 @@ pkgbase = nvidia-utils
 	source = systemd-suspend-override.conf
 	source = nvidia-utils.conf
 	source = fix-runtime-D3-620.patch
+	source = fix-supported-sensor-limits.patch
 	sha512sums = 3889406d2717c5492852c8e06343981ee2481a31e1247fb6c7600205941a28cde90421192d78bbd9e98082b87cc853768ac741dbca4e03ad01ff4f123a9a086d
 	sha512sums = fcf9d9640fe8d0a282e92471371dd35ab5b78d0ee40388e32a9c23211d52d793dbee5228599c22e6d5939169f3ce5b9854cea060e05e5262b9cebb865ad33df3
 	sha512sums = de7116c09f282a27920a1382df84aa86f559e537664bb30689605177ce37dc5067748acf9afd66a3269a6e323461356592fdfc624c86523bf105ff8fe47d3770
@@ -27,6 +28,7 @@ pkgbase = nvidia-utils
 	sha512sums = 55def6319f6abb1a4ccd28a89cd60f1933d155c10ba775b8dfa60a2dc5696b4b472c14b252dc0891f956e70264be87c3d5d4271e929a4fc4b1a68a6902814cee
 	sha512sums = a380e5faeb19293c90f613cd92bcd1cef7597ee52f79f03ffdffe5d37d2badc05b6bdb4c26a9d610868ae4c16eafd56e7d16f769e849dc0335d0d248c6235fe9
 	sha512sums = c084c215ac2866928c0d9657ea5d018ff57e5cd464d1cdf17b7ac603501ad751bc481cc3574ff3c5d3d586fea48ceb1bdab3423167a24e6f3e0d8d363e16fe37
+	sha512sums = a754da3da76cb368716f2045c6a9203c192fb581f2a5e6abc702c125336cf53636b123c987d0a8652394b1e495aa8738255550e24f8e088230e9211981fe0329
 
 pkgname = nvidia-utils
 	pkgdesc = NVIDIA driver utilities

@@ -8,7 +8,8 @@
 
 pkgname=ffmpeg
 pkgver=9.0.2
-pkgrel=3
+# 9.0.2-3 carries DT_NEEDED libplacebo.so.360; published libplacebo is 7.387.
+pkgrel=4
 epoch=2
 pkgdesc='Complete solution to record, convert and stream audio and video'
 arch=(x86_64)
@@ -232,7 +233,8 @@ package() {
     libharfbuzz.so
 #   libjxl.so
     libopenmpt.so
-    libplacebo.so
+    # libplacebo bumps its SONAME every release; pin what libavfilter links.
+    'libplacebo.so=387-64'
     librav1e.so
     librsvg-2.so
     librubberband.so

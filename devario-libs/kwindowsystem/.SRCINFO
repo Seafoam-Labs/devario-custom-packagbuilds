@@ -1,32 +1,37 @@
 pkgbase = kwindowsystem
 	pkgdesc = Access to the windowing system
-	pkgver = 6.30.0
+	pkgver = 6.31.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
+	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.31.0
 	makedepends = plasma-wayland-protocols
-	makedepends = qt6-declarative
+	makedepends = pkgconf
+	makedepends = qt6-declarative>=6.10.0
 	makedepends = qt6-tools
-	makedepends = wayland-protocols
+	makedepends = wayland-protocols>=1.46
 	depends = glibc
 	depends = libstdc++
 	depends = libx11
 	depends = libxcb
 	depends = libxfixes
-	depends = qt6-base
+	depends = libxkbcommon
+	depends = qt6-base>=6.10.0
+	depends = qt6-wayland>=6.10.0
 	depends = wayland
 	depends = xcb-util-keysyms
+	depends = xcb-util-wm
 	optdepends = qt6-declarative: QML bindings
-	source = https://download.kde.org/stable/frameworks/6.30/kwindowsystem-6.30.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.30/kwindowsystem-6.30.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.31/kwindowsystem-6.31.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.31/kwindowsystem-6.31.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 639a501b877446b19905399d27e2be2b6ebb0bb481abe3209dc4d535a12e12ca
+	sha256sums = 9968f66ba750432480960e321dd7ec32e2ea19a1596496f39147797684842f57
 	sha256sums = SKIP
 
 pkgname = kwindowsystem

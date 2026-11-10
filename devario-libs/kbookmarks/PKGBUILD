@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kbookmarks
-pkgver=6.30.0
+pkgver=6.31.0
 pkgrel=1
 pkgdesc='Support for bookmarks and the XBEL format'
 arch=(x86_64)
@@ -11,16 +11,17 @@ url='https://develop.kde.org/products/frameworks/'
 license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(glibc
          libstdc++
-         kconfig
-         kcoreaddons
-         kwidgetsaddons
-         qt6-base)
-makedepends=(doxygen
-             extra-cmake-modules
+         'kconfig>=6.31.0'
+         'kcoreaddons>=6.31.0'
+         'kwidgetsaddons>=6.31.0'
+         'qt6-base>=6.10.0')
+makedepends=('cmake>=3.30'
+             doxygen
+             'extra-cmake-modules>=6.31.0'
              qt6-tools)
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('680120f09929d51da0a65e96a1f7d20ffbbdd2795a165719b0d07e00475e77c4'
+sha256sums=('2d2c53c07fbc813e891bbc95a3ff4828c9e8e348e84a0d94fc2b69adf5897f55'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>

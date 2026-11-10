@@ -5,18 +5,18 @@ _pkgbasename=systemd
 # Upstream versioning is incompatible with pacman's version comparisons, one
 # way or another. We use proper version for pacman here (no dash for rc
 # release!), and change in source array below.
-pkgver=262
-pkgrel=2
+pkgver=262.2
+pkgrel=1
 pkgdesc='system and service manager (32-bit)'
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 license=('LGPL-2.1-or-later')
 depends=('systemd-libs' 'lib32-gcc-libs' 'lib32-libgcrypt'
-         'lib32-libxcrypt' 'lib32-xz' 'lib32-zstd')
+         'lib32-libxcrypt>=4.4.0' 'lib32-xz' 'lib32-zstd>=1.4.0')
 makedepends=('git' 'gperf' 'intltool' 'lib32-acl' 'lib32-bzip2'
-             'lib32-curl' 'lib32-gcc-libs' 'lib32-glib2'
-             'lib32-gnutls' 'lib32-libelf' 'lib32-libidn2' 'lib32-pcre2'
-             'libxslt' 'meson' 'python-jinja')
+             'lib32-curl>=7.32.0' 'lib32-gcc-libs' 'lib32-glib2'
+             'lib32-gnutls>=3.1.4' 'lib32-libelf>=0.177' 'lib32-libidn2' 'lib32-pcre2'
+             'libxslt' 'meson>=0.62.0' 'python-jinja')
 checkdepends=('systemd')
 provides=('libsystemd.so' 'libudev.so')
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
@@ -26,7 +26,7 @@ validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <
 # For pacman's version comparisons $pkgver is missing the dash that would be
 # in an upstream rc version so add it back when fetching the tag from github.
 source=("git+https://github.com/systemd/systemd#tag=v${pkgver/rc/-rc}?signed")
-sha512sums=('7f6b18684e8e696e0fa6fff45213d64a9bd54e6075d8950f8e5679fe14c92737cdc3a54b58a60f68867d95bad8736584e8036fc09bbd5752ee8026308f76493f')
+sha512sums=('b4d5c9847ce5f724b826ac4226f1f509e88e3f1a5862283177f46f20b00bc91e06681641245dd5b7d049417db93a84f3f16771b293665077da18ff88ec2316ae')
 
 _backports=(
 )

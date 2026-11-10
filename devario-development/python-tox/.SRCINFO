@@ -1,32 +1,33 @@
 pkgbase = python-tox
 	pkgdesc = Python virtualenv management and testing tool
-	pkgver = 4.67.5
+	pkgver = 4.67.13
 	pkgrel = 1
 	url = https://tox.readthedocs.io
 	arch = any
 	license = MIT
 	makedepends = git
 	makedepends = python-build
-	makedepends = python-docutils
-	makedepends = python-hatch-fancy-pypi-readme
-	makedepends = python-hatch-vcs
-	makedepends = python-hatchling
+	makedepends = python-docutils>=0.21
+	makedepends = python-hatch-fancy-pypi-readme>=25.1
+	makedepends = python-hatch-vcs>=0.5
+	makedepends = python-hatchling>=1.29
 	makedepends = python-installer
-	depends = python
-	depends = python-cachetools
-	depends = python-colorama
-	depends = python-filelock
-	depends = python-packaging
-	depends = python-platformdirs
-	depends = python-pluggy
-	depends = python-pyproject-api
-	depends = python-python-discovery
-	depends = python-tomli-w
-	depends = python-virtualenv
+	depends = python>=3.11
+	depends = python-cachetools>=7.0.3
+	depends = python-colorama>=0.4.6
+	depends = python-filelock>=3.25
+	depends = python-packaging>=26
+	depends = python-platformdirs>=4.9.4
+	depends = python-pluggy>=1.6
+	depends = python-pyproject-api>=1.10
+	depends = python-python-discovery>=1.9
+	depends = python-tomli-w>=1.2
+	depends = python-typing_extensions>=4.15
+	depends = python-virtualenv>=21.1
 	optdepends = python-pytest: for pytest plugin to test tox and its plugins
 	optdepends = python-pytest-mock: for pytest plugin to test tox and its plugins
 	optdepends = python-re-assert: for pytest plugin to test tox and its plugins
-	source = git+https://github.com/tox-dev/tox.git#tag=4.67.5
-	sha512sums = c7d2d68622947e2f687d9d6d3324c51bf0d45e2502f4abd175e6c2429b3469a54c5ac6c4c80c90892b594a1ad4fd19daf04b65fb8ca2c386a9026be35e31f4e5
+	source = git+https://github.com/tox-dev/tox.git#tag=4.67.13
+	sha512sums = 9d89e0e4f7a231b06a261f979c182a0406bf01fe0f78ed6a57d92e4aa8f0c169b3cdb8154b84ea79fb5229c380d78a723ab57d283a9258846f1d1e6de8ab316b
 
 pkgname = python-tox
