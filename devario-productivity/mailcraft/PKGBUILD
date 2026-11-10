@@ -2,7 +2,7 @@
 
 pkgname=mailcraft
 pkgver=0.11.1
-pkgrel=1
+pkgrel=2
 _appid=io.github.billsecond.mailcraft
 pkgdesc='Native mail, calendar, contacts and tasks program written in Rust'
 arch=('x86_64' 'aarch64')
@@ -23,6 +23,9 @@ depends=(
   'wayland'
 )
 makedepends=('cargo' 'git')
+# ring's C parts would be built as GCC LTO bytecode, which rust-lld can't read
+# (undefined ring_core_* symbols). Cargo's own LTO for the Rust code is unaffected.
+options=('!lto')
 optdepends=(
   'xdg-desktop-portal: native file dialogs'
   'xdg-utils: opening attachments with xdg-open'
