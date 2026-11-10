@@ -11,7 +11,7 @@
 
 _pkgsuffix=devario-llm
 _major=7.3
-_minor=3
+_minor=4
 # Release channel of the source tag, as created by release-kernel.sh:
 #   ""        stable    devario-<version>-<N>
 #   dev       dev       devario-dev-<version>-<N>
@@ -21,7 +21,7 @@ _minor=3
 #   internal  internal  devario-internal-<version>-<N>
 # Each channel numbers its tags separately, so _tagrel below refers to the
 # tag of this channel.
-_channel=internal
+_channel=llm
 # Release number N of the devario[-<channel>]-<version>-<N> tag on GitHub.
 _tagrel=1
 
@@ -423,5 +423,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('dcf0cf61bfbe85f4587339ee8c912c2b51f5dc395691bdbabdc100f17c62ee8d3bf9496d94ede722af5f0ae541662d6acdb1b1af7fe8ab8a7d5b1498b8bc7dd3'
+b2sums=('74a90813ea1404e17b05c31d98d0e9d0a838b7c0a040a183655f61490fca7e75bc8ae1abe2383d97d607f33093fd9831312e2e9f4f28d263b9d26ce771eb21e2'
         'e78ccf9141e7379a2b759900b87e1e6cb5015295f0a84e186585a4a18094ec2457be1e5388c33f79b68608a2d122322dbab9a0790981d536c5b9bf4c365b442b')
