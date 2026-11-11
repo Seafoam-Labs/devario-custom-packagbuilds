@@ -1,7 +1,7 @@
 pkgbase = zed
 	pkgdesc = A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter
-	pkgver = 1.27.0
-	pkgrel = 2
+	pkgver = 1.28.1
+	pkgrel = 1
 	url = https://zed.dev
 	arch = x86_64
 	license = GPL-3.0-or-later
@@ -37,8 +37,8 @@ pkgbase = zed
 	depends = zstd
 	optdepends = org.freedesktop.secrets: to keep you logged into your Zed account
 	replaces = zed-editor
-	source = https://github.com/zed-industries/zed/archive/v1.27.0/zed-1.27.0.tar.gz
-	sha256sums = 0e7bec0a4f27ed4d3a9007b136bea8c820e50d60bd96a78a444a93c520726b0a
+	source = https://github.com/zed-industries/zed/archive/refs/tags/v1.28.1.tar.gz
+	sha256sums = 2baab0ae5fdbbdd64cf69afbc4fd3f4427dc86b9a8a4dfd2335a949097741226
 
 pkgname = zed
 	depends = alsa-lib
