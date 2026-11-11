@@ -1,7 +1,7 @@
 # Target: Ryzen 9 9950X3D (Zen 5) and GeForce RTX 5090 (sm_120).
 pkgname=basalt-native
-pkgver=0.2.0
-pkgrel=2
+pkgver=0.3.2
+pkgrel=1
 pkgdesc='Local Qwen inference engine optimized for Zen 5 and NVIDIA Blackwell'
 arch=('x86_64')
 url='https://github.com/jesdga95/basalt'
@@ -15,19 +15,30 @@ provides=("basalt=$pkgver")
 conflicts=('basalt' 'basalt-git')
 options=('!lto')
 source=("basalt-$pkgver.tar.gz::https://codeload.github.com/jesdga95/basalt/tar.gz/refs/tags/v$pkgver")
-sha256sums=('13310c9008b2afb475eb827b0aa221969932dace0f6cdc2d40f7c71cbcd34947')
+sha256sums=('d5c178168ce53885efa35777f5ee6b7bd077088398401f00b8dec2ce32a997ee')
+
+# 0.3.2 dropped the build-time source path (BASALT_SOURCE_DIR). install_root() is now the directory
+# above the executable's own, resolved through /proc/self/exe, and the start refuses to load weights
+# when <root>/data/profiles is missing. bin/, serve/ and data/ must share one root, so the tree lives
+# under /usr/lib/basalt and /usr/bin carries symlinks that resolve back into it.
+_root=/usr/lib/basalt
 
 prepare() {
   cd "$srcdir/basalt-$pkgver"
 
-  # Runtime resources must survive removal of the build tree.
+  # Upstream stamps its own project version; a mismatch means pkgver is stale, not that the recipe
+  # should rewrite it.
+  grep -q "project(basalt VERSION $pkgver " CMakeLists.txt || {
+    printf '%s: CMakeLists.txt does not declare VERSION %s; update pkgver\n' "$pkgname" "$pkgver" >&2
+    return 1
+  }
+
+  # basalt-bench and basalt-probe must drive the installed engine, not the build tree.
   sed -i \
-    -e 's|BASALT_SOURCE_DIR="${CMAKE_SOURCE_DIR}"|BASALT_SOURCE_DIR="/usr/share/basalt"|' \
-    -e 's|BASALT_BENCH_ENGINE="$<TARGET_FILE:basalt>"|BASALT_BENCH_ENGINE="/usr/bin/basalt"|g' \
+    -e 's|BASALT_BENCH_ENGINE="$<TARGET_FILE:basalt>"|BASALT_BENCH_ENGINE="/usr/lib/basalt/bin/basalt"|g' \
     -e 's|BASALT_BENCH_DEVICE="$<TARGET_FILE:basalt-device>"|BASALT_BENCH_DEVICE="/usr/bin/basalt-device"|' \
-    -e 's|BASALT_BENCH_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/data/bench"|BASALT_BENCH_FIXTURES="/usr/share/basalt/data/bench"|g' \
-    -e 's|BASALT_BENCH_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"|BASALT_BENCH_SOURCE_DIR="/usr/share/basalt"|' \
-    -e "s|project(basalt VERSION 0.1.0 |project(basalt VERSION $pkgver |" \
+    -e 's|BASALT_BENCH_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/data/bench"|BASALT_BENCH_FIXTURES="/usr/lib/basalt/data/bench"|g' \
+    -e 's|BASALT_BENCH_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"|BASALT_BENCH_SOURCE_DIR="/usr/lib/basalt"|' \
     CMakeLists.txt
 
   # ggml's nearest_int needs a separately rounded multiply before its magic-number
@@ -40,8 +51,9 @@ EOF
 
   # An archive has no Git metadata; do not stamp the packaging repository's HEAD.
   # Mark the release as modified because its runtime paths have been patched.
+  # ffc68faa71 is the commit v0.3.2 points at.
   cat > cmake/git_stamp.cmake <<'EOF'
-file(WRITE "${OUT}" "#define BASALT_BENCH_GIT \"f0bb833c49\"\n#define BASALT_BENCH_DIRTY 1\n")
+file(WRITE "${OUT}" "#define BASALT_BENCH_GIT \"ffc68faa71\"\n#define BASALT_BENCH_DIRTY 1\n")
 EOF
 }
 
@@ -74,19 +86,35 @@ check() {
 
 package() {
   cd "$srcdir/basalt-$pkgver"
+
+  install -dm755 "$pkgdir/usr/bin" "$pkgdir$_root/bin"
+
+  # The engine resolves data/, serve/ and an optional .venv against the directory above the real
+  # executable, so the binaries live in the private root; /proc/self/exe resolves the symlink and
+  # install_root() comes out as /usr/lib/basalt.
   local binary file
   for binary in basalt basalt-bench basalt-probe basalt-vision; do
-    install -Dm755 "bin/$binary" "$pkgdir/usr/bin/$binary"
+    install -m755 "bin/$binary" "$pkgdir$_root/bin/$binary"
+    ln -s "$_root/bin/$binary" "$pkgdir/usr/bin/$binary"
   done
-  install -Dm755 "$srcdir/build/basalt-device" "$pkgdir/usr/bin/basalt-device"
 
-  # Keep the server's private imports, web UI and expert profiles together.
-  install -dm755 "$pkgdir/usr/share/basalt"
-  cp -r serve data "$pkgdir/usr/share/basalt/"
-  rm -rf "$pkgdir/usr/share/basalt/serve/tests"
-  find "$pkgdir/usr/share/basalt" -type d -name __pycache__ -prune -exec rm -rf {} +
+  # basalt-device is named only by basalt-bench's compile-time BASALT_BENCH_DEVICE and reads no
+  # runtime tree, so it stays a plain /usr/bin executable.
+  install -m755 "$srcdir/build/basalt-device" "$pkgdir/usr/bin/basalt-device"
+
+  # Keep the server's private imports, web UI, expert profiles and bench fixtures together.
+  cp -r serve data "$pkgdir$_root/"
+  rm -rf "$pkgdir$_root/serve/tests"
+  find "$pkgdir$_root" -type d -name __pycache__ -prune -exec rm -rf {} +
+
   for file in model_file.py tokenizer.py gguf_reader.py; do
-    install -Dm644 "tools/$file" "$pkgdir/usr/share/basalt/tools/$file"
+    install -Dm644 "tools/$file" "$pkgdir$_root/tools/$file"
+  done
+
+  # 0.3.0 refuses a v1 config at start; ship the migration beside the server that needs it.
+  install -dm755 "$pkgdir$_root/tools/migrations"
+  for file in config_v1_to_v2.py basalt_v1_to_v2.py README.md; do
+    install -m644 "tools/migrations/$file" "$pkgdir$_root/tools/migrations/$file"
   done
 
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
