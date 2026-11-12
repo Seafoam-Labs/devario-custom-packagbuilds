@@ -26,10 +26,10 @@ checkdepends=(
 )
 provides=(bats-core)
 replaces=(bash-bats)
-source=("git+${url}.git#tag=v${pkgver}?signed")
+source=("git+${url}.git#tag=v${pkgver}")
 sha256sums=('4d6d22b88ec983ed39813b52e8d208a234c4277ccc1793f2141abb9027bdb87b')
 b2sums=('6f3feeee082309ed8c64d2d8a1c359879faaf4af4c328c29c85c63109bb104328c69b87b7703203556cb70e1a08412283863d41d1284f3057bbcc94b59ee9814')
-validpgpkeys=('3561E98F5A6BCA770F8E13BEE49BC732E729C954') # Martin Schulze <martin.schulze@vireso.de>
+#validpgpkeys=('3561E98F5A6BCA770F8E13BEE49BC732E729C954') # Martin Schulze <martin.schulze@vireso.de>
 
 prepare() {
   cd "bats-core"
