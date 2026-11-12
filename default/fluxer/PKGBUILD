@@ -3,7 +3,7 @@
 # https://github.com/fluxerapp/fluxer/blob/main/fluxer_desktop/packaging/arch/PKGBUILD
 
 pkgname=fluxer
-pkgver=2026.1112.24929
+pkgver=2026.1112.152359
 pkgrel=1
 pkgdesc='Instant messaging and VoIP application'
 arch=('x86_64')
@@ -50,7 +50,7 @@ conflicts=('fluxer-bin')
 replaces=('fluxer-bin')
 options=('!strip' '!debug' 'emptydirs')
 source=("${pkgname}-${pkgver}-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/stable/linux/x64/${pkgver}/tar_gz")
-sha256sums=('b33e6662522971bcd377a2a3acba8f049899b38dfd38530d99a7af8200fd9a34')
+sha256sums=('8d462d6c0e952fb2e0c90a5b18b961a30d4a6e24e882067d044e6f7dbe6218eb')
 
 package() {
   local payload="${srcdir}/Fluxer-${pkgver}-linux-x64"
