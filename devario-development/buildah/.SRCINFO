@@ -1,0 +1,31 @@
+pkgbase = buildah
+	pkgdesc = A tool which facilitates building OCI images
+	pkgver = 1.46.1
+	pkgrel = 1
+	epoch = 1
+	url = https://github.com/podman-container-tools/buildah
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = go
+	makedepends = git
+	makedepends = bats
+	makedepends = btrfs-progs
+	makedepends = device-mapper
+	makedepends = libassuan
+	makedepends = bzip2
+	makedepends = go-md2man
+	makedepends = systemd
+	depends = glibc
+	depends = oci-runtime
+	depends = skopeo
+	depends = passt
+	depends = libseccomp
+	depends = gpgme
+	depends = sqlite
+	depends = containers-common
+	options = !lto
+	options = !debug
+	source = git+https://github.com/containers/buildah.git#tag=v1.46.1
+	sha512sums = a4b3de53fb669edd3a50fc82b9eb15bd3193fbff86262315be496cf14fceb8b0c3bbac7ce193c3739e5c75e25b4b26d44b8f74aaf3dbf6689af52ec72ade653f
+
+pkgname = buildah
