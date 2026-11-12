@@ -12,14 +12,14 @@ mkdir -p -- "$workspace"
 # Serialize source refreshes. Do not hold the lock while the model is running.
 exec 9>"$workspace/.package.lock"
 flock 9
-commit=$(cat "$bundle/commit")
+tag=$(cat "$bundle/tag")
 installed=''
-if [[ -f $workspace/.package-commit ]]; then
-  installed=$(cat "$workspace/.package-commit")
+if [[ -f $workspace/.package-tag ]]; then
+  installed=$(cat "$workspace/.package-tag")
 fi
-if [[ $installed != "$commit" ]]; then
+if [[ $installed != "$tag" ]]; then
   tar -xzf "$bundle/source.tar.gz" -C "$workspace" --strip-components=1 --no-same-owner
-  printf '%s\n' "$commit" > "$workspace/.package-commit"
+  printf '%s\n' "$tag" > "$workspace/.package-tag"
 fi
 flock -u 9
 exec 9>&-

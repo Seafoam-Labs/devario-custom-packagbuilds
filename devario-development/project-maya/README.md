@@ -1,7 +1,7 @@
 # Project Maya
 
-This package ships upstream version 1.1.57 at commit
-`00655481ce2b0689ab1c2e8d67034dc5701d6511`, its source, bundled Python wheels,
+This package ships upstream version 1.1.59 at tag
+`v1.1.59`, its source, bundled Python wheels,
 and the `project-maya` launcher (`setup-maya` is an alias).
 It is a source/setup package: GPU engines are compiled by upstream's setup for
 your hardware on first use, not while building this package. Model weights are
@@ -43,10 +43,10 @@ its setup lets you select a separate model folder. Relative command-line paths
 are resolved from that tree, matching upstream's launcher; use absolute paths
 for existing model folders or configuration files.
 
-Upgrade through Shelly. On the next launch after the pinned commit changes, the
+Upgrade through Shelly. On the next launch after the pinned release tag changes, the
 launcher refreshes upstream files in the writable tree while retaining generated
 configuration, models and builds. Edits to upstream source files are overwritten.
 Stop Maya before upgrading. Removing the package leaves user data intact.
 
 Upstream source and instructions:
-<https://github.com/mw00/project-maya/tree/00655481ce2b0689ab1c2e8d67034dc5701d6511>.
+<https://github.com/mw00/project-maya/tree/v1.1.59>.
