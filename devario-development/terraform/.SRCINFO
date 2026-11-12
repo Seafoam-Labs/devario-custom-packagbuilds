@@ -1,6 +1,6 @@
 pkgbase = terraform
 	pkgdesc = HashiCorp tool for building and updating infrastructure as code idempotently
-	pkgver = 1.17.0
+	pkgver = 1.17.2
 	pkgrel = 1
 	url = https://github.com/hashicorp/terraform
 	arch = x86_64
@@ -10,13 +10,13 @@ pkgbase = terraform
 	optdepends = diffutils: for running `terraform fmt -diff`
 	provides = terragrunt-iac-provider
 	options = !lto
-	source = terraform-1.17.0.tar.gz::https://github.com/hashicorp/terraform/archive/v1.17.0.tar.gz
+	source = terraform-1.17.2.tar.gz::https://github.com/hashicorp/terraform/archive/refs/tags/v1.17.2.tar.gz
 	source = terraform.bash
 	source = terraform.zsh
-	sha512sums = 3854d6afd343120dfbd88ea162f573ba37b8592b8c35873d3828aeb5b5437f4dbb2b6cdab501177415ea6d16349c351270a15991ba2943d69bb18f76a924ad47
+	sha512sums = 07d8bbb9c2eac4b679cd8391c1c110faab352d7d2133ad5b06f5d13a6bac691166571fa455517e94ee137538b06260b8bc575798040ae94b0c49e4f32963b0f9
 	sha512sums = ea42bfc41288e5ad741fcddfbd5c1f8ba0088be0967b820db1e12e1dc13d1ba242b9cc1c247bf29c36ec59cdce76ff6703cf6b3f76cca5ec441a4927a01afe7d
 	sha512sums = ad991daf40f68c11fa66256177a04d97bd38d6a89c554d6261489d4de703852628ffc37429d862237ca24e15f6a7c915cfa027731189ac89a27f7b20c72ab4c9
-	b2sums = ca118c9ddde99b302d578cc7cb21bcb3e3713866ee84c5960d8f4d8b4d3614d33b035a3af6c8cb0ff8fc7a388ca1274e445d4eb6779eaec6475061910c692195
+	b2sums = fd354cd104ebe53156c27ff837d2e63da1dd70beee55983fb3872272cafb640352186445e2032a0659e586b31ab50580f8b1172678b1570728e744e8a4a09982
 	b2sums = d047735bbb006e9afbaa4b18af7a7f16a205ec528e91caa61a0b663dd6e24ec1df999216f0b7bd06e3b3c087b37f6ce3aa3cf3a20c892a9cc1962d33ce1b0bcc
 	b2sums = d58712c8203e4a58ec68738f3d22457547a55d230018408400fd1ca433346171b72fa4a87f05efc93213c71f9757d3a8072149ca4e6894355e79f8cfae3bd55b
 

@@ -1,6 +1,6 @@
 pkgbase = python-typer
 	pkgdesc = Build great CLIs. Easy to code. Based on Python type hints
-	pkgver = 0.28.0
+	pkgver = 0.29.1
 	pkgrel = 1
 	url = https://typer.tiangolo.com/
 	arch = any
@@ -14,7 +14,7 @@ pkgbase = python-typer
 	depends = python-rich>=13.8.0
 	depends = python-shellingham>=1.3.0
 	depends = python-annotated-doc>=0.0.2
-	source = python-typer-0.28.0.tar.gz::https://github.com/tiangolo/typer/archive/0.28.0.tar.gz
-	sha512sums = a862ce71b508c7da48cdfd8b33cc45f56227ddc009aec0497baf38a5c50db758856105b882fdce3d4c4ba986f60bada1a4541b548df0e199c29f72fa70c0570e
+	source = python-typer-0.29.1.tar.gz::https://github.com/tiangolo/typer/archive/refs/tags/0.29.1.tar.gz
+	sha512sums = 3b03d843be3c3a061349bef1ea26f6ca9386b6ba50344edde43d322a1cdef67e78a5054929341d79aa59537ea88c67e831f112b08082cd70e228502a5d247511
 
 pkgname = python-typer

@@ -1,7 +1,7 @@
 # Paseo with native Zig editing
 
-This recipe builds Paseo 0.15.0 from its checksummed upstream source archive
-and packages the desktop app, daemon, and CLI as `paseo 0.15.0-3`.
+This recipe builds Paseo 0.15.4 from its checksummed upstream source archive
+and packages the desktop app, daemon, and CLI as `paseo 0.15.4-1`.
 
 `0001-native-zig-editor-support.patch` registers `.zig` and `.zon` in the shared
 language registry. The editor and static source/diff previews gain syntax
@@ -67,7 +67,7 @@ Validation completed locally: both patches apply to a fresh source archive and
 `npm ci` accepts the patched lockfile; app/server typechecks, all 146 recipe tests,
 and three browser tests pass. The renderer, server, CLI, and Electron main
 process compile, Electron Builder produces the Linux bundle, and `package()`
-stages it successfully. The staged CLI reports `0.15.0`; its archive includes the
+stages it successfully. The staged CLI reports `0.15.4`; its archive includes the
 ZLS service and protocol, and its renderer includes the ZLS controls. Checksums,
 shell syntax, desktop metadata, and Shelly-generated `.SRCINFO` are verified.
 Shelly review reports the npm build commands and misidentifies TypeScript

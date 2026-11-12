@@ -1,8 +1,8 @@
 # Maya builds its GPU engines for the user's hardware during first-run setup.
 pkgname=project-maya
-pkgver=1.1.57
+pkgver=1.1.59
 pkgrel=1
-_commit=00655481ce2b0689ab1c2e8d67034dc5701d6511
+_tag=v1.1.59
 pkgdesc='Local LLM inference with GPU-specific engine setup and a browser dashboard'
 arch=('x86_64')
 url='https://github.com/mw00/project-maya'
@@ -16,23 +16,23 @@ optdepends=('cuda: NVIDIA engine compilation and CUDA libraries'
             'hipblas: AMD BLAS backend'
             'hipblaslt: AMD BLAS tuning'
             'rocm-llvm: AMD GPU compiler')
-source=("$pkgname-$_commit.tar.gz::https://codeload.github.com/mw00/project-maya/tar.gz/$_commit"
+source=("$pkgname-$_tag.tar.gz::https://github.com/mw00/project-maya/archive/refs/tags/v1.1.59.tar.gz"
         'project-maya'
         'README.md')
-sha256sums=('c56f01c13e7b6385e78e3935dafb9e4c9a2ea7fa999850e02bfa0fd2f33290dd'
-            '151c819ee45c48e8c3927acbdc1fce44cac149f0bde4166c724547d5edb1101b'
-            '5de51693a984b06b3c484510d561dfe99b19c6413421854c0995b93a9232e367')
+sha256sums=('fa81c81079cbe4be0b9affeed926ba834300d6749414495be1076be56ecb15b0'
+            'a0eb53fbcaacefef0d6c9f8f8ca30f0034ceb4211c03c2a34db649dbdc25b90a'
+            '519fbf17fcf61f39f2bb266e8f2d64d8ff6d06bfce6b90f5469af674e78b3b65')
 
 package() {
   # Retain the complete upstream tree, including vendored wheels and notices.
   # The launcher unpacks it into writable user storage before running maya.sh.
-  install -Dm644 "$srcdir/$pkgname-$_commit.tar.gz" \
+  install -Dm644 "$srcdir/$pkgname-$_tag.tar.gz" \
     "$pkgdir/usr/share/$pkgname/source.tar.gz"
-  printf '%s\n' "$_commit" > "$pkgdir/usr/share/$pkgname/commit"
+  printf '%s\n' "$_tag" > "$pkgdir/usr/share/$pkgname/tag"
   install -Dm755 "$srcdir/project-maya" "$pkgdir/usr/bin/project-maya"
   ln -s project-maya "$pkgdir/usr/bin/setup-maya"
 
-  local tree="$srcdir/$pkgname-$_commit" notice
+  local tree="$srcdir/$pkgname-$pkgver" notice
   for notice in LICENSE third_party/ggml/LICENSE third_party/exllamav3/LICENSE \
     third_party/beellama.cpp/LICENSE serve/web/LICENSE.lucide.txt serve/web/fonts/OFL.txt; do
     install -Dm644 "$tree/$notice" "$pkgdir/usr/share/licenses/$pkgname/$notice"

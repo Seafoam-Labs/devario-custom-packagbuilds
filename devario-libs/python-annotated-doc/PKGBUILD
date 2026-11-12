@@ -2,7 +2,7 @@
 
 pkgname=python-annotated-doc
 _pkgname=${pkgname#python-}
-pkgver=0.0.5
+pkgver=0.0.6
 pkgrel=1
 pkgdesc="Document parameters, class attributes, return types, and variables inline, with Annotated"
 arch=('any')
@@ -11,8 +11,8 @@ license=('MIT')
 depends=('python')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-pdm-backend')
 checkdepends=('python-pytest' 'python-typing_extensions' 'python-typer')
-source=("${_pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
-sha256sums=('b1df640b7d5658b8d3807b42d51291ed3f24e43d4a059092c11495a3f7714fc9')
+source=("${_pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('39e1734731e5292657bd73b4c715dcada63bcd4784e0cb5961c535c05c675242')
 
 build() {
 	cd "${_pkgname}-${pkgver}"
