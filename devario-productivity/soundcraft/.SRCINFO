@@ -1,6 +1,6 @@
 pkgbase = soundcraft
 	pkgdesc = Clean-room reimplementation of Avid Pro Tools: multitrack audio and MIDI
-	pkgver = 0.18.0
+	pkgver = 0.20.1
 	pkgrel = 1
 	url = https://github.com/storytold/soundcraft
 	arch = x86_64
@@ -24,7 +24,7 @@ pkgbase = soundcraft
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
 	optdepends = pipewire-alsa: ALSA output through PipeWire
 	optdepends = pulseaudio-alsa: ALSA output through PulseAudio
-	source = https://github.com/storytold/soundcraft/archive/v0.18.0/soundcraft-0.18.0.tar.gz
-	sha256sums = f40cf2d16be3d707e80042748acbfed770854bdefef48840c11e82fa1e93228f
+	source = https://github.com/storytold/soundcraft/archive/refs/tags/v0.20.1.tar.gz
+	sha256sums = f0ebdb92df0e25806ec7e4678e054e88f49dd4f2e0084d251dbac2c147ec4393
 
 pkgname = soundcraft
