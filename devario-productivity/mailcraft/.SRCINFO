@@ -1,0 +1,29 @@
+pkgbase = mailcraft
+	pkgdesc = Native mail, calendar, contacts and tasks program written in Rust
+	pkgver = 0.12.0
+	pkgrel = 1
+	url = https://github.com/UCS-Care-Group/mailcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = cargo
+	makedepends = git
+	depends = gcc-libs
+	depends = glibc
+	depends = hicolor-icon-theme
+	depends = libx11
+	depends = libxcursor
+	depends = libxi
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = libxrandr
+	depends = vulkan-icd-loader
+	depends = wayland
+	optdepends = xdg-desktop-portal: native file dialogs
+	optdepends = xdg-utils: opening attachments with xdg-open
+	optdepends = gnome-keyring: Secret Service for remembered sign-ins (or any other provider)
+	options = !lto
+	source = git+https://github.com/UCS-Care-Group/mailcraft.git#tag=v0.12.0
+	b2sums = 37f85b695b6755d0f65db9ac0505539b9c61b568f53942d26e5e1dab26cc77e3a5c386785761d822fe5ca1fd64dc11d4809dded656fbc6d2ccb5932b7fb3e1a5
+
+pkgname = mailcraft
