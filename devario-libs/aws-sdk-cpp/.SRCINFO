@@ -1,6 +1,6 @@
 pkgbase = aws-sdk-cpp
 	pkgdesc = AWS SDK for C++
-	pkgver = 1.11.926
+	pkgver = 1.11.927
 	pkgrel = 1
 	url = https://github.com/aws/aws-sdk-cpp
 	arch = x86_64
@@ -18,8 +18,8 @@ pkgbase = aws-sdk-cpp
 	makedepends = libpulse
 	makedepends = libstdc++
 	makedepends = zlib
-	source = https://github.com/aws/aws-sdk-cpp/archive/refs/tags/1.11.926.tar.gz
-	b2sums = 65a7203f0768dc38afc1be4089c7392657deff0264689858608af8e0ffef306beb895b65a97bc19f5849c7d3b82003ffb6c3e6eb3de8651c85acb4d3ed0329f5
+	source = https://github.com/aws/aws-sdk-cpp/archive/refs/tags/1.11.927.tar.gz
+	b2sums = 4c40e35be66367608ab27bbb4352c13830e3f45272a9d264d854a78578531c01169a6e44a0cd9c0cb92f5c69a2bab75f31ef677cf707d3ae5fd3dc90ebd4106f
 
 pkgname = aws-sdk-cpp
 	depends = aws-c-common
