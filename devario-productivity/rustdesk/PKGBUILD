@@ -3,7 +3,7 @@
 # Contributor: Rojikku <RojikkuNoKami at gmail dot com> (rustdesk AUR)
 # Contributor: Tech <technetium1337 at gmail dot com> (rustdesk AUR)
 pkgname=rustdesk
-pkgver=1.5.1
+pkgver=1.5.3
 pkgrel=1
 pkgdesc='Remote desktop application with Flutter UI and hardware codecs'
 arch=('x86_64')
@@ -69,28 +69,25 @@ optdepends=(
   'nvidia-utils: NVIDIA hardware video support'
 )
 options=('!lto')
-_commit=23e5bb471a040d62f0a6ad52591fb30784265b73
-# Source archives omit submodule contents; this pin matches _commit's gitlink.
+# Source archives omit submodule contents; this pin matches the release's hbb_common gitlink.
 _hbb_commit=fae47e024dd83cef6aaecde0aa7d11731df11649
 _flutter_bridge=3.22.3
 _flutter_app=3.24.5
 _libwebm_fix=3b630045052e1e4d563207ab9e3be8d137c26067
 source=(
-  "rustdesk-$_commit.tar.gz::https://codeload.github.com/rustdesk/rustdesk/tar.gz/$_commit"
+  "rustdesk-$pkgver.tar.gz::https://github.com/rustdesk/rustdesk/archive/refs/tags/1.5.3.tar.gz"
   "hbb_common-$_hbb_commit.tar.gz::https://codeload.github.com/rustdesk/hbb_common/tar.gz/$_hbb_commit"
   'libyuv.pc'
   "libwebm-cstdint-$_libwebm_fix.patch::https://github.com/webmproject/libwebm/commit/$_libwebm_fix.patch"
-  "flutter-dropdown-$_commit.patch::https://raw.githubusercontent.com/rustdesk/rustdesk/$_commit/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff"
+  "flutter-dropdown-$pkgver.patch::https://raw.githubusercontent.com/rustdesk/rustdesk/$pkgver/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff"
   'flutter-rpath.patch'
 )
-sha256sums=(
-  'b0094708b091d320601373ba23c984594b3cc9e972ba069ab439a4f9f58c4c7b'
-  '25dde1ec04632a88b91218d362d45e4bbc89c1bfb1fe235b0534d66e249fe2f5'
-  'c339defc017d160e591cf6572028684eef5fb221a02307cd7a2fe4f853d80d8f'
-  'f3800d77ef3d183bc931d9d9ef0e5fe752aec0a3e577ed66f6f4f9ba78b291ee'
-  '7663824d8d728990a49e7a43e081fd1269f536a10987b576ba8f0bb766d2c759'
-  'a68d4fe3c3697ad6cb3ebf85750088602d82727296426323c81665aaae7481b1'
-)
+sha256sums=('97c63636a1110cb997354df1bf95ca6362abc8fd9875f633ef6d3056cf0cc0ac'
+            '25dde1ec04632a88b91218d362d45e4bbc89c1bfb1fe235b0534d66e249fe2f5'
+            'c339defc017d160e591cf6572028684eef5fb221a02307cd7a2fe4f853d80d8f'
+            'f3800d77ef3d183bc931d9d9ef0e5fe752aec0a3e577ed66f6f4f9ba78b291ee'
+            '7663824d8d728990a49e7a43e081fd1269f536a10987b576ba8f0bb766d2c759'
+            'a68d4fe3c3697ad6cb3ebf85750088602d82727296426323c81665aaae7481b1')
 
 _set_build_environment() {
   export CARGO_HOME="$srcdir/cargo-home"
@@ -113,7 +110,7 @@ _apply_cached_patch() {
 
 prepare() {
   _set_build_environment
-  cd "rustdesk-$_commit"
+  cd "rustdesk-$pkgver"
   # Use bundle-relative library paths instead of Flutter's build-directory paths.
   patch -Np1 -i "$srcdir/flutter-rpath.patch"
   rmdir libs/hbb_common
@@ -134,13 +131,13 @@ prepare() {
   (
     cd "$FVM_CACHE_PATH/versions/$_flutter_app"
     # Fix stale dropdown filtering state in the pinned application SDK.
-    _apply_cached_patch "$srcdir/flutter-dropdown-$_commit.patch"
+    _apply_cached_patch "$srcdir/flutter-dropdown-$pkgver.patch"
   )
 }
 
 build() {
   _set_build_environment
-  cd "rustdesk-$_commit"
+  cd "rustdesk-$pkgver"
   local _original_path="$PATH"
   export PATH="$FVM_CACHE_PATH/versions/$_flutter_bridge/bin:$_original_path"
   flutter --disable-analytics
@@ -165,7 +162,7 @@ build() {
 }
 
 package() {
-  cd "rustdesk-$_commit"
+  cd "rustdesk-$pkgver"
   # Keep Flutter's engine, plugins and assets together for relative loading.
   install -d "$pkgdir/usr/lib/rustdesk" "$pkgdir/usr/bin"
   cp -a flutter/build/linux/x64/release/bundle/. "$pkgdir/usr/lib/rustdesk/"
