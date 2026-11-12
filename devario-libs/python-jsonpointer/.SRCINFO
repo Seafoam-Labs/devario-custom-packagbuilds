@@ -1,6 +1,6 @@
 pkgbase = python-jsonpointer
 	pkgdesc = Identify specific nodes in a JSON document (RFC 6901)
-	pkgver = 3.10
+	pkgver = 3.12
 	pkgrel = 1
 	url = https://python-json-pointer.readthedocs.org/
 	arch = any
@@ -11,8 +11,8 @@ pkgbase = python-jsonpointer
 	makedepends = python-setuptools
 	makedepends = python-wheel
 	depends = python>=3.10
-	source = python-jsonpointer::git+https://github.com/stefankoegl/python-json-pointer#tag=v3.10
-	sha512sums = 721ae58803a7dd8e0e5912e9c87b43747683b65efbd92b160b004cdae54e39e1ae0f18d7e0bc0101e7fbf667420846fbd9f6a96f1201d238a9bc896ae5a09e18
-	b2sums = e3d0ef474583644c547f60f04160966a04da860d0f302bb60c9da5146e3eb215c8b6e6d6c4c077872869300d15c1f396b4995fb5445f518d2611c1cbf8989daa
+	source = python-jsonpointer::git+https://github.com/stefankoegl/python-json-pointer#tag=v3.12
+	sha512sums = def158c2ab2435be9124105ff3442ae0bc2420b714cd0c6f45ab03603daaaa57930fa6d5c651f23ff9c9a43e0ec0bebb3c5f12466e35e60257a44feed7a5cfeb
+	b2sums = 2504a71f3c977de839c9237d55d29315434ed44ffaf7dea94c692b4f3fda0605e910f3e7cd5fe4d18800d363e63489b3556446d6a660aad70648e8476bdf3626
 
 pkgname = python-jsonpointer
