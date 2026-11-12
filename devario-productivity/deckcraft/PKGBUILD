@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=deckcraft
-pkgver=0.16.0
+pkgver=0.18.0
 pkgrel=1
 pkgdesc="Clean-room reimplementation of Microsoft PowerPoint for slide decks"
 arch=('x86_64' 'aarch64')
@@ -29,11 +29,11 @@ optdepends=(
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
-source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+source=("$url/archive/refs/tags/v$pkgver.tar.gz")
 # Previous release checksum; must be refreshed by the separate checksum step.
-sha256sums=('4deceed942690242022df2c905c606ddd02ff177aaf5b499a9ce727989db069b')
+sha256sums=('c207bee434644a91f47c5fafab672d5c4280a4c3d8aa9b3bf13d6b9c43b83cc9')
 
-_commit=a3e2254d3de32ed1718f156f070b54a34b949b54
+_commit=0ce1a83c144bd9da5e37dc57e0673d9ccae9b21f
 _releasedate=2026-11-06
 _appid=ai.storyteller.deckcraft
 
