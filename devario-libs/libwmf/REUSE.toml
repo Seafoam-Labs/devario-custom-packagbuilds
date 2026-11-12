@@ -20,3 +20,10 @@ path = [
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "libwmf-0.2.17-bmp-stdint.patch",
+]
+SPDX-FileCopyrightText = "libwmf contributors"
+SPDX-License-Identifier = "LGPL-2.1-or-later"
