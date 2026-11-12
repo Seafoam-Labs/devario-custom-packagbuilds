@@ -2,7 +2,7 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=firefox-developer-edition
-pkgver=160.0b5
+pkgver=161.0b2
 pkgrel=1
 pkgdesc="Fast, Private & Safe Web Browser (Developer Edition)"
 url="https://www.mozilla.org/firefox/developer/"
@@ -76,24 +76,24 @@ validpgpkeys=(
   # https://blog.mozilla.org/security/2026-08-10/updated-gpg-key-for-signing-firefox-and-thunderbird-releases/
   14F26682D0916CDD81E37B6D61B7B526D98F0353
 )
-sha256sums=('a23e1047c69ed06e92f2803597f5b5d1bd64a456dd942df76ba3b4f8a4abf137'
+sha256sums=('f019d58888ae4043b9da9a76595b0b863a42178c9568a9f186c72eb9e58dd8db'
             'SKIP'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9'
             '2eaa7e9df839d4c25259b8ad3f12f46a126e194114fae66e5bfd5731ca45c8f0'
             '48e33f75f3760387305997ee0a3fcea030a1e7310fc461e92d7b73e6cf600096'
             '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
-b2sums=('cdbbcbbba0548eb99cf377d92b0ebe468a55932317e7d9a9df896461edbb5b646798f92eee1aaea46a31478a125ead1eb75757df75d46338d144a221b86d664f'
-        'SKIP'
-        '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
-        '1c2d9d33210d6052c2684e1efda3057114fa55890db97829b037b397fc03ed647262053304305d702ef9c3dcb03bea439abd5bb24c8be097b48a700752c9ce11'
-        '826db294d078c66e6bf3561c3c6de32d7522251b2ccbd47ab26fb6380988f117d854a726c36f45ddd2e846a1456ca0f6c883733d1c660351430f2d1fbc95b1eb'
-        'e57391102771f85905986aac45cb923f1738fe96ec4a520bad9a79ce68e7a5b14898cdc97d17d84dc8aff7c5aa2aab853701ef8b27c6a5fe9c1f634c19ca9d9b')
+b2sums=('a121679550116a0895b6a16b473328b6479c4694d8bbbcb55b669dce693ff59428f926192832727b29a5e501a43c8de487b6b3c78459659d9b835e6c43421284'
+            'SKIP'
+            '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
+            '1c2d9d33210d6052c2684e1efda3057114fa55890db97829b037b397fc03ed647262053304305d702ef9c3dcb03bea439abd5bb24c8be097b48a700752c9ce11'
+            '826db294d078c66e6bf3561c3c6de32d7522251b2ccbd47ab26fb6380988f117d854a726c36f45ddd2e846a1456ca0f6c883733d1c660351430f2d1fbc95b1eb'
+            'e57391102771f85905986aac45cb923f1738fe96ec4a520bad9a79ce68e7a5b14898cdc97d17d84dc8aff7c5aa2aab853701ef8b27c6a5fe9c1f634c19ca9d9b')
 
 package() {
   local appdir="$pkgdir/usr/lib/$pkgname"
 
   # Repack of Mozilla's build, copied as shipped: its bundled libraries, its
-  # updater, the .sig files its content security reads, and its distribution.ini,
+  # updater, the .sig files its content security reads, and its distribution ini,
   # which identifies the payload as the official build that the update and crash
   # reporter endpoints expect.
   install -dm755 "$appdir"
