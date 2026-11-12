@@ -1,6 +1,6 @@
 pkgbase = python-sentry_sdk
 	pkgdesc = The official Python SDK for Sentry.io
-	pkgver = 2.74.0
+	pkgver = 2.75.0
 	pkgrel = 1
 	url = https://sentry.io/for/python
 	arch = any
@@ -30,7 +30,7 @@ pkgbase = python-sentry_sdk
 	optdepends = python-tornado: adds support for the Tornado Web Framework
 	optdepends = python-pure-eval: for richer stacktraces & additional variables
 	optdepends = python-executing: for richer stacktraces & better function names
-	source = python-sentry_sdk-2.74.0.tar.gz::https://github.com/getsentry/sentry-python/archive/refs/tags/2.74.0.tar.gz
-	sha256sums = e4fbf47093c90a61660a2b992fda27e8c21060d44792323a8786b157fe8da2ea
+	source = python-sentry_sdk-2.75.0.tar.gz::https://github.com/getsentry/sentry-python/archive/refs/tags/2.75.0.tar.gz
+	sha256sums = 3998f0d8b43f7c17a4a1bba393da14d64b8b4509803ae58ea2c80b4eeb3e37b3
 
 pkgname = python-sentry_sdk
