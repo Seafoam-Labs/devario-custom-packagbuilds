@@ -2,7 +2,7 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=python-filelock
-pkgver=4.2.9
+pkgver=4.2.10
 pkgrel=1
 pkgdesc="A platform-independent file lock"
 arch=('any')
@@ -18,7 +18,14 @@ makedepends=(
   'python-installer'
 )
 source=("git+$url.git#tag=$pkgver")
-b2sums=('0b1e5d46d5de9cfa937736ed36aa29f0b41a542cf8e54e4e946166fe413ece3494ea60cda9da1d553e6a359dd72997815f6865d66f3d9f0d1e73bbaee21d157f')
+b2sums=('6e6f362c9a452bf97723a62dcfba1e666f88c63cf92c5f67a528b616672b1da251d13e8056719984dad232b2118aa453f1893528d22995fb6b3f9750402c4f72')
+
+prepare() {
+  cd ${pkgname#python-}
+  # 4.2.10 embeds a CycloneDX SBOM via the python-sbom hatch hook, which is not
+  # packaged. The hook only adds wheel metadata, so drop it and its requirement.
+  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.python-sbom/d' pyproject.toml
+}
 
 build() {
   cd ${pkgname#python-}
