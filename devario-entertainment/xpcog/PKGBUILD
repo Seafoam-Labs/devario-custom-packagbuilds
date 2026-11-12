@@ -17,7 +17,7 @@
 # and not the version; a build in a network-isolated chroot will still fail.
 
 pkgname=xpcog
-pkgver=4.0.1
+pkgver=4.0.2
 pkgrel=1
 pkgdesc="Audio player for the formats other players do not open"
 arch=('x86_64')
@@ -58,12 +58,12 @@ makedepends=('cmake' 'ninja' 'git' 'pkgconf' 'zip' 'unzip' 'curl' 'tar'
 _vcpkg_commit=17f35ad2418007a895ced8a4cece4ab34068a58d
 
 source=(
-  "$pkgname-$pkgver.tar.gz::https://github.com/losnoco/XPCog/archive/refs/tags/v$pkgver.tar.gz"
+  "$pkgname-$pkgver.tar.gz::https://github.com/losnoco/XPCog/archive/refs/tags/v4.0.2.tar.gz"
   "vcpkg::git+https://github.com/microsoft/vcpkg.git#commit=$_vcpkg_commit"
 )
 # The release tarball is checksummed; the vcpkg tree is not, because a git
 # source is pinned by its commit and makepkg wants SKIP for one.
-sha256sums=('272f11bdeedef4baef2a720427d45f9d7c79cbec997f9846210d37550f9bc596'
+sha256sums=('4f8aa5e2e5301fe28a08af723fc2f44133c719acb620cb0138b5d01cda27cbc5'
             '4c530ea42c3a97eab5f0dab11146ff3a496605e54f8f57172b1c4a9d85a955f5')
 
 prepare() {
