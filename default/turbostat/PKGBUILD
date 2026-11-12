@@ -3,7 +3,7 @@
 # Arch Maintainer: Christian Heusel <gromit@archlinux.org>
 
 pkgname=turbostat
-pkgver=7.3.3
+pkgver=7.3.4
 pkgrel=1
 pkgdesc='Report processor frequency and idle statistics'
 arch=('x86_64')
@@ -12,14 +12,8 @@ license=('GPL-2.0-only')
 depends=('glibc' 'libcap')
 options=('!strip' '!lto')
 _srcname=linux-${pkgver}
-source=("https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.xz"
-        "https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.sign")
-sha256sums=('79c66dde66cd96877fcde8f7d36aec946b1f423d2b97b5a7b1751b75c764f3d1'
-            'SKIP')
-validpgpkeys=(
-  'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
-  '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
-)
+source=("https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.xz")
+sha256sums=('b11b6df8295e8e991ff040b71aaa4994a8b55caa23b6b092907f195b5840fd1f')
 
 build() {
   make -C "$_srcname/tools/power/x86/turbostat"
