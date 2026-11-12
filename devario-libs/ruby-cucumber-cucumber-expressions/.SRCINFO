@@ -1,6 +1,6 @@
 pkgbase = ruby-cucumber-cucumber-expressions
 	pkgdesc = Cucumber Expressions - a simpler alternative to Regular Expressions
-	pkgver = 20.1.0
+	pkgver = 20.2.0
 	pkgrel = 1
 	url = https://github.com/cucumber/cucumber-expressions/tree/main/ruby
 	arch = any
@@ -11,7 +11,7 @@ pkgbase = ruby-cucumber-cucumber-expressions
 	depends = ruby
 	depends = ruby-bigdecimal
 	options = !emptydirs
-	source = git+https://github.com/cucumber/cucumber-expressions.git#tag=v20.1.0
-	sha256sums = 69a7e88fa6f607b17c7af01762fff10be08339e56fcbbcb3cec933aceb44cc51
+	source = git+https://github.com/cucumber/cucumber-expressions.git#tag=v20.2.0
+	sha256sums = d4367a52c8c9f39db8e92b862237d9cfc9d26ac123fe4a68c5d9a487e0d3d8e3
 
 pkgname = ruby-cucumber-cucumber-expressions
