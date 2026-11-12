@@ -1,7 +1,7 @@
 pkgbase = python-beniget
 	pkgdesc = A static analyzer for Python code
-	pkgver = 0.5.0
-	pkgrel = 2
+	pkgver = 0.5.1
+	pkgrel = 1
 	url = https://github.com/serge-sans-paille/beniget
 	arch = any
 	license = BSD-3-Clause
@@ -12,7 +12,7 @@ pkgbase = python-beniget
 	makedepends = python-wheel
 	depends = python
 	depends = python-gast
-	source = git+https://github.com/serge-sans-paille/beniget#tag=0.5.0
-	sha256sums = b83e50dba3214e7cc1bf24cf104be9ebf5f1bbd3b56f4c2d0b519c511307b834
+	source = git+https://github.com/serge-sans-paille/beniget#tag=0.5.1
+	sha256sums = 8c0200654d3b5e31d1ffbe58c1c174ee5d484506bcff032761fa33c832319a60
 
 pkgname = python-beniget
