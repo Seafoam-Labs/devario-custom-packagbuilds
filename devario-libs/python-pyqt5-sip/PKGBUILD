@@ -1,7 +1,7 @@
 # Maintainer: Antonio Rojas <arojas@archlinux.org>
 
 pkgname=python-pyqt5-sip
-pkgver=12.20.0
+pkgver=12.20.1
 pkgrel=1
 arch=(x86_64)
 pkgdesc='The sip module support for PyQt5'
@@ -14,7 +14,7 @@ makedepends=(python-build
              python-setuptools
              python-wheel)
 source=(https://pypi.python.org/packages/source/P/PyQt5-sip/pyqt5_sip-$pkgver.tar.gz)
-sha256sums=('93e0622791f8d22cd4a32a29edfdd2ef6d6680f4c47f59b03ebf1c5da3c3e896')
+sha256sums=('b94f0c7cf8f6335adb90aab1981756c94e1250854dbcc209271ba8c058c4ddbb')
 
 build() {
   cd pyqt5_sip-$pkgver

@@ -1,6 +1,6 @@
 pkgbase = python-pyqt5-sip
 	pkgdesc = The sip module support for PyQt5
-	pkgver = 12.20.0
+	pkgver = 12.20.1
 	pkgrel = 1
 	url = https://riverbankcomputing.com/software/pyqt/intro
 	arch = x86_64
@@ -11,7 +11,7 @@ pkgbase = python-pyqt5-sip
 	makedepends = python-wheel
 	depends = glibc
 	depends = python
-	source = https://pypi.python.org/packages/source/P/PyQt5-sip/pyqt5_sip-12.20.0.tar.gz
-	sha256sums = 93e0622791f8d22cd4a32a29edfdd2ef6d6680f4c47f59b03ebf1c5da3c3e896
+	source = https://pypi.python.org/packages/source/P/PyQt5-sip/pyqt5_sip-12.20.1.tar.gz
+	sha256sums = b94f0c7cf8f6335adb90aab1981756c94e1250854dbcc209271ba8c058c4ddbb
 
 pkgname = python-pyqt5-sip
