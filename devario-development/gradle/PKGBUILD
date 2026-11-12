@@ -5,7 +5,7 @@
 
 pkgbase=gradle
 pkgname=('gradle' 'gradle-doc' 'gradle-src')
-pkgver=9.9.0
+pkgver=9.9.1
 pkgrel=1
 pkgdesc='Powerful build system for the JVM'
 url='https://gradle.org/'
@@ -32,11 +32,11 @@ makedepends=(
 source=(https://services.gradle.org/distributions/${pkgbase}-${pkgver}-src.zip
         https://services.gradle.org/distributions/${pkgbase}-${pkgver}-all.zip
         ${pkgbase}.sh)
-sha256sums=('c16d860198430fd8fd1c6914c4ca8283820d181ed0c5efa6fcce2275819a7bb4'
-            '7aaba33a6aa7d03e0c7890869da1f1b5e1765c4d71db981a9d5db5cc47a10a6d'
+sha256sums=('3ff6caf155cbf86d6494ffc1b326ea43b7e3a2a937c4f6344ff8f0a29c9a55b9'
+            'f20c816177c0ff192881874852260771b462903aef3e794b0dac4759d1fda284'
             '4728dbdbe9fe416b82977cb7e456457e3ff0b88129291ee28e0d874ce8cc4891')
-sha512sums=('45485b4b3c707b6473ead1408190343033208d405894832dbe71dc7952ff42078f56d24cd634c03f9468b41317032b77acd5f2a3e2eb63cc65c5ae4897d2d653'
-            '40468c2bd953b4057319cd2144d1a7e7a65f6b021186d051461785dda9ddda8ea7175d57d2348c3b73ab08359d4773ca8f5ea7d7bdfecd4b6e94bd6f44ceca62'
+sha512sums=('2c80136c9e492c0b5139687d9fcaa9032dfac9b0ba8c7776f1ab951d1c64093081d278c989163b65b8ddb8649b7e45d6572f2baa93c452c77977129393f36748'
+            'd7785ec8c82d75238ebf49125f2208c3751215ed017c91d3171099e775a0e4b39bf13bc92356803ab6354447442e16649d29e718202064ca74b3b2d0ee6dcf3e'
             '9054a13f13a0d04bffefb2e5c1bcabfcd7b11e4d83d9180f65e0a09eeb8fea407d8c4e1e1e9b79191ba99e4eb372dbbb3189dd30833170c64cdb4484ca559441')
 
 # Shelly refuses a second source archive writing a path the first created, and
@@ -50,8 +50,8 @@ prepare() {
   grep -lr "vendor = JvmVendorSpec.ADOPTIUM" | xargs sed -i "/JvmVendorSpec.ADOPTIUM/d"
 
   # inhibit automatic download of binary gradle. Since 9.9.0 the checked-in wrapper
-  # also pins distributionSha256Sum (of its 9.9.0-rc-1 -bin bootstrap), which the
-  # -all zip cannot satisfy; re-pin it to the checksum makepkg just verified.
+  # also pins distributionSha256Sum (of its release-candidate -bin bootstrap), which
+  # the -all zip cannot satisfy; re-pin it to the checksum makepkg just verified.
   all_sha256=$(sha256sum "${srcdir}/${pkgbase}-${pkgver}-all.zip" | cut -d' ' -f1)
   sed -i -e "s#distributionUrl=.*#distributionUrl=file\:${srcdir}/${pkgbase}-${pkgver}-all.zip#" \
     -e "s#^distributionSha256Sum=.*#distributionSha256Sum=${all_sha256}#" \
