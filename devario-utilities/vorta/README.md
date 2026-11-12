@@ -1,6 +1,6 @@
 # Vorta
 
-Builds [Vorta 0.11.6](https://github.com/borgbase/vorta/releases/tag/v0.11.6)
+Builds [Vorta 0.12.1](https://github.com/borgbase/vorta/releases/tag/v0.12.1)
 from its checksum-pinned release archive. Includes Qt translations, desktop
 launcher, application icons, and AppStream metadata.
 
