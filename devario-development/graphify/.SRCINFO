@@ -1,6 +1,6 @@
 pkgbase = graphify
 	pkgdesc = Turn code, documents, and media into a queryable knowledge graph
-	pkgver = 0.9.104
+	pkgver = 0.9.107
 	pkgrel = 1
 	url = https://github.com/Graphify-Labs/graphify
 	arch = any
@@ -80,7 +80,7 @@ pkgbase = graphify
 	optdepends = python-tiktoken: token counting for OpenAI-compatible backends
 	optdepends = python-anthropic: Claude API backend
 	optdepends = python-boto3: AWS Bedrock backend
-	source = https://github.com/Graphify-Labs/graphify/releases/download/v0.9.104/graphifyy-0.9.104.tar.gz
-	sha256sums = 6dfb7798dde20dea3478b291b061fab77b66b8fd53388e0a36d0cefabd253fe6
+	source = https://github.com/Graphify-Labs/graphify/releases/download/v0.9.107/graphifyy-0.9.107.tar.gz
+	sha256sums = 1c5440bc323db2840bb033679f15b76cc86045bf3146b8ea6790aed52842d9ad
 
 pkgname = graphify
