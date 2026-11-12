@@ -1,0 +1,5 @@
+[liquidctl]
+source = "github"
+github = "liquidctl/liquidctl"
+use_max_tag = true
+prefix = "v"

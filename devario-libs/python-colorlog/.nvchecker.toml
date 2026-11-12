@@ -1,0 +1,4 @@
+[python-colorlog]
+source = "git"
+git = "https://github.com/borntyping/python-colorlog.git"
+prefix = "v"

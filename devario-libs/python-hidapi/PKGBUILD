@@ -1,0 +1,56 @@
+# Maintainer: Morten Linderud <foxboron@archlinux.org>
+# Contributor: Timothy Redaelli <timothy.redaelli@gmail.com>
+# Contributor: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Kevin Azzam <arch@kevin.azz.am>
+
+pkgname=python-hidapi
+_pipname=hidapi
+pkgver=0.14.0
+# _pkgver=${pkgver%.*}.post${pkgver##*.}
+_pkgver="$pkgver"
+pkgrel=7
+arch=('x86_64')
+pkgdesc="A Cython interface to the hidapi from signal11/hidapi"
+url="https://github.com/trezor/cython-hidapi"
+depends=('python' 'hidapi')
+makedepends=('cython' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel' 'udev')
+license=('custom')
+source=("https://pypi.org/packages/source/${_pipname:0:1}/$_pipname/$_pipname-$_pkgver.tar.gz"
+         https://github.com/trezor/cython-hidapi/commit/89aaf081.patch
+         https://github.com/trezor/cython-hidapi/commit/5cc527e4.patch)
+sha512sums=('228fac22621e36a3108cefd418937a7ed0153e334e19999e947aad341a753d614877cd3f7add90d78037ebe9c7b3f6cbc42973a8e680188da14928311d317b17'
+            '9efc1fa60d09532c6010b10e9b7479312bf7b9d2bd2ea7ae4e4d1689e15c902a033f3fbe0294ee0363f038ee1612000491467d49c64d90c70f537492a75b31e8'
+            '1ed50361ba6c32f12b97bec837855e3728dbeb3f94f0c012837d343d85814a81543285068ce63167890687b274f14abe30ee845ed0460592b1623a736a229d83')
+
+prepare() {
+  cd "$_pipname-$_pkgver"
+# Cython 3 support
+  patch -p1 -i ../89aaf081.patch
+  patch -p1 -i ../5cc527e4.patch
+}
+
+build() {
+  cd "$_pipname-$_pkgver"
+
+    python -m build --wheel --no-isolation \
+        -C--build-option=--without-libusb \
+        -C--build-option=--with-system-hidapi
+}
+
+check() {
+  cd "$_pipname-$_pkgver"
+
+  local python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+  #PYTHONPATH="$PWD/build/lib.linux-$CARCH-${python_version}" python tests.py
+}
+
+package_python-hidapi() {
+  cd "$_pipname-$_pkgver"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm 755 LICENSE.txt "$pkgdir"/usr/share/licenses/$pkgname/LICENSE.txt
+  install -Dm 755 LICENSE-bsd.txt "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-bsd.txt
+  install -Dm 755 LICENSE-gpl3.txt "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-gpl3.txt
+  install -Dm 755 LICENSE-orig.txt "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-orig.txt
+}

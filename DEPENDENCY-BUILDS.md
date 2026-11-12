@@ -122,6 +122,36 @@ databases except these two names, so nothing else gates that plan. `amf-headers`
 to the commit Arch built, which the AMF repository now labels `v1.5.2` while `pkgver` reads
 `1.5.3`; that is upstream's pin, so leave it as imported.
 
+## Open: publish the liquidctl dependency closure
+
+The worker's `devario-utilities/liquidctl` plan fails `IncompleteDependencyPlan` on
+`python-colorlog`, `python-crcmod=1.7`, `python-docopt`, `python-hidapi` and
+`python-pyusb`, none of which had a published package or a recipe. liquidctl itself
+owned no recipe here either, so all six were forked from the Arch packaging
+repositories on 2026-11-12 at the versions Arch publishes today.
+
+| Stage | Publish | Unblocks |
+| --- | --- | --- |
+| 1 | [python-colorlog](devario-libs/python-colorlog/PKGBUILD) `6.10.0-1`, [python-crcmod](devario-libs/python-crcmod/PKGBUILD) `1.7-9`, [python-docopt](devario-libs/python-docopt/PKGBUILD) `0.6.2-16`, [python-hidapi](devario-libs/python-hidapi/PKGBUILD) `0.14.0-7`, [python-pyusb](devario-libs/python-pyusb/PKGBUILD) `1.3.1-2` | stage 2 |
+| 2 | [liquidctl](devario-utilities/liquidctl/PKGBUILD) `1.16.0-1` | the worker's liquidctl plan |
+
+`python-crcmod 1.7-9` satisfies the plan's `=1.7` pin; crcmod has no other release.
+Of the 44 `depends` and `makedepends` entries the six declare, 39 resolve against
+packages Devario already publishes and the other 5 are liquidctl's edges to the new
+dependencies. `udev` resolves through `systemd`'s provision, and `python-hidapi`
+builds against published `hidapi 0.15.0` with `--with-system-hidapi`.
+
+`shelly build --review-only --json` is exit 0 for all six and `--makesrcinfo`
+regenerates each `.SRCINFO` unchanged; the crcmod and hidapi warnings are upstream's
+`check()` command substitutions, inspected and retained. Tarball and patch checksums
+were re-verified against upstream downloads and both signed git tags verify against
+the shipped keys. The one deviation from Arch: its export of
+`23F335ED4E829797734B22F65841AF7406AF7AD0` omits the signing subkey
+`E85FE39F6A144827869F9A7745F0AD783D788A6D` that signs liquidctl's `v1.16.0` tag, so
+both copies of that `.asc` were refreshed to the full export
+([liquidctl/README.md](devario-utilities/liquidctl/README.md)). Nothing is built or
+published yet.
+
 ## Open: published packages whose depends nothing provides
 
 Read 2026-11-03 across all fourteen databases, with the batch-8 import folded in 2026-11-04 and

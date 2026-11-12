@@ -1,0 +1,3 @@
+[python-crcmod]
+source = "pypi"
+pypi = "crcmod"
