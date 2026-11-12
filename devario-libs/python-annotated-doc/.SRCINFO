@@ -1,6 +1,6 @@
 pkgbase = python-annotated-doc
 	pkgdesc = Document parameters, class attributes, return types, and variables inline, with Annotated
-	pkgver = 0.0.5
+	pkgver = 0.0.6
 	pkgrel = 1
 	url = https://github.com/fastapi/annotated-doc
 	arch = any
@@ -13,7 +13,7 @@ pkgbase = python-annotated-doc
 	makedepends = python-wheel
 	makedepends = python-pdm-backend
 	depends = python
-	source = annotated-doc-0.0.5.tar.gz::https://github.com/fastapi/annotated-doc/archive/0.0.5.tar.gz
-	sha256sums = b1df640b7d5658b8d3807b42d51291ed3f24e43d4a059092c11495a3f7714fc9
+	source = annotated-doc-0.0.6.tar.gz::https://github.com/fastapi/annotated-doc/archive/refs/tags/0.0.6.tar.gz
+	sha256sums = 39e1734731e5292657bd73b4c715dcada63bcd4784e0cb5961c535c05c675242
 
 pkgname = python-annotated-doc
