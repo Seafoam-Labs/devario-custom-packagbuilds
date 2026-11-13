@@ -4,7 +4,7 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=apache
-pkgver=2.4.70
+pkgver=2.4.71
 pkgrel=1
 pkgdesc='A high performance Unix-based HTTP server'
 arch=('x86_64')
@@ -38,27 +38,19 @@ optdepends=(
     'logrotate: for rotating logs'
 )
 source=(
-    https://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2{,.asc}
+    https://downloads.apache.org/httpd/httpd-${pkgver}.tar.bz2
     apache.tmpfiles
     httpd.logrotate
     httpd.service
     hardening.conf
     arch.layout
 )
-sha256sums=('1eefd7dc95836c5872894ce8e6a37f773d5a6764f0766869d39b8bcf0b1bafc3'
-            'SKIP'
+sha256sums=('2bc5da5a33c247341de082717d4ebcb5cb49e8b73a05b7fddf7d5d6dc2f8de62'
             '63da1a420f4714a3e7af2672d28384419cc7eedbe7bf35baebd02938fabc15bf'
             '0bbbfae23a917b2fce0bf8f900f60319b50769224a96314e9301a75ccd078e16'
             '4322db9833d5c84444b774eff51293aa40b8ad9b88cf061bd8a1f0a181710d85'
             '7994b4160a233956da1d805c371b337d0e7d9b8b47275020942664f0f8f0e164'
             'dda05c6e76f12624e418ca18a36f2e90ec1c5b1cc52fed7142fce6076ec413f3')
-# following keys are coming from https://downloads.apache.org/httpd/KEYS
-validpgpkeys=('A93D62ECC3C8EA12DB220EC934EA76E6791485A8' # Jim Jagielski
-              'B9E8213AEFB861AF35A41F2C995E35221AD84DFF'
-              'C55AB7B9139EB2263CD1AABC19B033D1760C227B' # christophe.jaillet@wanadoo.fr
-	      '26F51EF9A82F4ACB43F1903ED377C9E7D1944C66' # Stefan Eissing (icing) <stefan@eissing.org>
-              'E3480043595621FE56105F112AB12A7ADC55C003' # Daniel Ruggeri
-	      '65B2D44FE74BD5E3DE3AC3F082781DE46D5954FA')  # Eric Covener <covener@apache.org>
 
 prepare() {
   cd httpd-${pkgver}
