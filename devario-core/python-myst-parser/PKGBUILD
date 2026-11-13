@@ -3,8 +3,8 @@
 
 _pkgname=MyST-Parser
 pkgname=python-myst-parser
-pkgver=5.1.0
-pkgrel=2
+pkgver=5.2.0
+pkgrel=1
 pkgdesc='An extended commonmark compliant parser, with bridges to docutils/sphinx'
 arch=('any')
 url='https://github.com/executablebooks/MyST-Parser'
@@ -12,8 +12,8 @@ license=('MIT')
 depends=('python' 'python-docutils' 'python-jinja' 'python-markdown-it-py' 'python-mdit_py_plugins' 'python-pygments' 'python-sphinx' 'python-yaml')
 optdepends=('python-linkify-it-py: linkify support')
 makedepends=('python-build' 'python-installer' 'python-flit-core' 'python-wheel')
-source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha512sums=('db3c9b2173f0e3ca1c53053c4b5150291436dc50203e6c93660d0b9aafb2e0b27f06765dfb18b1147ec5629ca11a5fcb8b83862783c58099ee214c4d4b9a60a0')
+source=("$url/archive/refs/tags/v$pkgver.tar.gz")
+sha512sums=('11b8c8e93a0a5b1dbbde49e6b848c7b0d4445adbbb12d4cfed8acd4dac0935f3e20fa56e806cd3079ba3bccf76127267ed26482f6f154c3fce808a016c697cf5')
 
 prepare() {
   cd $_pkgname-$pkgver

@@ -1,6 +1,6 @@
 # python-myst-parser for Shelly
 
-Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/python-myst-parser/-/blob/main/PKGBUILD), pinned to `5.1.0-2`. Copy the whole directory to the worker, including local patches and `keys/` where present.
+Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/python-myst-parser/-/blob/main/PKGBUILD), pinned to `5.2.0-1`. Copy the whole directory to the worker, including local patches and `keys/` where present.
 
 Retains the upstream flit-core constraint adjustment. Package tests and test-only dependencies are omitted. Build after Sphinx, with its declared Markdown and Python runtime dependencies available.
 
