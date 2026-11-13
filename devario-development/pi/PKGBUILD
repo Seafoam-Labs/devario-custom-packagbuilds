@@ -1,0 +1,46 @@
+pkgname=pi
+_pkgname=pi-coding-agent
+pkgver=1.5.2
+pkgrel=1
+pkgdesc="Coding agent CLI with read, bash, edit, write tools and session management"
+arch=('x86_64' 'aarch64')
+url="https://github.com/earendil-works/pi"
+license=('MIT')
+depends=('glibc' 'gcc-libs')
+optdepends=(
+    'fd: system-provided backend for the find tool (auto-downloaded when missing)'
+    'git: repository-aware workflows and session integration'
+    'ripgrep: system-provided backend for the grep tool (auto-downloaded when missing)'
+    'wl-clipboard: clipboard support on Wayland'
+)
+provides=("pi-coding-agent=${pkgver}" "pi-coding-agent-bin=${pkgver}")
+conflicts=('pi-coding-agent' 'pi-coding-agent-bin' 'pi-coding-agent-git')
+# Stripping (including debug splits) corrupts the Bun binary's embedded payload;
+# assets resolve relative to the real binary path, so keep the bundle in /opt.
+options=('!strip' '!debug')
+
+_tag="v${pkgver}"
+source=("${pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/earendil-works/pi/${_tag}/LICENSE")
+source_x86_64=("${pkgname}-${pkgver}-x86_64.tar.gz::${url}/releases/download/${_tag}/pi-linux-x64.tar.gz")
+source_aarch64=("${pkgname}-${pkgver}-aarch64.tar.gz::${url}/releases/download/${_tag}/pi-linux-arm64.tar.gz")
+
+sha256sums=('0457f5bcec3b3b211605dfb5d1a49042fd638f3686a410fe099c24a25af13c48')
+sha256sums_x86_64=('811c6f2c9e7aaee252b5404252e556fb713aa209c1f7f924226aa77d4ef70cb5')
+sha256sums_aarch64=('42805cd5615952fcbbfc9c56b04f8feb84395134952e169a6cdc8d7676975666')
+
+check() {
+    cd "${srcdir}/pi"
+    set -o pipefail
+    ./pi --version | grep -Fxq "$pkgver"
+}
+
+package() {
+    install -d "${pkgdir}/opt"
+    cp -a --no-preserve=ownership "${srcdir}/pi" "${pkgdir}/opt/${_pkgname}"
+
+    install -d "${pkgdir}/usr/bin"
+    ln -s "../../opt/${_pkgname}/pi" "${pkgdir}/usr/bin/pi"
+
+    install -Dm644 "${srcdir}/${pkgname}-${pkgver}-LICENSE" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
