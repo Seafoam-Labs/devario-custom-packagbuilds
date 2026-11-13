@@ -2,8 +2,8 @@
 
 Seed for `../dart`, which is self-hosting: its `build()` runs the Dart SDK, so the worker plan
 fails with `dart (not_in_repositories)` until a repository already publishes a compiler. This
-recipe packages upstream's prebuilt stable SDK zip as `dart-bootstrap 3.13.5-1`, and the real
-recipe builds over it as `dart 3.13.5-2`.
+recipe packages upstream's prebuilt stable SDK zip as `dart-bootstrap 3.14.0-1`, and the real
+recipe builds over it as `dart 3.14.0-2`.
 
 Coexistence is deliberate. The seed keeps its own ALPM name, so it holds its own repository row
 and a worker Remove run can no longer evict the real dart, which is what publishing under the name
