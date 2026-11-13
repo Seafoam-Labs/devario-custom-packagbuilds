@@ -1,6 +1,6 @@
 pkgbase = github-cli
 	pkgdesc = The GitHub CLI
-	pkgver = 2.103.3
+	pkgver = 2.104.0
 	pkgrel = 1
 	url = https://github.com/cli/cli
 	arch = x86_64
@@ -13,9 +13,9 @@ pkgbase = github-cli
 	optdepends = git: To interact with repositories
 	optdepends = org.freedesktop.secrets: Store credentials in system keyring
 	options = !lto
-	source = github-cli-2.103.3.tar.gz::https://github.com/cli/cli/archive/v2.103.3.tar.gz
+	source = github-cli-2.104.0.tar.gz::https://github.com/cli/cli/archive/refs/tags/v2.104.0.tar.gz
 	source = 0001-Add-build-flag-for-no-telemetry.patch
-	sha256sums = bb148138a3a2fe023e57c78042fe3b42fc09171c0e8fff4cf983b227b7a2eade
-	sha256sums = faf410e42f7dc7a7953691091ea8c7bbca1565bf1f6004a390cad1ff0765517d
+	sha256sums = 779060cbdc5a354fa2fc8afb56e9277f64a29ac599daefd941558356509081e4
+	sha256sums = de9feac12138fc81a974a13b55758e0f2d966843f0a01e8fa47cbc4126e68828
 
 pkgname = github-cli

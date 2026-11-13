@@ -3,7 +3,7 @@ From: William Martin <williammartin@github.com>
 Date: Wed, 22 Apr 2026 14:09:27 +0200
 Subject: [PATCH] Add build flag for no telemetry
 
-Adapted for 2.103.3+: upstream now documents GO_BUILDTAGS in
+Adapted for 2.104.0+: upstream now documents GO_BUILDTAGS in
 script/build.go itself, so the comment-only hunk was dropped.
 ---
  internal/config/config.go             |  2 +-
