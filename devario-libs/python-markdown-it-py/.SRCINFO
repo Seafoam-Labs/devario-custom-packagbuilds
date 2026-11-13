@@ -1,7 +1,7 @@
 pkgbase = python-markdown-it-py
 	pkgdesc = Python port of markdown-it. Markdown parsing, done right!
-	pkgver = 4.2.0
-	pkgrel = 2
+	pkgver = 4.3.0
+	pkgrel = 1
 	url = https://github.com/executablebooks/markdown-it-py
 	arch = any
 	license = MIT
@@ -11,7 +11,7 @@ pkgbase = python-markdown-it-py
 	depends = python-mdurl
 	optdepends = python-mdit_py_plugins: core plugins
 	optdepends = python-linkify-it-py: linkify extension
-	source = python-markdown-it-py-4.2.0.tar.gz::https://github.com/executablebooks/markdown-it-py/archive/v4.2.0.tar.gz
-	sha512sums = 81e659729f8da1ad269f40c693d66f0192c129dc42fcbcb09a14c617794816555d9f69137d09458d79f96eb5c92ea29e4d625616f994f7fcffa1b198a9830be0
+	source = python-markdown-it-py-4.3.0.tar.gz::https://github.com/executablebooks/markdown-it-py/archive/refs/tags/v4.3.0.tar.gz
+	sha512sums = af62aa19c8fe8aa116feffd4d65132bcceb7c1e50125677a84df55a16b600d26307621ce28c7b57ba444122fa778b141f8ec37ae6bec9a870f46ed0df28a8b4a
 
 pkgname = python-markdown-it-py

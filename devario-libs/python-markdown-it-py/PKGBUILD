@@ -3,8 +3,8 @@
 
 _pkgname=markdown-it-py
 pkgname=python-$_pkgname
-pkgver=4.2.0
-pkgrel=2
+pkgver=4.3.0
+pkgrel=1
 pkgdesc='Python port of markdown-it. Markdown parsing, done right!'
 arch=('any')
 url='https://github.com/executablebooks/markdown-it-py'
@@ -13,8 +13,8 @@ depends=('python-mdurl')
 optdepends=('python-mdit_py_plugins: core plugins'
             'python-linkify-it-py: linkify extension')
 makedepends=('python-build' 'python-flit-core' 'python-installer')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha512sums=('81e659729f8da1ad269f40c693d66f0192c129dc42fcbcb09a14c617794816555d9f69137d09458d79f96eb5c92ea29e4d625616f994f7fcffa1b198a9830be0')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha512sums=('af62aa19c8fe8aa116feffd4d65132bcceb7c1e50125677a84df55a16b600d26307621ce28c7b57ba444122fa778b141f8ec37ae6bec9a870f46ed0df28a8b4a')
 
 build() {
   cd $_pkgname-$pkgver
