@@ -8,11 +8,11 @@ pkgbase = python-dateutil
 	license = Apache-2.0
 	makedepends = python-build
 	makedepends = python-installer
-	makedepends = python-wheel
-	makedepends = python-setuptools-scm
-	makedepends = python-six
+	makedepends = python-hatchling
+	makedepends = python-hatch-vcs
+	makedepends = python-hatch-fancy-pypi-readme
 	makedepends = git
-	depends = python-six
+	depends = python-tzdata
 	source = git+https://github.com/dateutil/dateutil.git#commit=2.9.0
 	sha256sums = db84e1759eb51252204597504409cafee32ea9a9616e64d82d8ec769048ff00e
 
