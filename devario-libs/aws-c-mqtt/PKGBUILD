@@ -2,8 +2,8 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=aws-c-mqtt
-pkgver=1.1.2
-pkgrel=2
+pkgver=1.1.3
+pkgrel=1
 pkgdesc='C99 implementation of the MQTT 3.1.1 specification'
 arch=(x86_64)
 url='https://github.com/awslabs/aws-c-mqtt'
@@ -15,8 +15,8 @@ depends=(
   glibc
 )
 makedepends=(cmake)
-source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('f1da4ec5b969a3adf8ef3b245ebaec7295e5aad58da144bb2a729d3adf389bb02409f2807ac000605bc57d72e7dda256c1de91c796ee25b249527defe93a0cbe')
+source=("$url/archive/refs/tags/v$pkgver.tar.gz")
+b2sums=('6a6eb6ffaaca8adcffe7a2ea6fc427c1ff887baa3269074187b8bca608faeb408570b706afee1f06a56a73e78568ed1152b5d2f4fda268cef7b0161532f9a910')
 
 build() {
   cmake -S $pkgname-$pkgver -B build \
