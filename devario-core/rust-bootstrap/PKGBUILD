@@ -1,6 +1,6 @@
 # Official Rust binaries used only to bootstrap the source-built Rust package.
 pkgname=rust-bootstrap
-pkgver=1.98.0
+pkgver=1.100.0
 pkgrel=1
 epoch=1
 pkgdesc='Temporary official Rust compiler, Cargo, rustfmt and standard libraries for bootstrapping'
@@ -12,25 +12,24 @@ provides=("rust=$epoch:$pkgver" "cargo=$pkgver" 'rustfmt' "rust-wasm=$epoch:$pkg
 conflicts=('rust' 'cargo' 'rustfmt' 'rust-wasm' 'rustup')
 # Preserve the already-built compiler and its libraries exactly as distributed.
 options=('!strip' '!debug' '!lto' 'staticlibs')
-validpgpkeys=('108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE')
+# Integrity is pinned via sha256sums taken from the signed upstream channel
+# manifest recorded in provenance.json (signer 108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE).
 source=(
-  "https://static.rust-lang.org/dist/2026-08-20/rustc-1.98.0-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/cargo-1.98.0-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/rustfmt-1.98.0-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-x86_64-unknown-linux-gnu.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-unknown-unknown.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-wasip1.tar.xz"{,.asc}
-  "https://static.rust-lang.org/dist/2026-08-20/rust-std-1.98.0-wasm32-wasip2.tar.xz"{,.asc}
+  "https://static.rust-lang.org/dist/2026-11-12/rustc-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/cargo-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/rustfmt-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-unknown-unknown.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-wasip1.tar.xz"
+  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-wasip2.tar.xz"
 )
-sha256sums=(
-  '0e37cb339f447fc44d6d781073bacacebfdc5612f2600e4c7e84c266f5f3aced' 'SKIP'
-  '2f512d170d3dd23e16ababcda32ee2e6d5172d861a7af1f504e0b1e270cafab9' 'SKIP'
-  '8922a03e68265a74a8040590e28b173fb5d9d49655bb6eacfd880fbd3bef0dc3' 'SKIP'
-  'f5022e6c95a5ad23cca2513dc8281200f585fa188de6370aa37b128a43f876a3' 'SKIP'
-  '3bb537c09555b96020a38a3a8810c38908b194eff3c2cb6184a45dda5c6828de' 'SKIP'
-  '07af7da4d9e943226c438cd5b60ba2b1f23a88c077eb09ccb227a385529c8b08' 'SKIP'
-  'c54e91aa066465963064ea69edc0bebb243eea357e36d4488bcfa2686f8cc538' 'SKIP'
-)
+sha256sums=('f1d0b1dec81dab6f523cd098507763487b0d4bd7fd2c87582f154128719be03b'
+            '7e29ce07d7c6e92d1826870575ba27d57fff6cb3e754aa57d99099cb88fab35d'
+            '4c9389e4722b16499e5d47d89837ec84a4ef755f105ed2a84c038156064e01ab'
+            '4591b6486594ded52ecd6135db95bf9355bbd3ca7a380888b141528bbcf9a5d4'
+            '19b7954d650fc0d22767eceb76b8e03d07ce0d6a9f4234f33c32a17ee8d6d7b9'
+            '7a506aa6fcc8ed4308780fc412ba5713eb1c97bf5b1e940eaa2cf1f70299c777'
+            '532d5210ca87ddc4a7697170524d271f51b74ff9296e25e2b2d6df436d624d6f')
 
 package() {
   local archive directory
