@@ -8,7 +8,7 @@ _mode=release
 
 pkgname=scx-scheds-git
 _gitname=scx
-pkgver=1.1.5.devario.6.r16.g5e758e9eb
+pkgver=1.1.5.devario.6.r19.g8820f95ed
 pkgrel=1
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
@@ -37,30 +37,30 @@ source=("git+https://github.com/Seafoam-Labs/scx")
 sha256sums=('SKIP')
 
 _backports=(
-06b292a051fc0d76e0910c99b86e17e81e2f738f # scheds: Introduce scx_maestro
-4a63ecda9cf31387a843fcc33b041357c2ddc72e # scx_maestro: Honor cgroup cpu.weight for tasks and sub-schedulers
-1f155ed04e01ba085bf0e5a702069faa8f1fa461 # scx_maestro: Allow to enable/disable NUMA and SMT optimizations
-b0ef67a76f05dc56899c3906cbf10588c73c3ac6 # scx_maestro: Don't update deadline in case of re-enqueue
-6e5c53b893545eaed70fa3cc44befa6138811c8a # scx_maestro: Introduce completely fair scheduling
-081202805ad661c5e8ec9fc8850ef6b3c94456e0 # scx_maestro: Make enqueue + CPU kick more reliable
-55d6ce9356a2f17de8d58081cf7e9d4ac634cd05 # scx_maestro: Enforce preemption each tick on CPU contention
-5030ea5a76658cab70928f5a2e490da75a35f2ac # scx_maestro: Temporarily drop sub-sched support
-47afe940bcafd8c37648dca7f531cc0c5a1bbd61 # scx_maestro: bump to 1.1.1
-95bf00596bdd568b6c2e399046ecc1a37b812ce9 # scx_maestro: fix formatting
-5723f509caf5257fd018efb1b6cb56857856d771 # scx_maestro: bump to 1.1.2
-64c9824a347faf4db31cbdbfd184226a91bbadda # scx_maestro: Use scx_bpf_task_set_slice() setter
-ab409e996cf422e88e73755c86f1e51a849f9571 # scx_maestro: bump to 1.1.3
-5e049ba5461280b032440a0cc72bab269efdfdb9 # scx_maestro: bump libbpf to 0.27.0
-6546f0dacf3a0812acd5b96c702ebbeb45decc2d # scx_maestro: migrate to Rust edition 2024 and rust-version 1.91
-7b96d071c7e7796f7c92dc0123e0a39c73a97283 # scx_maestro: fix formatting
-7886cfe433383e352ebe3a2ab2a4ea63523e7d1d # scx_maestro: bump libbpf to 0.27.1
-b9cb049f8d2464948fdf3e3a995c6709a5791aef # scx_maestro: bump libbpf to 0.27.2
-75cc61e478d8770b9d1d9a65ebc9c632f7258a56 # scx_maestro: bump to 1.1.4
-11fe6be2e7f74a0f79ba6bce09b2704f2c760f39 # scx_maestro: move to experimental
-49c96b88523208c28534cecd9b37750f1cb71f32 # scx_maestro: add to scx_catalog
-164d8aae1acbbdb94bfc87aef55896870387f555 # scx_cake: keep a private idle word; fix load limits and exiting tasks
-fbf8a3ae1d0359a3c9149aedc89fd81a33c1e8cf # scx_pandemonium: bump to 5.24.0
-ba4b37d05babac7db612e179ed805a3f7f8cc3f8 # scx_panda: add to scx tree
+4b5236dae10d9bce58f34429d9f28dde88f1ee5c # scheds: Introduce scx_maestro
+c8db70813ab16506715ee1cd13d162e6265482b8 # scx_maestro: Honor cgroup cpu.weight for tasks and sub-schedulers
+d90170f3a8dbb3e5594140008858b069efd27b72 # scx_maestro: Allow to enable/disable NUMA and SMT optimizations
+0ab5ffbd2ad8f8cc3ae25c9de6cc5f0e8289e1c3 # scx_maestro: Don't update deadline in case of re-enqueue
+b71d49108fa84983f8815ac02835496e639a797e # scx_maestro: Introduce completely fair scheduling
+020fd19ecc7c761b9956a063c508b33bae231b4e # scx_maestro: Make enqueue + CPU kick more reliable
+7f711d93f2e5ab1f3eed11b1e9641fd3ad32c2d9 # scx_maestro: Enforce preemption each tick on CPU contention
+450e37edbfaeb5ae50966942c2c7521de5bf8943 # scx_maestro: Temporarily drop sub-sched support
+f770d74dc591b091e80feb7fec02e12f789c6e88 # scx_maestro: bump to 1.1.1
+836f3fe4bb2b4d743daa1c583da2cc68103e43b9 # scx_maestro: fix formatting
+c9669cbb55dbdf9bbfffcb94eb72d13ed84727b5 # scx_maestro: bump to 1.1.2
+7efa41ce9d00c92f8dbe97cd7b474f9d577a3b72 # scx_maestro: Use scx_bpf_task_set_slice() setter
+50feaa888f71512d80ad4d6db7e80aa609625ae2 # scx_maestro: bump to 1.1.3
+c0726f7a807c335545e781865e89593290c01ff1 # scx_maestro: bump libbpf to 0.27.0
+fb89528b4644bf6cf99b9ae797c415b1d2179d6e # scx_maestro: migrate to Rust edition 2024 and rust-version 1.91
+61213a2c002169a4223abe35b5b01708d51fe4ac # scx_maestro: fix formatting
+67b00d45719d2c84e8faf9cf1c29eb20fc7dffdd # scx_maestro: bump libbpf to 0.27.1
+772b3a8c1c813f4ac2bca04c18bfa2a7b558fd3a # scx_maestro: bump libbpf to 0.27.2
+e827d7c5f268ff71d9f7aebd354688593c98e255 # scx_maestro: bump to 1.1.4
+9cda197390466465aa485a6c6e3ef32fa360f5c8 # scx_maestro: move to experimental
+8536329711d16a254c0ee0b1115535c67a48f2d7 # scx_maestro: add to scx_catalog
+114a079280ab127a31097f71a4a7b21d1b399df5 # scx_cake: keep a private idle word; fix load limits and exiting tasks
+8aeb2a5d5ba0a23aacd08c6a67776f9b55ea5d25 # scx_pandemonium: bump to 5.24.0
+2e4e71ef377a8efa964e8fcad9d41f3f8c3ee093 # scx_panda: add to scx tree
 )
 
 _reverts=(
@@ -119,7 +119,6 @@ build() {
      --profile=$_mode \
      --frozen \
      --workspace \
-     --exclude scx_rlfifo \
      --exclude scx_characterize \
      --exclude vmlinux_docify \
      --exclude scx_arena_selftests \
