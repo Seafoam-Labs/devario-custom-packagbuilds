@@ -1,13 +1,13 @@
 pkgbase = cabextract
 	pkgdesc = A program to extract Microsoft cabinet (.CAB) files
-	pkgver = 1.11
-	pkgrel = 3
+	pkgver = 1.12
+	pkgrel = 1
 	url = https://www.cabextract.org.uk/
 	arch = x86_64
 	license = GPL-2.0-or-later
 	makedepends = git
 	depends = glibc
-	source = git+https://github.com/kyz/libmspack.git#tag=v1.11
-	b2sums = 180c2632b9ed9f2863338ef7c171f2566bc026fd66c5ced367379a24fa3e10b71eb6d6644da595266ca876b6ec1d45380bbb98b1c2060c9cc28f0838254c5368
+	source = git+https://github.com/kyz/libmspack.git#tag=v1.12
+	b2sums = 5a6a0eb630c30d2c135bc774dc007652b752e3af4c58c763b2e6c0a478862390893ef67578ce17d3a117d51058a3a3e9ee91af2d8f7f1d50ebb21b57cd566ea8
 
 pkgname = cabextract
