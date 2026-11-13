@@ -1,6 +1,6 @@
 pkgbase = python-pyee
 	pkgdesc = Port of node.js's EventEmitter to python
-	pkgver = 14.0.0
+	pkgver = 16.0.2
 	pkgrel = 1
 	url = https://github.com/jfhbrook/pyee
 	arch = any
@@ -18,7 +18,7 @@ pkgbase = python-pyee
 	depends = python-typing_extensions
 	optdepends = python-trio
 	optdepends = python-twisted
-	source = git+https://github.com/jfhbrook/pyee#tag=v14.0.0
-	sha256sums = 70871db7e9e6c1c06f9ea8cc0cb0e8ee370bbd117dd50f12a15b29182b055ed2
+	source = git+https://github.com/jfhbrook/pyee#tag=v16.0.2
+	sha256sums = 514af23dd095bf7d5887cf8c96836d6132db6ee12233053584dcf443c6b8a29a
 
 pkgname = python-pyee
