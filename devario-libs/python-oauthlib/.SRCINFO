@@ -1,7 +1,7 @@
 pkgbase = python-oauthlib
 	pkgdesc = A generic, spec-compliant, thorough implementation of the OAuth request-signing logic
-	pkgver = 3.3.1
-	pkgrel = 2
+	pkgver = 4.0.1
+	pkgrel = 1
 	url = https://github.com/oauthlib/oauthlib
 	arch = any
 	license = BSD-3-Clause
@@ -17,7 +17,7 @@ pkgbase = python-oauthlib
 	optdepends = python-blinker: for signals support
 	optdepends = python-cryptography: for RSA and signed token support
 	optdepends = python-pyjwt: for signed token support
-	source = oauthlib-3.3.1.tar.gz::https://github.com/oauthlib/oauthlib/archive/refs/tags/v3.3.1.tar.gz
-	sha256sums = eb93759adad48251a472c5d20fbce3e08ee53fcec2909a22448d48c9fa100ea0
+	source = oauthlib-4.0.1.tar.gz::https://github.com/oauthlib/oauthlib/archive/refs/tags/v4.0.1.tar.gz
+	sha256sums = dd4ed75f6e2e9d5e7e3a3cef3eb86b5864ed5b2e8daf9d7137c049b6a87a7445
 
 pkgname = python-oauthlib

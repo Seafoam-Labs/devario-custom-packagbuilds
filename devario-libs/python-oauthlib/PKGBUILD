@@ -2,8 +2,8 @@
 
 pkgname=python-oauthlib
 _name=${pkgname#python-}
-pkgver=3.3.1
-pkgrel=2
+pkgver=4.0.1
+pkgrel=1
 pkgdesc="A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
 arch=(any)
 url="https://github.com/oauthlib/oauthlib"
@@ -27,7 +27,7 @@ optdepends=(
 	'python-pyjwt: for signed token support'
 )
 source=($_name-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz)
-sha256sums=('eb93759adad48251a472c5d20fbce3e08ee53fcec2909a22448d48c9fa100ea0')
+sha256sums=('dd4ed75f6e2e9d5e7e3a3cef3eb86b5864ed5b2e8daf9d7137c049b6a87a7445')
 
 build() {
 	cd "$_name-$pkgver"
