@@ -1,0 +1,22 @@
+pkgbase = libvirt-dbus
+	pkgdesc = Wrapper around libvirt API to provide a high-level object-oriented API better suited for dbus-based applications
+	pkgver = 1.4.1
+	pkgrel = 4
+	url = https://libvirt.org/dbus.html
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	checkdepends = dbus-python
+	checkdepends = python-gobject
+	checkdepends = python-pytest
+	makedepends = meson
+	makedepends = python-docutils
+	depends = libvirt-glib
+	depends = dbus
+	depends = libssh
+	source = https://libvirt.org/sources/dbus/libvirt-dbus-1.4.1.tar.xz
+	source = https://libvirt.org/sources/dbus/libvirt-dbus-1.4.1.tar.xz.asc
+	validpgpkeys = 4252D86A52041137C291CADFC85C5E957062A701
+	sha512sums = 8215df988ae5c60a179c8be2f181f2c0c64b23e20e0575110ee64a0e60fd03e1523ac27a854192990cd94c76b3b771358e350d7c1bceccb9c05e9e0bf9143563
+	sha512sums = SKIP
+
+pkgname = libvirt-dbus

@@ -1,0 +1,4 @@
+[libvirt-dbus]
+source = "regex"
+url = "https://download.libvirt.org/dbus/"
+regex = "libvirt-dbus-([0-9\\.]+)\\.tar"

@@ -1,0 +1,6 @@
+{
+  "name": "libvirt-dbus",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libvirt-dbus/-/archive/main/libvirt-dbus-main.tar.gz",
+  "sha256": "bb83084721c35e0c0f43ce8447e7e0c9e452281d966f277d48ae51aa649245c0",
+  "bytes": 6677
+}
