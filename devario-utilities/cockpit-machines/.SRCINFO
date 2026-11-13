@@ -1,0 +1,15 @@
+pkgbase = cockpit-machines
+	pkgdesc = Cockpit UI for virtual machines
+	pkgver = 360
+	pkgrel = 1
+	url = https://github.com/cockpit-project/cockpit-machines
+	arch = any
+	license = LGPL-2.1-or-later
+	depends = cockpit
+	depends = libvirt-dbus
+	optdepends = virt-install: create new virtual machines
+	optdepends = virt-viewer: open graphical display of virtual machines
+	source = https://github.com/cockpit-project/cockpit-machines/releases/download/360/cockpit-machines-360.tar.xz
+	sha256sums = 484bd4eeff29d237effcc31f8655981a104b09ff609036b0c68cc0573c673915
+
+pkgname = cockpit-machines
