@@ -1,4 +1,3 @@
 [python-puremagic]
 source = "git"
 git = "https://github.com/cdgriffith/puremagic.git"
-prefix = "v"
