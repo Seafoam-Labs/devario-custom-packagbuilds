@@ -1,7 +1,7 @@
 pkgbase = xorg-xwayland
 	pkgdesc = run X clients under wayland
-	pkgver = 24.1.14
-	pkgrel = 2
+	pkgver = 24.1.15
+	pkgrel = 1
 	url = https://xorg.freedesktop.org
 	arch = x86_64
 	groups = xorg
@@ -48,11 +48,11 @@ pkgbase = xorg-xwayland
 	provides = xorg-server-xwayland
 	conflicts = xorg-server-xwayland
 	replaces = xorg-server-xwayland
-	source = https://xorg.freedesktop.org/archive/individual/xserver/xwayland-24.1.14.tar.xz
-	source = https://xorg.freedesktop.org/archive/individual/xserver/xwayland-24.1.14.tar.xz.sig
+	source = https://xorg.freedesktop.org/archive/individual/xserver/xwayland-24.1.15.tar.xz
+	source = https://xorg.freedesktop.org/archive/individual/xserver/xwayland-24.1.15.tar.xz.sig
 	validpgpkeys = 67DC86F2623FC5FD4BB5225D14706DBE1E4B4540
 	validpgpkeys = 3C2C43D9447D5938EF4551EBE23B7E70B467F0BF
-	sha512sums = 0c09214bf5478697430db3f403ba6fc5b669faab4428a902ce9e148ea5dae630798da03f2977ab937486a07224fa2e73d146e3f51fff8abe00d2dd78d5a05bf1
+	sha512sums = 15f1d64e1a1f8fb8469f4cea90c696eba19739e29c44edeb44c0052565158e6c5ea51dab6969412257a96f8769e77fd83a369835e00477a52e6ac3745457ac91
 	sha512sums = SKIP
 
 pkgname = xorg-xwayland
