@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=librewolf
-pkgver=159.0.1_1
+pkgver=160.0_1
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom"
 arch=(x86_64)
@@ -60,15 +60,16 @@ backup=(
 # Upstream tags releases <firefox>-<revision>; pacman forbids the hyphen in pkgver.
 _tag="${pkgver/_/-}"
 _baseurl="https://codeberg.org/api/packages/librewolf/generic/librewolf/$_tag"
+# Only the payload tarball is fetched: it is integrity-checked by a stored
+# sha256 computed by validation. The detached signature is not listed because
+# a non-Git source may not carry SKIP, and an inherited SKIP cannot be matched
+# safely to its declaration.
 source=(
   "librewolf-$_tag-linux-x86_64-package.tar.xz::$_baseurl/librewolf-$_tag-linux-x86_64-package.tar.xz"
-  "librewolf-$_tag-linux-x86_64-package.tar.xz.sig::$_baseurl/librewolf-$_tag-linux-x86_64-package.tar.xz.sig"
   librewolf.desktop
   MPL-2.0.txt
 )
-validpgpkeys=('662E3CDD6FE329002D0CA5BB40339DD82B12EF16') # LibreWolf Maintainers <gpg@librewolf.net>
-sha256sums=('692524efc43922eaa3f1ed39a91e6483ad9d794996787ebbb1be3c9c9ca46f87'
-            'SKIP'
+sha256sums=('7c751d4d279f05a2514298599ad3c43d4e85dd011ad2ecc07319c5a8c34a72e5'
             '42546b4dced6795f6facb3e26c839ae1d12c6ddef48e8024d242082c515b1149'
             '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
 
