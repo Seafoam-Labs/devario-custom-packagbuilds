@@ -1,6 +1,6 @@
 pkgbase = ruby-cucumber-gherkin
 	pkgdesc = Gherkin for Ruby
-	pkgver = 42.0.1
+	pkgver = 43.0.0
 	pkgrel = 1
 	url = https://github.com/cucumber/gherkin/blob/main/ruby
 	arch = any
@@ -12,8 +12,8 @@ pkgbase = ruby-cucumber-gherkin
 	depends = ruby
 	depends = ruby-cucumber-messages
 	options = !emptydirs
-	source = git+https://github.com/cucumber/gherkin.git#tag=v42.0.1
-	sha512sums = 4b600ec5cd843144976502cc0202d94a22db7a366a5bd7c6a8368f8a69446333768fadea2f0867bfdc44089ba0273352a414cb3c62357c155fea91e43b686298
-	b2sums = c8b98d6b3587948c23afef627233f17e0877a516a6671cc987105481ff6036c95e164f179c0bc0e9a41767ba4f0cda9eef53cfe5940016a1e106c81eced7d2f6
+	source = git+https://github.com/cucumber/gherkin.git#tag=v43.0.0
+	sha512sums = 97f0dd714264239f94a1484a4a0f76f7a485aa3a304d4df571bb8040dc5653fe3d22a7c8c291630c1ec726353542e99e6390eecc0c8a983742fbb04737b4d660
+	b2sums = b0dc741e47ee0b356566f09478bcc469338819657ec76d62607d1e06d4fb1cb2c8991480777116c0761ea250079da60be59c5dbed47dd6818ef7ca874df181f5
 
 pkgname = ruby-cucumber-gherkin
