@@ -1,6 +1,6 @@
 pkgbase = ruby-cucumber-query
 	pkgdesc = Cucumber Query - query messages
-	pkgver = 16.2.0
+	pkgver = 16.3.0
 	pkgrel = 1
 	url = https://github.com/cucumber/query/tree/main/ruby
 	arch = any
@@ -13,8 +13,8 @@ pkgbase = ruby-cucumber-query
 	depends = ruby-cucumber-messages>=34.1
 	depends = ruby-cucumber-messages<36
 	options = !emptydirs
-	source = git+https://github.com/cucumber/query.git#tag=v16.2.0
-	sha512sums = e4f60d0dd52a666ef2e87cf8393c386b15e0214179fbde84b6674b1e3d2b235066725b30d3ac5034e31a4cb8cf1bce92955647a57d55455e89391d47a1499827
-	b2sums = 39e116a1bd28c1569dcbc50c5fae932ba447fc2eea4fe1df5778b3154dfc0cfe6bcf844e0f3b6e146b5d9f5f27a0b33b946ae9915620ad987866cbf29a2790ec
+	source = git+https://github.com/cucumber/query.git#tag=v16.3.0
+	sha512sums = c74b1431d4deb13488bc1cc4d1181619bcbd26536ed6e563634fb027da34d6daf142e16f8a2d9942b2ff51b263446d396f6011da353b14826002d1857d0400dc
+	b2sums = 54cf769a00da2d73dffa9f4368585b58c27d848eb1db3dd72a3087f29c9aa9a6c2ecfb291305ab9e89a6a3d682b4246fc600d8a11c150b48a249355cf88367ba
 
 pkgname = ruby-cucumber-query
