@@ -1,10 +1,10 @@
 # Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
 
 pkgname=krb5
-pkgver=1.22.2
+pkgver=1.22.3
 _pkgvermajor=${pkgver%.*}
 [[ $_pkgvermajor == *.* ]] || _pkgvermajor=$pkgver
-pkgrel=2
+pkgrel=1
 pkgdesc='The Kerberos network authentication system'
 url='https://web.mit.edu/kerberos/'
 arch=('x86_64')
@@ -45,6 +45,9 @@ backup=(
 )
 options=('!emptydirs')
 source=(
+  # Only the MIT dist tarball carries the generated src/configure; the GitHub
+  # krb5-1.22.3-final tag archive ships configure.ac alone and the build stage
+  # dies with "./configure: No such file or directory" (exit 127).
   https://web.mit.edu/kerberos/dist/krb5/${_pkgvermajor}/${pkgname}-${pkgver}.tar.gz{,.asc}
   krb5-kadmind.service
   krb5-kdc.service
@@ -52,7 +55,7 @@ source=(
   krb5-kpropd@.service
   krb5-kpropd.socket
 )
-sha512sums=('3237cacfb2019285107991a3211e0d74944c605942ab38a8b4b372703b8f02f5779fa2de80c4e201bd59703d557f37ac346bdc5ea14b986b0a0db23eb422fc6f'
+sha512sums=('0276d83dee90e76d50a506d22901e658212094c1191fc09b8510273b4bfc56195ab1dd1c80b5fd8288b4aa9323c62f0b60ab3f6227ea113b4712bc54cb144abb'
             'SKIP'
             'ae1fa980e8e30a83dfef7fe233be70a9ec530ebaffc344a0e7eba61e7de4c800421b45cf203f1e526cc8351754038d6539184b30aa049a567e2a9e80f0d39841'
             'b137ff0154f9af4891e9e78cec692af47ecfd92ca9ce6e00b40ef137d942ba04e8caf483fc5d464b9559ad4a5c4e75ec57b6eab7fc35181115ca1606c0b316c1'
