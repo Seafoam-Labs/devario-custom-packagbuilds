@@ -1,7 +1,7 @@
 pkgbase = python-simplejson
 	pkgdesc = Simple, fast and extensible JSON decoder/encoder
-	pkgver = 4.2.0
-	pkgrel = 2
+	pkgver = 4.3.0
+	pkgrel = 1
 	url = https://github.com/simplejson/simplejson
 	arch = x86_64
 	license = MIT
@@ -11,7 +11,7 @@ pkgbase = python-simplejson
 	makedepends = python-wheel
 	depends = glibc
 	depends = python
-	source = https://github.com/simplejson/simplejson/archive/v4.2.0/python-simplejson-v4.2.0..tar.gz
-	b2sums = 589df38f587305d2c368f8ee0d15b8e5d2210c022c8227aa96aba5711b94a2e6e075499929b2ff8a8356f46ae5b0a0b514f3fab1fff7c6d5746241d3e383dca1
+	source = https://github.com/simplejson/simplejson/archive/refs/tags/v4.3.0.tar.gz
+	b2sums = 662d9fcb2a98e1f814620a39cc6f6b1ba95d098d0257d9a744aecb235143c7996269a8c1616d6a7e84087f089c8afb42ee0380f0291a0e1972d97dd439e1aca7
 
 pkgname = python-simplejson

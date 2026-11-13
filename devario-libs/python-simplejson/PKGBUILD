@@ -5,8 +5,8 @@
 # Contributor: David Moore <davidm@sjsoft.com>
 
 pkgname=python-simplejson
-pkgver=4.2.0
-pkgrel=2
+pkgver=4.3.0
+pkgrel=1
 pkgdesc='Simple, fast and extensible JSON decoder/encoder'
 license=(MIT)
 arch=(x86_64)
@@ -21,8 +21,8 @@ makedepends=(
   python-setuptools
   python-wheel
 )
-source=("$url/archive/v$pkgver/$pkgname-v$pkgver..tar.gz")
-b2sums=('589df38f587305d2c368f8ee0d15b8e5d2210c022c8227aa96aba5711b94a2e6e075499929b2ff8a8356f46ae5b0a0b514f3fab1fff7c6d5746241d3e383dca1')
+source=("$url/archive/refs/tags/v$pkgver.tar.gz")
+b2sums=('662d9fcb2a98e1f814620a39cc6f6b1ba95d098d0257d9a744aecb235143c7996269a8c1616d6a7e84087f089c8afb42ee0380f0291a0e1972d97dd439e1aca7')
 
 build() {
   cd ${pkgname#python-}-$pkgver
