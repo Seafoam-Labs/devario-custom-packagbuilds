@@ -11,7 +11,7 @@ pkgdesc='A systemd web based user interface for Linux servers'
 arch=('x86_64')
 url='https://cockpit-project.org/'
 license=('LGPL-2.1-or-later')
-makedepends=(krb5 libssh json-glib glib-networking glib2-devel systemd asciidoc
+makedepends=(krb5 libssh json-glib glib-networking glib2-devel systemd asciidoc asciidoctor
              git intltool gtk-doc gobject-introspection networkmanager xmlto npm pcp
              python-installer python-wheel python-build python-pip)
 source=("https://github.com/cockpit-project/cockpit/releases/download/$pkgver/cockpit-$pkgver.tar.xz"
