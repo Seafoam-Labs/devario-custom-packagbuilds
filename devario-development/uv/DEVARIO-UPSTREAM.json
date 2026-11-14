@@ -1,6 +1,9 @@
 {
   "name": "uv",
   "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/uv/-/archive/main/uv-main.tar.gz",
-  "sha256": "7ed89bfe1963760ee62316191799bb80159810a142c90c5502a34eee2f155689",
-  "bytes": 2864
+  "sha256": "bf1db3c051d4f62fda653f8e1b4fb8f7973e21259c5f1303232409b9f93cc739",
+  "bytes": 2868,
+  "retrieved_on": "2026-11-14",
+  "local_adaptation": false,
+  "note": "Kept byte-compatible with Arch packaging for uv so version syncs are a clean diff; 0.13.8 also picks up Arch's check() smoke test."
 }

@@ -8,8 +8,8 @@
 
 pkgbase=uv
 pkgname=("$pkgbase" "python-$pkgbase"{,-build})
-pkgver=0.12.23
-pkgrel=2
+pkgver=0.13.8
+pkgrel=1
 pkgdesc='An extremely fast Python package installer and resolver written in Rust'
 arch=('x86_64')
 url="https://github.com/astral-sh/uv"
@@ -27,7 +27,7 @@ makedepends=(bzip2
              xz
              zstd)
 source=("git+$url.git#tag=$pkgver")
-sha256sums=('4dab6d44ce0d35a601368d411a3c1ad625b95dec7095dc5e66cdcc8d6112a134')
+sha256sums=('12450742aaf53230da83909e681affdd1ed655364deb7e1c4e8d84ef6ebb4ef4')
 
 _srcenv() {
   cd "$pkgbase"
@@ -64,6 +64,17 @@ build() {
   $compgen elvish > "completions/$pkgbase.elv"
   $compgen fish > "completions/$pkgbase.fish"
   $compgen zsh > "completions/_$pkgbase"
+}
+
+check() {
+  _srcenv
+  # The upstream cargo tests are unit tests against a matrix of Python versions
+  # using vendored Python installs. Even collapsing the matrix to match our
+  # system Python version and patching around the path issues to use it,
+  # a majority of the unit tests are irrelevant.
+  local tripple="$(rustc --print host-tuple)"
+  local _target="target/$tripple/release/uv"
+  $_target -V | grep -F "$pkgname $pkgver"
 }
 
 _package_common() {
