@@ -2,7 +2,7 @@
 # Devario: CPU, CUDA, Vulkan, ZenDNN and OpenVINO backends.
 pkgbase=ggml
 pkgname=(ggml ggml-cuda ggml-vulkan ggml-zendnn ggml-openvino)
-pkgver=0.29.0
+pkgver=1.0.0
 pkgrel=1
 pkgdesc='Tensor library for machine learning'
 arch=(x86_64)
@@ -14,8 +14,8 @@ makedepends=('cmake>=3.18' git ninja cuda nccl shaderc spirv-headers
              onetbb ocl-icd opencl-headers opencl-clhpp)
 # Each CPU backend selects its own ISA; do not inherit host-native flags.
 options=(!buildflags !lto)
-source=(git+https://github.com/ggml-org/ggml.git#tag=v${pkgver})
-b2sums=('fe174aa98ac4ecd50edd84cf26b54065f8ffa0e8098da127485129bb7281d1b67c57e72cdf4032224636e778b9d0e17d4ed364c4e1db787059802825d22723c4')
+source=(git+https://github.com/ggml-org/ggml.git#tag=v1.0.0)
+b2sums=('b42275e5318e7b82b8f0ebc1ad83cab1183bdb53eed3396a8dabb799894f2efc7eac07b46c26886aed3ec69e0bc6933f54164254655b774d80b9d4f438bc3cf0')
 
 build() {
   # Check before compiling the expensive CUDA/Vulkan backends.
