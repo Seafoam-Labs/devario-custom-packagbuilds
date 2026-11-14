@@ -2,7 +2,7 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=firefox-developer-edition
-pkgver=161.0b2
+pkgver=161.0b3
 pkgrel=1
 pkgdesc="Fast, Private & Safe Web Browser (Developer Edition)"
 url="https://www.mozilla.org/firefox/developer/"
@@ -76,13 +76,13 @@ validpgpkeys=(
   # https://blog.mozilla.org/security/2026-08-10/updated-gpg-key-for-signing-firefox-and-thunderbird-releases/
   14F26682D0916CDD81E37B6D61B7B526D98F0353
 )
-sha256sums=('f019d58888ae4043b9da9a76595b0b863a42178c9568a9f186c72eb9e58dd8db'
+sha256sums=('75d0e6a925e91a9e51e5b3da35b3e496798c9409b9889c749665964f6c4b7f2b'
             'SKIP'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9'
             '2eaa7e9df839d4c25259b8ad3f12f46a126e194114fae66e5bfd5731ca45c8f0'
             '48e33f75f3760387305997ee0a3fcea030a1e7310fc461e92d7b73e6cf600096'
             '66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172')
-b2sums=('a121679550116a0895b6a16b473328b6479c4694d8bbbcb55b669dce693ff59428f926192832727b29a5e501a43c8de487b6b3c78459659d9b835e6c43421284'
+b2sums=('3e2b7b3021dfd7639127f6b2cd8435ac29fb592f447e6d0fbc64547b5028d33e98cfad5cce5236af0b61db89f148863b09652376fd3c86d530fefe44e24e9477'
             'SKIP'
             '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
             '1c2d9d33210d6052c2684e1efda3057114fa55890db97829b037b397fc03ed647262053304305d702ef9c3dcb03bea439abd5bb24c8be097b48a700752c9ce11'
