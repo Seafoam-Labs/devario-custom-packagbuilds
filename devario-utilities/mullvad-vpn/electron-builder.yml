@@ -1,0 +1,14 @@
+---
+appId: net.mullvad.vpn
+productName: Mullvad VPN
+files:
+  - package.json
+  - changes.txt
+  - build/
+  - node_modules/
+  - "!node_modules/grpc-tools"
+  - "!node_modules/@types"
+  - "!node_modules/@rollup"
+asar: true
+linux:
+  target: dir

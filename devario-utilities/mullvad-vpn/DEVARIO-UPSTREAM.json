@@ -1,0 +1,6 @@
+{
+  "name": "mullvad-vpn",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mullvad-vpn/-/archive/main/mullvad-vpn-main.tar.gz",
+  "sha256": "5d5e511465993561a3935ce4c2066bfcef53920d180857065839c7fe6437796a",
+  "bytes": 7611
+}

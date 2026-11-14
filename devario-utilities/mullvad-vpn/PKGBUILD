@@ -1,0 +1,156 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Mark Wagie <mark dot wagie at proton dot me>
+# Contributor: Matthew McGinn <mamcgi at gmail dot com>
+# Contributor: alicewww <almw at protonmail dot com>
+# Contributor: David Birks <david at tellus dot space>
+# Contributor: Jeff Henson <jeff at henson dot io>
+
+pkgbase=mullvad-vpn
+pkgname=(
+  mullvad-vpn
+  mullvad-vpn-daemon
+)
+pkgver=2026.5
+pkgrel=1
+pkgdesc="Mullvad VPN client"
+arch=('x86_64')
+url="https://www.mullvad.net"
+license=('GPL-3.0-or-later')
+_electronver=42
+makedepends=(
+  "electron$_electronver"
+  cargo
+  dbus
+  git
+  glibc
+  hicolor-icon-theme
+  libgcc
+  npm
+  protobuf
+)
+options=('!lto')
+source=(
+  "git+https://github.com/mullvad/mullvadvpn-app.git#tag=$pkgver?signed"
+  "git+https://github.com/mullvad/mullvadvpn-app-binaries.git"
+  "$pkgbase.sh"
+  "$pkgbase.desktop"
+  "electron-builder.yml"
+)
+b2sums=('7059ff613d70b8a1ab40de0a78e77f5d7852187eacd487e44487215936ba3ec05d0fad20c3f90b7dcc8f9554dc3ce2fc8954ab657a3fbe0f56632a3e47f769f5'
+        'SKIP'
+        'c3534bf98bc9c5977e14865a8b4e41bb509a42cb006f8ada3f11bdff704e347d132797425b95ca3f709308703ade5f3aa46e7e7c4ef5e73911f9de78df14b1a9'
+        '1aaf1403601110fee9a5d56ff363c790403e16e316231c084ef1ea90399750bd9b2781d63e5f0e00ded3bfd9b44621dfef1f1920aebe457ea69641418ca97030'
+        'a2fc04186ab66c9fb348dbd6c83958bf58389c7b0a94a29f9d1adf8fdf3aa9071a71239302aa8f98015e0120917241de265d671eec428ca59b843128ae18aabb')
+validpgpkeys=(
+  '225E40C8F1C8DEB7977ABF59F293063FECE2E8ED' # Linus Färnstrand <linus@mullvad.net>
+  '7ED98188F8F9AFF15D49E41BEB8D8AD83E8DA7BC' # David Lönnhager <david.l@mullvad.net>
+  '1D0026CBD1F1858DF8DB54DFCB87E2B919A6454C' # Oskar Nyberg <oskar@mullvad.net>
+  '049F58CC80D9C78452151EE6EF0CCD68D0E5B9B1' # Emīls Piņķis <emils@mullvad.net>
+)
+
+prepare() {
+  sed -i "s/@_electronver@/$_electronver/" "$pkgbase.sh"
+
+  cd mullvadvpn-app
+
+  grep -qE '"electron": "\^?'$_electronver desktop/packages/mullvad-vpn/package.json \
+    || ( echo "Electron version mismatch in package.json"; exit 1 )
+
+  install -vDm644 -t desktop/packages/mullvad-vpn ../electron-builder.yml
+
+  # Patch systemd service to use /usr/lib/mullvad-vpn for resources
+  sed -i 's|/opt/Mullvad\\x20VPN/resources/|/usr/lib/mullvad-vpn|g' \
+    dist-assets/linux/mullvad-daemon.service
+
+  git submodule init
+  git config submodule.dist-assets/binaries.url ../mullvadvpn-app-binaries
+  git -c protocol.file.allow=always submodule update \
+    dist-assets/binaries
+
+  export RUSTUP_TOOLCHAIN=stable
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+
+  (
+    cd desktop
+    npm clean-install --ignore-scripts
+    npm run build-typescript -w nseventforwarder
+    npm run build-typescript -w windows-utils
+  )
+}
+
+build() {
+  cd mullvadvpn-app
+
+  cargo build --frozen --release \
+    -p mullvad-daemon --bin mullvad-daemon \
+    -p mullvad-cli --bin mullvad \
+    -p mullvad-setup --bin mullvad-setup \
+    -p mullvad-problem-report --bin mullvad-problem-report \
+    -p mullvad-exclude --bin mullvad-exclude \
+
+  mkdir -p build
+  for sh in bash zsh fish; do
+    target/release/mullvad shell-completions $sh build/
+  done
+
+  cd desktop/packages/mullvad-vpn
+  npm run build
+  npx electron-builder --linux dir \
+    -c.electronDist=/usr/lib/electron$_electronver \
+    -c.electronVersion=$_electronver \
+    -c.extraMetadata.version=$pkgver
+}
+
+package_mullvad-vpn-daemon() {
+  pkgdesc+=" (daemon and CLI)"
+  depends=(
+    dbus
+    glibc
+    libgcc
+  )
+  install=$pkgname.install
+
+  cd mullvadvpn-app
+  install -vDm755 -t "$pkgdir/usr/lib/$pkgbase" \
+    target/release/mullvad-setup
+  install -vDm644 -t "$pkgdir/usr/lib/$pkgbase" dist-assets/ca.crt
+
+  install -vDm755 -t "$pkgdir/usr/bin" \
+    target/release/mullvad \
+    target/release/mullvad-daemon \
+    target/release/mullvad-problem-report
+  install -vDm4755 -t "$pkgdir/usr/bin" \
+    target/release/mullvad-exclude
+
+  install -vDm644 -t "$pkgdir/usr/lib/systemd/system" \
+    dist-assets/linux/mullvad-daemon.service \
+    dist-assets/linux/mullvad-early-boot-blocking.service
+
+  install -vDm644 build/mullvad.bash \
+    "$pkgdir/usr/share/bash-completion/completions/mullvad"
+  install -vDm644 build/_mullvad -t "$pkgdir/usr/share/zsh/site-functions/"
+  install -vDm644 build/mullvad.fish -t "$pkgdir/usr/share/fish/vendor_completions.d/"
+
+  install -vDm644 dist-assets/linux/apparmor_mullvad "$pkgdir/etc/apparmor.d/mullvad"
+}
+
+package_mullvad-vpn() {
+  pkgdesc+=" (desktop application)"
+  depends=(
+    "electron$_electronver"
+    hicolor-icon-theme
+    mullvad-vpn-daemon
+  )
+  optdepends=('libappindicator-gtk3: tray icon')
+
+  cd mullvadvpn-app
+  install -vDm644 -t "$pkgdir/usr/lib/$pkgbase" \
+    desktop/packages/mullvad-vpn/dist/linux-unpacked/resources/app.asar
+  install -vDm755 "../$pkgbase.sh" "$pkgdir/usr/bin/$pkgname"
+  install -vDm644 -t "$pkgdir/usr/share/applications" "../$pkgbase.desktop"
+
+  for icon_size in 16 32 128 256 512; do
+    install -vDm644 "graphics/macOS/icon-$icon_size.png" \
+      "$pkgdir/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps/$pkgname.png"
+  done
+}
