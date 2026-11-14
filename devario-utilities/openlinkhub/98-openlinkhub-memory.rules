@@ -1,0 +1,3 @@
+# SMBus access for DDR4/DDR5 memory RGB; upstream only covers i2c-0 in its
+# container image, but the memory bus is selectable in the OpenLinkHub config
+KERNEL=="i2c-[0-9]*", MODE="0660", OWNER="openlinkhub"

@@ -1,0 +1,14 @@
+post_install() {
+  echo ":: Enable the OpenLinkHub service as root: systemctl enable --now openlinkhub"
+  echo ":: WebUI: http://127.0.0.1:27003"
+}
+
+post_upgrade() {
+  # The daemon-reload hook runs after this script
+  systemctl daemon-reload
+  systemctl try-restart openlinkhub.service
+}
+
+pre_remove() {
+  systemctl disable --now openlinkhub.service
+}

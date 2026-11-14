@@ -1,0 +1,2 @@
+# DDR4/DDR5 memory RGB is read through /dev/i2c-* (matches upstream's container setup)
+i2c-dev

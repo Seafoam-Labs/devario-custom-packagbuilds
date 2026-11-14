@@ -1,0 +1,4 @@
+[openlinkhub]
+source = "github"
+github = "jurkovic-nikola/OpenLinkHub"
+use_max_tag = true

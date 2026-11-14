@@ -1,0 +1,3 @@
+d /var/lib/openlinkhub 0750 openlinkhub openlinkhub -
+# Package upgrades reinstall the seed data as root; hand it back to the daemon
+Z /var/lib/openlinkhub - openlinkhub openlinkhub -
