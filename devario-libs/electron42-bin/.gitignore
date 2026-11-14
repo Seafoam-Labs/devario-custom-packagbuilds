@@ -1,0 +1,8 @@
+# makepkg build artifacts
+/pkg/
+/src/
+*.pkg.tar.*
+*.pkg.tar.*.sig
+# downloaded upstream payloads
+/electron42-*.zip
+/electron42-chromedriver-*.zip

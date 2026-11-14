@@ -1,0 +1,26 @@
+{
+  "name": "electron42-bin",
+  "input_kind": "prebuilt-release",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=electron42-bin&id=384ce5821fb4b524f1663d3dbe86fc15c92753c2",
+  "sha256": "e159c4cb62d371d985939753aa9fac6f0431e176aa2377226fc6596805d73fd4",
+  "bytes": 3455,
+  "commit": "384ce5821fb4b524f1663d3dbe86fc15c92753c2",
+  "retrieved_on": "2026-11-14",
+  "local_adaptation": true,
+  "note": "Reference only for the layout; the packaged payloads are the upstream Electron release archives, and the launcher is byte-identical to extra/electron42's electron-launcher.sh. Added for devario-utilities/mullvad-vpn, which depends on electron42.",
+  "upstream_source": {
+    "url": "https://github.com/electron/electron/releases/download/v42.11.18/electron-v42.11.18-linux-x64.zip",
+    "sha256": "c703693e5df41a413dd0464888bbabc8537a7000fb6d6e4f027fea0e90481a96",
+    "bytes": 124970294,
+    "links": [
+      "https://github.com/electron/electron/releases/download/v42.11.18/chromedriver-v42.11.18-linux-x64.zip"
+    ]
+  },
+  "local_adaptations": [
+    "Split the runtime and chromedriver into two outputs; drop the chromedriver.debug blob and the generated buildflags header.",
+    "Reuse Arch's electron-launcher.sh (flags.conf handling, ELECTRON_IS_DEV, ELECTRON_FORCE_IS_PACKAGED) instead of the AUR launcher, so the file set matches the extra/electron42 source recipe.",
+    "Dependency set re-derived from the shipped ELF files: readelf NEEDED plus the dlopened libpulse and libpci; the libraries Arch links dynamically (brotli, c-ares, libevent, libffi, minizip, opus, zlib, freetype, harfbuzz, libxml2) are static in the upstream payload.",
+    "provides=('electron42=42.11.18') and conflicts=('electron42') keep the two providers of /usr/lib/electron42 apart, so applications depend on electron42 either way.",
+    "x86_64 only, matching devario-utilities/mullvad-vpn; the linux-arm64 archives exist upstream if aarch64 is enabled later."
+  ]
+}

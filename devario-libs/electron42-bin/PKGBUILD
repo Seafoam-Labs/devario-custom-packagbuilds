@@ -1,0 +1,111 @@
+# Maintainer: Anton Ždanov <anton@azdanov.dev>
+# Based on extra/electron42 by Arch Linux contributors
+# and the AUR electron42-bin recipe by zxp19821005 and Yurii Kolesnykov.
+
+# Upstream publishes the same dist.zip that extra/electron42 unpacks in
+# package(); this recipe ships the prebuilt one so devario-utilities/mullvad-vpn
+# (depends electron42) does not need a Chromium build. The file layout below is
+# what app recipes rely on (_electron=electron42, /usr/lib/electron42/version,
+# ELECTRON_OVERRIDE_DIST_PATH, -c.electronDist), so switching an application
+# between the two providers needs no recipe change.
+
+_major=42
+_subver=11.18
+_runtime=electron${_major}
+_ghurl='https://github.com/electron/electron'
+pkgbase=electron42-bin
+pkgname=('electron42-bin' 'electron42-bin-chromedriver')
+pkgver=${_major}.${_subver}
+pkgrel=1
+pkgdesc='Build cross platform desktop apps with web technologies — prebuilt'
+arch=('x86_64')
+url='https://electronjs.org'
+license=('MIT' 'BSD-3-Clause')
+# Read off the shipped ELF files: `readelf -d` NEEDED entries of the electron
+# binary, plus the two libraries it dlopen()s at runtime (libpulse for audio
+# output, libpci for GPU identification). brotli, c-ares, libevent, libffi,
+# minizip, opus, zlib, freetype, harfbuzz and libxml2 are linked statically in
+# the upstream build, unlike Arch's source build, so they are not dependencies
+# here. libffmpeg.so, libvulkan.so.1 and libvk_swiftshader.so ship next to the
+# binary and are found through its $ORIGIN rpath.
+depends=('alsa-lib'
+         'at-spi2-core'
+         'cairo'
+         'dbus'
+         'expat'
+         'glib2'
+         'glibc'
+         'gtk3'
+         'libcups'
+         'libgcc'
+         'libpulse'
+         'libx11'
+         'libxcb'
+         'libxcomposite'
+         'libxdamage'
+         'libxext'
+         'libxfixes'
+         'libxkbcommon'
+         'libxrandr'
+         'mesa'
+         'nspr'
+         'nss'
+         'pango'
+         'pciutils'
+         'systemd-libs')
+optdepends=('kde-cli-tools: file deletion support (kioclient)'
+            'libglvnd: hardware OpenGL via --use-gl=desktop'
+            'pipewire: WebRTC desktop sharing under Wayland'
+            'qt6-base: enable Qt6 with --enable-features=AllowQt'
+            'gtk4: for --gtk-version=4 (GTK4 IME might work better on Wayland)'
+            'trash-cli: file deletion support (trash-put)'
+            "xdg-utils: open URLs with desktop's default (xdg-email, xdg-open)")
+options=('!strip' '!debug') # upstream strips the payload; symbol bundles are separate releases
+source=('electron-launcher.sh')
+source_x86_64=("electron42-chromedriver-${pkgver}-x86_64.zip::${_ghurl}/releases/download/v${pkgver}/chromedriver-v${pkgver}-linux-x64.zip"
+               "${_runtime}-${pkgver}-x86_64.zip::${_ghurl}/releases/download/v${pkgver}/electron-v${pkgver}-linux-x64.zip")
+noextract=("electron42-chromedriver-${pkgver}-x86_64.zip"
+           "${_runtime}-${pkgver}-x86_64.zip")
+sha256sums=('13fcf26193f4417fd5dfbc82a3f24e5c7a1cce82f729f6a73f1b1d3a7b580b34')
+sha256sums_x86_64=('37977f55379613baed1275d9be9bbd325686643450ace265ebd91a0dc20ea6f1'
+                   'c703693e5df41a413dd0464888bbabc8537a7000fb6d6e4f027fea0e90481a96')
+
+prepare() {
+  sed "s/@ELECTRON@/${_runtime}/" "${srcdir}/electron-launcher.sh" > "${srcdir}/${_runtime}.sh"
+
+  install -dm755 "${srcdir}/${_runtime}"
+  bsdtar -xf "${srcdir}/${_runtime}-${pkgver}-${CARCH}.zip" -C "${srcdir}/${_runtime}"
+  install -dm755 "${srcdir}/chromedriver"
+  bsdtar -xf "${srcdir}/electron42-chromedriver-${pkgver}-${CARCH}.zip" -C "${srcdir}/chromedriver"
+
+  # The setuid sandbox helper is required for the user namespace fallback path.
+  chmod u+s "${srcdir}/${_runtime}/chrome-sandbox"
+}
+
+package_electron42-bin() {
+  provides=("${_runtime}=${pkgver}")
+  conflicts=("${_runtime}")
+
+  install -dm755 "${pkgdir:?}/usr/lib/${_runtime}"
+  cp -a "${srcdir}/${_runtime}/." "${pkgdir}/usr/lib/${_runtime}/"
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -sr -t "${pkgdir}/usr/share/licenses/${pkgname}" \
+    "${pkgdir}"/usr/lib/${_runtime}/{LICENSE,LICENSES.chromium.html}
+
+  install -Dm755 "${srcdir}/${_runtime}.sh" "${pkgdir}/usr/bin/${_runtime}"
+}
+
+package_electron42-bin-chromedriver() {
+  pkgdesc='Chromedriver matching the prebuilt Electron 42 runtime'
+  depends=("electron42-bin=${pkgver}")
+  provides=("${_runtime}-chromedriver=${pkgver}")
+  conflicts=('electron42-chromedriver')
+
+  # The chromedriver.debug blob and the generated buildflags header are
+  # build artifacts, not part of a runtime install.
+  install -Dm755 "${srcdir}/chromedriver/chromedriver" \
+    "${pkgdir}/usr/lib/${_runtime}/chromedriver"
+  install -Dm644 "${srcdir}/chromedriver/LICENSE" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
