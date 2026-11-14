@@ -1,0 +1,4 @@
+[drawio-desktop]
+source = "git"
+git = "https://github.com/jgraph/drawio-desktop.git"
+prefix = "v"

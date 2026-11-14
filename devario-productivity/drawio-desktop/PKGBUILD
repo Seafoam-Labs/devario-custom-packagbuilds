@@ -1,0 +1,107 @@
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Dmitry Valter <`echo ZHZhbHRlciA8YXQ+IHByb3Rvbm1haWwgPGRvdD4gY29tCg== | base64 -d`>
+
+pkgname=drawio-desktop
+pkgver=32.4.1
+pkgrel=1
+pkgdesc="Official Electron build of draw.io"
+arch=(any)
+url="https://www.drawio.com"
+license=(Apache-2.0)
+_electronver=44
+_nodever=22
+depends=(
+  "electron$_electronver"
+  hicolor-icon-theme
+  sh
+)
+makedepends=(
+  "nodejs>=$_nodever"
+  git
+  npm
+  yarn
+)
+source=(
+  "git+https://github.com/jgraph/drawio-desktop.git#tag=v$pkgver"
+  "git+https://github.com/jgraph/drawio.git#tag=v$pkgver"
+  "drawio.desktop"
+  "drawio.sh"
+  "drawio.xml"
+)
+b2sums=('8b0bbd4b855352c2110e77748bb77f14f0c56a4fc37f6ce8b00555b89192dbb540b5b62e4b0c87ab6a25cf02f1040b833aa8d558c2f34e290a684442adc893e9'
+        '4584708cb198eace198ddf8c72261651248f350c61e3be8f8e6cac06477ca3b83c09d674b24ab38bddf9e0bca10ea6e51e9675d9cfc069f765fdab65cbc44aec'
+        '7a73131f7fe8e482401227b75a75561c4236acc032e92eb494008f0399400b6b1dd57a64e2c075c55a3f8c6f6d9efd1091804ecb341d20357056855ff2312451'
+        '591be619e4519bc1e12dfa5db57743145652c2e0e61886ccda57fbce20cba92c77e0cf88aae86c3f5cd6faef72457b94238f79a75812da2fa4ebcf8e3d0545ef'
+        'a029032c7e723d2622329f6a70c6b6a40e11ec285c782194f2cdd2fa184201c6746a7f4f747e22585fe934f3ea082b8bd797d38498e7eab2ec8db8180a7bb24f')
+
+prepare() {
+  cd $pkgname
+  sed -i "s/@_electronver@/$_electronver/" "$srcdir/drawio.sh"
+
+  git submodule init
+  git config submodule.drawio.url "$srcdir/drawio"
+  git -c protocol.file.allow=always submodule update
+
+  grep -q "\"version\": \"$pkgver\"" package.json \
+    || ( echo "Version mismatch in package.json"; exit 1 )
+  grep -qE '"electron": "\^?'$_electronver package.json \
+    || ( echo "Electron version mismatch in package.json"; exit 1 )
+  grep -q "\"node\": \">=$_nodever.*\"" package.json \
+    || ( echo "Node version mismatch in package.json"; exit 1 )
+
+  # Set desktop name to match with the desktop file
+  npm pkg set desktopName='drawio'
+
+  # Disable auto-updates
+  sed -i 's/return false;/return true;/' src/main/disableUpdate.js
+
+  # Remove unnecessary files from asar
+  local to_remove=(
+    drawio/docs
+    drawio/etc
+    drawio/src/main/webapp/connect
+    drawio/src/main/webapp/js/cryptojs
+    drawio/src/main/webapp/js/deflate
+    drawio/src/main/webapp/js/dropbox
+    drawio/src/main/webapp/js/embed*
+    drawio/src/main/webapp/js/freehand
+    drawio/src/main/webapp/js/integrate.min.js
+    drawio/src/main/webapp/js/jquery
+    drawio/src/main/webapp/js/jszip
+    drawio/src/main/webapp/js/mermaid
+    drawio/src/main/webapp/js/onedrive
+    drawio/src/main/webapp/js/orgchart
+    drawio/src/main/webapp/js/rough
+    drawio/src/main/webapp/js/sanitizer
+    drawio/src/main/webapp/js/simplepeer
+    drawio/src/main/webapp/js/spin
+    drawio/src/main/webapp/js/viewer-static.min.js
+    drawio/src/main/webapp/js/viewer.min.js
+    drawio/src/main/webapp/service-worker*
+    drawio/src/main/webapp/workbox-*
+  )
+  rm -r "${to_remove[@]}"
+
+  yarn install --frozen-lockfile
+}
+
+build() {
+  cd $pkgname
+  yarn run electron-builder --linux dir \
+    -c.electronDist=/usr/lib/electron$_electronver \
+    -c.electronVersion=$_electronver
+}
+
+package() {
+  cd $pkgname
+  install -vDm644 -t "$pkgdir/usr/lib/$pkgname" dist/linux-unpacked/resources/app.asar
+  install -vDm755 "$srcdir/drawio.sh" "$pkgdir/usr/bin/drawio"
+
+  install -vDm644 "$srcdir/drawio.xml" "$pkgdir/usr/share/mime/packages/drawio.xml"
+  install -vDm644 -t "$pkgdir/usr/share/applications" "$srcdir/drawio.desktop"
+
+  for icon in $(find build -regex '.*/[0-9]+x[0-9]+\.png' | sort -n); do
+    size=$(basename -s .png "$icon")
+    install -vDm644 "build/$size.png" "$pkgdir/usr/share/icons/hicolor/$size/apps/drawio.png"
+  done
+}

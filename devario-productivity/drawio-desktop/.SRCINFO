@@ -1,0 +1,26 @@
+pkgbase = drawio-desktop
+	pkgdesc = Official Electron build of draw.io
+	pkgver = 32.4.1
+	pkgrel = 1
+	url = https://www.drawio.com
+	arch = any
+	license = Apache-2.0
+	makedepends = nodejs>=22
+	makedepends = git
+	makedepends = npm
+	makedepends = yarn
+	depends = electron44
+	depends = hicolor-icon-theme
+	depends = sh
+	source = git+https://github.com/jgraph/drawio-desktop.git#tag=v32.4.1
+	source = git+https://github.com/jgraph/drawio.git#tag=v32.4.1
+	source = drawio.desktop
+	source = drawio.sh
+	source = drawio.xml
+	b2sums = 8b0bbd4b855352c2110e77748bb77f14f0c56a4fc37f6ce8b00555b89192dbb540b5b62e4b0c87ab6a25cf02f1040b833aa8d558c2f34e290a684442adc893e9
+	b2sums = 4584708cb198eace198ddf8c72261651248f350c61e3be8f8e6cac06477ca3b83c09d674b24ab38bddf9e0bca10ea6e51e9675d9cfc069f765fdab65cbc44aec
+	b2sums = 7a73131f7fe8e482401227b75a75561c4236acc032e92eb494008f0399400b6b1dd57a64e2c075c55a3f8c6f6d9efd1091804ecb341d20357056855ff2312451
+	b2sums = 591be619e4519bc1e12dfa5db57743145652c2e0e61886ccda57fbce20cba92c77e0cf88aae86c3f5cd6faef72457b94238f79a75812da2fa4ebcf8e3d0545ef
+	b2sums = a029032c7e723d2622329f6a70c6b6a40e11ec285c782194f2cdd2fa184201c6746a7f4f747e22585fe934f3ea082b8bd797d38498e7eab2ec8db8180a7bb24f
+
+pkgname = drawio-desktop
