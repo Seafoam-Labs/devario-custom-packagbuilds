@@ -1,6 +1,6 @@
 pkgbase = fluxer
 	pkgdesc = Instant messaging and VoIP application
-	pkgver = 2026.1113.52631
+	pkgver = 2026.1113.195311
 	pkgrel = 1
 	url = https://fluxer.app
 	arch = x86_64
@@ -43,7 +43,7 @@ pkgbase = fluxer
 	options = !strip
 	options = !debug
 	options = emptydirs
-	source = fluxer-2026.1113.52631-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/stable/linux/x64/2026.1113.52631/tar_gz
-	sha256sums = e8342833d94c1f874c67d6747e74c28fb186565afca9dd9c6282e34214dbef70
+	source = fluxer-2026.1113.195311-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/stable/linux/x64/2026.1113.195311/tar_gz
+	sha256sums = e15e69de54ade16e682e234cfd6f2760cb015df26e31f2a50aab51c30172cb8b
 
 pkgname = fluxer
