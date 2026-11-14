@@ -3,13 +3,13 @@
 
 pkgname=llama-cpp
 pkgver=0.9.0
-pkgrel=1
+pkgrel=2
 pkgdesc='LLM inference in C/C++'
 arch=(x86_64)
 url=https://github.com/ggml-org/llama.cpp
 license=(MIT)
 depends=(
-  'ggml=0.29.0'
+  'ggml=1.0.0'
   glibc
   libgcc
   libstdc++

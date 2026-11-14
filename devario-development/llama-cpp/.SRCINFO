@@ -1,7 +1,7 @@
 pkgbase = llama-cpp
 	pkgdesc = LLM inference in C/C++
 	pkgver = 0.9.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/ggml-org/llama.cpp
 	arch = x86_64
 	license = MIT
@@ -9,7 +9,7 @@ pkgbase = llama-cpp
 	makedepends = git
 	makedepends = ninja
 	makedepends = npm
-	depends = ggml=0.29.0
+	depends = ggml=1.0.0
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
