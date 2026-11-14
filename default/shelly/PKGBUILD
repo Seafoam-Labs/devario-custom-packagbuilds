@@ -10,7 +10,7 @@ pkgname=(
   'shelly-notify'
   'shelly-notify-none'
 )
-pkgver=3.2.1
+pkgver=3.3.0
 pkgrel=1
 arch=('x86_64' 'aarch64')
 url='https://github.com/Seafoam-Labs/Shelly-ALPM'
@@ -41,7 +41,7 @@ makedepends=(
 checkdepends=('ripgrep')
 _srcdir=Shelly-ALPM
 source=("${_srcdir}::git+${url}.git#tag=v${pkgver}")
-sha256sums=('d0a0f341664e6407ba4b7cdb09f78695cc5370b35ca687c4afcef7760a15a99d')
+sha256sums=('a390bf621f03a8ed897fc1c4248b997408eaeced29da45fffd50a871adf270e0')
 
 # Components with their own build.zig, in build order.
 _components=(

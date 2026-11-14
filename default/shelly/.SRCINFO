@@ -1,5 +1,5 @@
 pkgbase = shelly
-	pkgver = 3.2.1
+	pkgver = 3.3.0
 	pkgrel = 1
 	url = https://github.com/Seafoam-Labs/Shelly-ALPM
 	arch = x86_64
@@ -17,13 +17,13 @@ pkgbase = shelly
 	makedepends = pkgconf
 	makedepends = sqlite
 	makedepends = zig>=0.17.0
-	source = Shelly-ALPM::git+https://github.com/Seafoam-Labs/Shelly-ALPM.git#tag=v3.2.1
-	sha256sums = d0a0f341664e6407ba4b7cdb09f78695cc5370b35ca687c4afcef7760a15a99d
+	source = Shelly-ALPM::git+https://github.com/Seafoam-Labs/Shelly-ALPM.git#tag=v3.3.0
+	sha256sums = a390bf621f03a8ed897fc1c4248b997408eaeced29da45fffd50a871adf270e0
 
 pkgname = shelly
 	pkgdesc = Shelly: A Modern Arch Package Manager (Arch RLPM release build)
-	depends = shelly-cli=3.2.1-1
-	depends = shelly-flatpak-backend=3.2.1-1
+	depends = shelly-cli=3.3.0-1
+	depends = shelly-flatpak-backend=3.3.0-1
 	depends = shelly-notify
 	depends = glib2
 	depends = glibc
@@ -65,7 +65,7 @@ pkgname = shelly-cli
 
 pkgname = shelly-flatpak-backend
 	pkgdesc = Optional native Flatpak backend for Shelly (Arch RLPM release build)
-	depends = shelly-cli=3.2.1-1
+	depends = shelly-cli=3.3.0-1
 	depends = flatpak
 	depends = glib2
 	depends = glibc
@@ -76,7 +76,7 @@ pkgname = shelly-flatpak-backend
 
 pkgname = shelly-notify
 	pkgdesc = Notification tray for Shelly (Arch RLPM release build)
-	depends = shelly=3.2.1-1
+	depends = shelly=3.3.0-1
 	depends = glibc
 	conflicts = shelly-notify-git
 
