@@ -1,6 +1,6 @@
 pkgbase = pyqt6
 	pkgdesc = A set of Python bindings for the Qt6 toolkit
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://riverbankcomputing.com/software/pyqt/intro
 	arch = x86_64
@@ -52,9 +52,9 @@ pkgbase = pyqt6
 	optdepends = qt6-websockets: QtWebSockets bindings
 	optdepends = dbus-python: for python-dbus mainloop support
 	provides = qt6-python-bindings
-	source = https://pypi.python.org/packages/source/P/PyQt6/pyqt6-6.12.0.tar.gz
+	source = https://pypi.python.org/packages/source/P/PyQt6/pyqt6-6.12.1.tar.gz
 	source = sip-6.17-dbus.patch
-	sha256sums = d3e021b716bae880224422f9d1b894d2d53de7e60e60dbc43f860723f9cc300b
+	sha256sums = 17bb18b3ae953ab54b23026291ecea2579b028597b56c281a752c8ed66dd1a58
 	sha256sums = 2840ea925bef37ca625c1ea38e91a06156f9369e9ff8b574d67b4e3a2f69542b
 
 pkgname = python-pyqt6
