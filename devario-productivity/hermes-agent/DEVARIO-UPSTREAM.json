@@ -1,0 +1,34 @@
+{
+  "name": "hermes-agent",
+  "input_kind": "source-release",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=hermes-agent&id=143f32bc7291e96b570c1e95dc4c31a9d102451c",
+  "sha256": "7cbd8491b14454f7c89f101dbc2c0187cb2f4df8bc9a31ed7fd3fc18cfbe133d",
+  "bytes": 15988,
+  "commit": "143f32bc7291e96b570c1e95dc4c31a9d102451c",
+  "retrieved_on": "2026-11-14",
+  "local_adaptation": true,
+  "companion": {
+    "name": "hermes-agent-desktop",
+    "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=hermes-agent-desktop&id=89706010ae737193044d735805e608e46c30012c",
+    "sha256": "e2021d9c9bb1182b275f2af65f8a9f35b5a72fa8928dbc8642db7a2829c86a4c",
+    "bytes": 21543,
+    "commit": "89706010ae737193044d735805e608e46c30012c"
+  },
+  "note": "Reference only; the packaged sources are upstream's v0.23.1 tag tarball and the pnpm archives pm/lock.json pins, fetched from their own project URLs, not from AUR. The six .patch files plus system-tools.py, hermes_agent_env.py, hermes-desktop and launcher.test.cjs are copied from the two AUR recipes (0BSD); AUR/hermes-agent-bin wording in their user-visible strings is reworded for a pacman-managed install, and prepare() still points the launcher at _electron.",
+  "upstream_source": {
+    "url": "https://github.com/NousResearch/hermes-agent/archive/refs/tags/v0.23.1.tar.gz",
+    "sha256": "52a8eb321f368576034f40595491abf9646b60c3861eee0cf45f610e5faa9bb6",
+    "commit": "3b421578588243f920886e6fe79a6faa87ea026e",
+    "links": [
+      "https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.15.0.tgz",
+      "https://registry.npmjs.org/pnpm/-/pnpm-12.15.0.tgz"
+    ]
+  },
+  "local_adaptations": [
+    "One recipe base (pkgbase=hermes-agent) emitting hermes-agent and hermes-agent-desktop, so the desktop output can never be published against an older agent than itself; the single pnpm install in prepare() covers the web, ui-tui and desktop workspaces at once.",
+    "No -bin twins: Shelly publishes built packages, so the AUR's provides=/conflicts= dance between source and -bin variants is dropped and the desktop output simply depends on hermes-agent>=pkgver.",
+    "Electron comes from devario-libs/electron44-bin, which provides electron44=44.11.3 in the /usr/lib/electronNN layout prepare() expects; upstream's locked 44.9.3 is only staged into node_modules for the packager, never shipped.",
+    "makedepends name what the build runs (nodejs, npm, python, uv, rsync, cmake) plus gcc, make and pkgconf for node-pty's node-gyp build; the pinned pnpm archives supply node-gyp itself, as pm does.",
+    "The install stamp is written with --source pkg instead of --source aur; distribution stays pacman and updateMechanism external, so hermes update refuses and names the package manager."
+  ]
+}

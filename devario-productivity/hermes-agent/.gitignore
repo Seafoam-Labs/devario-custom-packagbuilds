@@ -1,0 +1,8 @@
+# makepkg build artifacts
+/pkg/
+/src/
+*.pkg.tar.*
+*.pkg.tar.*.sig
+# downloaded sources: the release archive and the two pnpm artifacts
+/hermes-agent-*.tar.gz
+/pnpm-*.tgz
