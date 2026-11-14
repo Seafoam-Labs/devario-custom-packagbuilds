@@ -1,0 +1,26 @@
+{
+  "name": "electron44-bin",
+  "input_kind": "prebuilt-release",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=electron44-bin&id=1d3b306ce155b9981c6583cbf4bcf9f1273d6c41",
+  "sha256": "095267a9b1820fb998c5d3a95842e3789c7609fb582ef43a1b8a119555f6f89e",
+  "bytes": 2997,
+  "commit": "1d3b306ce155b9981c6583cbf4bcf9f1273d6c41",
+  "retrieved_on": "2026-11-14",
+  "local_adaptation": true,
+  "note": "Reference only for the layout; the packaged payloads are the upstream Electron release archives, and the launcher is byte-identical to extra/electron44's electron-launcher.sh.",
+  "upstream_source": {
+    "url": "https://github.com/electron/electron/releases/download/v44.11.3/electron-v44.11.3-linux-x64.zip",
+    "sha256": "f2390c1e7803e5f4d59d46a92fd7067d0b13c237d0dec886b00e63d0078078d4",
+    "bytes": 123141628,
+    "links": [
+      "https://github.com/electron/electron/releases/download/v44.11.3/chromedriver-v44.11.3-linux-x64.zip"
+    ]
+  },
+  "local_adaptations": [
+    "Split the runtime and chromedriver into two outputs; drop the 134 MB chromedriver.debug blob and the generated buildflags header.",
+    "Reuse Arch's electron-launcher.sh (flags.conf handling, ELECTRON_IS_DEV, ELECTRON_FORCE_IS_PACKAGED) instead of the AUR launcher, so the file set matches the electron44 source recipe.",
+    "Dependency set re-derived from the shipped ELF files: readelf NEEDED plus the dlopened libpulse and libpci; the libraries Arch links dynamically (brotli, c-ares, libevent, libffi, minizip, opus, zlib, freetype, harfbuzz, libxml2) are static in the upstream payload.",
+    "provides=('electron44=44.11.3') and conflicts=('electron44') keep the two providers of /usr/lib/electron44 apart, so applications depend on electron44 either way.",
+    "x86_64 only, matching devario-libs/electron44; the linux-arm64 archives exist upstream if aarch64 is enabled later."
+  ]
+}
