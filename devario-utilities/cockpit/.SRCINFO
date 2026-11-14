@@ -1,6 +1,6 @@
 pkgbase = cockpit
 	pkgdesc = A systemd web based user interface for Linux servers
-	pkgver = 371
+	pkgver = 372
 	pkgrel = 1
 	url = https://cockpit-project.org/
 	arch = x86_64
@@ -12,6 +12,7 @@ pkgbase = cockpit
 	makedepends = glib2-devel
 	makedepends = systemd
 	makedepends = asciidoc
+	makedepends = asciidoctor
 	makedepends = git
 	makedepends = intltool
 	makedepends = gtk-doc
@@ -24,9 +25,9 @@ pkgbase = cockpit
 	makedepends = python-wheel
 	makedepends = python-build
 	makedepends = python-pip
-	source = https://github.com/cockpit-project/cockpit/releases/download/371/cockpit-371.tar.xz
+	source = https://github.com/cockpit-project/cockpit/releases/download/372/cockpit-372.tar.xz
 	source = cockpit.pam
-	sha256sums = fe6a64f44b62b7655b81dee2bcbaf0893bac4d026f2da1c896b62516f715c3e2
+	sha256sums = a74d28489341e880f73224174dd21e0b48ce7e78999801369855f74d6df4a53b
 	sha256sums = 1257fb3be713ca26831faea6963d292ec2ccd284f3a6be800142fab270c504fc
 
 pkgname = cockpit
