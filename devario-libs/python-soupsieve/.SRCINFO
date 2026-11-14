@@ -1,6 +1,6 @@
 pkgbase = python-soupsieve
 	pkgdesc = A CSS4 selector implementation for Beautiful Soup
-	pkgver = 4.1
+	pkgver = 4.1.1
 	pkgrel = 1
 	url = https://github.com/facelessuser/soupsieve
 	arch = any
@@ -11,7 +11,7 @@ pkgbase = python-soupsieve
 	makedepends = python-hatchling
 	depends = python
 	depends = python-beautifulsoup4
-	source = python-soupsieve::git+https://github.com/facelessuser/soupsieve#tag=4.1
+	source = python-soupsieve::git+https://github.com/facelessuser/soupsieve#tag=4.1.1
 	sha512sums = SKIP
 	b2sums = SKIP
 
