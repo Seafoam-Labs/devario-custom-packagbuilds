@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kcoreaddons
-pkgver=6.31.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='Addons to QtCore'
 arch=(x86_64)
@@ -16,7 +16,7 @@ depends=(libgcc
          systemd-libs
          util-linux-libs)
 makedepends=(doxygen
-             extra-cmake-modules
+             'extra-cmake-modules>=6.32.0'
              pyside6
              python-build
              python-setuptools
@@ -27,7 +27,7 @@ optdepends=('pyside6: Python bindings'
             'qt6-declarative: QML bindings')
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('d3a843249177a6e51714a7211c73829cb071dbebe4f30404423bbbc57ca5ee95'
+sha256sums=('f7373a77afae97099de4359fba13987b46618ccb952f94ddc11c9d31277fe651'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB  # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1) # Nicolas Fella <nicolas.fella@kde.org>
