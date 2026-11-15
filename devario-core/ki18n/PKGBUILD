@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=ki18n
-pkgver=6.31.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='Advanced internationalization framework'
 arch=(x86_64)
@@ -15,7 +15,7 @@ depends=(libstdc++
          'qt6-base>=6.10.0')
 makedepends=('cmake>=3.30'
              doxygen
-             'extra-cmake-modules>=6.31.0'
+             'extra-cmake-modules>=6.32.0'
              python
              'qt6-declarative>=6.10.0'
              qt6-tools)
@@ -23,7 +23,7 @@ optdepends=('python: to compile .ts files'
             'qt6-declarative: ktranscript plugin and QML bindings')
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('9fa271c7a33b856451de1ed3ff105626c2763fbd3b11d3210b02cb30de43f2ba'
+sha256sums=('b574b381e7510cf3b14d6a16f6ed5670220f10df7f2494c21a579d20ca1d017f'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>
