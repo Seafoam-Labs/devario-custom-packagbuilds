@@ -1,6 +1,6 @@
 pkgbase = kjobwidgets
 	pkgdesc = Widgets for tracking KJob instances
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,7 +9,7 @@ pkgbase = kjobwidgets
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = pyside6
 	makedepends = python>=3.9
 	makedepends = python-build
@@ -18,16 +18,16 @@ pkgbase = kjobwidgets
 	makedepends = shiboken6-generator
 	depends = libstdc++
 	depends = glibc
-	depends = kcoreaddons>=6.31.0
-	depends = knotifications>=6.31.0
-	depends = kwidgetsaddons>=6.31.0
+	depends = kcoreaddons>=6.32.0
+	depends = knotifications>=6.32.0
+	depends = kwidgetsaddons>=6.32.0
 	depends = qt6-base>=6.10.0
 	optdepends = pyside6: Python bindings
-	source = https://download.kde.org/stable/frameworks/6.31/kjobwidgets-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kjobwidgets-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kjobwidgets-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kjobwidgets-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = b734186ed41e8cc84c2a5f9ba61b46075dacf076450dcb78d37a5d01dcd8c69e
+	sha256sums = 98eaee2846181b82b357067db00ac65e3bcf02c11322bb636aa6021a6eb65dd2
 	sha256sums = SKIP
 
 pkgname = kjobwidgets
