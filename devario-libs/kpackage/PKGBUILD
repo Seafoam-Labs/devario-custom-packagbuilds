@@ -4,7 +4,7 @@
 # Contributor: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 
 pkgname=kpackage
-pkgver=6.30.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='Framework that lets applications manage user installable packages of non-binary assets'
 arch=(x86_64)
@@ -12,17 +12,17 @@ url='https://develop.kde.org/products/frameworks/'
 license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(libstdc++
          glibc
-         karchive
-         kcoreaddons
-         ki18n
+         'karchive>=6.32.0'
+         'kcoreaddons>=6.32.0'
+         'ki18n>=6.32.0'
          qt6-base)
 makedepends=(doxygen
-             extra-cmake-modules
-             kdoctools
+             'extra-cmake-modules>=6.32.0'
+             'kdoctools>=6.32.0'
              qt6-tools)
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('58939af0c553f24963652e10d248e2f8f2b2ca2b87dc26d3220675ed0cf33019'
+sha256sums=('f3959f4a5956a29ce9bd083410d7df63d4f93a1a4e451cb87c2ccf834995e3ca'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>
