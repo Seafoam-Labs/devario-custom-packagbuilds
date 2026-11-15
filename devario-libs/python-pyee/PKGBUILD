@@ -4,7 +4,7 @@
 
 pkgname=python-pyee
 _name=${pkgname#python-}
-pkgver=16.0.2
+pkgver=16.1.0
 pkgrel=1
 pkgdesc="Port of node.js's EventEmitter to python"
 arch=(any)
@@ -14,10 +14,8 @@ depends=(python python-typing_extensions)
 makedepends=(
   git
   python-build
+  python-hatchling
   python-installer
-  python-setuptools
-  python-setuptools-scm
-  python-wheel
 )
 checkdepends=(
   python-pytest-asyncio
@@ -28,8 +26,8 @@ optdepends=(
   python-trio
   python-twisted
 )
-source=("git+https://github.com/jfhbrook/pyee#tag=v16.0.2")
-sha256sums=('514af23dd095bf7d5887cf8c96836d6132db6ee12233053584dcf443c6b8a29a')
+source=("git+https://github.com/jfhbrook/pyee#tag=v$pkgver")
+sha256sums=('ba90f44130c25be93ebacb92a810dab2c5427162eab293d4a3d1151108e258e0')
 
 build() {
   cd "$_name"
