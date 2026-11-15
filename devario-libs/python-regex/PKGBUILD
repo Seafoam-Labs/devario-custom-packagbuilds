@@ -6,7 +6,7 @@
 
 _pkgbase=regex
 pkgname=python-regex
-pkgver=2026.11.9
+pkgver=2026.11.15
 pkgrel=1
 pkgdesc="Alternative python regular expression module."
 arch=('x86_64')
@@ -15,18 +15,20 @@ license=('Apache-2.0 AND CNRI-Python')
 depends=('python>=3.11')
 makedepends=('python-build' 'python-installer' 'python-setuptools>77.0.3' 'python-wheel')
 options=(!emptydirs)
-source=("https://files.pythonhosted.org/packages/source/r/${_pkgbase}/${_pkgbase}-${pkgver}.tar.gz")
-sha256sums=('316a70fbd70e999c9664681cb0eb5b4982b2cc0f623c7c86a8a112e1bd4c6277')
-b2sums=('d9650e7072e5504e4f36775e324c37d278f33698d2c6bef8cf02c88774571f8801f8f06539efe70776ecdd13a4e482109fda2f7d9973961fd55b34252480365d')
+# Devario: fetch the upstream release tag archive directly from GitHub so the
+# recipe tracks the exact detected upstream release (tag 2026.11.15).
+source=("${url}/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('dca2a15f40c7a3a3d7ca438ff72b73f2160cbf4ceadb72ccf5d8d13aa6010cfe')
+b2sums=('49802e71199c36dc30d2c195b2086d83cc09f13d932ee6422494c726d687ea9bff1173f2715c83167b8a3c14f433a5c2d77c75eefb046154fc4a8498d9cb557f')
 
 build() {
-  cd "regex-${pkgver}"
+  cd "mrab-regex-${pkgver}"
 
   python -m build -wn
 }
 
 check() {
-  cd "regex-${pkgver}"
+  cd "mrab-regex-${pkgver}"
 
   local _pyver=cpython-$(python -c 'import sys; print("".join(map(str, sys.version_info[:2])))')
   cd "$PWD/build/lib.linux-$CARCH-$_pyver"
@@ -34,7 +36,7 @@ check() {
 }
 
 package() {
-  cd "regex-${pkgver}"
+  cd "mrab-regex-${pkgver}"
 
   python -m installer --d "${pkgdir}" dist/*.whl
   install -Dm644 LICENSE.txt "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE.txt
