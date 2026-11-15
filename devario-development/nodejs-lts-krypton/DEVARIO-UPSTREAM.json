@@ -4,6 +4,7 @@
   "sha256": "5b422e47d0f625cd5d31450fa317cf58a83894448916215ea5c5ce5f4a3c79dc",
   "bytes": 19682,
   "local_adaptations": [
-    "24.22.0 local adaptation: bundled libuv, matching inspector layout, TERM=xterm and child-subreaper; test failures propagate."
+    "24.22.0 local adaptation: bundled libuv, matching inspector layout, TERM=xterm and child-subreaper; test failures propagate.",
+    "24.22.3 version bump: Git tag v24.22.3 retained with signed verification; all Devario adaptations preserved."
   ]
 }
