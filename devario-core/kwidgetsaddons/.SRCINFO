@@ -1,6 +1,6 @@
 pkgbase = kwidgetsaddons
 	pkgdesc = Addons to QtWidgets
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -8,7 +8,7 @@ pkgbase = kwidgetsaddons
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = pyside6
 	makedepends = python-build
 	makedepends = python-setuptools
@@ -18,11 +18,11 @@ pkgbase = kwidgetsaddons
 	depends = glibc
 	depends = qt6-base
 	optdepends = pyside6: Python bindings
-	source = https://download.kde.org/stable/frameworks/6.31/kwidgetsaddons-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kwidgetsaddons-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kwidgetsaddons-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kwidgetsaddons-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 94d1a1ba334a383c38b7f4238d93895ddd2b40f3d6511b16937bc951b542b5a5
+	sha256sums = 53b2f5a65df51be4c15ed14c936aad480ab3e3425a4ea6ed95897ee48e173de9
 	sha256sums = SKIP
 
 pkgname = kwidgetsaddons
