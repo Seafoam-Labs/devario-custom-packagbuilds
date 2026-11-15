@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kglobalaccel
-pkgver=6.31.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='Add support for global workspace shortcuts'
 arch=(x86_64)
@@ -13,11 +13,11 @@ depends=(libstdc++
          glibc
          'qt6-base>=6.10.0')
 makedepends=(doxygen
-             'extra-cmake-modules>=6.31.0'
+             'extra-cmake-modules>=6.32.0'
              qt6-tools)
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('114f1de1c4e2581f7a371939d7c01d6f836a4e30bb0ec3827c02cddb82209118'
+sha256sums=('d5ad10eb041ef8f46074bb1df4cf3475888421d849bc667a7afc6c5bf8cc1640'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1 # Nicolas Fella <nicolas.fella@kde.org>
