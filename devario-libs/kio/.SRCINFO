@@ -1,6 +1,6 @@
 pkgbase = kio
 	pkgdesc = Resource and network access abstraction
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,33 +9,33 @@ pkgbase = kio
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
-	makedepends = kdoctools>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
+	makedepends = kdoctools>=6.32.0
 	makedepends = qt6-tools
 	depends = acl
 	depends = libstdc++
 	depends = glibc
-	depends = karchive>=6.31.0
-	depends = kbookmarks>=6.31.0
-	depends = kcolorscheme>=6.31.0
-	depends = kcompletion>=6.31.0
-	depends = kconfig>=6.31.0
-	depends = kcoreaddons>=6.31.0
-	depends = kcrash>=6.31.0
-	depends = kdbusaddons>=6.31.0
-	depends = kguiaddons>=6.31.0
-	depends = ki18n>=6.31.0
-	depends = kiconthemes>=6.31.0
-	depends = kitemviews>=6.31.0
-	depends = kjobwidgets>=6.31.0
-	depends = kservice>=6.31.0
-	depends = kwallet>=6.31.0
-	depends = kwidgetsaddons>=6.31.0
-	depends = kwindowsystem>=6.31.0
+	depends = karchive>=6.32.0
+	depends = kbookmarks>=6.32.0
+	depends = kcolorscheme>=6.32.0
+	depends = kcompletion>=6.32.0
+	depends = kconfig>=6.32.0
+	depends = kcoreaddons>=6.32.0
+	depends = kcrash>=6.32.0
+	depends = kdbusaddons>=6.32.0
+	depends = kguiaddons>=6.32.0
+	depends = ki18n>=6.32.0
+	depends = kiconthemes>=6.32.0
+	depends = kitemviews>=6.32.0
+	depends = kjobwidgets>=6.32.0
+	depends = kservice>=6.32.0
+	depends = kwallet>=6.32.0
+	depends = kwidgetsaddons>=6.32.0
+	depends = kwindowsystem>=6.32.0
 	depends = libxml2
 	depends = libxslt
 	depends = qt6-base>=6.10.0
-	depends = solid>=6.31.0
+	depends = solid>=6.32.0
 	depends = util-linux-libs>=2.26
 	optdepends = audiocd-kio: for accessing audio CDs
 	optdepends = kded: proxy management and cookie storage
@@ -43,11 +43,11 @@ pkgbase = kio
 	optdepends = kio-extras: extra protocols support (sftp, fish and more)
 	optdepends = kio-fuse: to mount remote filesystems via FUSE
 	optdepends = switcheroo-control: hybrid GPU support
-	source = https://download.kde.org/stable/frameworks/6.31/kio-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kio-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kio-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kio-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = cdc8e3787be1f4a5c8f8a45fabab5cf540ef6380c549c6fd984f15f093b5eac0
+	sha256sums = d16d302a3db7a140703082f0a9a7c7127a5bff795c497f2ae7f8cbb53b100b59
 	sha256sums = SKIP
 
 pkgname = kio
