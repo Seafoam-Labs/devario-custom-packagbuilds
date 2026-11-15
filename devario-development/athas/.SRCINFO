@@ -1,0 +1,31 @@
+pkgbase = athas
+	pkgdesc = Lightweight code editor with Git, a terminal and AI agents
+	pkgver = 0.17.0
+	pkgrel = 1
+	url = https://athas.dev
+	arch = x86_64
+	license = AGPL-3.0-or-later
+	makedepends = bun>=1.3.14
+	makedepends = cargo
+	makedepends = nodejs-lts-krypton
+	depends = dbus
+	depends = gcc-libs
+	depends = git
+	depends = glib2
+	depends = glibc
+	depends = gtk3
+	depends = libsoup3
+	depends = wayland
+	depends = webkit2gtk-4.1
+	depends = xz
+	depends = zlib
+	optdepends = org.freedesktop.secrets: credential storage via Secret Service
+	optdepends = xdg-desktop-portal: portal-backed dialogs and file pickers
+	optdepends = xdg-utils: open links and files with the default applications
+	optdepends = zenity: dialog fallback when no desktop portal is available
+	options = !debug
+	options = !lto
+	source = athas-0.17.0.tar.gz::https://github.com/athasdev/athas/archive/refs/tags/v0.17.0.tar.gz
+	sha256sums = d612cdd9d918015e762668b9654f83e4b0627138ff2120adf009e6c3a145e556
+
+pkgname = athas
