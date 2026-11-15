@@ -1,6 +1,6 @@
 pkgbase = ksvg
 	pkgdesc = Components for handling SVGs
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,26 +9,26 @@ pkgbase = ksvg
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
-	makedepends = kirigami>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
+	makedepends = kirigami>=6.32.0
 	makedepends = qt6-declarative>=6.10.0
 	makedepends = qt6-tools
 	depends = glibc
-	depends = karchive>=6.31.0
-	depends = kcolorscheme>=6.31.0
-	depends = kconfig>=6.31.0
-	depends = kcoreaddons>=6.31.0
-	depends = kguiaddons>=6.31.0
+	depends = karchive>=6.32.0
+	depends = kcolorscheme>=6.32.0
+	depends = kconfig>=6.32.0
+	depends = kcoreaddons>=6.32.0
+	depends = kguiaddons>=6.32.0
 	depends = libstdc++
 	depends = qt6-base>=6.10.0
 	depends = qt6-svg>=6.10.0
 	optdepends = kirigami: QML bindings
 	optdepends = qt6-declarative: QML bindings
-	source = https://download.kde.org/stable/frameworks/6.31/ksvg-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/ksvg-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/ksvg-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/ksvg-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 1cacfe9660cdb564edc4c0bf69578776a54001b114ae6fb2a4fa77da25fca2d1
+	sha256sums = 8299498d46373a84811d29415f9e5a115f491bd7b5fa11c1648fc36ca9374ad6
 	sha256sums = SKIP
 
 pkgname = ksvg
