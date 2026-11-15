@@ -3,7 +3,7 @@
 # https://github.com/fluxerapp/fluxer/blob/main/fluxer_desktop/packaging/arch/PKGBUILD
 
 pkgname=fluxer-canary
-pkgver=2026.1114.183347
+pkgver=2026.1115.191936
 pkgrel=1
 pkgdesc='Canary build of Fluxer instant messaging and VoIP application'
 arch=('x86_64')
@@ -50,7 +50,7 @@ conflicts=('fluxer-canary-bin')
 replaces=('fluxer-canary-bin')
 options=('!strip' '!debug' 'emptydirs')
 source=("${pkgname}-${pkgver}-linux-x64.tar.gz::https://pkgs.fluxer.com/desktop/canary/linux/x64/${pkgver}/tar_gz")
-sha256sums=('7f91595e9f7e0f5a54086e128e1a0a7df2234005219c7936885dcb7e29cd68b2')
+sha256sums=('76ab79d1d705b7c5638e197ba1b0ad31c171347ae2899793c28fe33bfe995505')
 
 package() {
   local payload="${srcdir}/Fluxer-Canary-${pkgver}-linux-x64"
