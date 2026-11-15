@@ -1,35 +1,35 @@
 pkgbase = knewstuff
 	pkgdesc = Support for downloading application assets from the network
-	pkgver = 6.30.0
-	pkgrel = 7
+	pkgver = 6.32.0
+	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
 	makedepends = doxygen
-	makedepends = extra-cmake-modules
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = qt6-tools
-	depends = attica
+	depends = attica>=6.32.0
 	depends = libgcc
 	depends = libstdc++
 	depends = glibc
-	depends = karchive
+	depends = karchive>=6.32.0
 	depends = kcmutils
-	depends = kconfig
-	depends = kcoreaddons
-	depends = ki18n
+	depends = kconfig>=6.32.0
+	depends = kcoreaddons>=6.32.0
+	depends = ki18n>=6.32.0
 	depends = kirigami
-	depends = kpackage
-	depends = kwidgetsaddons
+	depends = kpackage>=6.32.0
+	depends = kwidgetsaddons>=6.32.0
 	depends = qt6-base
 	depends = qt6-declarative
-	depends = syndication
-	source = https://download.kde.org/stable/frameworks/6.30/knewstuff-6.30.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.30/knewstuff-6.30.0.tar.xz.sig
+	depends = syndication>=6.32.0
+	source = https://download.kde.org/stable/frameworks/6.32/knewstuff-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/knewstuff-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 85408768b5c3f4b0b51ee6a14ae73fea263f451404e266e286c55e0c17e44037
+	sha256sums = 91ee15856bb831d1f4022fb45c8b29b15be6e9330bbc8447fadeee9d6f16ab27
 	sha256sums = SKIP
 
 pkgname = knewstuff
