@@ -1,6 +1,6 @@
 pkgbase = kwallet
 	pkgdesc = Secure and unified container for user passwords
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,8 +9,8 @@ pkgbase = kwallet
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
-	makedepends = kdoctools>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
+	makedepends = kdoctools>=6.32.0
 	makedepends = kservice
 	makedepends = qt6-tools
 	depends = libgcc
@@ -18,26 +18,26 @@ pkgbase = kwallet
 	depends = glib2
 	depends = glibc
 	depends = gpgmepp>=1.7.0
-	depends = kcolorscheme>=6.31.0
-	depends = kconfig>=6.31.0
-	depends = kcoreaddons>=6.31.0
-	depends = kcrash>=6.31.0
-	depends = kdbusaddons>=6.31.0
-	depends = ki18n>=6.31.0
-	depends = knotifications>=6.31.0
-	depends = kwidgetsaddons>=6.31.0
-	depends = kwindowsystem>=6.31.0
+	depends = kcolorscheme>=6.32.0
+	depends = kconfig>=6.32.0
+	depends = kcoreaddons>=6.32.0
+	depends = kcrash>=6.32.0
+	depends = kdbusaddons>=6.32.0
+	depends = ki18n>=6.32.0
+	depends = knotifications>=6.32.0
+	depends = kwidgetsaddons>=6.32.0
+	depends = kwindowsystem>=6.32.0
 	depends = libgcrypt
 	depends = libsecret
 	depends = qca-qt6>=2.3.1
 	depends = qt6-base>=6.10.0
 	optdepends = kwalletmanager: Configuration GUI
 	provides = org.freedesktop.secrets
-	source = https://download.kde.org/stable/frameworks/6.31/kwallet-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kwallet-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kwallet-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kwallet-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = ce8915f33c1d3a57d738d83c8082c3a76dcc29a1ddd989bee4ea3961e55166e6
+	sha256sums = d68f74617519d1ebc88f152c29d51333f600b9f0aa8757c0a4fe49a40a5107fa
 	sha256sums = SKIP
 
 pkgname = kwallet
