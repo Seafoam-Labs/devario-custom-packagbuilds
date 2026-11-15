@@ -1,0 +1,10 @@
+{
+  "name": "kfilemetadata",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fkfilemetadata/repository/archive.tar.gz?sha=4ba14294d4564c9a1575097a3b8da14a93beff31",
+  "sha256": "fcff4c2fde30389f8397be64d4b110274459209b6c00c64e20cbd21c925bef45",
+  "bytes": 6273,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kfilemetadata.git",
+  "commit": "4ba14294d4564c9a1575097a3b8da14a93beff31",
+  "pkgbuild_sha256": "113fb368b878722b186dad2c1d586fbd64bc75a9152f3959ba5947ae7227a0a2",
+  "metadata_generator": "Shelly 3.3.0"
+}

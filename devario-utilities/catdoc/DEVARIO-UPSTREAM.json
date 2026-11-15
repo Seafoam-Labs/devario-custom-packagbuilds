@@ -1,0 +1,10 @@
+{
+  "name": "catdoc",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fcatdoc/repository/archive.tar.gz?sha=8892a7f9f3efc6a548eb1b574ed4d52dc161d36b",
+  "sha256": "f8753547266c865c20db013791c02a3f328825028a7414894206da933ddf6e4e",
+  "bytes": 2405,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/catdoc.git",
+  "commit": "8892a7f9f3efc6a548eb1b574ed4d52dc161d36b",
+  "pkgbuild_sha256": "43da28000943614659dd6b52bbe8ff6457e24a6e507d79a0775c52ac765d1b82",
+  "metadata_generator": "Shelly 3.3.0"
+}

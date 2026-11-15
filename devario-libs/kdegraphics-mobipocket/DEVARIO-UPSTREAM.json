@@ -1,0 +1,10 @@
+{
+  "name": "kdegraphics-mobipocket",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fkdegraphics-mobipocket/repository/archive.tar.gz?sha=fb131d56d55804baa040d3c3fa82a5e71213de4d",
+  "sha256": "d6f2f17c3fde1423ffe08dfceaaf2f8b686a12a7d604b8d0f9e9d646b1a1498e",
+  "bytes": 7712,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kdegraphics-mobipocket.git",
+  "commit": "fb131d56d55804baa040d3c3fa82a5e71213de4d",
+  "pkgbuild_sha256": "2d610c998196fa47259dce5856ca79e8d3d5f4c78a241665f1d44c4a18b21c9d",
+  "metadata_generator": "Shelly 3.3.0"
+}

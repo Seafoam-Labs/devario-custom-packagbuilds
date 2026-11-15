@@ -1,0 +1,6 @@
+[catdoc]
+source = "git"
+git = "https://github.com/albfan/catdoc.git"
+prefix = "REL_"
+from_pattern = "_"
+to_pattern = "."

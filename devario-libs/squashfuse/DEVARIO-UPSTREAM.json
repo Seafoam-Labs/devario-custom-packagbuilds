@@ -1,0 +1,10 @@
+{
+  "name": "squashfuse",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsquashfuse/repository/archive.tar.gz?sha=6adeb16e778b0098edb2b53b134bf7af0609ccff",
+  "sha256": "b084f31bd6585b9315b63c731f00ea91546934328876b225d56cec1a418eb5d6",
+  "bytes": 1668,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/squashfuse.git",
+  "commit": "6adeb16e778b0098edb2b53b134bf7af0609ccff",
+  "pkgbuild_sha256": "ffe38708b7fbaf7f60ee1aea66189e0ef2db79675226c1e9d0d1e3bb334cb412",
+  "metadata_generator": "Shelly 3.3.0"
+}

@@ -1,0 +1,23 @@
+pkgbase = signon-ui
+	pkgdesc = UI component responsible for handling the user interactions which can happen during the login process of an online account
+	pkgver = 0.17+20231016
+	pkgrel = 4
+	url = https://launchpad.net/online-accounts-signon-ui
+	arch = x86_64
+	license = GPL-3.0-only
+	makedepends = git
+	depends = glib2
+	depends = glibc
+	depends = libaccounts-qt
+	depends = libgcc
+	depends = libnotify
+	depends = libproxy
+	depends = libstdc++
+	depends = qt6-base
+	depends = qt6-declarative
+	depends = qt6-webengine
+	depends = signond
+	source = git+https://gitlab.com/accounts-sso/signon-ui#commit=eef943f0edf3beee8ecb85d4a9dae3656002fc24
+	sha256sums = f89a79a4a7619c8d415c39b6d377aebb92d898cfb126c211b756e5b8624c5ae7
+
+pkgname = signon-ui

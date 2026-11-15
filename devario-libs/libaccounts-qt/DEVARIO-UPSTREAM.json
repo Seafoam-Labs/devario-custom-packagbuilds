@@ -1,0 +1,10 @@
+{
+  "name": "libaccounts-qt",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibaccounts-qt/repository/archive.tar.gz?sha=442e0a33760b23060bf166d2fc4bb872df822ab4",
+  "sha256": "c2494f56e6ee67c61ca6fdbc4dce20ea1fe8a67b99b147d33134c3adb59d69f2",
+  "bytes": 1823,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libaccounts-qt.git",
+  "commit": "442e0a33760b23060bf166d2fc4bb872df822ab4",
+  "pkgbuild_sha256": "923c4992440e37ca51bddb7071238aeec4e9fc27a4c3272d2618e55c1fe666ea",
+  "metadata_generator": "Shelly 3.3.0"
+}

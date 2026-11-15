@@ -1,0 +1,10 @@
+{
+  "name": "convertlit",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fconvertlit/repository/archive.tar.gz?sha=ce93f1435e5a68815b81da04150c1e1803528c76",
+  "sha256": "fb2b817f90dff04ed2200ce7d9dbbade2e9d53d0e8d63adccaf6844cf6f7972f",
+  "bytes": 8824,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/convertlit.git",
+  "commit": "ce93f1435e5a68815b81da04150c1e1803528c76",
+  "pkgbuild_sha256": "d6cb7a7252425b93f541b8afece339602b5b3a9231af6dc0b8116a10c99cde9f",
+  "metadata_generator": "Shelly 3.3.0"
+}

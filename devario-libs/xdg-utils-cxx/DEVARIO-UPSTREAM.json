@@ -1,0 +1,10 @@
+{
+  "name": "xdg-utils-cxx",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fxdg-utils-cxx/repository/archive.tar.gz?sha=0f1fb900443790e3d984dd9d1adc9716a388c6e5",
+  "sha256": "aea1b994c56c6e3f61c8c60c3ba2c2f25078974a4fecfd860a774597006a276b",
+  "bytes": 1726,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/xdg-utils-cxx.git",
+  "commit": "0f1fb900443790e3d984dd9d1adc9716a388c6e5",
+  "pkgbuild_sha256": "0285f413180aef2182c29fe0cef7c2799eb8e059b5e2fca77c9ba6dbcaf6b6b9",
+  "metadata_generator": "Shelly 3.3.0"
+}

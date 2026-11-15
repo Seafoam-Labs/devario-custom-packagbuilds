@@ -1,0 +1,10 @@
+{
+  "name": "ebook-tools",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Febook-tools/repository/archive.tar.gz?sha=bb8fd37170f9e58b7fea0a6dfd0e3a4c897d2dea",
+  "sha256": "973b41c45f2f9759a983b25430950644bf18dcfffa9469b1d77d4a89a755a560",
+  "bytes": 3232,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ebook-tools.git",
+  "commit": "bb8fd37170f9e58b7fea0a6dfd0e3a4c897d2dea",
+  "pkgbuild_sha256": "141592ffe154346e14083986e138ecceb327377812aa1960ea3423be0aef5487",
+  "metadata_generator": "Shelly 3.3.0"
+}

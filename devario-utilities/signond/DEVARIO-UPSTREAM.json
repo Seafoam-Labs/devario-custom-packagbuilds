@@ -1,0 +1,10 @@
+{
+  "name": "signond",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsignond/repository/archive.tar.gz?sha=00fbb94b66547d5066bc78e7b4ff84fa78d3dfd1",
+  "sha256": "83c56168f7fa846abd1cb762711118ba952a11d4efbc9beb8127f1fcfcfbf7da",
+  "bytes": 1756,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/signond.git",
+  "commit": "00fbb94b66547d5066bc78e7b4ff84fa78d3dfd1",
+  "pkgbuild_sha256": "19e0cd8c8760dd993875764bb2e67f21a2f23020707fd59fa691e1831a28cf11",
+  "metadata_generator": "Shelly 3.3.0"
+}

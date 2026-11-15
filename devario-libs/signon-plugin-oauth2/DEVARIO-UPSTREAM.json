@@ -1,0 +1,10 @@
+{
+  "name": "signon-plugin-oauth2",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsignon-plugin-oauth2/repository/archive.tar.gz?sha=4ec4223ae727a6f617b39126732856180df055f9",
+  "sha256": "6fac99c944e4ad2bd45ac7b9cfd268f41a4489c218f5354da3e4ed0ce02c4f94",
+  "bytes": 1843,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/signon-plugin-oauth2.git",
+  "commit": "4ec4223ae727a6f617b39126732856180df055f9",
+  "pkgbuild_sha256": "77a966132722ab1205dddcc25cc09182109f5dbf771bba42c998510c57a394ae",
+  "metadata_generator": "Shelly 3.3.0"
+}

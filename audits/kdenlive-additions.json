@@ -1,0 +1,129 @@
+{
+  "date": "2026-11-15",
+  "scope": "kdenlive plus 22 missing runtime/build dependency recipes; all single-output.",
+  "validation": {
+    "shelly_makesrcinfo": "generated for all 23 recipes (Shelly 3.3.0)",
+    "source_checksums": "shelly build --updpkgsums downloaded every pinned source; all upstream checksums matched (catdoc b2sums indentation reformatted only)",
+    "shelly_review": "--review-only --json passed for all 23 recipes",
+    "dependency_closure": "all depends and makedepends resolve against local recipes plus synced Devario repository databases",
+    "full_builds": false
+  },
+  "dependency_check": "Name availability against local recipes and the host synced repository databases; does not prove version or ABI compatibility. Optional dependencies were not recursively added.",
+  "packages": [
+    {
+      "name": "kdenlive",
+      "path": "devario-productivity/kdenlive",
+      "upstream_commit": "bee9a12fa691107f8ee1b0cb6913b84594f037f3"
+    },
+    {
+      "name": "kfilemetadata",
+      "path": "devario-libs/kfilemetadata",
+      "upstream_commit": "4ba14294d4564c9a1575097a3b8da14a93beff31"
+    },
+    {
+      "name": "knotifyconfig",
+      "path": "devario-libs/knotifyconfig",
+      "upstream_commit": "7caeb000ce776565f47610da02a49b6c62a43fdd"
+    },
+    {
+      "name": "ktextwidgets",
+      "path": "devario-libs/ktextwidgets",
+      "upstream_commit": "20b7a5e3266641cb1a004d6e276093e8ca48416b"
+    },
+    {
+      "name": "purpose",
+      "path": "devario-libs/purpose",
+      "upstream_commit": "6543c21a9a5c53c3bffe9ece9a99897aa091b5ba"
+    },
+    {
+      "name": "ebook-tools",
+      "path": "devario-libs/ebook-tools",
+      "upstream_commit": "bb8fd37170f9e58b7fea0a6dfd0e3a4c897d2dea"
+    },
+    {
+      "name": "catdoc",
+      "path": "devario-utilities/catdoc",
+      "upstream_commit": "8892a7f9f3efc6a548eb1b574ed4d52dc161d36b"
+    },
+    {
+      "name": "kdegraphics-mobipocket",
+      "path": "devario-libs/kdegraphics-mobipocket",
+      "upstream_commit": "fb131d56d55804baa040d3c3fa82a5e71213de4d"
+    },
+    {
+      "name": "libappimage",
+      "path": "devario-libs/libappimage",
+      "upstream_commit": "7d700bcba05c9fef865f0c49672f90b855361d28"
+    },
+    {
+      "name": "kaccounts-integration",
+      "path": "devario-libs/kaccounts-integration",
+      "upstream_commit": "d68a55ecd60553b2ab0cba438c851f131d55e91b"
+    },
+    {
+      "name": "libaccounts-qt",
+      "path": "devario-libs/libaccounts-qt",
+      "upstream_commit": "442e0a33760b23060bf166d2fc4bb872df822ab4"
+    },
+    {
+      "name": "prison",
+      "path": "devario-libs/prison",
+      "upstream_commit": "63f84ff124c0e734268a81cbb29b480c048c721a"
+    },
+    {
+      "name": "convertlit",
+      "path": "devario-utilities/convertlit",
+      "upstream_commit": "ce93f1435e5a68815b81da04150c1e1803528c76"
+    },
+    {
+      "name": "squashfuse",
+      "path": "devario-libs/squashfuse",
+      "upstream_commit": "6adeb16e778b0098edb2b53b134bf7af0609ccff"
+    },
+    {
+      "name": "xdg-utils-cxx",
+      "path": "devario-libs/xdg-utils-cxx",
+      "upstream_commit": "0f1fb900443790e3d984dd9d1adc9716a388c6e5"
+    },
+    {
+      "name": "signon-kwallet-extension",
+      "path": "devario-libs/signon-kwallet-extension",
+      "upstream_commit": "3038bcd1b80a3c8c9de5f5cbb4f8904b1c15678e"
+    },
+    {
+      "name": "signon-plugin-oauth2",
+      "path": "devario-libs/signon-plugin-oauth2",
+      "upstream_commit": "4ec4223ae727a6f617b39126732856180df055f9"
+    },
+    {
+      "name": "signon-ui",
+      "path": "devario-utilities/signon-ui",
+      "upstream_commit": "2c3fe182fba0921ab436af952e3c01e06e583839"
+    },
+    {
+      "name": "signond",
+      "path": "devario-utilities/signond",
+      "upstream_commit": "00fbb94b66547d5066bc78e7b4ff84fa78d3dfd1"
+    },
+    {
+      "name": "qcoro",
+      "path": "devario-libs/qcoro",
+      "upstream_commit": "356799f25e67a1e417de6b71fc81da22ea3eff1d"
+    },
+    {
+      "name": "libaccounts-glib",
+      "path": "devario-libs/libaccounts-glib",
+      "upstream_commit": "1374c3d766a247068befa7229c4f749df5fda966"
+    },
+    {
+      "name": "libdmtx",
+      "path": "devario-libs/libdmtx",
+      "upstream_commit": "7679119b7735b9c37236e754add4783a7f30bdd4"
+    },
+    {
+      "name": "libtommath",
+      "path": "devario-libs/libtommath",
+      "upstream_commit": "ea05b73a65f9450d664ab22ecad7546cb46dc120"
+    }
+  ]
+}

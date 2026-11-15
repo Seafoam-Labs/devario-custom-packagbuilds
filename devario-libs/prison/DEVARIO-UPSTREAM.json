@@ -1,0 +1,10 @@
+{
+  "name": "prison",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fprison/repository/archive.tar.gz?sha=63f84ff124c0e734268a81cbb29b480c048c721a",
+  "sha256": "e71f841fb2d132a0b4570bc4e3d8ec772d28d09b4c2446a283ac79da56584785",
+  "bytes": 6133,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/prison.git",
+  "commit": "63f84ff124c0e734268a81cbb29b480c048c721a",
+  "pkgbuild_sha256": "22e6a22a5a734e21a7271d7644c000287630101420402d81e1dbb3a73038bdbe",
+  "metadata_generator": "Shelly 3.3.0"
+}

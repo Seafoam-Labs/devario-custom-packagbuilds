@@ -1,0 +1,10 @@
+{
+  "name": "ktextwidgets",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fktextwidgets/repository/archive.tar.gz?sha=20b7a5e3266641cb1a004d6e276093e8ca48416b",
+  "sha256": "8061ea47a35d1269369b2d726e8e6a31b715575695f82e78b97493dac9d410c0",
+  "bytes": 6048,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ktextwidgets.git",
+  "commit": "20b7a5e3266641cb1a004d6e276093e8ca48416b",
+  "pkgbuild_sha256": "4c58544a7fd6b62fd7bf700bdb28fcc16605349c0f382f093b13df88620b7981",
+  "metadata_generator": "Shelly 3.3.0"
+}

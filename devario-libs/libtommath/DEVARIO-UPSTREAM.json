@@ -1,0 +1,10 @@
+{
+  "name": "libtommath",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibtommath/repository/archive.tar.gz?sha=ea05b73a65f9450d664ab22ecad7546cb46dc120",
+  "sha256": "e0a7a0d570d4d0be4b129ba3ef012408ec9109a3a7f706c1fda08887437b31b7",
+  "bytes": 1861,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libtommath.git",
+  "commit": "ea05b73a65f9450d664ab22ecad7546cb46dc120",
+  "pkgbuild_sha256": "dcd8c5b764b675a6da9af3cfbe0c7ca9c94448b23d64b4eecbe01bbd1c625b44",
+  "metadata_generator": "Shelly 3.3.0"
+}

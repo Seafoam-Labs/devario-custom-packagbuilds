@@ -1,0 +1,10 @@
+{
+  "name": "kdenlive",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fkdenlive/repository/archive.tar.gz?sha=bee9a12fa691107f8ee1b0cb6913b84594f037f3",
+  "sha256": "4b2d537d37af70430b93c69da2a27200bf04c098d63c14e494789370db29506d",
+  "bytes": 8458,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kdenlive.git",
+  "commit": "bee9a12fa691107f8ee1b0cb6913b84594f037f3",
+  "pkgbuild_sha256": "8cde724bf476611d8f2106cdc89232c372b34ef6472685a72de89f77f556fbb4",
+  "metadata_generator": "Shelly 3.3.0"
+}

@@ -1,0 +1,35 @@
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=xdg-utils-cxx
+pkgver=1.0.1
+pkgrel=5
+pkgdesc='Implementation of the FreeDesktop specifications to be used in C++ projects'
+arch=(x86_64)
+url='https://github.com/azubieta/xdg-utils-cxx'
+license=(MIT)
+depends=(glibc
+         libgcc
+         libstdc++)
+makedepends=(cmake
+             git)
+source=(git+https://github.com/azubieta/xdg-utils-cxx#tag=v$pkgver)
+sha256sums=('a2bdc431c6962ff4e8c5be06c8355ce0b212e3f3e79c8ef1ebff5ef280e2ab5c')
+
+prepare() {
+  cd $pkgname
+  git cherry-pick -n 1b17ced4f2d0f058af47258c53c085e0a7c5dea1 # Fix library install dir
+}
+
+build() {
+  cmake -B build -S $pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DXDG_UTILS_SHARED=ON \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+
+  install -Dm644 $pkgname/LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname
+}

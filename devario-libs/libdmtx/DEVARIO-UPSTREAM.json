@@ -1,0 +1,10 @@
+{
+  "name": "libdmtx",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibdmtx/repository/archive.tar.gz?sha=7679119b7735b9c37236e754add4783a7f30bdd4",
+  "sha256": "0b56f758911e9696dd0765a35e155b1f8e4b22fe680dc4f997b329d9c2a3b9ca",
+  "bytes": 1597,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libdmtx.git",
+  "commit": "7679119b7735b9c37236e754add4783a7f30bdd4",
+  "pkgbuild_sha256": "d9a8d87c777c1a2fb801e416819b017c072a4b95471e47b50bfdf472e31cffb3",
+  "metadata_generator": "Shelly 3.3.0"
+}

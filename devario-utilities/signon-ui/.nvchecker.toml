@@ -1,0 +1,6 @@
+[signon-ui]
+source = "git"
+git = "https://gitlab.com/accounts-sso/signon-ui.git"
+from_pattern = '(\d+).(\d+).(\d+)-0ubuntu.*'
+to_pattern = '\3'
+

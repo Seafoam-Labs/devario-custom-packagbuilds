@@ -1,0 +1,10 @@
+{
+  "name": "kaccounts-integration",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fkaccounts-integration/repository/archive.tar.gz?sha=d68a55ecd60553b2ab0cba438c851f131d55e91b",
+  "sha256": "eb6121fcffb254d40ce7b1c7da87ffff54db5f095a93e884e15d06afeb798118",
+  "bytes": 7866,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/kaccounts-integration.git",
+  "commit": "d68a55ecd60553b2ab0cba438c851f131d55e91b",
+  "pkgbuild_sha256": "e727447d736e5e47decfd3299dbd3b0fe5bc6f1dfd017bec2675f77679e3461b",
+  "metadata_generator": "Shelly 3.3.0"
+}

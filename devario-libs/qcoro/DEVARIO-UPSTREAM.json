@@ -1,0 +1,10 @@
+{
+  "name": "qcoro",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fqcoro/repository/archive.tar.gz?sha=356799f25e67a1e417de6b71fc81da22ea3eff1d",
+  "sha256": "0962539bceec9bcc3ed51933572ca7668631f5c85e6a62ae26e6f6a186e40d68",
+  "bytes": 1677,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qcoro.git",
+  "commit": "356799f25e67a1e417de6b71fc81da22ea3eff1d",
+  "pkgbuild_sha256": "bbf94eecef14f5bb65bc167f1806227dbdfcd0a88eeec0ed52287d0f9c484d21",
+  "metadata_generator": "Shelly 3.3.0"
+}

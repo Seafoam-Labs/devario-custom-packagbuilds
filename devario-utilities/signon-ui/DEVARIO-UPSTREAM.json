@@ -1,0 +1,10 @@
+{
+  "name": "signon-ui",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsignon-ui/repository/archive.tar.gz?sha=2c3fe182fba0921ab436af952e3c01e06e583839",
+  "sha256": "2463de203feaf6fcd64bbadd06b4b6d6a9a562880ed41c37f34cd4057491dc71",
+  "bytes": 1929,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/signon-ui.git",
+  "commit": "2c3fe182fba0921ab436af952e3c01e06e583839",
+  "pkgbuild_sha256": "cf41fa79dc87523662046c995608a74832a95d541098f5ada423dd6f562ac22a",
+  "metadata_generator": "Shelly 3.3.0"
+}

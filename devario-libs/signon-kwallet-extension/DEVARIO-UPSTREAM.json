@@ -1,0 +1,10 @@
+{
+  "name": "signon-kwallet-extension",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fsignon-kwallet-extension/repository/archive.tar.gz?sha=3038bcd1b80a3c8c9de5f5cbb4f8904b1c15678e",
+  "sha256": "b74d74c0b0a43e3e0c88eefdf811459ced6e7eb86ad95b6b66dd01bbabe673bb",
+  "bytes": 7758,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/signon-kwallet-extension.git",
+  "commit": "3038bcd1b80a3c8c9de5f5cbb4f8904b1c15678e",
+  "pkgbuild_sha256": "cfa54efcccb95afef78c82da46c6d8563dfc8304e6d746718d7eb8bc414075d3",
+  "metadata_generator": "Shelly 3.3.0"
+}

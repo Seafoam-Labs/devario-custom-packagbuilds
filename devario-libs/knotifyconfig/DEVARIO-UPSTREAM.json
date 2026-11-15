@@ -1,0 +1,10 @@
+{
+  "name": "knotifyconfig",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fknotifyconfig/repository/archive.tar.gz?sha=7caeb000ce776565f47610da02a49b6c62a43fdd",
+  "sha256": "e610cd7345c2822dc5e0e34e45d0c1558bb47732ec0b1bf422ba7c8a40016dad",
+  "bytes": 6027,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/knotifyconfig.git",
+  "commit": "7caeb000ce776565f47610da02a49b6c62a43fdd",
+  "pkgbuild_sha256": "1855aba0fe74fe416cf001110bceef43360b9ed13df0e45d1f18fedf5dd70de1",
+  "metadata_generator": "Shelly 3.3.0"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "purpose",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpurpose/repository/archive.tar.gz?sha=6543c21a9a5c53c3bffe9ece9a99897aa091b5ba",
+  "sha256": "af938dd6f1b1ddda7011175fa6177f7883ca20dcefa4368cf6a95c06b2284fb2",
+  "bytes": 6357,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/purpose.git",
+  "commit": "6543c21a9a5c53c3bffe9ece9a99897aa091b5ba",
+  "pkgbuild_sha256": "eabd3d4b5c04b0f6d910a83a98535e39559c3bc1248f06ad0c0c435f7ddf3ca4",
+  "metadata_generator": "Shelly 3.3.0"
+}

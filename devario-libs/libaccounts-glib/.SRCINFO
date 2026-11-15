@@ -1,0 +1,22 @@
+pkgbase = libaccounts-glib
+	pkgdesc = Glib-based client library for accessing the online accounts database
+	pkgver = 1.27
+	pkgrel = 3
+	url = https://gitlab.com/accounts-sso/libaccounts-glib
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = check
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = meson
+	makedepends = python-gobject
+	makedepends = python-packaging
+	makedepends = vala
+	depends = glib2
+	depends = glibc
+	depends = libxml2
+	depends = sqlite
+	source = https://gitlab.com/accounts-sso/libaccounts-glib/-/archive/VERSION_1.27/libaccounts-glib-VERSION_1.27.tar.gz
+	sha256sums = a8407a5897a2e425ea1aa955ecf88485dd2fd417919de275b27c781a5d0637a5
+
+pkgname = libaccounts-glib

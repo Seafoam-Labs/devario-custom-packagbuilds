@@ -1,0 +1,10 @@
+{
+  "name": "libappimage",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibappimage/repository/archive.tar.gz?sha=7d700bcba05c9fef865f0c49672f90b855361d28",
+  "sha256": "250a1a049f9c6ef2cde7a1fcca552cacec113919ad7d22504767f5514022d907",
+  "bytes": 3422,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libappimage.git",
+  "commit": "7d700bcba05c9fef865f0c49672f90b855361d28",
+  "pkgbuild_sha256": "6dd3ff21c015d4afcb3fc7763558a3b03b761d14325b68ce710a01b3a6d281d1",
+  "metadata_generator": "Shelly 3.3.0"
+}

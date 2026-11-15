@@ -1,0 +1,10 @@
+{
+  "name": "libaccounts-glib",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flibaccounts-glib/repository/archive.tar.gz?sha=1374c3d766a247068befa7229c4f749df5fda966",
+  "sha256": "357f58c63059a6af62ee942e4afba5f3c748a4a55a5930aa4e20b55c6c110e65",
+  "bytes": 1820,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libaccounts-glib.git",
+  "commit": "1374c3d766a247068befa7229c4f749df5fda966",
+  "pkgbuild_sha256": "ca47dd5054081b51b6ddf8da50a9bcb7f1eddca33838721dd510c3ebdb0b9f14",
+  "metadata_generator": "Shelly 3.3.0"
+}
