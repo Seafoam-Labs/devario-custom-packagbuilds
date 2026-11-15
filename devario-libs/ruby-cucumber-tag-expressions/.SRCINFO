@@ -1,6 +1,6 @@
 pkgbase = ruby-cucumber-tag-expressions
 	pkgdesc = Cucumber tag expressions for ruby
-	pkgver = 11.1.0
+	pkgver = 11.2.0
 	pkgrel = 1
 	url = https://github.com/cucumber/tag-expressions
 	arch = any
@@ -10,7 +10,7 @@ pkgbase = ruby-cucumber-tag-expressions
 	makedepends = ruby-rspec
 	depends = ruby
 	options = !emptydirs
-	source = https://github.com/cucumber/tag-expressions/archive/refs/tags/v11.1.0.tar.gz
-	sha256sums = 2f99a08c43e913b7850fcaf1b1afe01691d103ca4ba3877afe8c5b2fe690456e
+	source = https://github.com/cucumber/tag-expressions/archive/refs/tags/v11.2.0.tar.gz
+	sha256sums = 61aac5fd6a0309e93bb48a3bbf330b0d7e82ca92a67cfe29c5a521802f12e33c
 
 pkgname = ruby-cucumber-tag-expressions
