@@ -3,7 +3,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=kxmlgui
-pkgver=6.31.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='User configurable main windows'
 arch=(x86_64)
@@ -11,19 +11,19 @@ url='https://develop.kde.org/products/frameworks/'
 license=(LGPL-2.0-only LGPL-3.0-only)
 depends=(libstdc++
          glibc
-         'kconfig>=6.31.0'
-         'kconfigwidgets>=6.31.0'
-         'kcoreaddons>=6.31.0'
-         'kglobalaccel>=6.31.0'
-         'kguiaddons>=6.31.0'
-         'ki18n>=6.31.0'
-         'kiconthemes>=6.31.0'
-         'kitemviews>=6.31.0'
-         'kwidgetsaddons>=6.31.0'
+         'kconfig>=6.32.0'
+         'kconfigwidgets>=6.32.0'
+         'kcoreaddons>=6.32.0'
+         'kglobalaccel>=6.32.0'
+         'kguiaddons>=6.32.0'
+         'ki18n>=6.32.0'
+         'kiconthemes>=6.32.0'
+         'kitemviews>=6.32.0'
+         'kwidgetsaddons>=6.32.0'
          'qt6-base>=6.10.0')
 makedepends=('cmake>=3.30'
              doxygen
-             'extra-cmake-modules>=6.31.0'
+             'extra-cmake-modules>=6.32.0'
              pyside6
              'python>=3.9'
              python-build
@@ -33,7 +33,7 @@ makedepends=('cmake>=3.30'
 optdepends=('pyside6: Python bindings')
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('048c2229a39ec717740a56b4e8b23dc2e68cefa36c4b6ab652104a0dc1a6fbd8'
+sha256sums=('3b9be65d4f30e372bc9b77321da5a31dec9fe997a946a6a8a03b64377856ab38'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB  # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1) # Nicolas Fella <nicolas.fella@kde.org>

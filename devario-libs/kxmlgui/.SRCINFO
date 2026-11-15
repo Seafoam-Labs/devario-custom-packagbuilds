@@ -1,6 +1,6 @@
 pkgbase = kxmlgui
 	pkgdesc = User configurable main windows
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,7 +9,7 @@ pkgbase = kxmlgui
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = pyside6
 	makedepends = python>=3.9
 	makedepends = python-build
@@ -18,22 +18,22 @@ pkgbase = kxmlgui
 	makedepends = shiboken6-generator
 	depends = libstdc++
 	depends = glibc
-	depends = kconfig>=6.31.0
-	depends = kconfigwidgets>=6.31.0
-	depends = kcoreaddons>=6.31.0
-	depends = kglobalaccel>=6.31.0
-	depends = kguiaddons>=6.31.0
-	depends = ki18n>=6.31.0
-	depends = kiconthemes>=6.31.0
-	depends = kitemviews>=6.31.0
-	depends = kwidgetsaddons>=6.31.0
+	depends = kconfig>=6.32.0
+	depends = kconfigwidgets>=6.32.0
+	depends = kcoreaddons>=6.32.0
+	depends = kglobalaccel>=6.32.0
+	depends = kguiaddons>=6.32.0
+	depends = ki18n>=6.32.0
+	depends = kiconthemes>=6.32.0
+	depends = kitemviews>=6.32.0
+	depends = kwidgetsaddons>=6.32.0
 	depends = qt6-base>=6.10.0
 	optdepends = pyside6: Python bindings
-	source = https://download.kde.org/stable/frameworks/6.31/kxmlgui-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kxmlgui-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kxmlgui-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kxmlgui-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 048c2229a39ec717740a56b4e8b23dc2e68cefa36c4b6ab652104a0dc1a6fbd8
+	sha256sums = 3b9be65d4f30e372bc9b77321da5a31dec9fe997a946a6a8a03b64377856ab38
 	sha256sums = SKIP
 
 pkgname = kxmlgui
