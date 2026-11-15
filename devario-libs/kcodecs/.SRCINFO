@@ -1,6 +1,6 @@
 pkgbase = kcodecs
 	pkgdesc = Provide a collection of methods to manipulate strings using various encodings
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -9,17 +9,17 @@ pkgbase = kcodecs
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
 	makedepends = doxygen
-	makedepends = extra-cmake-modules>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = gperf
 	makedepends = qt6-tools
 	depends = libstdc++
 	depends = glibc
 	depends = qt6-base>=6.10.0
-	source = https://download.kde.org/stable/frameworks/6.31/kcodecs-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/kcodecs-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/kcodecs-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/kcodecs-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = 2d889f4afd881ae3bc532753c7a2758f45842d4ca828a171d52c8f396128d081
+	sha256sums = 2fc1ab6900df8488fe69811fde58ab37c7c6fdf6c1f1b32a01c20f3b3d9f6d9c
 	sha256sums = SKIP
 
 pkgname = kcodecs
