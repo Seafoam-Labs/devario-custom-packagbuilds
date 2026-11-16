@@ -15,7 +15,8 @@ license=(
 )
 makedepends=(
   git
-  gnu-efi-libs
+  # This tree ships gnu-efi 4.x as one package replacing Arch's gnu-efi-libs split.
+  gnu-efi
   help2man
   perl-file-slurp
   sbsigntools

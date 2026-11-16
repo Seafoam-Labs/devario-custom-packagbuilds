@@ -1,7 +1,7 @@
 pkgbase = kfilemetadata
 	pkgdesc = A library for extracting file metadata
 	pkgver = 6.31.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
 	groups = kf6

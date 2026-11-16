@@ -1,0 +1,52 @@
+# Maintainer: Frederik Schwan <freswa at archlinux dot org>
+
+pkgname=passim
+pkgver=0.1.13
+pkgrel=1
+pkgdesc="A local caching server"
+arch=(x86_64)
+url="https://github.com/hughsie/passim"
+license=(LGPL-2.1-or-later)
+depends=(
+  avahi
+  glib2 libgio-2.0.so
+  gnutls
+  hicolor-icon-theme
+  libsoup3 libsoup-3.0.so
+)
+makedepends=(
+  cmake
+  git
+  gobject-introspection
+  meson
+  systemd
+)
+provides=(libpassim.so libpassim.so=1-64)
+backup=(
+  etc/passim.conf
+)
+source=("git+https://github.com/hughsie/passim.git#tag=${pkgver}?signed")
+sha512sums=('e6af7d0f1e0833ff833bc1d5bb97fb272d917abbc5c395e0d1486e0eda64f182bb9073f4c65839f40e88df8d2178a8a9e4920cb20990fe6198ae64b04f9c6ba5')
+b2sums=('0769e13dfae18fd9bf2b699d31dc92feb4469498b1846dd1014d1ebc9c1dc6aeea521dc38a9f19a7afe11f078d7e7ed62f9e1c836c3319c63a2f8824f5f745e0')
+validpgpkeys=(163EB50119225DB3DF8F49EA17ACBA8DFA970E17) # Richard Hughes <richard@hughsie.com>
+
+build() {
+  arch-meson ${pkgname} build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build
+}
+
+package() {
+  DESTDIR="${pkgdir}" meson install -C build
+  _verify_soname "$pkgdir/usr/lib/libpassim.so" libpassim.so.1 || return 1
+  rm "${pkgdir}"/var/lib/passim/data/*
+}
+
+# Shelly preserves explicit ABI provisions. Refuse to publish stale values.
+_verify_soname() {
+  LC_ALL=C readelf -h "$1" | grep -Eq 'Class:[[:space:]]+ELF64' || return 1
+  LC_ALL=C readelf -d "$1" | grep -Fq "Library soname: [$2]" || return 1
+}

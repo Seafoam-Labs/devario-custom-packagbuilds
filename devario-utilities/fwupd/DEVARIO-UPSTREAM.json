@@ -1,0 +1,6 @@
+{
+  "name": "fwupd",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/fwupd/-/archive/main/fwupd-main.tar.gz",
+  "sha256": "e93fc5e33825b469fa79ccf4de85c70f0be8997908c6225a1536ca1bc2a3a831",
+  "bytes": 13222
+}
