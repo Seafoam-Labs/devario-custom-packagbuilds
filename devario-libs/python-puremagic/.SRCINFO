@@ -1,6 +1,6 @@
 pkgbase = python-puremagic
 	pkgdesc = A Python module that will identify a file based off it's magic numbers
-	pkgver = 2.2.1
+	pkgver = 2.3.0
 	pkgrel = 1
 	url = https://github.com/cdgriffith/puremagic
 	arch = any
@@ -13,8 +13,8 @@ pkgbase = python-puremagic
 	makedepends = python-setuptools-scm
 	makedepends = python-wheel
 	depends = python
-	source = python-puremagic::git+https://github.com/cdgriffith/puremagic#tag=2.2.1
-	sha512sums = fd4d1b67b9c0250bc741e0247be66950aed25c835ab6a104e7b4bcc4d3a5b73f695c6ade9688de2e32197bdb6cc613c1db0199a936f11ef5eeb1e4196e34372a
-	b2sums = a8be9837827786938e579f70f9ec7cfe4f8fec50cec94836ed4820b5fd9a4ad2c12a157eb014cef11c86671f483e35dc1d1e84c93367a4dd51d19c94655db876
+	source = python-puremagic::git+https://github.com/cdgriffith/puremagic#tag=2.3.0
+	sha512sums = SKIP
+	b2sums = SKIP
 
 pkgname = python-puremagic
