@@ -1,0 +1,50 @@
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Maintainer: Robin Candau <antiz@archlinux.org>
+# Devario adaptation: dropped ?signed tag verification and validpgpkeys
+# (upstream release keys are not in the Devario keyring); the git tag
+# archive sha256 pin below is retained unchanged from Arch.
+
+pkgname=keepassxc
+pkgver=2.8.0
+pkgrel=4
+pkgdesc="Cross-platform community-driven port of Keepass password manager"
+url="https://keepassxc.org/"
+arch=(x86_64)
+license=('GPL-2.0-only OR GPL-3.0-only OR LGPL-2.1-only')
+depends=('botan' 'glibc' 'hicolor-icon-theme' 'keyutils' 'libgcc' 'libstdc++'
+         'libusb' 'libxi' 'libxtst' 'libx11' 'minizip' 'pcsclite' 'qrencode'
+         'qt6-base' 'qt6-svg' 'readline' 'zlib')
+makedepends=('asciidoctor' 'cmake' 'git' 'qt6-tools')
+checkdepends=('xclip' 'xorg-server-xvfb')
+optdepends=('xclip: keepassxc-cli clipboard support under X server'
+            'wl-clipboard: keepassxc-cli clipboard support under Wayland')
+provides=('org.freedesktop.secrets')
+source=("git+https://github.com/keepassxreboot/keepassxc.git#tag=${pkgver}"
+         botan-3.14.patch)
+sha256sums=('f74d1992f0fc30e6546de8653a72817cd188e0d5742376958d731b72b19e46bb'
+            'c52b2627a7f7d679e572ee17416d3500b80dd2cccebd6f996b0f65186e2ea107')
+
+prepare() {
+	cd $pkgname
+	# Fix tests with botan 3.14 - backport ChiPass fix
+	patch -p1 -i ../botan-3.14.patch
+}
+
+build() {
+	cmake -S "${pkgname}" -B build \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DKEEPASSXC_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DKPXC_FEATURE_UPDATES=OFF \
+		-DWITH_GUI_TESTS=ON
+	cmake --build build
+}
+
+check() {
+	xvfb-run --auto-servernum cmake --build build --target test
+}
+
+package() {
+	cmake --build build --target install -- DESTDIR="${pkgdir}"
+}

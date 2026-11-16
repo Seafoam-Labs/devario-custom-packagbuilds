@@ -1,0 +1,4 @@
+[keepassxc]
+source = "git"
+git = "https://github.com/keepassxreboot/keepassxc.git"
+exclude_regex = ".*(pre|a|alpha|b|beta|r|rc).*"
