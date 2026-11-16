@@ -1,6 +1,6 @@
 pkgbase = qqc2-desktop-style
 	pkgdesc = A style for Qt Quick Controls 2 to make it follow your desktop theme
-	pkgver = 6.31.0
+	pkgver = 6.32.0
 	pkgrel = 1
 	url = https://develop.kde.org/products/frameworks/
 	arch = x86_64
@@ -8,22 +8,22 @@ pkgbase = qqc2-desktop-style
 	license = LGPL-2.0-only
 	license = LGPL-3.0-only
 	makedepends = cmake>=3.30
-	makedepends = extra-cmake-modules>=6.31.0
+	makedepends = extra-cmake-modules>=6.32.0
 	makedepends = qt6-tools
 	depends = libstdc++
 	depends = glibc
-	depends = kcolorscheme>=6.31.0
-	depends = kconfig>=6.31.0
-	depends = kiconthemes>=6.31.0
-	depends = kirigami>=6.31.0
+	depends = kcolorscheme>=6.32.0
+	depends = kconfig>=6.32.0
+	depends = kiconthemes>=6.32.0
+	depends = kirigami>=6.32.0
 	depends = qt6-base>=6.10.0
 	depends = qt6-declarative>=6.10.0
 	depends = sonnet
-	source = https://download.kde.org/stable/frameworks/6.31/qqc2-desktop-style-6.31.0.tar.xz
-	source = https://download.kde.org/stable/frameworks/6.31/qqc2-desktop-style-6.31.0.tar.xz.sig
+	source = https://download.kde.org/stable/frameworks/6.32/qqc2-desktop-style-6.32.0.tar.xz
+	source = https://download.kde.org/stable/frameworks/6.32/qqc2-desktop-style-6.32.0.tar.xz.sig
 	validpgpkeys = 53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB
 	validpgpkeys = 90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1
-	sha256sums = e01350ca31cf1250b9de0801ecba31a0406cab24c81a3e70dfc90c24acf8d717
+	sha256sums = 57269c662c25d0ccea96e128a54bc57c3abe0b6b97ef586ea1195c147afc3a38
 	sha256sums = SKIP
 
 pkgname = qqc2-desktop-style

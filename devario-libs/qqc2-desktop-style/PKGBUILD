@@ -1,7 +1,7 @@
 # Maintainer: Antonio Rojas <arojas@archlinux.org>
 
 pkgname=qqc2-desktop-style
-pkgver=6.31.0
+pkgver=6.32.0
 pkgrel=1
 pkgdesc='A style for Qt Quick Controls 2 to make it follow your desktop theme'
 arch=(x86_64)
@@ -10,19 +10,19 @@ license=(LGPL-2.0-only
          LGPL-3.0-only)
 depends=(libstdc++
          glibc
-         'kcolorscheme>=6.31.0'
-         'kconfig>=6.31.0'
-         'kiconthemes>=6.31.0'
-         'kirigami>=6.31.0'
+         'kcolorscheme>=6.32.0'
+         'kconfig>=6.32.0'
+         'kiconthemes>=6.32.0'
+         'kirigami>=6.32.0'
          'qt6-base>=6.10.0'
          'qt6-declarative>=6.10.0'
          sonnet)
 makedepends=('cmake>=3.30'
-             'extra-cmake-modules>=6.31.0'
+             'extra-cmake-modules>=6.32.0'
              qt6-tools)
 groups=(kf6)
 source=(https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('e01350ca31cf1250b9de0801ecba31a0406cab24c81a3e70dfc90c24acf8d717'
+sha256sums=('57269c662c25d0ccea96e128a54bc57c3abe0b6b97ef586ea1195c147afc3a38'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB  # David Faure <faure@kde.org>
               90A968ACA84537CC27B99EAF2C8DF587A6D4AAC1) # Nicolas Fella <nicolas.fella@kde.org>
