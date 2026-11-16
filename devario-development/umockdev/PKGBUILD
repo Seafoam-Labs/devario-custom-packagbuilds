@@ -3,7 +3,7 @@
 # Contributor: Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 
 pkgname=umockdev
-pkgver=0.19.9
+pkgver=0.20.0
 pkgrel=1
 pkgdesc="Record/mock hardware devices for bug reports and regression tests"
 arch=('x86_64')
@@ -12,7 +12,7 @@ license=('LGPL-2.1-or-later')
 depends=('systemd' 'libgudev' 'libpcap')
 makedepends=('meson' 'gobject-introspection' 'gtk-doc' 'vala')
 source=(https://github.com/martinpitt/umockdev/releases/download/$pkgver/$pkgname-$pkgver.tar.xz)
-sha256sums=('666e050f76eb61921e6d79e309c5833cef639de3ec1f9c35c74ebce1681f7c34')
+sha256sums=('c6ea246c457d29d5892c6622bf4812737aee975153497f3462c572e61b0404be')
 
 build() {
   cd $pkgname-$pkgver
