@@ -11,7 +11,7 @@ pkgname=(
   'shelly-notify'
   'shelly-notify-none'
 )
-pkgver=3.2.1
+pkgver=3.3.0
 pkgrel=1
 arch=('x86_64' 'aarch64')
 url='https://github.com/Seafoam-Labs/Shelly-ALPM'
@@ -39,8 +39,8 @@ makedepends=(
   "${_shelly_native_depends[@]}"
 )
 checkdepends=('ripgrep')
-source=("${pkgbase}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz")
-sha256sums=('5ab6361d4546910f1618dfe56643854746e849523cfe4780afa905599e9f4005')
+source=("${pkgbase}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('4f21a3e593ba9c58e37652112e32892ee5c4a7185b3160f9af7887d0cb054bbd')
 
 # GitHub replaces "+" with "-" in archive top-level directory names.
 _srcdir="Shelly-ALPM-${pkgver//+/-}"
@@ -120,7 +120,7 @@ build() {
     done
     "${shelly}" utility --docs | go-md2man > "${srcdir}/shelly.1"
   )
-  sed -i "s|^\\.TH .*|.TH \"SHELLY\" \"1\" \"\" \"Shelly ${pkgver}\" \"Shelly CLI Manual\"|" \
+  sed -i "s|^\\\\.TH .*|.TH \"SHELLY\" \"1\" \"\" \"Shelly ${pkgver}\" \"Shelly CLI Manual\"|" \
     "${srcdir}/shelly.1"
   printf '\n.SH AUTHORS\nSeafoam Labs.\n' >> "${srcdir}/shelly.1"
 
