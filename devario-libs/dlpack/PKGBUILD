@@ -1,6 +1,6 @@
 # Maintainer: Torsten Keßler <tpkessler at archlinux dot org>
 pkgname=dlpack
-pkgver=1.3
+pkgver=1.4
 pkgrel=1
 pkgdesc='Open in-memory tensor structure for sharing tensors among frameworks'
 arch=('any')
@@ -11,7 +11,7 @@ license=('Apache-2.0')
 makedepends=('cmake')
 _git='https://github.com/dmlc/dlpack'
 source=("$pkgname-$pkgver.tar.gz::$_git/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('f3d567f885f6c142183afc91a58873b31d0e0b36faa2e45c232b98c74596404f')
+sha256sums=('5886003d8558ebe94d94b2f72a191f9843164412ee1d06f2e410d042ea2bb88e')
 
 
 build() {
