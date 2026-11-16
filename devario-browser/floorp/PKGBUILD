@@ -1,0 +1,129 @@
+# Maintainer: Devario maintainers
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=floorp-bin
+pkgver=12.21.2
+pkgrel=1
+pkgdesc="Firefox-based web browser focused on performance and customizability"
+arch=(x86_64 aarch64)
+url="https://floorp.app/"
+license=(MPL-2.0)
+# The payload ships its own nspr, nss, sqlite3, codec and onnxruntime
+# libraries, so those are not dependencies here; this list is its DT_NEEDED
+# closure minus what it ships itself, plus bash for the /bin/sh wrapper and
+# libpulse and ffmpeg, which cubeb and the media stack dlopen.
+depends=(
+  alsa-lib
+  at-spi2-core
+  bash
+  cairo
+  dbus
+  ffmpeg
+  fontconfig
+  freetype2
+  gdk-pixbuf2
+  glib2
+  glibc
+  gtk3
+  hicolor-icon-theme
+  libgcc
+  libpulse
+  libstdc++
+  libx11
+  libxcb
+  libxcomposite
+  libxcursor
+  libxdamage
+  libxext
+  libxfixes
+  libxi
+  libxrandr
+  libxrender
+  mime-types
+  nss
+  pango
+  ttf-font
+)
+optdepends=(
+  'hunspell-dictionary: Spell checking'
+  'libnotify: Notification integration'
+  'networkmanager: Location detection via available WiFi networks'
+  'speech-dispatcher: Text-to-Speech'
+  'xdg-desktop-portal: Screensharing with Wayland'
+)
+provides=("floorp=$pkgver")
+conflicts=(floorp)
+options=(!strip !debug)
+# User-editable update policy; keep local changes as .pacnew on upgrade.
+backup=(usr/lib/floorp/distribution/policies.json)
+# Firefox runtime revision this release was built from (daily-1180), pinned by
+# floorp-runtime.lock.json at the tag; used only for the MPL source notice.
+_runtime_commit=741c4537e89b550b0297ed7ea493026506930d4d
+_release="https://github.com/Floorp-Projects/Floorp/releases/download/v$pkgver"
+source=(
+  floorp.desktop
+  "floorp-LICENSE::https://raw.githubusercontent.com/Floorp-Projects/Floorp/v$pkgver/LICENSE"
+)
+source_x86_64=("floorp-$pkgver-linux-x86_64.tar.xz::$_release/floorp-linux-x86_64.tar.xz")
+source_aarch64=("floorp-$pkgver-linux-aarch64.tar.xz::$_release/floorp-linux-aarch64.tar.xz")
+sha256sums=('076d85367a4291cd2be96075dd993cda40f8edc6f3b22750139692078c0475c1'
+            '1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5')
+sha256sums_x86_64=('3fb99f48c385bdaafd2ac919a81482373f818b8d2d4e6eff14266c41a921b65f')
+sha256sums_aarch64=('e5bafae3f1ddfac6b742edffd7ab1525636fa6960dd9489edba753b9ba75d2dd')
+
+package() {
+  local appdir="$pkgdir/usr/lib/floorp"
+
+  # Install the payload as shipped.
+  install -dm755 "$appdir"
+  cp -a "$srcdir/floorp/." "$appdir/"
+
+  # defaults/pref is the on-disk prefs directory this layout reads;
+  # browser/defaults/preferences exists only inside browser/omni.ja.
+  install -Dvm644 /dev/stdin "$appdir/defaults/pref/vendor.js" <<END
+// Use system-provided dictionaries
+pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+END
+
+  local i
+  for i in 16 32 48 64 128; do
+    install -Dvm644 "$appdir/browser/chrome/icons/default/default$i.png" \
+      "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/floorp.png"
+  done
+  install -Dvm644 "$srcdir/floorp.desktop" -t "$pkgdir/usr/share/applications"
+
+  # Wrapper, so the executable's path is not part of the interface.
+  install -Dvm755 /dev/stdin "$pkgdir/usr/bin/floorp" <<END
+#!/bin/sh
+exec /usr/lib/floorp/floorp "\$@"
+END
+
+  # The payload duplicates its executable; point it back at the wrapper.
+  # https://bugzilla.mozilla.org/show_bug.cgi?id=658850
+  ln -sf /usr/bin/floorp "$appdir/floorp-bin"
+
+  # NSS loads its trust module only from the application directory, and the
+  # payload ships none, so link the system module provided by nss.
+  ln -s /usr/lib/libnssckbi.so "$appdir/libnssckbi.so"
+
+  # Updates are managed by Shelly, not the built-in MAR updater.
+  install -Dvm644 /dev/stdin "$appdir/distribution/policies.json" <<END
+{
+  "policies": {
+    "DisableAppUpdate": true
+  }
+}
+END
+
+  # MPL-2.0 asks distributors of the executable form to say where the source is.
+  install -Dvm644 "$srcdir/floorp-LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dvm644 /dev/stdin "$pkgdir/usr/share/licenses/$pkgname/NOTICE" <<END
+Floorp is MPL-2.0 licensed. The Source Code Version of this exact build is
+the upstream source tag for this release, combined with the Firefox runtime
+revision pinned by floorp-runtime.lock.json at that tag:
+https://github.com/Floorp-Projects/Floorp/tree/v$pkgver
+https://github.com/Floorp-Projects/Floorp-Runtime/tree/$_runtime_commit
+END
+}
+
+# vim:set sw=2 sts=-1 et:
