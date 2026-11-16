@@ -1,0 +1,6 @@
+{
+  "name": "fwupd-efi",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/fwupd-efi/-/archive/main/fwupd-efi-main.tar.gz",
+  "sha256": "76bd18e363471552168f5319ff4513556a11e26d5e35178c7e6dbd85bd9d75cd",
+  "bytes": 10136
+}
