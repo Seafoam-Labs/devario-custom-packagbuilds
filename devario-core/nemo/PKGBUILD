@@ -4,7 +4,7 @@
 # Contributor: Ner0
 
 pkgname=nemo
-pkgver=6.8.3
+pkgver=6.8.4
 pkgrel=1
 pkgdesc='File manager for Cinnamon (Nautilus fork)'
 arch=(x86_64)
@@ -57,8 +57,8 @@ makedepends=(
   libgsf
   'meson>=0.64.0'
 )
-source=("git+https://github.com/linuxmint/nemo.git#tag=$pkgver")
-b2sums=('65edf8dceb26db6880128565b322170abda7e3ec47d4e652a9027984bb70a79a7f6f0e4f1293605599bf9473b233d2093ed953173a503bbd1de1d32c362298e5')
+source=("git+https://github.com/linuxmint/nemo.git#tag=6.8.4")
+b2sums=('SKIP')
 
 build() {
   arch-meson $pkgname build \
