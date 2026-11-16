@@ -2,7 +2,7 @@
 
 _gemname=kramdown
 pkgname=ruby-kramdown
-pkgver=2.5.0
+pkgver=2.6.1
 pkgrel=1
 pkgdesc='Fast, pure Ruby Markdown superset converter, using a strict syntax definition'
 url='https://kramdown.gettalong.org/'
@@ -11,9 +11,9 @@ license=('MIT')
 depends=('ruby' 'ruby-rexml')
 makedepends=('ruby-rdoc' 'ruby-rake')
 options=('!emptydirs')
-source=(${pkgname}-${pkgver}.tar.gz::https://github.com/gettalong/kramdown/archive/REL_${pkgver//./_}.tar.gz)
-sha256sums=('d968cd468baac909eba5f3fe3ac36d2f2635542ce324e435a5917d575b4148b1')
-sha512sums=('99c603447933cb7af2ff3a2c479f6389a657fbcef3324e2ad22aa3956ee33b9d012c5429f54cc543a930b5bdb6943e9256a7b79c791b8dedfb6688cb5772cb94')
+source=(${pkgname}-${pkgver}.tar.gz::https://github.com/gettalong/kramdown/archive/refs/tags/REL_2_6_1.tar.gz)
+sha256sums=('9f34ae15d129248f8fc7ab28469d3c2f1c496384329002da6d05abbc9e9b3c08')
+sha512sums=('68802f247af546eca75b8218e31f77a6773a611f33744dd9ec582bb58ca8423eef6168bc5dd27cb68d3070077a554eb4c841a7a0e1a87a30b394afce4c50201b')
 
 prepare() {
   cd ${_gemname}-REL_${pkgver//./_}
