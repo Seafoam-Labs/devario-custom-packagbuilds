@@ -4,7 +4,7 @@
 # Contributor: philacs
 
 pkgname=libvisio
-pkgver=0.1.11
+pkgver=0.1.12
 pkgrel=1
 pkgdesc='Library providing ability to interpret and import visio diagrams'
 arch=('x86_64')
@@ -14,7 +14,7 @@ depends=('libxml2' 'icu' 'librevenge'
          'glibc' 'libstdc++' 'libgcc')
 makedepends=('boost' 'gperf' 'doxygen' 'cppunit')
 source=(https://dev-www.libreoffice.org/src/$pkgname/$pkgname-$pkgver.tar.xz)
-sha256sums=('2a6efd40b6d9dbcb70fba3be53112366882ba97b57151df3698dfa478c8d8dd3')
+sha256sums=('f59fa2e3baf95475256fe84ea0aa1214f43940bae94424f4026b2d633933df01')
 
 prepare() {
   cd $pkgname-$pkgver
