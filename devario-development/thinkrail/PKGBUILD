@@ -1,0 +1,70 @@
+# Binary packaging of JetBrains ThinkRail (CLI + Electrobun desktop app).
+#
+# The Electrobun Linux UI host is X11-only, so on Wayland sessions the window
+# runs through XWayland. With NVIDIA's proprietary driver, WebKitGTK's DMABUF
+# renderer cannot allocate GBM buffers there ("Failed to create GBM buffer of
+# size WxH: Invalid argument" plus "X11 Error: GLXBadWindow") and the window
+# maps but never paints. thinkrail-desktop therefore defaults
+# WEBKIT_DISABLE_DMABUF_RENDERER=1, and the desktop entries shipped here all
+# route through that wrapper so no launch path can skip the workaround.
+
+pkgname=thinkrail
+pkgver=0.3.2
+pkgrel=3
+pkgdesc='JetBrains agentic IDE around the pi coding agent: thinkrail CLI and Electrobun desktop app'
+arch=('x86_64')
+url='https://github.com/JetBrains/thinkrail'
+license=('Apache-2.0')
+depends=(
+  'cairo'
+  'gcc-libs'
+  'gdk-pixbuf2'
+  'git'
+  'glib2'
+  'glibc'
+  'gtk3'
+  'libayatana-appindicator'
+  'libsoup3'
+  'webkit2gtk-4.1'
+)
+optdepends=('xdg-utils: open the CLI web UI in the default browser')
+options=('!strip')
+source=(
+  "thinkrail-desktop-${pkgver}.tar.zst::${url}/releases/download/v${pkgver}/stable-linux-x64-ThinkRail-${pkgver}.tar.zst"
+  "thinkrail-cli-${pkgver}::${url}/releases/download/v${pkgver}/thinkrail-linux-x64"
+  "thinkrail-LICENSE-${pkgver}::${url}/raw/v${pkgver}/LICENSE"
+  "thinkrail-README-${pkgver}.md::${url}/raw/v${pkgver}/README.md"
+  'thinkrail-desktop.sh'
+  'thinkrail.desktop'
+)
+sha256sums=(
+  '85a3129cc005eac34192b41b6c6e32e6f2e08b11d2915403be6d6e117d155afa'
+  '2620f5471fae63120038013a3dcefb718f96cf2a926592542eebe74ff778549d'
+  '8634c6a81dfa39860c8a9e508b3dcd8255b242a2c080f3ce59e29afd5f300579'
+  '5e89a43ad123d6f94fc9d5cdb661a7cd195a4fe0ce9ef31efc842658bda7fb34'
+  '21cf2bc9027484e879f30f380dda987d2f630853ea45d48d00bc554e1d49a182'
+  '17d84f961dbe240e4c83d0def21f9dec126b6c67b9a6598af9083a721ac40a3f'
+)
+
+package() {
+  install -Dm755 "${srcdir}/thinkrail-cli-${pkgver}" "${pkgdir}/usr/bin/thinkrail"
+  install -Dm755 "${srcdir}/thinkrail-desktop.sh" "${pkgdir}/usr/bin/thinkrail-desktop"
+  install -Dm644 "${srcdir}/thinkrail.desktop" "${pkgdir}/usr/share/applications/thinkrail.desktop"
+
+  local dest="${pkgdir}/usr/lib/thinkrail-desktop"
+  install -dm755 "${dest}"
+  cp -a "${srcdir}/ThinkRail/." "${dest}/"
+  find "${dest}/bin" -type f -exec chmod 755 {} +
+
+  # The bundle's own desktop entry execs bin/launcher directly, bypassing the
+  # DMABUF workaround and producing a black window on NVIDIA + XWayland.
+  # Point it at the wrapper like every other entry point.
+  sed -i 's|^Exec=launcher$|Exec=thinkrail-desktop|' "${dest}/ThinkRail.desktop"
+
+  install -Dm644 "${dest}/Resources/appIcon.png" \
+    "${pkgdir}/usr/share/icons/hicolor/512x512/apps/thinkrail.png"
+  install -Dm644 "${srcdir}/thinkrail-README-${pkgver}.md" \
+    "${pkgdir}/usr/share/doc/thinkrail/README.md"
+  install -Dm644 "${srcdir}/thinkrail-LICENSE-${pkgver}" \
+    "${pkgdir}/usr/share/licenses/thinkrail/LICENSE"
+}
