@@ -3,7 +3,7 @@
 
 pkgname=python-cbor2
 _name=${pkgname#python-}
-pkgver=6.2.1
+pkgver=6.3.0
 pkgrel=1
 pkgdesc="Pure Python CBOR (de)serializer with extensive tag support"
 arch=(x86_64)
@@ -23,9 +23,9 @@ makedepends=(
   python-toml
   python-wheel
 )
-source=($url/archive/refs/tags/$pkgver/$_name-$pkgver.tar.gz)
-sha512sums=('5fec118acb4f8019d604d26618bb17512ec281a88de60ca5841c425b8c4b206ec89abaeed755625a7148f37b158bfebc597eaf079be38d89e7764a2376bd3fba')
-b2sums=('84a61b73a6c46644dce2757bee79419e8d3233211e6baf362d1bf5d3ac1004610aa97db53a20e3ad8ed33f8b8540ac6e1184e277aa5c5033f38eb1ebe490fad6')
+source=($url/archive/refs/tags/$pkgver.tar.gz)
+sha512sums=('9a4476148d471eba05144dd7b1f0994a9b7df750ec0f78cfe42377b7dfc3047e2913b6212f64d4af67a6df915c575b87f4541cf81b389bd486a93aa576cf6420')
+b2sums=('d35692147708a0666bc7291618e46b722da5ce20ea13e26756c846b6dec165b13e9065675f7b7bdcb6c37f345a39db20e40a483d45531736d1cdf913477dca73')
 
 build() {
   cd $_name-$pkgver
