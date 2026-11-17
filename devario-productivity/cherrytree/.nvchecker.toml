@@ -1,0 +1,4 @@
+[cherrytree]
+source = "git"
+git = "https://github.com/giuspen/cherrytree.git"
+prefix = "v"
