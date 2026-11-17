@@ -11,7 +11,7 @@
 
 _pkgsuffix=devario-lts
 _major=6.18
-_minor=63
+_minor=64
 # Release channel of the source tag, as created by release-kernel.sh:
 #   ""        stable    devario-<version>-<N>
 #   dev       dev       devario-dev-<version>-<N>
@@ -426,5 +426,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('6baf41979dde07af35db0786eaecc26e4364b1692e5426fbeb4dd75683f0ae70dfedc6618c9336a22bbfdb0e756c66ff9dda6b2e7878434e1e4de23e5fc7b302'
+b2sums=('0643ee75c45214b46214a1a52dc7bdca169ed5534f03b51814b977b5e207c3d86bd222f77d176cf0abd7c2e4ca2cc56f34ea8ce353d7135eaa05ae011ded8d79'
         'fb38a4e0ae34e2c0cf81420d053cae23f9a29e61db6514a1e4030af495ff504ae035b9f2c8af34ed2aaa6c6bae8c4503c124a7e89ffea19f327d4e3ff9f392b3')
