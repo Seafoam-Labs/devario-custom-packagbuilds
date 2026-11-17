@@ -11,7 +11,7 @@
 
 _pkgsuffix=devario-llm
 _major=7.3
-_minor=4
+_minor=5
 # Release channel of the source tag, as created by release-kernel.sh:
 #   ""        stable    devario-<version>-<N>
 #   dev       dev       devario-dev-<version>-<N>
@@ -79,7 +79,7 @@ _die() {
 # _build_debug    yes: also produce a -dbg package with the unstripped vmlinux
 
 _release_opts=(
-  _rebuild=2
+  _rebuild=1
   _processor_opt=generic_v3
   _HZ_ticks=1000
   _tickrate=full
@@ -423,5 +423,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('74a90813ea1404e17b05c31d98d0e9d0a838b7c0a040a183655f61490fca7e75bc8ae1abe2383d97d607f33093fd9831312e2e9f4f28d263b9d26ce771eb21e2'
+b2sums=('36f4add93092ac13d907eda8ae41d30814e4ce11bb67b4f8e5b9fa3bc9f302e774e6f4054382ee7046fff87a28742e6c8020f8dab8c348710bd48a1df774810a'
         '0b83a4d071ffd2d951e3bbc32cd3b9a17d1f1679e66e20d76d7aa7602ee457a8e26fcc3840dccedd63568382fb16e82727d9df91bb37cf5420a3588973cfae5b')
