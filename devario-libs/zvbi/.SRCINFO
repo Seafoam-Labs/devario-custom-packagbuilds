@@ -1,7 +1,7 @@
 pkgbase = zvbi
 	pkgdesc = VBI capture and decoding library
-	pkgver = 0.2.45
-	pkgrel = 2
+	pkgver = 0.2.46
+	pkgrel = 1
 	url = http://zapping.sourceforge.net/cgi-bin/view/ZVBI/WebHome
 	arch = x86_64
 	license = GPL-2.0-or-later
@@ -11,8 +11,8 @@ pkgbase = zvbi
 	makedepends = git
 	depends = libpng
 	depends = libx11
-	source = git+https://github.com/zapping-vbi/zvbi.git#tag=45138a87f86b683f9c3611793752ac08795d836f
+	source = git+https://github.com/zapping-vbi/zvbi.git
 	validpgpkeys = FA26CA784BE188927F22B99F6570EA01146F7354
-	b2sums = feaad69f28c4e2e5db4d938933b848c1d7e39e470f47d857e76c01b637326febda6594dbd9a1bd6f59baff9262523e734bc76ebe224de0af0b2e62b5a526a493
+	b2sums = SKIP
 
 pkgname = zvbi
