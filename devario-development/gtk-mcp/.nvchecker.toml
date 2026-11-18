@@ -1,0 +1,5 @@
+[gtk-mcp]
+source = "github"
+github = "alex-oleshkevich/gtk-mcp"
+prefix = "v"
+use_max_tag = true

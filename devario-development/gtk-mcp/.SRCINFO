@@ -1,0 +1,21 @@
+pkgbase = gtk-mcp
+	pkgdesc = MCP server for inspecting and driving GTK4/libadwaita apps from inside the process
+	pkgver = 0.3.1
+	pkgrel = 1
+	url = https://github.com/alex-oleshkevich/gtk-mcp
+	arch = x86_64
+	license = MIT
+	makedepends = cargo
+	makedepends = gobject-introspection
+	makedepends = gtk4
+	makedepends = pkgconf
+	depends = gcc-libs
+	depends = glib2
+	depends = glibc
+	depends = gtk4
+	optdepends = gjs: attach the agent from GJS apps via the GtkMcp typelib
+	optdepends = python-gobject: attach the agent from Python apps via the GtkMcp typelib
+	source = gtk-mcp-0.3.1.tar.gz::https://github.com/alex-oleshkevich/gtk-mcp/archive/refs/tags/v0.3.1.tar.gz
+	sha256sums = da9d82c92c445b8294cea86b6eee489059ab3495dde7f280d773e90fca435562
+
+pkgname = gtk-mcp

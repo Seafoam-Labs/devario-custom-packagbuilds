@@ -1,0 +1,79 @@
+# Maintainer: Anton Ždanov <anton@azdanov.dev>
+
+pkgname=gtk-mcp
+pkgver=0.3.1
+pkgrel=1
+pkgdesc='MCP server for inspecting and driving GTK4/libadwaita apps from inside the process'
+arch=('x86_64')
+url='https://github.com/alex-oleshkevich/gtk-mcp'
+license=('MIT')
+# The broker itself only speaks Unix sockets and D-Bus, but the packaged
+# agent library (libgtk_mcp_agent_capi.so) is linked into instrumented apps
+# and pulls GTK4/GLib in with it.
+depends=(
+  'gcc-libs'
+  'glib2'
+  'glibc'
+  'gtk4'
+)
+makedepends=(
+  'cargo' # edition 2024 workspace, needs rust>=1.85
+  'gobject-introspection' # g-ir-compiler for the GtkMcp-1 typelib
+  'gtk4'
+  'pkgconf'
+)
+optdepends=(
+  'gjs: attach the agent from GJS apps via the GtkMcp typelib'
+  'python-gobject: attach the agent from Python apps via the GtkMcp typelib'
+)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('da9d82c92c445b8294cea86b6eee489059ab3495dde7f280d773e90fca435562')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  cargo fetch --locked --target host-tuple
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  CFLAGS+=' -ffat-lto-objects'
+  export CARGO_NET_OFFLINE=true
+
+  # Same package selection as upstream's release workflow: the fixture crate
+  # is test-only and needs libadwaita, gtk4-layer-shell and gtk4-session-lock.
+  cargo build --frozen --release -p gtk-mcp -p gtk-mcp-agent-capi
+
+  # Upstream ships a hand-written GIR; compile it so C, Python and GJS apps
+  # can use the agent (Python/GJS: `from gi.repository import GtkMcp`). The
+  # Gtk-4.0/Gio-2.0/GObject-2.0 includes resolve against the typelibs that
+  # gtk4/glib2 install.
+  g-ir-compiler --output=GtkMcp-1.typelib crates/gtk-mcp-agent-capi/GtkMcp-1.gir
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export CARGO_NET_OFFLINE=true
+
+  # The fixture_* suites drive a real GTK app and need a Wayland session plus
+  # the test-only fixture crate; run the display-free suites instead.
+  cargo test --frozen -p gtk-mcp-protocol -p gtk-mcp-agent
+  cargo test --frozen -p gtk-mcp --lib \
+    --test cli --test cli_commands --test diagnostics \
+    --test discovery --test dispatch --test retention
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  install -Dm755 target/release/gtk-mcp -t "$pkgdir/usr/bin"
+  install -Dm755 target/release/libgtk_mcp_agent_capi.so -t "$pkgdir/usr/lib"
+  install -Dm644 crates/gtk-mcp-agent-capi/include/gtk-mcp-agent.h -t "$pkgdir/usr/include"
+  install -Dm644 crates/gtk-mcp-agent-capi/GtkMcp-1.gir -t "$pkgdir/usr/share/gir-1.0"
+  install -Dm644 GtkMcp-1.typelib -t "$pkgdir/usr/lib/girepository-1.0"
+
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 README.md docs/*.md -t "$pkgdir/usr/share/doc/$pkgname"
+  # Upstream's coding-agent skill; copy or symlink it into the agent's skills
+  # directory (e.g. ~/.pi/agent/skills/gtk-mcp/SKILL.md).
+  install -Dm644 skills/gtk-mcp/SKILL.md "$pkgdir/usr/share/doc/$pkgname/SKILL.md"
+}
