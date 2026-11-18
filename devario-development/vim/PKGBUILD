@@ -2,7 +2,6 @@
 # Maintainer: T.J. Townsend <blakkheim@archlinux.org>
 # Contributor: Morten Linderud <foxboron@archlinux.org>
 # Contributor: Anatol Pomozov <anatol.pomozov@gmail.com>
-# Contributor: Thomas Dziedzic <gostrc@gmail.com>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 # Contributor: tobias [ tobias at archlinux org ]
 # Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
@@ -11,7 +10,7 @@
 
 pkgbase=vim
 pkgname=('vim' 'gvim' 'vim-runtime')
-pkgver=9.2.1355
+pkgver=9.2.1364
 _versiondir=92
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
