@@ -7,7 +7,7 @@
 
 pkgbase=kitty
 pkgname=(kitty kitty-terminfo kitty-shell-integration)
-pkgver=0.50.0
+pkgver=0.51.0
 pkgrel=1
 pkgdesc="A modern, hackable, featureful, OpenGL-based terminal emulator"
 arch=('x86_64')
@@ -37,7 +37,7 @@ depends=(
     'zlib'
 )
 makedepends=(
-    'go>=1.26.0'
+    'go>=1.26.11'
     'libxinerama'
     'libxrandr'
     'shader-slang'
@@ -47,8 +47,8 @@ makedepends=(
 )
 options=("!lto")
 source=("https://github.com/kovidgoyal/${pkgbase}/releases/download/v${pkgver}/${pkgbase}-${pkgver}.tar.xz"{,.sig})
-b2sums=('291ee2eca3541811ad3adda8b7cca24fd0d46b82446551116613f078e55a8c36a5073dace05dcbd9a7e72f642130cf261ff733dcdeaa0c4852c6194b06712fb2'
-        'SKIP')
+b2sums=('3fc292b9143995da08f1fe07ce6b349941a06cae029ce7b1405bd29d65685b4c7a1fd6b717f1541aeeccddc7afb52c8a2afae5c5da26d2cdb96ad4ba32b80e7a'
+            'SKIP')
 validpgpkeys=('3CE1780F78DD88DF45194FD706BC317B515ACE7C') # Kovid Goyal
 
 build() {
