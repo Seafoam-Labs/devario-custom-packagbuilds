@@ -1,5 +1,5 @@
 pkgname=qwencloud-cli
-pkgver=1.6.0
+pkgver=1.7.0
 pkgrel=1
 pkgdesc='QwenCloud CLI for account authentication, usage, subscriptions and model invocation'
 arch=('any')
@@ -11,7 +11,7 @@ makedepends=('npm')
 options=('!strip')
 source=("https://registry.npmjs.org/@qwencloud/qwencloud-cli/-/qwencloud-cli-${pkgver}.tgz")
 noextract=("qwencloud-cli-${pkgver}.tgz")
-sha256sums=('9c656d2f7879d90903a6985428eae7668770741cda921e182119d079720966c6')
+sha256sums=('ffa70a7bc754d114feee27bdb541cb26467c8d0d2a6543e04fe9c82c3482ac73')
 
 build() {
   # The published archive already contains the compiled CLI. Do not run its
