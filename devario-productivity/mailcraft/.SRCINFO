@@ -1,6 +1,6 @@
 pkgbase = mailcraft
 	pkgdesc = Native mail, calendar, contacts and tasks program written in Rust
-	pkgver = 0.13.0
+	pkgver = 0.14.0
 	pkgrel = 1
 	url = https://github.com/UCS-Care-Group/mailcraft
 	arch = x86_64
@@ -23,7 +23,7 @@ pkgbase = mailcraft
 	optdepends = xdg-utils: opening attachments with xdg-open
 	optdepends = gnome-keyring: Secret Service for remembered sign-ins (or any other provider)
 	options = !lto
-	source = git+https://github.com/UCS-Care-Group/mailcraft.git#tag=v0.13.0
-	b2sums = d44499df9c42972d87dac76b8ef30f65e672727944710ca007212ca5eef9d38f783a41b1cfa2fa74df4b2597824c1621862038923451689025c20ca014fda926
+	source = git+https://github.com/UCS-Care-Group/mailcraft.git#tag=v0.14.0
+	b2sums = ab43ab989e50b47200fbdad4854ceefa53d07d03b3bbbb01e87125fed479b9b2699a093bac7f26943562ec34133c220126b0b668a645f0fe17c4b44f2e297d5f
 
 pkgname = mailcraft
