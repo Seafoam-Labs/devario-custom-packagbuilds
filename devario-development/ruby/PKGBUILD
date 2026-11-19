@@ -1,5 +1,5 @@
 pkgname=ruby
-pkgver=4.0.7
+pkgver=4.0.10
 pkgrel=1
 pkgdesc='Object-oriented scripting language with RubyGems, Bundler and YJIT'
 arch=(x86_64)
@@ -110,7 +110,7 @@ conflicts=(
 # GCC LTO caused Ractor crashes in bootstrap tests; the same build passes without it.
 options=(!emptydirs !lto)
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/ruby-$pkgver.tar.gz")
-sha256sums=('911ace20f90d068ca0e4dda6d0e4f0f81e52e52f2dd4f4004c721e253412e82d')
+sha256sums=('b53eef3371fa5d3e3b74340edcd015f06d5d8853968d4e539a5264fce41ed9f1')
 
 build() {
   cd "ruby-$pkgver"
