@@ -6,7 +6,7 @@
 
 pkgname=python-tox
 _name="${pkgname#python-}"
-pkgver=4.67.13
+pkgver=4.67.15
 pkgrel=1
 pkgdesc='Python virtualenv management and testing tool'
 arch=('any')
@@ -45,7 +45,15 @@ optdepends=(
   'python-re-assert: for pytest plugin to test tox and its plugins'
 )
 source=("git+$_url.git#tag=$pkgver")
-sha512sums=('9d89e0e4f7a231b06a261f979c182a0406bf01fe0f78ed6a57d92e4aa8f0c169b3cdb8154b84ea79fb5229c380d78a723ab57d283a9258846f1d1e6de8ab316b')
+sha512sums=('b2970d37fb8a42ee4a90711adb6e15af2742624ae9061f1a8e8103f952bd33a60a3e5dbfee9525687968b9ad6d3c0eadc8e4670add2114aa7d35639d69caaac5')
+
+prepare() {
+  cd $_name
+  # tox 4.67.14+ embeds a CycloneDX SBOM via the python-sbom hatch hook, which
+  # is not packaged. The hook only adds wheel metadata, so drop it and its
+  # requirement (same workaround as in python-filelock).
+  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.python-sbom/d' pyproject.toml
+}
 
 build() {
   cd $_name
