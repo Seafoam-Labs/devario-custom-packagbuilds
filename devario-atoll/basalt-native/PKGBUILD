@@ -1,6 +1,6 @@
 # Target: Ryzen 9 9950X3D (Zen 5) and GeForce RTX 5090 (sm_120).
 pkgname=basalt-native
-pkgver=0.3.2
+pkgver=0.4.1
 pkgrel=1
 pkgdesc='Local Qwen inference engine optimized for Zen 5 and NVIDIA Blackwell'
 arch=('x86_64')
@@ -8,14 +8,14 @@ url='https://github.com/jesdga95/basalt'
 license=('MIT' 'OFL-1.1')
 depends=('glibc' 'libgcc' 'libstdc++' 'cuda>=13.4' 'nvidia-utils'
          'python>=3.10' 'python-jinja' 'python-markupsafe' 'python-regex'
-         'python-pillow' 'python-psutil')
+         'python-pillow' 'python-psutil' 'python-pypdf')
 makedepends=('cmake>=3.24' 'ninja' 'gcc>=14')
 checkdepends=('python-numpy' 'python-yaml' 'python-tqdm')
 provides=("basalt=$pkgver")
 conflicts=('basalt' 'basalt-git')
 options=('!lto')
 source=("basalt-$pkgver.tar.gz::https://codeload.github.com/jesdga95/basalt/tar.gz/refs/tags/v$pkgver")
-sha256sums=('d5c178168ce53885efa35777f5ee6b7bd077088398401f00b8dec2ce32a997ee')
+sha256sums=('d30db0b40f34ed130fd27d9b0cef11ec6bcb890edb755b4b616f7431216f0679')
 
 # 0.3.2 dropped the build-time source path (BASALT_SOURCE_DIR). install_root() is now the directory
 # above the executable's own, resolved through /proc/self/exe, and the start refuses to load weights
@@ -41,6 +41,11 @@ prepare() {
     -e 's|BASALT_BENCH_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"|BASALT_BENCH_SOURCE_DIR="/usr/lib/basalt"|' \
     CMakeLists.txt
 
+  # The global -march=znver5 leaves AVX-512 on in the "AVX2" TUs (-mavx2 does not disable it), and
+  # GCC 16 then rounds the NVFP4 row kernels' float epilogue differently from ggml's AVX2 vec_dot:
+  # nvfp4_cpu_rows_test's bitwise identity fails. Narrow the rung as upstream did for VNNI-INT8 (#323).
+  sed -i 's|set(_isa_avx2_flags "-mavx2;-mfma;-mf16c")|set(_isa_avx2_flags "-mavx2;-mfma;-mf16c;-mno-avx512f")|' CMakeLists.txt
+
   # ggml's nearest_int needs a separately rounded multiply before its magic-number
   # addition. FMA contraction changes Q8_K codes at rounding boundaries.
   cat >> CMakeLists.txt <<'EOF'
@@ -51,9 +56,9 @@ EOF
 
   # An archive has no Git metadata; do not stamp the packaging repository's HEAD.
   # Mark the release as modified because its runtime paths have been patched.
-  # ffc68faa71 is the commit v0.3.2 points at.
+  # d3b7574296 is the commit v0.4.1 points at.
   cat > cmake/git_stamp.cmake <<'EOF'
-file(WRITE "${OUT}" "#define BASALT_BENCH_GIT \"ffc68faa71\"\n#define BASALT_BENCH_DIRTY 1\n")
+file(WRITE "${OUT}" "#define BASALT_BENCH_GIT \"d3b7574296\"\n#define BASALT_BENCH_DIRTY 1\n")
 EOF
 }
 
