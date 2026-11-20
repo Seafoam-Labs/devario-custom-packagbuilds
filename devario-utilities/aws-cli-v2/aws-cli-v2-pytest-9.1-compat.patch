@@ -1,0 +1,156 @@
+Subject: [PATCH] Materialize parametrized test cases for pytest 9.1
+
+Pytest 9.1 deprecates non-Collection iterables as parameter values.
+Convert generators and itertools.product results to lists so collection
+succeeds with deprecation warnings treated as errors. Generate protocol
+cases in pytest_generate_tests, after all helper functions are defined.
+
+Assisted-by: Codex:gpt-6-astra
+
+diff --git a/tests/integration/botocore/test_smoke.py b/tests/integration/botocore/test_smoke.py
+index 582726dd8..090074cc2 100644
+--- a/tests/integration/botocore/test_smoke.py
++++ b/tests/integration/botocore/test_smoke.py
+@@ -257,7 +257,7 @@ def _error_tests():
+ 
+ 
+ @pytest.mark.parametrize(
+-    "service_name, operation_name, kwargs", _smoke_tests()
++    "service_name, operation_name, kwargs", list(_smoke_tests())
+ )
+ def test_can_make_request_with_client(
+     botocore_session, service_name, operation_name, kwargs
+@@ -282,7 +282,7 @@ def test_can_make_request_with_client(
+ 
+ 
+ @pytest.mark.parametrize(
+-    "service_name, operation_name, kwargs", _error_tests()
++    "service_name, operation_name, kwargs", list(_error_tests())
+ )
+ def test_can_make_request_and_understand_errors_with_client(
+     botocore_session, service_name, operation_name, kwargs
+@@ -294,7 +294,7 @@ def test_can_make_request_and_understand_errors_with_client(
+ 
+ 
+ @pytest.mark.parametrize(
+-    "service_name, operation_name, kwargs", _smoke_tests()
++    "service_name, operation_name, kwargs", list(_smoke_tests())
+ )
+ def test_client_can_retry_request_properly(
+     botocore_session, service_name, operation_name, kwargs
+diff --git a/tests/integration/botocore/test_utils.py b/tests/integration/botocore/test_utils.py
+index 9658e62a0..cc6b13536 100644
+--- a/tests/integration/botocore/test_utils.py
++++ b/tests/integration/botocore/test_utils.py
+@@ -32,7 +32,7 @@ def _all_inputs():
+ 
+ 
+ @pytest.mark.parametrize(
+-    "input_shape, service_name, operation_name", _all_inputs()
++    "input_shape, service_name, operation_name", list(_all_inputs())
+ )
+ def test_can_generate_all_inputs(
+     generator, input_shape, service_name, operation_name
+diff --git a/tests/unit/botocore/auth/test_sigv4.py b/tests/unit/botocore/auth/test_sigv4.py
+index 749d66970..1f1b22e4a 100644
+--- a/tests/unit/botocore/auth/test_sigv4.py
++++ b/tests/unit/botocore/auth/test_sigv4.py
+@@ -93,13 +93,13 @@ def generate_test_cases():
+         yield test_case
+ 
+ 
+-@pytest.mark.parametrize("test_case", generate_test_cases())
++@pytest.mark.parametrize("test_case", list(generate_test_cases()))
+ @FreezeTime(module=botocore.auth.datetime, date=DATE)
+ def test_signature_version_4(test_case):
+     _test_signature_version_4(test_case)
+ 
+ 
+-@pytest.mark.parametrize("test_case", generate_test_cases())
++@pytest.mark.parametrize("test_case", list(generate_test_cases()))
+ @FreezeTime(module=botocore.auth.datetime, date=DATE)
+ def test_crt_signature_version_4(test_case):
+     _test_crt_signature_version_4(test_case)
+diff --git a/tests/unit/botocore/cbor/test_cbor_decoding.py b/tests/unit/botocore/cbor/test_cbor_decoding.py
+index 3d92c7e0b..1537e3136 100644
+--- a/tests/unit/botocore/cbor/test_cbor_decoding.py
++++ b/tests/unit/botocore/cbor/test_cbor_decoding.py
+@@ -52,7 +52,7 @@ def _get_cbor_decoding_error_tests():
+ 
+ 
+ @pytest.mark.parametrize(
+-    "json_description, input, expect", _get_cbor_decoding_success_tests()
++    "json_description, input, expect", list(_get_cbor_decoding_success_tests())
+ )
+ def test_cbor_decoding_success(json_description, input, expect, parser):
+     stream = parser.get_peekable_stream_from_bytes(bytearray.fromhex(input))
+@@ -61,7 +61,7 @@ def test_cbor_decoding_success(json_description, input, expect, parser):
+ 
+ 
+ @pytest.mark.parametrize(
+-    "json_description, input, error", _get_cbor_decoding_error_tests()
++    "json_description, input, error", list(_get_cbor_decoding_error_tests())
+ )
+ def test_cbor_decoding_error(json_description, input, error, parser):
+     stream = parser.get_peekable_stream_from_bytes(bytearray.fromhex(input))
+diff --git a/tests/unit/botocore/test_parsers.py b/tests/unit/botocore/test_parsers.py
+index 0b65f2268..2a0d4db2e 100644
+--- a/tests/unit/botocore/test_parsers.py
++++ b/tests/unit/botocore/test_parsers.py
+@@ -1628,8 +1628,10 @@ def _generic_test_bodies():
+ 
+ @pytest.mark.parametrize(
+     "parser, body",
+-    itertools.product(
+-        parsers.PROTOCOL_PARSERS.values(), _generic_test_bodies()
++    list(
++        itertools.product(
++            parsers.PROTOCOL_PARSERS.values(), _generic_test_bodies()
++        )
+     ),
+ )
+ def test_can_handle_generic_error_message(parser, body):
+diff --git a/tests/unit/botocore/test_protocols.py b/tests/unit/botocore/test_protocols.py
+index c92027e1c..8cb100bd2 100644
+--- a/tests/unit/botocore/test_protocols.py
++++ b/tests/unit/botocore/test_protocols.py
+@@ -58,7 +58,6 @@ import xml.etree.ElementTree as ET
+ from base64 import b64decode
+ from enum import Enum
+ 
+-import pytest
+ from botocore.awsrequest import HeadersDict, prepare_request_dict
+ from botocore.compat import OrderedDict, json, urlsplit
+ from botocore.eventstream import EventStream
+@@ -138,9 +137,18 @@ def _compliance_tests(test_type=None):
+                     yield model, case, basename
+ 
+ 
+-@pytest.mark.parametrize(
+-    "json_description, case, basename", _compliance_tests(TestType.INPUT)
+-)
++def pytest_generate_tests(metafunc):
++    test_type = {
++        'test_input_compliance': TestType.INPUT,
++        'test_output_compliance': TestType.OUTPUT,
++    }.get(metafunc.function.__name__)
++    if test_type is not None:
++        metafunc.parametrize(
++            "json_description, case, basename",
++            list(_compliance_tests(test_type)),
++        )
++
++
+ def test_input_compliance(json_description, case, basename):
+     service_description = copy.deepcopy(json_description)
+     service_description['operations'] = {
+@@ -193,9 +201,6 @@ class MockRawResponse:
+         yield self._data
+ 
+ 
+-@pytest.mark.parametrize(
+-    "json_description, case, basename", _compliance_tests(TestType.OUTPUT)
+-)
+ def test_output_compliance(json_description, case, basename):
+     service_description = copy.deepcopy(json_description)
+     operation_name = case.get('given', {}).get('name', 'OperationName')

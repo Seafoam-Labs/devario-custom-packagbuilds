@@ -1,0 +1,36 @@
+pkgbase = aws-cli-v2
+	pkgdesc = Universal Command Line Interface for Amazon Web Services (version 2)
+	pkgver = 2.37.9
+	pkgrel = 1
+	url = https://docs.aws.amazon.com/cli
+	install = aws-cli-v2.install
+	arch = any
+	license = Apache-2.0
+	checkdepends = python-jsonschema
+	checkdepends = python-pytest
+	checkdepends = python-pytest-xdist
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-flit-core
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	depends = python-awscrt
+	depends = python-colorama
+	depends = python-dateutil
+	depends = python-distro
+	depends = python-docutils
+	depends = python-jmespath
+	depends = python-prompt_toolkit
+	depends = python-ruamel-yaml
+	depends = python-urllib3
+	provides = aws-cli
+	conflicts = aws-cli
+	source = git+https://github.com/aws/aws-cli#tag=2.37.9
+	source = aws-cli-v2-python-prompt-toolkit-3.0.52-compat.patch
+	source = aws-cli-v2-pytest-9.1-compat.patch
+	b2sums = 9ddd398c7e7e9f6de6a897265eb28687e499062c2233f28c570aaf7630863b966883b5d9355e18efcdc11a26c8eeeba034738cd295b3ef72d277f7fa7b2b96a1
+	b2sums = d6c778ff47b20a9f48b80931c6972033dca30caff71edd189c4ee857cb911f65c0618b3396ac63f3d57034e3a1f87d34b4e0201bd684715fd5e348c57369c252
+	b2sums = 8ed841cd47fa04082fe766388492bd2dff69a7ee3642be640301c64adfa5eca2223cca531fbfedcaf7828fd3dc037ed2d068e8f004afd42be3c0b0c9f309b5d6
+
+pkgname = aws-cli-v2

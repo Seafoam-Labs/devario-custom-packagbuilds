@@ -1,0 +1,57 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Sherlock Holo <sherlockya@gmail.com>
+# Contributor: user6553591 <Message on Reddit>
+
+pkgname=python-websockets
+pkgver=17.2
+pkgrel=1
+pkgdesc='Python implementation of the WebSocket Protocol (RFC 6455)'
+arch=('x86_64')
+url='https://github.com/aaugustin/websockets'
+license=('BSD-3-Clause')
+depends=(
+  'glibc'
+  'python'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+  'python-setuptools'
+  'python-wheel'
+)
+checkdepends=(
+  'python-werkzeug'
+)
+optdepends=(
+  'python-trio: trio backend support'
+  'python-werkzeug: routing support'
+)
+source=("$url/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('682e2006873e405885469c50a5babf5c503b1d361fab7a7fb30846563f30a488e884f92444717717c3e8529b69af92c59dfdbdf536e8d27857b41375a278b7ce')
+b2sums=('5ae95f12dd3974253607b8e42e3eaafbd1e393b70694413190637423e591a6314fc6cc19294591171fddeeb240ca42d2272e73838744c7c49c0f1a04938bb0c3')
+
+prepare() {
+  cd ${pkgname#python-}-${pkgver}
+  # Devario: python-trio is not packaged; drop the optional trio backend tests
+  # instead of importing the trio dependency closure for a check-only package.
+  rm -rf tests/trio
+}
+
+build() {
+  cd ${pkgname#python-}-${pkgver}
+  python -m build --wheel --skip-dependency-check --no-isolation
+}
+
+check() {
+  cd ${pkgname#python-}-${pkgver}
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m unittest discover -v
+}
+
+package() {
+  cd ${pkgname#python-}-${pkgver}
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}

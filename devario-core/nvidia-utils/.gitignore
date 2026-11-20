@@ -1,0 +1,12 @@
+/NVIDIA-Linux-x86_64-*/
+/NVIDIA-Linux-x86_64-*.run
+/NVIDIA-kernel-module-source-*/
+/NVIDIA-kernel-module-source-*.tar.xz
+*-build.log
+*-check.log
+*-package*.log
+PKGBUILD-namcap.log
+*.pkg.tar.*
+*.pkg.tar.*-namcap.log
+*-pkgver.log
+*-prepare.log

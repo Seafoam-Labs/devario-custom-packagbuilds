@@ -1,0 +1,12 @@
+diff --git i/awscli/customizations/wizard/ui/layout.py w/awscli/customizations/wizard/ui/layout.py
+index 1bb069d33..57b556b50 100644
+--- i/awscli/customizations/wizard/ui/layout.py
++++ w/awscli/customizations/wizard/ui/layout.py
+@@ -284,6 +284,7 @@ class ToolbarView(BaseToolbarView):
+ 
+     def __init__(self):
+         self.content = to_container(self.create_window(self.help_text))
++        self.alternative_content = None
+         self.filter = to_filter(self.CONDITION)
+ 
+     def create_window(self, help_text):

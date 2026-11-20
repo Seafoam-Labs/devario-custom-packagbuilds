@@ -1,9 +1,9 @@
 # NVIDIA driver stack for Devario
 
-Current-production NVIDIA stack for x86_64, promoted from the
-`devario-bleeding-edge` `nvidia-utils` beta (`620.70.06-2`). This recipe
-produces four packages at the same versions expected by Devario's
-installer and target configuration helper:
+Current-production NVIDIA stack for x86_64 (`620.73.04`), originally
+promoted from the `devario-bleeding-edge` `nvidia-utils` beta
+(`620.70.06-2`). This recipe produces four packages at the same versions
+expected by Devario's installer and target configuration helper:
 
 - `nvidia-utils` — userspace driver, firmware, utilities, X driver, and
   Vulkan/EGL/OpenCL-adjacent payload, including the 32-bit driver libraries.
@@ -11,7 +11,7 @@ installer and target configuration helper:
 - `lib32-opencl-nvidia` — 32-bit OpenCL implementation.
 - `nvidia-open-dkms` — open kernel-module sources for DKMS.
 
-`nvidia-utils` provides `lib32-nvidia-utils=620.70.06`,
+`nvidia-utils` provides `lib32-nvidia-utils=620.73.04`,
 `lib32-vulkan-driver`, `lib32-opengl-driver`, and `lib32-nvidia-libgl`. It
 conflicts with and replaces the old standalone `lib32-nvidia-utils` and
 `lib32-nvidia-libgl` packages, taking ownership of their driver libraries
@@ -40,10 +40,10 @@ These packages use the normal current-branch names rather than a versioned
 
 ## Upstream
 
-`620.70.06` is the driver branch Devario currently ships. Sources:
+`620.73.04` is the driver branch Devario currently ships. Sources:
 
-- <https://download.nvidia.com/XFree86/Linux-x86_64/620.70.06/NVIDIA-Linux-x86_64-620.70.06.run>
-- <https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-620.70.06.tar.xz>
+- <https://download.nvidia.com/XFree86/Linux-x86_64/620.73.04/NVIDIA-Linux-x86_64-620.73.04.run>
+- <https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-620.73.04.tar.xz>
 
 Both archives are pinned by SHA-512 in the PKGBUILD. The `.run` archive is
 extracted with `--extract-only`; `nvidia-installer` is never executed.
@@ -64,7 +64,7 @@ extracted with `--extract-only`; `nvidia-installer` is never executed.
 ## Linux 7.3 patch
 
 `fix-runtime-D3-620.patch` is a rebased version of the runtime-D3 sysfs fix
-the 615 DKMS recipe used. The 620.70.06 driver still calls `filp_open()`
+the 615 DKMS recipe used. The 620.73.04 driver still calls `filp_open()`
 without entering the initial filesystem context on Linux 7.3, so the patch
 adds `scoped_with_init_fs()` for 7.3 and later. The patch applies cleanly to
 the 620 source tarball.
@@ -83,10 +83,11 @@ shelly build --reviewed --nosign PKGBUILD
 
 The same build includes the 32-bit libraries and the OpenCL split package.
 
-Shelly review reports dynamic-command warnings for the DKMS module index
-arithmetic and for the retained `vercmp` call in `nvidia-utils.install`.
-Both are intentional: the arithmetic indexes the five DKMS module entries,
-and the install script compares the previously installed driver version.
+Shelly review reports a dynamic-command warning for the DKMS module index
+arithmetic; it is intentional, indexing the five DKMS module entries.
+`nvidia-utils.install` compares the previously installed driver version
+with `systemd-analyze compare-versions`, since Devario does not ship
+`vercmp`.
 
 Regenerate metadata after recipe changes:
 
@@ -100,14 +101,17 @@ repositories available so its dependency closure can resolve `libglvnd`,
 
 ## Validation
 
-- The beta `620.70.06-2` archives built, signed, and published from
-  `devario-bleeding-edge` are the reference payload. The promoted recipe
-  differs in `pkgdesc` and `pkgrel` only and needs one fresh `-3` build
-  before publication.
+- `620.73.04` is a version bump of the promoted 620 recipe (`pkgrel`
+  reset to 1). Both source archives match NVIDIA's published SHA-256
+  sums, both local patches apply cleanly to the 620.73.04 kernel-module
+  tarball, and every file the recipe installs is present in the extracted
+  `.run` (64-bit and 32-bit); the NGX DLSSD payload is still `310.9.0`.
+  A fresh build and DKMS compile against the Devario kernel headers are
+  still required before publication.
 - Both 64-bit and 32-bit archives contain the expected versioned libraries,
   firmware, ICD manifests, and NGX payload; SONAME links resolve inside the
   staged package.
 - `nvidia-open-dkms` carries the patched source tree and a complete
   `dkms.conf` declaring all five modules with `kernel-open` build locations.
-- Package versions match each other and the exact `nvidia-utils=620.70.06`
+- Package versions match each other and the exact `nvidia-utils=620.73.04`
   dependency used by DKMS; the bundled multilib payload shares its version.

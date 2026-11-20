@@ -1,0 +1,21 @@
+pkgbase = python-websockets
+	pkgdesc = Python implementation of the WebSocket Protocol (RFC 6455)
+	pkgver = 17.2
+	pkgrel = 1
+	url = https://github.com/aaugustin/websockets
+	arch = x86_64
+	license = BSD-3-Clause
+	checkdepends = python-werkzeug
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = glibc
+	depends = python
+	optdepends = python-trio: trio backend support
+	optdepends = python-werkzeug: routing support
+	source = https://github.com/aaugustin/websockets/archive/17.2/python-websockets-17.2.tar.gz
+	sha512sums = 682e2006873e405885469c50a5babf5c503b1d361fab7a7fb30846563f30a488e884f92444717717c3e8529b69af92c59dfdbdf536e8d27857b41375a278b7ce
+	b2sums = 5ae95f12dd3974253607b8e42e3eaafbd1e393b70694413190637423e591a6314fc6cc19294591171fddeeb240ca42d2272e73838744c7c49c0f1a04938bb0c3
+
+pkgname = python-websockets
