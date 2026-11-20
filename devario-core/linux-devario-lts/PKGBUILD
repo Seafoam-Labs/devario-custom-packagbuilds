@@ -23,7 +23,7 @@ _minor=64
 # tag of this channel.
 _channel=
 # Release number N of the devario[-<channel>]-<version>-<N> tag on GitHub.
-_tagrel=1
+_tagrel=2
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
@@ -426,5 +426,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('0643ee75c45214b46214a1a52dc7bdca169ed5534f03b51814b977b5e207c3d86bd222f77d176cf0abd7c2e4ca2cc56f34ea8ce353d7135eaa05ae011ded8d79'
-        'fb38a4e0ae34e2c0cf81420d053cae23f9a29e61db6514a1e4030af495ff504ae035b9f2c8af34ed2aaa6c6bae8c4503c124a7e89ffea19f327d4e3ff9f392b3')
+b2sums=('5a36280c0c03c4e8d70e0d9f55e653355fdca9f0317cc711b8d6ca19d7d85ee073607bfadbc4c073565369d4583b92331aa2952ed43125d9de38a162010a8e19'
+        'c0b639110254db7ecd0c8e70c0c05ffa4473745e28f33e2882aa84a36f74660ca0f11011ac9c7388d7c641e663905ef80e277670778e625ecc84af20ca872370')

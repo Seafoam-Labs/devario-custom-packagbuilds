@@ -102,7 +102,7 @@ build toolchain or replace testing in a controlled build environment.
 4. Build in a clean environment with `_devario_release=yes`, then test kernel
    boot, external-module/header compatibility, and upgrades before publishing.
 
-**Branch note:** The LTS recipe permits the `voluntary` and `none` preemption modes in addition to `full` and `lazy`. Unlike the 7.x recipes in this tree, it has no `_lru_marie` build toggle.
+**Branch note:** The LTS recipe permits the `voluntary` and `none` preemption modes in addition to `full` and `lazy`.
 
 ## Credits and provenance
 
