@@ -2,7 +2,7 @@
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 
 pkgname=python-typeguard
-pkgver=4.6.0
+pkgver=4.6.1
 pkgrel=1
 pkgdesc="Run-time type checker for Python"
 url="https://github.com/agronholm/typeguard"
@@ -12,13 +12,13 @@ depends=('python-typing_extensions')
 makedepends=('git' 'python-build' 'python-installer' 'python-setuptools-scm' 'python-wheel')
 checkdepends=('python-pytest')
 source=("git+$url.git#tag=$pkgver")
-b2sums=('063f9530436a7a9ff192c7791270384f5f0dcd7e62cbd4267f7bb27581e4dbee94605053639dd986bc9652ea643b0518ce92bbda7a0cefddbbcce7ed1dbb76e6')
+b2sums=('dad0168a761c4e4989d4cbfdebe7fb8f04812063c69db3b07a4efb672806e6f9e68ed03dbbe3948e55f60ad56c78bbae3cbe6511356ef9c5fde149f587bd126f')
 
 # Utilize venv for mypy
 # disabled, because mypy tests are still failing
 #prepare() {
 #  cd typeguard
-#  sed -i 's|\["mypy"|["python", "-m", "mypy"|' tests/mypy/test_type_annotations.py
+#  sed -i 's|\["mypy"|\["python", "-m", "mypy"|' tests/mypy/test_type_annotations.py
 #}
 
 build() {
