@@ -1,0 +1,20 @@
+pkgbase = spotify-player
+	pkgdesc = A command driven spotify player
+	pkgver = 0.25.2
+	pkgrel = 1
+	url = https://github.com/aome510/spotify-player
+	arch = x86_64
+	license = MIT
+	checkdepends = alsa-lib
+	makedepends = cargo
+	depends = openssl
+	depends = dbus
+	depends = libpulse
+	depends = libsixel
+	optdepends = libnotify: Notification support
+	optdepends = fzf: Fuzzy search support
+	options = !lto
+	source = spotify-player-0.25.2.tar.gz::https://github.com/aome510/spotify-player/archive/v0.25.2.tar.gz
+	sha512sums = 1608eb636db6fe39f10246575bece994714edffc555137b1f73991fc7f96f732733bb01a381d4880e1aa31df10fdf5031cb05488c7b52ceb42e110c47f572093
+
+pkgname = spotify-player

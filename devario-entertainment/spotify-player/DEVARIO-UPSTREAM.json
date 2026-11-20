@@ -1,0 +1,11 @@
+{
+  "name": "spotify-player",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/spotify-player",
+  "commit": "c9781d2619ef49b09e68444fc867b01466d6c281",
+  "upstream_version": "0.25.2",
+  "local_adaptations": [
+    "Keep Cargo caches/output inside the recipe (CARGO_HOME/CARGO_TARGET_DIR under srcdir); fetch locked inputs in prepare and build/test frozen.",
+    "Declare alsa-lib as a check dependency: the default-features test build enables the rodio/cpal backend, whose alsa-sys crate requires ALSA headers.",
+    "Retain the official Arch feature set (pulseaudio-backend, media-control, notify, daemon, image, sixel, fzf) and runtime dependencies."
+  ]
+}

@@ -1,0 +1,104 @@
+# Adapted for Devario from AUR packaging (peazip).
+# Maintainer: aur.chaotic.cx
+
+pkgname=peazip
+pkgver=11.4.0
+pkgrel=1
+pkgdesc='Cross-platform file and archive manager (Qt6)'
+arch=(x86_64)
+url='https://github.com/peazip/PeaZip'
+license=(LGPL-3.0-or-later)
+depends=(
+  7zip
+  brotli
+  hicolor-icon-theme
+  qt6pas
+  zstd
+)
+makedepends=(lazarus)
+optdepends=(
+  'unace: extraction of ACE archives'
+  'qt6ct: Qt6 theming on GTK-based desktop environments'
+)
+options=(!debug)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('a35861156df46c0852574d7905bf28b69ea5eff965a88ca17f08f2eb9296e996')
+b2sums=('09240ea3378c73919c9ea7152ace03be0622bb306364cc3679cebbeed4b54730b870c923f63616c7057bce60c1551b6f9464f47657f98d1a8de01985e567c1e1')
+
+_pkgsrc="PeaZip-$pkgver"
+
+prepare() {
+  cd "$_pkgsrc/peazip-sources/dev"
+
+  # Use system backend binaries (7z, brotli, zstd, ...) from PATH, and
+  # hardcode the install paths; PeaZip requires the trailing slashes.
+  sed -E -i \
+    -e "s|HSYSBIN([[:space:]]*)=[[:space:]]*[0-9]+;|HSYSBIN\1= 2;|" \
+    -e "s|HBINPATH([[:space:]]*)=[[:space:]]*'';|HBINPATH\1= '/usr/bin/';|" \
+    -e "s|HSHAREPATH([[:space:]]*)=[[:space:]]*'';|HSHAREPATH\1= '/usr/share/peazip/';|" \
+    peach.pas
+
+  # Warn if the tagged archive does not match the version in the sources.
+  local _peazipver _peaziprev
+  _peazipver=$(grep -Po "(?<=PEAZIPVERSION\s?=\s?')([0-9.]+)(?=';)" peach.pas)
+  _peaziprev=$(grep -Po "(?<=PEAZIPREVISION\s?=\s?')([0-9.]+)(?=';)" peach.pas)
+  if [[ "$pkgver" != "${_peazipver:-0.0}${_peaziprev:=.0}" ]]; then
+    printf 'warning: peazip version mismatch: %s != %s\n' \
+      "$pkgver" "${_peazipver:-0.0}${_peaziprev:=.0}"
+  fi
+
+  # Hide about-dialog buttons that open web pages or manage plugins.
+  local _button
+  for _button in \
+    baboutbin baboutchangelog baboutfaq baboutlocalhelp baboutplugindir \
+    baboutplugins baboutremoveunace baboutremoveunrar baboutsupport \
+    baboutthemes babouttos babouttracker babouttranslations baboutup \
+    baboutweb
+  do
+    sed -E -i "/^FormPeach\.${_button}\.Caption:=/s/.*/FormPeach.${_button}.Visible:=False;/" peach.pas
+  done
+}
+
+build() {
+  cd "$_pkgsrc/peazip-sources/dev"
+
+  local _laz_opts=(
+    --build-all
+    --cpu="$CARCH"
+    --lazarusdir=/usr/lib/lazarus
+    --os=linux
+    --primary-config-path=config
+    --widgetset=qt6
+    --opt='-O3 -Sa -CX -XX -k--sort-common -k--as-needed -k-z -krelro -k-z -know'
+  )
+
+  lazbuild "${_laz_opts[@]}" metadarkstyle/metadarkstyle.lpk
+  lazbuild "${_laz_opts[@]}" project_pea.lpi
+  lazbuild "${_laz_opts[@]}" project_peach.lpi
+}
+
+package() {
+  cd "$_pkgsrc/peazip-sources"
+
+  # binaries
+  install -Dm755 dev/peazip -t "$pkgdir/usr/bin"
+  install -Dm755 dev/pea -t "$pkgdir/usr/bin"
+
+  # launcher and icons
+  install -Dm644 res/share/batch/freedesktop_integration/peazip.desktop \
+    -t "$pkgdir/usr/share/applications"
+  install -Dm644 res/share/batch/freedesktop_integration/peazip.png \
+    -t "$pkgdir/usr/share/icons/hicolor/256x256/apps"
+  install -Dm644 res/share/icons/peazip_{7z,rar,zip}.png \
+    -t "$pkgdir/usr/share/icons/hicolor/256x256/mimetypes"
+  install -Dm644 res/share/icons/peazip_{add,extract,browse,convert}.png \
+    -t "$pkgdir/usr/share/icons/hicolor/256x256/actions"
+
+  # architecture-independent resources (HSHAREPATH)
+  install -dm755 "$pkgdir/usr/share/peazip"
+  cp -r res/share/{icons,lang,themes} "$pkgdir/usr/share/peazip/"
+
+  install -Dm644 res/share/copying/copying.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  chmod -R u+rwX,go+rX,go-w "$pkgdir"
+}

@@ -1,0 +1,4 @@
+[spotify-player]
+source = "git"
+git = "https://github.com/aome510/spotify-player.git"
+prefix = "v"

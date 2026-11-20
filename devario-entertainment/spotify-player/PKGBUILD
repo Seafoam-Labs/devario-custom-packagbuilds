@@ -1,0 +1,59 @@
+# Local Devario adaptation of the Arch Linux recipe by Orhun Parmaksız.
+# Upstream: https://github.com/aome510/spotify-player
+# Maintainer: Devario maintainers
+
+pkgname=spotify-player
+pkgver=0.25.2
+pkgrel=1
+pkgdesc="A command driven spotify player"
+arch=('x86_64')
+url="https://github.com/aome510/spotify-player"
+license=('MIT')
+depends=('openssl' 'dbus' 'libpulse' 'libsixel')
+optdepends=('libnotify: Notification support'
+            'fzf: Fuzzy search support')
+makedepends=('cargo')
+# The default-features test build enables the rodio/cpal backend, whose
+# alsa-sys crate requires the ALSA development headers.
+checkdepends=('alsa-lib')
+options=('!lto')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/aome510/spotify-player/archive/v${pkgver}.tar.gz")
+sha512sums=('1608eb636db6fe39f10246575bece994714edffc555137b1f73991fc7f96f732733bb01a381d4880e1aa31df10fdf5031cb05488c7b52ceb42e110c47f572093')
+
+# Keep Cargo state inside this recipe, independent of worker-global overrides.
+_cargo_env() {
+  export CARGO_HOME="$srcdir/cargo-home"
+  export CARGO_TARGET_DIR="$srcdir/target"
+  export CARGO_INCREMENTAL=0
+}
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  # PulseAudio/PipeWire backend, matching the official Arch package. See the
+  # upstream README "Audio backend" section for alternative backends.
+  local _features=('pulseaudio-backend' 'media-control' 'notify' 'daemon' 'image' 'sixel' 'fzf')
+  cargo build --frozen --release --bin spotify_player \
+    --no-default-features --features "${_features[*]}"
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  _cargo_env
+  cargo test --frozen
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  install -Dm755 "$srcdir/target/release/spotify_player" -t "${pkgdir}/usr/bin"
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm644 README.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+}
+
+# vim: ts=2 sw=2 et:

@@ -1,0 +1,3 @@
+[peazip]
+source = "git"
+git = "https://github.com/peazip/PeaZip.git"

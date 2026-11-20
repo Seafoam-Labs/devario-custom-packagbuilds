@@ -1,0 +1,21 @@
+pkgbase = peazip
+	pkgdesc = Cross-platform file and archive manager (Qt6)
+	pkgver = 11.4.0
+	pkgrel = 1
+	url = https://github.com/peazip/PeaZip
+	arch = x86_64
+	license = LGPL-3.0-or-later
+	makedepends = lazarus
+	depends = 7zip
+	depends = brotli
+	depends = hicolor-icon-theme
+	depends = qt6pas
+	depends = zstd
+	optdepends = unace: extraction of ACE archives
+	optdepends = qt6ct: Qt6 theming on GTK-based desktop environments
+	options = !debug
+	source = peazip-11.4.0.tar.gz::https://github.com/peazip/PeaZip/archive/11.4.0.tar.gz
+	sha256sums = a35861156df46c0852574d7905bf28b69ea5eff965a88ca17f08f2eb9296e996
+	b2sums = 09240ea3378c73919c9ea7152ace03be0622bb306364cc3679cebbeed4b54730b870c923f63616c7057bce60c1551b6f9464f47657f98d1a8de01985e567c1e1
+
+pkgname = peazip
