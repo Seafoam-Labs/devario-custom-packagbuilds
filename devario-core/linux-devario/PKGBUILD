@@ -282,6 +282,9 @@ _package() {
               'modprobed-db: Keeps track of EVERY kernel module that has ever been probed - useful for those of us who make localmodconfig'
               'scx-scheds: to use sched-ext schedulers')
   provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE KSMBD-MODULE NTSYNC-MODULE ADIOS-MODULE)
+  # linux-devario-llm was dropped; move its users to linux-devario.
+  conflicts=("${pkgbase}-llm")
+  replaces=("${pkgbase}-llm")
 
   cd "$_srcname"
 
@@ -309,6 +312,8 @@ _package-headers() {
   pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
   depends=(binutils glibc libelf libgcc openssl pahole xxhash zlib zstd "$pkgbase")
   provides=(LINUX-HEADERS)
+  conflicts=("${pkgbase}-llm-headers")
+  replaces=("${pkgbase}-llm-headers")
 
   cd "$_srcname"
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
@@ -408,6 +413,8 @@ _package-headers() {
 _package-dbg() {
   pkgdesc="Non-stripped vmlinux file for the $pkgdesc kernel"
   depends=("$pkgbase-headers")
+  conflicts=("${pkgbase}-llm-dbg")
+  replaces=("${pkgbase}-llm-dbg")
 
   cd "$_srcname"
   install -Dt "$pkgdir/usr/src/debug/$pkgbase" -m644 vmlinux
