@@ -23,7 +23,7 @@ _minor=5
 # tag of this channel.
 _channel=
 # Release number N of the devario[-<channel>]-<version>-<N> tag on GitHub.
-_tagrel=2
+_tagrel=3
 
 pkgbase="linux-$_pkgsuffix"
 pkgver=${_major}.${_minor}
@@ -70,7 +70,6 @@ _die() {
 # _hugepage       transparent hugepage default: always, madvise
 # _cc_harder      yes: build with -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
 # _per_gov        yes: performance as default cpufreq governor (instead of schedutil)
-# _lru_cast       yes: enable LRU CAST (CONFIG_LRU_CAST); no: build without it
 # _localmodcfg    yes: build only modules listed in a modprobed-db database
 #                 (path in _localmodcfg_path); https://wiki.archlinux.org/title/Modprobed-db
 # _use_current    yes: start from the running kernel's /proc/config.gz instead of
@@ -88,7 +87,6 @@ _release_opts=(
   _hugepage=always
   _cc_harder=yes
   _per_gov=no
-  _lru_cast=yes
   _localmodcfg=no
   _use_current=no
   _makenconfig=no
@@ -239,15 +237,6 @@ prepare() {
     *)       _die "_hugepage='$_hugepage' is invalid (always, madvise)";;
   esac
   echo "Selected '$_hugepage' transparent hugepage mode"
-
-  ### LRU CAST
-  # Explicit both ways: LRU_CAST is "default y" in mm/Kconfig, and with
-  # _use_current=yes the running kernel's config would otherwise keep it on.
-  case "$_lru_cast" in
-    yes) echo "Enabling LRU_CAST..."; scripts/config -e LRU_CAST;;
-    no)  echo "Disabling LRU_CAST..."; scripts/config -d LRU_CAST;;
-    *)   _die "_lru_cast='$_lru_cast' is invalid (yes, no)";;
-  esac
 
   ### DRM panic screen with QR code
   echo "Enabling QR code panic screen..."
@@ -434,5 +423,5 @@ for _p in "${pkgname[@]}"; do
   }"
 done
 
-b2sums=('b6df40151728edc741b72426eb6676ddae110b5b3a62f25c18f0d4c87f49615fdcb508448d852bcce1a7b8bbf2be4b6553d40fc3a52d3e0849ab98c31134ebb0'
-        'a8c29a1a1529d8368bbce686800f4bcafbeb924f8373c3baa0181e94195735a7abc0a45a56d4c7c36303ef7d277926bf8a547aae9694e4cf2a791ffcda963d5f')
+b2sums=('da8ca4e377db4800b58cde51e98c24743aff8071bb377167d24b2db9b17385d6d96af664f7e7250fbac5c4979ca89bf009ec701e25bb1f2a86d7ef40499af6e2'
+        '0b83a4d071ffd2d951e3bbc32cd3b9a17d1f1679e66e20d76d7aa7602ee457a8e26fcc3840dccedd63568382fb16e82727d9df91bb37cf5420a3588973cfae5b')
