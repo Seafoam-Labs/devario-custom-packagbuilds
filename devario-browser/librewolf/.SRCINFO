@@ -1,6 +1,6 @@
 pkgbase = librewolf
 	pkgdesc = Community-maintained fork of Firefox, focused on privacy, security and freedom
-	pkgver = 160.0_1
+	pkgver = 160.0.1_1
 	pkgrel = 1
 	url = https://librewolf.net/
 	arch = x86_64
@@ -43,10 +43,10 @@ pkgbase = librewolf
 	options = !strip
 	backup = usr/lib/librewolf/librewolf.cfg
 	backup = usr/lib/librewolf/distribution/policies.json
-	source = librewolf-160.0-1-linux-x86_64-package.tar.xz::https://codeberg.org/api/packages/librewolf/generic/librewolf/160.0-1/librewolf-160.0-1-linux-x86_64-package.tar.xz
+	source = librewolf-160.0.1-1-linux-x86_64-package.tar.xz::https://codeberg.org/api/packages/librewolf/generic/librewolf/160.0.1-1/librewolf-160.0.1-1-linux-x86_64-package.tar.xz
 	source = librewolf.desktop
 	source = MPL-2.0.txt
-	sha256sums = 7c751d4d279f05a2514298599ad3c43d4e85dd011ad2ecc07319c5a8c34a72e5
+	sha256sums = 07ab4fc73f401764890eb5c87dd7b5815c7783b1c7378ea789ca1330d362209b
 	sha256sums = 42546b4dced6795f6facb3e26c839ae1d12c6ddef48e8024d242082c515b1149
 	sha256sums = 66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172
 
