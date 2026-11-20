@@ -1,9 +1,16 @@
 # curl for Shelly
 
 Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/curl/-/blob/main/PKGBUILD),
-this recipe builds `curl 8.22.0-2` with explicit `libcurl.so=4-64` and
+this recipe builds `curl 8.23.0-2` with explicit `libcurl.so=4-64` and
 bare `libcurl.so` provisions. The packaging function checks the installed
 library's ELF64 class and SONAME before accepting the declared ABI.
+
+Libtool metadata is removed as with makepkg's default `!libtool` cleanup,
+which Shelly's native builder does not perform. Without it, `curl`,
+`libcurl-compat` and `libcurl-gnutls` all ship `usr/lib/libcurl.la`, and
+isolated roots containing more than one of them abort provisioning with
+`FileConflicts` (hit by `spotify-launcher`, which depends on
+`libcurl-gnutls` alongside the bootstrap `curl`).
 
 Source checksums and upstream build settings are retained, as is signature
 verification where present in Arch's recipe. The upstream split build also produces `libcurl-compat` and `libcurl-gnutls`. The requested provision belongs to the `curl` package.

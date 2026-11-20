@@ -8,7 +8,7 @@
 pkgbase=curl
 pkgname=(curl libcurl-compat libcurl-gnutls)
 pkgver=8.23.0
-pkgrel=1
+pkgrel=2
 pkgdesc='command line tool and library for transferring data with URLs'
 arch=('x86_64')
 url='https://curl.se/'
@@ -164,6 +164,9 @@ package_curl() {
   _verify_soname "$pkgdir/usr/lib/libcurl.so" libcurl.so.4 || return 1
   make DESTDIR="${pkgdir}" install -C scripts
 
+  # Match makepkg's default !libtool cleanup in Shelly's native builder.
+  rm "${pkgdir}/usr/lib/libcurl.la"
+
   cd "${srcdir}/${pkgname}"
 
   # license
@@ -192,7 +195,7 @@ package_libcurl-compat() {
   make -C lib DESTDIR="${pkgdir}" install
 
   mv "${pkgdir}"/usr/lib/libcurl{,-compat}.so.4.8.0
-  rm "${pkgdir}"/usr/lib/libcurl.{a,so}*
+  rm "${pkgdir}"/usr/lib/libcurl.{a,la,so}*
   for version in 3 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0 4.5.0 4.6.0 4.7.0; do
     ln -s libcurl-compat.so.4.8.0 "${pkgdir}"/usr/lib/libcurl.so.${version}
     ln -s libcurl-compat.so.4.8.0 "${pkgdir}"/usr/lib/libcurl-compat.so.${version}
@@ -225,7 +228,7 @@ package_libcurl-gnutls() {
   make -C lib DESTDIR="${pkgdir}" install
 
   mv "${pkgdir}"/usr/lib/libcurl{,-gnutls}.so.4.8.0
-  rm "${pkgdir}"/usr/lib/libcurl.{a,so}*
+  rm "${pkgdir}"/usr/lib/libcurl.{a,la,so}*
   ln -s libcurl-gnutls.so.4 "${pkgdir}"/usr/lib/libcurl-gnutls.so
   for version in 3 4 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0 4.5.0 4.6.0 4.7.0; do
     ln -s libcurl-gnutls.so.4.8.0 "${pkgdir}"/usr/lib/libcurl-gnutls.so.${version}

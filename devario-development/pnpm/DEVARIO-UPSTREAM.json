@@ -1,6 +1,7 @@
 {
   "name": "pnpm",
-  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pnpm/-/archive/main/pnpm-main.tar.gz",
-  "sha256": "37db1ed9b6bd782aed53c4a66084147bdf37a27aa5298f9a33e23070aa4bcdab",
-  "bytes": 4802
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/pnpm/-/archive/bc7ace26ea8550c8433697f9144b3f315852d3bf/pnpm-bc7ace26ea8550c8433697f9144b3f315852d3bf.tar.gz",
+  "sha256": "bd92b0112ce7b070fa8e6519d908d51e613407d3bdb1b6fe3625457ca4fdd3f1",
+  "bytes": 5501,
+  "note": "Re-import at Arch's upgpkg: 12.22.0-1 (bc7ace26). pnpm 12 is the Rust pnpm-cli; the previous recipe's pnpm11/ Node build with the upstream-binary bootstrap packaged the legacy 11.x line and is replaced by Arch's cargo build. Local adaptations: mold is dropped from makedepends and the RUSTFLAGS mold linker flag is removed because mold is not in the Devario repositories; everything else follows Arch, including the npm catalog step that generates cas-loader.mjs.inc and the pnpm.sh/pnpm.fish global-bin PATH files."
 }

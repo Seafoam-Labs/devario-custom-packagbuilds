@@ -9,5 +9,5 @@
     "Keep Cargo caches/output inside the recipe; fetch locked inputs in prepare and build/test frozen.",
     "Retain mandatory Spotify runtime libraries, source signatures, verification keyring, config, icons and licensing."
   ],
-  "known_failure": "Provided log stops during isolated root dependency installation with FileConflicts and omits conflicting paths; no recipe change can establish that conflict is resolved without a worker retry."
+  "known_failure": "Isolated root provisioning failed with FileConflicts on usr/lib/libcurl.la, shipped by both the curl and libcurl-gnutls archives because the curl recipe lacked makepkg's default !libtool cleanup. Corrected in curl 8.23.0-2; no spotify-launcher recipe change is needed. Publish the rebuilt curl, libcurl-compat and libcurl-gnutls archives, refresh the worker repository, and retry in a fresh isolated root."
 }
