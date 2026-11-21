@@ -1,0 +1,102 @@
+# Local adaptation for Seafoam Labs; based on the AUR jamesdsp recipe.
+# Reference: AUR jamesdsp recipe retrieved 2026-11-21; see DEVARIO-UPSTREAM.json.
+# Local changes: reset pkgrel, switch to b2sums, and wire the LiveprogIDE source
+# to the EELEditor submodule name used by upstream .gitmodules.
+# Maintainer: Mark Wagie <mark dot wagie at proton dot me>
+pkgname=jamesdsp
+_app_id=me.timschneeberger.jdsp4linux
+pkgver=2.7.0
+pkgrel=1
+pkgdesc="An audio effect processor for PipeWire clients"
+arch=('x86_64')
+url="https://github.com/Audio4Linux/JDSP4Linux"
+license=('GPL-3.0-or-later')
+depends=(
+  'glibmm'
+  'hicolor-icon-theme'
+  'libarchive'
+  'libpipewire'
+  'libxcb'
+  'qt6-base'
+  'qt6-svg'
+)
+makedepends=(
+  'desktop-file-utils'
+  'git'
+)
+checkdepends=('appstream')
+conflicts=('jdsp4linux' 'jdsp4linux-gui' 'gst-plugin-jamesdsp')
+source=("git+https://github.com/Audio4Linux/JDSP4Linux.git#tag=$pkgver"
+        'git+https://github.com/ThePBone/GraphicEQWidget.git'
+        'git+https://github.com/ThePBone/FlatTabWidget.git'
+        'git+https://github.com/ThePBone/LiquidEqualizerWidget.git'
+        'git+https://github.com/ThePBone/LiveprogIDE.git'
+        'gcc14.patch'
+        'pipewire-1.4.0.patch'
+        'qt-6.9.patch')
+b2sums=('SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        '1301e9300a3d10e1c0ee5bce33a9466f3a28b9a2b7b5c5b2b36321d3be26a344a8b539bef47f426bb7e86e99842e2e16289d236b6a1eca8cbeb822e9c1eb5e2e'
+        '3f76226a4a21c8f160259d6f2e0330a9251b8e551f97d5ee3ae4874ae1ed6c0a07344ab54c7ecf3db843457fe28327812cda7d3e49eca0cf81d4b13c5b8eb636'
+        '65788291ce07f569bb877d7f82c668f474d293e32f2cf44466dcb756b599c6ac86f7488ceea8a17303c3cfd535844c512a70695a1790b38923c1de083dc9a1c6')
+
+prepare() {
+  cd JDSP4Linux
+  git submodule init
+  for submodule in GraphicEQWidget FlatTabWidget LiquidEqualizerWidget; do
+    git config submodule.src/subprojects/"${submodule}".url "$srcdir/${submodule}"
+  done
+  # Upstream names the LiveprogIDE checkout EELEditor in .gitmodules.
+  git config submodule.src/subprojects/EELEditor.url "$srcdir/LiveprogIDE"
+  git -c protocol.file.allow=always submodule update
+
+  mkdir -p build
+
+  # Add StartupWMClass to desktop file
+  desktop-file-edit --set-key=StartupWMClass --set-value=jamesdsp \
+    "meta/flatpak/${_app_id}.desktop"
+
+  # https://github.com/Audio4Linux/JDSP4Linux/pull/191 (merged)
+  patch -Np1 -i ../gcc14.patch
+
+  # https://github.com/Audio4Linux/JDSP4Linux/pull/241 (merged)
+  patch -Np1 -i ../pipewire-1.4.0.patch
+
+  # https://github.com/Audio4Linux/JDSP4Linux/pull/246 (merged)
+  patch -Np1 -i ../qt-6.9.patch
+}
+
+build() {
+  cd JDSP4Linux
+
+  pushd build
+  qmake6 \
+    QMAKE_CFLAGS="${CFLAGS}" \
+    QMAKE_CXXFLAGS="${CXXFLAGS}" \
+    QMAKE_LFLAGS="${LDFLAGS}" \
+    ..
+  make
+  popd
+}
+
+check() {
+  cd JDSP4Linux
+  appstreamcli validate --no-net "meta/flatpak/${_app_id}.metainfo.xml" || :
+  desktop-file-validate "meta/flatpak/${_app_id}.desktop"
+}
+
+package() {
+  cd JDSP4Linux
+  install -Dm755 build/src/jamesdsp -t "$pkgdir/usr/bin/"
+  install -Dm644 resources/icons/icon.png \
+    "$pkgdir/usr/share/pixmaps/${_app_id}.png"
+  install -Dm644 resources/icons/icon.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/${_app_id}.svg"
+  install -Dm644 "meta/flatpak/${_app_id}.desktop" -t \
+    "$pkgdir/usr/share/applications/"
+  install -Dm644 "meta/flatpak/${_app_id}.metainfo.xml" -t \
+    "$pkgdir/usr/share/metainfo/"
+}
