@@ -5,7 +5,7 @@
 pkgbase=greetd
 pkgname=($pkgbase $pkgbase-agreety)
 pkgver=0.10.3
-pkgrel=2
+pkgrel=3
 pkgdesc='Generic greeter daemon'
 arch=(x86_64)
 url="https://git.sr.ht/~kennylevinsen/$pkgbase"
@@ -21,15 +21,21 @@ makedepends=(cargo
 #             'greetd-tuigreet: A console UI greeter')
 #             'greetd-regreet: Wayland greeter')
 _archive="$pkgbase-$pkgver"
-source=("$_archive.tar.gz::$url/archive/$pkgver.tar.gz"
+# Local patch: seamless overlap handoff (upstream PR #6 rebased onto 0.10.3,
+# session VT chosen via VT_OPENQRY instead of naive greeter-VT+1).
+# GitHub mirror of the sr.ht repo; archives are byte-identical (same sha256).
+source=("$_archive.tar.gz::https://github.com/kennylevinsen/$pkgbase/archive/refs/tags/$pkgver.tar.gz"
         "$pkgbase.sysusers"
-        "$pkgbase.pam")
+        "$pkgbase.pam"
+        "overlap-handoff.patch")
 sha256sums=('ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b'
             '896b7c9b5ec9c9c5795842db9b0f0d792b9d0ceda35891c5c169a9150795b8d1'
-            '993a3096c2b113e6800f2abbd5d4233ebf1a97eef423990d3187d665d3490b92')
+            '993a3096c2b113e6800f2abbd5d4233ebf1a97eef423990d3187d665d3490b92'
+            'c3bce70f343ae771f59bd6853543a4411825002d14e02069134854b42820e0b6')
 
 prepare() {
 	cd "$_archive"
+	patch -Np1 -i "$srcdir/overlap-handoff.patch"
 	sed -i -e '/feature.doc_cfg/d' greetd_ipc/src/lib.rs
 	cargo fetch --locked --target "$(rustc --print host-tuple)"
 }
