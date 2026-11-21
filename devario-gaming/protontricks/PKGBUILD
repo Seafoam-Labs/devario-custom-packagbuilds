@@ -3,7 +3,7 @@
 # Contributor: Konstantin Liberty <jon9097 at gmail dot com>
 
 pkgname=protontricks
-pkgver=1.15.0
+pkgver=1.15.1
 pkgrel=1
 pkgdesc="Run Winetricks commands for Steam Play/Proton games among other common Wine features"
 arch=('any')
@@ -28,7 +28,7 @@ optdepends=(
   'zenity: GUI for winetricks'
 )
 source=("git+$url.git#tag=$pkgver")
-b2sums=('54dc2c41eb17f41ec04a8c6ca7b0542ee10a6502a99a90c12ac597d58e58dd70f0e60300b909d74949e3a2b23232a8acb4127d8a19724aceced2b09cf7772e3a')
+b2sums=('e490e8a7a02173b909b5f680d233258540c3b97169ace660f50b3cf4f55df50152abe96fa8a1d7457eafc74ee9efe8f036fd4088cc1bc0ba6000bb8befcf653e')
 
 build() {
   cd $pkgname
