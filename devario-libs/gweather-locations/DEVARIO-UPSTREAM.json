@@ -1,0 +1,15 @@
+{
+  "name": "gweather-locations",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fgweather-locations/repository/archive.tar.gz?sha=80d1fc07b4cfea099573c57b3e12982766b5c3d2",
+  "sha256": "94f98be1e53fd3c699289ba5c426824de9cef068c00ab7ccc41fb263bda2b54c",
+  "bytes": 1898,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gweather-locations.git",
+  "commit": "80d1fc07b4cfea099573c57b3e12982766b5c3d2",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve source checksums and the Locations.xml full-path preparation fix."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "de54d9dd6745266065782e050da10a597fd97d67ee79a0c815c3c8c824f6b14f"
+}

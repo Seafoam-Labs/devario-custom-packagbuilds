@@ -1,0 +1,15 @@
+{
+  "name": "gthumb",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fgthumb/repository/archive.tar.gz?sha=c223ff6df6b52d15c550335749420a0124b8a3cb",
+  "sha256": "02e65d5ae005195e03ab2a7d55035f9a50a3bdaa568ea3ce4cc5e8278fd273d0",
+  "bytes": 2161,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gthumb.git",
+  "commit": "c223ff6df6b52d15c550335749420a0124b8a3cb",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 2.1.",
+    "Preserve source checksums and dependencies."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "3f2dea9f930bcbfa433c8758a91e016bf7905c4ac9a9914b2361482553997e48"
+}

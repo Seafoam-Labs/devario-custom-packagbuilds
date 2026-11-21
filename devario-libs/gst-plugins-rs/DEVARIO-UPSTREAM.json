@@ -1,0 +1,17 @@
+{
+  "name": "gst-plugins-rs",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fgst-plugins-rs/repository/archive.tar.gz?sha=0aeb8ae174db65bda2e24cd8d14a53c7141249f5",
+  "sha256": "ba35b74f96421a93aee2819706f69dbb1a7a6464db31f9d9affc201bc6a80fc6",
+  "bytes": 21183,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gst-plugins-rs.git",
+  "commit": "0aeb8ae174db65bda2e24cd8d14a53c7141249f5",
+  "local_changes": [
+    "Build only gst-plugin-gtk4 with cargo-c (-p gst-plugin-gtk4) instead of the full 59-output workspace split; gthumb needs only gtk4paintablesink.",
+    "Restrict cargo features to the gst-plugin-gtk4 crate: dmabuf, gtk_v4_20, v1_28, waylandegl, x11egl, x11glx.",
+    "Drop workspace-only build dependencies (csound, dav1d, vulkan, sodium, etc.) not needed by the gtk4 plugin.",
+    "Increment pkgrel to 2.1.",
+    "Preserve signed source, lockfile patch, checksums and signing key."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "fdb07c55d8b1391e8881e5140a095977b50bd558db8aafbbb8446d4f3840e0b9"
+}

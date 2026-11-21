@@ -1,0 +1,79 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+
+pkgname=gthumb
+pkgver=4.0.3
+pkgrel=2.1
+pkgdesc="Image browser and viewer for the GNOME Desktop"
+url="https://wiki.gnome.org/Apps/Gthumb"
+arch=(x86_64)
+license=(GPL-2.0-or-later)
+depends=(
+  cairo
+  dconf
+  exiv2
+  gdk-pixbuf2
+  giflib
+  glib2
+  glibc
+  graphene
+  gsettings-desktop-schemas
+  gst-plugin-gtk4 # for gtk4paintablesink
+  gst-plugins-bad-libs # for scaletempo
+  gst-plugins-base-libs # for glsinkbin, playbin
+  gst-plugins-good # for autovideoflip, videoflip
+  gstreamer
+  gtk4
+  hicolor-icon-theme
+  lcms2
+  libadwaita
+  libcolord
+  libgcc
+  libheif
+  libjpeg-turbo
+  libjxl
+  libpng
+  libportal
+  libportal-gtk4
+  libraw
+  librsvg
+  libstdc++
+  libtiff
+  libwebp
+  pango
+  zlib
+)
+makedepends=(
+  appstream
+  git
+  glib2-devel
+  meson
+  vala
+  yelp-tools
+)
+source=(
+  "git+https://gitlab.gnome.org/GNOME/gthumb.git#tag=$pkgver"
+)
+b2sums=('a6b151339c01d99d0c6eb839e12b56cab78acc24d29d3a871d08a9e1c88814af6cc33555bb7f705733fba24b20311d5ba6be4095e7b64c36464bc638dbaca463')
+
+prepare() {
+  cd gthumb
+}
+
+build() {
+  # Use Meson directly with the same native packaging settings.
+  meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+    --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+    -Db_pie=true -Dpython.bytecompile=1 gthumb build
+
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}

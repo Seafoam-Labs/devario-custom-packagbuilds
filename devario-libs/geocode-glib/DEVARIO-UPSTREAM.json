@@ -1,0 +1,15 @@
+{
+  "name": "geocode-glib",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fgeocode-glib/repository/archive.tar.gz?sha=201e03782ad0dcd598aff0483d94a60f4e5a79d6",
+  "sha256": "713ff760ee953c53057c3977c133490fd2c6eea42c55f99c666eb3d73256893f",
+  "bytes": 2055,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/geocode-glib.git",
+  "commit": "201e03782ad0dcd598aff0483d94a60f4e5a79d6",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 6.1.",
+    "Preserve source checksums, geocode-glib-2 provision and the docs split output."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "320d21ecb1d10c5a5ef3738fa67a340dc183b10cb976296503f2f4491acf6977"
+}

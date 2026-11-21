@@ -1,0 +1,15 @@
+{
+  "name": "loupe",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Floupe/repository/archive.tar.gz?sha=6a7e81fbe881cd1391e5b409c3d862f46157d15e",
+  "sha256": "bf0691b31c65709451ac3c4424c47c0b4773b4dd341ec7e6c7d0fc322e584e49",
+  "bytes": 2557,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/loupe.git",
+  "commit": "6a7e81fbe881cd1391e5b409c3d862f46157d15e",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve signed source, checksums, dependencies, signing key and locked Cargo cache preparation."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "4c0fec0bec595fc993c672f23e67b681125d5ac0c3c20f7bc918f4ca286c3363"
+}
