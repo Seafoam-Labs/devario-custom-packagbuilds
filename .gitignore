@@ -1,0 +1,19 @@
+# Downloaded sources: makepkg/Shelly fetch these into recipe dirs per source=();
+# they are re-downloaded on demand and pinned by checksums, never committed.
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+*.tar.lz
+*.tgz
+*.zip
+*.deb
+*.rpm
+*.AppImage
+*.sig
+
+# Build output and logs
+src/
+pkg/
+*.pkg.tar.*
+*.log
