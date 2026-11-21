@@ -1,0 +1,24 @@
+pkgbase = ckb-next
+	pkgdesc = Corsair Keyboard and Mouse RGB Driver
+	pkgver = 0.6.2
+	pkgrel = 5
+	url = https://github.com/ckb-next/ckb-next
+	arch = x86_64
+	license = GPL-2.0-only
+	makedepends = cmake
+	makedepends = qt6-tools
+	depends = qt6-base
+	depends = hicolor-icon-theme
+	depends = quazip-qt6
+	depends = libxcb
+	depends = xcb-util-wm
+	depends = systemd-libs
+	depends = bash
+	depends = glibc
+	depends = libpulse
+	depends = libgcc
+	depends = libstdc++
+	source = ckb-next-0.6.2.tar.gz::https://github.com/ckb-next/ckb-next/archive/v0.6.2.tar.gz
+	b2sums = bf419ca453735f9ea83483261f675f20c997cb6def323fcb9157509c6ad518b4d8c73c145509c0de9d2c74df14ed6501bb6a35013c4d4575757ce24394419fad
+
+pkgname = ckb-next

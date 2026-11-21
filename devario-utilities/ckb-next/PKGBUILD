@@ -1,0 +1,50 @@
+# Maintainer: Giovanni Harting <anonfunc@archlinux.org>
+# Contributor: Tasos Sahanidis <aur@tasossah.com>
+# Contributor: Light2Yellow <oleksii.vilchanskyi@gmail.com>
+
+pkgname=ckb-next
+pkgver=0.6.2
+pkgrel=5
+pkgdesc="Corsair Keyboard and Mouse RGB Driver"
+arch=(x86_64)
+url='https://github.com/ckb-next/ckb-next'
+license=(GPL-2.0-only)
+depends=(
+  qt6-base
+  hicolor-icon-theme
+  quazip-qt6
+  libxcb
+  xcb-util-wm
+  systemd-libs
+  bash
+  glibc
+  libpulse
+  libgcc
+  libstdc++
+)
+makedepends=(cmake qt6-tools)
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+b2sums=('bf419ca453735f9ea83483261f675f20c997cb6def323fcb9157509c6ad518b4d8c73c145509c0de9d2c74df14ed6501bb6a35013c4d4575757ce24394419fad')
+
+build() {
+  local cmake_options=(
+    -B build
+    -D CMAKE_BUILD_TYPE=None
+    -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_INSTALL_LIBDIR=lib
+    -D CMAKE_INSTALL_LIBEXECDIR=lib
+    -S "$pkgname-$pkgver"
+    -D DISABLE_UPDATER=1
+    -D UDEV_RULE_DIRECTORY=/usr/lib/udev/rules.d
+    -D FORCE_INIT_SYSTEM=systemd
+    -D PREFER_QT6=on
+  )
+  cmake "${cmake_options[@]}"
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
+
+# vim:set ts=2 sw=2 et:

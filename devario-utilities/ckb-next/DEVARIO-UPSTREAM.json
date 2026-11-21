@@ -1,0 +1,11 @@
+{
+  "name": "ckb-next",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fckb-next/repository/archive.tar.gz?sha=01fd35638daf0b214d9f1ac00f3814b180540d7e",
+  "sha256": "a50b8529daf4883a8a4a5c230c05c947cdcb2cbfb1857aaeff2d86c8e1da75ae",
+  "bytes": 1961,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ckb-next.git",
+  "commit": "01fd35638daf0b214d9f1ac00f3814b180540d7e",
+  "local_changes": [],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "c042afa3b374df3b0a1ddbca24b29bda3c1f0bff8ffb134ae61b403cb2ded1b6"
+}
