@@ -1,0 +1,10 @@
+{
+  "name": "mangojuice",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=mangojuice&id=3d5fcf399d926e9f8fa73c388f2df41360ac17ad",
+  "sha256": "5e802ab2dc31ef73657c9371f7ac97c00fe77803308fe81f208f9d2810f9477f",
+  "bytes": 793,
+  "retrieved_on": "2026-11-21",
+  "local_adaptation": true,
+  "note": "Reference only; final source inputs use upstream project URLs, not AUR. Updated to upstream 1.0.0 (AUR recipe is stale at 0.9.0) and named the source archive mangojuice-1.0.0.tar.gz.",
+  "commit": "3d5fcf399d926e9f8fa73c388f2df41360ac17ad"
+}
