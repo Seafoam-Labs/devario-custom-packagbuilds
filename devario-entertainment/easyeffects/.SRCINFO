@@ -1,6 +1,6 @@
 pkgbase = easyeffects
 	pkgdesc = Audio Effects for Pipewire applications
-	pkgver = 8.3.1
+	pkgver = 8.3.3
 	pkgrel = 1
 	url = https://github.com/wwmm/easyeffects
 	install = easyeffects.install
@@ -40,9 +40,9 @@ pkgbase = easyeffects
 	optdepends = x42-plugins-lv2: autotune plugin
 	optdepends = yelp: in-app help
 	optdepends = zam-plugins-lv2: maximizer
-	source = https://github.com/wwmm/easyeffects/archive/v8.3.1/easyeffects-v8.3.1.tar.gz
+	source = https://github.com/wwmm/easyeffects/archive/refs/tags/v8.3.3.tar.gz
 	source = easyeffects.install
-	sha512sums = c4c9081630e5b4f065b96ef63581f3bd2e917f12daedc52088c71868fc7c50188a1144723fc4048842e3ea96129e51ec8904e9654be49c0be3e2b514af05ff88
+	sha512sums = acd5410a5d733cc5bdaa5f1fb195f9fdf511618c8bf988079ca310abfb1f28a92ca64584c79dbeae42d0729e558ad07c6732b50936737d6d56e01fe26c33b39f
 	sha512sums = 3ac25bade559dae2c8efd4332df77387adcae413757f0b3814ba0523c17bd2ac3b7479624e4e7bc4e67e8c6961f43ea779de31e2079a7d61887f0033bc0c8101
 
 pkgname = easyeffects
