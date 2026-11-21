@@ -1,0 +1,7 @@
+{
+  "name": "p7zip",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/p7zip/-/archive/151230aadf37a41abe762318c49f1b9a3ecdc230/p7zip-151230aadf37a41abe762318c49f1b9a3ecdc230.tar.gz",
+  "sha256": "9fdb9eb70c7afb51de6ac2125efb414a4a0a83bcc0f52406a0eea1e89ac02f55",
+  "bytes": 1717,
+  "git_commit": "151230aadf37a41abe762318c49f1b9a3ecdc230"
+}
