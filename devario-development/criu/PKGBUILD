@@ -1,0 +1,83 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Pavel Borzenkov <pavel@voidptr.ru>
+# Contributor: aksr <aksr at t-com dot me>
+
+pkgname=criu
+pkgver=4.3.1
+pkgrel=2
+pkgdesc='Utilities to checkpoint and restore processes in userspace'
+arch=(x86_64)
+url='https://criu.org'
+license=(
+  GPL-2.0-only
+  LGPL-2.1-only
+)
+depends=(
+  glibc
+  gnutls
+  libbpf
+  libbsd
+  libdrm
+  libgcc
+  libnet
+  libnl
+  nftables
+  protobuf-c
+  python
+  python-protobuf
+  util-linux-libs
+)
+makedepends=(
+  asciidoc
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+  xmlto
+)
+# Cant run tests (only unit tests) due to privilege escalation required.
+# https://github.com/checkpoint-restore/criu/issues/434
+# checkdepends=(
+#   libaio
+#   python-yaml
+# )
+provides=(
+  libcompel.so
+  libcriu.so
+)
+options=(!lto)
+source=("git+https://github.com/checkpoint-restore/criu#tag=v$pkgver")
+sha512sums=('a503a8ea833319a00c478366868c8313c424cdfd61f4f5e3119fcfc93ccde230614deef848595672311be1189aede33ab2f6147629c20dcccb16510d4d287f32')
+b2sums=('f70b3d496d67007a3cdc51716facdacf11331bc1e2a9db97218c0f66e45143aecdbcd14fb6e66b668380dc7e9840e8e655dcce7246447787600ae6ec4ce12895')
+
+build() {
+  cd "$pkgname"
+  # shellcheck disable=SC2001
+  export CFLAGS=$(echo "$CFLAGS" | sed 's/-Wp,-D_FORTIFY_SOURCE=[0-9]//g')
+  make criu crit amdgpu_plugin docs
+  python -m build --wheel --no-isolation crit
+  python -m build --wheel --no-isolation --skip-dependency-check lib
+}
+
+check() {
+  cd "$pkgname"
+  make unittest
+  # make test
+}
+
+package() {
+  cd "$pkgname"
+  make \
+    DESTDIR="$pkgdir" \
+    PREFIX=/usr \
+    SBINDIR=/usr/bin \
+    LIBDIR=/usr/lib \
+    LIBEXECDIR=/usr/lib \
+    install
+  python -m installer --destdir="$pkgdir" crit/dist/*.whl
+  python -m installer --destdir="$pkgdir" lib/dist/*.whl
+  # Remove empty directory to silence namcap warning.
+  rm -vr "$pkgdir/usr/include/compel/common/asm"
+}

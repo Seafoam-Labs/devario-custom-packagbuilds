@@ -1,0 +1,14 @@
+pkgbase = podlet
+	pkgdesc = Generate Podman Quadlet files from a Podman command, compose file, or existing object
+	pkgver = 0.3.2
+	pkgrel = 2
+	url = https://github.com/containers/podlet
+	arch = x86_64
+	license = MPL-2.0
+	makedepends = cargo
+	depends = glibc
+	depends = libgcc
+	source = podlet-0.3.2.tar.gz::https://github.com/containers/podlet/archive/v0.3.2.tar.gz
+	sha256sums = 2dee85888e0f4ad1d8d7f6c7579d00faa69bb8dbcb4708706ef8db92e41f9bef
+
+pkgname = podlet

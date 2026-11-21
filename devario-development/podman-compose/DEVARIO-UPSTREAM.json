@@ -1,0 +1,11 @@
+{
+  "name": "podman-compose",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpodman-compose/repository/archive.tar.gz?sha=9b1b72561c73a76abe55c3e486f654d2e4555939",
+  "sha256": "cdf0f0ae812ff9f99e223db49b67cbce2e5adb4b185ae7fa9ce02772d0a25288",
+  "bytes": 2313,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/podman-compose.git",
+  "commit": "9b1b72561c73a76abe55c3e486f654d2e4555939",
+  "local_changes": [],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "0fb81f4fa039feb9f735f286dbd99b19e968ee077a7d6a0ab98bdff276879cd7"
+}

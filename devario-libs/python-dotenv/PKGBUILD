@@ -1,0 +1,28 @@
+# Maintainer: Andrew Crerar <crerar@archlinux.org>
+# Contributor: Kevin Azzam <aur@azz.am>
+# Contributor: David Runge <dave@sleepmap.de>
+
+pkgname=python-dotenv
+pkgver=1.2.4
+pkgrel=1
+pkgdesc="Get and set values in your .env file in local and production servers"
+arch=('any')
+url="https://github.com/theskumar/python-dotenv/"
+license=('BSD')
+depends=('python-click')
+makedepends=('python-setuptools' 'python-build' 'python-installer' 'python-wheel')
+optdepends=('ipython: ipython support')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/theskumar/python-dotenv/archive/v${pkgver}.tar.gz")
+b2sums=('9b13c67e2657bd2f7aa9969cfd0f6f30de2de7784c9b0f2fccfae52283f8f9f1aaabf63ade750c800e13e6e361fe10dd27a8f704f14ec42351a30e8df024b8fb')
+
+build() {
+    cd "${pkgname}-${pkgver}"
+    python -m build --wheel --no-isolation
+}
+
+package() {
+    cd "${pkgname}-${pkgver}"
+
+    python -m installer --destdir="$pkgdir" dist/*.whl
+    install -Dm0644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

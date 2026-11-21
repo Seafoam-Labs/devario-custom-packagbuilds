@@ -1,0 +1,74 @@
+# Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
+# Maintainer: David Runge <dvzrv@archlinux.org>
+
+pkgname=podman-compose
+pkgver=1.6.0
+pkgrel=1
+pkgdesc='A script to run docker-compose.yml using podman'
+arch=(any)
+url='https://github.com/containers/podman-compose'
+license=(GPL-2.0-only)
+depends=(
+  podman
+  python
+  python-dotenv
+  python-yaml
+)
+makedepends=(
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+checkdepends=(
+  python-pytest
+  python-parameterized
+)
+optdepends=(
+  'aardvark-dns: resolve hostnames of linked containers'
+)
+source=($pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz)
+sha512sums=('61b3ad7e7fbff109049ec25daf6231acb9627f5fe5b3dee95592cc16d1d35255a8ae2d33721c37bfc95e68378407fbabbccd4924af6fd2dff709de534b90f2f0')
+b2sums=('90a35e331a779dafd7aa0325c34e1d321cf34f9b0f7ace8840a9a2a861e840c730a038c327c1a2402b7abde7e1a030e16a5f97e618ae8de52b3215197beece69')
+
+build() {
+  cd $pkgname-$pkgver
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  local pytest_options=(
+    -vv
+    # ignore tests where podman is called (as we can not run the tests due to missing subuid/subgid entries)
+    --ignore tests/integration
+    --ignore tests/test_podman_compose.py
+    --ignore tests/test_podman_compose_additional_contexts.py
+    --ignore tests/test_podman_compose_build_secrets.py
+    --ignore tests/test_podman_compose_build_ulimits.py
+    --ignore tests/test_podman_compose_config.py
+    --ignore tests/test_podman_compose_in_pod.py
+    --ignore tests/test_podman_compose_include.py
+    --ignore tests/test_podman_compose_networks.py
+    --ignore tests/test_podman_compose_tests.py
+    --ignore tests/test_podman_compose_up_down.py
+    --ignore tests/test_utils.py
+  )
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+
+  cd $pkgname-$pkgver
+  # install to temporary location, as importlib is used
+  python -m installer --destdir=test_dir dist/*.whl
+  export PYTHONPATH="$PWD/test_dir/$site_packages:$PYTHONPATH"
+  pytest "${pytest_options[@]}"
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  find examples -type f -exec install -vDm 644 {} "$pkgdir/usr/share/doc/$pkgname/"{} \;
+  install -vDm 644 {README.md,docs/*} -t "$pkgdir/usr/share/doc/$pkgname/"
+}
+
+# vim:set ts=2 sw=2 et:

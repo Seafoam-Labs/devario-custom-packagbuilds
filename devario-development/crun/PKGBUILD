@@ -1,0 +1,56 @@
+# Maintainer: Morten Linderud <foxboron@archlinux.org>
+# Contributor: hexchian <i at hexchain dot org>
+
+pkgbase=crun
+pkgname=(crun)
+pkgver=1.31
+pkgrel=1.1
+pkgdesc="A fast and lightweight fully featured OCI runtime and C library for running containers"
+url="https://github.com/containers/crun"
+license=('LGPL-2.1-or-later')
+arch=('x86_64')
+provides=('oci-runtime')
+makedepends=(
+  'criu'
+  'git'
+  'go-md2man'
+  'json-c'
+  'libblake3'
+  'libcap'
+  'libseccomp'
+  'libtool'
+  'python'
+  'systemd'
+)
+source=(
+  "git+https://github.com/containers/crun.git#tag=$pkgver?signed"
+)
+validpgpkeys=(
+  'AC404C1C0BF735C63FF4D562263D6DF2E163E1EA' # Giuseppe Scrivano <gscrivano@gnu.org>
+  'C2428CD75720FACDCF76B6EA17DE5ECB75A1100E' # Kir Kolyshkin <kolyshkin@gmail.com>
+)
+sha256sums=('67465095f19ef9a368ec11b6e4f24b99bfefd55e74f602395f90ed069188dd46')
+
+build() {
+    cd "$pkgname"
+    ./autogen.sh
+    ./configure \
+        --prefix=/usr \
+        --enable-shared \
+        --enable-dynamic \
+        --with-python-bindings
+    make
+}
+
+package_crun() {
+    depends=(
+      'criu'
+      'json-c'
+      'libblake3'
+      'libcap'
+      'libseccomp'
+      'systemd-libs'
+    )
+
+    make -C "$pkgname" DESTDIR="$pkgdir" install
+}

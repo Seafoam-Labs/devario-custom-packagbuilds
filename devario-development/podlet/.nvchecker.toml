@@ -1,0 +1,4 @@
+[podlet]
+source = "git"
+git = "https://github.com/containers/podlet.git"
+prefix = "v"

@@ -1,0 +1,11 @@
+{
+  "name": "criu",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fcriu/repository/archive.tar.gz?sha=5687a7bcc51f61fa827a8f0c824f9b0c217d5f71",
+  "sha256": "dd0653f38783b0fc2525d929978289961d86b20589daab26a3345540b2170499",
+  "bytes": 2341,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/criu.git",
+  "commit": "5687a7bcc51f61fa827a8f0c824f9b0c217d5f71",
+  "local_changes": [],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "0f61e5830f2926e064bf8a45b014d38de6c4a4cd76091044c9a5ddfcc50744a4"
+}

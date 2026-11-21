@@ -1,0 +1,11 @@
+{
+  "name": "python-dotenv",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpython-dotenv/repository/archive.tar.gz?sha=477022331677bad9ae93e3c3febe3d23f2899a40",
+  "sha256": "c5eed6b7ab7756f4491fc94482fbed07fbfb8692246d8f99a250f4aa772bc5ec",
+  "bytes": 1748,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/python-dotenv.git",
+  "commit": "477022331677bad9ae93e3c3febe3d23f2899a40",
+  "local_changes": [],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "2de6a2e3b42f48681d2ba1549cbe8ac528edd3bdd05ec41f03f3bfc5f23432d3"
+}

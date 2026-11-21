@@ -1,0 +1,15 @@
+{
+  "name": "crun",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fcrun/repository/archive.tar.gz?sha=c4fc07338f95f3eae5fea3206c643fda86c42070",
+  "sha256": "522bb862db1f24f4415e491fd61de33f1ffa8d1baa190a0d86a3e256e8c9938a",
+  "bytes": 11830,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/crun.git",
+  "commit": "c4fc07338f95f3eae5fea3206c643fda86c42070",
+  "local_changes": [
+    "Drop libkrun build dependency, --with-libkrun and the krun split output; libkrun is not packaged in this repository.",
+    "Increment pkgrel to 1.1.",
+    "Preserve signed source, signing keys, checksums, python bindings and oci-runtime provision."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "dddbc1a735ea07203b70a03f1c867c206e116c4171162227f6cef3d5c28d001f"
+}

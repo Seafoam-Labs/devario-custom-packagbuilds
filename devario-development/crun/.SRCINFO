@@ -1,0 +1,30 @@
+pkgbase = crun
+	pkgdesc = A fast and lightweight fully featured OCI runtime and C library for running containers
+	pkgver = 1.31
+	pkgrel = 1.1
+	url = https://github.com/containers/crun
+	arch = x86_64
+	license = LGPL-2.1-or-later
+	makedepends = criu
+	makedepends = git
+	makedepends = go-md2man
+	makedepends = json-c
+	makedepends = libblake3
+	makedepends = libcap
+	makedepends = libseccomp
+	makedepends = libtool
+	makedepends = python
+	makedepends = systemd
+	provides = oci-runtime
+	source = git+https://github.com/containers/crun.git#tag=1.31?signed
+	validpgpkeys = AC404C1C0BF735C63FF4D562263D6DF2E163E1EA
+	validpgpkeys = C2428CD75720FACDCF76B6EA17DE5ECB75A1100E
+	sha256sums = 67465095f19ef9a368ec11b6e4f24b99bfefd55e74f602395f90ed069188dd46
+
+pkgname = crun
+	depends = criu
+	depends = json-c
+	depends = libblake3
+	depends = libcap
+	depends = libseccomp
+	depends = systemd-libs

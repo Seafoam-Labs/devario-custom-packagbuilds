@@ -1,0 +1,11 @@
+{
+  "name": "podlet",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fpodlet/repository/archive.tar.gz?sha=136de333d3482a529fa4d48404c4e66fe408d0f7",
+  "sha256": "4782f61d97d868aec6610a8bbb6550003417dd0ba1a5b9a590047b00dd023e89",
+  "bytes": 1699,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/podlet.git",
+  "commit": "136de333d3482a529fa4d48404c4e66fe408d0f7",
+  "local_changes": [],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "fc88d3191c0267112475d81e0d14eb7500273c185aff8b97739fa15a2e64ae66"
+}
