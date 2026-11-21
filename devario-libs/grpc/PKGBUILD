@@ -5,7 +5,7 @@
 
 pkgbase='grpc'
 pkgname=('grpc' 'python-grpcio' 'python-grpcio-tools' 'php-grpc' 'php-legacy-grpc' 'grpc-cli')
-pkgver=1.85.3
+pkgver=1.85.4
 pkgrel=1
 _protobuf_ver=36.2
 pkgdesc="High performance, open source, general RPC framework that puts mobile and HTTP/2 first."
@@ -36,13 +36,13 @@ makedepends=(
   're2c'
 )
 source=(
-    "$pkgbase::git+https://github.com/grpc/grpc.git#tag=v1.85.3"
+    "$pkgbase::git+https://github.com/grpc/grpc.git#tag=v1.85.4"
     "${pkgname}-grpc-proto::git+https://github.com/grpc/grpc-proto.git"
     "${pkgname}-googletest::git+https://github.com/google/googletest.git"
     "https://github.com/protocolbuffers/protobuf/archive/v${_protobuf_ver}/protobuf-${_protobuf_ver}.tar.gz"
     "fix-python-system-abseil.patch"
 )
-sha256sums=('21972583172cd77d818997b3e360d37a83035e484a646ab55f123abe83e3884c'
+sha256sums=('cd21e21a55768ad2d7ccd753bd3464fa9d8891c5f6be622e1f5f09247b990b93'
             'SKIP'
             'SKIP'
             '7e7eaf580ec77f1a392ff1ab1013c13d3b04a6716f002f697f67f3c1113f0530'
