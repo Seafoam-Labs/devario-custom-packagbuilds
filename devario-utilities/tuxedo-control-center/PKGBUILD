@@ -1,0 +1,75 @@
+# Based on the AUR recipe maintained by sukanka <su975853527 [AT] gmail [DOT] com>
+# Originally from the Manjaro Team (Philip Müller, Helmut Stult, Steven Seifried)
+
+pkgname=tuxedo-control-center
+pkgver=3.0.10
+pkgrel=4
+pkgdesc='Performance, power, fan and comfort controls for TUXEDO laptops'
+arch=('x86_64')
+url='https://github.com/tuxedocomputers/tuxedo-control-center'
+license=('GPL-3.0-or-later')
+_electron=electron42
+depends=('dbus' "$_electron" 'glibc' 'hicolor-icon-theme' 'libgcc' 'libstdc++' 'polkit' 'python')
+makedepends=('git' 'nodejs' 'npm' 'openssh')
+optdepends=('tuxedo-drivers-dkms: fan control and other TUXEDO hardware features'
+            'upower: keyboard backlight on supported models')
+options=('!strip' '!debug') # Stripping would remove tccd's appended Node.js payload.
+install=$pkgname.install
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        "$pkgname.install"
+        "$pkgname.sh"
+        "$pkgname-paths.patch"
+        'electron-builder.yml')
+sha256sums=('d192391c559789c8f62af0e614e37e1222c9aa9753c61a30e3149b35d1969532'
+            '1bea02fdf67d0097532cd9f8091747ea61144bbc6c7bd64c4d9287715240adae'
+            'b6c04ae1062d36a1806a599aeb0659d402db06f4c01481155cf76413e5310a3c'
+            'c603ab0b420efa38a8a6ef1491989621892322236ab4989dd78fd176b585a665'
+            'd3d28f8c61e56702693d22995256f52fb74a9d7a9adf1674068628c71af1857f')
+sha512sums=('fa7d98ff573e873ea5791097579a31a14ff58978406681157f55c1097f35c6ca9a726a3ad2e347c2941fb16d2ab5cda6862b39858405421f935870a1c5a132b2'
+            '1badbbebc40c4a413e0f7a1c920c2b3c120b5d3371f6b538dec07c0eac3d58080df31d8c3dbab71d9722e43d8f703d5f6c8332196c71b81e5c08d8e81614be66'
+            'f0ef89b97f01f67c1647cfa559702760f9d2fe82298cfda6593709dce79a4052d18168f7c1cdcfa0ea1162441e010d454b433b6cdbf56cd83e8c527d0778c3c9'
+            'b78e771e8f32b4a1811dcbf586da02db5c7ba3c32e51e3a453e6cde7ef1d79649be0d436a8b120fae0e8383849c675ee588bb8c5323a0fd091e743d4c9b66420'
+            '5e565845836649227c9a28188c59caf745754e7375f77f81ca6ee87d62d92009eb1b3f9e894119cb2a5e7853f7cda6cecce633c38eef5c49a33ee232b6542603')
+
+prepare() {
+  sed "s/@ELECTRON@/$_electron/g" "$srcdir/$pkgname.sh" > "$srcdir/$pkgname"
+  cd "$srcdir/$pkgname-$pkgver"
+  patch -Np1 -i "$srcdir/$pkgname-paths.patch"
+  cp "$srcdir/electron-builder.yml" .
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  local electron_dist="/usr/lib/$_electron" electron_version
+  electron_version=$(<"$electron_dist/version")
+  export HOME="$srcdir" XDG_CACHE_HOME="$srcdir/.cache"
+  export ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm_config_allow_git=root
+
+  # Skip upstream's install-time rebuild; the packager rebuilds against system Electron.
+  npm ci --ignore-scripts --no-audit --no-fund --cache "$srcdir/npm-cache"
+  ./node_modules/.bin/patch-package --error-on-fail
+  npm run build-prod
+  ./node_modules/.bin/electron-builder --linux dir \
+    -c.electronDist="$electron_dist" -c.electronVersion="${electron_version#v}"
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  local appdir="$pkgdir/usr/lib/$pkgname"
+  local data=src/dist-data dist="dist/$pkgname" resources=dist/packages/linux-unpacked/resources
+
+  install -Dm644 -t "$appdir" "$resources/app.asar"
+  cp -a "$resources/app.asar.unpacked" "$appdir/"
+  install -Dm755 -t "$appdir/data/service" "$dist/data/service/tccd"
+  install -Dm644 -t "$appdir/data/camera" "$dist/data/camera/"{cameractrls.py,v4l2_kernel_names.json}
+
+  install -Dm755 "$srcdir/$pkgname" "$pkgdir/usr/bin/$pkgname"
+  install -Dm644 -t "$pkgdir/usr/share/applications" "$data/$pkgname"{,-tray}.desktop
+  install -Dm644 "$data/${pkgname}_256.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/$pkgname.png"
+  install -Dm644 "$data/${pkgname}_256.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/$pkgname.svg"
+  install -Dm644 -t "$pkgdir/usr/share/metainfo" "$data/com.tuxedocomputers.tcc.metainfo.xml"
+  install -Dm644 -t "$pkgdir/usr/share/polkit-1/actions" "$data/com.tuxedocomputers."{tccd,tomte}.policy
+  install -Dm644 -t "$pkgdir/usr/share/dbus-1/system.d" "$data/com.tuxedocomputers.tccd.conf"
+  install -Dm644 -t "$pkgdir/usr/lib/systemd/system" "$data/tccd"{,-sleep}.service
+  install -Dm644 -t "$pkgdir/usr/lib/udev/rules.d" src/udev/99-webcam.rules
+}
