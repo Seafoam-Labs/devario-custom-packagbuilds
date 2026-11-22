@@ -1,0 +1,17 @@
+{
+  "name": "x42-plugins",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fx42-plugins/repository/archive.tar.gz?sha=8499caa0668df881bc5155aa171e421aad327da7",
+  "sha256": "43bf1cddc3666050c300be03991042fe00f8d78c03e3a1459681f3ca3c3d9673",
+  "bytes": 6011,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/x42-plugins.git",
+  "commit": "8499caa0668df881bc5155aa171e421aad327da7",
+  "local_changes": [
+    "Package only the LV2 output (x42-plugins-lv2) needed by easyeffects; the full upstream build is preserved, but the JACK standalone and meta outputs are not packaged.",
+    "Drop the gendesk desktop-file generation and the png, menu and directory sources used only for standalone integration.",
+    "Remove packaged files outside usr/lib/lv2 in package_x42-plugins-lv2().",
+    "Increment pkgrel to 1.1.",
+    "Preserve the tarball checksums, build, check() and the upstream LV2 output dependencies."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "266e2c0f3626c54056528c4020a489861cfcd5da6a76b3e766cb1dd81410d441"
+}

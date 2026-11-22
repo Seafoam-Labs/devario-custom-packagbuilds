@@ -18,6 +18,11 @@ promoting it; previously the switch only happened in alarm(), which found
 the overlap already taken and did nothing, stranding the session on an
 inactive VT.
 
+VT-mode fix: the overlap switch must not use VT_SETACTIVATE/VT_AUTO on the
+session VT. logind prepares controlled graphical sessions as KD_GRAPHICS +
+VT_PROCESS; forcing VT_AUTO leaves KD_GRAPHICS + VT_AUTO, which Linux ignores
+for later switch-away requests. Use plain VT_ACTIVATE + VT_WAITACTIVE instead.
+
 No new cargo dependencies; Cargo.lock is untouched.
 
 --- a/greetd/src/config/mod.rs
@@ -91,6 +96,17 @@ No new cargo dependencies; Cargo.lock is untouched.
      fn invalid_general() {
          assert!(parse_config(
              "
+--- a/greetd/src/terminal/mod.rs
++++ b/greetd/src/terminal/mod.rs
+@@ -101,7 +101,7 @@
+     }
+ 
+     /// Switches to the specified VT and waits for completion of switch.
+-    fn vt_activate(&self, target_vt: usize) -> Result<(), Error> {
++    pub fn vt_activate(&self, target_vt: usize) -> Result<(), Error> {
+         if let Err(v) = unsafe { ioctl::vt_activate(self.fd, target_vt as i32) } {
+             return Err(format!("terminal: unable to activate: {}", v).into());
+         }
 --- a/greetd/src/context.rs
 +++ b/greetd/src/context.rs
 @@ -17,9 +17,17 @@
@@ -101,11 +117,11 @@ No new cargo dependencies; Cargo.lock is untouched.
  };
  use greetd_ipc::AuthMessageType;
  
-+/// Activate (switch to) the given VT. Used by the overlap hand-off to bring the
-+/// pre-started session's VT to the foreground.
++/// Activate the session VT without resetting its mode; logind owns VT_PROCESS
++/// for controlled graphical sessions, and VT_AUTO + KD_GRAPHICS traps switches.
 +fn switch_vt(vt: usize) -> Result<(), Error> {
 +    let term = Terminal::open("/dev/tty0").map_err(|e| Error::Error(format!("open tty0: {}", e)))?;
-+    term.vt_setactivate(vt)
++    term.vt_activate(vt)
 +}
 +
  struct SessionChildSet {
@@ -257,7 +273,7 @@ No new cargo dependencies; Cargo.lock is untouched.
                      let (was_greeter, sesion_length) = match &inner.current {
                          Some(s) if s.child.owns_pid(pid) => {
                              let res = (s.is_greeter, s.time.elapsed());
-@@ -353,6 +435,18 @@
+@@ -353,6 +435,20 @@
                          _ => continue,
                      };
  
@@ -267,7 +283,9 @@ No new cargo dependencies; Cargo.lock is untouched.
 +                    // the display is never left blank, then promote it.
 +                    if let Some(session) = inner.overlapping.take() {
 +                        if let TerminalMode::Terminal { vt, .. } = &self.session_term_mode {
-+                            let _ = switch_vt(*vt);
++                            if let Err(e) = switch_vt(*vt) {
++                                eprintln!("overlap vt switch to {} after greeter exit failed: {}", vt, e);
++                            }
 +                        }
 +                        inner.current = Some(session);
 +                        continue;

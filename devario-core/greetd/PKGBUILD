@@ -5,7 +5,7 @@
 pkgbase=greetd
 pkgname=($pkgbase $pkgbase-agreety)
 pkgver=0.10.3
-pkgrel=3
+pkgrel=4
 pkgdesc='Generic greeter daemon'
 arch=(x86_64)
 url="https://git.sr.ht/~kennylevinsen/$pkgbase"
@@ -23,6 +23,7 @@ makedepends=(cargo
 _archive="$pkgbase-$pkgver"
 # Local patch: seamless overlap handoff (upstream PR #6 rebased onto 0.10.3,
 # session VT chosen via VT_OPENQRY instead of naive greeter-VT+1).
+# Overlap handoff activates the session VT without resetting logind VT_PROCESS.
 # GitHub mirror of the sr.ht repo; archives are byte-identical (same sha256).
 source=("$_archive.tar.gz::https://github.com/kennylevinsen/$pkgbase/archive/refs/tags/$pkgver.tar.gz"
         "$pkgbase.sysusers"
@@ -31,7 +32,7 @@ source=("$_archive.tar.gz::https://github.com/kennylevinsen/$pkgbase/archive/ref
 sha256sums=('ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b'
             '896b7c9b5ec9c9c5795842db9b0f0d792b9d0ceda35891c5c169a9150795b8d1'
             '993a3096c2b113e6800f2abbd5d4233ebf1a97eef423990d3187d665d3490b92'
-            'c3bce70f343ae771f59bd6853543a4411825002d14e02069134854b42820e0b6')
+            'b14734410dc0236a892992ad97832a48f09dbe4b82f072ad9dc022b606d1f3ab')
 
 prepare() {
 	cd "$_archive"

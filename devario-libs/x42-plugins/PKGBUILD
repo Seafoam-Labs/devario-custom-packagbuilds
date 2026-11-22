@@ -1,0 +1,277 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Contributor: Lieven Moors <lievenmoors@gmail.com>
+# Adapted for Devario from Arch Linux packaging: ship only the LV2 output
+# (x42-plugins-lv2) needed by easyeffects. The upstream build is preserved,
+# but the JACK standalones are not packaged, so their desktop integration
+# (gendesk, menu and directory files, icons) is dropped.
+
+pkgbase=x42-plugins
+pkgname=(x42-plugins-lv2)
+pkgver=20260908
+pkgrel=1.1
+pkgdesc="Professional audio processing units available as LV2-plugin and JACK-application"
+arch=(x86_64)
+url="https://x42-plugins.com/x42/"
+license=(
+  GPL-2.0-or-later
+  GPL-3.0-or-later
+)
+makedepends=(
+  cairo
+  fftw
+  ftgl
+  glu
+  glib2
+  help2man
+  jack
+  liblo
+  libltc
+  libsamplerate
+  libsndfile
+  lv2
+  pango
+  ttf-dejavu
+)
+checkdepends=(
+  kxstudio-lv2-extensions
+  lv2lint
+)
+source=(
+  https://gareus.org/misc/$pkgbase/$pkgbase-$pkgver.tar.xz
+)
+sha512sums=('8ea8f68eeb0bbd7365f830026df2a72ae9c2c8f729d6240ae48cce484ee11a1e82d54a04e75b1cb8d35df714404672da70d71f78cd97f309f303ab81fe223131')
+b2sums=('8dce3edc1e21fd7d1275c3478d5c60a83d78d97673097230f482968c53d5a016bccbd5184eb55dadfcd2e77936304a4f43c5c5b5e7dd80bd63e48a0dab8acfa3')
+
+prepare() {
+  cd $pkgbase-$pkgver
+  # moving images to correct location so installation is not such a hassle later on
+  mv -v fat1.lv2/img/x42{_,-}fat1.png
+  mv -v fil4.lv2/img/x42{_,-}fil4.png
+  mv -v mixtri.lv2/img/x42{_,-}mixtri.png
+  mv -v meters.lv2/img/x42-meter{s,}.png
+  mv -v matrixmixer.lv2/img/x42-matrixmixer{,8x8}.png
+}
+
+build() {
+  cd $pkgbase-$pkgver
+  # replace ttf-freefont with ttf-liberation
+  export FONTFILE=/usr/share/fonts/TTF/DejaVuSans-Bold.ttf
+  make
+}
+
+check() {
+  local _name _version _convolver _controlfilter _default _meter _midifilter _onsettrigger _sisco _tuna
+  local _controlfilters=(
+    exp
+    invert
+    linearscale
+    lowpass
+    nlog
+  )
+  local _convolvers=(
+    Mono
+    MonoToStereo
+    Stereo
+  )
+  local _defaults=(
+    mono
+    stereo
+  )
+  local _meters=(
+    VUmono
+    VUstereo
+    BBCmono
+    BBCstereo
+    BBCM6
+    EBUmono
+    EBUstereo
+    DINmono
+    DINstereo
+    NORmono
+    NORstereo
+    COR
+    EBUr128
+    goniometer
+    spectr30mono
+    spectr30stereo
+    dBTPmono
+    dBTPstereo
+    K12mono
+    K12stereo
+    K14mono
+    K14stereo
+    K20mono
+    K20stereo
+    phasewheel
+    stereoscope
+    dr14mono
+    dr14stereo
+    TPnRMSmono
+    TPnRMSstereo
+    SigDistHist
+    bitmeter
+    surround8
+    surround5
+    surround4
+    surround3
+  )
+  local _midifilters=(
+    cctonote
+    channelfilter
+    channelmap
+    chokefilter
+    enforcescale
+    eventblocker
+    keyrange
+    keysplit
+    mapcc
+    mapkeychannel
+    mapkeyscale
+    midichord
+    mididelay
+    mididup
+    midistrum
+    miditranspose
+    monolegato
+    noactivesensing
+    nodup
+    notetocc
+    notetoggle
+    ntapdelay
+    onechannelfilter
+    passthru
+    quantize
+    randvelocity
+    scalecc
+    sostenuto
+    velocitygamma
+    velocityrange
+    velocityscale
+  )
+  local _onsettriggers=(
+    bassdrum_mono
+    bassdrum_stereo
+  )
+  local _siscos=(
+    Mono
+    Stereo
+    3chan
+    4chan
+  )
+  local _tunas=(
+    one
+    two
+  )
+  local _zconvolvers=(
+    Mono
+    CfgMono
+    Stereo
+    CfgStereo
+    MonoToStereo
+    CfgMonoToStereo
+  )
+  local _url="http://gareus.org/oss/lv2/"
+
+  cd $pkgbase-$pkgver
+
+  while IFS=" " read -r _name _version; do
+    echo "lv2lint test for $_name $_version"
+    case "$_name" in
+      controlfilter.lv2 )
+        for _controlfilter in "${_controlfilters[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_controlfilter"
+        done
+        ;;
+      convoLV2 )
+        for _convolver in "${_convolvers[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}$_name#$_convolver"
+        done
+        ;;
+      darc.lv2|dpl.lv2|fil4.lv2 )
+        for _default in "${_defaults[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_default"
+        done
+        ;;
+      matrixmixer.lv2 )
+        lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#i8o8"
+        ;;
+      meters.lv2 )
+        for _meter in "${_meters[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_meter"
+        done
+        ;;
+      midifilter.lv2 )
+        for _midifilter in "${_midifilters[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_midifilter"
+        done
+        ;;
+      mixtri.lv2 )
+        lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#lv2"
+        ;;
+      onsettrigger.lv2 )
+        for _onsettrigger in "${_onsettriggers[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_onsettrigger"
+        done
+        ;;
+      sisco.lv2 )
+        for _sisco in "${_siscos[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_sisco"
+        done
+        ;;
+      spectra.lv2 )
+        lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#Mono"
+        ;;
+      stepseq.lv2 )
+        lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#s8n8"
+        ;;
+      tuna.lv2 )
+        for _tuna in "${_tunas[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}#$_tuna"
+        done
+        ;;
+      zconvo.lv2 )
+        for _zconvolver in "${_zconvolvers[@]}"; do
+          lv2lint -Mpack -I "$_name/build" "${_url}zeroconvolv#$_zconvolver"
+        done
+        ;;
+      robtk )
+        echo "Toolkit. Skipping..."
+        ;;
+      * )
+        lv2lint -Mpack -I "$_name/build" "${_url}${_name//.lv2/}"
+        ;;
+    esac
+  done < plugin.versions
+}
+
+package_x42-plugins-lv2() {
+  pkgdesc+=" - LV2 plugins"
+  depends=(
+    cairo
+    ftgl
+    fftw libfftw3f.so
+    glib2 libgobject-2.0.so
+    glibc
+    libgcc
+    libglvnd
+    libltc libltc.so
+    libsamplerate libsamplerate.so
+    libsndfile libsndfile.so
+    libstdc++
+    libx11
+    lv2-host
+    pango libpango-1.0.so libpangocairo-1.0.so
+  )
+  groups=(
+    lv2-plugins
+    pro-audio
+  )
+
+  make install DESTDIR="$pkgdir/" PREFIX=/usr -C $pkgbase-$pkgver
+
+  # Devario ships only the LV2 output; remove the JACK standalones.
+  find "$pkgdir/usr" -mindepth 1 -maxdepth 1 ! -name lib -exec rm -rf {} +
+  find "$pkgdir/usr/lib" -mindepth 1 -maxdepth 1 ! -name lv2 -exec rm -rf {} +
+}
+
+# vim:set ts=2 sw=2 et:

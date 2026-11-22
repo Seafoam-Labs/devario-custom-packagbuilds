@@ -1,0 +1,93 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Adapted for Devario from Arch Linux packaging: ship only the LV2 output
+# (lsp-plugins-lv2) needed by easyeffects. The upstream build is preserved,
+# but the CLAP, GStreamer, LADSPA, standalone, VST2 and VST3 outputs are not
+# packaged; their host dependencies (clap-host, vst-host, vst3-host) are not
+# carried by Devario. Other formats can be re-enabled here once their host
+# providers are available.
+
+pkgbase=lsp-plugins
+pkgname=(lsp-plugins-lv2)
+pkgver=1.2.37
+pkgrel=1.1
+pkgdesc="Collection of open-source plugins"
+arch=(x86_64)
+url="https://lsp-plug.in"
+_url="https://github.com/lsp-plugins/lsp-plugins/"
+license=(LGPL-3.0-or-later)
+makedepends=(
+  cairo
+  gcc-libs
+  glibc
+  gstreamer
+  gst-plugins-base
+  hicolor-icon-theme
+  libglvnd
+  libx11
+  libxrandr
+  jack
+  ladspa
+  libsndfile
+  libpipewire
+  lv2
+  php
+)
+checkdepends=(
+  jq
+  lv2lint
+)
+source=($_url/releases/download/$pkgver/$pkgbase-src-$pkgver.tar.gz)
+sha512sums=('815dad2836722c51f1a3639a1586c94350e251082fd609489bcc90d8ea8c6b0727aa448220789f24fb8efdcb8b8e84c8e641f15388121993842d54a1a31f332e')
+b2sums=('44be292d163b227914fcef0448105cb83f6a0dfb884b063ed29e18a4817bd80a233790a9d3bbc6c5fb71dfe1e5c38918123e9e306b3b0fb1088396398b36f387')
+_dir=$pkgbase
+
+build() {
+  local config_options=(
+    config
+    VERBOSE=1
+    ARTIFACT_EXPORT_HEADERS=1
+    FEATURES='clap doc gst jack ladspa launcher lv2 pipewire standalone ui vst2 vst3 xdg'
+    PREFIX=/usr
+    -C $_dir
+  )
+
+  make "${config_options[@]}"
+  make VERBOSE=1 -C $_dir
+}
+
+check() {
+  local _plugin
+  local _lv2_uri="http://lsp-plug.in/plugins/lv2/"
+
+  # install to temporary location
+  make FEATURES=lv2 DESTDIR="$PWD/test" install -C $_dir
+
+  for _plugin in $(jq -r '.plugins[].id' $_dir/.build/target/lsp-plugin-fw/plugins.json); do
+    printf "Testing plugin %s\n" "$_plugin"
+    lv2lint -Mpack -I "$PWD/test/usr/lib/lv2/$pkgbase.lv2/" $_lv2_uri$_plugin
+  done
+}
+
+package_lsp-plugins-lv2() {
+  pkgdesc+=" - LV2"
+  groups=(lv2-plugins)
+  depends=(
+    cairo
+    fontconfig
+    freetype2
+    glibc
+    libglvnd libGL.so
+    libsndfile libsndfile.so
+    libstdc++
+    libx11
+    libxrandr
+    lv2-host
+  )
+
+  make PREFIX=/usr DESTDIR="$pkgdir" install -C $_dir
+
+  # Devario ships only the LV2 output; remove the other formats.
+  rm -rv "$pkgdir/etc"
+  find "$pkgdir/usr" -mindepth 1 -maxdepth 1 ! -name lib -exec rm -rf {} +
+  find "$pkgdir/usr/lib" -mindepth 1 -maxdepth 1 ! -name lv2 -exec rm -rf {} +
+}

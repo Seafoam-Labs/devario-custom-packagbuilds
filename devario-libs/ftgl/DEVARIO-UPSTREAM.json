@@ -1,0 +1,10 @@
+{
+  "name": "ftgl",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fftgl/repository/archive.tar.gz?sha=833f4d61dd9ca6cc443c6092dcfcd078a5b0c1f5",
+  "sha256": "c1b247eb6302b50f94ff261ecd9a4e9fbef10b88ccbf608b56908db97ddb400d",
+  "bytes": 4234,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/ftgl.git",
+  "commit": "833f4d61dd9ca6cc443c6092dcfcd078a5b0c1f5",
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "9a2f9b82334d34f1b497115272d40d2201bc76f09086ce6e666726f56903d3c2"
+}

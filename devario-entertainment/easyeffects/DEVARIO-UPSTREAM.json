@@ -2,5 +2,13 @@
   "name": "easyeffects",
   "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/easyeffects/-/archive/main/easyeffects-main.tar.gz",
   "sha256": "1786cbe6433672346eb26207343772eefbb4a58338a1845b2a617807d720f496",
-  "bytes": 2769
+  "bytes": 2769,
+  "local_changes": [
+    "Promote the LV2 plugin suites used by EasyEffects effects (calf, lsp-plugins-lv2, mda.lv2, x42-plugins-lv2, zam-plugins-lv2) from optdepends to depends so they install with the application; yelp remains optional.",
+    "Increment pkgrel to 2.",
+    "Keep the Devario easyeffects.install stub that no-ops the obsolete upstream migration.",
+    "Stay on 8.3.1; upstream packaging has since moved to 8.3.2."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "28f0724132410cb3a3712d575c185fc960b702a3001f1547c2e5e847dc808d7c"
 }

@@ -1,0 +1,17 @@
+{
+  "name": "zam-plugins",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fzam-plugins/repository/archive.tar.gz?sha=1d3382b1cbdd2a5075e11884d94614733e8be39e",
+  "sha256": "57204001172da67ff6291b2e9c741fba9755f7ad8416a0500ac97a9f430b0436",
+  "bytes": 6777,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/zam-plugins.git",
+  "commit": "1d3382b1cbdd2a5075e11884d94614733e8be39e",
+  "local_changes": [
+    "Package only the LV2 output (zam-plugins-lv2) needed by easyeffects; the full upstream build is preserved, but the CLAP, LADSPA, standalone, VST2, VST3 and meta outputs are not packaged.",
+    "Drop the gendesk desktop-file generation and the menu and directory sources used only for standalone integration.",
+    "Remove packaged files outside usr/lib/lv2 in package_zam-plugins-lv2(), then install the documentation.",
+    "Increment pkgrel to 1.1.",
+    "Preserve the signed git source, submodule sources, checksums, bundled signing key and the upstream LV2 output dependencies."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "c17cb0bf03af31e983c90eec3e569f72fb38e1f19006e0b565a79ed0761f5743"
+}

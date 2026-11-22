@@ -1,0 +1,17 @@
+{
+  "name": "lsp-plugins",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Flsp-plugins/repository/archive.tar.gz?sha=52430eb73a2c7fed4db0f18f128db65d1b98ae4c",
+  "sha256": "c2596a9d49a341e6833989cb2dc10d90f7839b9c65f1867e55b658f27da94377",
+  "bytes": 3397,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/lsp-plugins.git",
+  "commit": "52430eb73a2c7fed4db0f18f128db65d1b98ae4c",
+  "local_changes": [
+    "Package only the LV2 output (lsp-plugins-lv2) needed by easyeffects; the full upstream feature build is preserved, but the CLAP, docs, GStreamer, LADSPA, standalone, VST2, VST3 and liblsp split outputs are not packaged.",
+    "Remove packaged files outside usr/lib/lv2 (and etc/xdg) in package_lsp-plugins-lv2().",
+    "Point check() at the lsp-plugins.lv2 bundle directory explicitly, since pkgname no longer expands to lsp-plugins.",
+    "Increment pkgrel to 1.1.",
+    "Preserve source checksums, build feature set and the upstream LV2 output dependencies."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "066602b18ee4eb735260c893780fa6940f4c780b68e1801fbb65e98df5d4b539"
+}

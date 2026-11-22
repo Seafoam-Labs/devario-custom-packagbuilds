@@ -1,0 +1,91 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Adapted for Devario from Arch Linux packaging: ship only the LV2 output
+# (zam-plugins-lv2) needed by easyeffects. The upstream build is preserved,
+# but the CLAP, LADSPA, standalone, VST2 and VST3 outputs are not packaged;
+# their host dependencies (clap-host, ladspa-host, vst-host, vst3-host) are
+# not carried by Devario, and the standalone desktop integration (gendesk,
+# menu and directory files) is dropped. Other formats can be re-enabled here
+# once their host providers are available.
+
+pkgbase=zam-plugins
+pkgname=(zam-plugins-lv2)
+pkgver=4.5
+pkgrel=1.1
+pkgdesc="Collection of audio plugins for high-quality processing"
+arch=(x86_64)
+url="https://github.com/zamaudio/zam-plugins"
+license=(GPL-2.0-or-later)
+makedepends=(
+  fftw
+  glibc
+  git
+  ladspa
+  libgcc
+  libglvnd
+  libsamplerate
+  libstdc++
+  libx11
+  jack
+  lv2
+  zita-convolver
+)
+source=(
+  "git+$url?signed#tag=$pkgver"
+  git+https://github.com/distrho/dpf.git
+  distrho-pugl::git+https://github.com/distrho/pugl.git
+)
+sha512sums=('731c746fcf8ca8add219854ae597092e4165bacc2be87ebcf7872248b580e71721c53b1a7b5ff1bda4870ac7c299c763246ca1c68a0d9382e4be67d6e072f1b9'
+            'SKIP'
+            'SKIP')
+b2sums=('91a48320efd273c56a826d172ec97a6bc086fdb45eb4d30ca311f24475d48366e68fa15f25efcb503cce80d37d9ae33f68989f81a75e6da5d5ee27da0d0b495f'
+        'SKIP'
+        'SKIP')
+validpgpkeys=('B86F8ABAEDB92DF68AE2BE40577C1739585FA920') # Damien Zammit <damien@zammit.org>
+
+prepare() {
+  cd $pkgbase
+  git submodule init
+  git config submodule.dpf.url "$srcdir/dpf"
+  git -c protocol.file.allow=always submodule update
+  cd dpf
+  git submodule init
+  git config submodule.dgl/src/pugl-upstream.url "$srcdir/distrho-pugl"
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  cd $pkgbase
+  export HAVE_ZITA_CONVOLVER=true
+  make
+}
+
+package_zam-plugins-lv2() {
+  pkgdesc+=" - LV2 plugins"
+  depends=(
+    dbus libdbus-1.so
+    fftw libfftw3f.so
+    glibc
+    libgcc libgcc_s.so
+    libglvnd libGL.so
+    libsamplerate libsamplerate.so
+    libstdc++ libstdc++.so
+    libx11
+    libxext
+    lv2-host
+    zita-convolver libzita-convolver.so
+  )
+  groups=(lv2-plugins pro-audio)
+
+  cd $pkgbase
+  make DESTDIR="$pkgdir/" PREFIX=/usr install
+
+  # have find-libdeps resolve dependencies properly:
+  # https://gitlab.archlinux.org/archlinux/devtools/-/issues/102
+  find "$pkgdir" -type f \( -iname "*.clap" -or -iname "*.so" \) -exec chmod +x {} +
+
+  # Devario ships only the LV2 output; remove the other formats.
+  find "$pkgdir/usr" -mindepth 1 -maxdepth 1 ! -name lib -exec rm -rf {} +
+  find "$pkgdir/usr/lib" -mindepth 1 -maxdepth 1 ! -name lv2 -exec rm -rf {} +
+
+  install -vDm 644 {README.md,changelog} -t "$pkgdir/usr/share/doc/$pkgname/"
+}

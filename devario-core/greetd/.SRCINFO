@@ -1,7 +1,7 @@
 pkgbase = greetd
 	pkgdesc = Generic greeter daemon
 	pkgver = 0.10.3
-	pkgrel = 3
+	pkgrel = 4
 	url = https://git.sr.ht/~kennylevinsen/greetd
 	arch = x86_64
 	license = GPL-3.0-only
@@ -17,7 +17,7 @@ pkgbase = greetd
 	sha256sums = ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b
 	sha256sums = 896b7c9b5ec9c9c5795842db9b0f0d792b9d0ceda35891c5c169a9150795b8d1
 	sha256sums = 993a3096c2b113e6800f2abbd5d4233ebf1a97eef423990d3187d665d3490b92
-	sha256sums = c3bce70f343ae771f59bd6853543a4411825002d14e02069134854b42820e0b6
+	sha256sums = b14734410dc0236a892992ad97832a48f09dbe4b82f072ad9dc022b606d1f3ab
 
 pkgname = greetd
 	depends = glibc

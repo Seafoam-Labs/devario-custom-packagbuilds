@@ -1,0 +1,26 @@
+pkgbase = mda.lv2
+	pkgdesc = A port of the MDA VST plugins to LV2
+	pkgver = 1.2.12
+	pkgrel = 1.1
+	url = https://gitlab.com/drobilla/mda-lv2
+	arch = x86_64
+	groups = lv2-plugins
+	groups = pro-audio
+	license = 0BSD OR MIT
+	license = GPL-3.0-or-later
+	checkdepends = lv2lint
+	makedepends = lv2
+	makedepends = meson
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = lv2-host
+	source = https://download.drobilla.net/mda-lv2-1.2.12.tar.xz
+	source = https://download.drobilla.net/mda-lv2-1.2.12.tar.xz.sig
+	validpgpkeys = 907D226E7E13FA337F014A083672782A9BF368F3
+	sha512sums = f5adb6a6bf066bd2b56ed47e550b967a9dc23ee4a89cacde4764a8a41ad46238aec1d29168aba7ceb5e748816cae5b0401d863e1b0d2efd7889b0138be956c48
+	sha512sums = SKIP
+	b2sums = 69cdf9db2335460f520164d7c64666734388cde29e24197963e4164122c6ba3a0075be1dc7b369893c158db23de6f909a7d68ef2a9909870fc423f34719ab419
+	b2sums = SKIP
+
+pkgname = mda.lv2

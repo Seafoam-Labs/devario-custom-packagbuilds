@@ -1,0 +1,65 @@
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Adapted for Devario from Arch Linux packaging: use plain Meson setup with
+# the same native packaging settings instead of arch-meson.
+
+_name=mda-lv2
+pkgname=mda.lv2
+pkgver=1.2.12
+pkgrel=1.1
+pkgdesc="A port of the MDA VST plugins to LV2"
+arch=(x86_64)
+url="https://gitlab.com/drobilla/mda-lv2"
+license=(
+  '0BSD OR MIT'
+  GPL-3.0-or-later
+)
+groups=(
+  lv2-plugins
+  pro-audio
+)
+depends=(
+  glibc
+  libgcc
+  libstdc++
+  lv2-host
+)
+checkdepends=(lv2lint)
+makedepends=(
+  lv2
+  meson
+)
+source=(https://download.drobilla.net/$_name-$pkgver.tar.xz{,.sig})
+sha512sums=('f5adb6a6bf066bd2b56ed47e550b967a9dc23ee4a89cacde4764a8a41ad46238aec1d29168aba7ceb5e748816cae5b0401d863e1b0d2efd7889b0138be956c48'
+            'SKIP')
+b2sums=('69cdf9db2335460f520164d7c64666734388cde29e24197963e4164122c6ba3a0075be1dc7b369893c158db23de6f909a7d68ef2a9909870fc423f34719ab419'
+        'SKIP')
+validpgpkeys=('907D226E7E13FA337F014A083672782A9BF368F3') # David Robillard <d@drobilla.net>
+
+build() {
+  # NOTE: disable tests because some weird internal tooling is required otherwise
+  # Use Meson directly with the same native packaging settings.
+  meson setup --prefix=/usr --libexecdir=lib --sbindir=bin \
+    --buildtype=plain --auto-features=enabled --wrap-mode=nodownload \
+    -Db_pie=true -Dpython.bytecompile=1 -D tests=disabled \
+    $_name-$pkgver build
+  meson compile -C build
+}
+
+check() {
+  local _plugins _plugin
+  _plugins=(Ambience Bandisto BeatBox Combo DX10 DeEss Degrade Delay Detune
+  Dither DubDelay Dynamics EPiano Image JX10 Leslie Limiter Loudness MultiBand
+  Overdrive Piano RePsycho RezFilter RingMod RoundPan Shepard Splitter Stereo
+  SubSynth TalkBox TestTone ThruZero Tracker Transient VocInput Vocoder)
+
+  for _plugin in "${_plugins[@]}"; do
+    # NOTE: whitelist globally visible library: https://gitlab.com/drobilla/mda-lv2/-/issues/2
+    lv2lint -Mpack -s lvz_new_audioeffectx -I "build/$pkgname/" "http://drobilla.net/plugins/mda/$_plugin"
+  done
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+  install -vDm 644 $_name-$pkgver/{NEWS,README.md} -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -vDm 644 $_name-$pkgver/LICENSES/* -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "calf",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fcalf/repository/archive.tar.gz?sha=2e8879812fe6638abcf7f0ff678f332da55bb52a",
+  "sha256": "4e3970dfa7b5acfc8aa7bb8cdd9b5f7d0b25608f053f29e327f8e22b4d8a409b",
+  "bytes": 1883,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/calf.git",
+  "commit": "2e8879812fe6638abcf7f0ff678f332da55bb52a",
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "b4918dc21e7537d36bbf24e875135848a24e53333fc2e5ea24a4f125fd9a2fdf"
+}

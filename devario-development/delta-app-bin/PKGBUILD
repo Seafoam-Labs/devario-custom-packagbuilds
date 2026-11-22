@@ -1,0 +1,68 @@
+# Binary release of Delta, the AI-native code editor from Zed Industries.
+# Proprietary; public downloads do not change the license. See
+# https://delta.dev/terms and https://delta.dev/early-access.
+#
+# Upstream publishes a stable manifest (version + per-arch assets) at
+# https://releases.delta.dev/releases/stable/latest.json and matching sha256
+# hashes in the official Nix flake https://github.com/zed-industries/delta-nix
+# (releases.json). The tarball is a self-contained bundle: bin/delta (CLI) and
+# bin/delta-app (GUI) resolve the bundled lib/ through RPATH=$ORIGIN/../lib and
+# dlopen the system EGL/Vulkan/Wayland stack at runtime.
+
+pkgname=delta-app-bin
+pkgver=0.28.4
+pkgrel=1
+pkgdesc='AI-native code editor from Zed Industries (binary release)'
+arch=(x86_64 aarch64)
+url=https://delta.dev
+license=(LicenseRef-custom)
+# libglvnd/libvulkan/wayland are dlopen'd; a Vulkan ICD is required to render.
+# The bundled libxkbcommon reads system xkb/locale data at runtime.
+depends=(fontconfig
+         glibc
+         libglvnd
+         libx11
+         vulkan-driver
+         vulkan-icd-loader
+         wayland
+         xkeyboard-config)
+optdepends=('git: Git integration (blame, commit and worktree commands)'
+            'org.freedesktop.secrets: credential storage for account sign-in')
+provides=(delta)
+conflicts=(delta)
+options=('!strip' '!debug' '!emptydirs')
+source=("$pkgname.sh")
+source_x86_64=("https://releases.delta.dev/releases/stable/$pkgver/delta-linux-x86_64.tar.gz")
+source_aarch64=("https://releases.delta.dev/releases/stable/$pkgver/delta-linux-aarch64.tar.gz")
+sha256sums=('5323c613ab88274c77a00d8e65f7d77e46d247b41a90d2bb00262aeea3e7bc35')
+sha256sums_x86_64=('9f8a1043b517ceae505eb12770755f7a0423bbe97b56baee3c29013017bbca03')
+sha256sums_aarch64=('d5b7db028a6c7768d56acdf4c56d0655823b4b1cd4dcc2cafe34b8ee2cb9303d')
+
+prepare() {
+	# Route the desktop entry through the packaged CLI wrapper on PATH.
+	sed -i 's|^Exec=delta |Exec=/usr/bin/delta |' \
+		Delta/share/applications/dev.zed.Delta.desktop
+}
+
+package() {
+	# Keep the upstream bundle intact under /opt; the binaries locate their
+	# bundled libraries and resources relative to their own path.
+	install -dm755 "$pkgdir/opt"
+	cp --preserve=mode -r Delta "$pkgdir/opt/delta"
+	rm -f "$pkgdir/opt/delta/install.sh"
+
+	# One wrapper installed under both entry-point names; it dispatches on the
+	# invoked name and disables the built-in updater in favour of pacman.
+	install -Dm755 "$pkgname.sh" "$pkgdir/usr/bin/delta"
+	install -Dm755 "$pkgname.sh" "$pkgdir/usr/bin/delta-app"
+
+	install -Dm644 Delta/share/applications/dev.zed.Delta.desktop \
+		"$pkgdir/usr/share/applications/dev.zed.Delta.desktop"
+
+	local size
+	for size in 32x32 64x64 128x128 256x256 512x512 1024x1024; do
+		install -dm755 "$pkgdir/usr/share/icons/hicolor/$size/apps"
+		ln -s "/opt/delta/share/icons/hicolor/$size/apps/dev.zed.Delta.png" \
+			"$pkgdir/usr/share/icons/hicolor/$size/apps/dev.zed.Delta.png"
+	done
+}

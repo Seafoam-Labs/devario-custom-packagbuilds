@@ -1,0 +1,15 @@
+{
+  "name": "mda.lv2",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fmda.lv2/repository/archive.tar.gz?sha=3ffa3927d3c27c672c0f37119ebd57b87ae74b58",
+  "sha256": "9c590f193a64d3a9d1822d2731b1f2e287b60cc5cb10fd579ef0822acccb422a",
+  "bytes": 4890,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mda.lv2.git",
+  "commit": "3ffa3927d3c27c672c0f37119ebd57b87ae74b58",
+  "local_changes": [
+    "Use plain Meson setup with equivalent packaging options instead of arch-meson.",
+    "Increment pkgrel to 1.1.",
+    "Preserve signed source, checksums, dependencies and the bundled signing key."
+  ],
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "ffbd821b52c8ffec56a331482fbe0ad8b1295ad879a73b09cc9930dafece5021"
+}

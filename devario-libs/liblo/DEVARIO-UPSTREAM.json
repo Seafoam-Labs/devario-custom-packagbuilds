@@ -1,0 +1,10 @@
+{
+  "name": "liblo",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fliblo/repository/archive.tar.gz?sha=3498bbdc37592a5d9460d1119fb54113c2bf5588",
+  "sha256": "d96a5117b916c0948afc39104c7e0cfdc47fac0b42b1dbcd824cef065f21027e",
+  "bytes": 2078,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/liblo.git",
+  "commit": "3498bbdc37592a5d9460d1119fb54113c2bf5588",
+  "metadata_generator": "Shelly 3.4.1",
+  "pkgbuild_sha256": "8cfbff7ebc9fbfed4e39331a5d85db98a831f3a36101634d21062e387e5e0d50"
+}

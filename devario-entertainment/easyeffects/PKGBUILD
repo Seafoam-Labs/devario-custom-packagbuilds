@@ -3,10 +3,13 @@
 # Maintainer: Justin Kromlinger <hashworks@archlinux.org>
 # Contributor: Wellington <wellingtonwallace@gmail.com>
 # Contributor: robertfoster
+# Adapted for Devario from Arch Linux packaging: install the LV2 plugin
+# suites used by EasyEffects effects as hard dependencies instead of
+# optdepends, so a plain install ships the useful plugins.
 
 pkgname=easyeffects
 pkgver=8.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Audio Effects for Pipewire applications'
 arch=('x86_64')
 url='https://github.com/wwmm/easyeffects'
@@ -34,6 +37,11 @@ depends=(
   'speexdsp'
   'gsl'
   'webrtc-audio-processing'
+  'calf'
+  'lsp-plugins-lv2'
+  'mda.lv2'
+  'x42-plugins-lv2'
+  'zam-plugins-lv2'
 )
 makedepends=(
   'cmake'
@@ -44,12 +52,7 @@ makedepends=(
   'ladspa'
 )
 optdepends=(
-  'calf: limiter, exciter, bass enhancer and others'
-  'lsp-plugins-lv2: equalizer, compressor, delay, loudness'
-  'mda.lv2: bass loudness plugin'
-  'x42-plugins-lv2: autotune plugin'
   'yelp: in-app help'
-  'zam-plugins-lv2: maximizer'
 )
 install="${pkgname}.install"
 source=(
