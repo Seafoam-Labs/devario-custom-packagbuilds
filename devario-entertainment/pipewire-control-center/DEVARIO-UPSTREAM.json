@@ -1,0 +1,14 @@
+{
+  "name": "pipewire-control-center",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=pipewire-control-center&id=0b20dad7dfbd63a688817a0d105f168441b2906c",
+  "sha256": "721c15417a34dc6b095e7e00de0a9e84e6ff460ef6e55aa475107dc6f0f2ce25",
+  "bytes": 3522,
+  "retrieved_on": "2026-11-22",
+  "local_adaptation": true,
+  "note": "Reference only; build source comes directly from PipeWireController upstream.",
+  "commit": "0b20dad7dfbd63a688817a0d105f168441b2906c",
+  "local_adaptations": [
+    "Reformatted dependency arrays and comments to Devario recipe conventions; packaging logic unchanged from the AUR recipe.",
+    "Dropped AUR-only notes (pkgdesc length limit, transitional pipewire-controller stub push order)."
+  ]
+}

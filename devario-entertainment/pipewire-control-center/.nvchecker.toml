@@ -1,0 +1,5 @@
+[pipewire-control-center]
+source = "github"
+github = "knightinfected/PipeWireController"
+prefix = "v"
+use_max_tag = true
