@@ -1,0 +1,5 @@
+directories:
+  output: dist/packages
+files:
+  - dist/tuxedo-control-center/**/*
+  - '!dist/tuxedo-control-center/data/service/**'

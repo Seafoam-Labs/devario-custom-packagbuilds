@@ -1,0 +1,16 @@
+post_install() {
+  systemctl daemon-reload
+  systemctl enable --now tccd
+  systemctl enable tccd-sleep
+}
+
+post_upgrade() {
+  systemctl daemon-reload
+  systemctl try-restart tccd
+}
+
+pre_remove() {
+  # Stopping an active sleep helper can start tccd again.
+  systemctl disable --now tccd-sleep
+  systemctl disable --now tccd
+}

@@ -1,0 +1,95 @@
+--- a/src/common/classes/TccPaths.ts
++++ b/src/common/classes/TccPaths.ts
+@@ -20,14 +20,14 @@
+ export class TccPaths {
+     static readonly PID_FILE: string = '/var/run/tccd.pid';
+     static readonly TCCD_EXEC_FILE: string =
+-        '/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/service/tccd';
++        '/usr/lib/tuxedo-control-center/data/service/tccd';
+     static readonly TCCD_PYTHON_CAMERACTRL_FILE: string =
+-        '/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/camera/cameractrls.py';
++        '/usr/lib/tuxedo-control-center/data/camera/cameractrls.py';
+     static readonly SETTINGS_FILE: string = '/etc/tcc/settings';
+     static readonly PROFILES_FILE: string = '/etc/tcc/profiles';
+     static readonly WEBCAM_FILE: string = '/etc/tcc/webcam';
+     static readonly V4L2_NAMES_FILE: string =
+-        '/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/camera/v4l2_kernel_names.json';
++        '/usr/lib/tuxedo-control-center/data/camera/v4l2_kernel_names.json';
+     static readonly FANTABLES_FILE: string = '/etc/tcc/fantables';
+     static readonly TCCD_LOG_FILE: string = '/var/log/tccd/log';
+ }
+--- a/src/dist-data/com.tuxedocomputers.tccd.policy
++++ b/src/dist-data/com.tuxedocomputers.tccd.policy
+@@ -21,7 +21,7 @@
+             <allow_active>auth_admin_keep</allow_active>
+         </defaults>
+ 
+-        <annotate key="org.freedesktop.policykit.exec.path">/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/service/tccd</annotate>
++        <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/tuxedo-control-center/data/service/tccd</annotate>
+         <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+     </action>
+ 
+--- a/src/dist-data/tccd.service
++++ b/src/dist-data/tccd.service
+@@ -3,8 +3,8 @@
+ 
+ [Service]
+ Type=simple
+-ExecStart=/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/service/tccd --start
+-ExecStop=/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/service/tccd --stop
++ExecStart=/usr/lib/tuxedo-control-center/data/service/tccd --start
++ExecStop=/usr/lib/tuxedo-control-center/data/service/tccd --stop
+ 
+ [Install]
+ WantedBy=multi-user.target
+--- a/src/dist-data/tuxedo-control-center-tray.desktop
++++ b/src/dist-data/tuxedo-control-center-tray.desktop
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ Name=TUXEDO Control Center
+ Comment=Tray icon for TUXEDO Control Center
+-Exec=/opt/tuxedo-control-center/tuxedo-control-center --tray
++Exec=tuxedo-control-center --tray
+ Terminal=false
+ Type=Application
+ Icon=tuxedo-control-center
+--- a/src/dist-data/tuxedo-control-center.desktop
++++ b/src/dist-data/tuxedo-control-center.desktop
+@@ -1,10 +1,10 @@
+ [Desktop Entry]
+ Name=TUXEDO Control Center
+ Comment=An application helping you to tune your TUXEDO
+-Exec="/opt/tuxedo-control-center/tuxedo-control-center" %U
++Exec=tuxedo-control-center %U
+ Terminal=false
+ Type=Application
+-Icon=/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/dist-data/tuxedo-control-center_256.svg
++Icon=tuxedo-control-center
+ StartupWMClass=tuxedo-control-center
+ Categories=System;TUXEDO;
+ Keywords=TCC
+--- a/src/e-app/backendAPIs/initMain.ts
++++ b/src/e-app/backendAPIs/initMain.ts
+@@ -46,8 +46,6 @@
+ }
+ const tccConfigDir: string = path.join(os.homedir(), '.tcc');
+ const tccStandardConfigFile: string = path.join(tccConfigDir, 'user.conf');
+-// Tweak to get correct dirname for resource files outside app.asar
+-const appPath: string = __dirname.replace('app.asar/', '');
+ const autostartLocation: string = path.join(os.homedir(), '.config/autostart');
+ const autostartDesktopFilename = 'tuxedo-control-center-tray.desktop';
+ export const translation = new NgTranslations();
+@@ -262,7 +260,7 @@
+     try {
+         fs.mkdirSync(autostartLocation, { recursive: true });
+         fs.copyFileSync(
+-            path.join(appPath, '../../../data/dist-data', autostartDesktopFilename),
++            path.join('/usr/share/applications', autostartDesktopFilename),
+             path.join(autostartLocation, autostartDesktopFilename),
+         );
+         return true;
+--- a/src/udev/99-webcam.rules
++++ b/src/udev/99-webcam.rules
+@@ -1 +1 @@
+-SUBSYSTEM=="video4linux", ACTION=="add", KERNEL=="video[0-9]*", RUN+="/usr/bin/python3 /opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/camera/cameractrls.py -s $devnode,$env{ID_VENDOR_ID},$env{ID_MODEL_ID},/etc/tcc/webcam,/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/camera/v4l2_kernel_names.json"
++SUBSYSTEM=="video4linux", ACTION=="add", KERNEL=="video[0-9]*", RUN+="/usr/bin/python3 /usr/lib/tuxedo-control-center/data/camera/cameractrls.py -s $devnode,$env{ID_VENDOR_ID},$env{ID_MODEL_ID},/etc/tcc/webcam,/usr/lib/tuxedo-control-center/data/camera/v4l2_kernel_names.json"
