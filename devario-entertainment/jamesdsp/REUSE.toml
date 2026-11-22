@@ -1,0 +1,20 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".SRCINFO",
+    "DEVARIO-UPSTREAM.json",
+    "PKGBUILD",
+    ".nvchecker.toml",
+]
+SPDX-FileCopyrightText = "AUR contributors"
+SPDX-License-Identifier = "0BSD"
+
+[[annotations]]
+path = [
+    "gcc14.patch",
+    "pipewire-1.4.0.patch",
+    "qt-6.9.patch",
+]
+SPDX-FileCopyrightText = "JDSP4Linux contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"

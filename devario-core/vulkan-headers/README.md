@@ -1,7 +1,7 @@
 # Vulkan Headers
 
-Packages [Khronos Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers/tree/v1.4.364)
-at `1.4.364-1`, including C/C++ headers, the API registry, and the installed
+Packages [Khronos Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers/tree/v1.4.369)
+at `1.4.369-1`, including C/C++ headers, the API registry, and the installed
 `Vulkan::Headers` CMake target. This architecture-independent package has no
 runtime dependencies. Compiled C++ modules and upstream tests are disabled in
 the package build.
