@@ -1,0 +1,113 @@
+Subject: [PATCH] calf: fix install(CODE) arguments for CMake 4.5
+
+CMake 4.5.0 rejects unknown arguments to install(CODE)/install(SCRIPT).
+calf passes RESULT_VARIABLE (and OUTPUT_VARIABLE for the sordi checks)
+to install() itself instead of to the execute_process() call inside the
+CODE string, and tests the never-set result variable at configure time.
+Older CMake silently ignored the stray arguments, so this only breaks
+with CMake >= 4.5:
+
+  CMake Error at src/CMakeLists.txt:141 (install):
+    install CODE given unknown argument: "RESULT_VARIABLE".
+
+Move the result capture and the error check inside the install(CODE)
+string so they execute at install time, as intended. Fix all four
+affected blocks: the LV2 bundle directory, the libcalf symlink, the
+lv2gui symlink, and the sordi sanity checks.
+
+Upstream issue: https://github.com/calf-studio-gear/calf/issues/413
+---
+ src/CMakeLists.txt | 68 ++++++++++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 38 insertions(+), 30 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 8d856d8..cdd0788 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -138,33 +138,39 @@ if(USE_LV2)
+     endif()
+ 
+     # Create Lv2 install dir
+-    install(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E make_directory \"\$ENV{DESTDIR}${LV2DIR_PROJ}\")"
+-            RESULT_VARIABLE calfResult)
+-    if(NOT ${calfResult} EQUAL 0)
+-        message(FATAL_ERROR "Could not create ${LV2DIR_PROJ}/")
+-    endif()
++    install(CODE "
++        execute_process(
++            COMMAND \"${CMAKE_COMMAND}\" -E make_directory \"\$ENV{DESTDIR}${LV2DIR_PROJ}\"
++            RESULT_VARIABLE calfResult
++        )
++        if(NOT calfResult EQUAL 0)
++            message(FATAL_ERROR \"Could not create ${LV2DIR_PROJ}/\")
++        endif()
++    ")
+     # Create symlinks from Lv2 install dir to libs
+-    install(CODE "execute_process( \
+-        COMMAND \"${CMAKE_COMMAND}\" -E ${COPY_ACTION} \
+-	\"${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/${LIB_PREFIX}${PROJECT_NAME}${LIB_SUFFIX}\" \
+-	\"\$ENV{DESTDIR}${LV2DIR_PROJ}/${PROJECT_NAME}${LIB_SUFFIX}\" \
+-        )"
+-        RESULT_VARIABLE calfResult
+-    )
+-    if(NOT ${calfResult} EQUAL 0)
+-        message(FATAL_ERROR "Could not create ${LV2DIR_PROJ}/${PROJECT_NAME}${LIB_SUFFIX}")
+-    endif()
+-    if(USE_GUI)
+-        install(CODE "execute_process( \
+-            COMMAND \"${CMAKE_COMMAND}\" -E ${COPY_ACTION} \
+-            \"${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/${LIB_PREFIX}${PROJECT_NAME}lv2gui${LIB_SUFFIX}\" \
+-            \"\$ENV{DESTDIR}${LV2DIR_PROJ}/${PROJECT_NAME}lv2gui${LIB_SUFFIX}\" \
+-            )"
++    install(CODE "
++        execute_process(
++            COMMAND \"${CMAKE_COMMAND}\" -E ${COPY_ACTION}
++                \"${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/${LIB_PREFIX}${PROJECT_NAME}${LIB_SUFFIX}\"
++                \"\$ENV{DESTDIR}${LV2DIR_PROJ}/${PROJECT_NAME}${LIB_SUFFIX}\"
+             RESULT_VARIABLE calfResult
+         )
+-        if(NOT ${calfResult} EQUAL 0)
+-            message(FATAL_ERROR "Could not create ${LV2DIR_PROJ}/${PROJECT_NAME}lv2gui${LIB_SUFFIX}")
++        if(NOT calfResult EQUAL 0)
++            message(FATAL_ERROR \"Could not create ${LV2DIR_PROJ}/${PROJECT_NAME}${LIB_SUFFIX}\")
+         endif()
++    ")
++    if(USE_GUI)
++        install(CODE "
++            execute_process(
++                COMMAND \"${CMAKE_COMMAND}\" -E ${COPY_ACTION}
++                    \"${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/${LIB_PREFIX}${PROJECT_NAME}lv2gui${LIB_SUFFIX}\"
++                    \"\$ENV{DESTDIR}${LV2DIR_PROJ}/${PROJECT_NAME}lv2gui${LIB_SUFFIX}\"
++                RESULT_VARIABLE calfResult
++            )
++            if(NOT calfResult EQUAL 0)
++                message(FATAL_ERROR \"Could not create ${LV2DIR_PROJ}/${PROJECT_NAME}lv2gui${LIB_SUFFIX}\")
++            endif()
++        ")
+     endif()
+ 
+     # Remove previous .ttl files
+@@ -180,14 +186,16 @@ if(USE_LV2)
+     if(USE_SORDI)
+         file(GLOB ttl_files "${LV2DIR_PROJ}/*.ttl")
+         foreach(ttl_file ${ttl_files})
+-            install(
+-                CODE "execute_process(COMMAND \"${SORDI}\" -o turtle \"${ttl_file}\")"
+-                RESULT_VARIABLE result
+-                OUTPUT_VARIABLE nothing
++            install(CODE "
++                execute_process(
++                    COMMAND \"${SORDI}\" -o turtle \"${ttl_file}\"
++                    RESULT_VARIABLE result
++                    OUTPUT_VARIABLE nothing
+                 )
+-            if(NOT ${result} EQUAL 0)
+-                message(FATAL_ERROR "Sordi failed for ${ttl_file}")
+-            endif()
++                if(NOT result EQUAL 0)
++                    message(FATAL_ERROR \"Sordi failed for ${ttl_file}\")
++                endif()
++            ")
+         endforeach()
+     endif()
+ endif()

@@ -1,7 +1,7 @@
 pkgbase = calf
 	pkgdesc = LV2 plug-in suite
 	pkgver = 0.90.9
-	pkgrel = 2
+	pkgrel = 3
 	url = http://calf-studio-gear.org
 	arch = x86_64
 	groups = lv2-plugins
@@ -18,6 +18,8 @@ pkgbase = calf
 	depends = libgcc
 	depends = libstdc++
 	source = git+https://github.com/calf-studio-gear/calf#tag=0.90.9
+	source = 0001-fix-install-code-for-cmake-4.5.patch
 	b2sums = a62f3617959a73a0b0f23ef4976944f31d9c3bc37d14cf316eee428aa197cfda4e9ebccce12a17d733567523480c3c48d99ada05a0501c709f4f8ab6d2f22a77
+	b2sums = 038880d9ba1a3d99165e476e03b12ddaf3af3054170b665a0d7fe7e510331cec41eba69e7617c172109513ff5f9e5d16aa70ced65ec10af39cdf28b3f9206ff0
 
 pkgname = calf
