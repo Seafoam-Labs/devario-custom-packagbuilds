@@ -1,6 +1,6 @@
 pkgbase = sox
 	pkgdesc = The Swiss Army knife of sound processing tools
-	pkgver = 14.8.1
+	pkgver = 14.9.0
 	pkgrel = 1
 	url = https://codeberg.org/sox_ng/sox_ng/
 	arch = x86_64
@@ -43,7 +43,7 @@ pkgbase = sox
 	optdepends = speexdsp: speexdsp plugin/effect
 	provides = libsox.so
 	provides = libsox_ng.so
-	source = sox-14.8.1.tar.gz::https://codeberg.org/sox_ng/sox_ng/archive/sox_ng-14.8.1.tar.gz
-	sha512sums = 5f8c3d6e915736f4d13db817cf2ff98a4a6a5ed294ea2a14c5077d9fe0d428d219a152449ce0d6bb724ae38f854c21a3720c5febe04ab0c3d760d033c59c0444
+	source = sox-14.9.0.tar.gz::https://codeberg.org/sox_ng/sox_ng/archive/sox_ng-14.9.0.tar.gz
+	sha512sums = 9a2da9b8c3de9ce48936fb9a1d753b8d17e9b80618e6fe86619994ac04c9cbe2aa682e523a14be71c511ddea5cffe190f712240d9948c298da022a823b0d4977
 
 pkgname = sox
