@@ -6,8 +6,8 @@ pkgname=(
   gspell
   gspell-docs
 )
-pkgver=1.14.5
-pkgrel=2
+pkgver=1.14.6
+pkgrel=1
 pkgdesc="Spell-checking library for GTK applications"
 url="https://gitlab.gnome.org/GNOME/gspell"
 arch=(x86_64)
@@ -36,8 +36,8 @@ checkdepends=(
   nuspell
   xorg-server-xvfb
 )
-source=("git+https://gitlab.gnome.org/GNOME/gspell.git#tag=$pkgver")
-b2sums=('3f02b9d230bc83541b8849e9a8d772bf9a70ff75c29c36f56630f2a0526c0dd2d1e7055297a038b4889c7c6703001186cf95cf7797e32c01635e33d005e403cd')
+source=("git+https://gitlab.gnome.org/GNOME/gspell.git#tag=1.14.6")
+b2sums=('fab650b8f05a66e11a4a5c50852b7652b5ab213877ed864227974c81cbb842b919813034b688128d29f8d69b3ce015fbdaaf975c0a30d9bb658e548c1476f21f')
 
 prepare() {
   cd gspell
