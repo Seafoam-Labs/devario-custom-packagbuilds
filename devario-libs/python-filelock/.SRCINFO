@@ -1,6 +1,6 @@
 pkgbase = python-filelock
 	pkgdesc = A platform-independent file lock
-	pkgver = 4.3.0
+	pkgver = 4.3.1
 	pkgrel = 1
 	url = https://github.com/tox-dev/filelock
 	arch = any
@@ -12,7 +12,7 @@ pkgbase = python-filelock
 	makedepends = python-hatchling>=1.29
 	makedepends = python-installer
 	depends = python>=3.11
-	source = git+https://github.com/tox-dev/filelock.git#tag=4.3.0
+	source = git+https://github.com/tox-dev/filelock.git#tag=4.3.1
 	b2sums = SKIP
 
 pkgname = python-filelock
