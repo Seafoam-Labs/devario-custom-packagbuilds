@@ -4,8 +4,8 @@
 # Contributor: John Proctor <jproctor@prium.net>
 
 pkgname=graphviz
-pkgver=16.1.0
-pkgrel=2
+pkgver=16.1.2
+pkgrel=1
 pkgdesc='Graph visualization software'
 url='https://www.graphviz.org/'
 license=('EPL')
@@ -14,8 +14,8 @@ arch=('x86_64')
 depends=('glibc' 'libgcc' 'libstdc++' 'libltdl' 'cairo' 'pango' 'expat' 'zlib' 'freetype2')
 makedepends=('cmake' 'ninja' 'bison' 'flex' 'python' 'pkgconf')
 source=("https://gitlab.com/graphviz/graphviz/-/archive/$pkgver/$pkgname-$pkgver.tar.gz")
-sha256sums=('1e028b2b3e84e946c1d3e8c47590f8f0741bba1041fe6eff36eee87e598ea249')
-b2sums=('dabed4c1dd0b87f17da65035e411671a85a40f8ba8fcfd7ace53236d616779c76eadb4bf2531b27d450be09eab92bd725045735a833670b56392fdd62986427a')
+sha256sums=('807e2ce60392e98c5cc3af160fa2946ac686d399a5baa3b6595137e9207f65ab')
+b2sums=('6b991decafa4ae010adfdd18f3debb8775a8dcfeb1730eea907ba702a7a4b4a00798a637030143d275db90c5b9e56e095eafca4d19c5027828b547cb45dc0ef4')
 install='graphviz.install'
 
 prepare() {
