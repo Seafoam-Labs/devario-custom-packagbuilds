@@ -8,7 +8,7 @@
 _build_docs=0
 
 pkgname=python-virtualenv
-pkgver=21.15.6
+pkgver=21.15.12
 pkgrel=1
 pkgdesc='Virtual Python Environment builder'
 arch=(any)
@@ -54,16 +54,23 @@ source=(
   "$pkgname::git+https://github.com/pypa/virtualenv#tag=$pkgver"
   no-llm-crap.patch
 )
-sha512sums=('281cf46232389cc1a4ac20e572e01b586bc19ae43e4895a61d70d9d9782aa54b3ac18bf06875ab2e2b17e1d625430e7e8e85a0f51f65fc4d6b6496dba4ecaa6c'
+sha512sums=('8400c2112766a5f50398a77d38985065beac745fc872b77d64a9819cd756f4694654e06037bf768b693c8a818ea3ffac1068c36cc5d4d79f53c6700780e2469f'
             '9d198995dabe340d905d63d8bd372980223033155956c522479537f26a93c83149b0a323e81abf8de0e31decd6e1f6063aae3be1f5200f872901d81acefa063e')
-b2sums=('5be087dcbdbb8190c8ad2935902dfef480a199b896b723ad7bfbbb69a561e793551e7137cfb118ed8af4e5d87f5bc86c4e826dc7ddea976c715f86ed0ee1d579'
-        '202e755826989926017b045ba310bf2a90e0e57940b851ca3add5cb28b062f4606f88c1cf3bd6b19b983d95443b19004f68d58e0fde274f8353900df1b90ffca')
+b2sums=('e4cf40368525555ef9cd50253de59a9cd26effaf1f811954ef5420a307dd1383d43bae3eeacbaace47e87a07af800d75153479af59d58ea7dbed83664a8aa141'
+            '202e755826989926017b045ba310bf2a90e0e57940b851ca3add5cb28b062f4606f88c1cf3bd6b19b983d95443b19004f68d58e0fde274f8353900df1b90ffca')
 
 prepare() {
   cd "$pkgname"
 
   # this really is completely unnecessary
   patch -p1 -i "$srcdir/no-llm-crap.patch"
+
+  # Recent releases embed a CycloneDX SBOM via the python-sbom hatch hook, which
+  # is not packaged. The hook only adds wheel metadata, so drop it and its
+  # requirement (same workaround as in python-filelock). Here the hook is wired
+  # through build.hooks.custom -> hatch_build.py, which upstream itself treats
+  # as a no-op on Python < 3.11.
+  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.custom\.path/d' pyproject.toml
 }
 
 build() {
