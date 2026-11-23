@@ -1,6 +1,6 @@
 # Pinned Darkly application styles for Pearl. No KWin decorations or Plasma theme.
 pkgname=pearl-darkly-style
-pkgver=0.5.45
+pkgver=0.5.46
 pkgrel=1
 pkgdesc='Darkly application styles for Qt 5 and Qt 6, without KWin decorations'
 arch=('x86_64')
@@ -16,8 +16,8 @@ provides=("darkly=$pkgver")
 conflicts=('darkly' 'darkly-bin' 'darkly-git')
 source=("darkly::git+$url.git#tag=v$pkgver" 'application-style.patch')
 # Checksum the tagged release's git archive tar; SKIP is for detached signatures only.
-# The git checksum below is from an older tag; refresh for 0.5.45 in checksum validation.
-sha256sums=('759e6493af40223c082c736163908c751a849d4b5f72241523b60504f9263463'
+# The git checksum below is from an older tag; refresh for 0.5.46 in checksum validation.
+sha256sums=('8bf379a475c39b0ae4d6d80d060c11647dd7d6cc4a632a05670c1e49c3bec6e8'
             '4d955f537ba9d04f9ca1f4007ac39f23a68bbeeeb7cbb380aa8abcc9d0627763')
 
 prepare() {
