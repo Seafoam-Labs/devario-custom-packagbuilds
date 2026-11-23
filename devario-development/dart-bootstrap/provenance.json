@@ -1,11 +1,11 @@
 {
   "components": [
     {
-      "release": "3.14.0",
-      "asset_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.0/sdk/dartsdk-linux-x64-release.zip",
-      "sha256": "eb99aed266efbcb615c6ae21c12f52cfe935b9f208bccc5fea7f64c21e867229",
-      "sha256_reference": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.0/sdk/dartsdk-linux-x64-release.zip.sha256sum",
-      "attestation_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.0/sdk/dartsdk-linux-x64-release.zip.intoto.jsonl"
+      "release": "3.14.1",
+      "asset_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.1/sdk/dartsdk-linux-x64-release.zip",
+      "sha256_reference": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.1/sdk/dartsdk-linux-x64-release.zip.sha256sum",
+      "sha256_note": "Not recorded here for 3.14.1: the hash stored for release 3.14.0 does not cover this asset. Shelly validation regenerates the sha256sums array in PKGBUILD from the 3.14.1 zip bytes and confirms it against the upstream .sha256sum above.",
+      "attestation_url": "https://storage.googleapis.com/dart-archive/channels/stable/release/3.14.1/sdk/dartsdk-linux-x64-release.zip.intoto.jsonl"
     }
   ]
 }
