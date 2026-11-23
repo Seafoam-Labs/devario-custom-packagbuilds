@@ -5,7 +5,7 @@
 
 pkgbase=gradle
 pkgname=('gradle' 'gradle-doc' 'gradle-src')
-pkgver=9.9.1
+pkgver=9.9.2
 pkgrel=1
 pkgdesc='Powerful build system for the JVM'
 url='https://gradle.org/'
@@ -32,11 +32,11 @@ makedepends=(
 source=(https://services.gradle.org/distributions/${pkgbase}-${pkgver}-src.zip
         https://services.gradle.org/distributions/${pkgbase}-${pkgver}-all.zip
         ${pkgbase}.sh)
-sha256sums=('3ff6caf155cbf86d6494ffc1b326ea43b7e3a2a937c4f6344ff8f0a29c9a55b9'
-            'f20c816177c0ff192881874852260771b462903aef3e794b0dac4759d1fda284'
+sha256sums=('cbaec7252a915e82ec3efc5a822637addf61054251aa2c6f49dcfcffb692038c'
+            '1ac85e9cbc2b091ad04e6c6d0f486f0a2a2fabd78f9f8719a0d5bcc0ce1b345b'
             '4728dbdbe9fe416b82977cb7e456457e3ff0b88129291ee28e0d874ce8cc4891')
-sha512sums=('2c80136c9e492c0b5139687d9fcaa9032dfac9b0ba8c7776f1ab951d1c64093081d278c989163b65b8ddb8649b7e45d6572f2baa93c452c77977129393f36748'
-            'd7785ec8c82d75238ebf49125f2208c3751215ed017c91d3171099e775a0e4b39bf13bc92356803ab6354447442e16649d29e718202064ca74b3b2d0ee6dcf3e'
+sha512sums=('7679103f11975dc32d940c0ed67e4e3a2acffa6d295454431e9922b68a9ede740addb54a63075ded94036bce68530173409bd76973e1c41296c8a8ce23dace82'
+            '699fdd0e3ca806f00de0d4f3d56cb0e20f5e97f2afa8c302f8d4b83d9295c28f5d076ee0359e2c3e4bd47fd4f5511ae2dff5098752fae13d9b7ad7fe5f0a1a9a'
             '9054a13f13a0d04bffefb2e5c1bcabfcd7b11e4d83d9180f65e0a09eeb8fea407d8c4e1e1e9b79191ba99e4eb372dbbb3189dd30833170c64cdb4484ca559441')
 
 # Shelly refuses a second source archive writing a path the first created, and
