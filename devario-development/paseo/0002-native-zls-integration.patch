@@ -2219,9 +2219,9 @@ index 00c8529..cc6338a 100644
 +++ b/packages/server/src/server/session.ts
 @@ -1,3 +1,4 @@
 +import { ZlsService } from "./editor/zls-service.js";
+ import { DiffSession } from "./diff/index.js";
  import { type WorkspaceRuntimeStore } from "./workspace-runtime-store/index.js";
- import type { AgentMessageDelivery } from "./agent/agent-messages/index.js";
- import { AgentDirectory } from "./agent/directory.js";
+ import type { AgentMessageBehavior, AgentMessageDelivery } from "./agent/agent-messages/index.js";
 @@ -819,6 +820,7 @@ export class Session {
    private readonly providerCatalogSession: ProviderCatalogSession;
    private readonly usageSession: UsageSession;

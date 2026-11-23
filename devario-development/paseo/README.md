@@ -1,7 +1,7 @@
 # Paseo with native Zig editing
 
-This recipe builds Paseo 0.15.4 from its checksummed upstream source archive
-and packages the desktop app, daemon, and CLI as `paseo 0.15.4-1`.
+This recipe builds Paseo 0.17.3 from its checksummed upstream source archive
+and packages the desktop app, daemon, and CLI as `paseo 0.17.3-1`.
 
 `0001-native-zig-editor-support.patch` registers `.zig` and `.zon` in the shared
 language registry. The editor and static source/diff previews gain syntax
@@ -63,12 +63,17 @@ navigation, restart/reconnect, and editor cleanup; they run separately with
 Playwright Chromium. A full isolated Shelly package build and graphical Electron
 smoke test have not been run.
 
-Validation completed locally: both patches apply to a fresh source archive and
-`npm ci` accepts the patched lockfile; app/server typechecks, all 146 recipe tests,
-and three browser tests pass. The renderer, server, CLI, and Electron main
-process compile, Electron Builder produces the Linux bundle, and `package()`
-stages it successfully. The staged CLI reports `0.15.4`; its archive includes the
-ZLS service and protocol, and its renderer includes the ZLS controls. Checksums,
-shell syntax, desktop metadata, and Shelly-generated `.SRCINFO` are verified.
-Shelly review reports the npm build commands and misidentifies TypeScript
-template strings inside patches as dynamic shell commands.
+Validation completed locally for the 0.17.3 recipe: both patches apply to a fresh
+source archive and `npm ci` accepts the patched lockfile. The ZLS patch's
+`session.ts` import hunk is rebased for 0.17.3's changed top-of-file imports; every
+other hunk is unchanged. The renderer, server, CLI, and Electron main process
+compile, Electron Builder produces the Linux bundle, and `package()` stages it
+successfully. The recipe's `check()` passes 161 tests (highlighting, ZLS protocol,
+document synchronization, LSP transport, real-ZLS, daemon round-trip, and
+authorization) plus desktop-file validation. The staged CLI reports `0.17.3`; its
+archive includes the ZLS service and protocol, and its renderer includes the ZLS
+controls. Checksums, shell syntax, desktop metadata, and Shelly-generated
+`.SRCINFO` are verified, and a full host Shelly build completes. Shelly review
+reports the npm build commands and misidentifies TypeScript template strings inside
+patches as dynamic shell commands. The isolated build, Playwright browser tests,
+and graphical Electron smoke test have not been run.
