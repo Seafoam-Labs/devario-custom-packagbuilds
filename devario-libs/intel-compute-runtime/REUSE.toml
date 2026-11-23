@@ -24,6 +24,7 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "010-intel-compute-runtime-disable-werror.patch",
+    "020-intel-compute-runtime-align-visit-ext-with-level-zero-spec.patch",
 ]
 SPDX-FileCopyrightText = "intel-compute-runtime contributors"
 SPDX-License-Identifier = "MIT"
