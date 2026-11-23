@@ -1,7 +1,7 @@
 pkgbase = python-librt
 	pkgdesc = Mypyc runtime library
-	pkgver = 0.16.0
-	pkgrel = 2
+	pkgver = 0.17.0
+	pkgrel = 1
 	url = https://github.com/mypyc/librt
 	arch = x86_64
 	license = MIT AND PSF-2.0
@@ -10,7 +10,7 @@ pkgbase = python-librt
 	makedepends = python-setuptools
 	makedepends = python-wheel
 	depends = glibc
-	source = https://github.com/mypyc/librt/archive/v0.16.0/python-librt-0.16.0.tar.gz
-	b2sums = 8e488a0dfd9035a7ae5d8e61bcff1873f1be56bce28c287925065379f721410de2df924992dee3f55ff4f84d901d9bee777087cabb07cdfd067b2fe3e3ea3722
+	source = https://github.com/mypyc/librt/archive/refs/tags/v0.17.0.tar.gz
+	b2sums = 249b621ace9a24bcc5a03d487f2cf0015672e33a4134f0e07b73049767cbcf91daf5fc92503c11e888dd101529320dcee7a8bd8fbcb4e6a63324a886b7038646
 
 pkgname = python-librt

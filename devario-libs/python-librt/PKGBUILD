@@ -1,8 +1,8 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=python-librt
-pkgver=0.16.0
-pkgrel=2
+pkgver=0.17.0
+pkgrel=1
 pkgdesc='Mypyc runtime library'
 arch=('x86_64')
 url="https://github.com/mypyc/librt"
@@ -14,23 +14,23 @@ makedepends=(
   'python-setuptools'
   'python-wheel'
 )
-source=("$url/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-b2sums=('8e488a0dfd9035a7ae5d8e61bcff1873f1be56bce28c287925065379f721410de2df924992dee3f55ff4f84d901d9bee777087cabb07cdfd067b2fe3e3ea3722')
+source=("https://github.com/mypyc/librt/archive/refs/tags/v0.17.0.tar.gz")
+b2sums=('249b621ace9a24bcc5a03d487f2cf0015672e33a4134f0e07b73049767cbcf91daf5fc92503c11e888dd101529320dcee7a8bd8fbcb4e6a63324a886b7038646')
 
 prepare() {
-  cd ${pkgname#python-}-$pkgver
+  cd librt-$pkgver
   # Necessary for building, see:
   # .github/workflows/buildwheels.yml
   cp -vr lib-rt/* .
 }
 
 build() {
-  cd ${pkgname#python-}-$pkgver
+  cd librt-$pkgver
   python -m build --wheel --no-isolation
 }
 
 package() {
-  cd ${pkgname#python-}-$pkgver
+  cd librt-$pkgver
   python -m installer --destdir="$pkgdir" dist/*.whl
   install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
 }
