@@ -17,7 +17,7 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=8.5.12
+pkgver=8.6.0
 pkgrel=1
 arch=('x86_64')
 license=('PHP-3.01')
@@ -28,16 +28,16 @@ makedepends=('apache' 'enchant' 'gd' 'gmp' 'icu' 'libsodium' 'libxslt' 'libzip' 
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"{,.asc}
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch')
-sha256sums=('08bc2eba2a588654ade1357174aa646b761556c862dda0678345ee29ed481209'
+sha256sums=('5f84beaa3d763aee1e4feed99bf54ec692c383b322e25626807b589238c3a087'
             'SKIP'
             '74d33ad3e9fa2f0aaf6ceeddd59ec78d35e66673db74b1053cc3e6105478ba8a'
             '4a2add00d93fa991ccdf6356090264c1059c79935642afff6e8d4a2107fa037e'
             '78b8074461cdfc5d4e0ba428a8387f308d60720c8ad35c6176801e5088f02090'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
             '3cb032e719fe40963258616dcfe4937a6043042a31faef417c05dcb6e7295094')
-validpgpkeys=('1198C0117593497A5EC5C199286AF1F9897469DC'
-              '49D9AF6BC72A80D6691719C8AA23F5BE9C7097D4'
-              'D95C03BC702BE9515344AE3374E44BC9067701A5')
+validpgpkeys=('D95C03BC702BE9515344AE3374E44BC9067701A5' # Daniel Scherzer
+              '016895DE9A475111D537A6E69134FF30BC5A99B5' # Matteo Beccati
+              '5CFF17B64DC1C244F5D0EAC3E43535E2EB19010E') # Joe Ferguson
 _interpreter=${pkgver%.*}
 # LTO is incompatible with global registers and results in reduced performance:
 # https://gitlab.archlinux.org/archlinux/packaging/packages/php/-/merge_requests/3
