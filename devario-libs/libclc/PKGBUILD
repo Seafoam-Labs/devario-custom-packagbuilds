@@ -7,7 +7,8 @@ pkgdesc="Library requirements of the OpenCL C programming language"
 arch=('any')
 url="https://libclc.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
-makedepends=('cmake' 'ninja' 'clang' 'llvm' 'python' 'spirv-llvm-translator')
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
+makedepends=('cmake' 'ninja' 'clang' 'llvm' 'llvm-gtest' 'python' 'spirv-llvm-translator')
 _source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
 source=($_source_base/llvm-project-$pkgver.src.tar.xz{,.sig})
 sha256sums=('fb50b1eac93ddeb3aa8dab4cfe324dff74f4a9c2bdee6160c9e36188f8d06a6e'
