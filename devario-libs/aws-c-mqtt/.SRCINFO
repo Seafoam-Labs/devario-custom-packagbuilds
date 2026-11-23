@@ -1,6 +1,6 @@
 pkgbase = aws-c-mqtt
 	pkgdesc = C99 implementation of the MQTT 3.1.1 specification
-	pkgver = 1.1.3
+	pkgver = 1.1.4
 	pkgrel = 1
 	url = https://github.com/awslabs/aws-c-mqtt
 	arch = x86_64
@@ -10,7 +10,7 @@ pkgbase = aws-c-mqtt
 	depends = aws-c-http
 	depends = aws-c-io
 	depends = glibc
-	source = https://github.com/awslabs/aws-c-mqtt/archive/refs/tags/v1.1.3.tar.gz
-	b2sums = 6a6eb6ffaaca8adcffe7a2ea6fc427c1ff887baa3269074187b8bca608faeb408570b706afee1f06a56a73e78568ed1152b5d2f4fda268cef7b0161532f9a910
+	source = https://github.com/awslabs/aws-c-mqtt/archive/refs/tags/v1.1.4.tar.gz
+	b2sums = ea65a68a6b74e5c25847f816025e951ff35303fb6944c2ead84965e407c8c92c1f6251fe09630788fe84f4874a50614535fbc2bd79240b03b487103bb53b9c73
 
 pkgname = aws-c-mqtt
