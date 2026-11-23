@@ -11,7 +11,7 @@
 # Contributor: Jacob Bang <julemand101@archlinux.dk>
 
 pkgname=dart
-pkgver=3.13.7
+pkgver=3.14.1
 pkgrel=1
 pkgdesc='The dart programming language SDK'
 arch=('x86_64')
@@ -37,13 +37,11 @@ source=(
   "git+https://github.com/dart-lang/sdk.git#tag=$pkgver"
   "git+https://chromium.googlesource.com/chromium/tools/depot_tools.git#commit=$_depotver"
   "DEPS.patch"
-  "0001-ignore-warnings-in-binaryen.patch"
 )
 
-sha256sums=('6e5d8af2484d074913a93a22a02697cdb6f1698284eb631027c166bade1ca818'
+sha256sums=('f344948c4b99213994957a683f119d663280710fdb5da1aa31ab285d7ca7eb26'
             'e1aa792cf608fffcc74a7ca6ab29b9bc75fdb45f67205703b409aa422e6f420a'
-            'a921c2d481bdc1c78857fe3b248980139291fc10f8eef731287741feac1756c9'
-            'b444edf6da2aa9f8e3ddafb7be2e359eec62ab61106b8845a39e62e62bb9ffc4')
+            '85f9ada0ded9fc7435511455673398e1b20dacefdd9565d033a424671adc1b43')
 
 prepare() {
 cat >.gclient <<EOF
@@ -66,9 +64,6 @@ EOF
   cd sdk
 
   patch -Np 1 --input="$srcdir/DEPS.patch"
-
-  # Fix for https://github.com/dart-lang/sdk/issues/63406
-  patch -Np 1 --input="$srcdir/0001-ignore-warnings-in-binaryen.patch"
 
   gclient sync -D \
       --nohooks \

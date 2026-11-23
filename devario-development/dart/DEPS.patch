@@ -1,17 +1,17 @@
 diff --git a/DEPS b/DEPS
-index 2f3b907b3be0c34f5088e7290375c1363b3d8ec1..922e26e47048243a21923f168444d2391bf686dc 100644
+index 38b053c..f4c189b 100644
 --- a/DEPS
 +++ b/DEPS
-@@ -86,7 +86,7 @@
-   "gn_version": "git_revision:b8becbd4f7979f63ab3542524b2b4d8db2ce3b52",
+@@ -89,7 +89,7 @@ vars = {
+   "gn_version": "git_revision:510ec7992c30f172205792f190e96111a896ba8f",
  
    "reclient_version": "re_client_version:28341fc74c68f05a5c8be35160ada940c4edb969",
 -  "download_reclient": True,
 +  "download_reclient": False,
  
    # Update from https://chrome-infra-packages.appspot.com/p/fuchsia/sdk/core
-   "fuchsia_sdk_version": "version:32.20260702.4.1",
-@@ -384,78 +384,6 @@
+   "fuchsia_sdk_version": "version:33.20260821.2.1",
+@@ -395,78 +395,6 @@ deps = {
    Var("dart_root") + "/third_party/pkg/web":
        Var("dart_git") + "web.git" + "@" + Var("web_rev"),
  
@@ -25,11 +25,11 @@ index 2f3b907b3be0c34f5088e7290375c1363b3d8ec1..922e26e47048243a21923f168444d239
 -      "condition": "host_os == linux",
 -      "dep_type": "cipd",
 -  },
--  Var("dart_root") + "/buildtools/sysroot/focal": {
+-  Var("dart_root") + "/buildtools/sysroot/jammy": {
 -      "packages": [
 -          {
--              "package": "fuchsia/third_party/sysroot/focal",
--              "version": "git_revision:fa7a5a9710540f30ff98ae48b62f2cdf72ed2acd",
+-              "package": "fuchsia/third_party/sysroot/jammy",
+-              "version": "git_revision:1d35e3be9be587ed0de81ea4208be7cc01a7748c",
 -          },
 -      ],
 -      "condition": "host_os == linux",
@@ -90,7 +90,7 @@ index 2f3b907b3be0c34f5088e7290375c1363b3d8ec1..922e26e47048243a21923f168444d239
    Var("dart_root") + '/buildtools/reclient': {
      'packages': [
        {
-@@ -507,17 +435,6 @@
+@@ -518,17 +446,6 @@ deps = {
      "dep_type": "cipd",
    },
  
@@ -108,7 +108,7 @@ index 2f3b907b3be0c34f5088e7290375c1363b3d8ec1..922e26e47048243a21923f168444d239
    # windows-arm64 package is not available, use the windows-x64 package and
    # rely on transparent emulation.
    Var("dart_root") + "/buildtools/win": {
-@@ -531,14 +448,6 @@
+@@ -542,14 +459,6 @@ deps = {
        "dep_type": "cipd",
    },
  
@@ -123,7 +123,7 @@ index 2f3b907b3be0c34f5088e7290375c1363b3d8ec1..922e26e47048243a21923f168444d239
    Var("dart_root") + "/third_party/android_tools": {
       "packages": [
         {
-@@ -603,35 +512,6 @@
+@@ -625,35 +534,6 @@ deps = {
      "dep_type": "cipd",
    },
  
