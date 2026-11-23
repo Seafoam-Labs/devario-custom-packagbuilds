@@ -1,7 +1,7 @@
 # Maintainer: Piotr Gorski <lucjan.lucjanov@gmail.com>
 
 pkgname=mailcraft
-pkgver=0.14.0
+pkgver=0.15.0
 pkgrel=1
 _appid=io.github.billsecond.mailcraft
 pkgdesc='Native mail, calendar, contacts and tasks program written in Rust'
@@ -32,7 +32,7 @@ optdepends=(
   'gnome-keyring: Secret Service for remembered sign-ins (or any other provider)'
 )
 source=("git+$url.git#tag=v$pkgver")
-b2sums=('ab43ab989e50b47200fbdad4854ceefa53d07d03b3bbbb01e87125fed479b9b2699a093bac7f26943562ec34133c220126b0b668a645f0fe17c4b44f2e297d5f')
+b2sums=('c081e6c9503a98a29d8b7f6058c626124fa76eefb588cea11f4dc221a0f4ab43d4a31d64ac18728e568871a8f9e69586d7df31d674a7efa2b5630a2ead723d22')
 
 prepare() {
   cd "$pkgname"
