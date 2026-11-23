@@ -1,0 +1,5 @@
+#!/bin/sh
+: "${VAULTITE_USER_DATA:=${XDG_CONFIG_HOME:-$HOME/.config}/Vaultite-Devario}"
+export VAULTITE_USER_DATA
+export ELECTRON_RUN_AS_NODE=1
+exec /usr/lib/electron44/electron /usr/lib/vaultite/electron/shell/vau.mjs "$@"

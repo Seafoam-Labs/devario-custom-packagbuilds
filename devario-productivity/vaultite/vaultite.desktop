@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Vaultite
+Comment=Work with a vault of plain Markdown notes
+Exec=vaultite %U
+Icon=vaultite
+Type=Application
+Terminal=false
+Categories=Office;
+MimeType=text/markdown;x-scheme-handler/vaultite;
+StartupWMClass=vaultite

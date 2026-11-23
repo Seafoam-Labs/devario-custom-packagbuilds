@@ -1,0 +1,55 @@
+--- a/electron/updates.ts
++++ b/electron/updates.ts
+@@ -50,7 +50,9 @@
+ let host: UpdatesHost
+ export function initUpdates(h: UpdatesHost) { host = h }
+ 
+-export const updatable = () => !WORKTREE && app.isPackaged && !!CODE && (SHELL.release === true || !WIN)
++// The app and its Electron runtime are separate packages on Devario.
++const PACKAGE_MANAGED = process.platform === "linux" && fs.existsSync(path.join(ROOT, "package-type"))
++export const updatable = () => !PACKAGE_MANAGED && !WORKTREE && app.isPackaged && !!CODE && (SHELL.release === true || !WIN)
+ // (.noindex: Spotlight skips them, a .metadata_never_index file no longer works; else it indexed every build's files)
+ const SOURCE = () => path.join(app.getPath("userData"), "source.noindex")
+ const NEXT = () => path.join(app.getPath("userData"), "update.noindex")
+@@ -71,6 +73,7 @@
+ 
+ let state: Updates = START
+ function send(e: UpdateEvent) {
++  if (PACKAGE_MANAGED) return
+   const from = state, r = step(from, e)
+   state = r.to
+   const a = describe(from), b = describe(r.to)
+@@ -118,7 +121,7 @@
+ 
+ export function appUpdates(): AppUpdates {
+   const store = storeOn() ? storeStatus() : null, o = state.offer
+-  return { mode: host.mode(), available: updatable(), from: worktree ? "worktree" : RELEASE ? "releases" : BRANCH, ready: o?.commit ?? null,
++  return { mode: host.mode(), available: updatable(), from: PACKAGE_MANAGED ? "shelly" : worktree ? "worktree" : RELEASE ? "releases" : BRANCH, ready: o?.commit ?? null,
+     doing: statusOf(state, app.getName())?.text ?? null, commit: worktree?.commit ?? CODE?.commit ?? null, helper: host.helper(),
+     ...(worktree ? { worktree } : { helperCommit: host.helperCommit() }),
+     ...(store ? { store, how: o?.how === "relaunch" ? "relaunch" : "install" } : {}), ...(started ? { root: started } : {}), ...(o?.behind ? { behind: o.behind } : {}) }
+@@ -140,6 +143,7 @@
+   send({ type: "offered", commit, how: WORKTREE ? "worktree" : how, ...(behind !== undefined ? { behind } : {}) })
+ }
+ export async function lookNow(asking?: { port: number; commit: string }): Promise<UpdateStatus | null> {
++  if (PACKAGE_MANAGED) return null
+   if (asking) told.set(asking.port, asking.commit)
+   if (storeOn()) {
+     send({ type: "check", byHand: false, via: "store", off: host.mode() === "off", recent: false })
+@@ -178,7 +182,7 @@
+ 
+ const restartedOnto = new Set<string>()
+ export function checkInstalled(w: UpdateWindow) {
+-  if (!app.isPackaged) return
++  if (PACKAGE_MANAGED || !app.isPackaged) return
+   setTimeout(() => void (async () => {
+     const p = w.vault.path
+     if (!host.windows().includes(w) || !w.server || w.server.exitCode !== null) return
+@@ -382,6 +386,7 @@
+ }
+ 
+ export function scheduleUpdates() {
++  if (PACKAGE_MANAGED) return
+   if (RELEASE) {
+     setTimeout(() => checkForUpdate(false), 10_000)
+     setInterval(() => checkForUpdate(false), 4 * 60 * 60_000)
