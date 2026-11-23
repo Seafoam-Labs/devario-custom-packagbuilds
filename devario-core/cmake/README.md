@@ -1,6 +1,6 @@
 # cmake for Shelly
 
-Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/cmake/-/blob/main/PKGBUILD), pinned to `4.5.0-1`. Copy the whole directory to the worker, including local patches and `keys/` where present.
+Based on [Arch's packaging](https://gitlab.archlinux.org/archlinux/packaging/packages/cmake/-/blob/main/PKGBUILD), pinned to `4.5.1-1`. Copy the whole directory to the worker, including local patches and `keys/` where present.
 
 Retains the upstream bootstrap build, GUI, HTML/man documentation, and byte-compiled Emacs integration, byte-compiled with `emacs-nox` because the published `emacs` build links an undeclared `libXpm` and cannot start in the isolated build root. The worker needs the declared Qt, Sphinx, and Emacs build dependencies. Upstream packaging has no `check()` hook.
 
