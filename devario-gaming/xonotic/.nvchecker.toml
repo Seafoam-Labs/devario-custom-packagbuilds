@@ -1,0 +1,4 @@
+[xonotic]
+source = "git"
+git = "https://gitlab.com/xonotic/xonotic.git"
+prefix = "xonotic-v"

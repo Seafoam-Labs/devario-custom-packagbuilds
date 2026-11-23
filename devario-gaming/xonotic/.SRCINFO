@@ -1,0 +1,28 @@
+pkgbase = xonotic
+	pkgdesc = A free, fast-paced cross-platform first person shooter
+	pkgver = 0.8.6
+	pkgrel = 3
+	url = https://xonotic.org
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = mesa
+	makedepends = xorgproto
+	depends = alsa-lib
+	depends = curl
+	depends = libjpeg-turbo
+	depends = libmodplug
+	depends = libvorbis
+	depends = libxpm
+	depends = libxxf86vm
+	depends = sdl2
+	depends = libpng>=1.4.0
+	depends = xonotic-data
+	depends = hicolor-icon-theme
+	depends = gtk-update-icon-cache
+	depends = desktop-file-utils
+	source = https://dl.xonotic.org/xonotic-0.8.6-source.zip
+	source = xonotic-0.8.6-fix-c23.patch
+	sha512sums = 88aa9cf35aa8e4b067dcc313037414fbc3a3769d60e88097ae8a3fbd2343369e2e4eff454b19d8a59b9c0bcbe183ec6eb289f35fa9f36564a300a3664c0e9498
+	sha512sums = 89338d354e786af18dc5eedff3ea6ee02f9c85ce6b8a46f829a1ff6d7b3bfd8c0b2757a8642a39c152115679a544bdc19a43af91406f19ab402119ffc960ca22
+
+pkgname = xonotic
