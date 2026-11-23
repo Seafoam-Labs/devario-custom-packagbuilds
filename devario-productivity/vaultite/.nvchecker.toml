@@ -1,0 +1,5 @@
+[vaultite]
+source = "github"
+github = "Vaultite/vaultite"
+use_latest_release = true
+prefix = "v"

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Keep the distro build (shared Electron) separate from encrypted upstream profiles.
+: "${VAULTITE_USER_DATA:=${XDG_CONFIG_HOME:-$HOME/.config}/Vaultite-Devario}"
+export VAULTITE_USER_DATA
+export ELECTRON_FORCE_IS_PACKAGED=1
+exec /usr/bin/electron44 /usr/lib/vaultite "$@"
