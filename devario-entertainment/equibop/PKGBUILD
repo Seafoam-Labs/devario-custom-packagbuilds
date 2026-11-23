@@ -6,10 +6,10 @@
 
 pkgname=equibop
 _pkgname=Equibop
-pkgver=3.3.2
+pkgver=3.3.4
 pkgrel=1
 # Exact version from the release's bun.lock; do not build Chromium separately.
-_electron_ver=44.9.3
+_electron_ver=45.3.2
 pkgdesc='Discord desktop client with Equicord pre-installed'
 arch=(x86_64 aarch64)
 url='https://github.com/Equicord/Equibop'
@@ -24,9 +24,9 @@ optdepends=('libnotify: desktop notifications'
 conflicts=(equibop-bin equibop-git)
 options=(!strip !lto)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('81a5967f696f4ccf218f8b625623f54d043c676024cdcc29a574431d89922d3d')
-sha256sums_x86_64=('6e7fd2d450d442507b846ace4ae6e2bd17e1b1653e86a033b5231abfc23e6df4')
-sha256sums_aarch64=('8e70d53d920d84db869023280e5a1fbda82ecc58fea4443748e58309a3c80238')
+sha256sums=('c557e280b461350841efc660cff14047172615797585b0249634b1a417ebb6fc')
+sha256sums_x86_64=('0ae270dcca192d2f0a0e2be585307a2460f59303d76b7d19171fc6442d72a829')
+sha256sums_aarch64=('e869334b60a1768b2cbb0ae066d25de333511cbb1957cdac9a345e120d41e11b')
 source_x86_64=("https://github.com/electron/electron/releases/download/v$_electron_ver/electron-v$_electron_ver-linux-x64.zip")
 source_aarch64=("https://github.com/electron/electron/releases/download/v$_electron_ver/electron-v$_electron_ver-linux-arm64.zip")
 noextract=("electron-v$_electron_ver-linux-x64.zip" "electron-v$_electron_ver-linux-arm64.zip")
@@ -49,17 +49,9 @@ if f'"electron": ["electron@{sys.argv[1]}",' not in Path('bun.lock').read_text()
     raise SystemExit('Electron pin no longer matches bun.lock; update the version and archive hashes together')
 PY
 
-  # Upstream CI compiles both Linux architectures. Only cache our native helper.
-  python - <<'PY' || return
-from pathlib import Path
-path = Path('scripts/build/compileArrpc.mts')
-old = 'TARGETS.filter(t => t.platform === currentPlatform);'
-new = 'TARGETS.filter(t => t.platform === currentPlatform && t.arch === currentArch);'
-text = path.read_text()
-if old not in text and new not in text:
-    raise SystemExit('arRPC target-selection code changed; review the patch')
-path.write_text(text.replace(old, new))
-PY
+  # Since 3.3.4 arRPC runs in-process (packages/discord-rpc workspace) and game
+  # detection uses prebuilt @vencord/game-detection addons copied by the build;
+  # there is no native arRPC helper to compile or patch anymore.
   CI=true bun install --frozen-lockfile
   CI=true bun install --cwd packages/libvesktop --frozen-lockfile
 }
@@ -78,8 +70,6 @@ build() {
   mkdir -p dist/app/dist
   cp -r dist/js dist/app/dist/
   cp -r static dist/app/
-  # The executable lives beside app.asar; do not embed a second copy in it.
-  rm -f dist/app/static/dist/arrpc-*
   cp package.json LICENSE dist/app/
   node - <<'JS'
 const {createPackageWithOptions} = require('@electron/asar');
@@ -114,9 +104,6 @@ package() {
   rm -f "$pkgdir/opt/equibop/resources/default_app.asar"
   install -Dm644 dist/app.asar "$pkgdir/opt/equibop/resources/app.asar"
   cp -r dist/app.asar.unpacked "$pkgdir/opt/equibop/resources/"
-  local _arch=x64
-  [[ $CARCH == aarch64 ]] && _arch=arm64
-  install -Dm755 "static/dist/arrpc-linux-$_arch" "$pkgdir/opt/equibop/resources/arrpc/arrpc"
 
   install -Dm755 /dev/stdin "$pkgdir/usr/bin/equibop" <<'SH'
 #!/bin/bash
