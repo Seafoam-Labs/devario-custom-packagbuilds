@@ -1,6 +1,6 @@
 pkgbase = python-rpds-py
 	pkgdesc = Python bindings for Rust persistent data structures
-	pkgver = 2026.9.1
+	pkgver = 2026.11.1
 	pkgrel = 1
 	url = https://github.com/crate-py/rpds
 	arch = x86_64
@@ -12,7 +12,7 @@ pkgbase = python-rpds-py
 	depends = python>=3.11
 	depends = gcc-libs
 	depends = glibc
-	source = https://files.pythonhosted.org/packages/42/68/3bd46b8a5e01d3c2ebdf9c5e9497912e3fe0cde02bac21a7130ca866e403/rpds_py-2026.9.1.tar.gz
-	sha256sums = 4793ef7f78268b124b73fa933440f01d258bbae01de9fa53e9080c9ab0425a12
+	source = https://github.com/crate-py/rpds/archive/refs/tags/v2026.11.1.tar.gz
+	sha256sums = 7bc144d53398a21ec8863bc0a70e7179cdb60f59859e27198a75aa1a9808c942
 
 pkgname = python-rpds-py

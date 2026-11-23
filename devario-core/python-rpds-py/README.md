@@ -1,6 +1,6 @@
 # python-rpds-py
 
-Source: [rpds-py 2026.6.3](https://pypi.org/project/rpds-py/2026.6.3/).
+Source: [rpds-py v2026.11.1](https://github.com/crate-py/rpds/releases/tag/v2026.11.1).
 The source archive is pinned by its published SHA-256.
 
 See [jsonschema build order](../../JSONSCHEMA-BUILDS.md).
