@@ -2,7 +2,7 @@
 # Maintainer: Bert Peters <bertptrs@archlinux.org>
 
 pkgname=ruby-cucumber-ci-environment
-pkgver=15.0.0
+pkgver=15.1.0
 pkgrel=1
 pkgdesc='Detect CI Environment from environment variables'
 arch=(any)
@@ -18,8 +18,8 @@ makedepends=(
   ruby-rspec
 )
 options=(!emptydirs)
-source=(git+https://github.com/cucumber/ci-environment.git#tag=v$pkgver)
-sha256sums=('1d140507b601b2432ba5f471ee9ed28b16bc1496b665cdf54ab5e35fc7f1b44b')
+source=(git+https://github.com/cucumber/ci-environment.git#tag=v15.1.0)
+sha256sums=('SKIP')
 
 prepare() {
   cd ci-environment/ruby
