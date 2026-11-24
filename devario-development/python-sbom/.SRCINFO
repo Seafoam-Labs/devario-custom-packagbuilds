@@ -1,0 +1,28 @@
+pkgbase = python-sbom
+	pkgdesc = SBOMs for Python distributions: write PEP 770 CycloneDX SBOMs into wheels
+	pkgver = 0.5.0
+	pkgrel = 1
+	url = https://github.com/tox-dev/python-sbom
+	arch = any
+	license = MIT AND Apache-2.0
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-hatch-fancy-pypi-readme>=25.1
+	makedepends = python-hatch-vcs>=0.5
+	makedepends = python-hatchling>=1.32.4
+	makedepends = python-installer
+	makedepends = python-packageurl-python
+	makedepends = python-zipremove
+	depends = python
+	depends = python-installer>=1.1
+	depends = python-packaging>=26.3
+	depends = python-packageurl-python>=0.11.1
+	depends = python-zipremove>=0.10
+	optdepends = python-hatchling: hatch build hook
+	optdepends = python-pdm-backend: pdm build hook
+	optdepends = python-setuptools: setuptools build hook
+	source = python-sbom::git+https://github.com/tox-dev/python-sbom.git#tag=0.5.0
+	sha512sums = SKIP
+	b2sums = SKIP
+
+pkgname = python-sbom

@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-zipremove
+pkgver=0.10.0
+pkgrel=1
+pkgdesc='Extend zipfile with remove-related capabilities'
+arch=(any)
+url='https://github.com/danny0838/zipremove'
+license=(MIT)
+depends=(python)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+source=("$pkgname::git+$url.git#tag=v$pkgver")
+sha512sums=('SKIP')
+b2sums=('SKIP')
+
+build() {
+  cd "$pkgname"
+
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # license
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE.txt
+}

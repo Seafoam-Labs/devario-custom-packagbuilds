@@ -11,6 +11,7 @@ pkgbase = python-virtualenv
 	makedepends = python-hatchling>=1.28
 	makedepends = python-hatch-fancy-pypi-readme>=25.1
 	makedepends = python-hatch-vcs>=0.5
+	makedepends = python-sbom>=0.1.2
 	makedepends = python-wheel
 	depends = python>=3.9
 	depends = python-distlib>=0.4.3
