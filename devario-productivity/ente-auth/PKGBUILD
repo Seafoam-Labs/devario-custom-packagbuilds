@@ -6,7 +6,7 @@
 pkgname=ente-auth
 _app_id=io.ente.auth
 pkgver=4.4.27
-pkgrel=1
+pkgrel=2
 _flutter_ver=3.47.8
 pkgdesc='Open source 2FA authenticator, with end-to-end encrypted backups'
 arch=('x86_64')
@@ -41,6 +41,9 @@ makedepends=(
   'xz'
 )
 checkdepends=('appstream' 'desktop-file-utils')
+# LTO causes undefined ring symbols in libente_auth_frb.so
+# (e.g. ring_core_0_17_14__LIMB_is_zero).
+options=('!lto')
 source=(
   "ente::git+https://github.com/ente/ente.git#tag=auth-v${pkgver}"
   'simple-icons::git+https://github.com/simple-icons/simple-icons.git'
