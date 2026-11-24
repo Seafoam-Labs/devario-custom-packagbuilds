@@ -1,0 +1,15 @@
+pkgbase = libmspack
+	pkgdesc = A library for Microsoft compression formats
+	pkgver = 1.12
+	pkgrel = 1
+	epoch = 1
+	url = https://www.cabextract.org.uk/libmspack/
+	arch = x86_64
+	license = LGPL-2.1-only
+	makedepends = git
+	depends = glibc
+	provides = libmspack.so
+	source = git+https://github.com/kyz/libmspack#tag=v1.12
+	sha256sums = 4c2c02daf1ab18d4fb9a7e0d5500113395969e213d292fef25c411004d79f004
+
+pkgname = libmspack

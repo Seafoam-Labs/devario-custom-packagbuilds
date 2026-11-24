@@ -1,0 +1,36 @@
+diff --git a/src/pytest_forked/__init__.py b/src/pytest_forked/__init__.py
+index 6d135cb..950fc82 100644
+--- a/src/pytest_forked/__init__.py
++++ b/src/pytest_forked/__init__.py
+@@ -13,6 +13,9 @@ from _pytest import runner
+ # copied from xdist remote
+ def serialize_report(rep):
+     d = rep.__dict__.copy()
++    # Pytest 9.2 stores a structured NodeId in _id. Transmit the public string.
++    d.pop("_id", None)
++    d["nodeid"] = rep.nodeid
+     if hasattr(rep.longrepr, "toterminal"):
+         d["longrepr"] = str(rep.longrepr)
+     else:
+diff --git a/testing/test_xfail_behavior.py b/testing/test_xfail_behavior.py
+index 4e540b8..234d3e8 100644
+--- a/testing/test_xfail_behavior.py
++++ b/testing/test_xfail_behavior.py
+@@ -9,6 +9,7 @@ FAILED_WORD = "FAILED" if IS_PYTEST4_PLUS else "FAIL"
+ PYTEST_GTE_7_2 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (7, 2)  # type: ignore[attr-defined]
+ PYTEST_GTE_8_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (8, 0)  # type: ignore[attr-defined]
+ PYTEST_GTE_9_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (9, 0)  # type: ignore[attr-defined]
++PYTEST_GTE_9_2 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (9, 2)  # type: ignore[attr-defined]
+ 
+ pytestmark = pytest.mark.skipif(  # pylint: disable=invalid-name
+     not hasattr(os, "fork"),  # noqa: WPS421
+@@ -58,7 +59,8 @@ def test_xfail(is_crashing, is_strict, testdir):
+     failures_test_name = "*____ test_function ____*"
+     failures_test_reason = "[XPASS(strict)] The process gets terminated"
+     short_test_summary_title = "*==== short test summary info ====*"
+-    short_test_summary = f"{expected_word!s} test_xfail.py::test_function"
++    phase = " at ??? of" if PYTEST_GTE_9_2 and is_crashing else ""
++    short_test_summary = f"{expected_word!s}{phase} test_xfail.py::test_function"
+     if expected_lowercase == "xpassed":
+         # XPASS wouldn't have the crash message from
+         # pytest-forked because the crash doesn't happen

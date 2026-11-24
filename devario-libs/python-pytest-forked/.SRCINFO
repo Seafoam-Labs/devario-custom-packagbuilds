@@ -1,0 +1,19 @@
+pkgbase = python-pytest-forked
+	pkgdesc = run tests in isolated forked subprocesses
+	pkgver = 1.7.5
+	pkgrel = 2
+	url = https://github.com/pytest-dev/pytest-forked
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-setuptools-scm
+	makedepends = python-setuptools
+	makedepends = python-build
+	makedepends = python-installer
+	depends = python-pytest
+	source = git+https://github.com/pytest-dev/pytest-forked.git#tag=v1.7.5
+	source = pytest-9.2-compat.patch
+	sha512sums = 9a0017e1b9656fff7ba1286cfd3a5c3abd271d82a00a8c8e629a2ff4cf3f79c19c52791e0a7bdba41efa1eef4faf4a11dcc098c343bfaeb135e282e1756bffc9
+	sha512sums = ffd7624758a1c3cf81f7a32c9836911277d7c0424d47b8d39dfa80a8200572a7cb2777e073a6feedc657637e133a33ba7892a5bfcddfcf3ac81f7387569a2c01
+
+pkgname = python-pytest-forked

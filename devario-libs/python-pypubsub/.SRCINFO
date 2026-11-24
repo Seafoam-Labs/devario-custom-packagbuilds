@@ -1,0 +1,20 @@
+pkgbase = python-pypubsub
+	pkgdesc = Python publish-subcribe library
+	pkgver = 4.0.7
+	pkgrel = 1
+	url = https://github.com/schollii/pypubsub
+	arch = any
+	license = BSD-2-Clause
+	checkdepends = python-pytest
+	checkdepends = python-pytest-asyncio
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-setuptools-scm
+	makedepends = python-wheel
+	depends = python
+	source = git+https://github.com/schollii/pypubsub.git#tag=v4.0.7
+	sha512sums = 516e71c1c02db5eca4ab7dcbf51a2951ea45278a97a13be5ecf640b4aa69850f72588e90d3c31a036629321f8ebe6c49c219638387bc53746b19dc840b8585d2
+
+pkgname = python-pypubsub

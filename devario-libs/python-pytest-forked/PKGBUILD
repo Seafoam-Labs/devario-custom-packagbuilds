@@ -1,0 +1,38 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=python-pytest-forked
+pkgver=1.7.5
+pkgrel=2
+pkgdesc='run tests in isolated forked subprocesses'
+arch=('any')
+license=('MIT')
+url='https://github.com/pytest-dev/pytest-forked'
+depends=('python-pytest')
+makedepends=('git' 'python-setuptools-scm' 'python-setuptools' 'python-build' 'python-installer')
+source=("git+https://github.com/pytest-dev/pytest-forked.git#tag=v$pkgver"
+        'pytest-9.2-compat.patch')
+sha512sums=('9a0017e1b9656fff7ba1286cfd3a5c3abd271d82a00a8c8e629a2ff4cf3f79c19c52791e0a7bdba41efa1eef4faf4a11dcc098c343bfaeb135e282e1756bffc9'
+            'ffd7624758a1c3cf81f7a32c9836911277d7c0424d47b8d39dfa80a8200572a7cb2777e073a6feedc657637e133a33ba7892a5bfcddfcf3ac81f7387569a2c01')
+
+prepare() {
+  cd pytest-forked
+  patch -Np1 -i "$srcdir/pytest-9.2-compat.patch"
+}
+
+build() {
+  cd pytest-forked
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd pytest-forked
+  PYTHONPATH="$PWD"/src pytest -v
+}
+
+package() {
+  cd pytest-forked
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname/
+}
+
+# vim:set ts=2 sw=2 et:

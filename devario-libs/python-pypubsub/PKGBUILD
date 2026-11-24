@@ -1,0 +1,43 @@
+# Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
+# Contributor: Eli Schwartz <eschwartz@archlinux.org>
+
+pkgname=python-pypubsub
+_pkgname=${pkgname#python-}
+pkgver=4.0.7
+pkgrel=1
+pkgdesc="Python publish-subcribe library"
+arch=('any')
+url="https://github.com/schollii/pypubsub"
+license=('BSD-2-Clause')
+depends=('python')
+makedepends=('git' 'python-build' 'python-installer' 'python-setuptools' 'python-setuptools-scm' 'python-wheel')
+checkdepends=('python-pytest' 'python-pytest-asyncio')
+source=("git+https://github.com/schollii/pypubsub.git#tag=v$pkgver")
+sha512sums=('516e71c1c02db5eca4ab7dcbf51a2951ea45278a97a13be5ecf640b4aa69850f72588e90d3c31a036629321f8ebe6c49c219638387bc53746b19dc840b8585d2')
+
+prepare() {
+  cd pypubsub
+
+  # Relax upstream setuptools upper bound for distro builds
+  sed -i 's/setuptools>=68,<77/setuptools>=68/' pyproject.toml
+}
+
+build() {
+  cd pypubsub
+
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd pypubsub/tests/suite
+
+  PYTHONPATH=$PWD/../../src python -m pytest
+}
+
+package() {
+  cd pypubsub
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm 644 src/pubsub/LICENSE_BSD_Simple.txt "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
