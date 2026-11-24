@@ -8,11 +8,14 @@ pkgbase = effectcraft
 	license = MIT OR Apache-2.0
 	makedepends = git
 	makedepends = rust>=1.95
+	makedepends = pkgconf
 	makedepends = alsa-lib
 	depends = glibc
 	depends = libgcc
 	depends = libxkbcommon
+	depends = libxkbcommon-x11
 	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
 	depends = alsa-lib
 	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
 	optdepends = wayland: Wayland windowing support
@@ -22,6 +25,8 @@ pkgbase = effectcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	optdepends = pipewire-alsa: ALSA output through PipeWire
+	optdepends = pulseaudio-alsa: ALSA output through PulseAudio
 	source = https://github.com/storytold/effectcraft/archive/refs/tags/v0.25.1.tar.gz
 	sha256sums = 55cd297c37f354e71ada2432f773b9be1f191ae2cc73f397229e4defe82b5f98
 

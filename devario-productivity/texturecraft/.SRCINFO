@@ -1,0 +1,31 @@
+pkgbase = texturecraft
+	pkgdesc = Paint PBR textures directly on 3D meshes
+	pkgver = 0.6.1
+	pkgrel = 1
+	url = https://github.com/storytold/texturecraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust>=1.95
+	makedepends = pkgconf
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/texturecraft/archive/refs/tags/v0.6.1.tar.gz
+	source = craft-fonts-aced4137c022f1f587624d48e81ec77e1914a9cc.tar.gz::https://github.com/storytold/craft-fonts/archive/aced4137c022f1f587624d48e81ec77e1914a9cc.tar.gz
+	sha256sums = b710a8b46d2f885ed20b2fe6a8154789dbba914a05f982cc7be28e3d1c33db34
+	sha256sums = fd0a918e08537816453dc5e37962c14a1b2068d89b2c966b34f877901fd08f84
+
+pkgname = texturecraft

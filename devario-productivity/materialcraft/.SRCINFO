@@ -1,0 +1,29 @@
+pkgbase = materialcraft
+	pkgdesc = Design procedural PBR materials with node graphs
+	pkgver = 0.4.1
+	pkgrel = 1
+	url = https://github.com/storytold/materialcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust>=1.95
+	makedepends = pkgconf
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/materialcraft/archive/refs/tags/v0.4.1.tar.gz
+	sha256sums = 854f2e3b57a7d19ce62345a3d667b15d88308848cbd6f4e8912eff4e744b2e78
+
+pkgname = materialcraft

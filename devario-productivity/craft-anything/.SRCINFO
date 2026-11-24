@@ -1,0 +1,31 @@
+pkgbase = craft-anything
+	pkgdesc = Find out how any software works, then craft your own
+	pkgver = 0.6.1
+	pkgrel = 1
+	url = https://github.com/storytold/craft-anything
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust>=1.97
+	makedepends = pkgconf
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	source = https://github.com/storytold/craft-anything/archive/refs/tags/v0.6.1.tar.gz
+	source = craft-fonts-b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz::https://github.com/storytold/craft-fonts/archive/b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz
+	sha256sums = c9130a8dfbc03aa53a00a34d9911bc2de42e281f63c7b877b7be273440006b4e
+	sha256sums = 35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb
+
+pkgname = craft-anything
