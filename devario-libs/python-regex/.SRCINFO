@@ -1,6 +1,6 @@
 pkgbase = python-regex
 	pkgdesc = Alternative python regular expression module.
-	pkgver = 2026.11.19
+	pkgver = 2026.11.23
 	pkgrel = 1
 	url = https://github.com/mrabarnett/mrab-regex
 	arch = x86_64
@@ -11,8 +11,8 @@ pkgbase = python-regex
 	makedepends = python-wheel
 	depends = python>=3.11
 	options = !emptydirs
-	source = https://github.com/mrabarnett/mrab-regex/archive/refs/tags/2026.11.19.tar.gz
-	sha256sums = 520d0f71d84fb892a9ca89588acc7584a9285485a8c2841267159da2a2be2d7b
-	b2sums = 1f4f1e838539664bd04ff2f9e25b75ab1c7278672744f2ba2637e8b9df52755b165f5d1debed8c375193f1b2928c4f9db578acbf661e2e749b32b1b3db26d7d7
+	source = https://github.com/mrabarnett/mrab-regex/archive/refs/tags/2026.11.23.tar.gz
+	sha256sums = fcaf1529e7eab2a82e37b4af8aa809c42f35dc7134de16938b0a9cf2fdf93f1b
+	b2sums = 17633990b878f1761bf338a439bd0962ba45564202a9497e3c693de62ca59e35a74220fda47bce7b29540f0f4b909468e29b2567b0f1f42a5d1759e0614c06b2
 
 pkgname = python-regex
