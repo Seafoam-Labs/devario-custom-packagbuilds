@@ -1,6 +1,6 @@
 pkgbase = python-python-discovery
 	pkgdesc = Python interpreter discovery
-	pkgver = 1.9.6
+	pkgver = 1.9.7
 	pkgrel = 1
 	url = https://python-discovery.readthedocs.io
 	arch = any
@@ -14,11 +14,11 @@ pkgbase = python-python-discovery
 	makedepends = python-sbom>=0.1.2
 	depends = python>=3.9
 	depends = python-filelock>=3.16.1
-	source = python-python-discovery::git+https://github.com/tox-dev/python-discovery#tag=1.9.6
+	source = python-python-discovery::git+https://github.com/tox-dev/python-discovery#tag=1.9.7
 	source = no-vermin.patch
-	sha512sums = 626290553f34f98c27afbb43a48edef6321ce37df4201bfc52936bcfb3bedd550f8231b050318af09234a0026807d00da31d289f80103d4fcc965331f0f2e49d
+	sha512sums = c390ccea9496e9b9f21af050ddc85fa29376bbb2911e695bf6412417bcaf4454659af88635a8b28df69bb1dd409ca54703d7e49d2e356cf621d090a540bcc37e
 	sha512sums = b9a0e4a9383ac775e5d53d9a5d643cee48f061eef6125f40ece87aa1994ad35efdce576446d322992c6f3b4c6117712eebca53733b5779cba7ab8309732988c0
-	b2sums = 1d92527b24bbfe3f41bb6487c584453bcb9d8b2d3651681c6fa20ba8e8a807df89e6a61b558a2042ee271fbdfa86d921df4f5bc22719c4f35d44ad9dd9ab3edc
+	b2sums = baf20870de4ea9ed45e840353301c8b19749371248a739df1e99ed2c94c08fdb0ba9da56937365bedc1678a185badaa71fcc1524320851186051f1bcbbe96008
 	b2sums = f1b685de7e9fe1911e682a63f97a0ab90ca1e2d8d8dfcd1702338dc5f9a6c43442111ddd75866878c91b1f07b8204a644a0613509b4200145a918bf3104c5ef8
 
 pkgname = python-python-discovery
