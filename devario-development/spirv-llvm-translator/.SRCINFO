@@ -10,6 +10,7 @@ pkgbase = spirv-llvm-translator
 	makedepends = cmake>=3.13.4
 	makedepends = git
 	makedepends = llvm>=23.1.0
+	makedepends = llvm-gtest>=23.1.0
 	makedepends = ninja
 	depends = glibc
 	depends = libstdc++

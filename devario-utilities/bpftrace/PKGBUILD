@@ -24,6 +24,7 @@ depends=(
   'zstd'
 )
 # linux-headers has no recipe here; the published Devario kernel headers satisfy the same need.
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
 makedepends=(
   'asciidoctor'
   'binutils'
@@ -34,6 +35,7 @@ makedepends=(
   'gtest'
   'linux-devario-headers'
   'llvm'
+  'llvm-gtest'
   'xxd'
 )
 options=(

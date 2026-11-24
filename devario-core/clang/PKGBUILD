@@ -9,7 +9,8 @@ arch=('x86_64')
 url="https://clang.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 depends=('llvm-libs' 'gcc' 'compiler-rt' 'libgcc' 'libxml2')
-makedepends=("llvm=$pkgver" 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
+makedepends=("llvm=$pkgver" "llvm-gtest=$pkgver" 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
 optdepends=('openmp: OpenMP support in clang with -fopenmp'
             'python: for scan-view and git-clang-format'
             'llvm: referenced by some clang headers')

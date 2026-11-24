@@ -13,6 +13,7 @@ pkgbase = qt6-tools
 	makedepends = cmake
 	makedepends = git
 	makedepends = llvm
+	makedepends = llvm-gtest
 	makedepends = ninja
 	makedepends = vulkan-headers
 	depends = glibc

@@ -16,6 +16,7 @@ pkgdesc='BPF Compiler Collection'
 arch=('x86_64')
 url='https://github.com/iovisor/bcc'
 license=('Apache-2.0')
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
 makedepends=(
   'bison'
   'cargo'
@@ -25,6 +26,7 @@ makedepends=(
   'git'
   'libbpf'
   'llvm'
+  'llvm-gtest'
   'python'
   'python-build'
   'python-installer'

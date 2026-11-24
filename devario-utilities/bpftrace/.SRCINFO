@@ -14,6 +14,7 @@ pkgbase = bpftrace
 	makedepends = gtest
 	makedepends = linux-devario-headers
 	makedepends = llvm
+	makedepends = llvm-gtest
 	makedepends = xxd
 	depends = bcc
 	depends = clang

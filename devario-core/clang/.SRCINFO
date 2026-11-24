@@ -6,6 +6,7 @@ pkgbase = clang
 	arch = x86_64
 	license = Apache-2.0 WITH LLVM-exception
 	makedepends = llvm=23.1.5
+	makedepends = llvm-gtest=23.1.5
 	makedepends = cmake
 	makedepends = ninja
 	makedepends = python-sphinx
