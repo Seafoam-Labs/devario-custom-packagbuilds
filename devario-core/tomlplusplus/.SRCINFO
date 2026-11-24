@@ -1,7 +1,7 @@
 pkgbase = tomlplusplus
 	pkgdesc = TOML config file parser and serializer for C++17
-	pkgver = 3.4.0
-	pkgrel = 3
+	pkgver = 3.5.1
+	pkgrel = 1
 	url = https://marzer.github.io/tomlplusplus/
 	arch = x86_64
 	license = MIT
@@ -11,8 +11,8 @@ pkgbase = tomlplusplus
 	depends = libgcc
 	provides = libtomlplusplus.so
 	provides = libtomlplusplus.so=3-64
-	source = tomlplusplus-3.4.0.tar.gz::https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.4.0.tar.gz
-	sha512sums = c227fc8147c9459b29ad24002aaf6ab2c42fac22ea04c1c52b283a0172581ccd4527b33c1931e0ef0d1db6b6a53f9e9882c6d4231c7f3494cf070d0220741aa5
-	b2sums = 9495ccd78707ced11744eab7c1c0bf0c0c28e283d186195bb48d1059bae7eb1a874bc964b0fc45210fd73ffd7485ecf3e1159da227d0e1c8ff249e79c08eecf0
+	source = tomlplusplus-3.5.1.tar.gz::https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.5.1.tar.gz
+	sha512sums = a06b9c28559e34baf75d58457ef7b65ef092aee2240374b5abfe9c30ee64f5801ec3eeb4ab72238f7850b3ad981c9843a9c79b3b921cf816a2404d1cc3e7ee44
+	b2sums = 4bd6e314ab24d941e0a3d731d9118a52eb80bea119a8cf05109ff85ee67b9e14f8627fd3e2bc2ff79e8b51e09439a4dc53612ff50c52a4a5aeb22b72de1ed58d
 
 pkgname = tomlplusplus
