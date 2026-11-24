@@ -12,7 +12,7 @@ pkgname=(
   vte-docs
 )
 pkgver=0.84.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Virtual Terminal Emulator widget"
 url="https://gitlab.gnome.org/GNOME/vte"
 arch=(x86_64)
