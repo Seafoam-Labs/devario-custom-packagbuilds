@@ -2,7 +2,7 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=compiler-rt
-pkgver=23.1.5
+pkgver=23.1.6
 pkgrel=1
 pkgdesc="Compiler runtime libraries for clang"
 arch=('x86_64')
@@ -16,7 +16,7 @@ options=('staticlibs' '!lto')
 _source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
 source=($_source_base/llvm-project-$pkgver.src.tar.xz{,.sig}
         0001-libcxx-chrono-fix-years-months-period.patch)
-sha256sums=('fb50b1eac93ddeb3aa8dab4cfe324dff74f4a9c2bdee6160c9e36188f8d06a6e'
+sha256sums=('d3b86ab29cfb4445a6652e5c2642ccc75e04e38084dde3701d323320f35a31da'
             'SKIP'
             'e6b4c72058966ab2af0c255cad22172ff89c04a4433de5b22b16923a94936b2a')
 
