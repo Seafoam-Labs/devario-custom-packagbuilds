@@ -31,8 +31,15 @@ optdepends=(
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
-source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('e106fde2015783c69ad420ea9a3e5a1e33fa10d7261430a3515ed3a4021ccdac')
+_fontsrev=b076417b5880bd4154bd22f00695b1d28c6bea83
+source=(
+    "$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+)
+sha256sums=(
+    'e106fde2015783c69ad420ea9a3e5a1e33fa10d7261430a3515ed3a4021ccdac'
+    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
+)
 
 _commit=7470feae15b824534c842b7888952e63f6493003
 _releasedate=2026-11-23
@@ -49,6 +56,8 @@ build() {
 
   export DESIGNCRAFT_BUILD_SHA="$_commit"
   export DESIGNCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
 
   cargo build --release --frozen -p designcraft -p designcraft-cli
 }

@@ -54,6 +54,9 @@ build() {
   export SOUNDCRAFT_BUILD_DATE="$_releasedate"
 
   cargo build --release --frozen -p soundcraft -p soundcraft-cli
+
+  # Separate invocation: the example's dev-dep features must not unify into the binaries.
+  cargo build --release --frozen -p "$pkgname-cli" --example man-and-completions
 }
 
 package() {
@@ -61,6 +64,15 @@ package() {
 
   install -Dm755 "target/release/soundcraft" "$pkgdir/usr/bin/soundcraft"
   install -Dm755 "target/release/soundcraft-cli" "$pkgdir/usr/bin/soundcraft-cli"
+
+  "target/release/examples/man-and-completions" "$srcdir/cli-docs"
+  install -Dm644 -t "$pkgdir/usr/share/man/man1" "$srcdir"/cli-docs/*.1
+  install -Dm644 "$srcdir/cli-docs/$pkgname-cli.bash" \
+    "$pkgdir/usr/share/bash-completion/completions/$pkgname-cli"
+  install -Dm644 "$srcdir/cli-docs/_$pkgname-cli" \
+    "$pkgdir/usr/share/zsh/site-functions/_$pkgname-cli"
+  install -Dm644 "$srcdir/cli-docs/$pkgname-cli.fish" \
+    "$pkgdir/usr/share/fish/vendor_completions.d/$pkgname-cli.fish"
 
   install -Dm644 "packaging/linux/$_appid.desktop" \
     "$pkgdir/usr/share/applications/$_appid.desktop"

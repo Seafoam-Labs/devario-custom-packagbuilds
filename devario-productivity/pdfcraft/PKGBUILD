@@ -32,8 +32,18 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
     'cups: printing support'
   )
-source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('e9165e846d61fdd2fcc5f53c587178750b791f4b0fa6d57212b7e0adab20be7f')
+_fontsrev=b076417b5880bd4154bd22f00695b1d28c6bea83
+_i18nrev=866aff71dd63d8369eb100b9c432b5af1400c22a
+source=(
+    "$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+    "craft-i18n-$_i18nrev.tar.gz::https://github.com/storytold/craft-i18n/archive/$_i18nrev.tar.gz"
+)
+sha256sums=(
+    'e9165e846d61fdd2fcc5f53c587178750b791f4b0fa6d57212b7e0adab20be7f'
+    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
+    'a3b6455fcf158af6eaf8b78ff98ef4b5285ba4b9857d35daa05a1fdc65002ef0'
+)
 
 _commit=ac140f8
 _releasedate=2026-11-23
@@ -50,6 +60,10 @@ build() {
 
   export PDFCRAFT_BUILD_SHA="$_commit"
   export PDFCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
+  export CRAFT_I18N_DIR="$srcdir/craft-i18n-$_i18nrev"
+  export CRAFT_I18N_REQUIRED=1
 
   cargo build --release --frozen -p pdfcraft -p pdfcraft-cli
 }

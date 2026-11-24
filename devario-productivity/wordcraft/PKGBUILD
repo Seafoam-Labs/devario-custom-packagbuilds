@@ -32,8 +32,18 @@ optdepends=(
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
     'fontconfig: system font discovery'
   )
-source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('55e6e6ca0e988a7ba320bef506e3910d2e2e5c1d1599a79571e144947438ab92')
+_fontsrev=b076417b5880bd4154bd22f00695b1d28c6bea83
+_i18nrev=1e515422afdda2f317af430c1f9d68a5f83935b4
+source=(
+    "$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+    "craft-i18n-$_i18nrev.tar.gz::https://github.com/storytold/craft-i18n/archive/$_i18nrev.tar.gz"
+)
+sha256sums=(
+    '55e6e6ca0e988a7ba320bef506e3910d2e2e5c1d1599a79571e144947438ab92'
+    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
+    'f80b9e41011f55963cb3cdb06f0e613996b0593a8f6236cd7d09a52f8b10a2e6'
+)
 
 _commit=079f478
 _releasedate=2026-11-11
@@ -50,6 +60,10 @@ build() {
 
   export WORDCRAFT_BUILD_SHA="$_commit"
   export WORDCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
+  export CRAFT_I18N_DIR="$srcdir/craft-i18n-$_i18nrev"
+  export CRAFT_I18N_REQUIRED=1
 
   cargo build --release --frozen -p wordcraft -p wordcraft-cli
 }

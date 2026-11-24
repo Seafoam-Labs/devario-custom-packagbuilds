@@ -34,8 +34,15 @@ optdepends=(
     'pipewire-alsa: ALSA output through PipeWire'
     'pulseaudio-alsa: ALSA output through PulseAudio'
   )
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('1f442d91aa31858ddd4dec9817a466e76c6dafb47f3e402f0f8b6be467c53fe4')
+_fontsrev=b076417b5880bd4154bd22f00695b1d28c6bea83
+source=(
+    "$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+)
+sha256sums=(
+    '1f442d91aa31858ddd4dec9817a466e76c6dafb47f3e402f0f8b6be467c53fe4'
+    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
+)
 
 _commit=cedf0c9
 _releasedate=2026-11-11
@@ -52,6 +59,8 @@ build() {
 
   export FILMCRAFT_BUILD_SHA="$_commit"
   export FILMCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
 
   cargo build --release --frozen -p filmcraft -p filmcraft-cli
 }
