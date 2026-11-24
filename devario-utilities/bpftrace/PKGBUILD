@@ -45,12 +45,17 @@ options=(
 source=(
   "git+$url.git#tag=v$pkgver"
   "$pkgname-libbpf::git+https://github.com/libbpf/libbpf.git"
+  '0001-clang-major-minor-version.patch'
 )
 b2sums=('02d5d8dc97900cf7630c37139f34fcd82ce223f996e4c170c6a19023b2e5e98702fdf5752a9418bbdc69e1df371199a25cb04e3ea16249486bd87fd6b6d30120'
-        'SKIP')
+            'SKIP'
+            '8eb5bc44d9a0c96210da2d546c987014e5cb1d37340cb64d7e6e630a7ce2244f9541603fc6ec4765a76445f2e324834b29ffd31d6808ebbf4ac566cc2d1f59e8')
 
 prepare() {
   cd $pkgname
+  # Devario's clang patch release can lag behind llvm's (e.g. 23.1.5 vs 23.1.6);
+  # find Clang by major.minor so the exact-version check does not reject it.
+  patch -Np1 -i ../0001-clang-major-minor-version.patch
   git submodule init
   git config submodule.libbpf.url ../$pkgname-libbpf
   git -c protocol.file.allow=always submodule update libbpf

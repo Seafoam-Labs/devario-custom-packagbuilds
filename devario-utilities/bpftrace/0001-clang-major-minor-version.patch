@@ -1,0 +1,24 @@
+Subject: [PATCH] Find Clang by major.minor version instead of full LLVM version
+
+ClangConfigVersion.cmake accepts a Clang with the same major.minor as
+the request and a patch version not less than requested. Deriving the
+request from the full LLVM_PACKAGE_VERSION therefore rejects a Clang
+whose patch release lags behind LLVM's (e.g. LLVM 23.1.6 with Clang
+23.1.5). Request major.minor only; any patch level of the same series
+is API-compatible.
+
+---
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -169,7 +169,10 @@
+ include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
+ add_definitions(${LLVM_DEFINITIONS})
+ 
+-string(REGEX REPLACE "(-rc[0-9]+|git)" "" CLANG_VERSION ${LLVM_PACKAGE_VERSION})
++# ClangConfigVersion.cmake accepts the same major.minor with a patch version
++# not less than requested, so requesting the full LLVM version rejects a
++# Clang whose patch release lags behind LLVM's. Request major.minor only.
++set(CLANG_VERSION ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR})
+ 
+ find_package(Clang ${CLANG_VERSION} REQUIRED)
+ include_directories(SYSTEM ${CLANG_INCLUDE_DIRS})

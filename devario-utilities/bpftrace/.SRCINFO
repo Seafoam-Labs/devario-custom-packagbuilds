@@ -32,8 +32,10 @@ pkgbase = bpftrace
 	options = !strip
 	source = git+https://github.com/iovisor/bpftrace.git#tag=v0.27.0
 	source = bpftrace-libbpf::git+https://github.com/libbpf/libbpf.git
+	source = 0001-clang-major-minor-version.patch
 	b2sums = 02d5d8dc97900cf7630c37139f34fcd82ce223f996e4c170c6a19023b2e5e98702fdf5752a9418bbdc69e1df371199a25cb04e3ea16249486bd87fd6b6d30120
 	b2sums = SKIP
+	b2sums = 8eb5bc44d9a0c96210da2d546c987014e5cb1d37340cb64d7e6e630a7ce2244f9541603fc6ec4765a76445f2e324834b29ffd31d6808ebbf4ac566cc2d1f59e8
 
 pkgname = bpftrace
 	depends = bcc
