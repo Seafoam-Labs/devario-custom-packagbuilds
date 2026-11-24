@@ -11,6 +11,7 @@ pkgbase = python-python-discovery
 	makedepends = python-installer
 	makedepends = python-hatchling
 	makedepends = python-hatch-vcs
+	makedepends = python-sbom>=0.1.2
 	depends = python>=3.9
 	depends = python-filelock>=3.16.1
 	source = python-python-discovery::git+https://github.com/tox-dev/python-discovery#tag=1.9.6

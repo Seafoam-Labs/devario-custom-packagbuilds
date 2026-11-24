@@ -20,6 +20,8 @@ makedepends=(
   python-installer
   python-hatchling
   python-hatch-vcs
+  # the [hatch] extra is satisfied by python-hatchling above
+  'python-sbom>=0.1.2'
 )
 source=(
   "$pkgname::git+https://github.com/tox-dev/python-discovery#tag=$pkgver"
