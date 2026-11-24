@@ -1,11 +1,1 @@
-{
-  "name": "python-cachecontrol",
-  "input_kind": "upstream-source",
-  "local_adaptation": true,
-  "retrieved_on": "2026-10-23",
-  "url": "https://files.pythonhosted.org/packages/source/c/cachecontrol/cachecontrol-0.14.3.tar.gz",
-  "resolved_url": "https://files.pythonhosted.org/packages/58/3a/0cbeb04ea57d2493f3ec5a069a117ab467f85e4a10017c6d854ddcbff104/cachecontrol-0.14.3.tar.gz",
-  "sha256": "73e7efec4b06b20d9267b441c1f733664f989fb8688391b670ca812d70795d11",
-  "bytes": 28985,
-  "note": "Retain the supplied 0.14.3 pin while uv-build is unavailable. Use python-flit-core3, preserve Arch epoch=1, and run the complete 101-test suite. CherryPy is a test fixture, not a runtime requirement."
-}
+{"name": "python-cachecontrol", "input_kind": "upstream-source", "local_adaptation": true, "retrieved_on": "2026-11-24", "url": "https://files.pythonhosted.org/packages/source/c/cachecontrol/cachecontrol-0.15.0.tar.gz", "resolved_url": "https://files.pythonhosted.org/packages/f6/03/825d9b1cb14c5ca1ce4dec89fbb87ef87bdd5d45eb5bd96a463aa1ead457/cachecontrol-0.15.0.tar.gz", "sha256": "52157b539eb64d85c8c793660e86cf05cf95fad7b98c8ef6846e4a0ddffdb193", "bytes": 31535, "upstream_release": "v0.15.0", "upstream_repository": "https://github.com/psf/cachecontrol.git", "note": "Updated to the upstream v0.15.0 release (sdist 0.15.0 corresponds to tag v0.15.0). Retain the Devario source choice: the PyPI sdist with a pkgver-templated URL and Arch epoch=1. The 0.15.0 sdist switched the build backend from flit to uv_build (requires uv_build>=0.9.6,<0.14.0), so makedepends uses python-uv-build from devario-development/uv instead of python-flit-core3. check() installs the wheel into a --system-site-packages venv because 0.15.0 resolves __version__ through importlib.metadata. CherryPy is a test fixture, not a runtime requirement."}
