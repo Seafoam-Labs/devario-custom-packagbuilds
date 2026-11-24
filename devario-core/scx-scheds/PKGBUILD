@@ -34,7 +34,7 @@ replaces=('scx-tools')
 options=(!lto)
 backup=('etc/default/scx')
 #source=("git+https://github.com/sched-ext/scx#tag=v$pkgver")
-source=("git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario7")
+source=("git+https://github.com/Seafoam-Labs/scx#tag=v$_tagver")
 sha256sums=('381033c7c478ef81727464e9ae22e8832942a034a8ce0ca1a278eb43c94f9708')
 
 
