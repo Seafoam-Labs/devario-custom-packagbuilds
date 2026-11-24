@@ -1,10 +1,10 @@
-compiler-rt 23.1.1-2 for Devario Core
+compiler-rt 23.1.6-1 for Devario Core
 
 Source packaging:
 https://gitlab.archlinux.org/archlinux/packaging/packages/compiler-rt
 Commit: bd056b1aae566ddd9f982d5a5b9ccae93e50099c
 
-This unversioned package supplies compiler-rt for the Clang and Rust 23.1.1
+This unversioned package supplies compiler-rt for the Clang and Rust 23.1.6
 toolchain requirements. Runtime libraries install under /usr/lib/clang/23.
 The separate compiler-rt21 recipe serves LLVM 21 users.
 
@@ -13,8 +13,10 @@ keys/pgp public keys, to the worker. Sources retain upstream checksums and
 signature verification. Import the listed public keys as the build account
 after checking their fingerprints against validpgpkeys.
 
-Build prerequisites: a working base-devel environment, LLVM 23.1.1, CMake,
-Ninja, Python, and lib32-gcc-libs with its matching lib32-glibc dependency.
+Build prerequisites: a working base-devel environment, LLVM 23.1.6 with the
+llvm-gtest split package (its libLLVMTesting{Annotations,Support}.a archives
+are required by LLVMExports.cmake during configure), CMake, Ninja, Python,
+and lib32-gcc-libs with its matching lib32-glibc dependency.
 The recipe builds 32-bit runtimes as well as x86_64 runtimes and preserves
 static libraries. Build this before Clang 23 and Rust; GCC can bootstrap it.
 Shelly's isolated source-key import must have working GPG/keyboxd support.
