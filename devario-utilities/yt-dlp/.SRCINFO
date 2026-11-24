@@ -1,6 +1,6 @@
 pkgbase = yt-dlp
 	pkgdesc = A youtube-dl fork with additional features and fixes
-	pkgver = 2026.10.21
+	pkgver = 2026.11.23
 	pkgrel = 1
 	url = https://github.com/yt-dlp/yt-dlp
 	arch = any
@@ -28,7 +28,7 @@ pkgbase = yt-dlp
 	optdepends = python-xattr: for writing xattr metadata
 	optdepends = python-pyxattr: for writing xattr metadata (alternative option)
 	optdepends = python-secretstorage: For -cookies-from-browser to access the GNOME keyring while decrypting cookies of Chromium-based browsers
-	source = yt-dlp-2026.10.21.tar.gz::https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.21/yt-dlp.tar.gz
-	sha256sums = 5f1e419f76e49c996061511ef9eacce50d4aa4959c34480539562e9e1295708d
+	source = yt-dlp-2026.11.23.tar.gz::https://github.com/yt-dlp/yt-dlp/releases/download/2026.11.23/yt-dlp.tar.gz
+	sha256sums = 8f757547e94c723415fd82bb5da857d8e1b24be2e34218890dfaac134907723e
 
 pkgname = yt-dlp
