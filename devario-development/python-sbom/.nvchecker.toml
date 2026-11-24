@@ -1,0 +1,3 @@
+[python-sbom]
+source = "git"
+git = "https://github.com/tox-dev/python-sbom.git"

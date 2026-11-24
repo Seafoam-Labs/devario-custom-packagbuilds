@@ -1,0 +1,4 @@
+[python-packageurl-python]
+source = "git"
+git = "https://github.com/package-url/packageurl-python.git"
+prefix = "v"

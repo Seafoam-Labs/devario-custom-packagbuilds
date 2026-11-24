@@ -1,0 +1,18 @@
+pkgbase = python-packageurl-python
+	pkgdesc = A purl aka. Package URL parser and builder
+	pkgver = 0.17.6
+	pkgrel = 1
+	url = https://github.com/package-url/packageurl-python
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = python-packageurl-python::git+https://github.com/package-url/packageurl-python.git#tag=v0.17.6
+	sha512sums = SKIP
+	b2sums = SKIP
+
+pkgname = python-packageurl-python

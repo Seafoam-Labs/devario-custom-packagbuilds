@@ -1,0 +1,53 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-sbom
+pkgver=0.5.0
+pkgrel=1
+pkgdesc='SBOMs for Python distributions: write PEP 770 CycloneDX SBOMs into wheels'
+arch=(any)
+url='https://github.com/tox-dev/python-sbom'
+license=('MIT AND Apache-2.0')
+depends=(
+  python
+  'python-installer>=1.1'
+  'python-packaging>=26.3'
+  'python-packageurl-python>=0.11.1'
+  'python-zipremove>=0.10'
+)
+makedepends=(
+  git
+  python-build
+  # python-sbom bootstraps its own SBOM hook from the source tree, but its
+  # build-system requires still need the runtime dependencies at build time
+  'python-hatch-fancy-pypi-readme>=25.1'
+  'python-hatch-vcs>=0.5'
+  'python-hatchling>=1.32.4'
+  python-installer
+  python-packageurl-python
+  python-zipremove
+)
+optdepends=(
+  'python-hatchling: hatch build hook'
+  'python-pdm-backend: pdm build hook'
+  'python-setuptools: setuptools build hook'
+)
+source=("$pkgname::git+$url.git#tag=$pkgver")
+sha512sums=('SKIP')
+b2sums=('SKIP')
+
+build() {
+  cd "$pkgname"
+
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # licenses (the schemas carry their own Apache-2.0 license)
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+  install -vDm644 src/python_sbom/_validate/schemas/LICENSE \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE.schemas"
+}

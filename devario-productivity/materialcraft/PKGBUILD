@@ -1,0 +1,80 @@
+# Maintainer: Anton Ždanov <anton@azdanov.dev>
+
+pkgname=materialcraft
+pkgver=0.4.1
+pkgrel=1
+pkgdesc="Design procedural PBR materials with node graphs"
+arch=('x86_64' 'aarch64')
+url="https://github.com/storytold/materialcraft"
+license=('MIT OR Apache-2.0')
+depends=(
+    'glibc'
+    'libgcc'
+    'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
+    'vulkan-icd-loader'
+    'hicolor-icon-theme'
+  )
+makedepends=(
+    'git'
+    'rust>=1.95'
+    'pkgconf'
+  )
+optdepends=(
+    'libglvnd: EGL/GL rendering when no Vulkan loader is present'
+    'wayland: Wayland windowing support'
+    'libx11: X11 windowing support'
+    'libxcursor: themed cursor rendering under X11'
+    'libxi: pen tablet and touch input under X11'
+    'libxrandr: multi-monitor and DPI change handling'
+    'mesa: Vulkan drivers for GPU rendering'
+    'xdg-desktop-portal: native file dialogs and system dark/light theme'
+  )
+source=("$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('854f2e3b57a7d19ce62345a3d667b15d88308848cbd6f4e8912eff4e744b2e78')
+
+_commit=65f7bfd3e5f40d695d03162285879f0f8079ff6c
+_releasedate=2026-11-12
+_appid=ai.storyteller.materialcraft
+
+prepare() {
+  cd "$pkgname-$pkgver"
+
+  cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  export MATERIALCRAFT_BUILD_SHA="$_commit"
+  export MATERIALCRAFT_BUILD_DATE="$_releasedate"
+
+  cargo build --release --frozen -p materialcraft -p materialcraft-cli
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  install -Dm755 "target/release/materialcraft" "$pkgdir/usr/bin/materialcraft"
+  install -Dm755 "target/release/materialcraft-cli" "$pkgdir/usr/bin/materialcraft-cli"
+
+  install -Dm644 "packaging/linux/$_appid.desktop" \
+    "$pkgdir/usr/share/applications/$_appid.desktop"
+  install -Dm644 "packaging/linux/$_appid.mime.xml" \
+    "$pkgdir/usr/share/mime/packages/$_appid.xml"
+
+  sed -e "s/@VERSION@/$pkgver/g" -e "s/@DATE@/$_releasedate/g" \
+    "packaging/linux/$_appid.metainfo.xml.in" > "$_appid.metainfo.xml"
+  install -Dm644 "$_appid.metainfo.xml" \
+    "$pkgdir/usr/share/metainfo/$_appid.metainfo.xml"
+
+  install -dm755 "$pkgdir/usr/share/icons/hicolor"
+  cp -a assets/app-icon/hicolor/. "$pkgdir/usr/share/icons/hicolor/"
+
+  install -Dm644 "README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "NOTICE" "$pkgdir/usr/share/doc/$pkgname/NOTICE"
+  install -Dm644 "ATTRIBUTION.md" "$pkgdir/usr/share/doc/$pkgname/ATTRIBUTION.md"
+
+  install -Dm644 LICENSE-MIT "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
+  install -Dm644 LICENSE-APACHE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-APACHE"
+}

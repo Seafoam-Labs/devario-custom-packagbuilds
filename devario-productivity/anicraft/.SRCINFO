@@ -1,0 +1,35 @@
+pkgbase = anicraft
+	pkgdesc = Draw and animate 2D vector art on a timeline
+	pkgver = 0.2.1
+	pkgrel = 1
+	url = https://github.com/storytold/anicraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust>=1.95
+	makedepends = pkgconf
+	makedepends = alsa-lib
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
+	depends = alsa-lib
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	optdepends = pipewire-alsa: ALSA output through PipeWire
+	optdepends = pulseaudio-alsa: ALSA output through PulseAudio
+	source = https://github.com/storytold/anicraft/archive/refs/tags/v0.2.1.tar.gz
+	source = craft-fonts-b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz::https://github.com/storytold/craft-fonts/archive/b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz
+	sha256sums = af9a49e30bfae2c2dbdb04472b29a0acd2854eb043936bc7bbc1fbee08ac2f59
+	sha256sums = 35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb
+
+pkgname = anicraft

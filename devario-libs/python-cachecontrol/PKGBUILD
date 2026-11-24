@@ -1,18 +1,18 @@
 pkgname=python-cachecontrol
 _name=cachecontrol
-pkgver=0.14.3
-pkgrel=1.1
+pkgver=0.15.0
+pkgrel=1
 epoch=1
 pkgdesc='Caching for the requests HTTP library'
 arch=(any)
 url='https://github.com/psf/cachecontrol'
 license=(Apache-2.0)
 depends=(python python-requests python-msgpack)
-makedepends=(python-build python-installer python-flit-core3)
+makedepends=(python-build python-installer python-uv-build)
 checkdepends=(python-pytest python-cherrypy python-freezegun python-filelock)
 optdepends=('python-filelock: file-based cache backend')
 source=("$_name-$pkgver.tar.gz::https://files.pythonhosted.org/packages/source/c/$_name/$_name-$pkgver.tar.gz")
-sha256sums=('73e7efec4b06b20d9267b441c1f733664f989fb8688391b670ca812d70795d11')
+sha256sums=('52157b539eb64d85c8c793660e86cf05cf95fad7b98c8ef6846e4a0ddffdb193')
 
 build() {
   cd "$_name-$pkgver"
@@ -21,7 +21,11 @@ build() {
 
 check() {
   cd "$_name-$pkgver"
-  python -m pytest tests
+  # 0.15.0 resolves __version__ through importlib.metadata, so the tests
+  # need the wheel's dist-info installed.
+  python -m venv --system-site-packages test-env
+  test-env/bin/python -m installer dist/*.whl
+  test-env/bin/python -m pytest tests
 }
 
 package() {

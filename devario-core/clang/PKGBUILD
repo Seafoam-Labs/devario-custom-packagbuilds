@@ -2,14 +2,15 @@
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
 pkgname=clang
-pkgver=23.1.5
+pkgver=23.1.6
 pkgrel=1
 pkgdesc="C language family frontend for LLVM"
 arch=('x86_64')
 url="https://clang.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 depends=('llvm-libs' 'gcc' 'compiler-rt' 'libgcc' 'libxml2')
-makedepends=("llvm=$pkgver" 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
+makedepends=("llvm=$pkgver" "llvm-gtest=$pkgver" 'cmake' 'ninja' 'python-sphinx' 'python-myst-parser')
 optdepends=('openmp: OpenMP support in clang with -fopenmp'
             'python: for scan-view and git-clang-format'
             'llvm: referenced by some clang headers')
@@ -21,7 +22,7 @@ _source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkg
 source=($_source_base/llvm-project-$pkgver.src.tar.xz{,.sig}
         0001-Revert-clang-driver-When-fveclib-ArmPL-flag-is-in-us.patch
         enable-fstack-protector-strong-by-default.patch)
-sha256sums=('fb50b1eac93ddeb3aa8dab4cfe324dff74f4a9c2bdee6160c9e36188f8d06a6e'
+sha256sums=('d3b86ab29cfb4445a6652e5c2642ccc75e04e38084dde3701d323320f35a31da'
             'SKIP'
             '94baa1ca8b7f68c2c22b4d4c429d4560f81f882c00299f6b5398ffe6dc3a3913'
             '89e36fcc53383bbfa51da820c96d4ae136e060ac55ee53c914888a37e52be06c')

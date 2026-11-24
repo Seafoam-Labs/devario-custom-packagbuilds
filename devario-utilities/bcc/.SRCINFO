@@ -13,6 +13,7 @@ pkgbase = bcc
 	makedepends = git
 	makedepends = libbpf
 	makedepends = llvm
+	makedepends = llvm-gtest
 	makedepends = python
 	makedepends = python-build
 	makedepends = python-installer

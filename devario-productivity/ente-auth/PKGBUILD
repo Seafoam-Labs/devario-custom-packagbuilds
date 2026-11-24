@@ -5,9 +5,9 @@
 
 pkgname=ente-auth
 _app_id=io.ente.auth
-pkgver=4.4.26
+pkgver=4.4.27
 pkgrel=2
-_flutter_ver=3.47.2
+_flutter_ver=3.47.8
 pkgdesc='Open source 2FA authenticator, with end-to-end encrypted backups'
 arch=('x86_64')
 url='https://ente.com/auth'
@@ -36,24 +36,26 @@ makedepends=(
   'ninja'
   'patchelf'
   'pkgconf'
+  'rust'
   'unzip'
   'xz'
 )
 checkdepends=('appstream' 'desktop-file-utils')
+# LTO causes undefined ring symbols in libente_auth_frb.so
+# (e.g. ring_core_0_17_14__LIMB_is_zero).
+options=('!lto')
 source=(
   "ente::git+https://github.com/ente/ente.git#tag=auth-v${pkgver}"
   'simple-icons::git+https://github.com/simple-icons/simple-icons.git'
   'enteauth.sh'
 )
-sha256sums=(
-  'fe13157113d1c1b2e41fa31d042b830d4a592c4b6ddcb3102eadc38a24694916'
-  'SKIP'
-  'f769d36c7c05aecdad7e0977d81e129f0a113013d379439e9be65e2d9a9f3085'
-)
+sha256sums=('a5b0047c6e270f10c9b2f9d52e82b117f6058f0c703efe851aeac6b92aa39215'
+            'SKIP'
+            'f769d36c7c05aecdad7e0977d81e129f0a113013d379439e9be65e2d9a9f3085')
 source_x86_64=(
   "flutter_linux_${_flutter_ver}-stable.tar.xz::https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${_flutter_ver}-stable.tar.xz"
 )
-sha256sums_x86_64=('447878859d01ca9bfdb99a85f245af07ed8a15fedcd9d189c4749e8e92d1f185')
+sha256sums_x86_64=('baf7dcc5a3dbba60fe863bf493a6cf203195621f7786eaa5a1bba02cd0d87dd2')
 
 _setup_flutter() {
   export FLUTTER_ROOT="${srcdir}/flutter"
@@ -93,6 +95,13 @@ prepare() {
   dart --disable-analytics
   flutter clean
   flutter pub get --enforce-lockfile
+
+  # Ente does not commit the flutter_rust_bridge bindings; upstream CI runs
+  # this before building. It generates lib/src/rust and mobile/packages/frb,
+  # then runs build_runner for the freezed parts. Cargo is also needed later
+  # by cargokit (rust_builder) during the native Linux build.
+  cd "${srcdir}/ente/rust"
+  cargo run --locked -p codegen -- frb auth
 }
 
 build() {

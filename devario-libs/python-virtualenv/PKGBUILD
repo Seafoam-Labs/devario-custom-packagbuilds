@@ -33,6 +33,7 @@ makedepends=(
   'python-hatchling>=1.28'
   'python-hatch-fancy-pypi-readme>=25.1'
   'python-hatch-vcs>=0.5'
+  'python-sbom>=0.1.2'
   python-wheel
 )
 if (( _build_docs )); then
@@ -64,13 +65,6 @@ prepare() {
 
   # this really is completely unnecessary
   patch -p1 -i "$srcdir/no-llm-crap.patch"
-
-  # Recent releases embed a CycloneDX SBOM via the python-sbom hatch hook, which
-  # is not packaged. The hook only adds wheel metadata, so drop it and its
-  # requirement (same workaround as in python-filelock). Here the hook is wired
-  # through build.hooks.custom -> hatch_build.py, which upstream itself treats
-  # as a no-op on Python < 3.11.
-  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.custom\.path/d' pyproject.toml
 }
 
 build() {

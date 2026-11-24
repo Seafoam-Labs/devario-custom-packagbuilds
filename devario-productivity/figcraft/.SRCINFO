@@ -1,0 +1,32 @@
+pkgbase = figcraft
+	pkgdesc = Design and prototype user interfaces
+	pkgver = 0.18.1
+	pkgrel = 1
+	url = https://github.com/storytold/figcraft
+	arch = x86_64
+	arch = aarch64
+	license = MIT OR Apache-2.0
+	makedepends = git
+	makedepends = rust>=1.95
+	makedepends = pkgconf
+	depends = glibc
+	depends = libgcc
+	depends = libxkbcommon
+	depends = libxkbcommon-x11
+	depends = vulkan-icd-loader
+	depends = hicolor-icon-theme
+	optdepends = libglvnd: EGL/GL rendering when no Vulkan loader is present
+	optdepends = wayland: Wayland windowing support
+	optdepends = libx11: X11 windowing support
+	optdepends = libxcursor: themed cursor rendering under X11
+	optdepends = libxi: pen tablet and touch input under X11
+	optdepends = libxrandr: multi-monitor and DPI change handling
+	optdepends = mesa: Vulkan drivers for GPU rendering
+	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
+	optdepends = fontconfig: system font discovery
+	source = https://github.com/storytold/figcraft/archive/refs/tags/v0.18.1.tar.gz
+	source = craft-fonts-37827adc41fd165f9a9234ac40f94dbad353aa69.tar.gz::https://github.com/storytold/craft-fonts/archive/37827adc41fd165f9a9234ac40f94dbad353aa69.tar.gz
+	sha256sums = 809f52ffc049bfc05e3a297c8794a789199d4548ada5113048e235a3bfea4efb
+	sha256sums = 64c213260ee643c99edb1300ff047a2a00b270d7efef4aa943fec78641fdfef0
+
+pkgname = figcraft

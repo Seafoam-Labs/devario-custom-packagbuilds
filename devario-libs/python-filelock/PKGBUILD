@@ -16,17 +16,10 @@ makedepends=(
   'python-hatch-vcs>=0.5'
   'python-hatchling>=1.29'
   'python-installer'
+  'python-sbom>=0.1.2'
 )
 source=("git+$url.git#tag=$pkgver")
 b2sums=('SKIP')
-
-prepare() {
-  cd ${pkgname#python-}
-  # Recent releases embed a CycloneDX SBOM via the python-sbom hatch hook, which
-  # is not packaged. The hook only adds wheel metadata, so drop it and its
-  # requirement.
-  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.python-sbom/d' pyproject.toml
-}
 
 build() {
   cd ${pkgname#python-}

@@ -11,7 +11,7 @@
 # switching an application between the two packages needs no recipe change.
 
 _major=44
-_subver=11.5
+_subver=11.6
 _runtime=electron${_major}
 _ghurl='https://github.com/electron/electron'
 pkgbase=electron44-bin
@@ -68,8 +68,8 @@ source_x86_64=("electron44-chromedriver-${pkgver}-x86_64.zip::${_ghurl}/releases
 noextract=("electron44-chromedriver-${pkgver}-x86_64.zip"
            "${_runtime}-${pkgver}-x86_64.zip")
 sha256sums=('13fcf26193f4417fd5dfbc82a3f24e5c7a1cce82f729f6a73f1b1d3a7b580b34')
-sha256sums_x86_64=('bfb98b69abe09bc5cf6db6d35d4380415b4328f0fef294ff526408addaf7a471'
-            '765b846228245704d7796aaa8621b753cc5bbb9aec8d7ccd32c5fc268aa0348a')
+sha256sums_x86_64=('5038bd557a7110059eb5ba8b5c431aa069b9f9561b70502d18fb53f93868969a'
+            '0852ee34438a1f9590e1cd9641dcd7e81073f480eb540bb1f192838916e5fcde')
 
 prepare() {
   sed "s/@ELECTRON@/${_runtime}/" "${srcdir}/electron-launcher.sh" > "${srcdir}/${_runtime}.sh"

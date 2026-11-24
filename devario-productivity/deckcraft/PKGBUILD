@@ -11,10 +11,13 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
     'alsa-lib'
   )
 makedepends=(
+    'git'
     'rust>=1.95'
     'pkgconf'
     'alsa-lib'
@@ -28,13 +31,21 @@ optdepends=(
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'pipewire-alsa: ALSA output through PipeWire'
+    'pulseaudio-alsa: ALSA output through PulseAudio'
   )
-source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-# Previous release checksum; must be refreshed by the separate checksum step.
-sha256sums=('df8827f38677020445a68d5fd5779adfdb74dd72b127c3d06ba7dff60fbfa738')
+_fontsrev=37827adc41fd165f9a9234ac40f94dbad353aa69
+source=(
+    "$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+)
+sha256sums=(
+    'df8827f38677020445a68d5fd5779adfdb74dd72b127c3d06ba7dff60fbfa738'
+    '64c213260ee643c99edb1300ff047a2a00b270d7efef4aa943fec78641fdfef0'
+)
 
 _commit=7cc73ab1895ed2e30c8afbcada20c70b9ea0a440
-_releasedate=2026-11-06
+_releasedate=2026-11-11
 _appid=ai.storyteller.deckcraft
 
 prepare() {
@@ -48,6 +59,8 @@ build() {
 
   export DECKCRAFT_BUILD_SHA="$_commit"
   export DECKCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
 
   cargo build --release --frozen -p deckcraft -p deckcraft-cli
 }

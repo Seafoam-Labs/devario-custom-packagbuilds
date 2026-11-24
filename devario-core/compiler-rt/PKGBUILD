@@ -9,7 +9,8 @@ arch=('x86_64')
 url="https://compiler-rt.llvm.org/"
 license=('Apache-2.0 WITH LLVM-exception')
 depends=('glibc' 'libgcc' 'libstdc++')
-makedepends=('llvm' 'cmake>=3.20.0' 'ninja' 'python')
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
+makedepends=('llvm' 'llvm-gtest' 'cmake>=3.20.0' 'ninja' 'python')
 # Build 32-bit compiler-rt libraries on x86_64 (FS#41911)
 makedepends_x86_64=('lib32-gcc-libs')
 options=('staticlibs' '!lto')

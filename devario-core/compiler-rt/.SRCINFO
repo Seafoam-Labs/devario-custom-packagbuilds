@@ -6,6 +6,7 @@ pkgbase = compiler-rt
 	arch = x86_64
 	license = Apache-2.0 WITH LLVM-exception
 	makedepends = llvm
+	makedepends = llvm-gtest
 	makedepends = cmake>=3.20.0
 	makedepends = ninja
 	makedepends = python

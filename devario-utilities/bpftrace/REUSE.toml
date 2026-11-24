@@ -17,7 +17,7 @@ path = [
     "*.timer",
     "*.desktop",
     "*.hook",
-    "0001-llvm22-support.patch",
+    "0001-clang-major-minor-version.patch",
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"

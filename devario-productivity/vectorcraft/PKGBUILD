@@ -11,11 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
   )
 makedepends=(
     'git'
     'rust>=1.95'
+    'cmake'
+    'pkgconf'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -27,11 +31,18 @@ optdepends=(
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
   )
-source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('529bbf6a3ee7349fef75c4d04a5db2dca78b6116d2fa42cf1caa5d95677f1292')
+_fontsrev=b076417b5880bd4154bd22f00695b1d28c6bea83
+source=(
+    "$url/archive/refs/tags/v$pkgver.tar.gz"
+    "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
+)
+sha256sums=(
+    '529bbf6a3ee7349fef75c4d04a5db2dca78b6116d2fa42cf1caa5d95677f1292'
+    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
+)
 
 _commit=f4922aa7ac99a4f6d56fc68a83a44945207ec610
-_releasedate=2026-11-06
+_releasedate=2026-11-12
 _appid=ai.storyteller.vectorcraft
 
 prepare() {
@@ -45,6 +56,8 @@ build() {
 
   export VECTORCRAFT_BUILD_SHA="$_commit"
   export VECTORCRAFT_BUILD_DATE="$_releasedate"
+  export CRAFT_FONTS_DIR="$srcdir/craft-fonts-$_fontsrev"
+  export CRAFT_FONTS_REQUIRED=1
 
   cargo build --release --frozen -p vectorcraft -p vectorcraft-cli
 }

@@ -38,6 +38,7 @@ makedepends=(
   'python-hatch-vcs>=0.5'
   'python-hatchling>=1.29'
   'python-installer'
+  'python-sbom>=0.1.2'
 )
 optdepends=(
   'python-pytest: for pytest plugin to test tox and its plugins'
@@ -46,14 +47,6 @@ optdepends=(
 )
 source=("git+$_url.git#tag=$pkgver")
 sha512sums=('6650ea1f897c7324734042f189e0e92e370728abb259187bb7622bf46bd999801d433a6c7303443a46de4b4afcc2f9a426fb3da2b3053c817f99d417e77a60ae')
-
-prepare() {
-  cd $_name
-  # tox 4.67.14+ embeds a CycloneDX SBOM via the python-sbom hatch hook, which
-  # is not packaged. The hook only adds wheel metadata, so drop it and its
-  # requirement (same workaround as in python-filelock).
-  sed -i '/"python-sbom\[hatch\]/d; /build\.hooks\.python-sbom/d' pyproject.toml
-}
 
 build() {
   cd $_name

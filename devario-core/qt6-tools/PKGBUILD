@@ -20,10 +20,12 @@ depends=(glibc
          "qt6-base=$pkgver"
          "qt6-declarative=$pkgver"
          zstd)
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
 makedepends=(clang
              cmake
              git
              llvm
+             llvm-gtest
              ninja
              vulkan-headers)
 optdepends=('clang: for qdoc and lupdate')

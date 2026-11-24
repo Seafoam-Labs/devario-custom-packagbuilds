@@ -1,0 +1,35 @@
+# Maintainer: Devario maintainers
+
+pkgname=python-packageurl-python
+pkgver=0.17.6
+pkgrel=1
+pkgdesc='A purl aka. Package URL parser and builder'
+arch=(any)
+url='https://github.com/package-url/packageurl-python'
+license=(MIT)
+depends=(python)
+makedepends=(
+  git
+  python-build
+  python-installer
+  python-setuptools
+  python-wheel
+)
+source=("$pkgname::git+$url.git#tag=v$pkgver")
+sha512sums=('SKIP')
+b2sums=('SKIP')
+
+build() {
+  cd "$pkgname"
+
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname"
+
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  # license
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" mit.LICENSE
+}

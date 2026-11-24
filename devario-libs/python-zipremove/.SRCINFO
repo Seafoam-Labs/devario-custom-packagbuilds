@@ -1,0 +1,18 @@
+pkgbase = python-zipremove
+	pkgdesc = Extend zipfile with remove-related capabilities
+	pkgver = 0.10.0
+	pkgrel = 1
+	url = https://github.com/danny0838/zipremove
+	arch = any
+	license = MIT
+	makedepends = git
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python
+	source = python-zipremove::git+https://github.com/danny0838/zipremove.git#tag=v0.10.0
+	sha512sums = SKIP
+	b2sums = SKIP
+
+pkgname = python-zipremove

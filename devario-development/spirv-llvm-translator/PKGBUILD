@@ -19,10 +19,12 @@ depends=(
   'llvm-libs>=23.1.0'
   spirv-tools
 )
+# llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
 makedepends=(
   'cmake>=3.13.4'
   git
   'llvm>=23.1.0'
+  'llvm-gtest>=23.1.0'
   ninja
 )
 checkdepends=(
