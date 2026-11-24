@@ -36,6 +36,7 @@ makedepends=(
   'ninja'
   'patchelf'
   'pkgconf'
+  'rust'
   'unzip'
   'xz'
 )
@@ -91,6 +92,13 @@ prepare() {
   dart --disable-analytics
   flutter clean
   flutter pub get --enforce-lockfile
+
+  # Ente does not commit the flutter_rust_bridge bindings; upstream CI runs
+  # this before building. It generates lib/src/rust and mobile/packages/frb,
+  # then runs build_runner for the freezed parts. Cargo is also needed later
+  # by cargokit (rust_builder) during the native Linux build.
+  cd "${srcdir}/ente/rust"
+  cargo run --locked -p codegen -- frb auth
 }
 
 build() {
