@@ -1,13 +1,14 @@
 #!/usr/bin/python3 -I
-"""Launch an application with a GPU selection or an OpenGL backend override."""
+"""Launch an application with a GPU selected from current PCI hardware. Use zink to override the OpenGL backend without selecting a GPU."""
 import argparse
 import os
 from pathlib import Path
 import re
 import sys
 
-# GPU selection modes clear stale selectors inherited from the session.
-# Backend-only overrides leave device selection alone.
+# Variables that pick *which GPU* is used. Always cleared in GPU selection
+# modes, so a stale value inherited from the compositor or an older login
+# cannot override the choice. The Zink backend override skips this cleanup.
 SELECTION_VARIABLES = (
     'DRI_PRIME', 'MESA_VK_DEVICE_SELECT', 'MESA_VK_DEVICE_SELECT_FORCE_DEFAULT_DEVICE',
     '__NV_PRIME_RENDER_OFFLOAD', '__NV_PRIME_RENDER_OFFLOAD_PROVIDER',
