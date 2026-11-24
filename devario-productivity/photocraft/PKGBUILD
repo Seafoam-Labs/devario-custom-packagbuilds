@@ -11,31 +11,32 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
-    'libxkbcommon-x11'
-    'wayland'
-    'libx11'
-    'libxcb'
-    'libxcursor'
-    'libxi'
+    'hicolor-icon-theme'
   )
 makedepends=(
+    'git'
     'rust>=1.95'
+    'cmake'
+    'pkgconf'
   )
 optdepends=(
-    'cups: system printing through lp and lpstat'
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
+    'wayland: Wayland windowing support'
+    'libx11: X11 windowing support'
+    'libxcursor: themed cursor rendering under X11'
+    'libxi: pen tablet and touch input under X11'
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'cups: system printing through lp and lpstat'
   )
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-# Stale checksum carried over from the previous recipe (digest of v0.7.0);
-# Shelly validation recomputes sha256sums from the v0.23.1 source bytes.
 sha256sums=('66786e5b1e88bff0a1f04ab5073be50faa7e65b3cdebcbd679e1837ff52a82c6')
 
 _commit=45066c4
-_releasedate=2026-11-06
+_releasedate=2026-11-12
 _appid=ai.storyteller.photocraft
 
 prepare() {

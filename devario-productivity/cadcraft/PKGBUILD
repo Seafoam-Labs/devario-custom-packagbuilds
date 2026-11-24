@@ -11,11 +11,14 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
   )
 makedepends=(
     'git'
     'rust>=1.95'
+    'pkgconf'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -26,13 +29,13 @@ optdepends=(
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'systemd-libs: SpaceMouse 3D input support (libudev)'
   )
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-# Pending separate checksum refresh for v0.20.1: the digest below predates this release.
 sha256sums=('9956ef16e0670339db148d60975ebab2c10b394ee566ead11b29fd614e788144')
 
 _commit=7526dc62c14e71b3c8d46e73bbf1fa29ef506af1
-_releasedate=2026-11-09
+_releasedate=2026-11-11
 _appid=ai.storyteller.cadcraft
 
 prepare() {

@@ -11,11 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
     'alsa-lib'
   )
 makedepends=(
+    'git'
     'rust>=1.95'
+    'pkgconf'
     'alsa-lib'
   )
 optdepends=(
@@ -27,12 +31,14 @@ optdepends=(
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'pipewire-alsa: ALSA output through PipeWire'
+    'pulseaudio-alsa: ALSA output through PulseAudio'
   )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('1f442d91aa31858ddd4dec9817a466e76c6dafb47f3e402f0f8b6be467c53fe4')
 
 _commit=cedf0c9
-_releasedate=2026-11-06
+_releasedate=2026-11-11
 _appid=ai.storyteller.filmcraft
 
 prepare() {

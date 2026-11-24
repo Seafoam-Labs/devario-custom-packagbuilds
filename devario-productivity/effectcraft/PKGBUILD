@@ -11,12 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
     'alsa-lib'
   )
 makedepends=(
     'git'
     'rust>=1.95'
+    'pkgconf'
     'alsa-lib'
   )
 optdepends=(
@@ -28,13 +31,14 @@ optdepends=(
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
+    'pipewire-alsa: ALSA output through PipeWire'
+    'pulseaudio-alsa: ALSA output through PulseAudio'
   )
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-# Pending refresh by the separate checksum validation step; this is the previous release's hash.
 sha256sums=('55cd297c37f354e71ada2432f773b9be1f191ae2cc73f397229e4defe82b5f98')
 
 _commit=f5ce0dc
-_releasedate=2026-11-06
+_releasedate=2026-11-23
 _appid=ai.storyteller.effectcraft
 
 prepare() {

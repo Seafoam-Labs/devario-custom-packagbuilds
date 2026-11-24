@@ -11,12 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
   )
 makedepends=(
     'git'
     'rust>=1.95'
     'cmake'
+    'pkgconf'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -27,13 +30,13 @@ optdepends=(
     'libxrandr: multi-monitor and DPI change handling'
     'mesa: Vulkan drivers for GPU rendering'
     'xdg-desktop-portal: native file dialogs and system dark/light theme'
-    'libcups: printing support'
+    'cups: printing support'
   )
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('e9165e846d61fdd2fcc5f53c587178750b791f4b0fa6d57212b7e0adab20be7f')
 
 _commit=ac140f8
-_releasedate=2026-11-09
+_releasedate=2026-11-23
 _appid=ai.storyteller.pdfcraft
 
 prepare() {

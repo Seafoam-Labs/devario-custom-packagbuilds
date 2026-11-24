@@ -11,11 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
   )
 makedepends=(
     'git'
     'rust>=1.95'
+    'cmake'
+    'pkgconf'
   )
 optdepends=(
     'libglvnd: EGL/GL rendering when no Vulkan loader is present'
@@ -31,7 +35,7 @@ source=("$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('529bbf6a3ee7349fef75c4d04a5db2dca78b6116d2fa42cf1caa5d95677f1292')
 
 _commit=f4922aa7ac99a4f6d56fc68a83a44945207ec610
-_releasedate=2026-11-06
+_releasedate=2026-11-12
 _appid=ai.storyteller.vectorcraft
 
 prepare() {

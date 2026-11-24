@@ -11,12 +11,15 @@ depends=(
     'glibc'
     'libgcc'
     'libxkbcommon'
+    'libxkbcommon-x11'   # winit X11 backend panics without it (photocraft#201)
     'vulkan-icd-loader'
+    'hicolor-icon-theme'
     'alsa-lib'
   )
 makedepends=(
     'git'
     'rust>=1.95'
+    'pkgconf'
     'alsa-lib'
   )
 optdepends=(
@@ -35,7 +38,7 @@ source=("$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('f0ebdb92df0e25806ec7e4678e054e88f49dd4f2e0084d251dbac2c147ec4393')
 
 _commit=a52bbdc
-_releasedate=2026-11-06
+_releasedate=2026-11-12
 _appid=ai.storyteller.soundcraft
 
 prepare() {
