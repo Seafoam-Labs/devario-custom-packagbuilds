@@ -1,6 +1,6 @@
 pkgbase = scx-scheds
 	pkgdesc = sched_ext schedulers and tools
-	pkgver = 1.1.5
+	pkgver = 1.1.5.devario7
 	pkgrel = 1
 	url = https://github.com/sched-ext/scx
 	arch = x86_64
@@ -19,7 +19,7 @@ pkgbase = scx-scheds
 	replaces = scx-tools
 	options = !lto
 	backup = etc/default/scx
-	source = git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario
-	sha256sums = 9398783a1ced482858892dd321349713662f17fab96e10030adfd118e4062b19
+	source = git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario7
+	sha256sums = 381033c7c478ef81727464e9ae22e8832942a034a8ce0ca1a278eb43c94f9708
 
 pkgname = scx-scheds
