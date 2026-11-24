@@ -1,6 +1,6 @@
 pkgbase = designcraft
 	pkgdesc = Page layout and desktop publishing editor, written from scratch in pure Rust
-	pkgver = 0.20.1
+	pkgver = 0.21.1
 	pkgrel = 1
 	url = https://github.com/storytold/designcraft
 	arch = x86_64
@@ -19,7 +19,7 @@ pkgbase = designcraft
 	optdepends = libxrandr: multi-monitor and DPI change handling
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
-	source = https://github.com/storytold/designcraft/archive/refs/tags/v0.20.1.tar.gz
-	sha256sums = 6c422a7bb8db1ac8acec20586483231944e174f093532a26e66e3cffd5317b31
+	source = https://github.com/storytold/designcraft/archive/refs/tags/v0.21.1.tar.gz
+	sha256sums = e106fde2015783c69ad420ea9a3e5a1e33fa10d7261430a3515ed3a4021ccdac
 
 pkgname = designcraft
