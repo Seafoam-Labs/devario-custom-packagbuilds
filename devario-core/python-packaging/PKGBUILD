@@ -4,8 +4,8 @@ _bootstrap=0
 _bootstrap_version=3.14.0
 pkgname=python-packaging
 _name=${pkgname#python-}
-pkgver=26.3
-pkgrel=2
+pkgver=26.4
+pkgrel=1
 pkgdesc="Core utilities for Python packages"
 arch=('any')
 url="https://github.com/pypa/packaging"
@@ -21,7 +21,7 @@ else
   makedepends=('git')
 fi
 if (( _bootstrap == 0 )); then
-  source=("https://github.com/pypa/packaging/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+  source=("https://github.com/pypa/packaging/archive/refs/tags/26.4.tar.gz")
 else
   source=(
     python-bootstrap::git+https://gitlab.archlinux.org/archlinux/python-bootstrap.git#tag=$_bootstrap_version
@@ -29,12 +29,12 @@ else
     python-flit::git+https://github.com/pypa/flit.git
     python-installer::git+https://github.com/pypa/installer.git
     python-wheel::git+https://github.com/pypa/wheel.git
-    python-packaging::git+https://github.com/pypa/packaging
+    python-packaging::git+https://github.com/pypa/packaging#tag=26.4
     python-pyproject-hooks::git+https://github.com/pypa/pyproject-hooks
     python-setuptools::git+https://github.com/pypa/setuptools.git
   )
 fi
-sha512sums=('7559e4f0376c775f57c362394ba276451bee0952012fc461458ee450e86fe89909166bb11c217be100b7909f0958f4ee9df4b51c3019e664186fda06a48d810d')
+sha512sums=('563375fad8898080ac1afec4b9deede5bc822892101ba7029781220e0b103cce61fadc359561a0d79689aed464ca3777a7164e2459107cd54401974e29a2d411')
 
 prepare() {
   if (( _bootstrap == 0 )); then
