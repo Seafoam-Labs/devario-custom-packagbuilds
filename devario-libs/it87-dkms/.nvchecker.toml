@@ -1,0 +1,4 @@
+[it87-dkms]
+source = "git"
+git = "https://github.com/frankcrawford/it87.git"
+prefix = "v"

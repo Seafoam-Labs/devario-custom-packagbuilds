@@ -1,0 +1,40 @@
+pkgname=it87-dkms
+pkgver=2.0
+pkgrel=1
+pkgdesc='Driver for ITE IT87xx Super I/O hardware monitoring chips (DKMS)'
+arch=('x86_64')
+url='https://github.com/frankcrawford/it87'
+license=('GPL-2.0-or-later')
+depends=(
+  'dkms'
+)
+optdepends=(
+  'linux-devario-headers: build the module against the Devario kernel'
+  'linux-devario-lts-headers: build the module against the Devario LTS kernel'
+)
+options=(!debug)
+source=(
+  "it87-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+)
+sha256sums=('7e5738dbb94261bdb99a1a3bf4c557ad8ea1b3e5a951d62b6a862ce27deb1915')
+
+package() {
+  local source_root="$srcdir/it87-${pkgver}"
+  local dkms_root="$pkgdir/usr/src/it87-${pkgver}"
+
+  # DKMS builds the module against each installed kernel at install time, so
+  # the package ships source only; matching kernel headers are required then.
+  install -Dm644 "$source_root/it87.c" "$dkms_root/it87.c"
+  install -Dm644 "$source_root/compat.h" "$dkms_root/compat.h"
+  install -Dm644 "$source_root/Makefile" "$dkms_root/Makefile"
+  install -Dm644 "$source_root/dkms.conf" "$dkms_root/dkms.conf"
+
+  # Upstream ships dkms.conf with a #MODULE_VERSION# placeholder that its
+  # Makefile substitutes during manual dkms installation; pin it here instead.
+  sed -i "s/^PACKAGE_VERSION=.*/PACKAGE_VERSION=\"${pkgver}\"/" "$dkms_root/dkms.conf"
+  printf '%s\n' "$pkgver" > "$dkms_root/VERSION"
+
+  install -Dm644 "$source_root/COPYING" "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -Dm644 "$source_root/README" "$pkgdir/usr/share/doc/$pkgname/README"
+  cp -a "$source_root/Sensors configs" "$pkgdir/usr/share/doc/$pkgname/sensors-configs"
+}

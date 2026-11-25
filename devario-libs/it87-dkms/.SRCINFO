@@ -1,0 +1,15 @@
+pkgbase = it87-dkms
+	pkgdesc = Driver for ITE IT87xx Super I/O hardware monitoring chips (DKMS)
+	pkgver = 2.0
+	pkgrel = 1
+	url = https://github.com/frankcrawford/it87
+	arch = x86_64
+	license = GPL-2.0-or-later
+	depends = dkms
+	optdepends = linux-devario-headers: build the module against the Devario kernel
+	optdepends = linux-devario-lts-headers: build the module against the Devario LTS kernel
+	options = !debug
+	source = it87-2.0.tar.gz::https://github.com/frankcrawford/it87/archive/refs/tags/v2.0.tar.gz
+	sha256sums = 7e5738dbb94261bdb99a1a3bf4c557ad8ea1b3e5a951d62b6a862ce27deb1915
+
+pkgname = it87-dkms
