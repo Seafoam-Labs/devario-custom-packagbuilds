@@ -1,6 +1,6 @@
 pkgbase = wordcraft
 	pkgdesc = Clean-room reimplementation of Microsoft Word for documents and .docx
-	pkgver = 0.18.1
+	pkgver = 0.19.1
 	pkgrel = 1
 	url = https://github.com/storytold/wordcraft
 	arch = x86_64
@@ -25,10 +25,10 @@ pkgbase = wordcraft
 	optdepends = mesa: Vulkan drivers for GPU rendering
 	optdepends = xdg-desktop-portal: native file dialogs and system dark/light theme
 	optdepends = fontconfig: system font discovery
-	source = https://github.com/storytold/wordcraft/archive/refs/tags/v0.18.1.tar.gz
+	source = https://github.com/storytold/wordcraft/archive/refs/tags/v0.19.1.tar.gz
 	source = craft-fonts-b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz::https://github.com/storytold/craft-fonts/archive/b076417b5880bd4154bd22f00695b1d28c6bea83.tar.gz
 	source = craft-i18n-1e515422afdda2f317af430c1f9d68a5f83935b4.tar.gz::https://github.com/storytold/craft-i18n/archive/1e515422afdda2f317af430c1f9d68a5f83935b4.tar.gz
-	sha256sums = 55e6e6ca0e988a7ba320bef506e3910d2e2e5c1d1599a79571e144947438ab92
+	sha256sums = 0803595a9a6cf24f13891558c4b5f83232beb2c230d7a3174379b04fcef520bf
 	sha256sums = 35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb
 	sha256sums = f80b9e41011f55963cb3cdb06f0e613996b0593a8f6236cd7d09a52f8b10a2e6
 
