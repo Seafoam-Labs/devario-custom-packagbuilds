@@ -16,7 +16,7 @@ pkgname=(
 _majorver=17
 _minorver=0
 _securityver=22
-_updatever=3
+_updatever=4
 pkgver=${_majorver}.${_minorver}.${_securityver}.u${_updatever}
 pkgrel=1
 _git_tag=jdk-${_majorver}.${_minorver}.${_securityver}+${_updatever}
@@ -60,12 +60,12 @@ options=(
   !lto
 )
 source=(
-  https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.22%2B3.tar.gz
+  https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.22%2B4.tar.gz
   freedesktop-java.desktop
   freedesktop-jconsole.desktop
   freedesktop-jshell.desktop
 )
-sha256sums=('ba979322befcd712c45685e66e59265388221a3cbc0b031b5873ea8583088ac3'
+sha256sums=('5e30e6433b49e91cfe95a90328967996d4d17ab582cf6136ca5e2048de186fc9'
             '85c4742764590783160af74587a47269e6797fbdf17ec485c7644bd239adf61d'
             'abac1ab09a33a3654378bc69be5a7cf075263ab3ae9efec1eb25cf388e711bb7'
             'e7cce0ecf868f656d8dc2eb25ab82ab665526a0a28aba20f02632dd29962dac3')
