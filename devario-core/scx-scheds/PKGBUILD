@@ -8,8 +8,8 @@ _mode=release
 
 pkgname=scx-scheds
 _gitname=scx
-pkgver=1.1.5.devario7
-_tagver=1.1.5-devario7
+pkgver=1.1.5.devario8
+_tagver=1.1.5-devario8
 pkgrel=1
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
@@ -34,8 +34,8 @@ replaces=('scx-tools')
 options=(!lto)
 backup=('etc/default/scx')
 #source=("git+https://github.com/sched-ext/scx#tag=v$pkgver")
-source=("git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario7")
-sha256sums=('381033c7c478ef81727464e9ae22e8832942a034a8ce0ca1a278eb43c94f9708')
+source=("git+https://github.com/Seafoam-Labs/scx#tag=v1.1.5-devario8")
+sha256sums=('1cc90e1de87ed16a795472a01df9792a2bf346ae283c19183ddc9ad8659c7c52')
 
 
 _backports=(
@@ -80,7 +80,6 @@ build() {
      --profile=$_mode \
      --frozen \
      --workspace \
-     --exclude scx_rlfifo \
      --exclude scx_characterize \
      --exclude vmlinux_docify \
      --exclude scx_arena_selftests \
