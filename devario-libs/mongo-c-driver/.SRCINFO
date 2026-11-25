@@ -1,6 +1,6 @@
 pkgbase = mongo-c-driver
 	pkgdesc = A client library written in C for MongoDB
-	pkgver = 2.5.9
+	pkgver = 2.5.10
 	pkgrel = 1
 	url = https://github.com/mongodb/mongo-c-driver
 	arch = x86_64
@@ -19,7 +19,7 @@ pkgbase = mongo-c-driver
 	conflicts = libmongoc
 	replaces = libbson
 	replaces = libmongoc
-	source = https://github.com/mongodb/mongo-c-driver/archive/refs/tags/2.5.9.tar.gz
-	b2sums = 05ef95ac90085b4fb1603ad374bcdcee09935be33decd44fbe5d1b5d061258c05f39190e640f847bbf0113ce54ccac7b90df3b2e4bc7f8e502ba2621d034f9ee
+	source = https://github.com/mongodb/mongo-c-driver/archive/refs/tags/2.5.10.tar.gz
+	b2sums = d3846a370adf070a8d2ec2c344ac8e931d72aa6cc09eb551fad2a279316d6de4223f1aac86b760723749693782b558a89455119e217eacb32cf6849a8be601b5
 
 pkgname = mongo-c-driver
