@@ -1,6 +1,6 @@
 pkgbase = python-fonttools
 	pkgdesc = A library to manipulate font files from Python
-	pkgver = 4.68.0
+	pkgver = 4.69.1
 	pkgrel = 1
 	url = https://github.com/fonttools/fonttools
 	arch = x86_64
@@ -23,7 +23,7 @@ pkgbase = python-fonttools
 	optdepends = python-uharfbuzz: to use the Harfbuzz Repacker for packing GSUB/GPOS tables
 	optdepends = python-unicodedata2: for displaying the Unicode character names when dumping the cmap table with ttx
 	optdepends = python-zopfli: faster backend fom WOFF 1.0 web fonts compression
-	source = https://github.com/fonttools/fonttools/archive/4.68.0/fonttools-4.68.0.tar.gz
-	sha256sums = 1e3ba10c27088506768751740e3ae45769824b4d78eb37760b21c6e89ba57801
+	source = fonttools-4.69.1.tar.gz::https://github.com/fonttools/fonttools/archive/refs/tags/4.69.1.tar.gz
+	sha256sums = 4197911d57815db7204826d275fbc3af8d6dd676930ace00fd8e7b988e2eb2f7
 
 pkgname = python-fonttools
