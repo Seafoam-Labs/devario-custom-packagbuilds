@@ -1,7 +1,7 @@
 # Maintainer: Caroline Snyder <carolinemariesnyder@gmail.com>
 
 pkgname=deckcraft
-pkgver=0.18.1
+pkgver=0.19.1
 pkgrel=1
 pkgdesc="Clean-room reimplementation of Microsoft PowerPoint for slide decks"
 arch=('x86_64' 'aarch64')
@@ -39,12 +39,10 @@ source=(
     "$url/archive/refs/tags/v$pkgver.tar.gz"
     "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
 )
-sha256sums=(
-    'df8827f38677020445a68d5fd5779adfdb74dd72b127c3d06ba7dff60fbfa738'
-    '64c213260ee643c99edb1300ff047a2a00b270d7efef4aa943fec78641fdfef0'
-)
+sha256sums=('1dc319d785362919bc1d94737e33c05ec78d386e409e5156bdb2b7d63c6c5ba2'
+            '64c213260ee643c99edb1300ff047a2a00b270d7efef4aa943fec78641fdfef0')
 
-_commit=7cc73ab1895ed2e30c8afbcada20c70b9ea0a440
+_commit=4a980c33ddf37eb64157777fcaeab6d19baa5878
 _releasedate=2026-11-11
 _appid=ai.storyteller.deckcraft
 
