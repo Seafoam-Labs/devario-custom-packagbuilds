@@ -8,8 +8,8 @@ _mode=release
 
 pkgname=scx-scheds-git
 _gitname=scx
-pkgver=1.1.5.devario.7.r0.gbb91c83b0
-pkgrel=2
+pkgver=1.1.5.devario.8.r0.ge32e4fc5a
+pkgrel=1
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -37,9 +37,9 @@ source=("git+https://github.com/Seafoam-Labs/scx")
 sha256sums=('SKIP')
 
 _backports=(
-19946eed3217e620917896a439a31ed0f446c145 # scx_utils: Drop three more dependencies that nothing uses
-27552372bd7c85f3f34e246604a164f53a958eb8 # scheds: Drop dependencies that no scheduler source refers to
-56ea6835c164f7bb15af6e9cbe6fef4ca36b9a80 # scx_utils: Drop build-dependencies the build script does not use
+dd79fd919271dc3a2dec926a84bcf34d24821bef # scx_utils: Drop three more dependencies that nothing uses
+0af92ad20cb8483a3d568f6ca1b4dee94f8517eb # scheds: Drop dependencies that no scheduler source refers to
+780b70892d268c152af28f7640e72285373ea04f # scx_utils: Drop build-dependencies the build script does not use
 )
 
 _reverts=(
