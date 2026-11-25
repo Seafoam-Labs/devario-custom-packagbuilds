@@ -2,7 +2,7 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=aws-crt-cpp
-pkgver=0.44.5
+pkgver=0.44.6
 pkgrel=1
 pkgdesc='C++ wrapper around the aws-c-* libraries. Provides Cross-Platform Transport Protocols and SSL/TLS implementations for C++.'
 arch=(x86_64)
@@ -25,7 +25,7 @@ depends=(
 )
 makedepends=(cmake)
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
-b2sums=('77c063399f9b7637caecd2b3dd03a5e70565bd470256a7e00b8f473d32a2f1f4e2b49222842f282e917db139694784e83e60eef4a0f7e1174ec571ea70f9d171')
+b2sums=('ed0b375ad1c4c95c951efa4c5a08714d6a9ed4eab064a73dfd80229b2800c2e761edcd1684694465a68aa22bd3c4d6aad1b1395f184b039d0ee625b86d7bcc0b')
 
 build() {
   cmake -S $pkgname-$pkgver -B build \
