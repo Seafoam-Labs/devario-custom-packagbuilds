@@ -2,7 +2,7 @@
 # Maintainer: Carl Smedstad <carsme@archlinux.org>
 
 pkgname=blosc2
-pkgver=3.6.1
+pkgver=3.8.0
 pkgrel=1
 pkgdesc='A fast, compressed, persistent binary data store library for C'
 arch=(x86_64)
@@ -20,9 +20,9 @@ makedepends=(
   cmake
 )
 provides=(libblosc2.so)
-source=("$pkgname::git+https://github.com/Blosc/c-blosc2#tag=v3.6.1")
-sha512sums=('d17b993ca9bbac5ef26aa9e2ab86d013f666f6f397bf0fb57235e94298e2d71520de949c48eccf889c9e811317a4df1945358291c929ff212667c10082cd6200')
-b2sums=('551761abffb294f023181ea022d3e7b6fb4e094f67b47b53f5a9d6fe26412a893adf77e36e9f5e50f383f3683ed9f8bf5b06c841be1d78526472475095be06ab')
+source=("$pkgname::git+https://github.com/Blosc/c-blosc2#tag=v3.8.0")
+sha512sums=('f4e77df23d37a01718ab7d10afa7387fdb00352305504f63a7bf2a12eae2292f9f6895ea2ec665b1e2634919666b25cf3834e5d561be448d3d27a5de10de53f0')
+b2sums=('85a95c73a11f7678e793fcc4dc065619f304bba4885cd5aba58f1f48154a10b50c3ae809d4f0fd6888d03665cc886b74c2b8d461ec547bef4e5fb7915e595f94')
 
 build() {
   local cmake_options=(
