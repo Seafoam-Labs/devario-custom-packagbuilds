@@ -1,7 +1,7 @@
 pkgbase = edk2
 	pkgdesc = Modern, feature-rich firmware development environment for the UEFI specifications
-	pkgver = 202608
-	pkgrel = 2
+	pkgver = 202611
+	pkgrel = 1
 	url = https://github.com/tianocore/edk2
 	arch = any
 	license = Apache-2.0
@@ -15,7 +15,7 @@ pkgbase = edk2
 	makedepends = python
 	makedepends = riscv64-linux-gnu-gcc
 	options = !makeflags
-	source = git+https://github.com/tianocore/edk2#tag=edk2-stable202608
+	source = git+https://github.com/tianocore/edk2#tag=edk2-stable202611
 	source = openssl::git+https://github.com/openssl/openssl.git
 	source = pyca-cryptography::git+https://github.com/pyca/cryptography.git
 	source = krb5::git+https://github.com/krb5/krb5.git
@@ -42,7 +42,7 @@ pkgbase = edk2
 	source = 60-edk2-riscv64.json
 	source = 80-edk2-ovmf-ia32-on-x86_64-secure-4m.json
 	source = 81-edk2-ovmf-ia32-on-x86_64-4m.json
-	sha512sums = 6143e7da19cb1c2b81e462afbcd118d35d415126a0daefa71fbbc3b56d1ef5f44b1cfc454e28f83be6f19e52228ba63337d1555b4f475b1a516bfff3fec326fb
+	sha512sums = a0f242a47d85969d94064ff7a8579faf3d6a23470bcef3dc93251e617c32ef1cc4c59e4bec62f35bda6aa55764ccd982a7f744df9472a9dd6d51c3dda3d71b1a
 	sha512sums = SKIP
 	sha512sums = SKIP
 	sha512sums = SKIP
@@ -69,7 +69,7 @@ pkgbase = edk2
 	sha512sums = b40c2f5f0aff50d7e8d95c956d5e25fb5b0817e00d3da3f0e1230c2acdf6074c670be382d36d74836cf00f95866e8b162fde355d549c6c9001d41139c7d09706
 	sha512sums = 95661c2182112a76652507de84b7d0f9bb0d21f6b3b62134952bd7aada8df5cfc727658d11b71a7780a22049d9cafc4361d9a1d515b68d1463e7082465fd4f7e
 	sha512sums = c9dbe7b2b6b8c18b7b8fdfef5bc329d9142c442f2f3dbae3ca4919255dcaf2ab576cd305648228d5dd48040ca3b14f44ee33b05cb6ca13b49e2836947b78ea53
-	b2sums = 29f444c69831debfc48583a5c6c60a3dcfdc44987ca127232a10091f4547289de33feea20aa1dc6333f02d9d3fb149719e65ce5bf389d6e4a912ac61fb1d8be0
+	b2sums = 6ae61f89d277f51191d3c1b3461b8f07093f8157b87840fd6cc4e5f8d182c1a5d47b85807620e0ea5cadb0682a19296d37ed82f186ce9e84fe9c78851f470b22
 	b2sums = SKIP
 	b2sums = SKIP
 	b2sums = SKIP
