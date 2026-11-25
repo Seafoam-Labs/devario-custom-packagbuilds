@@ -1,7 +1,7 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
 pkgname=python-cachetools
-pkgver=8.0.2
+pkgver=8.0.3
 pkgrel=1
 pkgdesc="Extensible memoizing collections and decorators"
 url="https://github.com/tkem/cachetools"
@@ -9,7 +9,7 @@ license=('MIT')
 arch=('any')
 depends=('python>=3.10')
 makedepends=('git' 'python-setuptools' 'python-setuptools-scm' 'python-build' 'python-installer' 'python-wheel')
-source=("git+https://github.com/tkem/cachetools.git#tag=v8.0.2")
+source=("git+https://github.com/tkem/cachetools.git#tag=v8.0.3")
 sha512sums=('SKIP')
 
 build() {
