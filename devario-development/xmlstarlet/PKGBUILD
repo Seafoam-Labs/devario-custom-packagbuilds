@@ -1,0 +1,38 @@
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Maintainer: PyroPeter <abi1789@googlemail.com>
+# Contributor: BlackEagle <ike.devolder@scarlet.be>
+# Contributor: chochem <chochem@gmail.com>
+
+pkgname=xmlstarlet
+pkgver=1.7.0
+pkgrel=1
+pkgdesc="A set of tools to transform, query, validate, and edit XML documents"
+arch=('x86_64')
+url="https://xmlstarlet.github.io/"
+license=('MIT')
+depends=('libxslt')
+# fop and ghostscript only regenerate the shipped PDF/PS guide; the release
+# tarball already carries the rendered docs, so build without them.
+options=('docs')
+source=("https://github.com/xmlstarlet/xmlstarlet/releases/download/$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('6a7b2ab504048d3465ff422f40749ed3df046c3f4ba119de666090d5bc6018b6288df7ea7952d484e0e46534d2e721ad87b80fa2a507562b371c908fc8a3b3a7')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+  autoreconf -fiv
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  LIBXSLT_PREFIX=/usr LIBXML_PREFIX=/usr ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="${pkgdir}" install
+  # make install skips the paged guide without fop/pdf2ps; the tarball ships it.
+  install -Dm644 -t "$pkgdir"/usr/share/doc/$pkgname doc/xmlstarlet-ug.pdf doc/xmlstarlet-ug.ps
+  install -Dm0644 Copyright "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+  ln -s xml "$pkgdir"/usr/bin/xmlstarlet
+}
