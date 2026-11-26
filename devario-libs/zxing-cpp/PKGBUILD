@@ -2,7 +2,7 @@
 # Maintainer: Maxime Arthaud <maxime@arthaud.me>
 
 pkgname=zxing-cpp
-pkgver=3.1.1
+pkgver=3.2.0
 pkgrel=1
 pkgdesc='An open-source, multi-format linear/matrix barcode image processing library implemented in C++'
 arch=(x86_64)
@@ -22,8 +22,8 @@ makedepends=(cmake
              stb)
 checkdepends=(gtest)
 optdepends=('qt6-multimedia: for ZXingQtCamReader')
-source=(git+https://github.com/zxing-cpp/zxing-cpp#tag=v$pkgver)
-sha256sums=('dd2e3cf7e1077acbcf74c98ec8e8487f3828396e006e2d37e9773fb8ec584a64')
+source=(git+https://github.com/zxing-cpp/zxing-cpp#tag=v3.2.0)
+sha256sums=('215d7376e407f54cfa0f30d52a77924a93b2fb8affbdd1e4f1c4e82a236ca3f2')
 
 build() {
   # The builder's LDFLAGS omit --as-needed, so ld keeps every OpenCV module and must
