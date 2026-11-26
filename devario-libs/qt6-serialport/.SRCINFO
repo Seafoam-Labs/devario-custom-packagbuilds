@@ -1,6 +1,6 @@
 pkgbase = qt6-serialport
 	pkgdesc = Provides access to hardware and virtual serial ports
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -16,7 +16,7 @@ pkgbase = qt6-serialport
 	depends = libstdc++
 	depends = qt6-base
 	depends = systemd-libs
-	source = git+https://code.qt.io/qt/qtserialport#tag=v6.12.0
-	sha256sums = 1f93ce1cb6a8a1094349968e54b1a6a267b5b9e79b87e95e016abd2c1a2309ab
+	source = git+https://code.qt.io/qt/qtserialport#tag=v6.12.1
+	sha256sums = 09d3e9b71f86850d3c4030d80ad352b771734d30fcc63aa9ba25f2a85970f555
 
 pkgname = qt6-serialport

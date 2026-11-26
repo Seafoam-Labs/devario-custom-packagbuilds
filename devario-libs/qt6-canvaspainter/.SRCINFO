@@ -1,6 +1,6 @@
 pkgbase = qt6-canvaspainter
 	pkgdesc = Accelerated 2D painting solution for Qt Quick and QRhi-based render targets
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -17,7 +17,7 @@ pkgbase = qt6-canvaspainter
 	depends = libstdc++
 	depends = qt6-base
 	depends = qt6-declarative
-	source = git+https://code.qt.io/qt/qtcanvaspainter#tag=v6.12.0
-	sha256sums = c48aaf7548d1002a70f4583bf4305197cbce61765f70a05e8cb727b936011f11
+	source = git+https://code.qt.io/qt/qtcanvaspainter#tag=v6.12.1
+	sha256sums = 422d339cb7ef50fb6f72a2c8412b70ed73457ce16b6e83a71063a6539585a1bb
 
 pkgname = qt6-canvaspainter

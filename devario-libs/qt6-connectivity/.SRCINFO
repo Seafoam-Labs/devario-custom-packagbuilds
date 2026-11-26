@@ -1,6 +1,6 @@
 pkgbase = qt6-connectivity
 	pkgdesc = Provides access to Bluetooth hardware
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -17,7 +17,7 @@ pkgbase = qt6-connectivity
 	depends = libstdc++
 	depends = pcsclite
 	depends = qt6-base
-	source = git+https://code.qt.io/qt/qtconnectivity#tag=v6.12.0
-	sha256sums = 6091009293f55ce2a2d3a6360d85eacf6b85d6b9874ebad97287e08df68cd603
+	source = git+https://code.qt.io/qt/qtconnectivity#tag=v6.12.1
+	sha256sums = 1c4bc3ff3d3b2a93f5be3787477e646fc418858bfe68e196469d20f79bff4399
 
 pkgname = qt6-connectivity

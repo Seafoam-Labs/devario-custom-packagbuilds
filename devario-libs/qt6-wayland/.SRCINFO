@@ -1,6 +1,6 @@
 pkgbase = qt6-wayland
 	pkgdesc = Provides APIs for Wayland
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -21,7 +21,7 @@ pkgbase = qt6-wayland
 	depends = qt6-declarative
 	depends = qt6-svg
 	depends = wayland
-	source = git+https://code.qt.io/qt/qtwayland#tag=v6.12.0
-	sha256sums = ad1886ab73c1a0bf1a4b544f348b500851dab61e6aa58724da569e95985f6090
+	source = git+https://code.qt.io/qt/qtwayland#tag=v6.12.1
+	sha256sums = 870d59435cb9b03b102ffdc666aa5fd852362a9e00116148f1a209ed707f9931
 
 pkgname = qt6-wayland

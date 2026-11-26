@@ -2,10 +2,21 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
+# BOOTSTRAP recipe (temporary). The published qt6-base 6.12.1 requires
+# qt6-translations>=6.12.1, while the normal translations makedepends require
+# the unbuilt 6.12.1 stack: a dependency cycle. This variant declares no Qt
+# dependencies. It extracts qt6-base 6.12.1 into a private sysroot, builds
+# lrelease/LinguistTools from qttools 6.12.1 sources against it (Core-only:
+# without qt6-declarative, TrLib's conditional Qml support stays off, so no
+# mixed private ABI), then builds the translations with that toolchain.
+# Everything is the matching 6.12.1 release. After this package is published,
+# restore the normal recipe: git source only, makedepends cmake/git/ninja plus
+# qt6-base/qt6-declarative/qt6-tools "=$pkgver", system-Qt build().
+
 pkgname=qt6-translations
 # Literal pkgver instead of the Qt family's pkgver=${_pkgver/-/}: recipe preparation needs one literal version.
-pkgver=6.12.0
-pkgrel=3
+pkgver=6.12.1
+pkgrel=1
 arch=(any)
 url='https://www.qt.io'
 license=(GPL-3.0-only
@@ -14,21 +25,68 @@ license=(GPL-3.0-only
          Qt-GPL-exception-1.0)
 pkgdesc='A cross-platform application and UI framework (Translations)'
 depends=()
-# Qt 6.12 lrelease needs QtQml, including with older qt6-tools dependency metadata.
+# The sysroot's Qt binaries are extracted, not installed, so their runtime
+# library closure must be provisioned explicitly (none of these depend on Qt).
 makedepends=(cmake
              git
              ninja
-             "qt6-base=$pkgver"
-             "qt6-declarative=$pkgver"
-             "qt6-tools=$pkgver")
+             python
+             double-conversion
+             glib2
+             icu
+             libb2
+             liburing
+             openssl
+             pcre2
+             systemd-libs
+             zlib
+             zstd)
 groups=(qt6)
 _pkgfn=${pkgname/6-/}
-source=(git+https://code.qt.io/qt/$_pkgfn#tag=v$pkgver)
-sha256sums=('9c84757693c2fac477b2552004e1147d959c15f65c953dac7cf91739d0b056e1')
+_qtbase=qt6-base-6.12.1-1-x86_64.pkg.tar.zst
+source=(git+https://code.qt.io/qt/$_pkgfn#tag=v$pkgver
+        git+https://code.qt.io/qt/qttools#tag=v$pkgver
+        "https://mirrors.seafoam-labs.org/devario-core/x86_64/$_qtbase")
+sha256sums=('e3b6254caa9422d231136e2e62013286d23287561ebf21896d67ccf62d37a71f'
+            'SKIP'
+            '51a55f982f0656766977b01514a9beb827391ca177a4736087e01fa13026d032')
+
+prepare() {
+  install -d "$srcdir/qt-sysroot"
+  bsdtar -xf "$srcdir/$_qtbase" -C "$srcdir/qt-sysroot"
+}
 
 build() {
-  export PATH="/usr/lib/qt6/bin:$PATH"
+  local sysroot="$srcdir/qt-sysroot/usr"
+  export LD_LIBRARY_PATH="$srcdir/qt-sysroot/usr/lib"
+
+  # Core-only Linguist toolchain from the matching 6.12.1 sources.
+  cmake -B tools-build -S qttools -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_PREFIX_PATH="$sysroot" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_MESSAGE_LOG_LEVEL=STATUS \
+    -DFEATURE_linguist=ON \
+    -DFEATURE_assistant=OFF \
+    -DFEATURE_designer=OFF \
+    -DFEATURE_pixeltool=OFF \
+    -DFEATURE_distancefieldgenerator=OFF \
+    -DFEATURE_kmap2qmap=OFF \
+    -DFEATURE_objcnamemangler=OFF \
+    -DFEATURE_qtattributionsscanner=OFF \
+    -DFEATURE_qtplugininfo=OFF \
+    -DFEATURE_qdbus=OFF \
+    -DFEATURE_qtdiag=OFF \
+    -DFEATURE_qdoc=OFF
+  cmake --build tools-build
+  # Merge into the sysroot: Qt6 resolves cmake components as siblings of its
+  # own cmake directory, so Linguist must share the base prefix.
+  DESTDIR="$srcdir/qt-sysroot" cmake --install tools-build
+
+  export PATH="$srcdir/qt-sysroot/usr/lib/qt6/bin:$PATH"
   cmake -B build -S $_pkgfn -G Ninja \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_PREFIX_PATH="$sysroot" \
     -DCMAKE_MESSAGE_LOG_LEVEL=STATUS
   cmake --build build -j1
 }
@@ -36,6 +94,6 @@ build() {
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  install -d "$pkgdir"/usr/share/licenses
-  ln -s /usr/share/licenses/qt6-base "$pkgdir"/usr/share/licenses/$pkgname
+  install -d "$pkgdir/usr/share/licenses"
+  ln -s /usr/share/licenses/qt6-base "$pkgdir/usr/share/licenses/$pkgname"
 }

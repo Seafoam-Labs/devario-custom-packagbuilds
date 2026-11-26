@@ -2,7 +2,7 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt6-canvaspainter
-_pkgver=6.12.0
+_pkgver=6.12.1
 pkgver=${_pkgver/-/}
 pkgrel=1
 arch=(x86_64)
@@ -23,7 +23,7 @@ makedepends=(cmake
 groups=(qt6)
 _pkgfn=${pkgname/6-/}
 source=(git+https://code.qt.io/qt/$_pkgfn#tag=v$_pkgver)
-sha256sums=('c48aaf7548d1002a70f4583bf4305197cbce61765f70a05e8cb727b936011f11')
+sha256sums=('422d339cb7ef50fb6f72a2c8412b70ed73457ce16b6e83a71063a6539585a1bb')
 
 build() {
   cmake -B build -S $_pkgfn -G Ninja \

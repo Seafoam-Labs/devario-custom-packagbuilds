@@ -198,7 +198,7 @@ meson is where it bites; its other consumer `python-sphinx-hawkmoth` names it in
 
 ## Standing orders
 
-**Qt 6.12.** Publish `qt6-base`, then `qt6-declarative=6.12.0`, then `qt6-tools`, then
+**Qt 6.12.** Publish `qt6-base`, then `qt6-declarative=6.12.1`, then `qt6-tools`, then
 `qt6-translations`. An existing translations package must be available to provision the
 new base, because base depends on translations. `lrelease` links QtQml through
 LinguistProject and TrLib when tools builds QML support, so tools and translations need

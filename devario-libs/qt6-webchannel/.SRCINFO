@@ -1,6 +1,6 @@
 pkgbase = qt6-webchannel
 	pkgdesc = Provides access to QObject or QML objects from HTML clients for seamless integration of Qt applications with HTML/JavaScript clients
-	pkgver = 6.12.0
+	pkgver = 6.12.1
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -16,7 +16,7 @@ pkgbase = qt6-webchannel
 	depends = libstdc++
 	depends = qt6-base
 	depends = qt6-declarative
-	source = git+https://code.qt.io/qt/qtwebchannel#tag=v6.12.0
-	sha256sums = fdde55300c150ee4b4b2b95e2a0599fc81b384a4371197771c9291e682493eeb
+	source = git+https://code.qt.io/qt/qtwebchannel#tag=v6.12.1
+	sha256sums = c8e9f6311a8ac833a3b14eea2e4441241157012424efa4df12cbe3b3d762702d
 
 pkgname = qt6-webchannel
