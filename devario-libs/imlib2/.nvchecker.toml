@@ -1,4 +1,4 @@
 [imlib2]
-source = "git"
-git = "https://git.enlightenment.org/old/legacy-imlib2.git"
-prefix = "v"
+source = "url"
+url = "https://sourceforge.net/projects/enlightenment/files/imlib2-src/"
+regex = "imlib2-src/(\d+\.\d+\.\d+)/"

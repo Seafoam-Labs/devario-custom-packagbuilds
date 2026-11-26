@@ -1,12 +1,11 @@
 pkgbase = imlib2
 	pkgdesc = Library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support
-	pkgver = 1.12.7
-	pkgrel = 3
+	pkgver = 1.13.0
+	pkgrel = 1
 	url = https://sourceforge.net/projects/enlightenment/
 	arch = x86_64
 	license = BSD
 	makedepends = highway
-	makedepends = git
 	makedepends = libheif
 	makedepends = libid3tag
 	makedepends = libjxl
@@ -30,7 +29,7 @@ pkgbase = imlib2
 	optdepends = libwebp: WEBP loader
 	optdepends = openjpeg2: J2K loader
 	provides = libImlib2.so
-	source = imlib2::git+https://git.enlightenment.org/old/legacy-imlib2.git#tag=v1.12.7
-	sha512sums = 47a77967bdd96b779794c4b35947984dfa0890e646e20a2c6498e73f40a95025de09513ef730fe5ff92a4c0556ab36e54e6c8e588f2a6844e0a6e3ffc228f01e
+	source = imlib2-1.13.0.tar.xz::https://sourceforge.net/projects/enlightenment/files/imlib2-src/1.13.0/imlib2-1.13.0.tar.xz/download
+	sha512sums = e7d1f7f6e694217aa136af1ee0f733177982ee2ce85c22f64bf8c55254f077139be2aee12366e9d90243da52d0e0d163ddb78c9f55cae7cf4878b6c4994d4dee
 
 pkgname = imlib2
