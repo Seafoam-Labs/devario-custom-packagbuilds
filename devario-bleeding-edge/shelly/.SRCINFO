@@ -1,5 +1,5 @@
 pkgbase = shelly
-	pkgver = 3.4.1
+	pkgver = 3.4.2
 	pkgrel = 1
 	url = https://github.com/Seafoam-Labs/Shelly-ALPM
 	arch = x86_64
@@ -16,13 +16,13 @@ pkgbase = shelly
 	makedepends = pkgconf
 	makedepends = sqlite
 	makedepends = zig>=0.17.1
-	source = shelly-3.4.1.tar.gz::https://github.com/Seafoam-Labs/Shelly-ALPM/archive/refs/tags/v3.4.1.tar.gz
-	sha256sums = 9f0041713d366610efb66d16fc2717dd5a655c1fc688617731187425f904be01
+	source = shelly-3.4.2.tar.gz::https://github.com/Seafoam-Labs/Shelly-ALPM/archive/refs/tags/v3.4.2.tar.gz
+	sha256sums = 824e923a96e0d78a245bbe7df35bb5c4fc96329384aafa084285f7cfd214b94c
 
 pkgname = shelly
 	pkgdesc = Shelly: A Modern Arch Package Manager
-	depends = shelly-cli=3.4.1-1
-	depends = shelly-flatpak-backend=3.4.1-1
+	depends = shelly-cli=3.4.2-1
+	depends = shelly-flatpak-backend=3.4.2-1
 	depends = shelly-notify
 	depends = glib2
 	depends = glibc
@@ -64,7 +64,7 @@ pkgname = shelly-cli
 
 pkgname = shelly-flatpak-backend
 	pkgdesc = Optional native Flatpak backend for Shelly
-	depends = shelly-cli=3.4.1-1
+	depends = shelly-cli=3.4.2-1
 	depends = flatpak
 	depends = glib2
 	depends = glibc
@@ -73,7 +73,7 @@ pkgname = shelly-flatpak-backend
 
 pkgname = shelly-tui
 	pkgdesc = Terminal interface for Shelly
-	depends = shelly-cli=3.4.1-1
+	depends = shelly-cli=3.4.2-1
 	depends = glibc
 	depends = sudo
 	optdepends = shelly-flatpak-backend: Flatpak tab
@@ -81,7 +81,7 @@ pkgname = shelly-tui
 
 pkgname = shelly-notify
 	pkgdesc = Notification tray for Shelly
-	depends = shelly=3.4.1-1
+	depends = shelly=3.4.2-1
 	depends = glibc
 	conflicts = shelly-notify-git
 

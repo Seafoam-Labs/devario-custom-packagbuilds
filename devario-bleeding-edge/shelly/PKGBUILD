@@ -11,7 +11,7 @@ pkgname=(
   'shelly-notify'
   'shelly-notify-none'
 )
-pkgver=3.4.1
+pkgver=3.4.2
 pkgrel=1
 arch=('x86_64' 'aarch64')
 url='https://github.com/Seafoam-Labs/Shelly-ALPM'
@@ -40,7 +40,7 @@ makedepends=(
 )
 checkdepends=('ripgrep')
 source=("${pkgbase}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('9f0041713d366610efb66d16fc2717dd5a655c1fc688617731187425f904be01')
+sha256sums=('824e923a96e0d78a245bbe7df35bb5c4fc96329384aafa084285f7cfd214b94c')
 
 # GitHub replaces "+" with "-" in archive top-level directory names.
 _srcdir="Shelly-ALPM-${pkgver//+/-}"
