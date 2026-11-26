@@ -6,7 +6,7 @@
 
 _pkgbase=regex
 pkgname=python-regex
-pkgver=2026.11.24
+pkgver=2026.11.25
 pkgrel=1
 pkgdesc="Alternative python regular expression module."
 arch=('x86_64')
@@ -16,10 +16,10 @@ depends=('python>=3.11')
 makedepends=('python-build' 'python-installer' 'python-setuptools>77.0.3' 'python-wheel')
 options=(!emptydirs)
 # Devario: fetch the upstream release tag archive directly from GitHub so the
-# recipe tracks the exact detected upstream release (tag 2026.11.24).
+# recipe tracks the exact detected upstream release (tag 2026.11.25).
 source=("${url}/archive/refs/tags/${pkgver}.tar.gz")
-sha256sums=('ea737d1da2dc36b5dd1278c4f87ff552db191658b0c61fafd686fb62706349d8')
-b2sums=('f5c1381c08a7deb6b3a7fb8acfb99010eb6319e202e47f5f5a4f94b66058dd255ceac1545c73b1ccbf68949311cc64582a7c953258ccbde0fed326236df72f90')
+sha256sums=('1e68e5b39f43c6234c3f615632f1730b09160d61a0103aa1a30b1ce06c372aa9')
+b2sums=('985047132703f614dae222fb31c3b010cdb36c2ef91c0be365d2572114181becb1a6261e35ee8377326c8a650d2638f4caa2fee5bef799f1d7ee1d9acb494267')
 
 build() {
   cd "mrab-regex-${pkgver}"
