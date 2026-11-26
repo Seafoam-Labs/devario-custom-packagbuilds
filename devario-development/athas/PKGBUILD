@@ -1,5 +1,5 @@
 pkgname=athas
-pkgver=0.19.0
+pkgver=0.19.1
 pkgrel=1
 pkgdesc='Lightweight code editor with Git, a terminal and AI agents'
 url='https://athas.dev'
@@ -47,8 +47,8 @@ optdepends=(
 # (profile.release) is unaffected. `!strip`: upstream's release profile
 # keeps the symbol table (strip = "debuginfo") so crash reports name frames.
 options=('!debug' '!lto' '!strip')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/athasdev/athas/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('61c6bcdeda5b34020c227a255eb0858b23b32e94b976e3020f69e873c3ef6ebf')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/athasdev/athas/archive/refs/tags/v0.19.1.tar.gz")
+sha256sums=('fecf1c7b48cce8b120da33c13d15e4e5da2787f8c8ef4161539755c6470020f6')
 
 _srcenv() {
   cd "$srcdir/$pkgname-$pkgver"

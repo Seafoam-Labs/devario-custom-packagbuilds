@@ -1,6 +1,6 @@
 pkgbase = athas
 	pkgdesc = Lightweight code editor with Git, a terminal and AI agents
-	pkgver = 0.19.0
+	pkgver = 0.19.1
 	pkgrel = 1
 	url = https://athas.dev
 	arch = x86_64
@@ -29,7 +29,7 @@ pkgbase = athas
 	options = !debug
 	options = !lto
 	options = !strip
-	source = athas-0.19.0.tar.gz::https://github.com/athasdev/athas/archive/refs/tags/v0.19.0.tar.gz
-	sha256sums = 61c6bcdeda5b34020c227a255eb0858b23b32e94b976e3020f69e873c3ef6ebf
+	source = athas-0.19.1.tar.gz::https://github.com/athasdev/athas/archive/refs/tags/v0.19.1.tar.gz
+	sha256sums = fecf1c7b48cce8b120da33c13d15e4e5da2787f8c8ef4161539755c6470020f6
 
 pkgname = athas
