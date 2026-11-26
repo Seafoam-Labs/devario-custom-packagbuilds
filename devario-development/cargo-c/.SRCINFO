@@ -1,0 +1,26 @@
+pkgbase = cargo-c
+	pkgdesc = A cargo subcommand to build and install C-ABI compatible dynamic and static libraries
+	pkgver = 0.10.28
+	pkgrel = 1
+	url = https://github.com/lu-zero/cargo-c/
+	arch = x86_64
+	license = MIT
+	depends = cargo
+	depends = curl
+	depends = libcurl.so
+	depends = glibc
+	depends = libgcc
+	depends = libgcc_s.so
+	depends = libgit2
+	depends = libgit2.so
+	depends = libssh2
+	depends = libssh2.so
+	depends = openssl
+	depends = libssl.so
+	depends = sqlite
+	source = https://github.com/lu-zero/cargo-c/archive/refs/tags/v0.10.28.tar.gz
+	source = cargo-c-0.10.28.Cargo.lock::https://github.com/lu-zero/cargo-c/releases/download/v0.10.28/Cargo.lock
+	sha256sums = 1069764333ff3ef36b8822be6a058d5241b4d12884ac003e7d66695a8a1238e9
+	sha256sums = 7272f5fdbaa92f4e29750286b6c9f3fde299c306ab21734be879f3b82159c12e
+
+pkgname = cargo-c
