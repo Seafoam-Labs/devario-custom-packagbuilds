@@ -1,0 +1,6 @@
+{
+  "name": "libtomcrypt",
+  "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/libtomcrypt/-/archive/1.18.2-2/libtomcrypt-1.18.2-2.tar.gz",
+  "sha256": "9f2b5bbf2cad291b5405484e24fa8c61d21cf5c8e26d60488c58a51c04cf1ba3",
+  "bytes": 10137
+}

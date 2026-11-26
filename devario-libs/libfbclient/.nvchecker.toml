@@ -1,0 +1,4 @@
+[libfbclient]
+source = "git"
+git = "https://github.com/FirebirdSQL/firebird.git"
+prefix = "v"
