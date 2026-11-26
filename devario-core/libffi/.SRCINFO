@@ -1,6 +1,6 @@
 pkgbase = libffi
 	pkgdesc = Portable foreign function interface library
-	pkgver = 3.8.1
+	pkgver = 3.8.2
 	pkgrel = 1
 	url = https://sourceware.org/libffi/
 	arch = x86_64
@@ -9,8 +9,8 @@ pkgbase = libffi
 	depends = glibc
 	provides = libffi.so
 	provides = libffi.so=8-64
-	source = libffi-3.8.1.tar.gz::https://github.com/libffi/libffi/archive/refs/tags/v3.8.1.tar.gz
-	sha256sums = d20879cd35dae11feb1d6637e37630a65ca1a10c27eeb8236b77762f9ef003d0
-	b2sums = 3e4db0370c3fbe0dba7795f09a58dcccd2975e8c154fd85712804f39095df98aa61f1fd1fbb3d957a91f34d25d2404552383aa52039e35681d17db62b1be1790
+	source = libffi-3.8.2.tar.gz::https://github.com/libffi/libffi/archive/refs/tags/v3.8.2.tar.gz
+	sha256sums = 613aa7d9f09d1971d67377389a67f833328d5b2d9d9eed621a328e00e1d37df3
+	b2sums = dd9a4f76b9d9f7673c26429a274e0b4cc93457db467a53dc577dd7eb6aa2e5204c58b2e174df455f364c290d6dce7e94e81b0f20568cd2be8cd62fb69a18111d
 
 pkgname = libffi
