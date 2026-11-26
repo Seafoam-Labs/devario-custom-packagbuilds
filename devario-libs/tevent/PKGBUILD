@@ -5,8 +5,8 @@
 # Contributor: Thomas Burdick <thomas.burdick@gmail.com>
 
 pkgname=tevent
-pkgver=0.17.2
-pkgrel=2
+pkgver=0.17.3
+pkgrel=1
 epoch=1
 pkgdesc='Event system based on the talloc memory management library'
 url="https://tevent.samba.org/"
@@ -18,8 +18,8 @@ makedepends=('python' 'cmocka')
 optdepends=('python: for python bindings')
 provides=(libtevent.so)
 validpgpkeys=('9147A339719518EE9011BCB54793916113084025') # Samba Library Distribution Key <samba-bugs@samba.org>
-b2sums=('973d5cd072348436f960ead5cb150cf3974a4398d400a4d9b74ece04bdab899fbd646bfd9b3b0640fe96ce09acb01b477aba8235a6910ce93c9bd2157cb3fdfb'
-        'SKIP')
+b2sums=('3d8e47e25c112d90e5387e6d222bf6935757cec2a6a374730956eb873a41ec8fdf6fdedb4e3b68069912231ce2ee48ea900231019c40b490e801dddc02b60225'
+            'SKIP')
 
 build() {
   cd ${pkgname}-${pkgver}
