@@ -1,6 +1,6 @@
 pkgbase = python-pypdf
 	pkgdesc = Python library for manipulating pages of PDF files
-	pkgver = 7.1.1
+	pkgver = 7.2.0
 	pkgrel = 1
 	url = https://github.com/py-pdf/pypdf
 	arch = any
@@ -12,7 +12,7 @@ pkgbase = python-pypdf
 	depends = python
 	optdepends = python-cryptography
 	optdepends = python-pillow
-	source = https://github.com/py-pdf/pypdf/archive/refs/tags/7.1.1.tar.gz
-	sha256sums = 6b02b02d828ce6b02b5748e0d36814d69f4039c4574959328a8552b9eedcc387
+	source = https://github.com/py-pdf/pypdf/archive/refs/tags/7.2.0.tar.gz
+	sha256sums = fce0a142b90e6c1d874b2a1733a0cd4fd1383734cd6b2f309fb0abb25e0bc1d4
 
 pkgname = python-pypdf
