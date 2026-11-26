@@ -6,8 +6,8 @@
 
 pkgname=devario-dracut-git
 _pkgname=dracut
-pkgver=112.r190.g16c0eadb0
-pkgrel=3
+pkgver='113.r6.ge91daebed'
+pkgrel=1
 pkgdesc="An event driven initramfs infrastructure"
 arch=('x86_64')
 url="https://github.com/dracut-ng/dracut"
