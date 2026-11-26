@@ -1,7 +1,7 @@
 # Paseo with native Zig editing
 
-This recipe builds Paseo 0.17.3 from its checksummed upstream source archive
-and packages the desktop app, daemon, and CLI as `paseo 0.17.3-1`.
+This recipe builds Paseo 0.17.4 from its checksummed upstream source archive
+and packages the desktop app, daemon, and CLI as `paseo 0.17.4-1`.
 
 `0001-native-zig-editor-support.patch` registers `.zig` and `.zon` in the shared
 language registry. The editor and static source/diff previews gain syntax
@@ -77,3 +77,9 @@ controls. Checksums, shell syntax, desktop metadata, and Shelly-generated
 reports the npm build commands and misidentifies TypeScript template strings inside
 patches as dynamic shell commands. The isolated build, Playwright browser tests,
 and graphical Electron smoke test have not been run.
+
+For 0.17.4 only the source version was raised; the supporting patches, desktop
+file and build hooks are unchanged from the validated 0.17.3 recipe. That patch
+series has not yet been re-validated against the 0.17.4 source archive, so the
+first isolated build must confirm both patches still apply and that `check()`
+still passes.
