@@ -1,6 +1,6 @@
 pkgbase = geos
 	pkgdesc = C/C++ library for computational geometry
-	pkgver = 3.15.0
+	pkgver = 3.15.1
 	pkgrel = 1
 	url = https://libgeos.org/
 	changelog = geos.changelog
@@ -12,7 +12,7 @@ pkgbase = geos
 	depends = libgcc
 	depends = libstdc++
 	options = !emptydirs
-	source = https://download.osgeo.org/geos/geos-3.15.0.tar.bz2
-	sha256sums = d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e
+	source = https://download.osgeo.org/geos/geos-3.15.1.tar.bz2
+	sha256sums = 8eb6dc2ea78b00c2f5109c6b0dba9e028c60bad42d7b1b0cc9952b12dc71f571
 
 pkgname = geos
