@@ -1,0 +1,24 @@
+{
+  "name": "stremio-linux-shell",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=stremio-linux-shell&id=40184c0f3094ef5a5a2aceb3ead1e66d9e9be791",
+  "sha256": "769561b7192a2f5a641e9ba20baa473ef5fc1d412fbff3c587d31fae54d892cc",
+  "bytes": 3036,
+  "retrieved_on": "2026-11-27",
+  "local_adaptation": true,
+  "note": "Reference only; the source inputs are upstream project URLs, not AUR. The recipe borrows the -git recipe's schema, man page, translation and dependency fixes; the wrapper and D-Bus service are local.",
+  "commit": "40184c0f3094ef5a5a2aceb3ead1e66d9e9be791",
+  "aur": "https://aur.archlinux.org/packages/stremio-linux-shell",
+  "aur_git": {
+    "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=stremio-linux-shell-git&id=34ea75aa9e04d7068759fb83306e5c12e3f6a466",
+    "sha256": "934ced34c9660e23a74c3e1964082050a27ea14d5c2fe12ee64ea95d126996ff",
+    "bytes": 2288,
+    "commit": "34ea75aa9e04d7068759fb83306e5c12e3f6a466"
+  },
+  "local_adaptations": [
+    "Use the v1.3.0 release tarball instead of the AUR's epoch-1 packaging; no epoch is needed for a new Devario package.",
+    "Install the GSettings schema, translations and man page system-wide, and keep DBusActivatable by installing a D-Bus service file pointing at /usr/bin/stremio.",
+    "Drop the AUR's wrapper-side glxinfo/GSK workaround, LC_NUMERIC export and mesa-utils/openssl/libayatana-appindicator dependencies; the 1.3.0 binary handles the renderer and locale itself, and no AppIndicator library is linked.",
+    "Run the build with isolated Cargo state, explicit GETTEXT_DIR/GSETTINGS_SCHEMA_DIR and STREMIO_LOCALEDIR; keep the private binary and server.js under /usr/lib/stremio.",
+    "Declare data/server.js's proprietary license as LicenseRef-Stremio and ship a notice; only the Rust shell is GPL-3.0-only."
+  ]
+}

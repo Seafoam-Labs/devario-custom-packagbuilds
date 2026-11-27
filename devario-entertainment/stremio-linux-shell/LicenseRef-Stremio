@@ -1,0 +1,14 @@
+The Stremio Linux shell — the Rust application, its data files and artwork —
+is licensed under GPL-3.0-only; the upstream LICENSE is installed alongside
+this notice.
+
+data/server.js is proprietary, closed-source software of Stremio. Upstream
+ships it inside the official Stremio applications and does not publish a
+license text for it: line 1 of the file refers to a server.js.LICENSE.txt that
+is not in the release tarball. Redistribution terms are unresolved as of
+2026-11-27:
+
+  https://github.com/Stremio/stremio-linux-shell/issues/100
+
+This package includes server.js unmodified because the shell starts it as the
+streaming server and upstream's release tarball contains it.

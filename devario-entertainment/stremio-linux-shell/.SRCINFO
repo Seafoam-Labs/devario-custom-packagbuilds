@@ -1,0 +1,35 @@
+pkgbase = stremio-linux-shell
+	pkgdesc = A native Linux client for Stremio
+	pkgver = 1.3.0
+	pkgrel = 1
+	url = https://github.com/Stremio/stremio-linux-shell
+	arch = x86_64
+	license = GPL-3.0-only
+	license = LicenseRef-Stremio
+	checkdepends = appstream
+	checkdepends = desktop-file-utils
+	makedepends = cargo
+	makedepends = gettext
+	makedepends = git
+	makedepends = pkgconf
+	depends = ffmpeg
+	depends = glib2
+	depends = gtk4
+	depends = hicolor-icon-theme
+	depends = libadwaita
+	depends = libepoxy
+	depends = mpv
+	depends = nodejs
+	depends = webkitgtk-6.0
+	optdepends = xdg-desktop-portal-impl: background mode, file dialogs and opening links
+	provides = stremio=1.3.0
+	conflicts = stremio
+	options = !lto
+	source = stremio-linux-shell-1.3.0.tar.gz::https://github.com/Stremio/stremio-linux-shell/archive/refs/tags/v1.3.0.tar.gz
+	source = stremio.sh
+	source = LicenseRef-Stremio
+	sha256sums = 73a9b5b55127da7bc596d4882facde9ff9c3345a25ff67eb31370ab036af85c5
+	sha256sums = 00157a3616030afb0437a25cbb2a389dd5e3690c0ad5216218dfd0d9f02fe11e
+	sha256sums = 5d7aa5ffa4c0a631b100a82e4da72cecb2f8ac808032f277d53ed2d92166208f
+
+pkgname = stremio-linux-shell

@@ -1,0 +1,8 @@
+[stremio-linux-shell]
+source = 'github'
+github = 'Stremio/stremio-linux-shell'
+use_max_tag = true
+prefix = 'v'
+# pkgver cannot contain a hyphen; upstream uses one for prerelease tags.
+from_pattern = '-'
+to_pattern = '_'
