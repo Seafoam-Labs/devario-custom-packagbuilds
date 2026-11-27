@@ -1,0 +1,10 @@
+{
+  "name": "qoi",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fqoi/repository/archive.tar.gz?sha=970f2e416d6ba7de70836b272c91a694d2393399",
+  "sha256": "7f8aaac9f3f012543687b8f5826e05a73d810fa265035945ba9560f754c914a5",
+  "bytes": 1485,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/qoi.git",
+  "commit": "970f2e416d6ba7de70836b272c91a694d2393399",
+  "metadata_generator": "Shelly 3.4.2",
+  "pkgbuild_sha256": "a0e77a366ea8d19e55ace3404f4da6c5aeb26693c9fd2d825bb37d18a33caf2c"
+}

@@ -1,0 +1,8 @@
+[gimp]
+source = 'git'
+git = 'https://gitlab.gnome.org/GNOME/gimp.git'
+exclude_regex = 'GIMP.*(_2_99|RC).*'
+include_regex = 'GIMP_.*_(\d+)?[02468]_(\d+)'
+prefix = 'GIMP_'
+from_pattern = '_'
+to_pattern = '.'

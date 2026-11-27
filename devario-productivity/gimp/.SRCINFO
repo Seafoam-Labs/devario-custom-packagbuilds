@@ -1,0 +1,125 @@
+pkgbase = gimp
+	pkgdesc = GNU Image Manipulation Program
+	pkgver = 3.2.8
+	pkgrel = 2.1
+	url = https://www.gimp.org/
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = alsa-lib
+	makedepends = bash-completion
+	makedepends = cfitsio
+	makedepends = ghostscript
+	makedepends = gi-docgen
+	makedepends = gjs
+	makedepends = glib2-devel
+	makedepends = gobject-introspection
+	makedepends = gtk-doc
+	makedepends = gvfs
+	makedepends = intltool
+	makedepends = meson
+	makedepends = qoi
+	makedepends = vala
+	depends = appstream
+	depends = babl
+	depends = libbabl-0.1.so=0-64
+	depends = cairo
+	depends = libcairo.so=2-64
+	depends = fontconfig
+	depends = libfontconfig.so
+	depends = freetype2
+	depends = libfreetype.so=6-64
+	depends = gdk-pixbuf2
+	depends = libgdk_pixbuf-2.0.so
+	depends = gegl
+	depends = libgegl-0.4.so=0-64
+	depends = libgegl-npd-0.4.so
+	depends = glib2
+	depends = libgio-2.0.so=0-64
+	depends = libglib-2.0.so=0-64
+	depends = libgmodule-2.0.so=0-64
+	depends = libgobject-2.0.so=0-64
+	depends = glibc
+	depends = gtk3
+	depends = libgdk-3.so
+	depends = libgtk-3.so
+	depends = harfbuzz
+	depends = libharfbuzz.so=0-64
+	depends = hicolor-icon-theme
+	depends = iso-codes
+	depends = json-glib
+	depends = libjson-glib-1.0.so=0-64
+	depends = lcms2
+	depends = liblcms2.so=2-64
+	depends = libgcc
+	depends = libgcc_s.so=1-64
+	depends = libgexiv2
+	depends = libgexiv2.so=2-64
+	depends = libgirepository
+	depends = libgirepository-1.0.so
+	depends = libgomp
+	depends = libgomp.so=1-64
+	depends = libmypaint
+	depends = libstdc++
+	depends = libstdc++.so=6-64
+	depends = libunwind
+	depends = libunwind.so=8-64
+	depends = mypaint-brushes
+	depends = pango
+	depends = libpango-1.0.so=0-64
+	depends = libpangocairo-1.0.so=0-64
+	depends = libpangoft2-1.0.so=0-64
+	depends = python-gobject
+	depends = python-cairo
+	depends = zlib
+	depends = libz.so=1-64
+	depends = aalib
+	depends = bzip2
+	depends = libbz2.so=1.0-64
+	depends = libarchive
+	depends = libarchive.so=13-64
+	depends = libgudev
+	depends = libgudev-1.0.so=0-64
+	depends = libheif
+	depends = libheif.so
+	depends = libjpeg-turbo
+	depends = libjpeg.so=8-64
+	depends = libjxl
+	depends = libjxl.so=0.12-64
+	depends = libjxl_threads.so=0.12-64
+	depends = libmng
+	depends = libpng
+	depends = libpng16.so=16-64
+	depends = librsvg
+	depends = librsvg-2.so=2-64
+	depends = libtiff
+	depends = libtiff.so=6-64
+	depends = libwebp
+	depends = libwebpdemux.so=2-64
+	depends = libwebpmux.so=3-64
+	depends = libwebp.so=7-64
+	depends = libwmf
+	depends = libx11
+	depends = libxcursor
+	depends = libxext
+	depends = libxfixes
+	depends = libxmu
+	depends = libxpm
+	depends = openexr
+	depends = openjpeg2
+	depends = poppler-data
+	depends = poppler-glib
+	depends = libpoppler-glib.so
+	depends = xz
+	depends = liblzma.so=5-64
+	optdepends = alsa-lib: for MIDI event controller module
+	optdepends = bash-completion: for bash completion support
+	optdepends = cfitsio: for FITS support
+	optdepends = ghostscript: for PostScript support
+	optdepends = gimp-help: for offline help support
+	optdepends = gjs: for JavaScript scripting support
+	optdepends = gutenprint: for sophisticated printing only as gimp has built-in cups print support
+	optdepends = gvfs: for HTTP/S support (and many other schemes)
+	source = https://download.gimp.org/gimp/v3.2/gimp-3.2.8.tar.xz
+	sha256sums = 16a2696cadc9e03a2ef97ccb895e062f654cb2b8211fb57074db85f26646c847
+
+pkgname = gimp

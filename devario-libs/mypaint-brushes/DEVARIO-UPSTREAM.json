@@ -1,0 +1,10 @@
+{
+  "name": "mypaint-brushes",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fmypaint-brushes/repository/archive.tar.gz?sha=229d101548cc0aa0bd645df743af92f55559ba69",
+  "sha256": "82f19b3aa517fe81e12ea71636120d43c34c46e4f9d507058b07e6b1ee853050",
+  "bytes": 1645,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/mypaint-brushes.git",
+  "commit": "229d101548cc0aa0bd645df743af92f55559ba69",
+  "metadata_generator": "Shelly 3.4.2",
+  "pkgbuild_sha256": "e1783bc46ff26fddeabdfeee0e83c60e0f9a7d7f9335c8be53723683e201d19c"
+}

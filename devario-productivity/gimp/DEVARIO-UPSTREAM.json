@@ -1,0 +1,18 @@
+{
+  "name": "gimp",
+  "url": "https://gitlab.archlinux.org/api/v4/projects/archlinux%2Fpackaging%2Fpackages%2Fgimp/repository/archive.tar.gz?sha=046dde99e5c2ee21b531e015b76148929dd9cc2a",
+  "sha256": "018f9040cdab2cbf0a77a50e21b88990ef8fb85407ea5829b92de05e96a8d023",
+  "bytes": 3586,
+  "git_url": "https://gitlab.archlinux.org/archlinux/packaging/packages/gimp.git",
+  "commit": "046dde99e5c2ee21b531e015b76148929dd9cc2a",
+  "local_changes": [
+    "Build the self-contained 3.2.8 release tarball instead of the GIMP_3_2_8 git tag plus a floating gimp-data checkout; drop the git makedepend and submodule wiring.",
+    "Pin .so depends to the provisions these repositories publish and keep upstream's bare forms where the provider publishes only bare sonames or none.",
+    "Pin libjxl to the 0.12 provisions this tree publishes.",
+    "Name xz's liblzma.so provision instead of repeating liblcms2.so.",
+    "Disable AppStream validation with -Dappdata-test=disabled instead of deleting the check from desktop/meson.build.",
+    "Increment pkgrel to 2.1 and drop the obsolete gimp.install upgrade notice."
+  ],
+  "metadata_generator": "Shelly 3.4.2",
+  "pkgbuild_sha256": "586288d4e2c155636d050bdbbdf4fdf8c4cf8a9fe38a3663552330013894667f"
+}

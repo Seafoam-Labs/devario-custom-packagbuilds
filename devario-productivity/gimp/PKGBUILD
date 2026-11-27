@@ -1,0 +1,134 @@
+# Local adaptation for Seafoam Labs; based on the Arch Linux gimp recipe.
+# Arch recipe commit: 046dde99e5c2ee21b531e015b76148929dd9cc2a
+# Local changes: build the self-contained 3.2.8 release tarball instead of the
+# GIMP_3_2_8 git tag plus a floating gimp-data checkout, which also removes the
+# git makedepend and submodule wiring; pin .so depends to the provisions these
+# repositories publish and keep upstream's bare forms where the provider
+# publishes no versioned one; name xz's liblzma soname instead of repeating
+# liblcms2; disable AppStream validation with the Meson option instead of
+# deleting the check; drop the obsolete gimp.install upgrade notice.
+# Maintainer: Christian Hesse <mail@eworm.de>
+# Maintainer: Christian Heusel <gromit@archlinux.org>
+# Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Daniel Isenmann <daniel@archlinux.org>
+
+pkgname=gimp
+pkgver=3.2.8
+pkgrel=2.1
+pkgdesc='GNU Image Manipulation Program'
+url='https://www.gimp.org/'
+arch=('x86_64')
+license=('GPL-3.0-or-later')
+# .so depends name the versioned provisions these repositories publish.
+# fontconfig, gdk-pixbuf2, gtk3, libgirepository, libheif, libmng, libwmf,
+# poppler-glib and the X libraries publish only bare sonames, and aalib,
+# appstream, libmypaint, openexr and openjpeg2 publish none, so those stay bare.
+depends=(
+  # Core deps
+  'appstream' #'libappstream.so'
+  'babl' 'libbabl-0.1.so=0-64'
+  'cairo' 'libcairo.so=2-64'
+  'fontconfig' 'libfontconfig.so'
+  'freetype2' 'libfreetype.so=6-64'
+  'gdk-pixbuf2' 'libgdk_pixbuf-2.0.so'
+  'gegl' 'libgegl-0.4.so=0-64' 'libgegl-npd-0.4.so'
+  'glib2' 'libgio-2.0.so=0-64' 'libglib-2.0.so=0-64' 'libgmodule-2.0.so=0-64' 'libgobject-2.0.so=0-64'
+  'glibc'
+  'gtk3' 'libgdk-3.so' 'libgtk-3.so'
+  'harfbuzz' 'libharfbuzz.so=0-64'
+  'hicolor-icon-theme'
+  'iso-codes'
+  'json-glib' 'libjson-glib-1.0.so=0-64'
+  'lcms2' 'liblcms2.so=2-64'
+  'libgcc' 'libgcc_s.so=1-64'
+  'libgexiv2' 'libgexiv2.so=2-64'
+  'libgirepository' 'libgirepository-1.0.so'
+  'libgomp' 'libgomp.so=1-64'
+  'libmypaint' #'libmypaint.so'
+  'libstdc++' 'libstdc++.so=6-64'
+  'libunwind' 'libunwind.so=8-64'
+  'mypaint-brushes'
+  'pango' 'libpango-1.0.so=0-64' 'libpangocairo-1.0.so=0-64' 'libpangoft2-1.0.so=0-64'
+  'python-gobject'
+  'python-cairo'
+  'zlib' 'libz.so=1-64'
+
+  # Plugins deps
+  'aalib' #'libaa.so'
+  'bzip2' 'libbz2.so=1.0-64'
+  'libarchive' 'libarchive.so=13-64'
+  'libgudev' 'libgudev-1.0.so=0-64'
+  'libheif' 'libheif.so'
+  'libjpeg-turbo' 'libjpeg.so=8-64'
+  'libjxl' 'libjxl.so=0.12-64' 'libjxl_threads.so=0.12-64'
+  'libmng' #'libmng.so'
+  'libpng' 'libpng16.so=16-64'
+  'librsvg' 'librsvg-2.so=2-64'
+  'libtiff' 'libtiff.so=6-64'
+  'libwebp' 'libwebpdemux.so=2-64' 'libwebpmux.so=3-64' 'libwebp.so=7-64'
+  'libwmf' #'libwmf-0.2.so' 'libwmflite-0.2.so'
+  'libx11' #'libX11.so'
+  'libxcursor' #'libXcursor.so'
+  'libxext' #'libXext.so'
+  'libxfixes' #'libXfixes.so'
+  'libxmu' #'libXmu.so'
+  'libxpm' #'libXpm.so'
+  'openexr' #'libIex-3_4.so' 'libOpenEXR-3_4.so'
+  'openjpeg2' #'libopenjp2.so'
+  'poppler-data'
+  'poppler-glib' 'libpoppler-glib.so'
+  'xz' 'liblzma.so=5-64'
+)
+makedepends=(
+  'alsa-lib'
+  'bash-completion'
+  'cfitsio'
+  'ghostscript'
+  'gi-docgen'
+  'gjs'
+  'glib2-devel'
+  'gobject-introspection'
+  'gtk-doc'
+  'gvfs'
+  'intltool'
+  'meson'
+  'qoi'
+  'vala'
+)
+optdepends=(
+  'alsa-lib: for MIDI event controller module'
+  'bash-completion: for bash completion support'
+  'cfitsio: for FITS support'
+  'ghostscript: for PostScript support'
+  'gimp-help: for offline help support'
+  'gjs: for JavaScript scripting support'
+  'gutenprint: for sophisticated printing only as gimp has built-in cups print support'
+  'gvfs: for HTTP/S support (and many other schemes)'
+)
+source=("https://download.gimp.org/gimp/v${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('16a2696cadc9e03a2ef97ccb895e062f654cb2b8211fb57074db85f26646c847')
+
+build() {
+  local meson_options=(
+    --sysconfdir=/etc
+    --libexecdir=/usr/bin
+    -Dopenmp=enabled
+    -Dcheck-update=no
+    -Dopenexr=enabled
+    -Dheadless-tests=disabled # enabled by default, depends on xorg-server-xvfb
+    -Dappdata-test=disabled   # the appdata check queries the bug-report URL
+  )
+
+  arch-meson "${pkgname}-${pkgver}" build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "${pkgdir}"
+}
+
+# vim: ts=2 sw=2 et:
