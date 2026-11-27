@@ -1,5 +1,5 @@
 pkgname=paseo
-pkgver=0.17.5
+pkgver=0.18.0
 pkgrel=1
 pkgdesc='Desktop workspace for coding agents with a bundled Paseo server and CLI'
 arch=('x86_64')
@@ -55,12 +55,12 @@ conflicts=('paseo-desktop')
 # Preserve the bundled Electron runtime and native Node modules.
 options=('!strip' '!debug')
 source=(
-  "paseo-$pkgver.tar.gz::https://github.com/getpaseo/paseo/archive/refs/tags/v0.17.5.tar.gz"
+  "paseo-$pkgver.tar.gz::https://github.com/getpaseo/paseo/archive/refs/tags/v0.18.0.tar.gz"
   '0001-native-zig-editor-support.patch'
   '0002-native-zls-integration.patch'
   'paseo.desktop'
 )
-sha256sums=('c3e7a4b241f7baad976dd0d8224e09c87f83c201bb9d5ab68160ac2b08c11cd7'
+sha256sums=('cf7f9990a61c8f698aa942216d6cc46d1e5784d1a6b0153af330de53f89a6f1a'
             '6be65be32ddf82abc22b3dac1c3451d2491dae282a759530758592f461dcf493'
             '5a91a6a87c4f3a0ba72ba7116968e11bc70591c3975c9d04688ef8c4162919d6'
             '51b1379df3825ad02a50d4f96541bee5d3d3ec53b705fb7dcce85be1838a144b')
