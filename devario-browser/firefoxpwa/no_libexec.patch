@@ -1,0 +1,13 @@
+diff --git a/manifests/linux.json b/manifests/linux.json
+index 981d967..7393c15 100644
+--- a/manifests/linux.json
++++ b/manifests/linux.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "firefoxpwa",
+   "description": "The native part of the PWAsForFirefox project",
+-  "path": "/usr/libexec/firefoxpwa-connector",
++  "path": "/usr/lib/firefoxpwa/firefoxpwa-connector",
+   "type": "stdio",
+   "allowed_extensions": [
+     "firefoxpwa@filips.si"

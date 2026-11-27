@@ -1,0 +1,101 @@
+# Maintainer: Robin Candau <antiz@archlinux.org>
+# Contributor: filips <projects at filips dot si>
+# Contributor: Peter Cai <peter at typeblog dot net>
+
+pkgname=firefoxpwa
+_pkgname=PWAsForFirefox
+pkgver=2.20.1
+pkgrel=2
+pkgdesc="A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)"
+url="https://pwasforfirefox.filips.si"
+arch=('x86_64')
+license=('MPL-2.0')
+depends=('bzip2' 'glibc' 'libgcc' 'hicolor-icon-theme' 'openssl' 'xz' 'zstd')
+makedepends=('cargo')
+optdepends=('firefox: Support for browser extension')
+provides=('firefox-pwa')
+replaces=('firefox-pwa')
+install="${pkgname}.install"
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/filips123/PWAsForFirefox/archive/refs/tags/v${pkgver}.tar.gz"
+        'no_libexec.patch')
+b2sums=('69b2cb2a33dbe79a6ef46fb3ac7496e4315b1fca53f9827bf459ab7df5dfbdb1a2f9cb3936f2551288235aaaa6b1905071abfb4f9f008af69bf9357be3d0fb1a'
+        '4502cf881be1682b835d8b9cac6e9884c12e7212a681dd6820a4bbee331eda183c4475be60ed0152964750c59da3cdca005e4ef760fa6e3ce68835c885ddc617')
+
+prepare() {
+	cd "${_pkgname}-${pkgver}/native"
+	
+	# Set the correct version in source files
+	sed -i "s/version = \"0.0.0\"/version = \"${pkgver}\"/g" Cargo.toml
+	sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '${pkgver}'/g" userchrome/profile/chrome/pwa/chrome.sys.mjs
+
+	# We don't use libexec in Arch
+	patch -Np1 -i "${srcdir}/no_libexec.patch"
+
+	cargo update
+	cargo fetch --locked --target "$(rustc --print host-tuple)"
+}
+
+build() {
+	cd "${_pkgname}-${pkgver}/native"
+
+	ZSTD_SYS_USE_PKG_CONFIG=1 cargo build --frozen --release
+}
+
+check() {
+	cd "${_pkgname}-${pkgver}/native"
+
+	# Check that the version has been set correctly in prepare()
+	echo "Check version..."
+
+	if [ "$(./target/release/firefoxpwa --version)" == "${pkgname} ${pkgver}" ]; then
+		echo "Passed"
+	else
+		echo "Failed"
+		version_check_fail="true"
+	fi
+
+	# Check that the distribution version has been set correctly in prepare()
+	echo "Check distribution version..."
+
+	if [ "$(awk -F "'" '/DISTRIBUTION_VERSION/ {print $2}' userchrome/profile/chrome/pwa/chrome.sys.mjs)" == "${pkgver}" ]; then
+		echo "Passed"
+	else
+		echo "Failed"
+		distribution_version_check_fail="true"
+	fi
+
+	# Exit if any of the checks failed
+	if [ -n "${version_check_fail}" ] || [ -n "${distribution_version_check_fail}" ]; then
+		exit 1
+	fi
+}
+
+package() {
+	cd "${_pkgname}-${pkgver}/native"
+	
+	# Executables
+	install -Dm 755 "target/release/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+	install -Dm 755 "target/release/${pkgname}-connector" "${pkgdir}/usr/lib/${pkgname}/${pkgname}-connector"
+	
+	# Manifest
+	install -Dm 644 manifests/linux.json "${pkgdir}/usr/lib/mozilla/native-messaging-hosts/${pkgname}.json"
+	
+	# Completions
+	install -Dm 755 "target/release/completions/${pkgname}.bash" "${pkgdir}/usr/share/bash-completion/completions/${pkgname}"
+	install -Dm 755 "target/release/completions/${pkgname}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/${pkgname}.fish"
+	install -Dm 755 "target/release/completions/_${pkgname}" "${pkgdir}/usr/share/zsh/vendor-completions/_${pkgname}"
+	
+	# UserChrome
+	install -dm 755 "${pkgdir}/usr/share/${pkgname}/userchrome/"
+	cp -r userchrome/* "${pkgdir}/usr/share/${pkgname}/userchrome/"
+	
+	# Documentation
+	install -Dm 644 ../README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+	install -Dm 644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README-NATIVE.md"
+	install -Dm 644 ../extension/README.md "${pkgdir}/usr/share/doc/${pkgname}/README-EXTENSION.md"
+	install -Dm 644 packages/deb/copyright "${pkgdir}/usr/share/doc/${pkgname}/copyright"
+	
+	# AppStream Metadata
+	install -Dm 644 packages/appstream/si.filips.FirefoxPWA.metainfo.xml "${pkgdir}/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml"
+	install -Dm 644 packages/appstream/si.filips.FirefoxPWA.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg"
+}
