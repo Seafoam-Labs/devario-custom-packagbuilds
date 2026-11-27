@@ -1,0 +1,14 @@
+pkgbase = jxrlib
+	pkgdesc = Open source implementation of jpegxr
+	pkgver = 1.4.7
+	pkgrel = 1
+	url = https://github.com/mircomir/jxrlib
+	arch = x86_64
+	license = BSD-2-Clause
+	makedepends = git
+	makedepends = python
+	depends = glibc
+	source = git+https://github.com/mircomir/jxrlib#tag=1.4.7
+	sha256sums = 3786acfb9f99c57adc310a94e999f1044ae205d4d9555917383d55c05c2e02fa
+
+pkgname = jxrlib
