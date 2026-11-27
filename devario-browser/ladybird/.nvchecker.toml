@@ -1,0 +1,4 @@
+[ladybird]
+source = "github"
+github = "LadybirdBrowser/ladybird"
+use_latest_release = true

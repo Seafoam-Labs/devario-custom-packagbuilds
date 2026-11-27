@@ -1,0 +1,110 @@
+# Maintainer: Ali Mohammad Pur <totally@fakegmail.ch>
+# Contributor: Tim Schumacher <timschumi@gmx.de>
+# Contributor: Alexander F. Rødseth <xyproto@archlinux.org>
+# Contributor: Brian <brain@derelict.garden>
+
+pkgname=ladybird
+pkgver=2026.48.0
+pkgrel=2
+epoch=1
+pkgdesc='Independent web browser with its own rendering engine'
+arch=(x86_64)
+url='https://github.com/LadybirdBrowser/ladybird'
+license=(BSD-2-Clause)
+depends=(
+  ca-certificates fontconfig glib2 glibc hicolor-icon-theme libatomic libdrm libgcc
+  libglvnd libpulse libstdc++ libxcb ncurses 'qt6-base>=6.10' qt6-positioning
+  ttf-liberation vulkan-icd-loader wayland xcb-util-wm
+)
+makedepends=(
+  autoconf-archive cmake curl git lld nasm ninja python rustup tar unzip vulkan-headers zip
+)
+optdepends=(
+  'pipewire-pulse: audio playback through PipeWire'
+  'pulseaudio: audio playback through PulseAudio'
+)
+options=('!lto' '!debug' '!staticlibs' '!emptydirs')
+
+_commit='5eb636e3ecfac0bdfdc6d56558cba8ac9b71d514' # commit of the signed release tag
+_vcpkg_url='https://github.com/microsoft/vcpkg.git'
+_vcpkg_commit='8f363bdc11359ede4bc51e5eb32a2617538049c8' # vcpkg.json:builtin-baseline
+source=(
+  "$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+  "git+${_vcpkg_url}#commit=${_vcpkg_commit}"
+  "hb-fc-whole-archive.patch"
+  "gcc-build.patch"
+  "respect-packager-flags.patch"
+)
+sha256sums=('f80b35408607ff0882c3a0af2fa213f100be66f4209675225215d36980f7bb18'
+            'e9a7061ee857551c420dfb6304be27705fb0cdc60bb512c07e1823172a91c1f0'
+            'e268aed76a27dc8519be00f6c30a59ce2339683127839f8e097d14d92d7b4268'
+            '4065634ed192973510df368f9148a19fbf4f2ebd1d7681c53163fa6f70f0412d'
+            '4cb511d3b92b2f8d30f1c27b2dd76d8d52bcc3bc70927e5ebd36eb95c09e47e9')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+  patch --batch -Np1 -i "$srcdir/hb-fc-whole-archive.patch"
+  patch --batch -Np1 -i "$srcdir/gcc-build.patch"
+  patch --batch -Np1 -i "$srcdir/respect-packager-flags.patch"
+  printf '%s\n' "$_commit" > REVISION
+
+  # Versioned ports can refer to Git trees older than the pinned checkout.
+  local _vcpkg_root="$srcdir/vcpkg"
+  if [[ $(git -C "$_vcpkg_root" rev-parse --is-shallow-repository) == true ]]; then
+    git -C "$_vcpkg_root" fetch --no-tags --unshallow "$_vcpkg_url" "$_vcpkg_commit" || return
+  fi
+
+  unset RUSTUP_TOOLCHAIN
+  # cbindgen runs Cargo metadata without a platform filter, even on Linux.
+  cargo fetch --locked
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  export VCPKG_ROOT="$srcdir/vcpkg"
+  export VCPKG_DISABLE_METRICS=true
+  export CARGO_NET_OFFLINE=true
+  unset CARGO_TARGET_DIR
+  # CMake also invokes Cargo from outside the source directory.
+  RUSTUP_TOOLCHAIN=$(sed -n 's/^channel = "\([^"]*\)"$/\1/p' rust-toolchain.toml)
+  [[ -n $RUSTUP_TOOLCHAIN ]] || return 1
+  export RUSTUP_TOOLCHAIN
+
+  "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+
+  # Keep upstream's Release profile for Rust and vcpkg, but use the packager's flags.
+  cmake \
+    -S . -B "$srcdir/build" -G Ninja \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+    -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+    -DCMAKE_INSTALL_PREFIX=/opt/ladybird \
+    -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+    -DLADYBIRD_BASELINE_CPU_TARGET=ON \
+    -DLADYBIRD_ENABLE_LTO=OFF \
+    -DLADYBIRD_VERSION="$pkgver" \
+    -DLADYBIRD_VCPKG_TYPE=distribution \
+    -DENABLE_INSTALL_HEADERS=OFF
+  cmake --build "$srcdir/build"
+}
+
+check() {
+  # Core tests that need neither a display nor a network connection.
+  ctest --test-dir "$srcdir/build" --output-on-failure --no-tests=error \
+    --timeout 120 -R '^(TestAK|TestLibCompress|TestLibCrypto)$'
+}
+
+package() {
+  local _component
+  for _component in ladybird_Runtime ladybird_SystemIntegration js wasm; do
+    DESTDIR="$pkgdir" cmake --install "$srcdir/build" --component "$_component"
+  done
+  ln -s /opt/ladybird/bin/js "$pkgdir/usr/bin/ladybird-js"
+  ln -s /opt/ladybird/bin/wasm "$pkgdir/usr/bin/ladybird-wasm"
+
+  find "$pkgdir/opt/ladybird" \( -name '*.a' -o -name '*.cmake' \) -delete
+
+  install -Dm644 "$srcdir/$pkgname-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$srcdir/build/LICENSES.txt" "$pkgdir/usr/share/licenses/$pkgname/third-party.txt"
+}
