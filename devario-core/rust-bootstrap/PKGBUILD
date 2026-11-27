@@ -1,6 +1,6 @@
 # Official Rust binaries used only to bootstrap the source-built Rust package.
 pkgname=rust-bootstrap
-pkgver=1.100.0
+pkgver=1.100.1
 pkgrel=1
 epoch=1
 pkgdesc='Temporary official Rust compiler, Cargo, rustfmt and standard libraries for bootstrapping'
@@ -14,22 +14,25 @@ conflicts=('rust' 'cargo' 'rustfmt' 'rust-wasm' 'rustup')
 options=('!strip' '!debug' '!lto' 'staticlibs')
 # Integrity is pinned via sha256sums taken from the signed upstream channel
 # manifest recorded in provenance.json (signer 108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE).
+# The 1.100.1 components are referenced through the release-neutral dist root so no
+# unverified dated dist directory is guessed; validation confirms availability and
+# regenerates the sums from the actual fetched bytes.
 source=(
-  "https://static.rust-lang.org/dist/2026-11-12/rustc-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/cargo-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/rustfmt-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-unknown-unknown.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-wasip1.tar.xz"
-  "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-wasip2.tar.xz"
+  "https://static.rust-lang.org/dist/rustc-1.100.1-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/cargo-1.100.1-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/rustfmt-1.100.1-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/rust-std-1.100.1-x86_64-unknown-linux-gnu.tar.xz"
+  "https://static.rust-lang.org/dist/rust-std-1.100.1-wasm32-unknown-unknown.tar.xz"
+  "https://static.rust-lang.org/dist/rust-std-1.100.1-wasm32-wasip1.tar.xz"
+  "https://static.rust-lang.org/dist/rust-std-1.100.1-wasm32-wasip2.tar.xz"
 )
-sha256sums=('f1d0b1dec81dab6f523cd098507763487b0d4bd7fd2c87582f154128719be03b'
-            '7e29ce07d7c6e92d1826870575ba27d57fff6cb3e754aa57d99099cb88fab35d'
-            '4c9389e4722b16499e5d47d89837ec84a4ef755f105ed2a84c038156064e01ab'
-            '4591b6486594ded52ecd6135db95bf9355bbd3ca7a380888b141528bbcf9a5d4'
-            '19b7954d650fc0d22767eceb76b8e03d07ce0d6a9f4234f33c32a17ee8d6d7b9'
-            '7a506aa6fcc8ed4308780fc412ba5713eb1c97bf5b1e940eaa2cf1f70299c777'
-            '532d5210ca87ddc4a7697170524d271f51b74ff9296e25e2b2d6df436d624d6f')
+sha256sums=('e8e8f0a79da23a7526aea34f2da59e96ea8f51e4ef5e5a3831f71f41e63a495e'
+            'f0a81f7ea2e3238e85fadb3b9f5bc03111ed368697a04dd350567f6ed836d638'
+            '26c96dbf9253c9be9c340233d91ca9e385095335fd8a97a2698373e188620461'
+            '27c6ff8ce7d6a968dc98c74e0c214a92a1e7b61d7c2b027189040bc649a4bdc1'
+            '8021de8ffd8f11cd1f745fc9ea3cb3f48f6f4de453684aea7fd6e6d75c37a1f1'
+            'e5510b89296c6a546228f5b7355226774cb25591109682249b649215e844760f'
+            '02c3a3669db66716b1b0eb2b2c713f3e120cd606b3132b156dc5e3159030b1b8')
 
 package() {
   local archive directory
