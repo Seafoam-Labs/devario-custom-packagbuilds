@@ -9,7 +9,7 @@ _mode=release
 pkgname=scx-scheds-git
 _gitname=scx
 pkgver=1.1.5.devario.8.r9.g0df97416e
-pkgrel=2
+pkgrel=3
 pkgdesc='sched_ext schedulers and tools'
 url='https://github.com/sched-ext/scx'
 arch=('x86_64')
@@ -39,6 +39,7 @@ _backports=(
 f42dffc7b686b6fb56390575285d8fb2f4f88cd3 # scheds: Drop dependencies that no scheduler source refers to
 d17e17ecec84c629f8f3395f52b5339f645008a6 # scx_utils: Drop build-dependencies the build script does not use
 dc09d8fae671e0f89b68fb21f552971d1e369982 # scx_flow: bump to 5.3.5
+dde973f0e192e1e16a8bfa16c9b753357dce90c5 # Cargo: update dependencies to latest versions
 )
 
 _reverts=(
