@@ -1,6 +1,6 @@
 pkgbase = ruby-yard
 	pkgdesc = YARD is a Ruby Documentation tool. The Y stands for "Yay!"
-	pkgver = 0.9.45
+	pkgver = 0.9.46
 	pkgrel = 1
 	url = https://yardoc.org/
 	arch = any
@@ -12,8 +12,8 @@ pkgbase = ruby-yard
 	depends = ruby-rdoc
 	depends = ruby-webrick
 	options = !emptydirs
-	source = https://github.com/lsegal/yard/archive/v0.9.45/ruby-yard-0.9.45.tar.gz
-	sha512sums = 80e95a4fb167b793fca3bd428af2ede960ab699f8cbd24379db9b2d8d3f21e7700e71ebc971569a40b9244743ca2693537b39f7deaad4f2a6937ac01ee3afea0
-	b2sums = ec2920103210b99e6001ac231bdee5e6ad6d6e611cd6113e84ef162b7576292fd1de1558d8d785d4675bd65450cede6d450bfd6ec58c5fa0ec12c836fd62c7dd
+	source = https://github.com/lsegal/yard/archive/refs/tags/v0.9.46.tar.gz
+	sha512sums = 2f96792182597c61af82d1157bb3f5547901cce3ab34d8cf371e7412fe3d4dfeee459c4a9b63695269d0482d54ce230bf1c6f061993cf7a1df2e7f54463b59d2
+	b2sums = d67beca6e7b7701b1e3e567bb0a8c443fa6774c0cb589dfd3ba15984064f08b5c4d592e86b13fa58ae32ffc341e80423a5af5d4ae26a521c8d8543a625486ab9
 
 pkgname = ruby-yard
