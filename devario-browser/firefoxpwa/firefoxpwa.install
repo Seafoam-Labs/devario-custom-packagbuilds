@@ -1,0 +1,10 @@
+post_install() {
+	cat <<EOM
+
+:: This package provides the native component of the PWAsForFirefox project.
+   You should also install the Firefox extension if you haven't already:
+
+   https://addons.mozilla.org/firefox/addon/pwas-for-firefox
+
+EOM
+}

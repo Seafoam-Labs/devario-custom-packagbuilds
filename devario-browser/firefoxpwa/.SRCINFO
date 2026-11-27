@@ -1,0 +1,25 @@
+pkgbase = firefoxpwa
+	pkgdesc = A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)
+	pkgver = 2.20.1
+	pkgrel = 2
+	url = https://pwasforfirefox.filips.si
+	install = firefoxpwa.install
+	arch = x86_64
+	license = MPL-2.0
+	makedepends = cargo
+	depends = bzip2
+	depends = glibc
+	depends = libgcc
+	depends = hicolor-icon-theme
+	depends = openssl
+	depends = xz
+	depends = zstd
+	optdepends = firefox: Support for browser extension
+	provides = firefox-pwa
+	replaces = firefox-pwa
+	source = firefoxpwa-2.20.1.tar.gz::https://github.com/filips123/PWAsForFirefox/archive/refs/tags/v2.20.1.tar.gz
+	source = no_libexec.patch
+	b2sums = 69b2cb2a33dbe79a6ef46fb3ac7496e4315b1fca53f9827bf459ab7df5dfbdb1a2f9cb3936f2551288235aaaa6b1905071abfb4f9f008af69bf9357be3d0fb1a
+	b2sums = 4502cf881be1682b835d8b9cac6e9884c12e7212a681dd6820a4bbee331eda183c4475be60ed0152964750c59da3cdca005e4ef760fa6e3ce68835c885ddc617
+
+pkgname = firefoxpwa

@@ -1,0 +1,5 @@
+[firefoxpwa]
+source = "github"
+github = "filips123/PWAsForFirefox"
+use_latest_release = true
+prefix = "v"
