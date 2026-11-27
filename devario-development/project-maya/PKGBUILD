@@ -1,8 +1,8 @@
 # Maya builds its GPU engines for the user's hardware during first-run setup.
 pkgname=project-maya
-pkgver=1.1.81
+pkgver=1.1.82
 pkgrel=1
-_tag=v1.1.81
+_tag=v1.1.82
 pkgdesc='Local LLM inference with GPU-specific engine setup and a browser dashboard'
 arch=('x86_64')
 url='https://github.com/mw00/project-maya'
@@ -16,12 +16,12 @@ optdepends=('cuda: NVIDIA engine compilation and CUDA libraries'
             'hipblas: AMD BLAS backend'
             'hipblaslt: AMD BLAS tuning'
             'rocm-llvm: AMD GPU compiler')
-source=("$pkgname-$_tag.tar.gz::https://github.com/mw00/project-maya/archive/refs/tags/v1.1.81.tar.gz"
+source=("$pkgname-$_tag.tar.gz::https://github.com/mw00/project-maya/archive/refs/tags/v1.1.82.tar.gz"
         'project-maya'
         'README.md')
-sha256sums=('4ef6c40e778ef487ce223baea38858b95415aa11875457af78fb01fbf2af9529'
+sha256sums=('892a5b98dec1ae339dd8a323333dfa915fda1189223ddb57261183580d5a1cc8'
             'a0eb53fbcaacefef0d6c9f8f8ca30f0034ceb4211c03c2a34db649dbdc25b90a'
-            '8c5e6c16c3d54ca140ba09dc25c1391ba7bf32d3b91486fa99226a6fb1b02e25')
+            '98213c21d3b199af33cde8124e725d5ae16f3d6952c58d20f8a97ac37af2dba2')
 
 package() {
   # Retain the complete upstream tree, including vendored wheels and notices.
