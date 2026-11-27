@@ -15,7 +15,7 @@ pkgbase = qt6-shadertools
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
-	depends = qt6-base=6.12.1
+	depends = qt6-base>=6.12.1
 	source = git+https://code.qt.io/qt/qtshadertools#tag=v6.12.1
 	sha256sums = cd22220000ac1b0fd67f3a6983a5194a4df49adff79d055f52829850816d1496
 

@@ -20,8 +20,8 @@ pkgbase = qt6-tools
 	depends = libgcc
 	depends = libstdc++
 	depends = litehtml
-	depends = qt6-base=6.12.1
-	depends = qt6-declarative=6.12.1
+	depends = qt6-base>=6.12.1
+	depends = qt6-declarative>=6.12.1
 	depends = zstd
 	optdepends = clang: for qdoc and lupdate
 	source = git+https://code.qt.io/qt/qttools#tag=v6.12.1

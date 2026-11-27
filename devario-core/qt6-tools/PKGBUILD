@@ -17,8 +17,8 @@ depends=(glibc
          libgcc
          libstdc++
          litehtml
-         "qt6-base=$pkgver"
-         "qt6-declarative=$pkgver"
+         "qt6-base>=$pkgver"
+         "qt6-declarative>=$pkgver"
          zstd)
 # llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
 makedepends=(clang

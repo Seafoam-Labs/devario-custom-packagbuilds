@@ -12,22 +12,10 @@ pkgbase = qt6-translations
 	makedepends = cmake
 	makedepends = git
 	makedepends = ninja
-	makedepends = python
-	makedepends = double-conversion
-	makedepends = glib2
-	makedepends = icu
-	makedepends = libb2
-	makedepends = liburing
-	makedepends = openssl
-	makedepends = pcre2
-	makedepends = systemd-libs
-	makedepends = zlib
-	makedepends = zstd
+	makedepends = qt6-base>=6.12.1
+	makedepends = qt6-declarative>=6.12.1
+	makedepends = qt6-tools>=6.12.1
 	source = git+https://code.qt.io/qt/qttranslations#tag=v6.12.1
-	source = git+https://code.qt.io/qt/qttools#tag=v6.12.1
-	source = https://mirrors.seafoam-labs.org/devario-core/x86_64/qt6-base-6.12.1-1-x86_64.pkg.tar.zst
 	sha256sums = e3b6254caa9422d231136e2e62013286d23287561ebf21896d67ccf62d37a71f
-	sha256sums = SKIP
-	sha256sums = 51a55f982f0656766977b01514a9beb827391ca177a4736087e01fa13026d032
 
 pkgname = qt6-translations

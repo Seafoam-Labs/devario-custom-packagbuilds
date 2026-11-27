@@ -12,7 +12,7 @@ pkgbase = qt6-languageserver
 	makedepends = cmake
 	makedepends = git
 	makedepends = ninja
-	depends = qt6-base=6.12.1
+	depends = qt6-base>=6.12.1
 	source = git+https://code.qt.io/qt/qtlanguageserver#tag=v6.12.1
 	sha256sums = 8904a6169e44e800e45f1b7ebf81acc272d6931d92f8783ffa2bd71a4d04df2b
 

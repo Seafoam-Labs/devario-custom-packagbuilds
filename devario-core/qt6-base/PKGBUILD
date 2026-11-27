@@ -138,7 +138,6 @@ build() {
 
 package_qt6-base() {
   pkgdesc='A cross-platform application and UI framework'
-  depends+=('qt6-translations>=6.12.1')
   DESTDIR="$pkgdir" cmake --install build
 
   install -Dm644 $_pkgfn/LICENSES/* -t "$pkgdir"/usr/share/licenses/$pkgbase

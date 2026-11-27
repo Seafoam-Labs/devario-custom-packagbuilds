@@ -14,7 +14,7 @@ license=(GPL-3.0-only
          LicenseRef-Qt-Commercial
          Qt-GPL-exception-1.0)
 pkgdesc='An implementation of the Language Server Protocol'
-depends=("qt6-base=$pkgver")
+depends=("qt6-base>=$pkgver")
 makedepends=(cmake
              git
              ninja)

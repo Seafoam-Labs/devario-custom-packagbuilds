@@ -13,14 +13,14 @@ pkgbase = qt6-declarative
 	makedepends = git
 	makedepends = ninja
 	makedepends = python
-	makedepends = qt6-languageserver=6.12.1
-	makedepends = qt6-shadertools=6.12.1
-	makedepends = qt6-svg=6.12.1
+	makedepends = qt6-languageserver>=6.12.1
+	makedepends = qt6-shadertools>=6.12.1
+	makedepends = qt6-svg>=6.12.1
 	makedepends = vulkan-headers
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
-	depends = qt6-base=6.12.1
+	depends = qt6-base>=6.12.1
 	optdepends = qt6-svg: for QtQuickVectorImage and svgtoqml
 	source = git+https://code.qt.io/qt/qtdeclarative#tag=v6.12.1
 	sha256sums = 7860978f2fbd335c266188c5b55420f69bf6e59218d38d332549a5ee6a49edb8

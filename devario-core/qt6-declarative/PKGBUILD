@@ -18,14 +18,14 @@ pkgdesc='Classes for QML and JavaScript languages'
 depends=(glibc
          libgcc
          libstdc++
-         "qt6-base=$pkgver")
+         "qt6-base>=$pkgver")
 makedepends=(cmake
              git
              ninja
              python
-             "qt6-languageserver=$pkgver"
-             "qt6-shadertools=$pkgver"
-             "qt6-svg=$pkgver"
+             "qt6-languageserver>=$pkgver"
+             "qt6-shadertools>=$pkgver"
+             "qt6-svg>=$pkgver"
              vulkan-headers)
 optdepends=('qt6-svg: for QtQuickVectorImage and svgtoqml')
 groups=(qt6)
