@@ -1,0 +1,69 @@
+# Maintainer: Devario maintainers
+
+pkgname=zig-mcp
+pkgver=1.4.1
+pkgrel=1
+pkgdesc='MCP server providing up-to-date Zig standard library and builtin function documentation'
+arch=('any')
+url='https://github.com/zig-wasm/zig-mcp'
+license=('MIT')
+depends=('nodejs' 'zig')
+makedepends=('npm')
+options=('!strip')
+noextract=("$pkgname-$pkgver.tgz")
+source=("https://registry.npmjs.org/$pkgname/-/$pkgname-$pkgver.tgz"
+        'wasm-instance-cache.patch')
+sha256sums=('5f7734e6f1e480b5a1811b4b554de61ec319d1de086231a674703ac900d6fde4'
+            '022a5e6d597ff33cb463efccc3f75f1887cc1dd3d958bdb20b46c226a43b5694')
+
+prepare() {
+  # The npm tarball extracts under package/; flatten it so the patch applies
+  # with -p1 against dist/std.js.
+  mkdir -p "$pkgname-$pkgver"
+  tar -xzf "$pkgname-$pkgver.tgz" -C "$pkgname-$pkgver" --strip-components=1
+
+  cd "$pkgname-$pkgver"
+  # Upstream instantiates a fresh WASM module and re-unpacks the entire std
+  # sources.tar on every tool call, retaining ~100 MB per call. Cache one
+  # instance per process instead.
+  patch -Np1 -i "$srcdir/wasm-instance-cache.patch"
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  local js
+  for js in dist/*.js; do
+    node --check "$js"
+  done
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  # npm install -g on a directory symlinks it instead of copying, so pack the
+  # patched tree into a fresh tarball first. Keep it out of $srcdir's root to
+  # avoid clobbering the pristine source tarball of the same name.
+  install -d "$srcdir/packed"
+  npm pack --pack-destination "$srcdir/packed"
+}
+
+package() {
+  # Install the packed, patched tarball; npm resolves the runtime dependencies
+  # from the registry.
+  npm install -g \
+    --cache "$srcdir/npm-cache" \
+    --prefix "$pkgdir/usr" \
+    "$srcdir/packed/$pkgname-$pkgver.tgz"
+
+  # Non-deterministic race in npm gives 777 permissions to random directories.
+  # See https://github.com/npm/npm/issues/9359 for details.
+  chmod -R u=rwX,go=rX "$pkgdir"
+
+  # npm installs package.json owned by the build user.
+  chown -R root:root "$pkgdir"
+
+  # Remove references to $pkgdir.
+  find "$pkgdir" -name package.json -print0 | xargs -r -0 sed -i '/_where/d'
+
+  install -Dm644 "$srcdir/$pkgname-$pkgver/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm644 "$srcdir/$pkgname-$pkgver/README.md" -t "$pkgdir/usr/share/doc/$pkgname"
+}

@@ -1,0 +1,18 @@
+pkgbase = zig-mcp
+	pkgdesc = MCP server providing up-to-date Zig standard library and builtin function documentation
+	pkgver = 1.4.1
+	pkgrel = 1
+	url = https://github.com/zig-wasm/zig-mcp
+	arch = any
+	license = MIT
+	makedepends = npm
+	depends = nodejs
+	depends = zig
+	noextract = zig-mcp-1.4.1.tgz
+	options = !strip
+	source = https://registry.npmjs.org/zig-mcp/-/zig-mcp-1.4.1.tgz
+	source = wasm-instance-cache.patch
+	sha256sums = 5f7734e6f1e480b5a1811b4b554de61ec319d1de086231a674703ac900d6fde4
+	sha256sums = 022a5e6d597ff33cb463efccc3f75f1887cc1dd3d958bdb20b46c226a43b5694
+
+pkgname = zig-mcp

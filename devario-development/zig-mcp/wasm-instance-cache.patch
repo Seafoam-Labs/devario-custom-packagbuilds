@@ -1,0 +1,98 @@
+--- a/dist/std.js
++++ b/dist/std.js
+@@ -739,25 +739,51 @@
+     const wasmArray = new Uint8Array(wasm_exports.memory.buffer, ptr, len);
+     wasmArray.set(jsArray);
+ }
+-export async function searchStdLib(wasmPath, stdSources, query, limit = 20) {
+-    const fs = await import("node:fs");
+-    const wasmBytes = typeof wasmPath === "string" ? fs.readFileSync(wasmPath) : wasmPath;
+-    const wasmModule = await WebAssembly.instantiate(wasmBytes, {
+-        js: {
+-            log: (level, ptr, len) => {
+-                const msg = decodeString(ptr, len);
+-                if (level === LOG_err) {
+-                    throw new Error(msg);
+-                }
+-            },
+-        },
++// Each WASM instance keeps a full parsed copy of the std sources (~100 MB)
++// alive, so instantiate and unpack once per process instead of per call.
++// Query execution after initialization is synchronous, so concurrent tool
++// calls can safely share the single instance.
++let wasm_instance_cache = null;
++let wasm_instance_pending = null;
++function getWasmExports(wasmPath, stdSources) {
++    if (wasm_instance_cache) {
++        wasm_exports = wasm_instance_cache;
++        return Promise.resolve(wasm_instance_cache);
++    }
++    if (!wasm_instance_pending) {
++        wasm_instance_pending = (async () => {
++            const fs = await import("node:fs");
++            const wasmBytes = typeof wasmPath === "string" ? fs.readFileSync(wasmPath) : wasmPath;
++            const wasmModule = await WebAssembly.instantiate(wasmBytes, {
++                js: {
++                    log: (level, ptr, len) => {
++                        const msg = decodeString(ptr, len);
++                        if (level === LOG_err) {
++                            throw new Error(msg);
++                        }
++                    },
++                },
++            });
++            const exports = wasmModule.instance.exports;
++            wasm_exports = exports;
++            const ptr = exports.alloc(stdSources.length);
++            const wasmArray = new Uint8Array(exports.memory.buffer, ptr, stdSources.length);
++            wasmArray.set(stdSources);
++            exports.unpack(ptr, stdSources.length);
++            wasm_instance_cache = exports;
++            return exports;
++        })().catch((error) => {
++            wasm_instance_pending = null;
++            throw error;
++        });
++    }
++    return wasm_instance_pending.then((exports) => {
++        wasm_exports = exports;
++        return exports;
+     });
+-    const exports = wasmModule.instance.exports;
+-    wasm_exports = exports;
+-    const ptr = exports.alloc(stdSources.length);
+-    const wasmArray = new Uint8Array(exports.memory.buffer, ptr, stdSources.length);
+-    wasmArray.set(stdSources);
+-    exports.unpack(ptr, stdSources.length);
++}
++export async function searchStdLib(wasmPath, stdSources, query, limit = 20) {
++    const exports = await getWasmExports(wasmPath, stdSources);
+     const ignoreCase = query.toLowerCase() === query;
+     const results = executeQuery(query, ignoreCase);
+     let markdown = `# Search Results\n\nQuery: "${query}"\n\n`;
+@@ -776,24 +802,7 @@
+     return markdown;
+ }
+ export async function getStdLibItem(wasmPath, stdSources, name, getSourceFile = false) {
+-    const fs = await import("node:fs");
+-    const wasmBytes = typeof wasmPath === "string" ? fs.readFileSync(wasmPath) : wasmPath;
+-    const wasmModule = await WebAssembly.instantiate(wasmBytes, {
+-        js: {
+-            log: (level, ptr, len) => {
+-                const msg = decodeString(ptr, len);
+-                if (level === LOG_err) {
+-                    throw new Error(msg);
+-                }
+-            },
+-        },
+-    });
+-    const exports = wasmModule.instance.exports;
+-    wasm_exports = exports;
+-    const ptr = exports.alloc(stdSources.length);
+-    const wasmArray = new Uint8Array(exports.memory.buffer, ptr, stdSources.length);
+-    wasmArray.set(stdSources);
+-    exports.unpack(ptr, stdSources.length);
++    const exports = await getWasmExports(wasmPath, stdSources);
+     const decl_index = findDecl(name);
+     if (decl_index === null) {
+         return `# Error\n\nDeclaration "${name}" not found.`;
