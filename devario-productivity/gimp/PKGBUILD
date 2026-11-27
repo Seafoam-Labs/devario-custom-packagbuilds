@@ -6,7 +6,9 @@
 # repositories publish and keep upstream's bare forms where the provider
 # publishes no versioned one; name xz's liblzma soname instead of repeating
 # liblcms2; disable AppStream validation with the Meson option instead of
-# deleting the check; drop the obsolete gimp.install upgrade notice.
+# deleting the check; compile en_US.UTF-8 inside the build tree because
+# gen-languages needs a UTF-8 locale and the isolated root ships only C.utf8;
+# drop the obsolete gimp.install upgrade notice.
 # Maintainer: Christian Hesse <mail@eworm.de>
 # Maintainer: Christian Heusel <gromit@archlinux.org>
 # Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
@@ -14,7 +16,7 @@
 
 pkgname=gimp
 pkgver=3.2.8
-pkgrel=2.1
+pkgrel=2.2
 pkgdesc='GNU Image Manipulation Program'
 url='https://www.gimp.org/'
 arch=('x86_64')
@@ -108,7 +110,31 @@ optdepends=(
 source=("https://download.gimp.org/gimp/v${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 sha256sums=('16a2696cadc9e03a2ef97ccb895e062f654cb2b8211fb57074db85f26646c847')
 
+# gen-languages aborts unless a UTF-8 locale resolves, and the isolated build
+# root ships only C.utf8. Compile en_US.UTF-8 in the build tree so the recipe
+# needs no glibc-locales dependency.
+_fix_locale() {
+  local _locale_root="$srcdir/.build-locales"
+
+  if [[ ! -r "$_locale_root/en_US.UTF-8/LC_CTYPE" ]]; then
+    if [[ ! -r /usr/share/i18n/locales/en_US ||
+          ! -r /usr/share/i18n/charmaps/UTF-8.gz ]]; then
+      printf '%s\n' '==> ERROR: glibc locale sources are missing; cannot generate en_US.UTF-8.' >&2
+      return 1
+    fi
+    mkdir -p "$_locale_root" || return
+    localedef --no-archive -i en_US -f UTF-8 \
+      "$_locale_root/en_US.UTF-8" || return
+  fi
+
+  export LOCPATH="$_locale_root"
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+}
+
 build() {
+  _fix_locale || return
+
   local meson_options=(
     --sysconfdir=/etc
     --libexecdir=/usr/bin
@@ -124,6 +150,8 @@ build() {
 }
 
 check() {
+  _fix_locale || return
+
   meson test -C build --print-errorlogs
 }
 

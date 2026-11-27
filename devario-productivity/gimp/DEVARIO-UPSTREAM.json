@@ -11,8 +11,9 @@
     "Pin libjxl to the 0.12 provisions this tree publishes.",
     "Name xz's liblzma.so provision instead of repeating liblcms2.so.",
     "Disable AppStream validation with -Dappdata-test=disabled instead of deleting the check from desktop/meson.build.",
-    "Increment pkgrel to 2.1 and drop the obsolete gimp.install upgrade notice."
+    "Compile en_US.UTF-8 inside the build tree because gen-languages needs a UTF-8 locale and the isolated root ships only C.utf8.",
+    "Drop the obsolete gimp.install upgrade notice and increment pkgrel to 2.2."
   ],
   "metadata_generator": "Shelly 3.4.2",
-  "pkgbuild_sha256": "586288d4e2c155636d050bdbbdf4fdf8c4cf8a9fe38a3663552330013894667f"
+  "pkgbuild_sha256": "56f6bb1de81804aedd75346fda8a5fa991812a387d6fa2cddb26246aa5daf8d2"
 }
