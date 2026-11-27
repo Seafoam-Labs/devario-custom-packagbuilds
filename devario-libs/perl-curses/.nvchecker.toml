@@ -1,0 +1,3 @@
+[perl-curses]
+source = "cpan"
+cpan = "Curses"

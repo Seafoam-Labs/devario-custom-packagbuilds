@@ -1,0 +1,4 @@
+[asciiquarium]
+source = 'regex'
+url = 'https://robobunny.com/projects/asciiquarium/html/'
+regex = '\(v([\d.]+)\)'
