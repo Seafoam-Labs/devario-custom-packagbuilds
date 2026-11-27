@@ -1,0 +1,10 @@
+[polystrata]
+source = 'github'
+github = 'simplexai-labs/PolyStrata'
+use_max_tag = true
+prefix = 'v'
+# Upstream tags separate the fork suffix with a hyphen (v0.2.20-poly.6);
+# pkgver cannot contain one, so it becomes a dot like the tag-to-pkgver rule
+# in PKGBUILD.
+from_pattern = '-'
+to_pattern = '.'

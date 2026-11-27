@@ -1,0 +1,11 @@
+{
+  "name": "polystrata",
+  "url": "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=polystrata&id=0ba730512287dae2e344fd01a34967a2b9737233",
+  "sha256": "0b3260370fd94266d7b714cfba3318ae801929b73b5e8124448c0436c54a9f6d",
+  "bytes": 1982,
+  "retrieved_on": "2026-11-27",
+  "local_adaptation": true,
+  "note": "Reference only; the source inputs are upstream project URLs, not AUR. Pinned to upstream tag v0.2.20-poly.6, one release past the AUR's 0.2.20-poly.5. polystrata.sh is the AUR launcher with one local change: an existing directory without the package's version stamp is now an error instead of running that directory's setup.sh. The AUR install script is dropped and its post-install notes live in README.md.",
+  "commit": "0ba730512287dae2e344fd01a34967a2b9737233",
+  "aur": "https://aur.archlinux.org/packages/polystrata"
+}
