@@ -1,0 +1,4 @@
+[amdgpu_top]
+source = "git"
+git = "https://github.com/Umio-Yasuno/amdgpu_top.git"
+prefix = "v"
