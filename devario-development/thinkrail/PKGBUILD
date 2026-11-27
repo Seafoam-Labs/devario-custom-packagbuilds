@@ -9,8 +9,8 @@
 # route through that wrapper so no launch path can skip the workaround.
 
 pkgname=thinkrail
-pkgver=0.3.2
-pkgrel=3
+pkgver=0.5.0
+pkgrel=1
 pkgdesc='JetBrains agentic IDE around the pi coding agent: thinkrail CLI and Electrobun desktop app'
 arch=('x86_64')
 url='https://github.com/JetBrains/thinkrail'
@@ -37,14 +37,12 @@ source=(
   'thinkrail-desktop.sh'
   'thinkrail.desktop'
 )
-sha256sums=(
-  '85a3129cc005eac34192b41b6c6e32e6f2e08b11d2915403be6d6e117d155afa'
-  '2620f5471fae63120038013a3dcefb718f96cf2a926592542eebe74ff778549d'
-  '8634c6a81dfa39860c8a9e508b3dcd8255b242a2c080f3ce59e29afd5f300579'
-  '5e89a43ad123d6f94fc9d5cdb661a7cd195a4fe0ce9ef31efc842658bda7fb34'
-  '21cf2bc9027484e879f30f380dda987d2f630853ea45d48d00bc554e1d49a182'
-  '17d84f961dbe240e4c83d0def21f9dec126b6c67b9a6598af9083a721ac40a3f'
-)
+sha256sums=('49289235c3e02d589acf72ff04cc8ae3925ea8f0f8616555496b95c49088fc9b'
+            '3447080d803aa5658e27154ec5eca33c5a33a17a16e7deaa638dd62af7b230c8'
+            '8634c6a81dfa39860c8a9e508b3dcd8255b242a2c080f3ce59e29afd5f300579'
+            'd4a7cafdcac35da816ea496035d21a426b7dece616f9631f94b89f73030e9939'
+            '21cf2bc9027484e879f30f380dda987d2f630853ea45d48d00bc554e1d49a182'
+            '17d84f961dbe240e4c83d0def21f9dec126b6c67b9a6598af9083a721ac40a3f')
 
 package() {
   install -Dm755 "${srcdir}/thinkrail-cli-${pkgver}" "${pkgdir}/usr/bin/thinkrail"
