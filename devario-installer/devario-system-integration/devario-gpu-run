@@ -1,13 +1,14 @@
 #!/usr/bin/python3 -I
-"""Launch an application with a GPU selected from current PCI hardware."""
+"""Launch an application with a GPU selected from current PCI hardware. Use zink to override the OpenGL backend without selecting a GPU."""
 import argparse
 import os
 from pathlib import Path
 import re
 import sys
 
-# Variables that pick *which GPU* is used. Always cleared, so a stale value
-# inherited from the compositor or an older login cannot override the choice.
+# Variables that pick *which GPU* is used. Always cleared in GPU selection
+# modes, so a stale value inherited from the compositor or an older login
+# cannot override the choice. The Zink backend override skips this cleanup.
 SELECTION_VARIABLES = (
     'DRI_PRIME', 'MESA_VK_DEVICE_SELECT', 'MESA_VK_DEVICE_SELECT_FORCE_DEFAULT_DEVICE',
     '__NV_PRIME_RENDER_OFFLOAD', '__NV_PRIME_RENDER_OFFLOAD_PROVIDER',
@@ -63,6 +64,14 @@ def has_device_select_layer(layer_dirs=LAYER_DIRS):
 
 def launch_environment(selection, available, inherited, layer_dirs=LAYER_DIRS):
     environment = dict(inherited)
+    if selection == 'zink':
+        # Select an OpenGL backend, not a GPU or Vulkan driver.
+        environment.update(
+            MESA_LOADER_DRIVER_OVERRIDE='zink',
+            __GLX_VENDOR_LIBRARY_NAME='mesa',
+            __EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',
+        )
+        return environment
     for name in SELECTION_VARIABLES:
         environment.pop(name, None)
     if selection == 'auto':
@@ -80,7 +89,7 @@ def launch_environment(selection, available, inherited, layer_dirs=LAYER_DIRS):
         return environment
 
     if not re.fullmatch(r'[0-9a-fA-F]{4}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]', selection):
-        raise ValueError('Choose auto, nvidia, or a Mesa GPU PCI address from --list')
+        raise ValueError('Choose auto, nvidia, zink, or a Mesa GPU PCI address from --list')
     address = selection.lower()
     selected = next((item for item in available if item[0] == address), None)
     if selected is None or selected[3] not in MESA_DRIVERS:
@@ -115,21 +124,22 @@ def main():
     parser.add_argument('--list', action='store_true', help='list bound display controllers')
     parser.add_argument('--no-dcc', action='store_true',
                         help='disable AMD delta colour compression (diagnoses rendering corruption)')
-    parser.add_argument('gpu', nargs='?', help='auto, nvidia, or a Mesa GPU PCI address')
+    parser.add_argument('target', nargs='?', metavar='TARGET',
+                        help='auto, nvidia, a Mesa GPU PCI address, or zink (OpenGL over Vulkan)')
     parser.add_argument('command', nargs=argparse.REMAINDER)
     args = parser.parse_args()
-    available = devices()
     if args.list:
-        for address, vendor, device_id, driver in available:
+        for address, vendor, device_id, driver in devices():
             print(f'{address}  id={vendor[2:]}:{device_id[2:]}  driver={driver}')
         return 0
     command = args.command
     if command[:1] == ['--']:
         command = command[1:]
-    if not args.gpu or not command:
-        parser.error('usage: devario-gpu-run [--no-dcc] GPU -- COMMAND [ARG ...]')
+    if not args.target or not command:
+        parser.error('usage: devario-gpu-run [--no-dcc] TARGET -- COMMAND [ARG ...]')
     try:
-        environment = launch_environment(args.gpu, available, os.environ)
+        available = () if args.target == 'zink' else devices()
+        environment = launch_environment(args.target, available, os.environ)
         if args.no_dcc:
             for name in ('AMD_DEBUG', 'RADV_DEBUG'):
                 flags = [f for f in environment.get(name, '').split(',') if f]

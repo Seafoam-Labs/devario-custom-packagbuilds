@@ -51,6 +51,35 @@ user compositor journal for `graphics-session`, `Vulkan render preference`,
 candidate attempts and `gpu-selection` identity messages. Physical hybrid and
 desktop testing is still required before publishing a release.
 
+## Per-application Zink
+
+Use Zink (OpenGL over Vulkan) for one OpenGL application:
+
+```sh
+devario-gpu-run zink -- COMMAND [ARG ...]
+```
+
+For an OpenGL game launched by Steam, use `devario-gpu-run zink -- %command%`.
+`zink` requests Mesa for GLX and EGL and selects the Zink loader driver. It
+does not select a GPU; inherited Vulkan driver and device selectors are left
+intact. It does not change the desktop session or enable the virtio-specific
+`LIBGL_KOPPER_DRI2` workaround.
+
+The application needs Mesa with Zink, the Vulkan loader, and a compatible
+Vulkan driver for its architecture (including 32-bit libraries for 32-bit
+apps). EGL needs the Mesa vendor manifest at
+`/usr/share/glvnd/egl_vendor.d/50_mesa.json`. See
+[Mesa's Zink documentation](https://docs.mesa3d.org/drivers/zink.html).
+Check for `zink` in the OpenGL renderer reported by the applicable probe:
+
+```sh
+devario-gpu-run zink -- glxinfo -B                   # X11 / Xwayland
+devario-gpu-run zink -- eglinfo -B -a gl -p wayland   # Wayland
+```
+
+This mode is for OpenGL, not a replacement for DXVK or VKD3D-Proton, which
+already use Vulkan.
+
 ## Disk-backed temporary files
 
 Release 1-5 runs a one-time migration from both `post_install` and
