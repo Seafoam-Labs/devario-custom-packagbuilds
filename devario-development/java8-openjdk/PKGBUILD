@@ -14,7 +14,7 @@ pkgname=(
 
 _majorver=8
 _minorver=522
-_updatever=02
+_updatever=03
 pkgver=${_majorver}.${_minorver}.u${_updatever}
 pkgrel=1
 arch=('x86_64')
@@ -45,7 +45,7 @@ options=(
 source=(
   https://github.com/openjdk/jdk${_majorver}u/archive/refs/tags/jdk${_majorver}u${_minorver}-b${_updatever}.tar.gz
 )
-b2sums=('c14d59c4a81d0cce93c9781c6e32e6d651ff8dbf64abcb79043f2afcc7fb33bfd4a7dccd2f99728d07f805da68a8c9bc1f200eb89a8e107eae8540a80310e059')
+b2sums=('85d92ffc280981ca73da2e1f1826187cd3484c2ef9b0c5be736d4c86e9dd8818486bb2f73dc3b59a919ad7be252a74395531c8ac6cbf3091af7123405416afd2')
 
 case "${CARCH}" in
   'x86_64'  ) _JARCH=amd64   ; _DOC_ARCH=x86_64  ;;
