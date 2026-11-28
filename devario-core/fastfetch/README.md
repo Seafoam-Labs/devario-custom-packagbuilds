@@ -1,8 +1,10 @@
 # Fastfetch for Devario
 
-`2.70.0-2` combines native Shelly package detection with Devario's PNG fish
+`2.72.0-1` combines native Shelly package detection with Devario's PNG fish
 logo above the information in a borderless Fastfetch layout. The three ASCII
-fish designs remain available as alternatives. The recipe is based on upstream `2.70.0-1`.
+fish designs remain available as alternatives. The recipe tracks the upstream
+`2.72.0` release; the Devario adaptation was originally taken from upstream
+`2.70.0-1`.
 
 The 24-column logo sits above the information so shrinking Ghostty does not
 move it into wrapped text. Fixed-width borders and color-strip indentation
