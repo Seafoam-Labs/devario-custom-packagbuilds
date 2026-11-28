@@ -1,0 +1,71 @@
+pkgbase = dotnet-core-10.0
+	pkgver = 10.0.14.sdk114
+	pkgrel = 1.1
+	url = https://dotnet.microsoft.com
+	arch = x86_64
+	license = MIT
+	makedepends = bash
+	makedepends = clang20
+	makedepends = cmake
+	makedepends = dotnet-sdk-10.0
+	makedepends = dotnet-source-built-artifacts-10.0
+	makedepends = git
+	makedepends = icu
+	makedepends = krb5
+	makedepends = libgit2
+	makedepends = libunwind
+	makedepends = libxml2
+	makedepends = lldb
+	makedepends = llvm20
+	makedepends = lttng-ust2.12
+	makedepends = nodejs
+	makedepends = openssl
+	makedepends = systemd
+	makedepends = zlib
+	optdepends = bash-completion: Bash completion support
+	options = !lto
+	options = staticlibs
+	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.114
+	b2sums = 19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510
+
+pkgname = dotnet-runtime-10.0
+	pkgdesc = The .NET Core runtime
+	depends = dotnet-host
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	depends = icu
+	depends = krb5
+	depends = libunwind
+	depends = zlib
+	depends = openssl
+	optdepends = lttng-ust2.12: CoreCLR tracing
+	provides = dotnet-runtime=10.0
+
+pkgname = aspnet-runtime-10.0
+	pkgdesc = The ASP.NET Core runtime
+	depends = dotnet-runtime-10.0
+	provides = aspnet-runtime=10.0
+
+pkgname = dotnet-sdk-10.0
+	pkgdesc = The .NET Core SDK
+	depends = dotnet-runtime-10.0
+	depends = dotnet-targeting-pack-10.0
+	depends = glibc
+	depends = libgcc
+	depends = libstdc++
+	optdepends = aspnet-targeting-pack: Build ASP.NET Core applications
+	provides = dotnet-sdk=10.0
+
+pkgname = dotnet-targeting-pack-10.0
+	pkgdesc = The .NET Core targeting pack
+	provides = dotnet-targeting-pack=10.0
+
+pkgname = aspnet-targeting-pack-10.0
+	pkgdesc = The ASP.NET Core targeting pack
+	depends = dotnet-targeting-pack-10.0
+	provides = aspnet-targeting-pack=10.0
+
+pkgname = dotnet-source-built-artifacts-10.0
+	pkgdesc = Internal package for building the .NET Core SDK
+	provides = dotnet-source-built-artifacts=10.0

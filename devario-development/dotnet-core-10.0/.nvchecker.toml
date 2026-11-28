@@ -1,0 +1,8 @@
+["dotnet-core-10.0"]
+source = "github"
+github = "dotnet/dotnet"
+use_max_release = true
+use_release_name = true
+include_regex = '^\.NET 10\.0\.\d+ / 10\.0\.1\d+\s*$'
+from_pattern = '^\.NET (10\.0\.\d+) / 10\.0\.(\d+)\s*$'
+to_pattern = '\1.sdk\2'
