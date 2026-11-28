@@ -1,6 +1,6 @@
 pkgbase = dotnet-core-10.0
-	pkgver = 10.0.14.sdk114
-	pkgrel = 1.1
+	pkgver = 10.0.15.sdk115
+	pkgrel = 1
 	url = https://dotnet.microsoft.com
 	arch = x86_64
 	license = MIT
@@ -26,8 +26,8 @@ pkgbase = dotnet-core-10.0
 	optdepends = bash-completion: Bash completion support
 	options = !lto
 	options = staticlibs
-	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.114
-	b2sums = 19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510
+	source = git+https://github.com/dotnet/dotnet.git#tag=v10.0.115
+	b2sums = b394120731ae5238b7b867ad1a7f471dde00ef492f04cf0ebca204bb53a7ebc80bdaed3fa2c6e9cd36bfde03c9992583cfc05b30a1bc4b60e59465157713eba6
 
 pkgname = dotnet-runtime-10.0
 	pkgdesc = The .NET Core runtime

@@ -3,7 +3,7 @@
 # Contributor: Max Liebkies <mail@maxliebkies.de>
 # Contributor: Krzysztof Bogacki <krzysztof.bogacki@leancode.pl>
 #
-# Local adaptation of Arch's dotnet-core-10.0 (local revision 1.1).
+# Local adaptation of Arch's dotnet-core-10.0 (local revision 1).
 # Retains the package-manager-independent bootstrap from our dotnet recipe.
 # Bootstrap makedepends are unversioned so they resolve through the published
 # 8.0 splits' provides until 10.0 is published; prepare() only seeds from an
@@ -28,8 +28,8 @@ pkgname=(
   aspnet-targeting-pack-10.0
   dotnet-source-built-artifacts-10.0
 )
-pkgver=10.0.14.sdk114
-pkgrel=1.1
+pkgver=10.0.15.sdk115
+pkgrel=1
 arch=(x86_64)
 url=https://dotnet.microsoft.com
 license=(MIT)
@@ -59,8 +59,8 @@ options=(
   !lto
   staticlibs
 )
-source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver/.*.sdk/.0.})
-b2sums=('19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510')
+source=(git+https://github.com/dotnet/dotnet.git#tag=v10.0.115)
+b2sums=('b394120731ae5238b7b867ad1a7f471dde00ef492f04cf0ebca204bb53a7ebc80bdaed3fa2c6e9cd36bfde03c9992583cfc05b30a1bc4b60e59465157713eba6')
 
 # Arcade's nested builds require en_US.UTF-8. Keep the compiled locale inside
 # the build tree; this does not require root, locale-gen, or host configuration.
@@ -101,7 +101,7 @@ _fix_locale() {
       return 1
     fi
   done
-  printf '==> .NET locale verified (recipe 1.1): child en_US.UTF-8; LC_ALL=%s LOCPATH=%s\n' \
+  printf '==> .NET locale verified (recipe 1): child en_US.UTF-8; LC_ALL=%s LOCPATH=%s\n' \
     "$LC_ALL" "$LOCPATH"
 }
 
