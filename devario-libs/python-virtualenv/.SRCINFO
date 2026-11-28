@@ -1,6 +1,6 @@
 pkgbase = python-virtualenv
 	pkgdesc = Virtual Python Environment builder
-	pkgver = 21.15.13
+	pkgver = 21.15.14
 	pkgrel = 1
 	url = https://virtualenv.pypa.io
 	arch = any
@@ -26,11 +26,11 @@ pkgbase = python-virtualenv
 	conflicts = virtualenv
 	replaces = virtualenv
 	options = !makeflags
-	source = python-virtualenv::git+https://github.com/pypa/virtualenv#tag=21.15.13
+	source = python-virtualenv::git+https://github.com/pypa/virtualenv#tag=21.15.14
 	source = no-llm-crap.patch
-	sha512sums = 3fad474cbb7aed0ce62f912bf8ad5da0939c638933dff38b37964b18ab4625f18ac11e2de86b2b0af3e1380094ced03dfb016ce6c663ce64d44643a14ee4d6d6
+	sha512sums = SKIP
 	sha512sums = 9d198995dabe340d905d63d8bd372980223033155956c522479537f26a93c83149b0a323e81abf8de0e31decd6e1f6063aae3be1f5200f872901d81acefa063e
-	b2sums = a842effdf80f83264f4f3c3a87d424d6ea7168a1c4fd1ea1eee72bfc523ec2865a64ecd263cda5e0921ad4edddf13ca8676e5e9dae40b5edf5f96f66ef75464a
+	b2sums = SKIP
 	b2sums = 202e755826989926017b045ba310bf2a90e0e57940b851ca3add5cb28b062f4606f88c1cf3bd6b19b983d95443b19004f68d58e0fde274f8353900df1b90ffca
 
 pkgname = python-virtualenv
