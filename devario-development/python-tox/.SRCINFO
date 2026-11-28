@@ -1,6 +1,6 @@
 pkgbase = python-tox
 	pkgdesc = Python virtualenv management and testing tool
-	pkgver = 4.67.16
+	pkgver = 4.67.17
 	pkgrel = 1
 	url = https://tox.readthedocs.io
 	arch = any
@@ -28,7 +28,7 @@ pkgbase = python-tox
 	optdepends = python-pytest: for pytest plugin to test tox and its plugins
 	optdepends = python-pytest-mock: for pytest plugin to test tox and its plugins
 	optdepends = python-re-assert: for pytest plugin to test tox and its plugins
-	source = git+https://github.com/tox-dev/tox.git#tag=4.67.16
-	sha512sums = 6650ea1f897c7324734042f189e0e92e370728abb259187bb7622bf46bd999801d433a6c7303443a46de4b4afcc2f9a426fb3da2b3053c817f99d417e77a60ae
+	source = git+https://github.com/tox-dev/tox.git#tag=4.67.17
+	sha512sums = 02346f44708a85b29076780000761d92e2b3c0962597f8936fb9c0ebc90efe2fb7dfd433a10a91a480cfcc405cc624b9a1447d0e2645f52b586942f5eda8823f
 
 pkgname = python-tox
