@@ -1,13 +1,13 @@
 pkgbase = rocm-toolchain
 	pkgdesc = Scripts for ROCm packaging
-	pkgver = 0.4.0
-	pkgrel = 2
+	pkgver = 0.6.0
+	pkgrel = 1
 	url = https://gitlab.archlinux.org/tpkessler/rocm-toolchain
 	arch = any
 	license = GPL-3.0-or-later
 	makedepends = git
 	depends = bash
-	source = rocm-toolchain::git+https://gitlab.archlinux.org/tpkessler/rocm-toolchain#tag=v0.4.0
-	sha256sums = 7eb17d4ccdf8fc19fcb51894ef9166e0236d8bb30ab7d93383be807937f36c4f
+	source = rocm-toolchain::git+https://gitlab.archlinux.org/tpkessler/rocm-toolchain#tag=v0.6.0
+	sha256sums = 0993c57c32bbc2e57e93db389b7c722f8a1d0a401699b869ad10727558255dc2
 
 pkgname = rocm-toolchain
