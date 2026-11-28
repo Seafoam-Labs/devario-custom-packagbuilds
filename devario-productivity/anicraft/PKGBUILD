@@ -1,7 +1,7 @@
 # Maintainer: Anton Ždanov <anton@azdanov.dev>
 
 pkgname=anicraft
-pkgver=0.2.1
+pkgver=0.3.0
 pkgrel=1
 pkgdesc="Draw and animate 2D vector art on a timeline"
 arch=('x86_64' 'aarch64')
@@ -39,12 +39,10 @@ source=(
     "$url/archive/refs/tags/v$pkgver.tar.gz"
     "craft-fonts-$_fontsrev.tar.gz::https://github.com/storytold/craft-fonts/archive/$_fontsrev.tar.gz"
 )
-sha256sums=(
-    'af9a49e30bfae2c2dbdb04472b29a0acd2854eb043936bc7bbc1fbee08ac2f59'
-    '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb'
-)
+sha256sums=('a0c43156a4ee4b4c2bc541f0dca7e580c78e26ae64680b67a8e44264b3dda448'
+            '35eadfeb7e4217a933f24b73a3d190b90fed81e6c933266f092c161746c0a9eb')
 
-_commit=d0beaf253274948b55ee9e1107749f9491bff880
+_commit=e2e8a68d6791d088553fb295d6820f2eb72015b7
 _releasedate=2026-11-12
 _appid=ai.storyteller.anicraft
 
