@@ -40,6 +40,7 @@ makedepends=(
   lldb
   llvm20
   lttng-ust2.12
+  ninja
   nodejs
   openssl
   systemd

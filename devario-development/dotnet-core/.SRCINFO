@@ -18,6 +18,7 @@ pkgbase = dotnet-core
 	makedepends = lldb
 	makedepends = llvm20
 	makedepends = lttng-ust2.12
+	makedepends = ninja
 	makedepends = nodejs
 	makedepends = openssl
 	makedepends = systemd
