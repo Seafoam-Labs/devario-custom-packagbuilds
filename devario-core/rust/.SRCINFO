@@ -13,6 +13,7 @@ pkgbase = rust
 	checkdepends = procps-ng
 	makedepends = clang>=23.1.6
 	makedepends = llvm>=23.1.6
+	makedepends = llvm-gtest
 	makedepends = cmake
 	makedepends = libffi
 	makedepends = musl

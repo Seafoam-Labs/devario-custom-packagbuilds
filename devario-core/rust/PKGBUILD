@@ -52,6 +52,8 @@ depends=(
 makedepends=(
   "clang>=$_llvmver"
   "llvm>=$_llvmver"
+  # llvm-gtest ships libLLVMTesting{Annotations,Support}.a required by LLVMExports.cmake
+  llvm-gtest
   cmake
   libffi
   musl
