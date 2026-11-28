@@ -1,22 +1,21 @@
 # Maintainer: Seafoam Labs recipe maintainers
-# Based on upstream OpenTabletDriver 0.6.7 Linux packaging integration.
+# Based on upstream OpenTabletDriver 0.6.8 Linux packaging integration.
 # .NET dependencies restore from NuGet during prepare(), never from AUR.
 
 pkgname=opentabletdriver
-pkgver=0.6.7
+pkgver=0.6.8.1
 pkgrel=1
 pkgdesc='Open source, cross-platform, user-mode tablet driver'
 arch=('x86_64')
 url='https://opentabletdriver.net'
 license=('LGPL-3.0-or-later')
-depends=('bash' 'dotnet-runtime-8.0' 'gtk3' 'libevdev' 'libx11' 'libxrandr'
+depends=('bash' 'dotnet-runtime-10.0' 'gtk3' 'libevdev' 'libx11' 'libxrandr'
          'systemd-libs' 'wayland')
-makedepends=('dotnet-sdk-8.0' 'jq')
+makedepends=('dotnet-sdk-10.0' 'jq')
 conflicts=('opentabletdriver-bin' 'opentabletdriver-git')
 options=('!strip')
-_commit=736003ed72c8bbb28033b039d5a0bb76c344145c
-source=("$pkgname-$pkgver.tar.gz::https://codeload.github.com/OpenTabletDriver/OpenTabletDriver/tar.gz/$_commit")
-sha256sums=('095309b615888620fe90ca6239459864e6fe25cb84a2cf6bab9ce7a9292c6f41')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/OpenTabletDriver/OpenTabletDriver/archive/refs/tags/v0.6.8.1.tar.gz")
+sha256sums=('a5e05d3a07e40edf9cf085a0e5c32e4c356a2e588c3d47105ca6585876f47584')
 _projects=('OpenTabletDriver.Daemon' 'OpenTabletDriver.Console' 'OpenTabletDriver.UX.Gtk')
 
 _dotnet_env() {
@@ -27,10 +26,11 @@ _dotnet_env() {
 }
 
 prepare() {
-  cd "OpenTabletDriver-$_commit"
+  cd "OpenTabletDriver-$pkgver"
   _dotnet_env
-  # Select the packaged .NET 8 SDK even if the builder also has newer SDKs.
-  printf '%s\n' '{"sdk":{"version":"8.0.100","rollForward":"latestFeature"}}' > global.json
+  # Directory.Build.props sets FrameworkBase=net10.0, so the packaged .NET 10
+  # SDK has to be selected even if the builder also has newer SDKs.
+  printf '%s\n' '{"sdk":{"version":"10.0.100","rollForward":"latestFeature"}}' > global.json
   local project
   for project in "${_projects[@]}"; do
     dotnet restore "$project/$project.csproj" --runtime linux-x64 \
@@ -39,12 +39,12 @@ prepare() {
 }
 
 build() {
-  cd "OpenTabletDriver-$_commit"
+  cd "OpenTabletDriver-$pkgver"
   _dotnet_env
   local project
   for project in "${_projects[@]}"; do
     dotnet publish "$project/$project.csproj" --configuration Release \
-      --framework net8.0 --runtime linux-x64 --self-contained false \
+      --framework net10.0 --runtime linux-x64 --self-contained false \
       --no-restore --output "$srcdir/publish" \
       -p:PublishSingleFile=true -p:PublishTrimmed=false -p:DebugType=embedded
   done
@@ -52,7 +52,7 @@ build() {
 }
 
 package() {
-  cd "OpenTabletDriver-$_commit"
+  cd "OpenTabletDriver-$pkgver"
   install -dm755 "$pkgdir/usr/lib/opentabletdriver"
   cp -a "$srcdir/publish/." "$pkgdir/usr/lib/opentabletdriver/"
   # Upstream wrappers, systemd user service, module settings and libinput quirks.
