@@ -2,6 +2,13 @@
 # Contributor: Kristian Mosegaard <kristian@mosen.me>
 # Contributor: Max Liebkies <mail@maxliebkies.de>
 # Contributor: Krzysztof Bogacki <krzysztof.bogacki@leancode.pl>
+#
+# Local adaptation of Arch's dotnet-core, tracking the latest .NET major.
+# Retains the package-manager-independent bootstrap from our previous recipe.
+# Build against openssl, not Arch's openssl-3: Devario's openssl 3.6.5 still
+# owns libssl.so=3-64, as in python. When openssl carries the 4.x SONAME,
+# switch both openssl deps to openssl-3 and restore Arch's PKG_CONFIG_PATH
+# export in build().
 
 pkgbase=dotnet-core
 pkgname=(
@@ -13,10 +20,7 @@ pkgname=(
  aspnet-targeting-pack
  dotnet-source-built-artifacts
 )
-pkgver=10.0.114
-_sdkver=${pkgver}
-_runtimever=10.0.14
-_majorver=${pkgver%.*}
+pkgver=11.0.0.sdk100
 pkgrel=1
 arch=(x86_64)
 url=https://dotnet.microsoft.com
@@ -46,8 +50,8 @@ options=(
   !lto
   staticlibs
 )
-source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver})
-b2sums=('19124368332117509759f20b2034f5dbee9e0c6c8da454f8a46c681307fefd53d084871577b118157b115dd3868aceaf49b68c9d081b8fdd342477684dc4c510')
+source=(git+https://github.com/dotnet/dotnet.git#tag=v${pkgver/.*.sdk/.0.})
+b2sums=('2d56922d7853f7c24e6db4acd4b2b0071942d755d4c23e3aa4e679e219ad53c2eafd3ef3e7c79636734dbee10cb1a779188c348c9b3260fea6e75b0b853c8591')
 
 prepare() {
   cd dotnet
@@ -66,7 +70,6 @@ prepare() {
     cp -r /usr/share/dotnet .dotnet
     ln -sf "${_bootstrap[0]}" prereqs/packages/archive/
   fi
-
   ./prep-source-build.sh
 }
 
@@ -92,10 +95,8 @@ build() {
   unset CXXFLAGS
   unset LDFLAGS
 
-  # rtm branding strips out the "prerelease" tag from the version (see https://github.com/dotnet/dotnet/blob/b0f34d51fccc69fd334253924abd8d6853fad7aa/build.sh#L18)
-  # 4xx release tags are sdk-only verticals without runtime/aspnetcore sources; the 1xx band is
-  # the source-build tag that carries them, so track it like Arch and let
-  # DotNetBuildSharedComponents default on for VersionSDKMinor 1.
+  # .NET 11 defaults VMR branding for release-branch builds; the old -branding rtm
+  # flag is gone (build.sh rejects it).
   ./build.sh --clean-while-building --online --source-build
 }
 
@@ -109,10 +110,10 @@ package_dotnet-host() {
   optdepends=('bash-completion: Bash completion support')
 
   install -dm 755 "${pkgdir}"/usr/{bin,lib,share/{dotnet,licenses/dotnet-host}}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner dotnet host
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/licenses/dotnet-host/ --no-same-owner LICENSE.txt ThirdPartyNotices.txt
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner dotnet host
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/licenses/dotnet-host/ --no-same-owner LICENSE.txt ThirdPartyNotices.txt
   ln -s /usr/share/dotnet/dotnet "${pkgdir}"/usr/bin/dotnet
-  ln -s /usr/share/dotnet/host/fxr/${_runtimever}/libhostfxr.so "${pkgdir}"/usr/lib/libhostfxr.so
+  ln -s /usr/share/dotnet/host/fxr/${pkgver%.sdk*}/libhostfxr.so "${pkgdir}"/usr/lib/libhostfxr.so
   install -Dm 644 dotnet/src/sdk/scripts/register-completions.bash "${pkgdir}"/usr/share/bash-completion/completions/dotnet
   install -Dm 644 dotnet/src/sdk/scripts/register-completions.zsh "${pkgdir}"/usr/share/zsh/site-functions/_dotnet
 }
@@ -132,13 +133,13 @@ package_dotnet-runtime() {
   )
   optdepends=('lttng-ust2.12: CoreCLR tracing')
   provides=(
-    dotnet-runtime=${_majorver}
-    dotnet-runtime-${_majorver}
+    dotnet-runtime=${pkgver%.*.sdk*}
+    dotnet-runtime-${pkgver%.*.sdk*}
   )
-  conflicts=(dotnet-runtime-${_majorver})
+  conflicts=(dotnet-runtime-${pkgver%.*.sdk*})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.NETCore.App
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.NETCore.App
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-runtime
 }
 
@@ -146,13 +147,13 @@ package_aspnet-runtime() {
   pkgdesc='The ASP.NET Core runtime'
   depends=(dotnet-runtime)
   provides=(
-    aspnet-runtime=${_majorver}
-    aspnet-runtime-${_majorver}
+    aspnet-runtime=${pkgver%.*.sdk*}
+    aspnet-runtime-${pkgver%.*.sdk*}
   )
-  conflicts=(aspnet-runtime-${_majorver})
+  conflicts=(aspnet-runtime-${pkgver%.*.sdk*})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.AspNetCore.App
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner shared/Microsoft.AspNetCore.App
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-runtime
 }
 
@@ -167,28 +168,28 @@ package_dotnet-sdk() {
   )
   optdepends=('aspnet-targeting-pack: Build ASP.NET Core applications')
   provides=(
-    dotnet-sdk=${_majorver}
-    dotnet-sdk-${_majorver}
+    dotnet-sdk=${pkgver%.*.sdk*}
+    dotnet-sdk-${pkgver%.*.sdk*}
   )
-  conflicts=(dotnet-sdk-${_majorver})
+  conflicts=(dotnet-sdk-${pkgver%.*.sdk*})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner sdk sdk-manifests templates
-  install -dm 755 "${pkgdir}"/usr/share/dotnet/metadata/workloads/${_sdkver}
-  touch "${pkgdir}"/usr/share/dotnet/metadata/workloads/${_sdkver}/userlocal
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner sdk sdk-manifests templates
+  install -dm 755 "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver%.*.sdk*}.${pkgver#*.sdk}
+  touch "${pkgdir}"/usr/share/dotnet/metadata/workloads/${pkgver%.*.sdk*}.${pkgver#*.sdk}/userlocal
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-sdk
 }
 
 package_dotnet-targeting-pack() {
   pkgdesc='The .NET Core targeting pack'
   provides=(
-    dotnet-targeting-pack=${_majorver}
-    dotnet-targeting-pack-${_majorver}
+    dotnet-targeting-pack=${pkgver%.*.sdk*}
+    dotnet-targeting-pack-${pkgver%.*.sdk*}
   )
-  conflicts=(dotnet-targeting-pack-${_majorver})
+  conflicts=(dotnet-targeting-pack-${pkgver%.*.sdk*})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.NETCore.App.{Host.arch-*,Ref}
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.NETCore.App.{Host.arch-*,Ref}
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/dotnet-targeting-pack
 }
 
@@ -196,23 +197,23 @@ package_aspnet-targeting-pack() {
   pkgdesc='The ASP.NET Core targeting pack'
   depends=(dotnet-targeting-pack)
   provides=(
-    aspnet-targeting-pack=${_majorver}
-    aspnet-targeting-pack-${_majorver}
+    aspnet-targeting-pack=${pkgver%.*.sdk*}
+    aspnet-targeting-pack-${pkgver%.*.sdk*}
   )
-  conflicts=(aspnet-targeting-pack-${_majorver})
+  conflicts=(aspnet-targeting-pack-${pkgver%.*.sdk*})
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,licenses}
-  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${_sdkver}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.AspNetCore.App.Ref
+  bsdtar -xf dotnet/artifacts/assets/Release/dotnet-sdk-${pkgver%.*.sdk*}.${pkgver#*sdk}-arch-*.tar.gz -C "${pkgdir}"/usr/share/dotnet/ --no-same-owner packs/Microsoft.AspNetCore.App.Ref
   ln -s dotnet-host "${pkgdir}"/usr/share/licenses/aspnet-targeting-pack
 }
 
 package_dotnet-source-built-artifacts() {
   pkgdesc='Internal package for building the .NET Core SDK'
   provides=(
-    dotnet-source-built-artifacts=${_majorver}
-    dotnet-source-built-artifacts-${_majorver}
+    dotnet-source-built-artifacts=${pkgver%.*.sdk*}
+    dotnet-source-built-artifacts-${pkgver%.*.sdk*}
   )
-  conflicts=(dotnet-source-built-artifacts-${_majorver})
+  conflicts=(dotnet-source-built-artifacts-${pkgver%.*.sdk*})
 
   install -Dm 644 dotnet/artifacts/assets/Release/Private.SourceBuilt.Artifacts.*.tar.gz -t "${pkgdir}"/usr/share/dotnet/source-built-artifacts/
 }
