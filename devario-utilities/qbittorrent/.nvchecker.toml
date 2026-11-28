@@ -1,0 +1,5 @@
+[qbittorrent]
+source = "github"
+github = "qbittorrent/qBittorrent"
+use_latest_release = true
+prefix = "release-"
