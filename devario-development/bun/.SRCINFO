@@ -1,6 +1,6 @@
 pkgbase = bun
 	pkgdesc = Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one
-	pkgver = 1.4.4
+	pkgver = 1.4.5
 	pkgrel = 1
 	url = https://github.com/oven-sh/bun
 	arch = x86_64
@@ -22,15 +22,15 @@ pkgbase = bun
 	depends = glibc
 	depends = icu
 	options = !lto
-	source = git+https://github.com/oven-sh/bun.git#tag=bun-v1.4.4
+	source = git+https://github.com/oven-sh/bun.git#tag=bun-v1.4.5
 	source = bun-WebKit::git+https://github.com/oven-sh/WebKit.git#tag=autobuild-d6375c72affe0f70222cdcb45012b10f0bf3a9d5
 	source = bun-webkit-typed-array-int32-conversion.patch
-	b2sums = b8e3d89606e9ac5fff5f22efc6b2505325823f324567bfc27901f9c642039f59d707db4c9c1d7582cb51d4abc8d1d820148e025559399f164185d7de52e86e14
+	b2sums = c54b2e51d61ae980d7af5e36fc602bc53797331723658f30adc6d267d22549c1562a7188e1ff2547da56984ab8ebe72059fe1b40b9a91f008ee2fcb3e6d1f02b
 	b2sums = 071af31d4d1e01a039890dbc562a4a0d7e789562e451c41aabd38eda7eab0ec5adbb5a50b431ce4f8abf9dfaae5bb45c5986318088b8ac5c41b5f924997b2817
 	b2sums = f7b41bee31d26968154501ad62d8fdc157cac9e0f895035ba9a1ddd30caa2beb83b5cf80f6a0e52dcc1acac874fb07ef7974761764929e6e782866f1aacf35c2
-	source_x86_64 = bun-bootstrap-x64-1.4.4.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.4/bun-linux-x64.zip
-	b2sums_x86_64 = 7b2a977b71d8713cf201e8433b717dc271c3007cb645c16c3bc645eb88b7ae506aba04a0f0a4d10de18cd347506e2f2ccf2f28428f8ac6112789dff660faeceb
-	source_aarch64 = bun-bootstrap-aarch64-1.4.4.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.4/bun-linux-aarch64.zip
-	b2sums_aarch64 = eaff4a9ade73b354362d3b4d76a8a95bea00a4e0161f56b6652e5f2f9d98459f8711436eba1907f73d68eded26ff5f9b06becebdf1d291797718114d30119744
+	source_x86_64 = bun-bootstrap-x64-1.4.5.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.5/bun-linux-x64.zip
+	b2sums_x86_64 = dafc0070794d184f5c4cc94e3202981d1854513018449361e54e26df234822bfde1f23d133b7f9d14c3526684d8bbc3691154bf384e0f580ae640d3266a62205
+	source_aarch64 = bun-bootstrap-aarch64-1.4.5.zip::https://github.com/oven-sh/bun/releases/download/bun-v1.4.5/bun-linux-aarch64.zip
+	b2sums_aarch64 = 37bc2ba58ed1e4abbe43c0302a0e6fd709bd3d080595d73f03499eb0e30cc6eca8150c30d14f4ba54a6d90334799c5b78a0e8460f676683940def5068a13054a
 
 pkgname = bun
