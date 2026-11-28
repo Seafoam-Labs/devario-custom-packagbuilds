@@ -18,7 +18,7 @@ pkgname=(
   rust-aarch64-gnu
   rust-aarch64-musl
 )
-pkgver=1.99.1
+pkgver=1.100.1
 pkgrel=1
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
@@ -30,7 +30,9 @@ arch=(
   x86_64
 )
 license=("Apache-2.0 OR MIT")
-_llvmver=23.1.3
+# Version of the llvm-project source tree replacing the bundled submodule;
+# keep it at the published system LLVM version (rust 1.100.1 bundles 23.1.5).
+_llvmver=23.1.6
 depends=(
   compiler-rt
   lld
@@ -48,8 +50,8 @@ depends=(
   zlib
 )
 makedepends=(
-  "clang=$_llvmver"
-  "llvm=$_llvmver"
+  "clang>=$_llvmver"
+  "llvm>=$_llvmver"
   cmake
   libffi
   musl
@@ -75,8 +77,9 @@ makedepends_riscv64=(
   musl-x86_64
 )
 makedepends_x86_64=(
-  # Match the official compiler pinned by Rust 1.99.1 src/stage0.
-  "rust-bootstrap=1:1.98.0"
+  # Official bootstrap compiler. Rust 1.100.1's src/stage0 names 1.99.0, but
+  # any newer published binary can compile it too, so use a floor, not a pin.
+  "rust-bootstrap>=1:1.100.1"
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   lib32-gcc-libs
@@ -125,21 +128,21 @@ source_aarch64=(bootstrap.aarch64.toml)
 source_loong64=(bootstrap.loong64.toml)
 source_riscv64=(bootstrap.riscv64.toml)
 source_x86_64=(bootstrap.x86_64.toml)
-b2sums=('b200e9114673449d5a3d227289e308f1a55450b3e887f7322324f2d9098407e03308eabc15084f90d3798f7af4a8c395da4a7973a23858af05a1f3b1de949cca'
-        'SKIP'
-        '1ce328590eb86e5a8d117a1d5c2c4b691d9c1a897f239ba197e14f47b660e927313133e94a518c43ceed163fc081760d5d33e2685a94af1031184a0960ffb5c7'
-        '3736aa3f6f891cb94dbe549d5b2c74bc56e9d484a1598c2a446fbfd4db10a90a34f2e371c65743cf01e1266470fd6fe2fc52cbc365564c62ba61e20ea11c8e22'
-        'eb57683802be1114452d0864bdabd1f2a42f83c0c45532ff968c693cb98dd5cf61342880bd75e731e91fde318b0f61cc30183374348a56db883ba32c900a4949'
-        'eeb9622d04c2aa746b959bd095639b038ffa29d7d0d8f5b8fccb7e62f1680cfcd88e7c0f13859fb48a4ca3cf97b98c0e33f06f9d728dab71918a0129c77fc8c6'
-        '8a5238d5807673d498ca330b8d1d7c3c14d12be1bd0dec361613b09fd04527060a7f661acd9205f6a03586e2ea4a650c890d2549eed2e207fc03cce3bdb1cf03'
-        'd36a29127349f02fdd3327a36ebfe57b1ce7f64bb24de2bb85369b377e362ee389662b5a5f281bc2a82b7fca2eee234ca6de5a923f5030e3570ab1203653fdb2'
-        '859806770bed41dca2c48e7ac01f0fe31b9c4811e76eab173a9cac254a8cdfda0c85ae4a01dd7238fa0018d06721bf3bda5d74348e5c296a19ec534c1b8763c9'
-        '9e51e3442da85211165afce6c6eef3a89e5ce8d2b026d373a19c533b3ad99efdb7cc60668580536c2e52e8dc58c1a96cd8d2733ffa6f1b438db5df8d495042b6'
-        'd5fcda00c46e1e1ea9ed1d269d3ef549d4ad96148d7d0744acd673de802b3bf3747ceec1fa506d3e7c128cdff742410b1e69218d59ef20a5f246755c1bd02694')
-b2sums_aarch64=('f5af2c5dfaf46968544f96e729a30f66fd37284ca11ed81b198b146040078c564326917a563e0a5478ab9d43dec5c2b952e8b8497e23b0194fa08b47565b6160')
-b2sums_loong64=('a96f553d5939457b7bcead77b849ebab3228107eb98b79a3714603442c71b6ec3e021e40ce0ffe80e95ffa30c10c336cdf07345d06178d56febc5affcaead0d4')
-b2sums_riscv64=('c3770ab4ace070790829e54a436e43edec2cacf489d17912c82049d509d168fee1bd6bece758b805692edad10381233525035c8738a4253cb5f1a969e2d191a2')
-b2sums_x86_64=('b696e650765ada0a54a83fca558b24cc2b9c9aeef18c1a9f2888ad9771051543de377b59b519c1545d3b353edd065024bebce282b622b1bfe4b1d679ba3398c1')
+b2sums=('3e0e6e84d1f7b0ff36b505811c598e34c42d25029ed6b488a41060cb4eea0cceb29271cf1146753270d13e7f27fcff0bc66ffd9083cc9fb68df3e1541be21876'
+            'SKIP'
+            'bd725af1a1f705fb5f50e4bbe71a92f44a8614019813464cf1c255a5b654b0f6b77a988af0fde4b4b90ad1a0d53e84f66f784dd0e78185fccbed415f1df4659b'
+            '3736aa3f6f891cb94dbe549d5b2c74bc56e9d484a1598c2a446fbfd4db10a90a34f2e371c65743cf01e1266470fd6fe2fc52cbc365564c62ba61e20ea11c8e22'
+            'eb57683802be1114452d0864bdabd1f2a42f83c0c45532ff968c693cb98dd5cf61342880bd75e731e91fde318b0f61cc30183374348a56db883ba32c900a4949'
+            'eeb9622d04c2aa746b959bd095639b038ffa29d7d0d8f5b8fccb7e62f1680cfcd88e7c0f13859fb48a4ca3cf97b98c0e33f06f9d728dab71918a0129c77fc8c6'
+            '8a5238d5807673d498ca330b8d1d7c3c14d12be1bd0dec361613b09fd04527060a7f661acd9205f6a03586e2ea4a650c890d2549eed2e207fc03cce3bdb1cf03'
+            'd36a29127349f02fdd3327a36ebfe57b1ce7f64bb24de2bb85369b377e362ee389662b5a5f281bc2a82b7fca2eee234ca6de5a923f5030e3570ab1203653fdb2'
+            '859806770bed41dca2c48e7ac01f0fe31b9c4811e76eab173a9cac254a8cdfda0c85ae4a01dd7238fa0018d06721bf3bda5d74348e5c296a19ec534c1b8763c9'
+            '9e51e3442da85211165afce6c6eef3a89e5ce8d2b026d373a19c533b3ad99efdb7cc60668580536c2e52e8dc58c1a96cd8d2733ffa6f1b438db5df8d495042b6'
+            'd5fcda00c46e1e1ea9ed1d269d3ef549d4ad96148d7d0744acd673de802b3bf3747ceec1fa506d3e7c128cdff742410b1e69218d59ef20a5f246755c1bd02694')
+b2sums_aarch64=('0892ffa533617c55a6d6d262ce5f2c784aad1155e93924afc248d24fe87d7a84a373c7d2d3ac0987ba0c4d98617b5b7332c1a12322ac36bc0e709c1835ce96b2')
+b2sums_loong64=('949d55be64262e3d30bc285ee4dc69c44f2ab5eaa06c4af5b10df37f39c335530d6a72f0d36b728778fdfdfe1a31f99c8387c668e4bd83457d27c3182515830b')
+b2sums_riscv64=('65803a1b7a10900f7be0ca6d114b361a9390986115ff216790ffc0ec49aee9896a3663b319187a0a96cb78f06692ebbe53b970695931c239b0ea8e1b5abb8a32')
+b2sums_x86_64=('6de0ae5a14c18a77464989950556bf880162befdc8f49f2cdc2e5aa81581c6976310afe1b15fdd8dcbf1a51cda27243be0044de98b61548f02129ad6fbdf7274')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
