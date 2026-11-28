@@ -1,7 +1,7 @@
 pkgbase = mupdf
 	pkgdesc = Lightweight PDF and XPS viewer
-	pkgver = 1.28.5
-	pkgrel = 2
+	pkgver = 1.28.7
+	pkgrel = 1
 	url = https://mupdf.com
 	arch = x86_64
 	license = AGPL-3.0-or-later
@@ -32,7 +32,7 @@ pkgbase = mupdf
 	makedepends = zlib
 	makedepends = zxing-cpp
 	options = staticlibs
-	source = git+https://github.com/ArtifexSoftware/mupdf.git#tag=1.28.5
+	source = git+https://github.com/ArtifexSoftware/mupdf.git#tag=1.28.7
 	source = git+https://github.com/ArtifexSoftware/mujs.git
 	source = git+https://github.com/ArtifexSoftware/thirdparty-lcms2.git
 	source = git+https://github.com/ArtifexSoftware/extract.git
@@ -43,7 +43,7 @@ pkgbase = mupdf
 	source = mupdf-1.28.0-system-cmark-gfm.patch
 	source = mupdf-1.28.0-fix-build-with-recent-clang.patch
 	source = mupdf-1.28.3-autovenv-system-site-packages.patch
-	sha256sums = df52f6ff1eb0e177df1eb6679995e9157ef634057bd4d086e928a63a28d87e2a
+	sha256sums = a86b04dbe5c988f2d4435fbce778a8cf0ebf185ba5201afe17bbe23d6db5174f
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
@@ -88,7 +88,7 @@ pkgname = mupdf-gl
 	depends = libgl
 	depends = libmupdf
 	depends = openssl
-	provides = mupdf=1.28.5
+	provides = mupdf=1.28.7
 	conflicts = mupdf
 
 pkgname = mupdf-tools

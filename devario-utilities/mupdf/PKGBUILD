@@ -8,8 +8,8 @@
 
 pkgbase=mupdf
 pkgname=('libmupdf' 'mupdf' 'mupdf-gl' 'mupdf-tools' 'python-mupdf')
-pkgver=1.28.5
-pkgrel=2
+pkgver=1.28.7
+pkgrel=1
 pkgdesc="Lightweight PDF and XPS viewer"
 url="https://mupdf.com"
 arch=('x86_64')
@@ -17,7 +17,7 @@ license=('AGPL-3.0-or-later')
 makedepends=('brotli' 'clang' 'cmark-gfm' 'curl' 'desktop-file-utils' 'freeglut' 'freetype2' 'git' 'glu' 'gumbo-parser' 'harfbuzz' 'jbig2dec' 'leptonica'
              'libjpeg-turbo' 'libx11' 'libxext' 'mesa-libgl' 'openjpeg2' 'openssl' 'python' 'swig' 'tesseract' 'unzip' 'zint' 'zlib' 'zxing-cpp')
 options=('staticlibs')
-source=("git+https://github.com/ArtifexSoftware/mupdf.git#tag=${pkgver}"
+source=("git+https://github.com/ArtifexSoftware/mupdf.git#tag=1.28.7"
         'git+https://github.com/ArtifexSoftware/mujs.git'
         'git+https://github.com/ArtifexSoftware/thirdparty-lcms2.git'
         'git+https://github.com/ArtifexSoftware/extract.git'
@@ -28,7 +28,7 @@ source=("git+https://github.com/ArtifexSoftware/mupdf.git#tag=${pkgver}"
         "${pkgbase}-1.28.0-system-cmark-gfm.patch"
         "${pkgbase}-1.28.0-fix-build-with-recent-clang.patch"
         "${pkgbase}-1.28.3-autovenv-system-site-packages.patch")
-sha256sums=('df52f6ff1eb0e177df1eb6679995e9157ef634057bd4d086e928a63a28d87e2a'
+sha256sums=('a86b04dbe5c988f2d4435fbce778a8cf0ebf185ba5201afe17bbe23d6db5174f'
             'SKIP'
             'SKIP'
             'SKIP'
