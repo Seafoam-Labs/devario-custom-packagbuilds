@@ -1,0 +1,8 @@
+["dotnet-core-8.0"]
+source = "github"
+github = "dotnet/dotnet"
+use_max_release = true
+use_release_name = true
+include_regex = '^\.NET 8\.0\.\d+ / 8\.0\.\d+\s*$'
+from_pattern = '^\.NET (8\.0\.\d+) / 8\.0\.(\d+)\s*$'
+to_pattern = '\1.sdk\2'
